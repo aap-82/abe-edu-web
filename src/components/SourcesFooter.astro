@@ -1,0 +1,20 @@
+---
+import type { Source } from '../types/course';
+interface Props { sources: Source[]; abn?: string; updated?: string; disclaimersHtml: string; }
+const { sources, abn = '64 125 455 272', updated = 'July 2026', disclaimersHtml } = Astro.props;
+---
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <a class="brand" href="#top"><span class="mk" aria-hidden="true">ABE</span><span class="wm">ABE Education</span></a>
+      <span class="f-meta">ABN {abn} · Training Australians since 2007</span>
+      <span class="f-meta">Last updated {updated}</span>
+    </div>
+    <ul class="srclist">
+      {sources.map((s) => (
+        <li><a href={s.href}>{s.label}</a> {s.verified && <span class="vd">{s.verified}</span>}</li>
+      ))}
+    </ul>
+    <p class="f-auth" set:html={disclaimersHtml} />
+  </div>
+</footer>

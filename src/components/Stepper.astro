@@ -1,0 +1,15 @@
+---
+import type { Step } from '../types/course';
+interface Props { steps: Step[]; maxWidth?: string; }
+const { steps, maxWidth } = Astro.props;
+const style = maxWidth ? `max-width:${maxWidth}` : undefined;
+---
+<div class="steps" style={style}>
+  {steps.map((s, i) => (
+    <div class="step">
+      <span class="s-k">Step {String(i + 1).padStart(2, '0')}</span>
+      <h3 class="h3" set:html={s.title} />
+      <p set:html={s.body} />
+    </div>
+  ))}
+</div>

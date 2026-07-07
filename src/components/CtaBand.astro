@@ -1,0 +1,15 @@
+---
+import type { CTA } from '../types/course';
+// Closing action band (cta-end). Restates the one primary action.
+interface Props { eyebrow?: string; headingHtml: string; sub: string; cta: CTA; }
+const { eyebrow = 'Get started', headingHtml, sub, cta } = Astro.props;
+---
+<section class="sec cta-end">
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center">{eyebrow}</span>
+    <h2 class="h2" set:html={headingHtml} />
+    <p class="lede">{sub}</p>
+    <a class="btn-primary" href={cta.href}>{cta.label}</a>
+    {cta.microcopy && <p class="mc">{cta.microcopy}</p>}
+  </div>
+</section>

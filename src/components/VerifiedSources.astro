@@ -1,0 +1,14 @@
+---
+import type { Source } from '../types/course';
+// ✓ VERIFIED · 🔗 SOURCES line, dashed top rule. On every section with a government fact.
+interface Props { date: string; facts?: string; sources: Source[]; }
+const { date, facts, sources } = Astro.props;
+---
+<p class="verified">
+  <span class="tick">✓ Verified {date}{facts ? ` · ${facts}` : ''}</span>
+  {sources.length > 0 && (
+    <span class="src"> · Sources: {sources.map((s, i) => (
+      <>{i > 0 && ' · '}{s.href ? <a href={s.href}>{s.label}</a> : s.label}</>
+    ))}</span>
+  )}
+</p>

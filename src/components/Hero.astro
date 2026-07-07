@@ -1,0 +1,48 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { CTA } from '../types/course';
+interface Proof { n: string; text: string; }
+interface Props {
+  eyebrow: string;
+  h1Html: string;          // may include <span class="dot">.</span>
+  updated: string;
+  subhead: string;
+  ticks: string[];         // 3-4
+  cta: CTA;                // href, label, microcopy
+  proof: Proof[];          // <=3, text only
+  howItWorks: string;      // flow text after "How it works:"
+  artefactDesc: string;
+  artefactSpec?: string;
+}
+const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec } = Astro.props;
+---
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">{eyebrow}</span>
+      <h1 class="h1" set:html={h1Html} />
+      <span class="updated">{updated}</span>
+      <p class="lede">{subhead}</p>
+      <ul class="hero-ticks">
+        {ticks.map((t) => <li>{t}</li>)}
+      </ul>
+      <div class="hero-cta">
+        <a class="btn-primary" href={cta.href} id="enrol">{cta.label}</a>
+        <a class="btn-secondary" href="#how">How it works</a>
+      </div>
+      {cta.microcopy && <p class="howline" style="margin-top:12px">{cta.microcopy}</p>}
+      <div class="proof">
+        {proof.map((p, i) => (
+          <>
+            {i > 0 && <span class="sep" aria-hidden="true" />}
+            <span class="stat"><span class="n num">{p.n}</span> {p.text}</span>
+          </>
+        ))}
+      </div>
+      <p class="howline"><b>How it works:</b> {howItWorks}</p>
+    </div>
+    <div class="z-img">
+      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} />
+    </div>
+  </div>
+</section>

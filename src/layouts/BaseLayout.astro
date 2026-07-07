@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import WayfinderNav from '../components/WayfinderNav.astro';
+import StickyCta from '../components/StickyCta.astro';
+import type { NavItem, CTA } from '../types/course';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  schema: unknown;               // JSON-LD @graph object, server-rendered
+  nav: NavItem[];
+  navCta: CTA;
+  sticky: { label: string; sub?: string; price: string; cta: CTA };
+}
+const { title, description, canonical, schema, nav, navCta, sticky } = Astro.props;
+---
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <WayfinderNav items={nav} cta={navCta} />
+  <slot />
+  <StickyCta label={sticky.label} sub={sticky.sub} price={sticky.price} cta={sticky.cta} />
+
+  <script>
+    // Mobile CTA strip: reveal after the hero scrolls out of view.
+    const strip = document.getElementById('ctastrip');
+    const hero = document.getElementById('top');
+    if (strip && hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver((es) => es.forEach((e) => {
+        const show = !e.isIntersecting;
+        strip.classList.toggle('show', show);
+        strip.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }), { threshold: 0 }).observe(hero);
+    } else if (strip) { strip.classList.add('show'); strip.setAttribute('aria-hidden', 'false'); }
+
+    // Wayfinder: highlight the active section in the sticky sub-nav.
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.waynav a.j'));
+    if (links.length && 'IntersectionObserver' in window) {
+      const map = new Map(links.map((l) => [l.getAttribute('data-sec'), l]));
+      const secs = links.map((l) => document.getElementById(l.getAttribute('data-sec') || '')).filter(Boolean) as HTMLElement[];
+      const obs = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) {
+          links.forEach((l) => l.classList.remove('active'));
+          map.get(e.target.id)?.classList.add('active');
+        }
+      }), { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      secs.forEach((s) => obs.observe(s));
+    }
+  </script>
+</body>
+</html>

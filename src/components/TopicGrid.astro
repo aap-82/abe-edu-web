@@ -1,0 +1,15 @@
+---
+import type { TopicCard } from '../types/course';
+// Reusable card grid: used for the 18 grouped modules (S5) and wider obligations (S7).
+interface Props { items: TopicCard[]; }
+const { items } = Astro.props;
+---
+<div class="topic-grid">
+  {items.map((c) => (
+    <div class="topic">
+      <span class="t-no">{c.tag}</span>
+      <h4 class="h4" set:html={c.title} />
+      <p set:html={c.body} />
+    </div>
+  ))}
+</div>

@@ -1,0 +1,6 @@
+---
+// Note / callout aside. `maroon` = the emphasised left-border variant.
+interface Props { maroon?: boolean; }
+const { maroon = false } = Astro.props;
+---
+<p class={`note${maroon ? ' maroon' : ''}`}><slot /></p>

@@ -1,0 +1,14 @@
+---
+import type { FAQItem } from '../types/course';
+// Native <details> accordion, first item open. Visible on-page Q&A (FAQPage schema optional).
+interface Props { items: FAQItem[]; }
+const { items } = Astro.props;
+---
+<div class="faq" style="max-width:880px">
+  {items.map((item) => (
+    <details open={item.open}>
+      <summary>{item.q}<span class="pm" aria-hidden="true">+</span></summary>
+      <div class="ans" set:html={item.a} />
+    </details>
+  ))}
+</div>

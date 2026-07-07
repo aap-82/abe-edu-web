@@ -1,0 +1,12 @@
+---
+// FPO image placeholder. Swap for a real <img> (alt >= 80 chars) before publish.
+interface Props { ratio?: 'r54' | 'r45'; label?: string; desc: string; spec?: string; }
+const { ratio = 'r54', label = 'Image placeholder', desc, spec } = Astro.props;
+---
+<div class={`ph ${ratio}`}>
+  <div class="ph-in">
+    <span class="ph-l">{label}</span>
+    <span class="ph-d">{desc}</span>
+    {spec && <span class="ph-s">{spec}</span>}
+  </div>
+</div>

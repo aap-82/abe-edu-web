@@ -1,0 +1,6 @@
+---
+// Answer-first block, 40-60 words. Opens every section except the FAQ.
+interface Props { onDark?: boolean; }
+const { onDark = false } = Astro.props;
+---
+<p class={`capsule${onDark ? ' on-dark' : ''}`}><slot /></p>

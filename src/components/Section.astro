@@ -1,0 +1,22 @@
+---
+// Standard content section wrapper: <section class="sec {bg}"> + marker + eyebrow + H2 + slot.
+// For z-split sections, omit marker/eyebrow/h2 here and place them inside <ZSplit> instead.
+interface Props {
+  id?: string;
+  bg?: '' | 'bg-alt' | 'bg-warm' | 'bg-dark';
+  marker?: string;      // e.g. "01"
+  total?: string;       // default "10"
+  eyebrow?: string;
+  h2?: string;          // rendered with set:html to allow the maroon dot
+  extraClass?: string;
+}
+const { id, bg = '', marker, total = '10', eyebrow, h2, extraClass = '' } = Astro.props;
+---
+<section class:list={["sec", bg, extraClass]} id={id}>
+  <div class="wrap">
+    {marker && <span class="marker"><span class="current">{marker}</span> / {total}</span>}
+    {eyebrow && <span class:list={["eyebrow", bg === 'bg-dark' && 'on-dark']}>{eyebrow}</span>}
+    {h2 && <h2 class="h2" set:html={h2} />}
+    <slot />
+  </div>
+</section>

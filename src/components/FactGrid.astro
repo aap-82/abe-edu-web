@@ -1,0 +1,14 @@
+---
+import type { Fact } from '../types/course';
+interface Props { items: Fact[]; }   // exactly 4
+const { items } = Astro.props;
+---
+<div class="glance-grid">
+  {items.map((f) => (
+    <div class="glance">
+      <span class="g-k">{f.key}</span>
+      <span class="g-v num">{f.value}</span>
+      {f.note && <span class="g-n">{f.note}</span>}
+    </div>
+  ))}
+</div>

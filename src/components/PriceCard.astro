@@ -1,0 +1,14 @@
+---
+import type { PriceRow } from '../types/course';
+interface Props { rows: PriceRow[]; foot?: string; }
+const { rows, foot } = Astro.props;
+---
+<div class="price-card">
+  {rows.map((r) => (
+    <div class:list={["price-row", r.isTotal && "total"]}>
+      <span class="p-k">{r.label}{r.sub && <small style={r.isTotal ? 'color:rgba(255,255,255,.6)' : undefined}>{r.sub}</small>}</span>
+      <span class="p-v num">{r.amount}</span>
+    </div>
+  ))}
+</div>
+{foot && <p class="price-foot">{foot}</p>}

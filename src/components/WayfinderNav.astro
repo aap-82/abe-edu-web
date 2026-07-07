@@ -1,0 +1,17 @@
+---
+import type { NavItem, CTA } from '../types/course';
+// Sticky on-page jump index + small CTA. Active-state highlighting handled by the layout script.
+interface Props { items: NavItem[]; cta: CTA; }
+const { items, cta } = Astro.props;
+---
+<nav class="waynav" aria-label="On this page">
+  <div class="wrap">
+    <div class="jl">
+      <span class="wl">On this page</span>
+      {items.map((it) => (
+        <a class="j" href={it.href} data-sec={it.sectionId}>{it.label}</a>
+      ))}
+    </div>
+    <a class="btn-mini" href={cta.href}>{cta.label}</a>
+  </div>
+</nav>

@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers config for a static Astro build.
+  // The site is fully static (no SSR), so this is an "assets-only" Worker:
+  // `astro build` writes to ./dist, and Wrangler serves it as static assets.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "abe-edu-web",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}

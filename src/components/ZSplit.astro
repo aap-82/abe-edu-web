@@ -1,0 +1,10 @@
+---
+import Placeholder from './Placeholder.astro';
+// Image + body split. Markup order is always image then body; `rev` flips the image right via CSS.
+interface Props { rev?: boolean; imgRatio?: 'r45' | 'r54'; imgDesc: string; imgSpec?: string; imgLabel?: string; }
+const { rev = false, imgRatio = 'r45', imgDesc, imgSpec, imgLabel } = Astro.props;
+---
+<div class:list={["zsplit", rev && "rev"]}>
+  <div class="z-img"><Placeholder ratio={imgRatio} desc={imgDesc} spec={imgSpec} label={imgLabel} /></div>
+  <div class="z-body"><slot /></div>
+</div>

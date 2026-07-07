@@ -1,0 +1,12 @@
+---
+import type { CTA } from '../types/course';
+// Mobile bottom bar; reveals after the hero scrolls out (layout script toggles .show).
+interface Props { label: string; sub?: string; price: string; cta: CTA; }
+const { label, sub, price, cta } = Astro.props;
+---
+<div class="ctastrip" id="ctastrip" aria-hidden="true">
+  <div class="wrap">
+    <span class="lbl"><b>{label}</b>{sub && <span class="hide-sm"> · {sub}</span>} · <span class="price">{price}</span></span>
+    <a class="btn-mini" href={cta.href}>{cta.label}</a>
+  </div>
+</div>

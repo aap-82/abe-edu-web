@@ -1,0 +1,10 @@
+---
+// End-of-section forward "Next: … →" scent link (static, SEO-friendly).
+interface Props { label: string; href: string; onDark?: boolean; ready?: boolean; }
+const { label, href, onDark = false, ready = false } = Astro.props;
+---
+<p class={`waynext${onDark ? ' on-dark' : ''}`}>
+  <a href={href}>
+    <span class="lab">{ready ? 'Ready?' : 'Next'}</span> {label} <span class="arr" aria-hidden="true">→</span>
+  </a>
+</p>
