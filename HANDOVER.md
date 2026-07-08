@@ -1,13 +1,22 @@
-# ABE site — handover / current state (8 Jul 2026)
+# ABE site — handover / current state (9 Jul 2026)
 
-Where the build is, what exists, and the next-session sequence. Pairs with `CLAUDE.md` (rules),
-`../abe-rebuild-plan-review.md` (decisions) and `../MIGRATION.md` (Claude Code setup).
+Where the build is, what exists, and the next-session sequence. Pairs with `CLAUDE.md` (rules).
+The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the OneDrive backup folder
+`…\OneDrive\Desktop\Claude Code ABE-EDU-WEB 070726\`, not in this repo.
+
+## Repo location (migrated 9 Jul 2026)
+- Canonical repo now lives at **`C:\dev\abe-web`** (off OneDrive — cloud sync was corrupting builds).
+  GitHub remote: `https://github.com/aap-82/abe-edu-web.git` (`main`, in sync).
+- The old copies under `…\Claude\Projects\R2W Workflow\astro-qld-owner-builder` and the two on the
+  Desktop are **stale** — do not build from them.
 
 ## Live now
 - **QLD Owner Builder** and **WA Owner Builder** pages, static, on Cloudflare Workers:
-  `https://abe-edu-web.<subdomain>.workers.dev/qld-owner-builder-course/` and `/wa-owner-builder-course/`.
-  Root `/` redirects to the QLD page (astro.config.mjs).
-- Deployed manually via `npx wrangler deploy` (assets-only Worker; `workers_dev: true`).
+  `https://abe-edu-web.andrey-p-personal.workers.dev/qld-owner-builder-course/` and
+  `/wa-owner-builder-course/`. Root `/` redirects to the QLD page (astro.config.mjs).
+- Deploy: **Workers Builds** (git push to `main` → auto build + deploy) once connected in the
+  dashboard; manual `npx wrangler deploy` still works as a fallback. Assets-only Worker;
+  `workers_dev: true`; Worker name `abe-edu-web` must equal `wrangler.jsonc` `name` (it does).
 
 ## What exists in the repo
 - **Layout + chrome:** `BaseLayout.astro` (head, schema, robots/OG, sitemap), `SiteHeader.astro`
@@ -34,9 +43,12 @@ Where the build is, what exists, and the next-session sequence. Pairs with `CLAU
   ones into this repo's CLAUDE.md when convenient.
 
 ## Next-session sequence (agreed: keep & extend, static, Content Collections)
-1. **Repo + Claude Code** (see `../MIGRATION.md`): move this folder off OneDrive to e.g. `C:\dev\abe-web`;
-   clean `npm install`; `git init -b main`; create the GitHub repo; optionally connect **Workers Builds**
-   so `git push` to `main` auto-deploys (replaces manual `wrangler deploy`).
+1. ~~**Repo + Claude Code**: move off OneDrive to `C:\dev\abe-web`; clean `npm install`; git; GitHub repo.~~
+   **DONE 9 Jul 2026** — repo at `C:\dev\abe-web`, clean install (275 pkgs), build green, committed
+   (`990fa04`) and pushed to `origin/main`, deployed to Workers. **Remaining:** connect **Workers Builds**
+   in the Cloudflare dashboard (Workers & Pages → `abe-edu-web` → Settings → Builds → Connect) so
+   `git push` to `main` auto-deploys. Build settings: build command `npm run build`, deploy command
+   `npx wrangler deploy`, root directory `/`, production branch `main`.
 2. **Guardrails** (plan Phase 2): Husky + lint-staged + gitleaks, `.claude/settings.json`
    (deny/ask/allow), `/ship` slash command, `.mcp.json` (Astro Docs, Cloudflare, Notion).
 3. **Content Collections migration** (the one refactor to do before scaling):
@@ -66,8 +78,11 @@ Where the build is, what exists, and the next-session sequence. Pairs with `CLAU
   the `abe-course-page-astro` skill; its Stage-6 output target changes to `content/courses/{slug}.mdx`
   once Content Collections is wired.
 
-## Quick deploy (current, until Workers Builds is connected)
-```
-npm install
-npm run build && npx wrangler deploy
-```
+## Deploy
+- **Once Workers Builds is connected:** just `git push origin main` — Cloudflare builds and deploys.
+  Non-`main` branches get preview URLs (`npx wrangler versions upload`) posted to the PR.
+- **Manual fallback** (works anytime):
+  ```
+  npm install
+  npm run build && npx wrangler deploy
+  ```
