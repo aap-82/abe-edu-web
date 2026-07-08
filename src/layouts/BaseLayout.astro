@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
 import WayfinderNav from '../components/WayfinderNav.astro';
 import StickyCta from '../components/StickyCta.astro';
 import type { NavItem, CTA } from '../types/course';
@@ -12,8 +13,9 @@ interface Props {
   nav: NavItem[];
   navCta: CTA;
   sticky: { label: string; sub?: string; price: string; cta: CTA };
+  ogImage?: string;              // absolute URL of a social share image; omit to ship text-only cards
 }
-const { title, description, canonical, schema, nav, navCta, sticky } = Astro.props;
+const { title, description, canonical, schema, nav, navCta, sticky, ogImage } = Astro.props;
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -23,12 +25,25 @@ const { title, description, canonical, schema, nav, navCta, sticky } = Astro.pro
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ABE Education" />
+  <meta property="og:locale" content="en_AU" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  {ogImage && <meta name="twitter:image" content={ogImage} />}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>
+  <SiteHeader />
   <WayfinderNav items={nav} cta={navCta} />
   <slot />
   <StickyCta label={sticky.label} sub={sticky.sub} price={sticky.price} cta={sticky.cta} />

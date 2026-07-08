@@ -1,12 +1,19 @@
 ---
-// FPO image placeholder. Swap for a real <img> (alt >= 80 chars) before publish.
-interface Props { ratio?: 'r54' | 'r45'; label?: string; desc: string; spec?: string; }
-const { ratio = 'r54', label = 'Image placeholder', desc, spec } = Astro.props;
+// FPO image placeholder. Pass `src` (+ `alt` >= 80 chars) to render a real image instead of the FPO.
+interface Props { ratio?: 'r54' | 'r45'; label?: string; desc: string; spec?: string; src?: string; alt?: string; }
+const { ratio = 'r54', label = 'Image placeholder', desc, spec, src, alt } = Astro.props;
 ---
-<div class={`ph ${ratio}`}>
-  <div class="ph-in">
-    <span class="ph-l">{label}</span>
-    <span class="ph-d">{desc}</span>
-    {spec && <span class="ph-s">{spec}</span>}
+{ src ? (
+  <img class={`ph ${ratio} ph-img`} src={src} alt={alt ?? desc} loading="lazy" decoding="async" />
+) : (
+  <div class={`ph ${ratio}`}>
+    <div class="ph-in">
+      <span class="ph-l">{label}</span>
+      <span class="ph-d">{desc}</span>
+      {spec && <span class="ph-s">{spec}</span>}
+    </div>
   </div>
-</div>
+) }
+<style>
+  .ph-img { width:100%; height:100%; object-fit:cover; display:block; background:none; }
+</style>

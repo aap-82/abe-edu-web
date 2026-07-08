@@ -5,6 +5,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "abe-edu-web",
   "compatibility_date": "2026-07-01",
+  // Enable the *.workers.dev preview URL (abe-edu-web.<subdomain>.workers.dev).
+  "workers_dev": true,
   "assets": {
     "directory": "./dist"
   }

@@ -1,0 +1,156 @@
+---
+// Top site navigation: ABE logo + category dropdowns + mobile menu.
+// Dropdowns open on hover (desktop) and toggle on click; a small script closes them on
+// outside-click / Escape / selection and keeps only one open. Nav markup is emitted via set:html
+// (this compiler mis-parses dynamic attrs in mapped ternary JSX); its CSS is an is:global block
+// scoped under .site-head (scoped styles do not reach set:html content).
+const logo = 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/ABE%20Education%20Online%20Owner%20Builder%20CPD%20Training%20Provider.svg';
+interface Sub { label: string; href?: string; soon?: boolean; }
+interface Group { label: string; href?: string; items?: Sub[]; }
+const menu: Group[] = [
+  { label: 'Owner Builder', items: [
+    { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
+    { label: 'NSW', href: 'https://www.abeeducation.edu.au/nsw-owner-builder-course' },
+    { label: 'QLD', href: '/qld-owner-builder-course' },
+    { label: 'WA', href: '/wa-owner-builder-course' },
+    { label: 'TAS', soon: true },
+    { label: 'ACT', soon: true },
+  ] },
+  { label: 'White Card', items: [
+    { label: 'White Card Hub', href: 'https://www.abeeducation.edu.au/white-card' },
+    { label: 'NSW', href: 'https://www.abeeducation.edu.au/white-card-nsw' },
+    { label: 'QLD', soon: true },
+    { label: 'WA', soon: true },
+  ] },
+  { label: 'CPD', href: 'https://www.abeeducation.edu.au/cpd' },
+  { label: 'Experts', items: [
+    { label: 'Dominic Ogburn', href: '#content-review' },
+    { label: 'Warwick Smith', href: '#content-review' },
+  ] },
+  { label: 'Insurance', href: 'https://www.abeeducation.edu.au/insurances' },
+];
+
+const norm = (h?: string) => (h ?? '').replace(/\/+$/, '') || '/';
+const path = norm(Astro.url.pathname);
+const on = (h?: string) => !!h && h.startsWith('/') && norm(h) === path;
+const groupOn = (g: Group) => (g.items ?? []).some((s) => !s.soon && on(s.href)) || on(g.href);
+
+const sub = (s: Sub) => s.soon
+  ? `<span class="dd-soon" aria-disabled="true">${s.label}<em>Soon</em></span>`
+  : `<a role="menuitem" href="${s.href}"${on(s.href) ? ' class="active" aria-current="page"' : ''}>${s.label}</a>`;
+
+const navHtml = menu.map((g) => {
+  if (g.items) {
+    return `<div class="ni">`
+      + `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-haspopup="true">${g.label}<span class="cv" aria-hidden="true">&#9662;</span></button>`
+      + `<div class="nav-menu" role="menu">${g.items.map(sub).join('')}</div></div>`;
+  }
+  return `<a class="nav-l${on(g.href) ? ' active' : ''}" href="${g.href}"${on(g.href) ? ' aria-current="page"' : ''}>${g.label}</a>`;
+}).join('');
+
+const mnavHtml = menu.map((g) => {
+  const inner = g.items
+    ? g.items.map(sub).join('')
+    : `<a href="${g.href}"${on(g.href) ? ' class="active"' : ''}>${g.label}</a>`;
+  return `<div class="bg"><p class="bg-h">${g.label}</p>${inner}</div>`;
+}).join('');
+---
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="ABE Education home">
+      <img class="logo" src={logo} alt="ABE Education" width="128" height="34" />
+    </a>
+    <nav class="head-nav" aria-label="Primary" set:html={navHtml}></nav>
+    <button type="button" class="burger-btn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+    <div id="mnav" class="mnav" set:html={mnavHtml}></div>
+  </div>
+</header>
+<script>
+  const head = document.querySelector('.site-head');
+  if (head) {
+    const items = Array.from(head.querySelectorAll('.ni'));
+    const shut = (except) => items.forEach((i) => {
+      if (i !== except) { i.classList.remove('open'); i.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false'); }
+    });
+    items.forEach((i) => {
+      const btn = i.querySelector('.nav-trigger');
+      btn?.addEventListener('click', () => {
+        const open = !i.classList.contains('open');
+        shut(open ? i : null);
+        i.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+    head.querySelectorAll('.nav-menu a').forEach((a) => a.addEventListener('click', () => shut(null)));
+    document.addEventListener('click', (e) => { if (!head.contains(e.target)) shut(null); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') shut(null); });
+
+    const bBtn = head.querySelector('.burger-btn');
+    const mnav = head.querySelector('#mnav');
+    const shutM = () => { mnav?.classList.remove('open'); bBtn?.setAttribute('aria-expanded', 'false'); };
+    bBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !mnav.classList.contains('open');
+      mnav.classList.toggle('open', open);
+      bBtn.setAttribute('aria-expanded', String(open));
+    });
+    mnav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shutM));
+    document.addEventListener('click', (e) => { if (!head.contains(e.target)) shutM(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') shutM(); });
+  }
+</script>
+<style is:global>
+  .site-head{ position:relative; z-index:50; }
+  .site-head .wrap{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
+  .site-head .logo{ height:34px; width:auto; display:block; }
+  .site-head .head-nav{ display:flex; align-items:center; gap:4px; }
+  .site-head .head-nav .nav-l,
+  .site-head .nav-trigger{ font-family:var(--font-body); padding:9px 12px; font-size:15px; font-weight:500; color:var(--ink-3); text-decoration:none; border-radius:7px; background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; transition:color .15s, background .15s; }
+  .site-head .head-nav .nav-l:hover,
+  .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .head-nav .nav-l.active,
+  .site-head .nav-trigger.active{ color:var(--maroon); font-weight:600; }
+  .site-head .nav-l:focus-visible,
+  .site-head .nav-trigger:focus-visible,
+  .site-head .burger-btn:focus-visible,
+  .site-head .nav-menu a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
+  .site-head .cv{ font-size:10px; color:var(--slate-light); transition:transform .18s; }
+  .site-head .ni{ position:relative; }
+  .site-head .ni.open .cv{ transform:rotate(180deg); }
+  .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .nav-menu{ position:absolute; top:100%; left:0; margin-top:0; padding:7px; min-width:214px; background:#fff; border:1px solid var(--rule-strong); border-radius:9px; box-shadow:0 14px 32px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:2px; opacity:0; visibility:hidden; transform:translateY(-6px); pointer-events:none; transition:opacity .16s ease, transform .16s ease, visibility .16s; z-index:60; }
+  .site-head .ni.open > .nav-menu{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+  @media (hover:hover) and (min-width:881px){
+    .site-head .ni:hover > .nav-menu{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+    .site-head .ni:hover .cv{ transform:rotate(180deg); }
+    .site-head .ni:hover .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
+  }
+  .site-head .nav-menu a, .site-head .dd-soon{ font-size:14px; padding:9px 11px; border-radius:6px; text-decoration:none; color:var(--ink-2); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .site-head .nav-menu a:hover{ background:#f6f3ee; color:var(--maroon); }
+  .site-head .nav-menu a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
+  .site-head .dd-soon{ color:var(--slate-light); cursor:default; }
+  .site-head .dd-soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  /* mobile */
+  .site-head .burger-btn{ display:none; background:none; border:0; cursor:pointer; padding:9px; border-radius:7px; }
+  .site-head .burger-btn:hover{ background:#f6f3ee; }
+  .site-head .bars, .site-head .bars::before, .site-head .bars::after{ content:''; display:block; width:22px; height:2px; background:var(--ink); border-radius:2px; transition:transform .2s, opacity .2s; }
+  .site-head .bars{ position:relative; }
+  .site-head .bars::before{ position:absolute; top:-7px; }
+  .site-head .bars::after{ position:absolute; top:7px; }
+  .site-head .burger-btn[aria-expanded="true"] .bars{ background:transparent; }
+  .site-head .burger-btn[aria-expanded="true"] .bars::before{ transform:translateY(7px) rotate(45deg); }
+  .site-head .burger-btn[aria-expanded="true"] .bars::after{ transform:translateY(-7px) rotate(-45deg); }
+  .site-head .mnav{ display:none; position:absolute; top:100%; right:16px; margin-top:8px; width:min(88vw,340px); background:#fff; border:1px solid var(--rule-strong); border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,.16); padding:14px 16px; max-height:78vh; overflow:auto; z-index:60; }
+  .site-head .mnav.open{ display:block; }
+  .site-head .mnav .bg{ padding:9px 0; border-bottom:1px solid var(--rule); }
+  .site-head .mnav .bg:last-child{ border-bottom:0; }
+  .site-head .mnav .bg-h{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 6px; }
+  .site-head .mnav a{ display:block; padding:8px 6px; font-size:15px; color:var(--ink-2); text-decoration:none; border-radius:6px; }
+  .site-head .mnav a:hover{ background:#f6f3ee; color:var(--maroon); }
+  .site-head .mnav a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
+  .site-head .mnav .dd-soon{ display:flex; padding:8px 6px; }
+  @media (max-width:880px){ .site-head .head-nav{ display:none; } .site-head .burger-btn{ display:inline-flex; } }
+  @media (prefers-reduced-motion:reduce){ .site-head .nav-menu, .site-head .cv, .site-head .bars, .site-head .bars::before, .site-head .bars::after{ transition:none; } }
+</style>

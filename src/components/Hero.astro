@@ -13,8 +13,10 @@ interface Props {
   howItWorks: string;      // flow text after "How it works:"
   artefactDesc: string;
   artefactSpec?: string;
+  artefactImg?: string;   // real image URL; omit to keep the FPO placeholder
+  artefactAlt?: string;
 }
-const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec } = Astro.props;
+const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec, artefactImg, artefactAlt } = Astro.props;
 ---
 <section class="hero" id="top">
   <div class="wrap">
@@ -42,7 +44,7 @@ const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefa
       <p class="howline"><b>How it works:</b> {howItWorks}</p>
     </div>
     <div class="z-img">
-      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} />
+      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} />
     </div>
   </div>
 </section>
