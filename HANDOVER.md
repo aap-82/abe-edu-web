@@ -14,9 +14,10 @@ The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the One
 - **QLD Owner Builder** and **WA Owner Builder** pages, static, on Cloudflare Workers:
   `https://abe-edu-web.andrey-p-personal.workers.dev/qld-owner-builder-course/` and
   `/wa-owner-builder-course/`. Root `/` redirects to the QLD page (astro.config.mjs).
-- Deploy: **Workers Builds** (git push to `main` → auto build + deploy) once connected in the
-  dashboard; manual `npx wrangler deploy` still works as a fallback. Assets-only Worker;
-  `workers_dev: true`; Worker name `abe-edu-web` must equal `wrangler.jsonc` `name` (it does).
+- Deploy: **Workers Builds — connected & verified 9 Jul 2026.** `git push origin main` → Cloudflare
+  auto-builds (`npm run build`) and deploys (`npx wrangler deploy`); non-`main` branches get preview
+  URLs on their PRs. Manual `npx wrangler deploy` still works as a fallback. Assets-only Worker;
+  `workers_dev: true`; Worker name `abe-edu-web` equals `wrangler.jsonc` `name` (required, matches).
 
 ## What exists in the repo
 - **Layout + chrome:** `BaseLayout.astro` (head, schema, robots/OG, sitemap), `SiteHeader.astro`
@@ -43,12 +44,10 @@ The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the One
   ones into this repo's CLAUDE.md when convenient.
 
 ## Next-session sequence (agreed: keep & extend, static, Content Collections)
-1. ~~**Repo + Claude Code**: move off OneDrive to `C:\dev\abe-web`; clean `npm install`; git; GitHub repo.~~
-   **DONE 9 Jul 2026** — repo at `C:\dev\abe-web`, clean install (275 pkgs), build green, committed
-   (`990fa04`) and pushed to `origin/main`, deployed to Workers. **Remaining:** connect **Workers Builds**
-   in the Cloudflare dashboard (Workers & Pages → `abe-edu-web` → Settings → Builds → Connect) so
-   `git push` to `main` auto-deploys. Build settings: build command `npm run build`, deploy command
-   `npx wrangler deploy`, root directory `/`, production branch `main`.
+1. ~~**Repo + Claude Code + Workers Builds**~~ **DONE 9 Jul 2026** — repo at `C:\dev\abe-web`, clean
+   install (275 pkgs), build green, pushed to `origin/main`, and **Workers Builds connected + verified**
+   (git push → auto build + deploy; build `npm run build`, deploy `npx wrangler deploy`, root `/`,
+   branch `main`). Push→deploy confirmed live.
 2. **Guardrails** (plan Phase 2): Husky + lint-staged + gitleaks, `.claude/settings.json`
    (deny/ask/allow), `/ship` slash command, `.mcp.json` (Astro Docs, Cloudflare, Notion).
 3. **Content Collections migration** (the one refactor to do before scaling):
