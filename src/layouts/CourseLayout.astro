@@ -1,0 +1,61 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { course: CollectionEntry<'courses'>['data']; }
+const { course } = Astro.props;
+const {
+  title, description, canonical, ogImage,
+  nav, cta, sticky, hero, ctaBand, footerSources, disclaimersHtml,
+  courseName, courseDescription, priceNumber, courseWorkload,
+  credentialName, credentialCategory, regulator, breadcrumb, experts,
+} = course;
+
+// Single server-rendered JSON-LD @graph, built from typed frontmatter.
+// recognizedBy is conditional on the authority model (state-approved only).
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Course', '@id': canonical + '#course', name: courseName,
+      description: courseDescription,
+      provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      inLanguage: 'en-AU',
+      offers: { '@type': 'Offer', price: priceNumber, priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload },
+    },
+    {
+      '@type': 'EducationalOccupationalCredential', '@id': canonical + '#credential',
+      name: credentialName, credentialCategory,
+      ...(regulator ? { recognizedBy: { '@type': 'GovernmentOrganization', name: regulator.name, url: regulator.url } } : {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumb.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+    ...experts.map((e) => ({
+      '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
+      ...(e.portrait ? { image: e.portrait.src } : {}),
+      sameAs: e.linkedin,
+    })),
+  ],
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  schema={schema}
+  nav={nav}
+  navCta={cta}
+  sticky={sticky}
+  ogImage={ogImage}
+>
+  <Hero {...hero} cta={cta} />
+  <slot />
+  <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
+  <SourcesFooter sources={footerSources} disclaimersHtml={disclaimersHtml} />
+</BaseLayout>

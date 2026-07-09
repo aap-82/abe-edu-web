@@ -14,8 +14,11 @@ const { id, bg = '', marker, total = '10', eyebrow, h2, extraClass = '' } = Astr
 ---
 <section class:list={["sec", bg, extraClass]} id={id}>
   <div class="wrap">
-    {marker && <span class="marker"><span class="current">{marker}</span> / {total}</span>}
-    {eyebrow && <span class:list={["eyebrow", bg === 'bg-dark' && 'on-dark']}>{eyebrow}</span>}
+    {(marker || eyebrow) && (
+      <span class:list={["eyebrow", bg === 'bg-dark' && 'on-dark']}>
+        {marker && <span class="eyebrow-i">{marker}</span>}{eyebrow}
+      </span>
+    )}
     {h2 && <h2 class="h2" set:html={h2} />}
     <slot />
   </div>
