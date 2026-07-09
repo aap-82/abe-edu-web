@@ -6,12 +6,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^7.0.6",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "secretlint": "^13.0.2"
   }
 }
