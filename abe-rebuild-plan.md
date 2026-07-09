@@ -80,6 +80,15 @@ The `abe-course-page-astro` skill stays the research/content engine; only its St
 changes to `content/courses/{slug}.mdx` + shared layout.
 
 ### Phase C — Roll out as MDX (next; unblocked by B)
+**Templates first.** `CourseLayout` covers owner-builder courses only. Before the roll-out, build the
+other page templates:
+- **CPD** — the 5-industry x state matrix layout.
+- **ASQA-accredited** (White Card and similar) — carries the RTO-partner name + number, "nationally
+  recognised" language, and the ASQA disclosure; the credential differs from the owner-builder
+  Certificate of Completion (ABE is the publisher, not the RTO). Needs a schema/layout path for the
+  `asqa-accredited` authority model and the scaffolded `partners` collection.
+- **Home / hub** — the homepage and per-state hub landing template (not `CourseLayout`).
+
 With B shipped, new pages are just MDX files: TAS / NSW / ACT owner builder, White Card per state
 (RTO-partner disclosure), the CPD 5-industry x state matrix, per-state hubs, and expert profiles
 (`/experts/dominic-ogburn`, `/experts/warwick-smith`). Finish the WA imagery (hero optimised to AVIF;
@@ -90,6 +99,17 @@ indexation-pending).
 ### Phase D — Images to a custom domain
 Attach `images.abeeducation.edu.au` to the R2 bucket and swap the `r2.dev` URLs (a drop-in change) before
 heavy production traffic. `r2.dev` is dev-grade and rate-limited.
+
+### Pre-launch finalisation (gates go-live)
+Clear these before the cutover:
+- **Design polish pass** — a site-wide visual finish against `DESIGN.md` (rhythm, spacing, hierarchy,
+  states, responsive) across every page type.
+- **Finalise the sitemap / URL map** — lock the hub-and-spoke IA and the final URL for every page
+  (courses, CPD, White Card, hubs, expert profiles, home) so breadcrumbs and `@astrojs/sitemap` reflect
+  the settled structure and nothing needs re-slugging after launch.
+- **On-page SEO finalisation** — audit every page against the SEO / E-E-A-T checklist: one H1,
+  question-led H2s, 40-60 word answer capsules, single JSON-LD `@graph` with the correct authority model,
+  titles/meta, canonical, internal linking. Use the `abe-seo-content-engine` skill as the checker.
 
 ### Phase E — Go-live cutover
 See the cutover playbook in section 5.
@@ -146,7 +166,9 @@ Consolidates the original plan's register with what materialised this cycle.
 
 ## 8. Immediate next step
 
-Phase C (roll out as MDX). With the collection in place, adding TAS / NSW / ACT owner builder, White Card
-per state, the CPD matrix, and expert profiles is now just dropping typed MDX files into
-`content/courses/`. Open in parallel: the three remaining WA images (on-site / laptop / insurance) and
-moving images to the `images.abeeducation.edu.au` custom domain (Phase D). The WA hero is done (AVIF).
+Phase C (roll out as MDX), which starts by building the CPD, ASQA-accredited and Home / hub templates
+(`CourseLayout` covers owner-builder only), then dropping typed MDX files into `content/courses/` for the
+remaining states, White Card, the CPD matrix, and expert profiles. Open in parallel: the three remaining
+WA images (on-site / laptop / insurance) and moving images to the `images.abeeducation.edu.au` custom
+domain (Phase D). Design polish, the final sitemap / URL map, and an on-page SEO audit are the pre-launch
+gates before Phase E. The WA hero is done (AVIF).
