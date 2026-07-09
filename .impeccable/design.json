@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-09T00:00:00Z",
+  "title": "Design System: ABE Education — Course Pages",
+  "extensions": {
+    "colorMeta": {
+      "maroon":     { "role": "primary",   "displayName": "Regulator Maroon", "canonical": "#800000", "tonalRamp": ["#2b0000","#4a0000","#5a0000","#800000","#a83232","#c66b6b","#e0a8a8","#f5e2e2"] },
+      "verify-blue":{ "role": "secondary", "displayName": "Verify Blue",      "canonical": "#2f5d8c", "tonalRamp": ["#10233a","#1c3a58","#2f5d8c","#3f74a8","#5f92c2","#8fb4d6","#bcd3e8","#e6eff5"] },
+      "gold":       { "role": "tertiary",  "displayName": "Attestation Gold", "canonical": "#d4a843", "tonalRamp": ["#3a2c0e","#6b501a","#977225","#c1922f","#d4a843","#e0bd6e","#ecd6a2","#f7ecd0"] },
+      "ink":        { "role": "neutral",   "displayName": "Ink",             "canonical": "#1a1a1a", "tonalRamp": ["#0d0d0d","#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#f2f2f2"] },
+      "paper-warm": { "role": "neutral",   "displayName": "Warm Paper",      "canonical": "#f7f4ef", "tonalRamp": ["#2a2622","#4a443c","#6e675c","#9a9186","#c9c2b6","#e4dccf","#f7f4ef","#ffffff"] }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display",  "purpose": "The single hero H1 per page. Archivo, tight negative tracking." },
+      "headline": { "displayName": "Headline", "purpose": "Question-led section H2s." },
+      "title":    { "displayName": "Title",    "purpose": "Card and sub-section H3s; FAQ and price figures." },
+      "body":     { "displayName": "Body",     "purpose": "Reading copy in DM Sans; lede steps up to 19px." },
+      "label":    { "displayName": "Label",    "purpose": "All micro-type: eyebrows, keys, captions, source lines. DM Mono uppercase, wide tracking." }
+    },
+    "shadows": [],
+    "shadowsNote": "The system is flat by doctrine. No box-shadow vocabulary exists. Depth is built from 1px hairline rules, a tonal paper ground ramp, and a single 2px hover lift. The only blur is a functional backdrop-filter on the sticky header/CTA strip for legibility.",
+    "motion": [
+      { "name": "state-fast",   "value": "0.15s ease", "purpose": "Color/border state changes on links and nav." },
+      { "name": "state",        "value": "0.18s ease", "purpose": "Default button and card state transitions." },
+      { "name": "toggle",       "value": "0.2s ease",  "purpose": "FAQ plus-mark rotation on open." },
+      { "name": "reveal",       "value": "0.25s ease", "purpose": "Sticky CTA strip slide-up (transform)." },
+      { "name": "hover-lift",   "value": "translateY(-2px)", "purpose": "The only elevation cue: interactive cards raise 2px on hover, border darkening to ink." }
+    ],
+    "breakpoints": [
+      { "name": "lg", "value": "1100px" },
+      { "name": "md", "value": "900px" },
+      { "name": "sm", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Eyebrow",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "The signature section-opening label: mono uppercase with a leading maroon hairline dash. Opens nearly every section.",
+      "html": "<span class=\"ds-eyebrow\">At a glance</span>",
+      "css": ".ds-eyebrow { display:inline-flex; align-items:center; gap:12px; font-family:'DM Mono', ui-monospace, monospace; font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:#6e6e6e; } .ds-eyebrow::before { content:''; width:18px; height:1px; background:#800000; flex:none; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-grounded primary CTA that fills maroon on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Get your certificate <span class=\"arr\">→</span></a>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:12px; background:#1a1a1a; color:#ffffff; font-family:'DM Sans', sans-serif; font-weight:600; font-size:16px; padding:14px 26px; border-radius:6px; text-decoration:none; transition:background .18s ease; } .ds-btn-primary:hover { background:#800000; } .ds-btn-primary:focus-visible { outline:2px solid #800000; outline-offset:3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outline button; border darkens to ink on hover.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">How it works</a>",
+      "css": ".ds-btn-secondary { display:inline-flex; align-items:center; gap:10px; background:transparent; color:#1a1a1a; font-family:'DM Sans', sans-serif; font-weight:600; font-size:16px; padding:13px 24px; border:1px solid #d4d6da; border-radius:6px; text-decoration:none; transition:border-color .18s ease; } .ds-btn-secondary:hover { border-color:#1a1a1a; } .ds-btn-secondary:focus-visible { outline:2px solid #800000; outline-offset:3px; }"
+    },
+    {
+      "name": "Glance Stat Card",
+      "kind": "card",
+      "refersTo": "card-glance",
+      "description": "Flat, hairline-bordered stat card: mono key, Archivo figure, body note. The mono-to-display-to-body pattern that repeats across the system.",
+      "html": "<div class=\"ds-card-glance\"><span class=\"g-k\">Price</span><span class=\"g-v\">$179</span><span class=\"g-n\">GST-free. The permit fee is separate.</span></div>",
+      "css": ".ds-card-glance { border:1px solid #e5e7eb; border-radius:6px; padding:32px; background:#ffffff; } .ds-card-glance .g-k { display:block; font-family:'DM Mono', ui-monospace, monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#6e6e6e; margin-bottom:12px; } .ds-card-glance .g-v { display:block; font-family:'Archivo', sans-serif; font-weight:600; font-size:28px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; color:#1a1a1a; margin-bottom:6px; } .ds-card-glance .g-n { font-family:'DM Sans', sans-serif; font-size:14px; color:#4a4a4a; }"
+    },
+    {
+      "name": "Verified Source Line",
+      "kind": "custom",
+      "refersTo": "verified",
+      "description": "The trust device: a dashed-top mono line with verify-blue ticks and dated citation links. Ends every government-fact block.",
+      "html": "<p class=\"ds-verified\"><span class=\"tick\">✓ Verified</span> QBCC fee $477.47, current 2026. <span class=\"src\"><a href=\"#\">Source: QBCC, 2 Jun 2026</a></span></p>",
+      "css": ".ds-verified { margin-top:32px; padding-top:16px; border-top:1px dashed #d4d6da; font-family:'DM Mono', ui-monospace, monospace; font-size:12px; line-height:1.6; letter-spacing:.02em; color:#6e6e6e; max-width:80ch; } .ds-verified .tick { color:#2f5d8c; font-weight:500; } .ds-verified .src a { color:#2f5d8c; text-decoration:none; border-bottom:1px solid rgba(47,93,140,.3); } .ds-verified .src a:hover { border-color:#2f5d8c; }"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "refersTo": "faq",
+      "description": "Bordered details/summary row; Archivo summary with a maroon plus-mark that rotates to a cross when open.",
+      "html": "<div class=\"ds-faq\"><details open><summary>Do I need a White Card too? <span class=\"pm\">+</span></summary><div class=\"ans\">If you will be on site, yes. It bundles with the course.</div></details></div>",
+      "css": ".ds-faq { border:1px solid #e5e7eb; border-radius:8px; background:#ffffff; overflow:hidden; } .ds-faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:16px; align-items:center; padding:20px 24px; font-family:'Archivo', sans-serif; font-weight:600; font-size:18px; color:#1a1a1a; transition:background .15s ease; } .ds-faq summary::-webkit-details-marker { display:none; } .ds-faq summary:hover { background:#fafafa; } .ds-faq .pm { flex:none; color:#800000; font-size:20px; line-height:1; transition:transform .2s ease; } .ds-faq details[open] summary .pm { transform:rotate(45deg); } .ds-faq .ans { padding:0 24px 22px; font-family:'DM Sans', sans-serif; color:#4a4a4a; font-size:16px; max-width:68ch; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Regulator's Broadsheet",
+    "overview": "A quality Australian broadsheet rebuilt for the web: authoritative, editorial, and evidence-led. It carries its trust in the open, with monospace captions, dated source lines, and named expert bylines. Structurally it is flat and print-like; depth comes from hairline rules and tonal paper grounds, not shadow or gloss. One deep maroon does all the accent work and is spent sparingly, so it always means something; a separate steel blue is reserved only for marking a fact as sourced and verified. Type is a three-voice pairing: Archivo for headlines and figures, DM Sans for reading, DM Mono in wide-tracked uppercase for every label and caption. It rejects the SaaS-marketing look (soft shadows, gradient heroes, glassy cards) and the opposite cold-govtech trap alike.",
+    "keyCharacteristics": [
+      "Flat by default: 1px hairline rules and tonal grounds carry structure, never shadow.",
+      "One maroon accent, spent at 10% or less, so it always signifies.",
+      "A dedicated verify-blue that appears only on sourced, dated facts.",
+      "Monospace uppercase for all micro-type: eyebrows, keys, captions, source lines.",
+      "Generous vertical rhythm (up to 112px section padding) and tabular figures on every number."
+    ],
+    "rules": [
+      { "name": "The One Maroon Rule", "body": "Maroon is the only brand accent and never covers more than roughly 10% of a screen. For marks, ticks, hovers, and active states, never large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.", "section": "colors" },
+      { "name": "The Verify-Blue Rule", "body": "#2f5d8c is reserved exclusively for sourced-and-dated facts and their citations. Forbidden as a decorative or interface colour. Blue on this site is a promise that a claim is backed.", "section": "colors" },
+      { "name": "The Mono Label Rule", "body": "Every piece of micro-type, eyebrows, keys, captions, meta, verified lines, is DM Mono in uppercase with 0.08em to 0.18em tracking. Archivo and DM Sans are never used for labels; DM Mono is never used for reading copy.", "section": "typography" },
+      { "name": "The Tabular Figure Rule", "body": "Every price, statistic, and figure carries font-variant-numeric: tabular-nums so columns and repeated numbers align and never jitter.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "Structure is carried by 1px rules and tonal grounds, never by drop shadows. A box-shadow on any surface reads as a foreign object and is prohibited.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do build depth from 1px hairline rules (#e5e7eb, #d4d6da) and the tonal ground ramp (#ffffff to #fafafa to #f7f4ef to #1a1a1a).",
+      "Do set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.",
+      "Do keep Regulator Maroon (#800000) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile.",
+      "Do reserve Verify Blue (#2f5d8c) strictly for sourced, dated facts and their citations.",
+      "Do put tabular-nums on every price and statistic.",
+      "Do give sections room: up to 112px vertical padding, easing to 64px on mobile.",
+      "Do use Ink (#1a1a1a) for text and dark grounds; on ink sections, switch the accent to Attestation Gold (#d4a843)."
+    ],
+    "donts": [
+      "Don't use box-shadows for elevation anywhere. The system is flat; a drop shadow reads as a 2014 app and is prohibited.",
+      "Don't use the maroon left-stripe answer capsule (border-left: 3px solid var(--maroon)). A colored side-stripe over 1px is a banned anti-pattern; rework as a full 1px border, a background tint alone, or a leading mono marker.",
+      "Don't set eyebrows or labels in Archivo or DM Sans. Micro-type is DM Mono only; DM Mono is never used for reading copy.",
+      "Don't spend maroon on large surfaces or section backgrounds. Dark sections are Ink-grounded with Gold accents.",
+      "Don't introduce pure #000 or #fff for text or borders; use the Ink and Rule tokens.",
+      "Don't use em dashes, or the word 'comprehensive', in any copy (house style).",
+      "Don't nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card."
+    ]
+  }
+}
