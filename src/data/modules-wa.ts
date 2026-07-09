@@ -4,7 +4,7 @@ import type { TopicCard } from '../types/course';
 // Source: ABE — WA Owner-Builder Course, Modules and Learning Outcomes, v2.0, 27 Jun 2026.
 export const moduleGroupsWa: TopicCard[] = [
   { tag: 'Getting started', title: 'Deciding, and preparing', body: '<b>Introduction and Module 1:</b> course overview and requirements, an honest pros-and-cons self-assessment, then your responsibilities and liabilities as the principal builder.' },
-  { tag: 'The law &amp; the code', title: 'Legislation, NCC and bushfire', body: '<b>Modules 2, 3, 4:</b> WA legislation and safety (the three governing Acts), the National Construction Code (Class 1 and 10, Deemed-to-Satisfy, energy efficiency), and WA bushfire (BAL) requirements.' },
+  { tag: 'The law & the code', title: 'Legislation, NCC and bushfire', body: '<b>Modules 2, 3, 4:</b> WA legislation and safety (the three governing Acts), the National Construction Code (Class 1 and 10, Deemed-to-Satisfy, energy efficiency), and WA bushfire (BAL) requirements.' },
   { tag: 'Site hazards', title: 'Asbestos, silica and termites', body: '<b>Modules 5, 6, 10:</b> identifying and safely managing asbestos and lead, silica dust and silicosis, and termite risk, prevention and certification in WA.' },
   { tag: 'Running the build', title: 'Contracts, planning and finishing', body: '<b>Modules 7, 8, 9, 11, 12:</b> contracts, quotes, progress payments and insurance; programming and dispute handling; records, inspections and certification to Notice of Completion (BA7); project planning; and trades and scope of works.' },
 ];

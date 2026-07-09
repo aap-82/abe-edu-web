@@ -39,11 +39,13 @@ const experts: Person[] = [
   { name: 'Dominic Ogburn', role: 'Course Developer · CEO, ABE Education',
     creds: 'Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 · 2005 NSW Minister’s Award for Consumer Advocacy',
     bio: 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager. He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles. As CEO of ABE Education since 2007 he has trained more than 31,000 students, and writes the course from the builder’s side of the table.',
-    linkedin: 'https://www.linkedin.com/in/dominic-ogburn' },
+    linkedin: 'https://www.linkedin.com/in/dominic-ogburn',
+    portrait: { src: 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp', alt: 'Portrait of Dominic Ogburn, course developer and CEO of ABE Education, a licensed builder with over 40 years in Australian construction.' } },
   { name: 'Warwick Smith', role: 'Compliance & Currency Reviewer (independent)',
     creds: '27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals',
     bio: 'Warwick independently reviews this page to confirm its WA legislative references, regulatory details and training requirements are current and accurately represented. His is a compliance and currency check, not a review of the course content. Last reviewed 4 June 2026.',
-    linkedin: 'https://www.linkedin.com/in/warwick-a-l-smith/' },
+    linkedin: 'https://www.linkedin.com/in/warwick-a-l-smith/',
+    portrait: { src: 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif', alt: 'Portrait of Warwick Smith, the independent compliance and currency reviewer for the ABE owner-builder course and a veteran of the VET sector.' } },
 ];
 
 const footerSources = [
@@ -64,7 +66,7 @@ const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'Course', '@id': canonical + '#course', name: 'WA Owner Builder Course',
-      description: 'WA-specific owner builder training, delivered 100% online by ABE Education. Introduction plus 12 modules, online quiz with an 80% pass mark. The certificate supports a Form 75 owner-builder approval in Western Australia.',
+      description: 'WA-specific owner-builder training, delivered 100% online by ABE Education. Introduction plus 12 modules, online quiz with an 80% pass mark. The certificate supports a Form 75 owner-builder approval in Western Australia.',
       provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
       inLanguage: 'en-AU',
       offers: { '@type': 'Offer', price: '179', priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },
@@ -76,8 +78,8 @@ const schema = {
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.abeeducation.edu.au/' },
       { '@type': 'ListItem', position: 2, name: 'Owner Builder Training', item: 'https://www.abeeducation.edu.au/owner-builder-courses' },
       { '@type': 'ListItem', position: 3, name: 'WA Owner Builder', item: canonical } ] },
-    { '@type': 'Person', name: 'Dominic Ogburn', jobTitle: 'Course Developer', sameAs: 'https://www.linkedin.com/in/dominic-ogburn' },
-    { '@type': 'Person', name: 'Warwick Smith', jobTitle: 'Compliance & Currency Reviewer', sameAs: 'https://www.linkedin.com/in/warwick-a-l-smith/' },
+    { '@type': 'Person', name: 'Dominic Ogburn', jobTitle: 'Course Developer', image: 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp', sameAs: 'https://www.linkedin.com/in/dominic-ogburn' },
+    { '@type': 'Person', name: 'Warwick Smith', jobTitle: 'Compliance & Currency Reviewer', image: 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif', sameAs: 'https://www.linkedin.com/in/warwick-a-l-smith/' },
   ],
 };
 
@@ -89,7 +91,7 @@ const glance = [
 ];
 const priceRows = [
   { label: 'Course fee', sub: 'Paid to ABE Education, study and certificate, all charges included', amount: '$179.00' },
-  { label: 'Owner-builder approval fee', sub: 'Residential, set by and paid to Building and Energy (LGIRS) with your Form 75', amount: '$212.00' },
+  { label: 'Owner-builder approval fee', sub: 'Residential, set by and paid to Building and Energy with your Form 75', amount: '$212.00' },
   { label: 'Course + approval', sub: 'Budgeting figure only. Industrial-commercial approval is $467, and council building-permit fees are extra', amount: '$391.00', isTotal: true },
 ];
 const howItWorksSteps = [
@@ -117,14 +119,16 @@ const becomeSteps = [
   <Hero
     eyebrow="WA Owner Builder · supports your Form 75 approval"
     h1Html={'Owner Builder Course WA<span class="dot">.</span>'}
-    updated="Course v2.0, updated June 2026 · Reviewed for currency by Warwick Smith, 4 Jun 2026"
+    updated="Course v2.0, updated June 2026 · Reviewed for currency by Warwick Smith, 4 June 2026"
     subhead="The WA-specific online course that gives you the knowledge the Building Services Board requires, and supports your Form 75 owner-builder approval. Written for Western Australia, reviewed for currency, and finished in an afternoon."
-    ticks={['WA-specific content, current for 2026', 'Your certificate supports your Form 75 approval', '100% online and self-paced, same-day certificate', 'Independently reviewed for currency (4 Jun 2026)']}
+    ticks={['WA-specific content, current for 2026', 'Your certificate supports your Form 75 approval', '100% online and self-paced, same-day certificate', 'Independently reviewed for currency (4 June 2026)']}
     cta={cta}
     proof={[{ n: 'WA', text: 'specific, reviewed for currency' }, { n: '31,000+', text: 'students trained' }, { n: '2007', text: 'training since' }]}
     howItWorks="Enrol → Complete online → Get your certificate → Lodge Form 75"
-    artefactDesc="Certificate of Completion shown in product context, on a tablet or desk, Western Australian residential setting."
+    artefactDesc="A newly built single-storey Western Australian suburban home at golden hour, the kind of home an owner-builder completes after finishing the course."
     artefactSpec="5:4 · warm tone · ~640×512"
+    artefactImg="/images/wa-owner-builder-course-hero.avif"
+    artefactAlt="A newly built single-storey Western Australian suburban home at golden hour, the kind of home an owner-builder completes after finishing the course."
   />
 
   <Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
@@ -134,8 +138,7 @@ const becomeSteps = [
 
   <section class="sec" id="course"><div class="wrap">
     <ZSplit imgDesc="Owner builder reviewing plans on a Western Australian residential site." imgSpec="4:5 · warm tone · ~520×650">
-      <span class="marker"><span class="current">01</span> / {TOTAL}</span>
-      <span class="eyebrow">The course</span>
+      <span class="eyebrow"><span class="eyebrow-i">01</span>The course</span>
       <h2 class="h2">Is this course accepted for WA owner-builder approval?</h2>
       <AnswerCapsule><b>Yes.</b> Western Australia does not prescribe a specific owner-builder course. The Building Services Board accepts a WA-specific course completed within the last two years, together with a White Card, as evidence that you understand an owner-builder’s duties. ABE’s certificate is that evidence, and you attach it to your Form 75.</AnswerCapsule>
       <div class="measure">
@@ -149,10 +152,10 @@ const becomeSteps = [
   </div></section>
 
   <Section bg="bg-alt" id="licence" marker="02" total={TOTAL} eyebrow="The right word" h2="Is it a licence, a permit, or an approval?">
-    <AnswerCapsule>In Western Australia it is an <b>owner-builder approval</b>, granted by the Building Services Board through Building and Energy (part of LGIRS). It is not a licence and not a permit, and there is no accredited or WA-approved version of the course. You apply on Form 75, then apply separately to your local council for the building permit.</AnswerCapsule>
+    <AnswerCapsule>In Western Australia it is an <b>owner-builder approval</b>, granted by the Building Services Board through Building and Energy. It is not a licence and not a permit, and there is no accredited or WA-approved version of the course. You apply on Form 75, then apply separately to your local council for the building permit.</AnswerCapsule>
     <CanCant
       canTitle="What it is"
-      can={['An owner-builder approval, applied for on Form 75.', 'Granted by the Building Services Board via Building and Energy (LGIRS).', 'Evidenced by a WA-specific course completed within two years, plus a White Card.']}
+      can={['An owner-builder approval, applied for on Form 75.', 'Granted by the Building Services Board via Building and Energy.', 'Evidenced by a WA-specific course completed within two years, plus a White Card.']}
       cantTitle="What it is not"
       cant={['Not a licence. That is what a registered building contractor holds.', 'Not the building permit. That is a separate application to your local council.', 'Not an accredited or WA-approved course. WA prescribes no course.']}
     />
@@ -197,8 +200,7 @@ const becomeSteps = [
 
   <section class="sec bg-alt" id="how"><div class="wrap">
     <ZSplit rev imgDesc="The online course interface on a laptop, clean and self-paced." imgSpec="4:5 · warm tone · ~520×650">
-      <span class="marker"><span class="current">06</span> / {TOTAL}</span>
-      <span class="eyebrow">How it works</span>
+      <span class="eyebrow"><span class="eyebrow-i">06</span>How it works</span>
       <h2 class="h2">Three steps to your certificate</h2>
       <AnswerCapsule>Enrol, work through the <b>Introduction and 12 modules</b> and the online quiz at your own pace, and get your certificate the <b>same day</b> you pass. There is no free preview; what you get instead is a WA-specific course you can finish today and a certificate ready for Form 75.</AnswerCapsule>
       <Stepper steps={howItWorksSteps} maxWidth="480px" />
@@ -224,7 +226,7 @@ const becomeSteps = [
     <AnswerCapsule>The course is <b>$179</b> to ABE. The government owner-builder approval fee is a separate <b>$212</b> for residential (or $467 for industrial-commercial), paid to Building and Energy. Your local council then charges value-based building-permit fees. Only one of the three is the course.</AnswerCapsule>
     <PriceCard rows={priceRows} foot="The $179 course fee can be split into four with Afterpay. The government approval fee is set by Building and Energy and reviewed each 1 July, so confirm the current amount before you lodge. Your local council charges separate, value-based building-permit fees." />
     <h3 class="h3" style="margin-top:var(--s-2xl);margin-bottom:var(--s-2xs)">Course and White Card bundle</h3>
-    <p style="max-width:62ch">The Building Services Board’s knowledge pathway asks for a WA-specific course and a White Card. If you need both, do them together for <strong>$278</strong>: the $179 owner builder course plus the $99 White Card (unit CPCWHS1001). That is the complete knowledge evidence for your Form 75 in one go.</p>
+    <p style="max-width:62ch">The Building Services Board’s knowledge pathway asks for a WA-specific course and a White Card. If you need both, do them together for <strong>$278</strong>: the $179 owner-builder course plus the $99 White Card (unit CPCWHS1001). That is the complete knowledge evidence for your Form 75 in one go.</p>
     <SectionWayfinder label="What else you need" href="#obligations" />
   </Section>
 
@@ -237,16 +239,16 @@ const becomeSteps = [
         <h3 class="h3" style="font-size:26px;margin-bottom:var(--s-sm)">Cover for your build, through our partner</h3>
         <p style="max-width:52ch">As an owner-builder you carry the risk on your own site, so arrange the right cover before work starts. Most owner-builders need public liability and contract works cover, and if you sell within seven years of the building permit you must have home indemnity insurance in place.</p>
         <p style="max-width:52ch">ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE students for close to 20 years. We can introduce you for a quote and advice tailored to your project.</p>
-        <a class="btn-secondary" href="#enrol">Get an owner builder insurance quote</a>
+        <a class="btn-secondary" href="#enrol">Get an owner-builder insurance quote</a>
       </div>
       <div class="z-img"><Placeholder ratio="r54" desc="Western Australian owner-builder site with materials, suggesting the risk that cover protects." spec="5:4 · warm tone · ~640×512" /></div>
     </div>
     <Note><b>Please note:</b> this is general information, not a complete list of the cover you may need. Insurance is arranged by InsuranceTek Pty Ltd, not ABE Education.</Note>
     <VerifiedSources date="7 Jul 2026" sources={[{ label: 'WA — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }, { label: 'Home Building Contracts Act 1991', href: 'https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_a306.html' }]} />
-    <SectionWayfinder label="Become an owner builder" href="#become" />
+    <SectionWayfinder label="Become an owner-builder" href="#become" />
   </Section>
 
-  <Section bg="bg-alt" id="become" marker="09" total={TOTAL} eyebrow="The full path" h2="How to become an owner builder in Western Australia">
+  <Section bg="bg-alt" id="become" marker="09" total={TOTAL} eyebrow="The full path" h2="How to become an owner-builder in Western Australia">
     <AnswerCapsule>Five steps: check whether your project needs approval, complete a WA-specific course and a White Card, lodge Form 75 and pay the fee, apply to your council for the building permit, then build to your approval. Approval usually takes around six weeks to process.</AnswerCapsule>
     <Stepper steps={becomeSteps} maxWidth="640px" />
     <Note maroon><b>Mind the six-month clock.</b> Your owner-builder approval lapses if you do not apply for a building permit within six months, so line the steps up before you lodge.</Note>
@@ -267,7 +269,7 @@ const becomeSteps = [
   </Section>
 
   <CtaBand
-    headingHtml={'Ready to start your WA owner builder course<span class="dot">?</span>'}
+    headingHtml={'Ready to start your WA owner-builder course<span class="dot">?</span>'}
     sub="Get the WA-specific knowledge, the same-day certificate, and the currency you can point to on your Form 75."
     cta={{ href: '#enrol', label: 'Get your certificate for $179', microcopy: 'Instant access after payment · Certificate issued the same day' }}
   />
