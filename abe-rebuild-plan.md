@@ -26,7 +26,7 @@ LearnWorlds to the new site on `abeeducation.edu.au`. Keep ABE's authority model
 - **Token CSS** in `src/styles/global.css` (Archivo / DM Sans / DM Mono, maroon on cool cream). Not
   Tailwind.
 - **Content model: MDX + Astro Content Collections** (Zod-typed frontmatter, one `CourseLayout` renders
-  every state). This is the one structural change still to make.
+  every state). Built and shipped (Phase B, 10 Jul 2026).
 - **@astrojs/sitemap**; single server-rendered JSON-LD `@graph` per page; R2 for images.
 - Node 22+, npm only. Deploy via **Workers Builds** (push to `main` auto-builds and deploys).
 
@@ -44,6 +44,9 @@ executes against them.
   husky + lint-staged + **secretlint** pre-commit hook that blocks any commit containing a secret
   (verified against a fake private key).
 - `DESIGN.md` + `.impeccable/design.json` design system captured ("The Regulator's Broadsheet").
+- **Content Collections shipped** (Phase B): both course pages render from a typed `courses` collection
+  via one `CourseLayout` + `[slug]` route; JSON-LD + rendered-HTML parity verified against the live
+  pages. New pages are now just MDX.
 - Component library (20 components), typed data layer, sitemap, robots all in place.
 
 ## 4. Roadmap
@@ -51,10 +54,13 @@ executes against them.
 ### Phase A — Guardrails ✅ DONE
 Permission policy, `/ship`, secret-scanning pre-commit hook. Shipped 10 Jul 2026.
 
-### Phase B — Content Collections refactor (next; the one new structural change)
-The enabling step before more pages multiply the per-page duplication (QLD and WA are already near-copies).
+### Phase B — Content Collections refactor ✅ DONE (10 Jul 2026)
+Both QLD and WA now render from a typed `courses` collection via one `CourseLayout` + `[slug]` route,
+verified for parity (rendered HTML + JSON-LD) against the live pages before the old `.astro` pages were
+removed. `recognizedBy` is driven conditionally off the authority model (QLD/QBCC yes, WA no). The steps
+as executed:
 
-1. Add `@astrojs/mdx` (a `package.json` change; get explicit sign-off per `CLAUDE.md`).
+1. Added `@astrojs/mdx` (a `package.json` change; signed off).
 2. `src/content.config.ts` with Zod schemas:
    - `courses`: title, state, courseType, price, durationHours, hero, partnerRto?, authorRefs[],
      modules[], faqs[], sources[], glance[], priceRows[], publishedAt, lastReviewedAt.
@@ -73,8 +79,8 @@ The enabling step before more pages multiply the per-page duplication (QLD and W
 The `abe-course-page-astro` skill stays the research/content engine; only its Stage-6 output target
 changes to `content/courses/{slug}.mdx` + shared layout.
 
-### Phase C — Roll out as MDX
-Once B proves parity, new pages are just MDX files: TAS / NSW / ACT owner builder, White Card per state
+### Phase C — Roll out as MDX (next; unblocked by B)
+With B shipped, new pages are just MDX files: TAS / NSW / ACT owner builder, White Card per state
 (RTO-partner disclosure), the CPD 5-industry x state matrix, per-state hubs, and expert profiles
 (`/experts/dominic-ogburn`, `/experts/warwick-smith`). Finish the WA imagery (hero optimised to AVIF;
 on-site / laptop / insurance slots from `wa-owner-builder-image-prompts.md`). Every government fact
@@ -121,7 +127,7 @@ Consolidates the original plan's register with what materialised this cycle.
 | R1 | Cloud-sync folder corrupts builds (truncated `package.json`, mangled `node_modules`) | **Closed.** Repo moved to `C:\dev\abe-web`; only docs stay in OneDrive. |
 | R2 | Astro 7 compiler strictness breaks dynamic JSX | **Materialised, handled.** Nav emitted via `set:html`; documented in `CLAUDE.md`. |
 | R3 | Frontmatter drift across dozens of near-identical pages | **Mitigated by design.** Zod schemas in Phase B fail the build on drift. |
-| R4 | Content Collections migration silently changes rendered output | Mitigate with a build-diff parity check (Phase B step 5) before deleting old pages. |
+| R4 | Content Collections migration silently changes rendered output | **Closed.** Rendered-HTML + JSON-LD parity check confirmed QLD + WA match the live pages before the old `.astro` pages were removed. |
 | R5 | Stale or unsourced government fact goes live | Publish hard-blocker. Every fact sourced + dated; re-verify indexed fees on cadence. |
 | R6 | Authority-model breach (claim ABE is an RTO, or WA course is government-approved) | Enforced in copy + schema; `/ship` checks the diff for it. |
 | R7 | `r2.dev` rate-limits under production traffic | Phase D: move images to `images.abeeducation.edu.au` before launch. |
@@ -140,7 +146,7 @@ Consolidates the original plan's register with what materialised this cycle.
 
 ## 8. Immediate next step
 
-Phase B (Content Collections). It needs `@astrojs/mdx` added to `package.json`, so it starts with an
-explicit sign-off, then the schema + `CourseLayout` + `[slug]` route, and a build-diff parity check on
-QLD + WA before the old pages are removed. In parallel, the WA hero still needs AVIF optimisation to be
-deployable.
+Phase C (roll out as MDX). With the collection in place, adding TAS / NSW / ACT owner builder, White Card
+per state, the CPD matrix, and expert profiles is now just dropping typed MDX files into
+`content/courses/`. Open in parallel: the three remaining WA images (on-site / laptop / insurance) and
+moving images to the `images.abeeducation.edu.au` custom domain (Phase D). The WA hero is done (AVIF).
