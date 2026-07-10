@@ -9,6 +9,7 @@ import Note from '../components/Note.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
 import CtaBand from '../components/CtaBand.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
+import ProcessTrack from '../components/ProcessTrack.astro';
 import Placeholder from '../components/Placeholder.astro';
 import type { TopicCard } from '../types/course';
 import { faqsCpd } from '../data/faqs-cpd';
@@ -126,7 +127,7 @@ const schema = {
           <span class="stat"><span class="n num">100%</span> online, self-paced</span>
           <span class="stat"><span class="n">Listed with</span> CBOS Tasmania</span>
         </div>
-        <p class="howline"><b>How it works:</b> Pick your state → complete the course online → record your CPD points</p>
+        <ProcessTrack steps="Pick your state → Complete online → Record CPD points" />
       </div>
       <div class="z-img">
         <Placeholder ratio="r54" desc="A CPD certificate of completion shown in product context on a tablet, with a building and property work setting behind it." spec="5:4 · warm tone · ~640×512" />

@@ -1,5 +1,6 @@
 ---
 import Placeholder from './Placeholder.astro';
+import ProcessTrack from './ProcessTrack.astro';
 import type { CTA } from '../types/course';
 interface Proof { n: string; text: string; }
 interface Props {
@@ -47,7 +48,7 @@ const eyebrowHtml = eyebrow.split(' · ').join(' ' + dotSep + ' ');
           <span class="stat"><span class="n num">{p.n}</span> {p.text}</span>
         ))}
       </div>
-      <p class="howline"><b>How it works:</b> {howItWorks}</p>
+      <ProcessTrack steps={howItWorks} />
     </div>
     <div class="z-img">
       <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} />
