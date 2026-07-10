@@ -227,10 +227,10 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
     <div class="wrap">
       <a class="brand" href="/" aria-label="ABE Education home">
         <img class="mark" src={logo} alt="" width="32" height="32" />
-        <span class="wordmark">ABE<span class="wm-fold">&nbsp;Education</span></span>
+        <span class="wordmark">ABE<span class="wm-fold">&nbsp;Education<span class="wm-suffix">&nbsp;Pty Ltd</span></span></span>
       </a>
-      <nav class="head-nav" aria-label="Primary" set:html={navHtml}></nav>
       <span class="spacer"></span>
+      <nav class="head-nav" aria-label="Primary" set:html={navHtml}></nav>
       <a class="portal-btn" href={studentPortal.href}>{studentPortal.label}</a>
       <button type="button" class="burger-btn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
         <span class="bars" aria-hidden="true"></span>
@@ -309,11 +309,16 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   .site-head .brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); flex:none; }
   .site-head .mark{ height:32px; width:32px; display:block; flex:none; }
   .site-head .wordmark{ font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:-.02em; color:var(--ink); white-space:nowrap; display:inline-flex; align-items:center; }
-  /* clip-path, not max-width. max-width is a layout property: animating it narrows the
-     brand, and every flex sibling after it (the whole nav) slides left with it. The nav
-     must hold its left edge, so the fold gives up reclaiming the space and only stops
-     painting it. inset() eats the letters from the right edge inward, exactly as the
-     shrinking max-width box used to, and costs no layout or paint on the main thread.
+  /* legal suffix: greyed and a shade lighter, so "Pty Ltd" reads as the entity form
+     rather than part of the name. It lives inside .wm-fold, so it clips away with
+     "Education" when the wordmark folds, leaving just "ABE". */
+  .site-head .wm-suffix{ color:var(--slate); font-weight:500; }
+  /* clip-path, not max-width. max-width is a layout property: animating it would reflow
+     the brand every frame of the fold. clip-path only stops painting the letters and
+     keeps the brand box at its full width, so the fold costs no layout or main-thread
+     paint. The nav sits on the right behind a flex spacer, so the brand's constant width
+     leaves the gap before the spacer constant too; nothing in the bar shifts as it folds.
+     inset() eats the letters from the right edge inward, right-to-left as they retract.
      Scoped to one inline span, fired once per threshold crossing, not per scroll frame.
 
      Unfolding is the fold played backwards, not a second animation that happens to end
@@ -329,7 +334,7 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   .site-head.is-scrolled .wm-fold{ clip-path:inset(0 100% 0 0); opacity:0; transform:translateX(-6px); transition:clip-path 900ms cubic-bezier(.16,1,.3,1), opacity 320ms linear, transform 900ms cubic-bezier(.16,1,.3,1); }
 
   /* primary nav triggers */
-  .site-head .head-nav{ display:flex; align-items:center; gap:2px; margin-left:8px; }
+  .site-head .head-nav{ display:flex; align-items:center; gap:2px; }
   .site-head .nav-trigger{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
   .site-head .nav-trigger:hover{ color:var(--maroon); background:var(--nav-hover); }
   .site-head .nav-trigger.active{ color:var(--maroon); }
