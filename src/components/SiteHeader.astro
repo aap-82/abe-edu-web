@@ -294,10 +294,10 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   #head-sentinel{ position:absolute; top:24px; left:0; width:1px; height:1px; pointer-events:none; }
 
   /* element+class specificity so these beat global.css whatever the sheet order */
-  /* --active-bg: a light grey for the current page, warm-tinted toward the brand hue
-     rather than a flat neutral. Darker than the cream hover tint so active reads as
-     the stronger state. */
-  header.site-head{ --util-h:34px; --active-bg:#eeeaea; position:sticky; top:calc(var(--util-h) * -1); z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
+  /* --active-bg: light grey for the current page. Only a whisper of warmth (red one
+     point over blue); more tint than this reads pink beside the maroon title. Still
+     a shade darker than the cream hover so active stays the stronger state. */
+  header.site-head{ --util-h:34px; --active-bg:#f1f0f0; position:sticky; top:calc(var(--util-h) * -1); z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
   @media (max-width:900px){ header.site-head{ top:0; } }
 
   /* utility strip */
