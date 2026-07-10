@@ -31,6 +31,7 @@ interface Feature { kicker: string; title: string; body: string; price?: string;
 interface Hub { label: string; href: string; }
 interface Cta { href: string; label: string; }
 interface Group { label: string; megaLabel: string; hub: Hub; items: Sub[]; feature: Feature; }
+interface Link { label: string; href: string; }
 interface Props { cta?: Cta; }
 
 const cta: Cta = Astro.props.cta ?? { href: '#enrol', label: 'Enrol now' };
@@ -66,8 +67,12 @@ const courses: Group[] = [
   },
 ];
 
-const utility = [
-  { label: 'CPD', href: 'https://www.abeeducation.edu.au/cpd' },
+// CPD sits in the primary row, between the two course families. It has no sub-pages,
+// so it renders as a plain link rather than a megamenu trigger: no chevron, because
+// there is no panel to promise. It still appears in the mobile burger menu.
+const cpd: Link = { label: 'CPD', href: 'https://www.abeeducation.edu.au/cpd' };
+
+const utility: Link[] = [
   { label: 'Experts', href: '#content-review' },
   { label: 'Insurance', href: 'https://www.abeeducation.edu.au/insurances' },
 ];
@@ -92,13 +97,23 @@ const mega = (g: Group, i: number) => `<div class="mega" id="mega-${i}">`
   + priceHtml(g.feature)
   + `</div></div></div></div>`;
 
+// Chevron: stroke is currentColor so it inherits the trigger colour and turns maroon
+// on hover and while open. Decorative, hence aria-hidden and focusable=false.
+const chevron = `<svg class="cv" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M9.5 10.5L12.1997 13.1997V13.1997C12.3656 13.3656 12.6344 13.3656 12.8003 13.1997V13.1997L15.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
 // Disclosure pattern (button + aria-expanded + aria-controls), not an ARIA menu:
 // the panels hold links, so role menu and menuitem would be the wrong semantics.
-const trigger = (g: Group, i: number) => `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-controls="mega-${i}">${g.label}<span class="cv" aria-hidden="true">&#9662;</span></button>`;
+const trigger = (g: Group, i: number) => `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-controls="mega-${i}">${g.label}${chevron}</button>`;
 
-const navHtml = courses.map((g, i) => `<div class="ni ni-mega">` + trigger(g, i) + mega(g, i) + `</div>`).join('');
+const megaItem = (g: Group, i: number) => `<div class="ni ni-mega">` + trigger(g, i) + mega(g, i) + `</div>`;
+const navLink = (l: Link) => `<a class="nav-l" href="${l.href}">${l.label}</a>`;
 
-const utilLinks = utility.map((u) => `<a href="${u.href}">${u.label}</a>`).join('');
+// Primary row order: Owner Builder, CPD, White Card.
+const navHtml = megaItem(courses[0], 0) + navLink(cpd) + megaItem(courses[1], 1);
+
+const link = (l: Link) => `<a href="${l.href}">${l.label}</a>`;
+const utilLinks = utility.map(link).join('');
+const moreLinks = [cpd].concat(utility).map(link).join('');
 
 const mSub = (s: Sub) => s.soon
   ? `<span class="dd-soon" aria-disabled="true">${s.name}<em>Soon</em></span>`
@@ -109,7 +124,7 @@ const mGroup = (g: Group) => `<div class="bg"><p class="bg-h">${g.label}</p>`
   + `<a class="bg-hub" href="${g.hub.href}">${g.hub.label}</a></div>`;
 
 const mnavHtml = courses.map(mGroup).join('')
-  + `<div class="bg"><p class="bg-h">More</p>` + utilLinks + `</div>`;
+  + `<div class="bg"><p class="bg-h">More</p>` + moreLinks + `</div>`;
 ---
 <div id="head-sentinel" aria-hidden="true"></div>
 <header class="site-head">
@@ -220,9 +235,16 @@ const mnavHtml = courses.map(mGroup).join('')
   .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
   .site-head .nav-trigger.active{ color:var(--maroon); }
   .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
-  .site-head .cv{ font-size:10px; color:var(--slate-light); transition:transform .18s; }
+  /* CPD: a plain link, no chevron, since it has no panel behind it */
+  .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
+  .site-head .nav-l:hover{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .nav-l.active{ color:var(--maroon); }
+  /* chevron is an svg: sized in px, coloured via currentColor on the path */
+  .site-head .cv{ width:15px; height:15px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
+  .site-head .nav-trigger:hover .cv, .site-head .ni.open .cv{ color:var(--maroon); }
   .site-head .ni.open .cv{ transform:rotate(180deg); }
   .site-head .nav-trigger:focus-visible,
+  .site-head .nav-l:focus-visible,
   .site-head .burger-btn:focus-visible,
   .site-head .cta-head:focus-visible,
   .site-head .mega a:focus-visible,
