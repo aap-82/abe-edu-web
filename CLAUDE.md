@@ -65,9 +65,38 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 
 ## Component gotcha — `SiteHeader.astro`
 The nav is built as an HTML string and emitted via `set:html`, with its CSS in an `is:global` block
-scoped under `.site-head`, plus a small `<script>` controller (open on hover, close on outside-click /
-Escape / selection). This is deliberate: Astro 7's compiler mis-parses dynamic attributes inside mapped
-ternary JSX, and scoped styles do not reach `set:html` content. Do not "simplify" it back to inline JSX.
+scoped under `.site-head`, plus a small `<script>` controller (megamenus open on **click**, not hover;
+close on outside-click / Escape / selection). This is deliberate: Astro 7's compiler mis-parses dynamic
+attributes inside mapped ternary JSX, and scoped styles do not reach `set:html` content. Do not
+"simplify" it back to inline JSX. Sticky/layout rules use the `header.site-head` selector so they win
+over `global.css` regardless of stylesheet order.
+
+## Astro 7 compiler gotcha — nested template literals
+**Never nest a template literal inside a `${...}` interpolation of another template literal** in
+`.astro` frontmatter. The Rust compiler mis-scans it and dies with:
+
+```
+[CompilerError] Expected `}` but found `:`
+    src/components/SiteHeader.astro:23:20
+```
+
+**The reported location is a lie.** It points at the first `interface` declaration, which is valid
+TypeScript and nowhere near the real fault. You will burn builds bisecting it. Tell-tale signs: the same
+interface compiles fine in a minimal file; deleting the first `interface` merely moves the error to the
+second; the file has no BOM, no CRLF, and correct `---` fences.
+
+Broken:
+```ts
+const html = `<ul>${items.map((i) => `<li>${i.label}</li>`).join('')}</ul>`;
+```
+Fixed — hoist the inner literal into its own const or helper:
+```ts
+const rows = items.map((i) => `<li>${i.label}</li>`).join('');
+const html = `<ul>${rows}</ul>`;
+```
+Calling a *named function* inside `${...}` is fine (`${g.items.map(card).join('')}` compiles); it is the
+literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throughout: see `utilLinks`,
+`priceHtml`, `trigger`, `cpdProf`, `mGroup`.
 
 ## Build reliability
 - **Build off any cloud-synced folder.** OneDrive/Dropbox truncate large/many-file writes (it has
