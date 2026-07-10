@@ -32,6 +32,13 @@ interface Hub { label: string; href: string; }
 interface Cta { href: string; label: string; }
 interface Group { label: string; megaLabel: string; hub: Hub; items: Sub[]; feature: Feature; }
 interface Link { label: string; href: string; }
+// CPD nests three levels: state, then profession, then the bundles themselves. A
+// profession can carry more than one bundle, so the bundle is the link and the
+// profession is only a label.
+interface CpdBundle { label: string; href?: string; soon?: boolean; }
+interface CpdProfession { name: string; bundles: CpdBundle[]; }
+interface CpdState { code: string; professions: CpdProfession[]; }
+interface CpdGroup { label: string; megaLabel: string; hub: Hub; states: CpdState[]; feature: Feature; }
 interface Props { cta?: Cta; }
 
 const cta: Cta = Astro.props.cta ?? { href: '#enrol', label: 'Enrol now' };
@@ -67,15 +74,54 @@ const courses: Group[] = [
   },
 ];
 
-// CPD sits in the primary row, between the two course families. It has no sub-pages,
-// so it renders as a plain link rather than a megamenu trigger: no chevron, because
-// there is no panel to promise. It still appears in the mobile burger menu.
-const cpd: Link = { label: 'CPD', href: 'https://www.abeeducation.edu.au/cpd' };
+// CPD sits in the primary row between the two course families, and opens its own
+// megamenu. Unlike the course families, which key off state alone, CPD is grouped
+// state first, then profession, because point requirements and cycles are set per
+// profession by each state regulator.
+//
+// TODO: every bundle href is a placeholder and goes nowhere. The four bundles below
+// are the examples supplied, not a full catalogue. Replace with the real CPD course
+// URLs and the complete state/profession list before this reaches production.
+const cpd: CpdGroup = {
+  label: 'CPD',
+  megaLabel: 'CPD bundles by state and profession',
+  hub: { label: 'CPD Hub', href: 'https://www.abeeducation.edu.au/cpd' },
+  states: [
+    { code: 'NSW', professions: [
+      { name: 'Building', bundles: [
+        { label: '36 Points CPD Bundle 2026', href: '#' },
+      ] },
+    ] },
+    { code: 'TAS', professions: [
+      { name: 'Building', bundles: [
+        { label: '12 Points CPD Bundle 2026', href: '#' },
+        { label: '9 Points CPD Bundle 2026', href: '#' },
+      ] },
+      { name: 'Plumbing', bundles: [
+        { label: '12 Points CPD Bundle 2026', href: '#' },
+      ] },
+    ] },
+    { code: 'WA', professions: [
+      { name: 'Real Estate', bundles: [
+        { label: '5 Points Bundle 2026', href: '#' },
+      ] },
+    ] },
+  ],
+  // No authority claim here: points and cycles are the regulator's, not ABE's.
+  feature: { kicker: 'Points and cycles', title: 'Set by your regulator', body: 'How many points you need, and when your cycle resets, differs by state and profession. Check with your regulator before you buy.' },
+};
 
 const utility: Link[] = [
   { label: 'Experts', href: '#content-review' },
   { label: 'Insurance', href: 'https://www.abeeducation.edu.au/insurances' },
 ];
+
+// Student sign-in. This is utility, not conversion, so it lives in the strip rather
+// than the primary button, which stays an enrol CTA.
+// TODO: href is a placeholder. Point it at the real LearnWorlds portal (the rebuild
+// plan moves LearnWorlds to a learn. subdomain) before this goes anywhere near
+// production. Right now it goes nowhere.
+const studentPortal: Link = { label: 'Student Portal', href: '#' };
 
 const norm = (h?: string) => (h ?? '').replace(/\/+$/, '') || '/';
 const path = norm(Astro.url.pathname);
@@ -97,23 +143,60 @@ const mega = (g: Group, i: number) => `<div class="mega" id="mega-${i}">`
   + priceHtml(g.feature)
   + `</div></div></div></div>`;
 
+// CPD panel: a column per state, each profession a label above its bundle links.
+const cpdOn = cpd.states.some((s) => s.professions.some((p) => p.bundles.some((b) => !b.soon && on(b.href))));
+
+const cpdBundle = (b: CpdBundle) => b.soon
+  ? `<span class="cbundle soon">${b.label}<em>Soon</em></span>`
+  : `<a class="cbundle${on(b.href) ? ' active' : ''}" href="${b.href}"${on(b.href) ? ' aria-current="page"' : ''}>${b.label}</a>`;
+
+const cpdProf = (p: CpdProfession) => `<div class="cprof-group"><p class="cprof">${p.name}</p>`
+  + p.bundles.map(cpdBundle).join('')
+  + `</div>`;
+
+const cpdCol = (s: CpdState) => `<div class="cstate"><span class="cst">${s.code}</span>`
+  + s.professions.map(cpdProf).join('')
+  + `</div>`;
+
+const cpdMega = (g: CpdGroup, i: number) => `<div class="mega" id="mega-${i}">`
+  + `<div class="mega-in">`
+  + `<div class="mcol"><p class="mlabel">${g.megaLabel}</p><div class="cgrid">`
+  + g.states.map(cpdCol).join('')
+  + `</div></div>`
+  + `<div class="mcol mcol-side"><p class="mlabel">Start here</p>`
+  + `<a class="mlink" href="${g.hub.href}">${g.hub.label} <span class="arr" aria-hidden="true">&rarr;</span></a>`
+  + `<div class="mfeat"><span class="mfeat-k">${g.feature.kicker}</span><p class="mfeat-t">${g.feature.title}</p><p class="mfeat-d">${g.feature.body}</p>`
+  + priceHtml(g.feature)
+  + `</div></div></div></div>`;
+
 // Chevron: stroke is currentColor so it inherits the trigger colour and turns maroon
 // on hover and while open. Decorative, hence aria-hidden and focusable=false.
-const chevron = `<svg class="cv" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M9.5 10.5L12.1997 13.1997V13.1997C12.3656 13.3656 12.6344 13.3656 12.8003 13.1997V13.1997L15.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+//
+// The source icon draws its chevron from x 9.5 to 15.5 inside a 0 0 24 24 canvas, so
+// the glyph fills only a quarter of the box. Sizing the box alone leaves dead space
+// beside the label. Instead the viewBox is cropped to the stroke-inclusive bounds
+// (8.5 9.5 8 5) and the box is 13x8, giving a 9.6px chevron. Stroke width scales with
+// the viewBox: at this crop 1.0 renders as about 1.6px. Path coordinates untouched.
+const chevron = `<svg class="cv" viewBox="8.5 9.5 8 5" fill="none" aria-hidden="true" focusable="false"><path d="M9.5 10.5L12.1997 13.1997V13.1997C12.3656 13.3656 12.6344 13.3656 12.8003 13.1997V13.1997L15.5 10.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // Disclosure pattern (button + aria-expanded + aria-controls), not an ARIA menu:
 // the panels hold links, so role menu and menuitem would be the wrong semantics.
-const trigger = (g: Group, i: number) => `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-controls="mega-${i}">${g.label}${chevron}</button>`;
+const triggerFor = (label: string, active: boolean, i: number) => `<button type="button" class="nav-trigger${active ? ' active' : ''}" aria-expanded="false" aria-controls="mega-${i}">${label}${chevron}</button>`;
 
-const megaItem = (g: Group, i: number) => `<div class="ni ni-mega">` + trigger(g, i) + mega(g, i) + `</div>`;
-const navLink = (l: Link) => `<a class="nav-l" href="${l.href}">${l.label}</a>`;
+const megaItem = (g: Group, i: number) => `<div class="ni ni-mega">` + triggerFor(g.label, groupOn(g), i) + mega(g, i) + `</div>`;
+const cpdItem = (g: CpdGroup, i: number) => `<div class="ni ni-mega">` + triggerFor(g.label, cpdOn, i) + cpdMega(g, i) + `</div>`;
 
-// Primary row order: Owner Builder, CPD, White Card.
-const navHtml = megaItem(courses[0], 0) + navLink(cpd) + megaItem(courses[1], 1);
+// Primary row order: Owner Builder, CPD, White Card. All three open a panel.
+const navHtml = megaItem(courses[0], 0) + cpdItem(cpd, 1) + megaItem(courses[1], 2);
 
 const link = (l: Link) => `<a href="${l.href}">${l.label}</a>`;
-const utilLinks = utility.map(link).join('');
-const moreLinks = [cpd].concat(utility).map(link).join('');
+const portalLink = `<a class="u-cta" href="${studentPortal.href}">${studentPortal.label}</a>`;
+
+// Utility strip: Experts, Insurance, then the sign-in, set apart as an action.
+const utilLinks = utility.map(link).join('') + portalLink;
+
+// Burger menu keeps everything the strip drops on small screens.
+const moreLinks = utility.concat([studentPortal]).map(link).join('');
 
 const mSub = (s: Sub) => s.soon
   ? `<span class="dd-soon" aria-disabled="true">${s.name}<em>Soon</em></span>`
@@ -123,7 +206,19 @@ const mGroup = (g: Group) => `<div class="bg"><p class="bg-h">${g.label}</p>`
   + g.items.map(mSub).join('')
   + `<a class="bg-hub" href="${g.hub.href}">${g.hub.label}</a></div>`;
 
-const mnavHtml = courses.map(mGroup).join('')
+// Mobile CPD: a "STATE PROFESSION" sub-label, then that profession's bundle links.
+const mCpdBundle = (b: CpdBundle) => b.soon
+  ? `<span class="dd-soon" aria-disabled="true">${b.label}<em>Soon</em></span>`
+  : `<a href="${b.href}">${b.label}</a>`;
+const mCpdProf = (code: string, p: CpdProfession) => `<p class="bg-sub">${code} ${p.name}</p>`
+  + p.bundles.map(mCpdBundle).join('');
+const mCpdCol = (s: CpdState) => s.professions.map((p) => mCpdProf(s.code, p)).join('');
+const mCpdGroup = `<div class="bg"><p class="bg-h">CPD</p>`
+  + cpd.states.map(mCpdCol).join('')
+  + `<a class="bg-hub" href="${cpd.hub.href}">${cpd.hub.label}</a></div>`;
+
+// Burger order mirrors the primary row: Owner Builder, CPD, White Card, then More.
+const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   + `<div class="bg"><p class="bg-h">More</p>` + moreLinks + `</div>`;
 ---
 <div id="head-sentinel" aria-hidden="true"></div>
@@ -214,6 +309,9 @@ const mnavHtml = courses.map(mGroup).join('')
   .site-head .u-r{ display:flex; align-items:center; gap:2px; }
   .site-head .u-r a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.78); text-decoration:none; padding:6px 10px; border-radius:5px; transition:color .15s, background .15s; }
   .site-head .u-r a:hover{ color:#fff; background:rgba(255,255,255,.08); }
+  /* sign-in reads as an action, not another link, without shouting */
+  .site-head .u-r .u-cta{ color:#fff; border:1px solid rgba(255,255,255,.24); padding:4px 11px; margin-left:8px; transition:color .15s, background .15s, border-color .15s; }
+  .site-head .u-r .u-cta:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.44); }
 
   /* main row: 66px, matching --head-h in global.css */
   .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
@@ -235,16 +333,12 @@ const mnavHtml = courses.map(mGroup).join('')
   .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
   .site-head .nav-trigger.active{ color:var(--maroon); }
   .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
-  /* CPD: a plain link, no chevron, since it has no panel behind it */
-  .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
-  .site-head .nav-l:hover{ color:var(--maroon); background:#f6f3ee; }
-  .site-head .nav-l.active{ color:var(--maroon); }
-  /* chevron is an svg: sized in px, coloured via currentColor on the path */
-  .site-head .cv{ width:15px; height:15px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
+  /* chevron is an svg: sized in px, coloured via currentColor on the path.
+     Box is 13x8 to match the cropped viewBox's 8:5 ratio, so there is no dead space. */
+  .site-head .cv{ width:13px; height:8px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
   .site-head .nav-trigger:hover .cv, .site-head .ni.open .cv{ color:var(--maroon); }
   .site-head .ni.open .cv{ transform:rotate(180deg); }
   .site-head .nav-trigger:focus-visible,
-  .site-head .nav-l:focus-visible,
   .site-head .burger-btn:focus-visible,
   .site-head .cta-head:focus-visible,
   .site-head .mega a:focus-visible,
@@ -274,6 +368,18 @@ const mnavHtml = courses.map(mGroup).join('')
   .site-head .mcard.soon .mst, .site-head .mcard.soon .mname{ color:var(--slate-light); }
   .site-head .mcard.soon .mst{ border-color:var(--rule); }
   .site-head .mcard em, .site-head .dd-soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  /* CPD panel: one column per state, professions listed beneath.
+     auto-fit so adding states reflows instead of overflowing. */
+  .site-head .cgrid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:26px 22px; }
+  .site-head .cst{ display:inline-block; font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.1em; color:var(--maroon); border:1px solid var(--rule-strong); border-radius:6px; padding:4px 9px; margin-bottom:8px; }
+  /* the profession is a label; the bundles beneath it are the links */
+  .site-head .cprof-group + .cprof-group{ margin-top:14px; }
+  .site-head .cprof{ font-family:var(--font-body); font-weight:600; font-size:13.5px; color:var(--ink); margin:0 0 3px; padding:0 10px; }
+  .site-head .cbundle{ display:block; padding:7px 10px; border-radius:7px; font-size:13px; line-height:1.35; color:var(--ink-3); text-decoration:none; transition:background .15s, color .15s; }
+  .site-head a.cbundle:hover{ background:#f6f3ee; color:var(--maroon); }
+  .site-head .cbundle.active{ background:rgba(128,0,0,.06); color:var(--maroon); font-weight:600; }
+  .site-head .cbundle.soon{ display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--slate-light); cursor:default; }
+
   .site-head .mcol-side{ border-left:1px solid var(--rule); padding-left:34px; }
   .site-head .mlink{ display:inline-block; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-strong); padding-bottom:2px; transition:color .15s, border-color .15s; }
   .site-head .mlink:hover{ color:var(--maroon); border-color:var(--maroon); }
@@ -301,6 +407,8 @@ const mnavHtml = courses.map(mGroup).join('')
   .site-head .mnav a{ display:block; padding:8px 6px; font-size:15px; color:var(--ink-2); text-decoration:none; border-radius:6px; }
   .site-head .mnav a:hover{ background:#f6f3ee; color:var(--maroon); }
   .site-head .mnav a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
+  .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate-light); margin:12px 0 3px; }
+  .site-head .mnav .bg-h + .bg-sub{ margin-top:2px; }
   .site-head .mnav .bg-hub{ color:var(--maroon); font-weight:600; }
   .site-head .mnav .dd-soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 6px; color:var(--slate-light); }
 
