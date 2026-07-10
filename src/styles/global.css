@@ -12,7 +12,7 @@
   --max:1200px; --content:980px;
   /* sticky chrome heights. --waynav-h must track .waynav's real height: it drives
      .sec scroll-margin-top, so an anchored heading lands clear of both bars. */
-  --head-h:66px; --waynav-h:63px;
+  --head-h:66px; --waynav-h:65px;
 }
 /* on mobile the waynav CTA is hidden, so the bar is shorter */
 @media(max-width:900px){ :root{ --waynav-h:46px; } }
@@ -52,10 +52,29 @@ p strong{color:var(--ink);font-weight:600;}
 .btn-primary:hover{background:var(--maroon);}
 .btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--ink);font-family:var(--font-body);font-weight:600;font-size:16px;padding:13px 24px;border:1px solid var(--rule-strong);border-radius:6px;text-decoration:none;transition:border-color .18s;}
 .btn-secondary:hover{border-color:var(--ink);}
-.btn-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:16px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule-strong);padding-bottom:3px;transition:color .15s,border-color .15s;margin-top:var(--s-sm);}
-.btn-link .arr{transition:transform .15s;}
-.btn-link:hover{color:var(--maroon);border-color:var(--maroon);}
-.btn-link:hover .arr{transform:translateX(3px);}
+/* no underline: the semibold weight, the maroon hover and the arrow carry the affordance */
+.btn-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:16px;color:var(--ink);text-decoration:none;transition:color .15s;margin-top:var(--s-sm);}
+.btn-link:hover{color:var(--maroon);}
+/* Arrow: on hover it flies out to the right, then re-enters from the left, on a loop.
+   .arr-clip is an 18px window with overflow hidden, so the arrow is cut off at the
+   window's edge rather than sliding across the link text, and the 30%->30.01% jump from
+   +26px to -26px happens entirely out of sight. The clip keeps its 18px box at all
+   times, so nothing reflows while the arrow is away.
+   Out accelerates (ease-in) as if thrown; in decelerates (ease-out) as if caught. The
+   last 40% of the cycle is rest: back to back, the flight reads as a stutter. */
+.btn-link .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:none;overflow:hidden;}
+.btn-link .arr{width:18px;height:18px;flex:none;}
+.btn-link:hover .arr{animation:arr-fly 1.4s infinite;}
+@keyframes arr-fly{
+  0%{transform:translateX(0);animation-timing-function:cubic-bezier(.7,0,.84,0);}
+  30%{transform:translateX(26px);}                                     /* gone */
+  30.01%{transform:translateX(-26px);animation-timing-function:cubic-bezier(.16,1,.3,1);}
+  60%{transform:translateX(0);}
+  100%{transform:translateX(0);}                                       /* rest */
+}
+@media(prefers-reduced-motion:reduce){
+  .btn-link:hover .arr{animation:none;}
+}
 .site-head{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(8px);z-index:30;}
 .site-head .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;gap:18px;}
 .brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);}
@@ -68,20 +87,53 @@ p strong{color:var(--ink);font-weight:600;}
 /* translucent, so the blur earns its compositing layer: it keeps the jump links legible
    over whatever scrolls beneath the sticky bar */
 .waynav{position:sticky;top:var(--head-h);z-index:25;background:rgba(255,255,255,.95);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule);}
-/* 11px around a 41px CTA. Bar stays 63px, so --waynav-h and .sec scroll-margin hold:
-   the air moved inside the button rather than around it. */
-.waynav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 28px;}
-.waynav .jl{display:flex;align-items:center;gap:20px;flex-wrap:wrap;min-width:0;}
-.waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-light);flex:none;}
+/* Spacing comes off the --s-* scale. The bar's height is load-bearing: --waynav-h feeds
+   .sec scroll-margin-top, so the links must never wrap onto a second row. They scroll
+   instead, as they already did on mobile. 12 + 41 (CTA) + 12 = 65px, always. */
+.waynav .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s-md);padding:var(--s-xs) 28px;}
+.waynav .jl{display:flex;align-items:center;gap:var(--s-md);flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-width:0;}
+.waynav .jl::-webkit-scrollbar{display:none;}
+/* the label is a group heading, not an eighth link: 32px away from the list, 24px within */
+.waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-light);flex:none;margin-right:var(--s-2xs);}
 /* padding-top balances the 3px gap + 2px underline below, so the text sits on the
-   bar's true centre line instead of floating above it */
-.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding-top:5px;padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
+   bar's true centre line instead of floating above it. .06em matches the header's
+   uppercase tracking: at .03em these mono caps read visibly tighter than the nav. */
+.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;white-space:nowrap;flex:none;padding-top:5px;padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
 .waynav a.j:hover{color:var(--maroon);}
 .waynav a.j.active{color:var(--ink);border-bottom-color:var(--maroon);}
 /* 9px/20px: a 26-character label needs more side air than 16px, and the extra 1px of
-   vertical padding balances the cap height. Radius steps 5->6 for the taller box. */
-.waynav .btn-mini{flex:none;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:600;font-size:14px;padding:9px 20px;border-radius:6px;text-decoration:none;white-space:nowrap;transition:background .18s;}
+   vertical padding balances the cap height. Radius steps 5->6 for the taller box.
+
+   Hidden until the bar sticks (.is-stuck, set by the sentinel observer in
+   WayfinderNav.astro), so it does not compete with the hero's own enrol button while
+   the hero is still on screen. It is hidden with opacity/visibility, never display or
+   width: at 41px it is the tallest child in the bar (the jump links are 30px) and so it
+   is what makes .waynav 65px. Dropping it from flow would shrink the bar ~11px while
+   --waynav-h still read 65px, and every .sec would scroll to a point under the bar.
+   visibility:hidden also takes it out of the tab order and the a11y tree, so a button
+   nobody can see is not one a screen reader announces or a Tab key lands on. */
+.waynav .btn-mini{flex:none;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:600;font-size:14px;padding:9px 20px;border-radius:6px;text-decoration:none;white-space:nowrap;
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.97);transform-origin:right center;
+  transition:opacity .26s ease-out,transform .26s cubic-bezier(.16,1,.3,1),background .18s,visibility 0s linear .26s;}
+.waynav.is-stuck .btn-mini{opacity:1;visibility:visible;transform:none;
+  transition:opacity .36s ease-out,transform .36s cubic-bezier(.16,1,.3,1),background .18s,visibility 0s;}
 .waynav .btn-mini:hover{background:var(--maroon);}
+/* No script, no observer, no reveal: show the button rather than strand the CTA. */
+@media(scripting:none){ .waynav .btn-mini{opacity:1;visibility:visible;transform:none;} }
+/* The fade carries the meaning; the rise and scale are decoration. Drop those. */
+@media(prefers-reduced-motion:reduce){
+  .waynav .btn-mini{transform:none;transition:opacity .15s linear,background .18s,visibility 0s linear .15s;}
+  .waynav.is-stuck .btn-mini{transition:opacity .15s linear,background .18s,visibility 0s;}
+}
+/* Probe for "has the bar stuck yet". It hangs from the bar's resting place and reaches a
+   full viewport upwards, so at any scroll position it is either crossing the observer's
+   trigger line or clearly on one side of it. A 1px probe would be wrong: it reads as
+   not-intersecting both below the fold and above the header, and false -> false is not a
+   state change, so a fast scroll or a hash jump can leap it and never fire the observer.
+   The anchor is 0px tall and the probe is absolute, so neither disturbs layout, and the
+   probe grows upward from bottom:0 so it adds no scroll height. */
+.waynav-anchor{position:relative;height:0;}
+.waynav-sentinel{position:absolute;bottom:0;left:0;width:1px;height:100vh;pointer-events:none;}
 .hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:var(--s-2xl);align-items:center;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
 .hero h1.h1{margin-bottom:var(--s-md);}
 .updated{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:var(--slate);margin-bottom:var(--s-lg);display:block;}
@@ -153,10 +205,27 @@ p strong{color:var(--ink);font-weight:600;}
 .capsule.on-dark{background:rgba(255,255,255,.06);border-left-color:var(--gold);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
 /* ===== verified-with-sources line ===== */
-.verified{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px dashed var(--rule-strong);font-family:var(--font-mono);font-size:13px;line-height:1.6;color:var(--slate);letter-spacing:.02em;max-width:64ch;}
-.verified .tick{color:var(--verify);font-weight:500;}
-.verified .src a{color:var(--verify);text-decoration:none;border-bottom:1px solid var(--verify-soft);}
-.verified .src a:hover{border-color:var(--verify);}
+/* ===== verification footnote (native <details> disclosure) =====
+   Hairline, not dashed: a dashed rule reads as unfinished, and this repeats 8-9 times a
+   page. Colour marks the claim (the tick and date), never the citations: the sources sit
+   in slate so nine of these do not speckle the page with links. */
+.verified{margin-top:var(--s-md);padding-top:10px;border-top:1px solid var(--rule);max-width:64ch;}
+.verified summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--verify);font-weight:500;padding:2px 0;}
+.verified summary::-webkit-details-marker{display:none;}
+.verified .check{width:12px;height:12px;flex:none;}
+.verified summary .cnt{color:var(--slate-light);font-weight:400;display:inline-flex;align-items:center;gap:6px;}
+.verified summary .chev{width:11px;height:7px;flex:none;color:var(--slate-light);transition:transform .18s;}
+.verified[open] summary .chev{transform:rotate(180deg);}
+.verified summary:hover .cnt{color:var(--slate);}
+.verified summary:focus-visible{outline:2px solid var(--verify);outline-offset:3px;border-radius:3px;}
+.verified .facts{font-family:var(--font-mono);font-size:11px;color:var(--slate-light);margin-top:8px;}
+.verified ul{list-style:none;margin-top:10px;padding:0;display:flex;flex-direction:column;gap:5px;}
+.verified li{font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--slate-light);}
+.verified a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
+.verified a:hover{color:var(--verify);border-color:var(--verify);}
+/* no sources to disclose: same line, no control */
+.verified-bare{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--verify);font-weight:500;}
+@media(prefers-reduced-motion:reduce){ .verified summary .chev{transition:none;} }
 .trust .h2{color:#fff;max-width:18ch;margin-bottom:var(--s-xl);}
 .trust-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);border-top:1px solid rgba(255,255,255,.14);padding-top:var(--s-xl);}
 .tstat .n{font-family:var(--font-display);font-weight:600;font-size:36px;letter-spacing:-.02em;color:#fff;display:block;margin-bottom:8px;}
@@ -213,13 +282,13 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
   .zsplit{grid-template-columns:1fr;gap:var(--s-lg);}
   .zsplit.rev .z-img{order:0;}
 }
+/* the label is decorative. Drop it before the list is forced to scroll: at 1080px and
+   below its 78px plus the 32px boundary are worth more to the links. */
+@media(max-width:1080px){ .waynav .wl{display:none;} }
+/* nowrap, overflow and scrollbar hiding now live on the base rules */
 @media(max-width:900px){
   .waynav .wrap{padding:8px 16px;justify-content:flex-start;}
-  .waynav .wl{display:none;}
   .waynav .btn-mini{display:none;}
-  .waynav .jl{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  .waynav .jl::-webkit-scrollbar{display:none;}
-  .waynav a.j{white-space:nowrap;flex:none;}
 }
 @media(max-width:720px){
   .sec{padding:64px 0;}

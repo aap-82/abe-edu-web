@@ -1,9 +1,11 @@
 ---
 import type { NavItem, CTA } from '../types/course';
 // Sticky on-page jump index + small CTA. Active-state highlighting handled by the layout script.
+// The CTA is hidden until the bar sticks; see .waynav .btn-mini in global.css.
 interface Props { items: NavItem[]; cta: CTA; }
 const { items, cta } = Astro.props;
 ---
+<div class="waynav-anchor" aria-hidden="true"><span class="waynav-sentinel"></span></div>
 <nav class="waynav" aria-label="On this page">
   <div class="wrap">
     <div class="jl">
@@ -15,3 +17,31 @@ const { items, cta } = Astro.props;
     <a class="btn-mini" href={cta.href}>{cta.label}</a>
   </div>
 </nav>
+
+<script>
+  // Reveal the bar's CTA once the bar has stuck under the header.
+  //
+  // The sentinel hangs from the bar's resting place and is a viewport tall, so scrolling
+  // always flips its intersection state and the observer always fires. Test its geometry
+  // rather than entry.isIntersecting: a 1px probe reads as not-intersecting both below
+  // the fold and above the header, and a bare isIntersecting check would then reveal the
+  // button on first paint, before a single pixel of scrolling.
+  const nav = document.querySelector<HTMLElement>('.waynav');
+  const sentinel = document.querySelector<HTMLElement>('.waynav-sentinel');
+
+  if (nav && sentinel && 'IntersectionObserver' in window) {
+    const headH =
+      parseInt(getComputedStyle(document.documentElement).getPropertyValue('--head-h'), 10) || 0;
+
+    // Shrinking the root by the header's height puts the observer's trigger line exactly
+    // where the bar comes to rest, so the reveal fires on the frame the bar sticks. The
+    // sentinel's bottom edge is that resting place.
+    new IntersectionObserver(
+      ([e]) => nav.classList.toggle('is-stuck', e.boundingClientRect.bottom < headH + 1),
+      { rootMargin: `-${headH + 1}px 0px 0px 0px`, threshold: 0 },
+    ).observe(sentinel);
+  } else if (nav) {
+    // No observer: leave the CTA visible rather than permanently hidden.
+    nav.classList.add('is-stuck');
+  }
+</script>

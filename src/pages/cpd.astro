@@ -39,7 +39,9 @@ const nav = [
 // inert "coming soon" text rather than links to a 404. Restore the <a> the moment the
 // page ships. Scoped styles do not reach TopicGrid's set:html body, hence the inline
 // style rather than a class.
-const soonCta = (label: string) => `<span class="btn-link" style="opacity:.45;cursor:default;border-bottom-style:dashed">${label} coming soon</span>`;
+// .btn-link no longer carries an underline, so state the dashed rule outright rather
+// than only overriding its style.
+const soonCta = (label: string) => `<span class="btn-link" style="opacity:.45;cursor:default;border-bottom:1px dashed currentColor;padding-bottom:3px">${label} coming soon</span>`;
 
 const stateCards: TopicCard[] = [
   { tag: 'Tasmania', title: 'Building · Plumbing · Electrical CPD',
@@ -111,9 +113,9 @@ const schema = {
         <span class="updated">Updated July 2026</span>
         <p class="lede">Online CPD that counts toward your licence renewal, built for building and property professionals across Australia. Pick your state to see the courses and the points they carry.</p>
         <ul class="hero-ticks">
-          <li>Listed with CBOS Tasmania, and built to meet the CPD criteria of Building Commission NSW and Consumer Protection WA</li>
-          <li>100% online and self-paced, complete it around work</li>
-          <li>Certificate on completion for your CPD log and any audit</li>
+          <li><b>Listed with CBOS Tasmania</b>, and built to meet the CPD criteria of Building Commission NSW and Consumer Protection WA</li>
+          <li><b>100% online and self-paced</b>, complete it around work</li>
+          <li><b>Certificate on completion</b>, for your CPD log and any audit</li>
         </ul>
         <div class="hero-cta">
           <a class="btn-primary" href="#choose-state">Find your state’s CPD</a>

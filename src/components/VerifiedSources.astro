@@ -1,14 +1,49 @@
 ---
 import type { Source } from '../types/course';
-// ✓ VERIFIED · 🔗 SOURCES line, dashed top rule. On every section with a government fact.
+// Verification footnote for any section carrying a government fact.
+//
+// A closed disclosure, not a run-on line: this renders 8x on the QLD page and 9x on WA,
+// and nine open citation lists is nine interruptions to the reading flow. Collapsed,
+// each is one 12px line. The sources stay in the DOM when closed (that is how <details>
+// works), so crawlers still see every outbound citation and the E-E-A-T signal holds.
+//
+// Native <details>: no JavaScript, keyboard operable, and it survives a failed hydration.
 interface Props { date: string; facts?: string; sources: Source[]; }
 const { date, facts, sources } = Astro.props;
+
+const count = sources.length;
+const countLabel = `${count} source${count === 1 ? '' : 's'}`;
+// The summary's 10px gap is drawn, not spoken: flex discards the whitespace text node
+// between the date and the count, so the accessible name would run together as
+// "Verified 24 Jun 20261 source". Name it explicitly; the visible text is unchanged.
+const summaryLabel = `Verified ${date}, ${countLabel}`;
 ---
-<p class="verified">
-  <span class="tick">✓ Verified {date}{facts ? ` · ${facts}` : ''}</span>
-  {sources.length > 0 && (
-    <span class="src"> · Sources: {sources.map((s, i) => (
-      <>{i > 0 && ' · '}{s.href ? <a href={s.href}>{s.label}</a> : s.label}</>
-    ))}</span>
-  )}
-</p>
+{count > 0 ? (
+  <details class="verified">
+    <summary aria-label={summaryLabel}>
+      <svg class="check" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M1.5 6.2 4.4 9 10.5 2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Verified {date}
+      <span class="cnt">{countLabel}
+        <svg class="chev" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+          <path d="M1 1.5 5.5 5.5 10 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </summary>
+    {facts && <p class="facts">{facts}</p>}
+    <ul>
+      {sources.map((s) => (
+        <li>{s.href ? <a href={s.href}>{s.label}</a> : s.label}</li>
+      ))}
+    </ul>
+  </details>
+) : (
+  /* Nothing to disclose: state the verification without a control that opens onto nothing. */
+  <p class="verified verified-bare">
+    <svg class="check" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M1.5 6.2 4.4 9 10.5 2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    Verified {date}{facts ? ` · ${facts}` : ''}
+  </p>
+)}

@@ -120,6 +120,7 @@ import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules';
 import { faqs } from '../../data/faqs';
 
@@ -137,7 +138,7 @@ import { faqs } from '../../data/faqs';
       <p>ABE Education delivers the course 100% online, approved by the QBCC as the <strong>NONACCABE QBCC Owner Builder Course</strong>.</p>
       <p>Finish it and you receive a Certificate of Completion, which is what the QBCC looks for when it assesses your permit application.</p>
       <p>The approval applies to the course material only and is not an endorsement of ABE Education.</p>
-      <a class="btn-link" href="#permit">See who needs a permit <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn-link" href="#permit">See who needs a permit <ArrowRight /></a>
     </div>
     <VerifiedSources date="24 Jun 2026" sources={[{ label: 'QBCC — Required courses for owner builders', href: 'https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders' }]} />
   </ZSplit>

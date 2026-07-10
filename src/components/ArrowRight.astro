@@ -1,0 +1,30 @@
+---
+// Arrow that flies out to the right and re-enters from the left, looping while hovered.
+//
+// Reproduced in CSS rather than ported from animate-ui. Pulling in React and a motion
+// library to nudge an 18px arrow would ship a runtime and a hydration island for one
+// hover, on a site that has neither.
+//
+// The wrapping .arr-clip is the whole trick: an 18px window with overflow hidden. The
+// arrow leaves through its right edge and returns through its left, and the teleport
+// between the two happens where nobody can see it. Without the clip the arrow would
+// simply slide off across the paragraph.
+//
+// Styles and keyframes live in global.css under .btn-link, because scoped styles do not
+// reach content rendered from MDX.
+---
+<span class="arr-clip" aria-hidden="true">
+  <svg
+    class="arr"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    focusable="false"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</span>

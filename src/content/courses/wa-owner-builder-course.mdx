@@ -34,10 +34,10 @@ hero:
   updated: "Updated June 2026"
   subhead: "The WA-specific online course that gives you the knowledge the Building Services Board requires, and supports your Form 75 owner-builder approval. Written for Western Australia, reviewed for currency, and finished in an afternoon."
   ticks:
-    - "WA-specific content, current for 2026"
-    - "Your certificate supports your Form 75 approval"
-    - "100% online and self-paced, same-day certificate"
-    - "Independently reviewed for currency (4 June 2026)"
+    - "<b>WA-specific content</b>, current for 2026"
+    - "<b>Supports your Form 75 approval</b>, the owner builder knowledge requirement"
+    - "<b>100% online and self-paced</b>, same-day certificate"
+    - "<b>Independently reviewed</b>, checked for currency 4 June 2026"
   proof:
     - { n: "WA", text: "specific, reviewed for currency" }
     - { n: "31,000+", text: "students trained" }
@@ -117,6 +117,7 @@ import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroupsWa, moduleOutcomeWa, obligationCardsWa } from '../../data/modules-wa';
 import { faqsWa } from '../../data/faqs-wa';
 
@@ -135,7 +136,7 @@ import { faqsWa } from '../../data/faqs-wa';
       <p>The most common pathway, and the one this course is built for, is a course with WA-specific content completed within the last two years, paired with a White Card (unit CPCWHS1001).</p>
       <p>So the accurate way to describe this course is that it <strong>supports</strong> your Form 75 owner-builder approval. It is not a licence, it is not the approval itself, and no course in WA is government approved.</p>
       <p>What matters to the Board is that the content is WA-specific and current, and that you hold a dated certificate you can lodge straight away.</p>
-      <a class="btn-link" href="#need">See who needs approval <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn-link" href="#need">See who needs approval <ArrowRight /></a>
     </div>
     <VerifiedSources date="7 Jul 2026" sources={[{ label: 'WA — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }, { label: 'BSB — Sufficient knowledge policy', href: 'https://www.wa.gov.au/system/files/2024-10/bsb_policy_-_sufficient_knowledge_of_the_duties_and_responsibilities_of_an_owner-builder.pdf' }]} />
   </ZSplit>
