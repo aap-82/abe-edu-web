@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import TopicGrid from '../components/TopicGrid.astro';
+import Faq from '../components/Faq.astro';
+import Note from '../components/Note.astro';
+import VerifiedSources from '../components/VerifiedSources.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+import Placeholder from '../components/Placeholder.astro';
+import type { TopicCard } from '../types/course';
+import { faqsCpd } from '../data/faqs-cpd';
+
+const canonical = 'https://www.abeeducation.edu.au/cpd';
+const cta = { href: '#choose-state', label: 'Find your state’s CPD' };
+
+const nav = [
+  { label: 'What is CPD', href: '#what', sectionId: 'what' },
+  { label: 'Choose your state', href: '#choose-state', sectionId: 'choose-state' },
+  { label: 'Why ABE', href: '#why', sectionId: 'why' },
+  { label: 'By state', href: '#compare', sectionId: 'compare' },
+  { label: 'FAQ', href: '#faq', sectionId: 'faq' },
+];
+
+// State chooser cards. The per-state CPD pages (/cpd-tas, /cpd-nsw, /cpd-wa) do not
+// exist yet, on this site or the old one, so their calls to action are rendered as
+// inert "coming soon" text rather than links to a 404. Restore the <a> the moment the
+// page ships. Scoped styles do not reach TopicGrid's set:html body, hence the inline
+// style rather than a class.
+const soonCta = (label: string) => `<span class="btn-link" style="opacity:.45;cursor:default;border-bottom-style:dashed">${label} coming soon</span>`;
+
+const stateCards: TopicCard[] = [
+  { tag: 'Tasmania', title: 'Building · Plumbing · Electrical CPD',
+    body: 'Regulator: <b>CBOS Tasmania</b>. ABE is listed as a CPD training provider on the CBOS website. ' + soonCta('Tasmania CPD courses') },
+  { tag: 'New South Wales', title: 'Building CPD',
+    body: 'Regulator: <b>Building Commission NSW</b>. Meets the NSW builder CPD criteria under the Home Building Act 1989. ' + soonCta('NSW Building CPD') },
+  { tag: 'Western Australia', title: 'Real Estate CPD',
+    body: 'Regulator: <b>Consumer Protection WA</b>. Covers the mandatory real estate CPD points required each year. ' + soonCta('WA Real Estate CPD') },
+];
+
+// Why ABE — reasons as cards.
+const whyCards: TopicCard[] = [
+  { tag: '01', title: 'Recognised where it counts', body: 'Listed with CBOS Tasmania, and built to meet the CPD criteria set by Building Commission NSW and Consumer Protection WA.' },
+  { tag: '02', title: 'Fully online and self-paced', body: 'Start when you like and finish around work, on any device.' },
+  { tag: '03', title: 'Written for the job', body: 'Practical content on current codes, safety and legal responsibilities, not generic filler.' },
+  { tag: '04', title: 'Kept current', body: 'Reviewed against the latest regulator requirements so your points still count.' },
+  { tag: '05', title: 'Certificate on completion', body: 'A clear record for your CPD log and any audit.' },
+];
+
+const footerSources = [
+  { label: 'CBOS Tasmania — Continuing Professional Development', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'Verified 10 Jul 2026' },
+  { label: 'CBOS Tasmania — CPD training providers (ABE listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources', verified: 'Verified 12 Jun 2026' },
+  { label: 'Building Commission NSW', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission', verified: 'Verified 10 Jul 2026' },
+  { label: 'Consumer Protection WA — Mandatory CPD (real estate)', href: 'https://www.consumerprotection.wa.gov.au/mandatory-cpd-real-estate', verified: 'Verified 10 Jul 2026' },
+  { label: 'Occupational Licensing Act 2005 (Tas) s.4 · CPD Determination 2018', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'via CBOS' },
+  { label: 'Home Building Act 1989 (NSW)', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission', verified: 'builder CPD criteria' },
+];
+
+const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisation.</b> These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification. In Tasmania, ABE is listed as a CPD training provider on the CBOS website; in New South Wales and Western Australia its CPD is built to meet the criteria set by the Building Commission NSW and Consumer Protection WA respectively. Government requirements verified 10 July 2026; CPD point tables and fees are reviewed by regulators (often around 1 July), so confirm the current figures with your regulator before you rely on them.';
+
+// JSON-LD — hub page type: ItemList of Course + BreadcrumbList. No single Course.offers, no RTO claim.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'ItemList', name: 'ABE Education CPD Courses by State',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/cpd-tas',
+          item: { '@type': 'Course', name: 'Tasmania CPD (Building, Plumbing, Electrical)',
+            description: 'Online CPD for Tasmanian building-industry licence holders. ABE is listed as a CPD training provider with CBOS Tasmania.',
+            provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
+        { '@type': 'ListItem', position: 2, url: 'https://www.abeeducation.edu.au/cpd-nsw',
+          item: { '@type': 'Course', name: 'NSW Building CPD',
+            description: 'Online builder CPD meeting the NSW criteria under the Home Building Act 1989, administered by Building Commission NSW.',
+            provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
+        { '@type': 'ListItem', position: 3, url: 'https://www.abeeducation.edu.au/cpd-wa',
+          item: { '@type': 'Course', name: 'WA Real Estate CPD',
+            description: 'Online real estate CPD covering the mandatory points required by Consumer Protection WA.',
+            provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
+      ] },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+      { '@type': 'ListItem', position: 2, name: 'CPD Courses', item: canonical } ] },
+  ],
+};
+---
+<BaseLayout
+  title="CPD Courses for Trade Licences - ABE Education"
+  description="Online CPD to keep your building or real estate licence current. Listed with CBOS Tasmania, and built to meet the NSW and WA regulator criteria. Choose your state."
+  canonical={canonical}
+  schema={schema}
+  nav={nav}
+  navCta={cta}
+  sticky={{ label: 'CPD Courses', sub: 'building & real estate', price: '3 states', cta: { href: '#choose-state', label: 'Choose your state' } }}
+>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Continuing Professional Development · Delivered by ABE Education</span>
+        <h1 class="h1">CPD courses that keep your licence current<span class="dot">.</span></h1>
+        <span class="updated">Last updated July 2026</span>
+        <p class="lede">Online CPD that counts toward your licence renewal, built for building and property professionals across Australia. Pick your state to see the courses and the points they carry.</p>
+        <ul class="hero-ticks">
+          <li>Listed with CBOS Tasmania, and built to meet the CPD criteria of Building Commission NSW and Consumer Protection WA</li>
+          <li>100% online and self-paced, complete it around work</li>
+          <li>Certificate on completion for your CPD log and any audit</li>
+        </ul>
+        <div class="hero-cta">
+          <a class="btn-primary" href="#choose-state">Find your state’s CPD</a>
+          <a class="btn-secondary" href="#why">Why ABE</a>
+        </div>
+        <div class="proof">
+          <span class="stat"><span class="n num">3</span> states covered</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span class="stat"><span class="n num">100%</span> online, self-paced</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span class="stat"><span class="n">Listed with</span> CBOS Tasmania</span>
+        </div>
+        <p class="howline"><b>How it works:</b> Pick your state → complete the course online → record your CPD points</p>
+      </div>
+      <div class="z-img">
+        <Placeholder ratio="r54" desc="A CPD certificate of completion shown in product context on a tablet, with a building and property work setting behind it." spec="5:4 · warm tone · ~640×512" />
+      </div>
+    </div>
+  </section>
+
+  <Section id="what" eyebrow="The basics" h2="What is CPD, and who needs it?">
+    <AnswerCapsule>Continuing Professional Development (CPD) is the ongoing training licensed trades and property professionals complete to keep their skills current and their licence in good standing. Most building and real estate regulators set a minimum number of CPD points or hours each renewal period. ABE Education delivers CPD you complete online, at your own pace.</AnswerCapsule>
+    <div class="measure" style="max-width:62ch">
+      <p>If you hold a builder, plumber, electrician, building surveyor or real estate licence, your regulator expects you to keep learning across the life of that licence. CPD is how you show it. The rules differ by state and by occupation, so the right course depends on where you are licensed and what you are licensed to do. This page points you to the CPD that applies to your state, then each state page lists the individual courses and the points they carry.</p>
+      <p style="margin-top:var(--s-sm)">ABE Education develops and delivers its CPD courses directly. You study online, finish on your own schedule, and receive a certificate recording the CPD you have completed for your own records and any audit.</p>
+    </div>
+  </Section>
+
+  <Section id="choose-state" bg="bg-alt" eyebrow="Choose your state" h2="Find the CPD that applies to your licence">
+    <AnswerCapsule>ABE currently offers CPD in three states. Pick yours to see the courses and points that apply, and the fees for each.</AnswerCapsule>
+    <TopicGrid items={stateCards} />
+    <Note><b>Fees:</b> course fees are shown on each state page, alongside the points each course carries. Need several points at once? Tasmania CPD points bundles are coming soon.</Note>
+    <VerifiedSources date="10 July 2026" facts="regulator and CPD requirement per state" sources={[
+      { label: 'CBOS Tasmania — CPD', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd' },
+      { label: 'Building Commission NSW', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission' },
+      { label: 'Consumer Protection WA — Mandatory CPD (real estate)', href: 'https://www.consumerprotection.wa.gov.au/mandatory-cpd-real-estate' },
+    ]} />
+  </Section>
+
+  <Section id="why" eyebrow="Why ABE" h2="Why choose ABE Education for CPD">
+    <AnswerCapsule>Professionals choose ABE for CPD because it is recognised where it counts, fully online, written for the job, kept current, and backed by a certificate you can put straight into your CPD log.</AnswerCapsule>
+    <TopicGrid items={whyCards} />
+    <p class="howline" style="margin-top:var(--s-lg)"><b>100% online</b> · Listed with CBOS Tasmania · Trusted by Australian tradespeople</p>
+    <Note maroon>ABE Education develops and delivers this CPD directly. These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification.</Note>
+  </Section>
+
+  <Section id="compare" bg="bg-alt" eyebrow="At a glance" h2="CPD by state and occupation">
+    <AnswerCapsule>How CPD is measured depends on your state and licence. Here is the picture at a glance, then your state page lists the points each ABE course carries.</AnswerCapsule>
+    <div style="overflow-x:auto;margin-top:var(--s-md)">
+      <table style="width:100%;border-collapse:collapse;font-family:var(--font-body);font-size:15px;color:var(--ink-3);min-width:640px">
+        <thead>
+          <tr>
+            <th style="text-align:left;background:var(--paper);font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:600;padding:12px 14px;border:1px solid var(--rule-strong)">State</th>
+            <th style="text-align:left;background:var(--paper);font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:600;padding:12px 14px;border:1px solid var(--rule-strong)">Occupations (ABE CPD)</th>
+            <th style="text-align:left;background:var(--paper);font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:600;padding:12px 14px;border:1px solid var(--rule-strong)">Regulator</th>
+            <th style="text-align:left;background:var(--paper);font-family:var(--font-display);color:var(--ink);font-size:14px;font-weight:600;padding:12px 14px;border:1px solid var(--rule-strong)">How CPD is set</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top;color:var(--ink)"><b>Tasmania</b></td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Building · Plumbing · Electrical</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">CBOS Tasmania</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Points per licence period (for example Builder 12 a year, Building Surveyor 30 a year); activities are RTO-accredited or approved by CBOS</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top;color:var(--ink)"><b>New South Wales</b></td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Building</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Building Commission NSW</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Builder CPD under the Home Building Act 1989; self-declaration, with audit</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top;color:var(--ink)"><b>Western Australia</b></td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Real Estate</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">Consumer Protection WA</td>
+            <td style="padding:12px 14px;border:1px solid var(--rule);vertical-align:top">5 CPD points each year from 1 January 2026, at least 1 from each of 3 subject areas (CPD year 1 April to 31 March)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:var(--s-md)">Tasmanian points vary by licence class. As a guide, builders need 12 points a year (36 over a three-year licence), building surveyors 30 a year, and electricians, plumbers and gas-fitters 12 a year. Your state page lists the points each ABE course carries so you can plan the shortest path to your total.</p>
+    <VerifiedSources date="10 July 2026" facts="CPD points framework per state" sources={[
+      { label: 'CBOS Tasmania — CPD (Occupational Licensing Act 2005 s.4; CPD Determination 2018)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd' },
+      { label: 'Consumer Protection WA — Mandatory CPD (real estate)', href: 'https://www.consumerprotection.wa.gov.au/mandatory-cpd-real-estate' },
+    ]} />
+  </Section>
+
+  <Section id="faq" eyebrow="FAQ" h2="Common questions">
+    <Faq items={faqsCpd} />
+  </Section>
+
+  <CtaBand
+    eyebrow="Get started"
+    headingHtml={'Ready to top up your CPD<span class="dot">?</span>'}
+    sub="Choose your state to see the courses that count toward your licence, the points they carry, and the fees."
+    cta={{ href: '#choose-state', label: 'Choose your state', microcopy: 'Three states · 100% online · certificate on completion' }}
+  />
+
+  <SourcesFooter sources={footerSources} disclaimersHtml={disclaimersHtml} />
+</BaseLayout>

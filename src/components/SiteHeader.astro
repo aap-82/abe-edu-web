@@ -1,18 +1,16 @@
 ---
-// Top site navigation: masthead + megamenu.
-//   - a thin dark utility strip carrying the secondary links
-//   - a main row with the brand lockup, two course megamenus, and the enrol CTA
+// Top site navigation: a single row carrying the brand lockup, three megamenus, the
+// secondary links, and the student sign-in.
 //
 // COMPILER NOTE: do not nest a template literal inside a ${...} interpolation of
 // another template literal in this frontmatter. The Astro 7 Rust compiler mis-scans
 // it and fails with a bogus "Expected } but found :" pointing at the first interface,
 // nowhere near the real fault. Hoist the inner literal into its own const, the way
-// utilLinks, priceHtml, trigger and mGroup do below.
+// priceHtml, trigger and mGroup do below.
 //
-// Sticky behaviour: the header uses position sticky with a negative top equal to the
-// utility strip height, so the strip scrolls out of view and the main row locks flush
-// at the top. The stuck header is exactly 66px, which is what --head-h in global.css
-// assumes, so the wayfinder sub-nav and section scroll-margins keep working untouched.
+// Sticky behaviour: one row, position sticky at top 0, a constant 66px tall. That is
+// what --head-h in global.css assumes, so the wayfinder sub-nav offset and the section
+// scroll-margins keep working without touching that shared file.
 //
 // The second word of the wordmark, Education, folds away once you scroll past the
 // sentinel, leaving the square mark plus ABE. The logo asset is a square mark with no
@@ -62,7 +60,10 @@ const courses: Group[] = [
     megaLabel: 'White Card by state',
     hub: { label: 'White Card Hub', href: 'https://www.abeeducation.edu.au/white-card' },
     items: [
-      { code: 'NSW', name: 'White Card NSW', href: 'https://www.abeeducation.edu.au/white-card-nsw', desc: 'Nationally recognised construction induction' },
+      // TODO: /white-card-nsw 404s on the apex, as do five other slug variants I
+      // probed. Flagged soon so it renders inert rather than linking to a 404.
+      // Restore the href the moment the real URL is known.
+      { code: 'NSW', name: 'White Card NSW', soon: true, desc: 'Nationally recognised construction induction' },
       { code: 'QLD', name: 'White Card QLD', soon: true, desc: 'In development' },
       { code: 'WA', name: 'White Card WA', soon: true, desc: 'In development' },
     ],
@@ -75,31 +76,32 @@ const courses: Group[] = [
 // state first, then profession, because point requirements and cycles are set per
 // profession by each state regulator.
 //
-// TODO: every bundle href is a placeholder and goes nowhere. The four bundles below
-// are the examples supplied, not a full catalogue. Replace with the real CPD course
-// URLs and the complete state/profession list before this reaches production.
+// TODO: no bundle has a page yet, on this site or the old one, so each is flagged
+// soon and renders as an inert label rather than a link to a 404. Give a bundle its
+// href and drop the soon flag to turn it back into a link. The bundles below are the
+// examples supplied, not a full catalogue.
 const cpd: CpdGroup = {
   label: 'CPD',
   megaLabel: 'CPD bundles by state and profession',
-  hub: { label: 'CPD Hub', href: 'https://www.abeeducation.edu.au/cpd' },
+  hub: { label: 'CPD Hub', href: '/cpd' },
   states: [
     { code: 'NSW', professions: [
       { name: 'Building', bundles: [
-        { label: '36 Points CPD Bundle 2026', href: '#' },
+        { label: '36 Points CPD Bundle 2026', soon: true },
       ] },
     ] },
     { code: 'TAS', professions: [
       { name: 'Building', bundles: [
-        { label: '12 Points CPD Bundle 2026', href: '#' },
-        { label: '9 Points CPD Bundle 2026', href: '#' },
+        { label: '12 Points CPD Bundle 2026', soon: true },
+        { label: '9 Points CPD Bundle 2026', soon: true },
       ] },
       { name: 'Plumbing', bundles: [
-        { label: '12 Points CPD Bundle 2026', href: '#' },
+        { label: '12 Points CPD Bundle 2026', soon: true },
       ] },
     ] },
     { code: 'WA', professions: [
       { name: 'Real Estate', bundles: [
-        { label: '5 Points Bundle 2026', href: '#' },
+        { label: '5 Points Bundle 2026', soon: true },
       ] },
     ] },
   ],
@@ -182,13 +184,14 @@ const triggerFor = (label: string, active: boolean, i: number) => `<button type=
 const megaItem = (g: Group, i: number) => `<div class="ni ni-mega">` + triggerFor(g.label, groupOn(g), i) + mega(g, i) + `</div>`;
 const cpdItem = (g: CpdGroup, i: number) => `<div class="ni ni-mega">` + triggerFor(g.label, cpdOn, i) + cpdMega(g, i) + `</div>`;
 
-// Primary row order: Owner Builder, CPD, White Card. All three open a panel.
-const navHtml = megaItem(courses[0], 0) + cpdItem(cpd, 1) + megaItem(courses[1], 2);
+// Experts and Insurance have no panel behind them, so they render as plain links.
+const navLink = (l: Link) => `<a class="nav-l${on(l.href) ? ' active' : ''}" href="${l.href}">${l.label}</a>`;
+
+// One row: the three panels first, then the secondary links.
+const navHtml = megaItem(courses[0], 0) + cpdItem(cpd, 1) + megaItem(courses[1], 2)
+  + utility.map(navLink).join('');
 
 const link = (l: Link) => `<a href="${l.href}">${l.label}</a>`;
-
-// Utility strip carries the secondary links only. The sign-in sits in the main row.
-const utilLinks = utility.map(link).join('');
 
 // Burger menu keeps everything the strip drops on small screens.
 const moreLinks = utility.concat([studentPortal]).map(link).join('');
@@ -218,12 +221,6 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
 ---
 <div id="head-sentinel" aria-hidden="true"></div>
 <header class="site-head">
-  <div class="util">
-    <div class="wrap">
-      <span class="u-l">Training Australians since 2007</span>
-      <nav class="u-r" aria-label="Secondary" set:html={utilLinks}></nav>
-    </div>
-  </div>
   <div class="main">
     <div class="wrap">
       <a class="brand" href="/" aria-label="ABE Education home">
@@ -297,18 +294,9 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   /* --active-bg: light grey for the current page. Only a whisper of warmth (red one
      point over blue); more tint than this reads pink beside the maroon title. Still
      a shade darker than the cream hover so active stays the stronger state. */
-  header.site-head{ --util-h:34px; --active-bg:#f1f0f0; position:sticky; top:calc(var(--util-h) * -1); z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
-  @media (max-width:900px){ header.site-head{ top:0; } }
+  header.site-head{ --active-bg:#f1f0f0; position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
 
-  /* utility strip */
-  .site-head .util{ height:var(--util-h); background:var(--ink); }
-  .site-head .util .wrap{ height:var(--util-h); padding:0 28px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
-  .site-head .u-l{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.62); }
-  .site-head .u-r{ display:flex; align-items:center; gap:2px; }
-  .site-head .u-r a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.78); text-decoration:none; padding:6px 10px; border-radius:5px; transition:color .15s, background .15s; }
-  .site-head .u-r a:hover{ color:#fff; background:rgba(255,255,255,.08); }
-
-  /* main row: 66px, matching --head-h in global.css */
+  /* the one row: 66px, matching --head-h in global.css */
   .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
   .site-head .spacer{ flex:1; }
 
@@ -328,16 +316,20 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
   .site-head .nav-trigger.active{ color:var(--maroon); }
   .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
+  /* Experts and Insurance: plain links, no chevron, since no panel sits behind them */
+  .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
+  .site-head .nav-l:hover{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .nav-l.active{ color:var(--maroon); }
   /* chevron is an svg: sized in px, coloured via currentColor on the path.
      Box is 13x8 to match the cropped viewBox's 8:5 ratio, so there is no dead space. */
   .site-head .cv{ width:13px; height:8px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
   .site-head .nav-trigger:hover .cv, .site-head .ni.open .cv{ color:var(--maroon); }
   .site-head .ni.open .cv{ transform:rotate(180deg); }
   .site-head .nav-trigger:focus-visible,
+  .site-head .nav-l:focus-visible,
   .site-head .burger-btn:focus-visible,
   .site-head .portal-btn:focus-visible,
-  .site-head .mega a:focus-visible,
-  .site-head .u-r a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
+  .site-head .mega a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
 
   /* student sign-in: outlined, not filled. It is a returning-student action, so it
      borrows the ghost-button language from global.css rather than the solid CTA. */
@@ -411,8 +403,7 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   .site-head .mnav .dd-soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 6px; color:var(--slate-light); }
 
   @media (max-width:900px){
-    .site-head .util{ display:none; }   /* its links live in the burger menu */
-    .site-head .head-nav{ display:none; }
+    .site-head .head-nav{ display:none; }   /* its links live in the burger menu */
     .site-head .burger-btn{ display:inline-flex; }
   }
   /* too tight beside the brand and burger; it is in the burger's More group anyway */
