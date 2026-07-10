@@ -1,75 +1,144 @@
 ---
-// Top site navigation: ABE logo + category dropdowns + mobile menu.
-// Dropdowns open on hover (desktop) and toggle on click; a small script closes them on
-// outside-click / Escape / selection and keeps only one open. Nav markup is emitted via set:html
-// (this compiler mis-parses dynamic attrs in mapped ternary JSX); its CSS is an is:global block
-// scoped under .site-head (scoped styles do not reach set:html content).
+// Top site navigation: masthead + megamenu.
+//   - a thin dark utility strip carrying the secondary links
+//   - a main row with the brand lockup, two course megamenus, and the enrol CTA
+//
+// COMPILER NOTE: do not nest a template literal inside a ${...} interpolation of
+// another template literal in this frontmatter. The Astro 7 Rust compiler mis-scans
+// it and fails with a bogus "Expected } but found :" pointing at the first interface,
+// nowhere near the real fault. Hoist the inner literal into its own const, the way
+// utilLinks, priceHtml, trigger and mGroup do below.
+//
+// Sticky behaviour: the header uses position sticky with a negative top equal to the
+// utility strip height, so the strip scrolls out of view and the main row locks flush
+// at the top. The stuck header is exactly 66px, which is what --head-h in global.css
+// assumes, so the wayfinder sub-nav and section scroll-margins keep working untouched.
+//
+// The second word of the wordmark, Education, folds away once you scroll past the
+// sentinel, leaving the square mark plus ABE. The logo asset is a square mark with no
+// baked-in text, so the wordmark is real text and can fold.
+//
+// Nav markup is emitted via set:html because this compiler mis-parses dynamic
+// attributes inside mapped ternary JSX. Its CSS is an is:global block scoped under
+// .site-head because scoped styles do not reach set:html content. Do not simplify it
+// back to inline JSX. Sticky and layout rules use header.site-head as the selector so
+// they beat global.css whatever the stylesheet order.
+
 const logo = 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/ABE%20Education%20Online%20Owner%20Builder%20CPD%20Training%20Provider.svg';
-interface Sub { label: string; href?: string; soon?: boolean; }
-interface Group { label: string; href?: string; items?: Sub[]; }
-const menu: Group[] = [
-  { label: 'Owner Builder', items: [
-    { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
-    { label: 'NSW', href: 'https://www.abeeducation.edu.au/nsw-owner-builder-course' },
-    { label: 'QLD', href: '/qld-owner-builder-course' },
-    { label: 'WA', href: '/wa-owner-builder-course' },
-    { label: 'TAS', soon: true },
-    { label: 'ACT', soon: true },
-  ] },
-  { label: 'White Card', items: [
-    { label: 'White Card Hub', href: 'https://www.abeeducation.edu.au/white-card' },
-    { label: 'NSW', href: 'https://www.abeeducation.edu.au/white-card-nsw' },
-    { label: 'QLD', soon: true },
-    { label: 'WA', soon: true },
-  ] },
+
+interface Sub { code: string; name: string; href?: string; soon?: boolean; desc: string; }
+interface Feature { kicker: string; title: string; body: string; price?: string; }
+interface Hub { label: string; href: string; }
+interface Cta { href: string; label: string; }
+interface Group { label: string; megaLabel: string; hub: Hub; items: Sub[]; feature: Feature; }
+interface Props { cta?: Cta; }
+
+const cta: Cta = Astro.props.cta ?? { href: '#enrol', label: 'Enrol now' };
+
+// Authority lines are legally load-bearing. QLD is QBCC-approved; WA only supports a
+// Form 75 approval, since no approved owner-builder course exists in WA; NSW and the
+// White Card are nationally recognised via the RTO partner. Unreleased states claim
+// nothing at all.
+const courses: Group[] = [
+  {
+    label: 'Owner Builder',
+    megaLabel: 'Owner builder courses by state',
+    hub: { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
+    items: [
+      { code: 'NSW', name: 'NSW Owner Builder', href: 'https://www.abeeducation.edu.au/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
+      { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'Approved by the QBCC' },
+      { code: 'WA', name: 'WA Owner Builder', href: '/wa-owner-builder-course', desc: 'Supports your Form 75 approval' },
+      { code: 'TAS', name: 'TAS Owner Builder', soon: true, desc: 'In development' },
+      { code: 'ACT', name: 'ACT Owner Builder', soon: true, desc: 'In development' },
+    ],
+    feature: { kicker: 'Most popular', title: 'WA Owner Builder', body: 'Written for WA and reviewed for currency. Same-day certificate, ready for your Form 75.', price: '$179' },
+  },
+  {
+    label: 'White Card',
+    megaLabel: 'White Card by state',
+    hub: { label: 'White Card Hub', href: 'https://www.abeeducation.edu.au/white-card' },
+    items: [
+      { code: 'NSW', name: 'White Card NSW', href: 'https://www.abeeducation.edu.au/white-card-nsw', desc: 'Nationally recognised construction induction' },
+      { code: 'QLD', name: 'White Card QLD', soon: true, desc: 'In development' },
+      { code: 'WA', name: 'White Card WA', soon: true, desc: 'In development' },
+    ],
+    feature: { kicker: 'Delivered with', title: 'Blue Dog Training', body: 'Nationally recognised training, delivered with our RTO partner Blue Dog Training (RTO 31193).' },
+  },
+];
+
+const utility = [
   { label: 'CPD', href: 'https://www.abeeducation.edu.au/cpd' },
-  { label: 'Experts', items: [
-    { label: 'Dominic Ogburn', href: '#content-review' },
-    { label: 'Warwick Smith', href: '#content-review' },
-  ] },
+  { label: 'Experts', href: '#content-review' },
   { label: 'Insurance', href: 'https://www.abeeducation.edu.au/insurances' },
 ];
 
 const norm = (h?: string) => (h ?? '').replace(/\/+$/, '') || '/';
 const path = norm(Astro.url.pathname);
 const on = (h?: string) => !!h && h.startsWith('/') && norm(h) === path;
-const groupOn = (g: Group) => (g.items ?? []).some((s) => !s.soon && on(s.href)) || on(g.href);
+const groupOn = (g: Group) => g.items.some((s) => !s.soon && on(s.href));
 
-const sub = (s: Sub) => s.soon
-  ? `<span class="dd-soon" aria-disabled="true">${s.label}<em>Soon</em></span>`
-  : `<a role="menuitem" href="${s.href}"${on(s.href) ? ' class="active" aria-current="page"' : ''}>${s.label}</a>`;
+const card = (s: Sub) => s.soon
+  ? `<span class="mcard soon"><span class="mst">${s.code}</span><span class="mname">${s.name}<em>Soon</em></span><span class="mdesc">${s.desc}</span></span>`
+  : `<a class="mcard${on(s.href) ? ' active' : ''}" href="${s.href}"${on(s.href) ? ' aria-current="page"' : ''}><span class="mst">${s.code}</span><span class="mname">${s.name}</span><span class="mdesc">${s.desc}</span></a>`;
 
-const navHtml = menu.map((g) => {
-  if (g.items) {
-    return `<div class="ni">`
-      + `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-haspopup="true">${g.label}<span class="cv" aria-hidden="true">&#9662;</span></button>`
-      + `<div class="nav-menu" role="menu">${g.items.map(sub).join('')}</div></div>`;
-  }
-  return `<a class="nav-l${on(g.href) ? ' active' : ''}" href="${g.href}"${on(g.href) ? ' aria-current="page"' : ''}>${g.label}</a>`;
-}).join('');
+const priceHtml = (f: Feature) => f.price ? `<span class="mfeat-p">${f.price}</span>` : '';
 
-const mnavHtml = menu.map((g) => {
-  const inner = g.items
-    ? g.items.map(sub).join('')
-    : `<a href="${g.href}"${on(g.href) ? ' class="active"' : ''}>${g.label}</a>`;
-  return `<div class="bg"><p class="bg-h">${g.label}</p>${inner}</div>`;
-}).join('');
+const mega = (g: Group, i: number) => `<div class="mega" id="mega-${i}">`
+  + `<div class="mega-in">`
+  + `<div class="mcol"><p class="mlabel">${g.megaLabel}</p><div class="mgrid">${g.items.map(card).join('')}</div></div>`
+  + `<div class="mcol mcol-side"><p class="mlabel">Start here</p>`
+  + `<a class="mlink" href="${g.hub.href}">${g.hub.label} <span class="arr" aria-hidden="true">&rarr;</span></a>`
+  + `<div class="mfeat"><span class="mfeat-k">${g.feature.kicker}</span><p class="mfeat-t">${g.feature.title}</p><p class="mfeat-d">${g.feature.body}</p>`
+  + priceHtml(g.feature)
+  + `</div></div></div></div>`;
+
+// Disclosure pattern (button + aria-expanded + aria-controls), not an ARIA menu:
+// the panels hold links, so role menu and menuitem would be the wrong semantics.
+const trigger = (g: Group, i: number) => `<button type="button" class="nav-trigger${groupOn(g) ? ' active' : ''}" aria-expanded="false" aria-controls="mega-${i}">${g.label}<span class="cv" aria-hidden="true">&#9662;</span></button>`;
+
+const navHtml = courses.map((g, i) => `<div class="ni ni-mega">` + trigger(g, i) + mega(g, i) + `</div>`).join('');
+
+const utilLinks = utility.map((u) => `<a href="${u.href}">${u.label}</a>`).join('');
+
+const mSub = (s: Sub) => s.soon
+  ? `<span class="dd-soon" aria-disabled="true">${s.name}<em>Soon</em></span>`
+  : `<a href="${s.href}"${on(s.href) ? ' class="active" aria-current="page"' : ''}>${s.name}</a>`;
+
+const mGroup = (g: Group) => `<div class="bg"><p class="bg-h">${g.label}</p>`
+  + g.items.map(mSub).join('')
+  + `<a class="bg-hub" href="${g.hub.href}">${g.hub.label}</a></div>`;
+
+const mnavHtml = courses.map(mGroup).join('')
+  + `<div class="bg"><p class="bg-h">More</p>` + utilLinks + `</div>`;
 ---
+<div id="head-sentinel" aria-hidden="true"></div>
 <header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="/" aria-label="ABE Education home">
-      <img class="logo" src={logo} alt="ABE Education" width="128" height="34" />
-    </a>
-    <nav class="head-nav" aria-label="Primary" set:html={navHtml}></nav>
-    <button type="button" class="burger-btn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
-      <span class="bars" aria-hidden="true"></span>
-    </button>
-    <div id="mnav" class="mnav" set:html={mnavHtml}></div>
+  <div class="util">
+    <div class="wrap">
+      <span class="u-l">Training Australians since 2007</span>
+      <nav class="u-r" aria-label="Secondary" set:html={utilLinks}></nav>
+    </div>
   </div>
+  <div class="main">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="ABE Education home">
+        <img class="mark" src={logo} alt="" width="32" height="32" />
+        <span class="wordmark">ABE<span class="wm-fold">&nbsp;Education</span></span>
+      </a>
+      <nav class="head-nav" aria-label="Primary" set:html={navHtml}></nav>
+      <span class="spacer"></span>
+      <a class="cta-head" href={cta.href}>{cta.label}</a>
+      <button type="button" class="burger-btn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <div id="mnav" class="mnav" set:html={mnavHtml}></div>
 </header>
 <script>
   const head = document.querySelector('.site-head');
   if (head) {
+    /* megamenu: click to open, hover only tints */
     const items = Array.from(head.querySelectorAll('.ni'));
     const shut = (except) => items.forEach((i) => {
       if (i !== except) { i.classList.remove('open'); i.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false'); }
@@ -83,10 +152,9 @@ const mnavHtml = menu.map((g) => {
         btn.setAttribute('aria-expanded', String(open));
       });
     });
-    head.querySelectorAll('.nav-menu a').forEach((a) => a.addEventListener('click', () => shut(null)));
-    document.addEventListener('click', (e) => { if (!head.contains(e.target)) shut(null); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') shut(null); });
+    head.querySelectorAll('.mega a').forEach((a) => a.addEventListener('click', () => shut(null)));
 
+    /* mobile menu */
     const bBtn = head.querySelector('.burger-btn');
     const mnav = head.querySelector('#mnav');
     const shutM = () => { mnav?.classList.remove('open'); bBtn?.setAttribute('aria-expanded', 'false'); };
@@ -97,41 +165,102 @@ const mnavHtml = menu.map((g) => {
       bBtn.setAttribute('aria-expanded', String(open));
     });
     mnav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shutM));
-    document.addEventListener('click', (e) => { if (!head.contains(e.target)) shutM(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') shutM(); });
+
+    document.addEventListener('click', (e) => { if (!head.contains(e.target)) { shut(null); shutM(); } });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const open = items.find((i) => i.classList.contains('open'));
+      if (open) { const btn = open.querySelector('.nav-trigger'); shut(null); btn?.focus(); }
+      shutM();
+    });
+
+    /* scroll-folding wordmark: one class flip, no scroll handler */
+    const sentinel = document.getElementById('head-sentinel');
+    if (sentinel && 'IntersectionObserver' in window) {
+      new IntersectionObserver(
+        ([e]) => head.classList.toggle('is-scrolled', !e.isIntersecting),
+        { threshold: 0 },
+      ).observe(sentinel);
+    }
   }
 </script>
 <style is:global>
-  .site-head{ position:relative; z-index:50; }
-  .site-head .wrap{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
-  .site-head .logo{ height:34px; width:auto; display:block; }
-  .site-head .head-nav{ display:flex; align-items:center; gap:4px; }
-  .site-head .head-nav .nav-l,
-  .site-head .nav-trigger{ font-family:var(--font-body); padding:9px 12px; font-size:15px; font-weight:500; color:var(--ink-3); text-decoration:none; border-radius:7px; background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; transition:color .15s, background .15s; }
-  .site-head .head-nav .nav-l:hover,
+  /* sentinel: out of flow, 24px down the page. Fold fires when it leaves the viewport. */
+  #head-sentinel{ position:absolute; top:24px; left:0; width:1px; height:1px; pointer-events:none; }
+
+  /* element+class specificity so these beat global.css whatever the sheet order */
+  header.site-head{ --util-h:34px; position:sticky; top:calc(var(--util-h) * -1); z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
+  @media (max-width:900px){ header.site-head{ top:0; } }
+
+  /* utility strip */
+  .site-head .util{ height:var(--util-h); background:var(--ink); }
+  .site-head .util .wrap{ height:var(--util-h); padding:0 28px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+  .site-head .u-l{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.62); }
+  .site-head .u-r{ display:flex; align-items:center; gap:2px; }
+  .site-head .u-r a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.78); text-decoration:none; padding:6px 10px; border-radius:5px; transition:color .15s, background .15s; }
+  .site-head .u-r a:hover{ color:#fff; background:rgba(255,255,255,.08); }
+
+  /* main row: 66px, matching --head-h in global.css */
+  .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
+  .site-head .spacer{ flex:1; }
+
+  /* brand lockup + folding wordmark */
+  .site-head .brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); flex:none; }
+  .site-head .mark{ height:32px; width:32px; display:block; flex:none; }
+  .site-head .wordmark{ font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:-.02em; color:var(--ink); white-space:nowrap; display:inline-flex; align-items:center; }
+  /* max-width is a layout property. Animating it is the only way to actually reclaim
+     the space: scaleX distorts the glyphs and clip-path leaves a gap. Scoped to one
+     inline span and fired once per threshold crossing, not on every scroll frame. */
+  .site-head .wm-fold{ display:inline-block; overflow:hidden; white-space:nowrap; max-width:12ch; opacity:1; transform:translateX(0); transition:max-width 900ms cubic-bezier(.16,1,.3,1), opacity 520ms cubic-bezier(.16,1,.3,1) 260ms, transform 900ms cubic-bezier(.16,1,.3,1); will-change:max-width, opacity; }
+  .site-head.is-scrolled .wm-fold{ max-width:0; opacity:0; transform:translateX(-6px); transition:max-width 900ms cubic-bezier(.16,1,.3,1), opacity 320ms linear, transform 900ms cubic-bezier(.16,1,.3,1); }
+
+  /* primary nav triggers */
+  .site-head .head-nav{ display:flex; align-items:center; gap:2px; margin-left:8px; }
+  .site-head .nav-trigger{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
   .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
-  .site-head .head-nav .nav-l.active,
-  .site-head .nav-trigger.active{ color:var(--maroon); font-weight:600; }
-  .site-head .nav-l:focus-visible,
+  .site-head .nav-trigger.active{ color:var(--maroon); }
+  .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .cv{ font-size:10px; color:var(--slate-light); transition:transform .18s; }
+  .site-head .ni.open .cv{ transform:rotate(180deg); }
   .site-head .nav-trigger:focus-visible,
   .site-head .burger-btn:focus-visible,
-  .site-head .nav-menu a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
-  .site-head .cv{ font-size:10px; color:var(--slate-light); transition:transform .18s; }
+  .site-head .cta-head:focus-visible,
+  .site-head .mega a:focus-visible,
+  .site-head .u-r a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
+
+  /* header CTA */
+  .site-head .cta-head{ flex:none; background:var(--ink); color:#fff; font-family:var(--font-body); font-weight:600; font-size:14.5px; padding:10px 18px; border-radius:7px; text-decoration:none; white-space:nowrap; transition:background .18s; }
+  .site-head .cta-head:hover{ background:var(--maroon); }
+
+  /* megamenu */
   .site-head .ni{ position:relative; }
-  .site-head .ni.open .cv{ transform:rotate(180deg); }
-  .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
-  .site-head .nav-menu{ position:absolute; top:100%; left:0; margin-top:0; padding:7px; min-width:214px; background:#fff; border:1px solid var(--rule-strong); border-radius:9px; box-shadow:0 14px 32px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:2px; opacity:0; visibility:hidden; transform:translateY(-6px); pointer-events:none; transition:opacity .16s ease, transform .16s ease, visibility .16s; z-index:60; }
-  .site-head .ni.open > .nav-menu{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
-  @media (hover:hover) and (min-width:881px){
-    .site-head .ni:hover > .nav-menu{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
-    .site-head .ni:hover .cv{ transform:rotate(180deg); }
-    .site-head .ni:hover .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
-  }
-  .site-head .nav-menu a, .site-head .dd-soon{ font-size:14px; padding:9px 11px; border-radius:6px; text-decoration:none; color:var(--ink-2); display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .site-head .nav-menu a:hover{ background:#f6f3ee; color:var(--maroon); }
-  .site-head .nav-menu a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
-  .site-head .dd-soon{ color:var(--slate-light); cursor:default; }
-  .site-head .dd-soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  .site-head .ni-mega{ position:static; }
+  .site-head .mega{ position:absolute; left:0; right:0; top:100%; background:var(--paper); border-bottom:1px solid var(--rule-strong); box-shadow:0 18px 36px rgba(0,0,0,.09); opacity:0; visibility:hidden; transform:translateY(-6px); pointer-events:none; transition:opacity .18s ease, transform .18s ease, visibility .18s; z-index:70; }
+  .site-head .ni.open > .mega{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+  /* click-only by design: there is deliberately no .ni:hover > .mega rule */
+  .site-head .mega-in{ max-width:var(--max); margin:0 auto; display:grid; grid-template-columns:1.9fr 1fr; gap:38px; padding:26px 28px 30px; }
+  .site-head .mlabel{ font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); margin-bottom:14px; }
+  .site-head .mgrid{ display:grid; grid-template-columns:1fr 1fr; gap:2px 16px; }
+  .site-head .mcard{ display:grid; grid-template-columns:46px 1fr; gap:0 14px; align-items:start; padding:11px 12px; border-radius:8px; text-decoration:none; transition:background .15s; }
+  .site-head a.mcard:hover{ background:#f6f3ee; }
+  .site-head .mst{ grid-row:span 2; align-self:center; font-family:var(--font-mono); font-size:12px; font-weight:500; color:var(--maroon); border:1px solid var(--rule-strong); border-radius:6px; padding:7px 0; text-align:center; }
+  .site-head .mname{ font-family:var(--font-body); font-weight:600; font-size:14.5px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  .site-head .mdesc{ font-size:12.5px; color:var(--slate); line-height:1.45; margin-top:3px; }
+  .site-head .mcard.active{ background:rgba(128,0,0,.06); }
+  .site-head .mcard.active .mname{ color:var(--maroon); }
+  .site-head .mcard.soon{ cursor:default; }
+  .site-head .mcard.soon .mst, .site-head .mcard.soon .mname{ color:var(--slate-light); }
+  .site-head .mcard.soon .mst{ border-color:var(--rule); }
+  .site-head .mcard em, .site-head .dd-soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  .site-head .mcol-side{ border-left:1px solid var(--rule); padding-left:34px; }
+  .site-head .mlink{ display:inline-block; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-strong); padding-bottom:2px; transition:color .15s, border-color .15s; }
+  .site-head .mlink:hover{ color:var(--maroon); border-color:var(--maroon); }
+  .site-head .mfeat{ margin-top:22px; border:1px solid var(--rule); border-radius:9px; padding:16px 17px; background:var(--paper-warm); }
+  .site-head .mfeat-k{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon); }
+  .site-head .mfeat-t{ font-family:var(--font-display); font-weight:600; font-size:16px; color:var(--ink); margin:9px 0 5px; }
+  .site-head .mfeat-d{ font-size:12.5px; color:var(--ink-3); line-height:1.5; margin:0; }
+  .site-head .mfeat-p{ font-family:var(--font-display); font-weight:600; font-size:19px; color:var(--maroon); margin-top:11px; display:block; }
+
   /* mobile */
   .site-head .burger-btn{ display:none; background:none; border:0; cursor:pointer; padding:9px; border-radius:7px; }
   .site-head .burger-btn:hover{ background:#f6f3ee; }
@@ -150,7 +279,17 @@ const mnavHtml = menu.map((g) => {
   .site-head .mnav a{ display:block; padding:8px 6px; font-size:15px; color:var(--ink-2); text-decoration:none; border-radius:6px; }
   .site-head .mnav a:hover{ background:#f6f3ee; color:var(--maroon); }
   .site-head .mnav a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
-  .site-head .mnav .dd-soon{ display:flex; padding:8px 6px; }
-  @media (max-width:880px){ .site-head .head-nav{ display:none; } .site-head .burger-btn{ display:inline-flex; } }
-  @media (prefers-reduced-motion:reduce){ .site-head .nav-menu, .site-head .cv, .site-head .bars, .site-head .bars::before, .site-head .bars::after{ transition:none; } }
+  .site-head .mnav .bg-hub{ color:var(--maroon); font-weight:600; }
+  .site-head .mnav .dd-soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 6px; color:var(--slate-light); }
+
+  @media (max-width:900px){
+    .site-head .util{ display:none; }   /* its links live in the burger menu */
+    .site-head .head-nav{ display:none; }
+    .site-head .burger-btn{ display:inline-flex; }
+  }
+  @media (max-width:600px){ .site-head .cta-head{ display:none; } }
+  @media (prefers-reduced-motion:reduce){
+    .site-head .mega, .site-head .cv, .site-head .wm-fold, .site-head.is-scrolled .wm-fold,
+    .site-head .bars, .site-head .bars::before, .site-head .bars::after{ transition:none; }
+  }
 </style>
