@@ -47,7 +47,9 @@ const courses: Group[] = [
     megaLabel: 'Owner builder courses by state',
     hub: { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
     items: [
-      { code: 'NSW', name: 'NSW Owner Builder', href: 'https://www.abeeducation.edu.au/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
+      // Inert until the NSW page is rebuilt here. It still exists on the old apex, but
+      // the menu links to Astro routes only, so this renders as a label, not a link.
+      { code: 'NSW', name: 'NSW Owner Builder', soon: true, desc: 'Nationally recognised, with our RTO partner' },
       { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'Approved by the QBCC' },
       { code: 'WA', name: 'WA Owner Builder', href: '/wa-owner-builder-course', desc: 'Supports your Form 75 approval' },
       { code: 'TAS', name: 'TAS Owner Builder', soon: true, desc: 'In development' },
@@ -294,7 +296,10 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   /* --active-bg: light grey for the current page. Only a whisper of warmth (red one
      point over blue); more tint than this reads pink beside the maroon title. Still
      a shade darker than the cream hover so active stays the stronger state. */
-  header.site-head{ --active-bg:#f1f0f0; position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
+  /* The header sits on warm cream so it reads as chrome, clearly distinct from the
+     white hero beneath it. That means the old hover tint (#f6f3ee) is now the same
+     colour as the bar itself and would be invisible, so hovers use a maroon wash. */
+  header.site-head{ --active-bg:#f1f0f0; --nav-hover:rgba(128,0,0,.06); position:sticky; top:0; z-index:50; background:var(--paper-warm); border-bottom:1px solid var(--rule); }
 
   /* the one row: 66px, matching --head-h in global.css */
   .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
@@ -313,12 +318,12 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   /* primary nav triggers */
   .site-head .head-nav{ display:flex; align-items:center; gap:2px; margin-left:8px; }
   .site-head .nav-trigger{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
-  .site-head .nav-trigger:hover{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .nav-trigger:hover{ color:var(--maroon); background:var(--nav-hover); }
   .site-head .nav-trigger.active{ color:var(--maroon); }
-  .site-head .ni.open .nav-trigger{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .ni.open .nav-trigger{ color:var(--maroon); background:var(--nav-hover); }
   /* Experts and Insurance: plain links, no chevron, since no panel sits behind them */
   .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
-  .site-head .nav-l:hover{ color:var(--maroon); background:#f6f3ee; }
+  .site-head .nav-l:hover{ color:var(--maroon); background:var(--nav-hover); }
   .site-head .nav-l.active{ color:var(--maroon); }
   /* chevron is an svg: sized in px, coloured via currentColor on the path.
      Box is 13x8 to match the cropped viewBox's 8:5 ratio, so there is no dead space. */
@@ -381,7 +386,7 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
 
   /* mobile */
   .site-head .burger-btn{ display:none; background:none; border:0; cursor:pointer; padding:9px; border-radius:7px; }
-  .site-head .burger-btn:hover{ background:#f6f3ee; }
+  .site-head .burger-btn:hover{ background:var(--nav-hover); }
   .site-head .bars, .site-head .bars::before, .site-head .bars::after{ content:''; display:block; width:22px; height:2px; background:var(--ink); border-radius:2px; transition:transform .2s, opacity .2s; }
   .site-head .bars{ position:relative; }
   .site-head .bars::before{ position:absolute; top:-7px; }

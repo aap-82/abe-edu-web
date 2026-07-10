@@ -1,0 +1,74 @@
+---
+// Breadcrumbs on the left, the dated last-reviewed line on the right.
+//
+// The crumbs come from the same frontmatter that builds the JSON-LD BreadcrumbList,
+// so the visible trail and the structured data cannot drift apart. The last crumb is
+// the current page: it is text, not a link, and carries aria-current.
+//
+// Reviewer by page type: Warwick Smith reviews the course pages for compliance and
+// currency; Dominic Ogburn reviews the hubs. Both are passed in, never inferred. The
+// name links to the proof of that review: the on-page "Developed and reviewed by"
+// section on a course page, the reviewer's profile on a hub, which has no such section.
+//
+// COMPILER NOTE: the crumb list is emitted via set:html rather than mapped JSX. This
+// compiler mis-parses dynamic attributes inside a mapped ternary, which is exactly
+// what "link every crumb except the last" would be. Its CSS is therefore an is:global
+// block scoped under .pagebar, since scoped styles do not reach set:html content. Do
+// not nest a template literal inside a ${...} of another literal here either.
+import type { Crumb, Reviewed } from '../types/course';
+
+interface Props { crumbs: Crumb[]; reviewed?: Reviewed; }
+const { crumbs, reviewed } = Astro.props;
+
+const last = crumbs.length - 1;
+const crumb = (c: Crumb, i: number) => i === last
+  ? `<li><span aria-current="page">${c.name}</span></li>`
+  : `<li><a href="${c.item}">${c.name}</a></li>`;
+const crumbsHtml = crumbs.map(crumb).join('');
+
+// The reviewer's name links to the proof of the review: an on-page section anchor on
+// the course pages, an external profile on the hubs. Only the external form gets
+// rel/target; an in-page anchor must not open a new tab.
+// Hoisted so no template literal is nested inside another literal's interpolation.
+const href = reviewed ? reviewed.href : undefined;
+const isAnchor = !!href && href.startsWith('#');
+const extAttrs = isAnchor ? '' : ' rel="author noopener" target="_blank"';
+const nameHtml = reviewed && href
+  ? `<a href="${href}"${extAttrs}>${reviewed.name}</a>`
+  : (reviewed ? reviewed.name : '');
+const reviewedHtml = reviewed
+  ? `Reviewed by ${nameHtml} on <time>${reviewed.date}</time>`
+  : '';
+---
+<div class="pagebar">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol set:html={crumbsHtml}></ol>
+    </nav>
+    {reviewed && <p class="reviewed" set:html={reviewedHtml}></p>}
+  </div>
+</div>
+<style is:global>
+  /* a barely-there step off the white hero: the header above carries the strong tone,
+     this bar only needs to read as a separate band, not compete with it */
+  .pagebar{ background:var(--paper-alt); border-bottom:1px solid var(--rule); }
+  .pagebar .wrap{ display:flex; align-items:center; justify-content:space-between; gap:14px 22px; flex-wrap:wrap; padding:11px 28px; }
+
+  .pagebar .crumbs ol{ list-style:none; margin:0; padding:0; display:flex; align-items:center; flex-wrap:wrap; }
+  .pagebar .crumbs li{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
+  .pagebar .crumbs li + li::before{ content:"/"; margin:0 9px; color:var(--slate-light); }
+  .pagebar .crumbs a{ color:var(--slate); text-decoration:none; border-bottom:1px solid transparent; transition:color .15s, border-color .15s; }
+  .pagebar .crumbs a:hover{ color:var(--maroon); border-bottom-color:var(--maroon); }
+  .pagebar .crumbs [aria-current="page"]{ color:var(--ink); }
+
+  .pagebar .reviewed{ margin:0; font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); white-space:nowrap; }
+  .pagebar .reviewed a{ color:var(--ink-3); text-decoration:none; border-bottom:1px solid var(--rule-strong); transition:color .15s, border-color .15s; }
+  .pagebar .reviewed a:hover{ color:var(--maroon); border-color:var(--maroon); }
+  .pagebar a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
+
+  /* stack rather than crush: the crumbs keep the line, the review line drops below */
+  @media (max-width:720px){
+    .pagebar .reviewed{ white-space:normal; }
+    .pagebar .wrap{ padding:10px 16px; }
+  }
+</style>

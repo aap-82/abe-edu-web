@@ -13,7 +13,8 @@ const person = z.object({
   role: z.string(),        // Credentials display line
   jobTitle: z.string(),    // JSON-LD Person.jobTitle
   creds: z.string(),
-  bio: z.string(),
+  bio: z.array(z.string()),   // one entry per paragraph
+
   linkedin: z.string(),
   portrait: img.optional(),
 });
@@ -39,6 +40,10 @@ const courses = defineCollection({
     credentialCategory: z.string().default('Certificate of Completion'),
     regulator: z.object({ name: z.string(), url: z.string().url() }).optional(),
     breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
+    // dated last-reviewed line, shown beside the breadcrumbs. Optional so a new course
+    // page still builds, but every published page should carry one. href points the
+    // name at the proof of the review, normally the on-page #content-review section.
+    reviewedBy: z.object({ name: z.string(), href: z.string().optional(), date: z.string() }).optional(),
     // chrome
     nav: z.array(z.object({ label: z.string(), href: z.string(), sectionId: z.string() })),
     cta,

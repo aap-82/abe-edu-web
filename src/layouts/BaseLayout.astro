@@ -1,21 +1,23 @@
 ---
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
-import WayfinderNav from '../components/WayfinderNav.astro';
+import PageBar from '../components/PageBar.astro';
 import StickyCta from '../components/StickyCta.astro';
-import type { NavItem, CTA } from '../types/course';
+import type { CTA, Crumb, Reviewed } from '../types/course';
 
 interface Props {
   title: string;
   description: string;
   canonical: string;
   schema: unknown;               // JSON-LD @graph object, server-rendered
-  nav: NavItem[];
-  navCta: CTA;
   sticky: { label: string; sub?: string; price: string; cta: CTA };
   ogImage?: string;              // absolute URL of a social share image; omit to ship text-only cards
+  crumbs?: Crumb[];              // same source as the JSON-LD BreadcrumbList
+  reviewed?: Reviewed;           // Warwick Smith on course pages, Dominic Ogburn on hubs
 }
-const { title, description, canonical, schema, nav, navCta, sticky, ogImage } = Astro.props;
+// WayfinderNav is not rendered here. It belongs between the hero and the first section,
+// so each page places it itself. The scroll-spy script below finds it wherever it sits.
+const { title, description, canonical, schema, sticky, ogImage, crumbs, reviewed } = Astro.props;
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -44,7 +46,7 @@ const { title, description, canonical, schema, nav, navCta, sticky, ogImage } = 
 </head>
 <body>
   <SiteHeader />
-  <WayfinderNav items={nav} cta={navCta} />
+  {crumbs && <PageBar crumbs={crumbs} reviewed={reviewed} />}
   <slot />
   <StickyCta label={sticky.label} sub={sticky.sub} price={sticky.price} cta={sticky.cta} />
 

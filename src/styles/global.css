@@ -10,8 +10,12 @@
   --font-mono:'DM Mono',ui-monospace,monospace;
   --s-3xs:4px; --s-2xs:8px; --s-xs:12px; --s-sm:16px; --s-md:24px; --s-lg:32px; --s-xl:48px; --s-2xl:72px; --s-3xl:112px;
   --max:1200px; --content:980px;
-  --head-h:66px; --waynav-h:57px;
+  /* sticky chrome heights. --waynav-h must track .waynav's real height: it drives
+     .sec scroll-margin-top, so an anchored heading lands clear of both bars. */
+  --head-h:66px; --waynav-h:63px;
 }
+/* on mobile the waynav CTA is hidden, so the bar is shorter */
+@media(max-width:900px){ :root{ --waynav-h:46px; } }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:var(--font-body);font-size:17px;line-height:1.65;color:var(--ink-3);background:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
@@ -29,6 +33,9 @@ a{color:var(--ink);}
 .eyebrow::before{content:"";width:18px;height:1px;background:var(--maroon);flex:none;}
 .eyebrow.on-dark{color:rgba(255,255,255,.62);}
 .eyebrow.on-dark::before{background:var(--maroon);}
+/* bullet separator in the hero eyebrow. #a00000 is deliberately not --maroon (#800000),
+   so it reads a shade hotter than every other accent. */
+.eyebrow .e-dot{color:#a00000;}
 .eyebrow-i{color:var(--maroon);font-weight:500;font-variant-numeric:tabular-nums;}
 .eyebrow.on-dark .eyebrow-i{color:var(--gold);}
 h1.h1{font-size:clamp(40px,6.2vw,72px);letter-spacing:-.03em;line-height:1.02;}
@@ -54,18 +61,26 @@ p strong{color:var(--ink);font-weight:600;}
 .brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);}
 .brand .mk{width:30px;height:30px;background:var(--maroon);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:500;border-radius:5px;}
 .brand .wm{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.02em;}
-.head-nav{display:flex;align-items:center;gap:26px;}
-.head-nav a.nav-l{font-size:15px;font-weight:500;color:var(--ink-3);text-decoration:none;}
-.head-nav a.nav-l:hover{color:var(--maroon);}
+/* header nav styling lives entirely in SiteHeader.astro. The old .head-nav rules that
+   sat here outranked it (.head-nav a.nav-l beats .site-head .nav-l) and forced Experts
+   and Insurance to 15px while the megamenu triggers were 12.5px. */
 /* ===== wayfinder sticky sub-nav (on-page jump index + small CTA) ===== */
+/* translucent, so the blur earns its compositing layer: it keeps the jump links legible
+   over whatever scrolls beneath the sticky bar */
 .waynav{position:sticky;top:var(--head-h);z-index:25;background:rgba(255,255,255,.95);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule);}
-.waynav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:9px 28px;}
+/* 11px around a 41px CTA. Bar stays 63px, so --waynav-h and .sec scroll-margin hold:
+   the air moved inside the button rather than around it. */
+.waynav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 28px;}
 .waynav .jl{display:flex;align-items:center;gap:20px;flex-wrap:wrap;min-width:0;}
 .waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-light);flex:none;}
-.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
+/* padding-top balances the 3px gap + 2px underline below, so the text sits on the
+   bar's true centre line instead of floating above it */
+.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding-top:5px;padding-bottom:3px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
 .waynav a.j:hover{color:var(--maroon);}
 .waynav a.j.active{color:var(--ink);border-bottom-color:var(--maroon);}
-.waynav .btn-mini{flex:none;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:600;font-size:14px;padding:8px 16px;border-radius:5px;text-decoration:none;white-space:nowrap;transition:background .18s;}
+/* 9px/20px: a 26-character label needs more side air than 16px, and the extra 1px of
+   vertical padding balances the cap height. Radius steps 5->6 for the taller box. */
+.waynav .btn-mini{flex:none;background:var(--ink);color:#fff;font-family:var(--font-body);font-weight:600;font-size:14px;padding:9px 20px;border-radius:6px;text-decoration:none;white-space:nowrap;transition:background .18s;}
 .waynav .btn-mini:hover{background:var(--maroon);}
 .hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:var(--s-2xl);align-items:center;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
 .hero h1.h1{margin-bottom:var(--s-md);}
@@ -74,11 +89,25 @@ p strong{color:var(--ink);font-weight:600;}
 .hero-ticks{list-style:none;margin:0 0 var(--s-xl);display:grid;gap:10px;max-width:36ch;}
 .hero-ticks li{position:relative;padding-left:26px;font-size:16px;color:var(--ink-3);line-height:1.4;}
 .hero-ticks li::before{content:"";position:absolute;left:0;top:.4em;width:12px;height:12px;background:var(--maroon);clip-path:polygon(14% 47%,0 61%,40% 100%,100% 20%,86% 8%,38% 71%);}
+.hero-ticks li b{color:var(--ink);font-weight:600;}
 .hero-cta{display:flex;align-items:center;gap:var(--s-sm);flex-wrap:wrap;margin-bottom:var(--s-xl);}
-.proof{display:flex;align-items:center;gap:var(--s-md);flex-wrap:wrap;font-size:14px;color:var(--slate);}
-.proof .stat{display:flex;align-items:baseline;gap:7px;}
-.proof .n{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);letter-spacing:-.01em;}
-.proof .sep{width:1px;height:16px;background:var(--rule-strong);}
+/* the proof row sizes to its column, not the viewport: the hero grid collapses to one
+   column at 1100px, so cqw tracks the real width where vw would not */
+.hero .wrap>div:first-child{container-type:inline-size;}
+.proof{display:flex;align-items:center;flex-wrap:nowrap;gap:0;font-size:clamp(11.5px,2.35cqw,14px);color:var(--slate);}
+.proof .stat{position:relative;display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap;padding:0 clamp(8px,1.6cqw,18px);}
+.proof .stat:first-child{padding-left:0;}
+.proof .stat:last-child{padding-right:0;}
+/* divider drawn between stats, so it can never be stranded at the end of a line */
+.proof .stat+.stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:var(--rule-strong);}
+.proof .n{font-family:var(--font-display);font-weight:600;font-size:clamp(14px,2.9cqw,18px);color:var(--ink);letter-spacing:-.01em;}
+/* three stats cannot fit one line on a phone, so let them wrap and drop the dividers:
+   a wrapped stat must never begin a line with a stray vertical rule */
+@media(max-width:720px){
+  .proof{flex-wrap:wrap;gap:8px 16px;}
+  .proof .stat{padding:0;}
+  .proof .stat+.stat::before{content:none;}
+}
 .howline{margin-top:var(--s-lg);font-family:var(--font-mono);font-size:12px;color:var(--slate);letter-spacing:.02em;}
 .howline b{color:var(--ink-2);font-weight:500;}
 .ph{background:linear-gradient(165deg,#f0eae0,#e4dccf);border:1px solid var(--rule-strong);border-radius:6px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;}
@@ -183,7 +212,6 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
   .trust-stats{grid-template-columns:repeat(2,1fr);gap:var(--s-xl) var(--s-lg);}
   .zsplit{grid-template-columns:1fr;gap:var(--s-lg);}
   .zsplit.rev .z-img{order:0;}
-  .head-nav .nav-l{display:none;}
 }
 @media(max-width:900px){
   .waynav .wrap{padding:8px 16px;justify-content:flex-start;}

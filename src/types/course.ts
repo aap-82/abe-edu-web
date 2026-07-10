@@ -12,7 +12,20 @@ export interface Person {
   name: string;
   role: string;
   creds: string;          // mono credential line
-  bio: string;            // may contain minimal inline markup
+  bio: string[];          // one entry per paragraph; may contain minimal inline markup
   linkedin: string;
   portrait?: Img;         // omit -> FPO placeholder, and no image in schema
 }
+
+// Visible breadcrumb trail. Built from the same data as the JSON-LD BreadcrumbList so
+// the two cannot drift. The last crumb is the current page, rendered as text.
+export interface Crumb { name: string; item: string; }
+
+// Dated last-reviewed line. Warwick Smith reviews the course pages for compliance and
+// currency; Dominic Ogburn reviews the hubs.
+//
+// href points the reviewer's name at the proof of that review. On a course page that
+// is the on-page "Developed and reviewed by" section (#content-review). Hub pages have
+// no such section, so they point at the reviewer's LinkedIn instead. Omit it and the
+// name renders as plain text rather than a link to nowhere.
+export interface Reviewed { name: string; href?: string; date: string; }

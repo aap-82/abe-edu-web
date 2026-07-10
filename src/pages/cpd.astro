@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
 import Section from '../components/Section.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import TopicGrid from '../components/TopicGrid.astro';
@@ -14,6 +15,16 @@ import { faqsCpd } from '../data/faqs-cpd';
 
 const canonical = 'https://www.abeeducation.edu.au/cpd';
 const cta = { href: '#choose-state', label: 'Find your state’s CPD' };
+
+// Single source for the visible breadcrumbs and the JSON-LD BreadcrumbList below, so
+// the two cannot drift. Hub pages are reviewed by Dominic Ogburn, not Warwick Smith.
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'CPD Courses', item: canonical },
+];
+// No "Developed and reviewed by" section on a hub page, so the name points at the
+// reviewer's profile rather than an anchor that would go nowhere.
+const reviewed = { name: 'Dominic Ogburn', href: 'https://www.linkedin.com/in/dominic-ogburn', date: '10 July 2026' };
 
 const nav = [
   { label: 'What is CPD', href: '#what', sectionId: 'what' },
@@ -78,9 +89,8 @@ const schema = {
             description: 'Online real estate CPD covering the mandatory points required by Consumer Protection WA.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
       ] },
-    { '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.abeeducation.edu.au/' },
-      { '@type': 'ListItem', position: 2, name: 'CPD Courses', item: canonical } ] },
+    { '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })) },
   ],
 };
 ---
@@ -89,16 +99,16 @@ const schema = {
   description="Online CPD to keep your building or real estate licence current. Listed with CBOS Tasmania, and built to meet the NSW and WA regulator criteria. Choose your state."
   canonical={canonical}
   schema={schema}
-  nav={nav}
-  navCta={cta}
   sticky={{ label: 'CPD Courses', sub: 'building & real estate', price: '3 states', cta: { href: '#choose-state', label: 'Choose your state' } }}
+  crumbs={crumbs}
+  reviewed={reviewed}
 >
   <section class="hero" id="top">
     <div class="wrap">
       <div>
-        <span class="eyebrow">Continuing Professional Development · Delivered by ABE Education</span>
+        <span class="eyebrow">Continuing Professional Development <span class="e-dot">•</span> Delivered by ABE Education</span>
         <h1 class="h1">CPD courses that keep your licence current<span class="dot">.</span></h1>
-        <span class="updated">Last updated July 2026</span>
+        <span class="updated">Updated July 2026</span>
         <p class="lede">Online CPD that counts toward your licence renewal, built for building and property professionals across Australia. Pick your state to see the courses and the points they carry.</p>
         <ul class="hero-ticks">
           <li>Listed with CBOS Tasmania, and built to meet the CPD criteria of Building Commission NSW and Consumer Protection WA</li>
@@ -111,9 +121,7 @@ const schema = {
         </div>
         <div class="proof">
           <span class="stat"><span class="n num">3</span> states covered</span>
-          <span class="sep" aria-hidden="true"></span>
           <span class="stat"><span class="n num">100%</span> online, self-paced</span>
-          <span class="sep" aria-hidden="true"></span>
           <span class="stat"><span class="n">Listed with</span> CBOS Tasmania</span>
         </div>
         <p class="howline"><b>How it works:</b> Pick your state → complete the course online → record your CPD points</p>
@@ -123,6 +131,9 @@ const schema = {
       </div>
     </div>
   </section>
+
+  {/* Jump nav sits below the hero: it only sticks once you scroll past it. */}
+  <WayfinderNav items={nav} cta={cta} />
 
   <Section id="what" eyebrow="The basics" h2="What is CPD, and who needs it?">
     <AnswerCapsule>Continuing Professional Development (CPD) is the ongoing training licensed trades and property professionals complete to keep their skills current and their licence in good standing. Most building and real estate regulators set a minimum number of CPD points or hours each renewal period. ABE Education delivers CPD you complete online, at your own pace.</AnswerCapsule>
