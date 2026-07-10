@@ -15,6 +15,11 @@ const {
   credentialName, credentialCategory, regulator, breadcrumb, reviewedBy, experts,
 } = course;
 
+// Absolute URL for the hero image, for the Course ImageObject (multimodal SEO).
+const heroImg = hero.artefactImg
+  ? (hero.artefactImg.startsWith('http') ? hero.artefactImg : new URL(hero.artefactImg, canonical).href)
+  : null;
+
 // Single server-rendered JSON-LD @graph, built from typed frontmatter.
 // recognizedBy is conditional on the authority model (state-approved only).
 const schema = {
@@ -25,6 +30,7 @@ const schema = {
       description: courseDescription,
       provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
       inLanguage: 'en-AU',
+      ...(heroImg ? { image: { '@type': 'ImageObject', contentUrl: heroImg, caption: hero.artefactAlt, inLanguage: 'en-AU' } } : {}),
       offers: { '@type': 'Offer', price: priceNumber, priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },
       hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload },
     },

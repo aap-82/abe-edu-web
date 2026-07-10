@@ -1,10 +1,10 @@
 ---
 // FPO image placeholder. Pass `src` (+ `alt` >= 80 chars) to render a real image instead of the FPO.
-interface Props { ratio?: 'r54' | 'r45'; label?: string; desc: string; spec?: string; src?: string; alt?: string; }
-const { ratio = 'r54', label = 'Image placeholder', desc, spec, src, alt } = Astro.props;
+interface Props { ratio?: 'r54' | 'r45'; label?: string; desc: string; spec?: string; src?: string; alt?: string; eager?: boolean; }
+const { ratio = 'r54', label = 'Image placeholder', desc, spec, src, alt, eager = false } = Astro.props;
 ---
 { src ? (
-  <img class={`ph ${ratio} ph-img`} src={src} alt={alt ?? desc} loading="lazy" decoding="async" />
+  <img class={`ph ${ratio} ph-img`} src={src} alt={alt ?? desc} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" />
 ) : (
   <div class={`ph ${ratio}`}>
     <div class="ph-in">

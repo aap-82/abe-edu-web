@@ -51,7 +51,7 @@ const eyebrowHtml = eyebrow.split(' · ').join(' ' + dotSep + ' ');
       <ProcessTrack steps={howItWorks} />
     </div>
     <div class="z-img">
-      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} />
+      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
     </div>
   </div>
 </section>
