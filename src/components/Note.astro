@@ -1,6 +1,8 @@
 ---
-// Note / callout aside. `maroon` = the emphasised left-border variant.
-interface Props { maroon?: boolean; }
-const { maroon = false } = Astro.props;
+// Note / callout aside. `maroon` = the caution variant: a faint maroon wash and a full
+// hairline tinted toward maroon (no side-stripe). `label` renders a leading DM Mono
+// marker (e.g. "Important") as real, accessible text rather than CSS-generated content.
+interface Props { maroon?: boolean; label?: string; }
+const { maroon = false, label } = Astro.props;
 ---
-<p class={`note${maroon ? ' maroon' : ''}`}><slot /></p>
+<p class={`note${maroon ? ' maroon' : ''}`}>{label && <span class="note-k">{label}</span>}<slot /></p>
