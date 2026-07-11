@@ -1,0 +1,37 @@
+---
+import type { CpdRow } from '../types/course';
+// CPD matrix: industries down the side, states across the top. Each cell links to the
+// course for that industry + state, or shows a slate dash where none is offered yet.
+// A real <table> (with row/col scopes) so it reads correctly to assistive tech; it scrolls
+// horizontally on narrow screens rather than collapsing the grid.
+interface Props { states: string[]; rows: CpdRow[]; caption?: string; }
+const { states, rows, caption } = Astro.props;
+---
+<div class="cpd-wrap">
+  <table class="cpd">
+    {caption && <caption class="cpd-cap">{caption}</caption>}
+    <thead>
+      <tr>
+        <th scope="col" class="cpd-corner">Industry</th>
+        {states.map((s) => <th scope="col">{s}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <th scope="row">
+            <span class="cpd-ind">{r.industry}</span>
+            {r.note && <span class="cpd-note">{r.note}</span>}
+          </th>
+          {r.cells.map((c) => (
+            <td>
+              {c
+                ? <a href={c.href}>{c.label ?? 'View'}</a>
+                : <span class="cpd-dash"><span class="sr-only">Not offered yet</span><span aria-hidden="true">–</span></span>}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

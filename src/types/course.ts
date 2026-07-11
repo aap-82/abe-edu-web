@@ -21,6 +21,22 @@ export interface Person {
 // the two cannot drift. The last crumb is the current page, rendered as text.
 export interface Crumb { name: string; item: string; }
 
+// ASQA-accredited disclosure block (White Card and similar). ABE Education publishes the
+// course; the named RTO partner delivers it and issues the nationally recognised credential.
+// ABE is never the RTO. See CLAUDE.md authority model (asqa-accredited).
+export interface PartnerInfo {
+  partner: string;        // RTO trading name, e.g. "Blue Dog Training"
+  rto: string;            // RTO number, e.g. "31193"
+  unitCode?: string;      // e.g. "CPCWHS1001"
+  unitName?: string;      // e.g. "Prepare to work safely in the construction industry"
+  credential?: string;    // what the partner issues; defaults to "Statement of Attainment"
+}
+
+// CPD matrix: industries down the side, states across the top. A cell links to the course
+// for that industry + state, or is null where none is offered yet.
+export interface CpdCell { href: string; label?: string; }   // label defaults to "View"
+export interface CpdRow { industry: string; note?: string; cells: (CpdCell | null)[]; }
+
 // Dated last-reviewed line. Warwick Smith reviews the course pages for compliance and
 // currency; Dominic Ogburn reviews the hubs.
 //

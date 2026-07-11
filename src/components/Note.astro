@@ -1,8 +1,16 @@
 ---
-// Note / callout aside. `maroon` = the caution variant: a faint maroon wash and a full
-// hairline tinted toward maroon (no side-stripe). `label` renders a leading DM Mono
-// marker (e.g. "Important") as real, accessible text rather than CSS-generated content.
-interface Props { maroon?: boolean; label?: string; }
-const { maroon = false, label } = Astro.props;
+// Callout aside. Two register-native variants:
+//   variant="note"    (default) neutral paper-alt aside, 1px hairline, for general asides.
+//   variant="caution"          2px maroon top rule (a hairline, never a side-stripe), for
+//                              legal / do-this-or-else emphasis.
+// `label` renders a leading DM Mono marker (e.g. "Important", "Deadline") as real,
+// accessible text, not CSS-generated content. Omit it for an unmarked aside.
+// `maroon` is the original boolean API, kept as an alias for variant="caution" so existing
+// <Note maroon> pages keep working. Prefer `variant` on new pages.
+type Variant = 'note' | 'caution';
+interface Props { variant?: Variant; maroon?: boolean; label?: string; }
+const { variant, maroon = false, label } = Astro.props;
+const v: Variant = variant ?? (maroon ? 'caution' : 'note');
+const cls = v === 'caution' ? 'note maroon' : 'note';
 ---
-<p class={`note${maroon ? ' maroon' : ''}`}>{label && <span class="note-k">{label}</span>}<slot /></p>
+<p class={cls}>{label && <span class="note-k">{label}</span>}<slot /></p>

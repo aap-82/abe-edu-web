@@ -218,9 +218,12 @@ p strong{color:var(--ink);font-weight:600;}
    print-like edge. Maroon stays well under its 10% budget. */
 .note.maroon{border-top:2px solid var(--maroon);border-radius:3px;}
 .note .note-k{display:block;margin-bottom:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);}
-.capsule{border-left:3px solid var(--maroon);background:rgba(128,0,0,.045);padding:16px 22px;border-radius:0 6px 6px 0;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.5;color:var(--ink-2);max-width:66ch;font-weight:500;}
+/* Answer capsule: the 40-60 word answer opening each section. A neutral warm-cream inset
+   with a full 1px hairline, squared to 3px. No side-stripe (the banned pattern it replaces),
+   and distinct from the caution note's maroon top rule. */
+.capsule{background:var(--paper-warm);border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.55;color:var(--ink-2);max-width:66ch;font-weight:500;}
 .capsule b,.capsule strong{color:var(--ink);font-weight:700;}
-.capsule.on-dark{background:rgba(255,255,255,.06);border-left-color:var(--gold);color:rgba(255,255,255,.92);max-width:60ch;}
+.capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
 /* ===== verified-with-sources line ===== */
 /* ===== verification footnote (native <details> disclosure) =====
@@ -244,6 +247,40 @@ p strong{color:var(--ink);font-weight:600;}
 .verified a:hover{color:var(--verify);border-color:var(--verify);}
 /* no sources to disclose: same line, no control */
 .verified-bare{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--verify);font-weight:500;}
+
+/* screen-reader-only utility: off-canvas, but present in the a11y tree */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+/* Partner / RTO disclosure — ASQA-accredited courses (White Card and similar). ABE is the
+   publisher, the partner is the RTO. Structural 8px container; mono keys; the RTO number
+   carries tabular figures. */
+.partner{max-width:600px;margin:var(--s-md) 0 var(--s-lg);padding:var(--s-lg);background:var(--paper);border:1px solid var(--rule-strong);border-radius:8px;}
+.partner .eyebrow{margin-bottom:var(--s-sm);}
+.partner .p-unit{display:flex;flex-direction:column;gap:3px;margin:0 0 var(--s-md);}
+.partner .p-code{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--maroon);font-weight:500;}
+.partner .p-name{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.2;color:var(--ink);}
+.partner .p-facts{margin:0 0 var(--s-md);border-top:1px solid var(--rule);}
+.partner .p-row{display:grid;grid-template-columns:132px 1fr;gap:var(--s-md);padding:11px 0;border-bottom:1px solid var(--rule);}
+.partner .p-row dt{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
+.partner .p-row dd{margin:0;font-size:15px;font-weight:500;color:var(--ink-2);}
+.partner .p-disc{margin:0;font-size:13px;line-height:1.6;color:var(--slate);}
+
+/* CPD matrix: industries down the side, states across the top. A real bordered table that
+   scrolls on narrow screens rather than wrapping. Mono uppercase heads; maroon-hover cell
+   links; a slate dash where a course is not offered yet. */
+.cpd-wrap{margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
+.cpd{width:100%;min-width:560px;border-collapse:collapse;}
+.cpd-cap{caption-side:top;text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);padding:14px var(--s-lg);border-bottom:1px solid var(--rule);}
+.cpd thead th{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;}
+.cpd thead th.cpd-corner{text-align:left;}
+.cpd tbody th{text-align:left;padding:13px var(--s-lg);border-bottom:1px solid var(--rule);vertical-align:top;}
+.cpd .cpd-ind{display:block;font-size:15px;font-weight:600;color:var(--ink);}
+.cpd .cpd-note{display:block;font-size:12px;color:var(--slate);margin-top:2px;}
+.cpd tbody td{text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);}
+.cpd tbody tr:last-child th,.cpd tbody tr:last-child td{border-bottom:0;}
+.cpd tbody a{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
+.cpd tbody a:hover{color:var(--maroon);border-color:var(--maroon);}
+.cpd .cpd-dash{color:var(--slate-light);}
 @media(prefers-reduced-motion:reduce){ .verified summary .chev{transition:none;} }
 .trust .h2{color:#fff;max-width:18ch;margin-bottom:var(--s-xl);}
 .trust-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);border-top:1px solid rgba(255,255,255,.14);padding-top:var(--s-xl);}

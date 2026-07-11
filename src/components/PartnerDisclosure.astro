@@ -1,0 +1,35 @@
+---
+import type { PartnerInfo } from '../types/course';
+// ASQA-accredited disclosure. ABE Education publishes the course; the named RTO partner
+// delivers it and issues the nationally recognised credential. ABE is not an RTO. The RTO
+// number is a fact, set in tabular figures. See CLAUDE.md authority model (asqa-accredited).
+type Props = PartnerInfo;
+const { partner, rto, unitCode, unitName, credential = 'Statement of Attainment' } = Astro.props;
+
+// Hoisted so no template literal nests inside another literal's interpolation.
+const facts: Array<[string, string, boolean]> = [
+  ['Delivered by', partner, false],
+  ['RTO number', rto, true],
+  ['Credential', credential, false],
+];
+---
+<div class="partner">
+  <span class="eyebrow">Nationally recognised training</span>
+  {unitCode && (
+    <p class="p-unit">
+      <span class="p-code num">{unitCode}</span>
+      {unitName && <span class="p-name">{unitName}</span>}
+    </p>
+  )}
+  <dl class="p-facts">
+    {facts.map(([k, v, isNum]) => (
+      <div class="p-row">
+        <dt>{k}</dt>
+        <dd class:list={[isNum && 'num']}>{v}</dd>
+      </div>
+    ))}
+  </dl>
+  <p class="p-disc">This course is published by ABE Education and delivered by {partner}, a
+    registered training organisation (RTO {rto}). ABE Education is not an RTO. On completion,
+    {' '}{partner} issues a nationally recognised {credential}.</p>
+</div>
