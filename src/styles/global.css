@@ -3,6 +3,10 @@
   --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3);
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
+  /* chrome tone for the sticky bars (breadcrumb + wayfinder): deliberately a step
+     deeper than every section ground (#fff / #fafafa / #f7f4ef) so the bars read as
+     chrome, not as another content band. */
+  --paper-chrome:#eeeae1;
   --rule:#e5e7eb; --rule-strong:#d4d6da;
   --gold:#d4a843;
   --font-display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
@@ -86,11 +90,11 @@ p strong{color:var(--ink);font-weight:600;}
 /* ===== wayfinder sticky sub-nav (on-page jump index + small CTA) ===== */
 /* translucent, so the blur earns its compositing layer: it keeps the jump links legible
    over whatever scrolls beneath the sticky bar */
-.waynav{position:sticky;top:var(--head-h);z-index:25;background:rgba(255,255,255,.95);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule);transition:background .3s ease-out;}
+.waynav{position:sticky;top:var(--head-h);z-index:25;background:var(--paper-chrome);border-bottom:1px solid var(--rule);transition:background .3s ease-out;}
 /* Once stuck under the header, the bar takes the pagebar's --paper-alt tone, fading in
    step with the CTA's .3s reveal, so the stuck chrome reads as one band with the
    breadcrumb bar rather than a floating white strip. */
-.waynav.is-stuck{background:var(--paper-alt);}
+.waynav.is-stuck{background:var(--paper-chrome);}
 /* Spacing comes off the --s-* scale. The bar's height is load-bearing: --waynav-h feeds
    .sec scroll-margin-top, so the links must never wrap onto a second row. They scroll
    instead, as they already did on mobile. 12 + 41 (CTA) + 12 = 65px, always. */

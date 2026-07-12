@@ -60,6 +60,7 @@ const courses = defineCollection({
       artefactSpec: z.string().optional(),
       artefactImg: z.string().optional(),
       artefactAlt: z.string().optional(),
+      artefactRatio: z.enum(['r54', 'r45']).optional(),
     }),
     ctaBand: z.object({ headingHtml: z.string(), sub: z.string(), cta }),
     // page-specific structured content used by the MDX body

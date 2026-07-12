@@ -16,8 +16,9 @@ interface Props {
   artefactSpec?: string;
   artefactImg?: string;   // real image URL; omit to keep the FPO placeholder
   artefactAlt?: string;
+  artefactRatio?: 'r54' | 'r45';   // 5:4 landscape (default) or 4:5 portrait, per the image
 }
-const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec, artefactImg, artefactAlt } = Astro.props;
+const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec, artefactImg, artefactAlt, artefactRatio = 'r54' } = Astro.props;
 
 // Ticks carry inline markup: the lead phrase is bolded, the qualifier follows a comma.
 // Emitted via set:html so <b> renders rather than printing as text.
@@ -56,7 +57,7 @@ const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with A
       <ProcessTrack steps={howItWorks} />
     </div>
     <div class="z-img">
-      <Placeholder ratio="r45" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
+      <Placeholder ratio={artefactRatio} desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
     </div>
   </div>
 </section>
