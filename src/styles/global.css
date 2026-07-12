@@ -148,14 +148,25 @@ p strong{color:var(--ink);font-weight:600;}
 .waynav-anchor{position:relative;height:0;}
 .waynav-sentinel{position:absolute;bottom:0;left:0;width:1px;height:100vh;pointer-events:none;}
 .hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:var(--s-2xl);align-items:center;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
+/* Hero vertical rhythm, grouped into clusters rather than an even ramp: the eyebrow row,
+   headline and lede sit tight as one unit; the ticks open up; the CTA gets the widest gap
+   above it as the action moment; its reassurance line hugs it; proof + track close as the
+   trust footer. All margin-bottom, no margin-top, so nothing collapses. */
+.hero-top{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-2xs);margin-bottom:var(--s-sm);}
+.hero-top .eyebrow{margin-bottom:0;}
+/* the update date sits on its own line just under the eyebrow, above the H1, so it never
+   interrupts the headline-to-lede read */
+.hero-top .updated{margin-bottom:0;}
+.updated{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:var(--slate);display:block;}
 .hero h1.h1{margin-bottom:var(--s-md);}
-.updated{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:var(--slate);margin-bottom:var(--s-lg);display:block;}
 .hero .lede{max-width:32ch;margin-bottom:var(--s-lg);}
 .hero-ticks{list-style:none;margin:0 0 var(--s-xl);display:grid;gap:10px;max-width:36ch;}
 .hero-ticks li{position:relative;padding-left:26px;font-size:16px;color:var(--ink-3);line-height:1.4;}
 .hero-ticks li::before{content:"";position:absolute;left:0;top:.4em;width:12px;height:12px;background:var(--maroon);clip-path:polygon(14% 47%,0 61%,40% 100%,100% 20%,86% 8%,38% 71%);}
 .hero-ticks li b{color:var(--ink);font-weight:600;}
-.hero-cta{display:flex;align-items:center;gap:var(--s-sm);flex-wrap:wrap;margin-bottom:var(--s-xl);}
+.hero-cta{display:flex;align-items:center;gap:var(--s-sm);flex-wrap:wrap;margin-bottom:var(--s-2xs);}
+/* reassurance line, hugging the CTA (8px above), then a full gap down to the proof row */
+.cta-note{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;color:var(--slate);margin-bottom:var(--s-lg);}
 /* the proof row sizes to its column, not the viewport: the hero grid collapses to one
    column at 1100px, so cqw tracks the real width where vw would not */
 .hero .wrap>div:first-child{container-type:inline-size;}

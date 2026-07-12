@@ -28,20 +28,25 @@ const ticksHtml = ticks.map((t) => `<li>${t}</li>`).join('');
 // const so no template literal nests inside another's interpolation.
 const dotSep = '<span class="e-dot">•</span>';
 const eyebrowHtml = eyebrow.split(' · ').join(' ' + dotSep + ' ');
+
+// A short reassurance line sits directly under the money CTA. Data-driven when the
+// page supplies cta.microcopy, with a sensible default so the slot is never empty.
+const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with Afterpay';
 ---
 <section class="hero" id="top">
   <div class="wrap">
     <div>
-      <span class="eyebrow" set:html={eyebrowHtml}></span>
+      <div class="hero-top">
+        <span class="eyebrow" set:html={eyebrowHtml}></span>
+        <span class="updated">{updated}</span>
+      </div>
       <h1 class="h1" set:html={h1Html} />
-      <span class="updated">{updated}</span>
       <p class="lede">{subhead}</p>
       <ul class="hero-ticks" set:html={ticksHtml}></ul>
       <div class="hero-cta">
         <a class="btn-primary" href={cta.href} id="enrol">{cta.label}</a>
-        <a class="btn-secondary" href="#how">How it works</a>
       </div>
-      {cta.microcopy && <p class="howline" style="margin-top:12px">{cta.microcopy}</p>}
+      <p class="cta-note">{ctaNote}</p>
       {/* Dividers are drawn by CSS between stats, so a wrap can never strand one. */}
       <div class="proof">
         {proof.map((p) => (
@@ -51,7 +56,7 @@ const eyebrowHtml = eyebrow.split(' · ').join(' ' + dotSep + ' ');
       <ProcessTrack steps={howItWorks} />
     </div>
     <div class="z-img">
-      <Placeholder ratio="r54" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
+      <Placeholder ratio="r45" desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
     </div>
   </div>
 </section>
