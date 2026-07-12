@@ -76,6 +76,11 @@ The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the One
 - The content research pipeline (gov-source map -> gap -> outline -> extended content -> components) is
   the `abe-course-page-astro` skill; its Stage-6 output target changes to `content/courses/{slug}.mdx`
   once Content Collections is wired.
+- **Formal grid system — backlogged (explored Jul 2026).** Current design stays as-is. If picked up:
+  adopt a 12-column model + 8px spacing tokens (8/16/24/32/48/64/80/96; margins 32, gutters 24), NOT a
+  strict line-height baseline grid. Plan first, then codify tokens in `src/styles/global.css` + align
+  components. Verified whole-page QLD mockup and an 8-col baseline experiment live on the Desktop
+  (`abe-qld-fullpage-mockup.html`, `abe-qld-grid-sample.html`), not in the repo.
 
 ## Deploy
 - **Once Workers Builds is connected:** just `git push origin main` — Cloudflare builds and deploys.
