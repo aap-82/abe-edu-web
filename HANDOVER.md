@@ -1,4 +1,4 @@
-# ABE site — handover / current state (9 Jul 2026)
+# ABE site — handover / current state (updated 12 Jul 2026)
 
 Where the build is, what exists, and the next-session sequence. Pairs with `CLAUDE.md` (rules).
 The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the OneDrive backup folder
@@ -24,15 +24,20 @@ The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the One
   (logo + dropdown nav + mobile menu; active-page highlight), `styles/global.css` (token system).
 - **Component library** (`src/components/`): Hero, Section, ZSplit, AnswerCapsule, FactGrid, CanCant,
   Stepper, TopicGrid, PriceCard, Credentials, Faq, Note, VerifiedSources, SectionWayfinder, CtaBand,
-  SourcesFooter, Placeholder, WayfinderNav, StickyCta.
-- **Pages (per-page .astro — to be migrated to Content Collections):**
-  `pages/qld-owner-builder-course.astro`, `pages/wa-owner-builder-course.astro`.
+  SourcesFooter, Placeholder, WayfinderNav, StickyCta, and (added since 9 Jul) ProcessTrack, PageBar,
+  ArrowRight, CpdMatrix, PartnerDisclosure.
+- **Content Collections (Phase B migration DONE):** `content.config.ts` (Zod `courses` schema),
+  `content/courses/{qld,wa}-owner-builder-course.mdx`, `layouts/CourseLayout.astro`, and one dynamic
+  route `pages/[slug]/index.astro` (`getStaticPaths()` over `getCollection('courses')`). The old
+  per-page course `.astro` files are gone. `pages/cpd.astro` is the CPD hub (standalone page for now).
 - **Data:** `data/modules.ts` + `data/faqs.ts` (QLD), `data/modules-wa.ts` + `data/faqs-wa.ts` (WA),
   `types/course.ts`.
 - **Config:** `astro.config.mjs` (site + sitemap + root redirect), `wrangler.jsonc`, `.nvmrc` (22),
   `public/robots.txt`.
-- **Images:** QLD page fully wired to R2 (hero certificate, on-site, laptop, insurance, + Dominic &
-  Warwick portraits, grayscale-hover). WA page images/portraits are **still FPO placeholders**.
+- **Images:** QLD + WA course images are now **local optimised AVIF** in `public/images/*` (4 slots
+  each: hero, on-site, laptop, insurance), moved off `r2.dev` so Astro hashes and optimises them. WA
+  imagery is **done** (was FPO placeholders on 9 Jul). Expert portraits (Dominic, Warwick,
+  grayscale-hover) are still served from R2.
 
 ## Verified facts on the live pages (re-verify on cadence)
 - QLD: QBCC permit fee **$477.47** (indexation-pending — re-verify with QBCC before relying on it);
@@ -43,34 +48,43 @@ The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`) live in the One
 - Full sourced facts live in the research space memory (QLD/WA verified-facts). Fold the load-bearing
   ones into this repo's CLAUDE.md when convenient.
 
-## Next-session sequence (agreed: keep & extend, static, Content Collections)
-1. ~~**Repo + Claude Code + Workers Builds**~~ **DONE 9 Jul 2026** — repo at `C:\dev\abe-web`, clean
-   install (275 pkgs), build green, pushed to `origin/main`, and **Workers Builds connected + verified**
-   (git push → auto build + deploy; build `npm run build`, deploy `npx wrangler deploy`, root `/`,
-   branch `main`). Push→deploy confirmed live.
-2. **Guardrails** (plan Phase 2): Husky + lint-staged + gitleaks, `.claude/settings.json`
-   (deny/ask/allow), `/ship` slash command, `.mcp.json` (Astro Docs, Cloudflare, Notion).
-3. **Content Collections migration** (the one refactor to do before scaling):
-   - `src/content.config.ts` with Zod schemas: `courses`, `experts`, `partners` (see
-     `../abe-rebuild-plan-review.md` for fields — keep rich prose in the MDX body, structured data in
-     frontmatter).
-   - `src/layouts/CourseLayout.astro` (renders Hero/FactGrid/PriceCard/Credentials/VerifiedSources/
-     SourcesFooter from frontmatter + the MDX body).
-   - `src/pages/[slug]/index.astro` with `getStaticPaths()` over `getCollection('courses')`.
-   - Convert QLD + WA to `content/courses/*.mdx`; **build-diff the rendered HTML against the current
-     live pages to confirm parity** before deleting the old `.astro` pages.
-4. **Roll out** as MDX: TAS / NSW / ACT owner builder, White Card per state (RTO-partner disclosure),
-   CPD 5-industry x state matrix, per-state hubs, first expert profile (`/experts/dominic-ogburn/`).
-5. **Finish images:** wire Dominic + Warwick headshots into the WA page (same R2 URLs as QLD); add WA
-   hero/on-site/laptop images when generated (use the abe-course-page-astro skill's image-prompts).
-6. **Custom domain for images:** attach e.g. `images.abeeducation.edu.au` to the R2 bucket and swap the
-   `r2.dev` URLs (drop-in). 
-7. **Redirects + cutover** (plan Phases 7-13, unchanged): LearnWorlds -> `learn.` subdomain, redirect
-   map, DNS swap, GSC/GA4. This is the plan's strongest section — follow it as written.
+## Phase status (plan phases A-F; strategic detail in `../abe-rebuild-plan-review.md`)
+
+Architecture is settled and not up for re-decision: **Astro 7 · static assets · token CSS · MDX +
+Content Collections.** The migration is no longer about architecture; it is now two tracks, building the
+rest of the pages (Phase C) and flipping the public domain (Phase E).
+
+- **Phase A — Guardrails: DONE** (bar one item). `.claude/settings.json` (deny `rm -rf` / force-push /
+  `reset --hard` / `--no-verify` / amend / rebase / `npm update` / `wrangler delete` / `.env` & `.pem`
+  reads; ask before push etc.), Husky `pre-commit`, lint-staged + **secretlint** (in place of gitleaks),
+  and the `/ship` command are all in. Outstanding: `.mcp.json` (Astro Docs / Cloudflare / Notion) — low
+  priority, MCP already works at the session level.
+- **Phase B — Content Collections: DONE.** `content.config.ts` (Zod), `content/courses/*.mdx` (QLD +
+  WA), `CourseLayout.astro`, `pages/[slug]/index.astro`. Old per-page course `.astro` files removed.
+- **Phase C — Roll out as MDX: IN PROGRESS.** Live: QLD + WA owner builder, CPD hub. Roll-out infra
+  exists (`CpdMatrix`, `PartnerDisclosure` for RTO courses); WA imagery done. **Remaining:** TAS / NSW /
+  ACT owner builder, White Card per state (RTO-partner disclosure), the CPD 5-industry x state matrix,
+  per-state hubs, expert profiles (`/experts/dominic-ogburn`, `/experts/warwick-smith`). Author via the
+  `abe-course-page-astro` skill, output target `content/courses/{slug}.mdx`.
+- **Phase D — Images to a custom domain: MOSTLY MOOT.** Course images are now local optimised AVIF
+  (`public/images/*`), off `r2.dev`. Only the expert portraits + brand logo remain on R2; attach
+  `images.abeeducation.edu.au` and swap those few if/when desired.
+- **Phase E — Go-live cutover: PENDING — the sequence-blocker.** Site is still on
+  `abe-edu-web.andrey-p-personal.workers.dev`, not the real domain. Attach `abeeducation.edu.au` (apex +
+  `www`) to the Worker + TLS; move LearnWorlds to `learn.`; build the 301 map (no chains, kept
+  indefinitely); drop TTL to 300 pre-cutover; **do not touch MX / SPF / DKIM**; swap DNS + monitor;
+  submit sitemap + verify GSC + set up GA4; keep a rollback path. Expect a 10-30% reorg dip recovering
+  in 2-4 weeks. Needs DNS access + user. Follow plan Phases 7-13 as written.
+- **Phase F — CMS later.** Trigger unchanged: ~50 pages or multiple editors.
+
+> **Concurrency note (Jul 2026):** this repo has had **parallel Claude Code sessions** building at the
+> same time (the callout system, images-local move, and nav work landed from another session). Before
+> Phase C work, confirm who owns what; always stage explicit paths, never `git add -A`.
 
 ## Open items / watchlist
-- WA page portraits + content images are placeholders (item 5).
-- `r2.dev` is dev-grade / rate-limited (item 6).
+- WA course imagery is done (local AVIF); only the **expert portraits** (both pages) are still on R2.
+- `r2.dev` is dev-grade / rate-limited — now scoped to the expert portraits + logo only (course images
+  moved to local optimised AVIF), so the custom-domain swap (Phase D) is a small remaining task.
 - QLD QBCC fee is indexation-pending; WA fee re-verify due 1 Jul 2027.
 - Expert profile pages (`/experts/*`) not built yet.
 - The content research pipeline (gov-source map -> gap -> outline -> extended content -> components) is
