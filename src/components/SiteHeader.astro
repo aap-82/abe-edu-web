@@ -293,13 +293,10 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   #head-sentinel{ position:absolute; top:24px; left:0; width:1px; height:1px; pointer-events:none; }
 
   /* element+class specificity so these beat global.css whatever the sheet order */
-  /* --active-bg: light grey for the current page. Only a whisper of warmth (red one
-     point over blue); more tint than this reads pink beside the maroon title. Still
-     a shade darker than the cream hover so active stays the stronger state. */
-  /* The header sits on warm cream so it reads as chrome, clearly distinct from the
-     white hero beneath it. That means the old hover tint (#f6f3ee) is now the same
-     colour as the bar itself and would be invisible, so hovers use a maroon wash. */
-  header.site-head{ --active-bg:#f1f0f0; --nav-hover:rgba(128,0,0,.06); position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
+  /* Nav interaction states share one restrained light grey (--active-bg) on the white
+     header: hover, open megamenu, and the current-page trigger all read as the same
+     grey pill. --nav-hover aliases it so a single value drives every hover state. */
+  header.site-head{ --active-bg:#f1f0f0; --nav-hover:var(--active-bg); position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
 
   /* the one row: 66px, matching --head-h in global.css */
   .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
@@ -337,12 +334,12 @@ const mnavHtml = mGroup(courses[0]) + mCpdGroup + mGroup(courses[1])
   .site-head .head-nav{ display:flex; align-items:center; gap:2px; }
   .site-head .nav-trigger{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); background:none; border:0; cursor:pointer; line-height:1; display:inline-flex; align-items:center; gap:6px; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
   .site-head .nav-trigger:hover{ color:var(--maroon); background:var(--nav-hover); }
-  .site-head .nav-trigger.active{ color:var(--maroon); }
+  .site-head .nav-trigger.active{ color:var(--maroon); background:var(--active-bg); }
   .site-head .ni.open .nav-trigger{ color:var(--maroon); background:var(--nav-hover); }
   /* Experts and Insurance: plain links, no chevron, since no panel sits behind them */
   .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
   .site-head .nav-l:hover{ color:var(--maroon); background:var(--nav-hover); }
-  .site-head .nav-l.active{ color:var(--maroon); }
+  .site-head .nav-l.active{ color:var(--maroon); background:var(--active-bg); }
   /* chevron is an svg: sized in px, coloured via currentColor on the path.
      Box is 13x8 to match the cropped viewBox's 8:5 ratio, so there is no dead space. */
   .site-head .cv{ width:13px; height:8px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
