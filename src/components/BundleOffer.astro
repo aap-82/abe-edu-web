@@ -1,0 +1,90 @@
+---
+// Cross-sell offer block: two course products presented as one deliberate bundle, so it
+// reads as an offer rather than another cost row. Broadsheet register: flat paper panel,
+// hairline border, a mono price tally with tabular figures,
+// one primary action. No shadow, no gradient, no side-stripe. The total is the sum of the
+// parts (no discount), so the copy sells completeness, never a saving.
+interface Item { label: string; sub?: string; price: string; }
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lede: string;
+  items: Item[];
+  totalLabel?: string;
+  total: string;
+  cta: { href: string; label: string };
+  note?: string;
+}
+const { eyebrow = 'Bundle', heading, lede, items, totalLabel = 'Both together', total, cta, note } = Astro.props;
+---
+<div class="bundle">
+  <div class="bundle-pitch">
+    <span class="eyebrow">{eyebrow}</span>
+    <h3 class="bundle-h">{heading}</h3>
+    <p class="bundle-lede">{lede}</p>
+  </div>
+  <div class="bundle-offer">
+    <dl class="bundle-tally">
+      {items.map((it) => (
+        <div class="bt-row">
+          <dt class="bt-item"><span class="bt-label">{it.label}</span>{it.sub && <span class="bt-sub">{it.sub}</span>}</dt>
+          <dd class="bt-price">{it.price}</dd>
+        </div>
+      ))}
+      <div class="bt-rule" aria-hidden="true"></div>
+      <div class="bt-row bt-total">
+        <dt class="bt-item"><span class="bt-tlabel">{totalLabel}</span></dt>
+        <dd class="bt-tprice">{total}</dd>
+      </div>
+    </dl>
+    <a class="btn-primary bundle-cta" href={cta.href}>{cta.label}</a>
+  </div>
+  {note && <p class="bundle-note">{note}</p>}
+</div>
+<style>
+  .bundle{
+    margin-top:var(--s-2xl);
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--s-lg);
+    max-width:840px;
+    background:var(--paper);
+    border:1px solid var(--rule-strong);
+    border-radius:8px;
+    padding:clamp(24px,4vw,40px);
+  }
+  @media (min-width:700px){
+    .bundle{ grid-template-columns:1.15fr 0.85fr; gap:clamp(36px,5vw,60px); align-items:center; }
+  }
+
+  .bundle-h{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(21px,2.4vw,27px); line-height:1.12; letter-spacing:-.015em;
+    color:var(--ink); margin:0 0 var(--s-sm); max-width:20ch;
+  }
+  .bundle-lede{ font-size:15px; line-height:1.6; color:var(--ink-3); max-width:48ch; margin:0; }
+
+  /* price tally, mono with tabular figures, reads like a receipt */
+  .bundle-tally{ margin:0; font-family:var(--font-mono); }
+  .bt-row{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:8px 0; }
+  .bt-item{ display:flex; flex-direction:column; gap:2px; margin:0; }
+  .bt-label{ font-size:13px; letter-spacing:.01em; color:var(--ink-2); }
+  .bt-sub{ font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--slate-light); }
+  .bt-price{ margin:0; font-family:var(--font-display); font-weight:600; font-size:17px; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+  .bt-rule{ height:1px; background:var(--rule-strong); margin:8px 0; }
+  .bt-total{ padding-top:6px; align-items:baseline; }
+  .bt-tlabel{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate); }
+  .bt-tprice{ margin:0; font-family:var(--font-display); font-weight:600; font-size:clamp(30px,3.6vw,36px); line-height:1; letter-spacing:-.01em; color:var(--ink); font-variant-numeric:tabular-nums; }
+
+  .bundle-cta{ margin-top:var(--s-md); }
+  /* optional footnote: full-width fine print under both columns, set off by a hairline */
+  .bundle-note{ font-family:var(--font-mono); font-size:11px; line-height:1.55; letter-spacing:.02em; color:var(--slate); margin:0; padding-top:var(--s-sm); border-top:1px solid var(--rule); max-width:74ch; }
+
+  @media (min-width:700px){
+    .bundle{ column-gap:clamp(36px,5vw,60px); row-gap:var(--s-lg); }
+    .bundle-cta{ display:inline-flex; }
+    .bundle-offer{ display:flex; flex-direction:column; align-items:flex-start; }
+    .bundle-tally{ align-self:stretch; }
+    .bundle-note{ grid-column:1 / -1; }
+  }
+</style>

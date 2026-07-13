@@ -111,6 +111,7 @@ import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
 import PriceCard from '../../components/PriceCard.astro';
+import BundleOffer from '../../components/BundleOffer.astro';
 import Credentials from '../../components/Credentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
@@ -221,8 +222,18 @@ import { faqsWa } from '../../data/faqs-wa';
 <Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="Three costs, three payees, nothing hidden">
   <AnswerCapsule>The course is <b>$179</b> to ABE. The government owner-builder approval fee is a separate <b>$212</b> for residential (or $467 for industrial-commercial), paid to Building and Energy. Your local council then charges value-based building-permit fees. Only one of the three is the course.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $179 course fee can be split into four with Afterpay. The government approval fee is set by Building and Energy and reviewed each 1 July, so confirm the current amount before you lodge. Your local council charges separate, value-based building-permit fees." />
-  <h3 class="h3" style="margin-top:var(--s-2xl);margin-bottom:var(--s-2xs)">Course and White Card bundle</h3>
-  <p style="max-width:62ch">The Building Services Board’s knowledge pathway asks for a WA-specific course and a White Card. If you need both, do them together for <strong>$278</strong>: the $179 owner-builder course plus the $99 White Card (unit CPCWHS1001). That is the complete knowledge evidence for your Form 75 in one go.</p>
+  <BundleOffer
+    eyebrow="Bundle"
+    heading="Course + White Card, the full knowledge pathway"
+    lede="The Building Services Board’s knowledge pathway asks for a WA-specific course and a White Card. Do both together and you have the complete knowledge evidence for your Form 75, in one enrolment."
+    items={[
+      { label: 'WA owner builder course', price: '$179' },
+      { label: 'White Card', sub: 'Unit CPCWHS1001', price: '$99' }
+    ]}
+    totalLabel="Both together"
+    total="$278"
+    cta={{ href: '#enrol', label: 'Enrol in the bundle' }}
+  />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 

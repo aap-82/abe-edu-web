@@ -115,6 +115,7 @@ import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
 import PriceCard from '../../components/PriceCard.astro';
+import BundleOffer from '../../components/BundleOffer.astro';
 import Credentials from '../../components/Credentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
@@ -208,8 +209,19 @@ import { faqs } from '../../data/faqs';
 <Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
   <AnswerCapsule>The course is <b>$179</b> to ABE. The QBCC permit fee is a separate <b>$477.47</b>. Together that is <b>$656.47</b> to be ready to build. Only one of them is the course.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $179 course fee can be split into four with Afterpay. The $477.47 QBCC fee is set by the regulator, reviewed each year around 1 July, so check the current amount before you lodge." />
-  <h3 class="h3" style="margin-top:var(--s-2xl);margin-bottom:var(--s-2xs)">Course and White Card bundle</h3>
-  <p style="max-width:62ch">Most owner builders who will be on site also need a White Card. Do both together for <strong>$303</strong>: the $179 owner builder course plus the $124 White Card (unit CPCCWHS1001). If you already hold a White Card issued less than two years ago, you can skip it; if it is two or more years old and you have not worked in construction since, you will need a current one.</p>
+  <BundleOffer
+    eyebrow="Bundle"
+    heading="Course + White Card, if you’ll be on site"
+    lede="Most owner builders who will be on site also need a White Card. Do both together and you are site-ready, with the QBCC-required course and your White Card in one enrolment."
+    items={[
+      { label: 'QLD owner builder course', price: '$179' },
+      { label: 'White Card', sub: 'Unit CPCCWHS1001', price: '$124' }
+    ]}
+    totalLabel="Both together"
+    total="$303"
+    cta={{ href: '#enrol', label: 'Enrol in the bundle' }}
+    note="Already hold a White Card less than two years old? You can skip it. Two or more years old and not worked in construction since? You will need a current one."
+  />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 
