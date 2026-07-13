@@ -1,20 +1,17 @@
 import type { TopicCard } from '../types/course';
 
-// Section 5 — 18 modules grouped into 6 project-stage cards (rendered by <TopicGrid>).
-// [confirm: LW] Provisional TAS syllabus — confirm the final module list against the LearnWorlds curriculum before production.
-export const moduleGroups: TopicCard[] = [
-  { tag: 'Group 01', title: 'Getting started', body: 'Your role and responsibilities. <b>Modules 1–2:</b> Course Introduction, Key Responsibilities of an Owner Builder.' },
-  { tag: 'Group 02', title: 'Legal &amp; safety obligations', body: '<b>Modules 3, 11, 12:</b> Work Health and Safety, Obligations Under the Building Act 2016 and Occupational Licensing Act 2005, Approvals and Inspections.' },
-  { tag: 'Group 03', title: 'Design &amp; energy', body: '<b>Modules 4–5:</b> Design, and Environment and Energy, including the National Construction Code energy requirements.' },
-  { tag: 'Group 04', title: 'Costing &amp; finance', body: '<b>Modules 6, 9, 10:</b> Estimating, Costing and Budgets; Finance and Loan Requirements; Taxation and the building training levy.' },
-  { tag: 'Group 05', title: 'Planning &amp; running the build', body: '<b>Modules 7, 8, 13, 14:</b> Planning and Scheduling, Sequencing Building Activities, Building Coordination, Payments to Trade Contractors.' },
-  { tag: 'Group 06', title: 'Protecting yourself &amp; finishing', body: '<b>Modules 15–18:</b> Insurances, Conflict Prevention and Resolution, Move In and Maintenance, Checklists and Appendix.' },
-];
-
+// Section 5 — the detailed TAS module list is deliberately NOT published here. The
+// LearnWorlds curriculum for the Tasmanian course is unconfirmed, and the Stage-4
+// content brief is explicit that it must not be invented. When the real list arrives,
+// restore a <TopicGrid> of module groups in the #learn section.
+// [confirm: LW] final module list + learning outcomes from the LearnWorlds curriculum.
+//
+// `moduleOutcome` is a general capability statement (the universal owner-builder
+// responsibilities named in the Stage-4 brief), not a claim about specific modules.
 export const moduleOutcome =
-  'By the end you will be able to set up your build, apply work health and safety, design and cost the project, arrange finance, plan and sequence the work, engage and manage licensed trades under proper contracts, put the right insurances in place, and see the build through to move-in.';
+  'take on the owner builder role with your eyes open: apply work health and safety on your site, keep the build compliant with the National Construction Code, cost and finance the project, engage and manage licensed trades under proper contracts, put the right insurances in place, and see the build through to move-in.';
 
-// Section 7 — wider obligations cards (Tasmania).
+// Section 7 — wider obligations cards (Tasmania). Verified regulatory facts, not course content.
 export const obligationCards: TopicCard[] = [
   { tag: '01', title: 'Safety training', body: 'You need a <b>White Card</b> before you can hold the permit, and asbestos awareness if you may disturb asbestos. Both are separate from this course.' },
   { tag: '02', title: 'Building surveyor', body: 'You must engage a <b>licensed building surveyor</b> before you apply. The surveyor signs a declaration that forms part of your permit application.' },

@@ -22,16 +22,18 @@ breadcrumb:
 nav:
   - { label: "The course", href: "#course", sectionId: "course" }
   - { label: "Approved?", href: "#accredited", sectionId: "accredited" }
-  - { label: "Modules", href: "#learn", sectionId: "learn" }
+  - { label: "What you learn", href: "#learn", sectionId: "learn" }
   - { label: "Permit", href: "#permit", sectionId: "permit" }
+  - { label: "From CBOS", href: "#regulator", sectionId: "regulator" }
   - { label: "Cost", href: "#cost", sectionId: "cost" }
   - { label: "Become one", href: "#become", sectionId: "become" }
+  - { label: "Why ABE", href: "#why", sectionId: "why" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 cta: { href: "#enrol", label: "Enrol now — $195" }
 sticky: { label: "TAS Owner Builder", sub: "CBOS-approved course", price: "$195", cta: { href: "#enrol", label: "Enrol now" } }
 hero:
   eyebrow: "TAS Owner Builder · CBOS-approved"
-  h1Html: 'Owner builder course Tasmania, online<span class="dot">.</span>'
+  h1Html: 'Owner builder course Tasmania, CBOS-approved and online<span class="dot">.</span>'
   updated: "Updated July 2026 · Government facts verified 14 Jul 2026"
   subhead: "Complete the CBOS-approved course Tasmania requires before you apply for your owner builder permit. Finish it online, then lodge your Certificate of Completion with your application at Service Tasmania."
   ticks:
@@ -108,7 +110,6 @@ import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
 import PriceCard from '../../components/PriceCard.astro';
-import BundleOffer from '../../components/BundleOffer.astro';
 import Credentials from '../../components/Credentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
@@ -116,7 +117,7 @@ import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
-import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules-tas';
+import { moduleOutcome, obligationCards } from '../../data/modules-tas';
 import { faqs } from '../../data/faqs-tas';
 
 <Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
@@ -163,11 +164,12 @@ import { faqs } from '../../data/faqs-tas';
   <SectionWayfinder label="What you'll learn" href="#learn" />
 </div></section>
 
-<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="18 modules, grouped by the stage of your build">
-  <AnswerCapsule><b>18 modules</b> covering what you need to run a compliant Tasmanian build, from responsibilities and safety to costing, trades and move-in. It teaches you to manage the project, not to lay bricks. <b>[confirm: LW]</b> final module list.</AnswerCapsule>
-  <TopicGrid items={moduleGroups} />
-  <Note><b>By the end</b> {moduleOutcome.replace(/^By the end you will be able to /, 'you will be able to ')}</Note>
-  <VerifiedSources date="Course modules [confirm: LW]" facts="Module list provisional — confirm against the current LearnWorlds syllabus" sources={[{ label: 'ABE Education owner builder course modules (provisional)', href: '' }]} />
+<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="What the Tasmanian owner builder course covers">
+  <AnswerCapsule>The course prepares you for the responsibilities you take on as an owner builder in Tasmania: your legal and safety duties, keeping the build compliant with the National Construction Code, costing and finance, engaging and managing licensed trades, insurance, and seeing the project through to completion. It teaches you to run the project, not to lay bricks.</AnswerCapsule>
+  <div class="measure">
+    <p>By the end you will be able to {moduleOutcome}</p>
+  </div>
+  <Note variant="caution" label="Curriculum"><b>Detailed module list:</b> the full Tasmanian curriculum is being finalised and is confirmed on enrolment. [confirm: LW]</Note>
   <SectionWayfinder label="Do you need a permit?" href="#permit" />
 </Section>
 
@@ -182,42 +184,42 @@ import { faqs } from '../../data/faqs-tas';
   <Note><b>Keep in mind:</b> you must own the land or hold a contract of sale, engage a licensed building surveyor, hold Public Liability insurance of at least $5 million, and have a White Card. Your approved course must have been completed within the 12 months before you apply. You remain liable to future owners for defective building work for up to 10 years.</Note>
   <Note variant="caution" label="Not a dollar test"><b>Not a dollar test:</b> Tasmania sets the trigger by the type of building work, not a single dollar figure. Work classed as low-risk work by an owner under the Director’s Determination does not need a permit.</Note>
   <VerifiedSources date="14 Jul 2026" facts="Permit trigger, eligibility and the two-per-decade limit fact-checked against the current guidance" sources={[{ label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }, { label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }]} />
+  <SectionWayfinder label="From CBOS" href="#regulator" />
+</Section>
+
+<Section bg="bg-alt" id="regulator" marker="06" eyebrow="From CBOS" h2="What the regulator requires of you">
+  <AnswerCapsule>When you hold an owner builder permit you take on the licensed builder’s responsibilities under Tasmanian law. You are responsible for site safety, for coordinating the licensed trades, and you stay liable to future owners for the building work for up to <b>10 years</b>.</AnswerCapsule>
+  <div class="measure">
+    <h3 class="h3" style="margin-bottom:var(--s-2xs)">Your responsibilities as an owner builder</h3>
+    <p>You carry the same duties as a licensed builder. Under the Work Health and Safety Act 2012 (Tas) you are the person conducting a business or undertaking (PCBU) for your site, so work health and safety is your responsibility. You coordinate the licensed trades, keep the build compliant with the National Construction Code, and you remain liable to any future owner for defective building work for up to 10 years after the work is complete.</p>
+    <h3 class="h3" style="margin-top:var(--s-lg);margin-bottom:var(--s-2xs)">The law behind the permit</h3>
+    <p>Your permit is issued under the Occupational Licensing Act 2005 (Tas). Building work itself is regulated under the Building Act 2016 (Tas) and the Building Regulations 2016, which sort work into low-risk, notifiable and permit categories. If you enter a residential building contract over $20,000, the Residential Building Work Contracts and Dispute Resolution Act 2016 (Tas) sets minimum contract terms and a dispute-resolution scheme.</p>
+    <a class="btn-link" href="#become">See how to apply for your permit <ArrowRight /></a>
+  </div>
+  <VerifiedSources date="14 Jul 2026" facts="Owner-builder responsibilities and the governing Acts checked against the current Tasmanian legislation" sources={[{ label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }, { label: 'Tasmanian legislation', href: 'https://www.legislation.tas.gov.au' }]} />
   <SectionWayfinder label="What it costs" href="#cost" />
 </Section>
 
 <section class="sec bg-dark trust"><div class="wrap">
   <span class="eyebrow on-dark">The numbers</span>
   <h2 class="h2">Trusted by Australian owner builders since 2007</h2>
-  <AnswerCapsule onDark>A CBOS-approved course, <b>18 modules</b>, and more than <b>31,000</b> students trained since 2007.</AnswerCapsule>
+  <AnswerCapsule onDark>A CBOS-approved course, delivered fully online, with more than <b>31,000</b> students trained since 2007.</AnswerCapsule>
   <div class="trust-stats">
     <div class="tstat"><span class="n">CBOS</span><span class="l">Approved course</span></div>
     <div class="tstat"><span class="n num">31,000+</span><span class="l">Students trained</span></div>
     <div class="tstat"><span class="n num">19</span><span class="l">Years operating</span></div>
-    <div class="tstat"><span class="n num">18</span><span class="l">Modules in the course</span></div>
+    <div class="tstat"><span class="n num">100%</span><span class="l">Online and self-paced</span></div>
   </div>
   <p class="attest">Course approved by Consumer, Building and Occupational Services (CBOS). This is a state-approved Certificate of Completion, not an RTO course and not nationally recognised training. ABN 64 125 455 272 · <a href="https://www.cbos.tas.gov.au/" rel="noopener">cbos.tas.gov.au</a></p>
 </div></section>
 
-<Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
+<Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
   <AnswerCapsule>The course is <b>$195</b> to ABE (indicative). The CBOS permit fee is a separate <b>$470.40</b> for a home. Together that is <b>$665.40</b> to be ready to build. Council building permit fees are additional.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The CBOS permit fee ($470.40 Class 1a / $235.20 Class 10) is set by the regulator and reviewed each 1 July, so check the current amount before you lodge. Council building permit fees, a Building Administration Fee and the TBCITB training levy are additional. The $195 course fee is indicative pending confirmation." />
-  <BundleOffer
-    eyebrow="Bundle"
-    heading="Course + White Card, if you’ll be on site"
-    lede="Most owner builders also need a White Card before they can hold the permit. Do both together and you are site-ready, with the CBOS-approved course and your White Card in one enrolment."
-    items={[
-      { label: 'TAS owner builder course', price: '$195' },
-      { label: 'White Card', sub: 'Confirm unit + price', price: 'TBC' }
-    ]}
-    totalLabel="Both together"
-    total="TBC"
-    cta={{ href: '#enrol', label: 'Enrol in the bundle' }}
-    note="[confirm: LW] White Card price, unit code and bundle total. If you already hold a valid White Card, you can skip it."
-  />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 
-<Section id="obligations" marker="07" eyebrow="Wider obligations" h2="What else your project needs">
+<Section id="obligations" marker="08" eyebrow="Wider obligations" h2="What else your project needs">
   <AnswerCapsule>Beyond the course and permit, a handful of obligations apply: safety training, a building surveyor, insurance, contract rules, the permit limit, and your ongoing liability.</AnswerCapsule>
   <TopicGrid items={obligationCards} />
   <div class="zsplit" style="margin-top:var(--s-2xl)">
@@ -235,21 +237,60 @@ import { faqs } from '../../data/faqs-tas';
   <SectionWayfinder label="Become an owner builder" href="#become" />
 </Section>
 
-<Section bg="bg-alt" id="become" marker="08" eyebrow="The full path" h2="How to become an owner builder in Tasmania">
+<Section bg="bg-alt" id="become" marker="09" eyebrow="The full path" h2="How to become an owner builder in Tasmania">
   <AnswerCapsule>Five steps: complete the course, engage a building surveyor, arrange insurance and your White Card, lodge your permit application at Service Tasmania, then get your building permit.</AnswerCapsule>
   <Stepper steps={frontmatter.becomeSteps} maxWidth="640px" />
   <Note variant="caution" label="Important"><b>No approvals, no building.</b> You cannot start any work until your owner builder permit is issued and your building permit is in place.</Note>
   <VerifiedSources date="14 Jul 2026" facts="The path to a permit fact-checked against the current guidance" sources={[{ label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }, { label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }]} />
+  <SectionWayfinder label="Why ABE" href="#why" />
+</Section>
+
+<Section id="why" marker="10" eyebrow="Why ABE" h2="Why complete your course with ABE">
+  <AnswerCapsule>ABE Education delivers the CBOS-approved owner builder course directly, online, with the certificate you need emailed the moment you finish. It is developed and independently reviewed by named, credentialed people, and ABE has trained owner builders since 2007.</AnswerCapsule>
+  <TopicGrid items={[
+    { tag: '01', title: 'CBOS-approved', body: 'A CBOS-approved Tasmanian owner builder course, accepted for your permit application.' },
+    { tag: '02', title: 'Since 2007', body: 'Australian-owned and training owner builders since 2007.' },
+    { tag: '03', title: '31,000+ students', body: 'Trusted by more than 31,000 students across Australia.' },
+    { tag: '04', title: 'Online and self-paced', body: 'Study on any device, start when you enrol and resume whenever you like.' },
+    { tag: '05', title: 'Instant certificate', body: 'Your Certificate of Completion is emailed as soon as you finish.' }
+  ]} />
   <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
 </Section>
 
-<Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+<Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
   <Credentials people={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />
 </Section>
 
-<Section id="faq" marker="10" eyebrow="FAQ" h2="Common questions">
+<Section id="faq" marker="12" eyebrow="FAQ" h2="Common questions">
+  <Faq items={faqs} />
+  <VerifiedSources date="14 Jul 2026" facts="Answers fact-checked against the current guidance" sources={[{ label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }, { label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }]} />
+  <SectionWayfinder label="Enrol now" href="#enrol" ready />
+</Section>
+ label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }, { label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }]} />
+  <SectionWayfinder label="Why ABE" href="#why" />
+</Section>
+
+<Section id="why" marker="10" eyebrow="Why ABE" h2="Why complete your course with ABE">
+  <AnswerCapsule>ABE Education delivers the CBOS-approved owner builder course directly, online, with the certificate you need emailed the moment you finish. It is developed and independently reviewed by named, credentialed people, and ABE has trained owner builders since 2007.</AnswerCapsule>
+  <TopicGrid items={[
+    { tag: '01', title: 'CBOS-approved', body: 'A CBOS-approved Tasmanian owner builder course, accepted for your permit application.' },
+    { tag: '02', title: 'Since 2007', body: 'Australian-owned and training owner builders since 2007.' },
+    { tag: '03', title: '31,000+ students', body: 'Trusted by more than 31,000 students across Australia.' },
+    { tag: '04', title: 'Online and self-paced', body: 'Study on any device, start when you enrol and resume whenever you like.' },
+    { tag: '05', title: 'Instant certificate', body: 'Your Certificate of Completion is emailed as soon as you finish.' }
+  ]} />
+  <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
+</Section>
+
+<Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+  <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
+  <Credentials people={frontmatter.experts} />
+  <SectionWayfinder label="FAQ" href="#faq" />
+</Section>
+
+<Section id="faq" marker="12" eyebrow="FAQ" h2="Common questions">
   <Faq items={faqs} />
   <VerifiedSources date="14 Jul 2026" facts="Answers fact-checked against the current guidance" sources={[{ label: 'CBOS — Owner builder permit', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit' }, { label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }]} />
   <SectionWayfinder label="Enrol now" href="#enrol" ready />
