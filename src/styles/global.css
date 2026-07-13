@@ -205,7 +205,9 @@ p strong{color:var(--ink);font-weight:600;}
 .glance .g-k{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:12px;}
 .glance .g-v{font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-.02em;color:var(--ink);display:block;margin-bottom:6px;}
 .glance .g-n{font-size:14px;color:var(--ink-3);}
-.zsplit{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2xl);align-items:center;}
+/* top-align the two columns so the image top lines up with the eyebrow in every split,
+   regardless of how tall the text column is (centre made the image float inconsistently) */
+.zsplit{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2xl);align-items:start;}
 .zsplit.rev .z-img{order:2;}
 .z-body .measure{max-width:480px;}
 .steps{display:grid;gap:var(--s-lg);margin-top:var(--s-md);}
