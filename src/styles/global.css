@@ -1,6 +1,6 @@
 :root{
   --maroon:#800000; --maroon-dark:#5a0000;
-  --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3);
+  --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
   /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
@@ -251,9 +251,9 @@ p strong{color:var(--ink);font-weight:600;}
    (the tick and date); the sources sit in slate so they do not speckle the page. */
 .verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:baseline;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
 .verified .v-date{display:flex;flex-direction:column;gap:2px;color:var(--verify);font-weight:500;white-space:nowrap;}
-.verified .v-label{display:inline-flex;align-items:center;gap:6px;}
+.verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--slate);text-transform:uppercase;letter-spacing:.09em;}
 .verified .v-day{font-weight:400;}
-.verified .check{width:12px;height:12px;flex:none;}
+.verified .check{width:12px;height:12px;flex:none;color:var(--ok);}
 .verified .v-body{color:var(--slate-light);}
 .verified .v-against{color:var(--slate-light);}
 .verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
@@ -382,9 +382,11 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 @media(max-width:1100px){.people{grid-template-columns:1fr;gap:var(--s-xl);}}
 /* ===== end-of-section wayfinder ===== */
 .waynext{margin-top:var(--s-xl);padding-top:var(--s-md);border-top:1px solid var(--rule);}
-/* centre-align on a tight line-height so the arrow icon lines up with the text's optical
-   centre (baseline alignment left the arrow low against the title's tall line box) */
-.waynext a{display:inline-flex;align-items:center;gap:12px;line-height:1.25;text-decoration:none;color:var(--ink);}
+/* the "NEXT" kicker sits on its own line above the title; the title + arrow share the
+   row below, centre-aligned on a tight line-height so the arrow sits on the title's
+   optical centre (baseline alignment left the arrow low against its tall line box) */
+.waynext a{display:inline-flex;flex-direction:column;align-items:flex-start;gap:5px;text-decoration:none;color:var(--ink);}
+.waynext .ln{display:inline-flex;align-items:center;gap:8px;line-height:1.25;}
 /* "NEXT" mono kicker: micro-label voice, uppercase */
 .waynext .lab{flex:none;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate-light);}
 /* the next section's title in the display face, so it reads as a headline, not a label */

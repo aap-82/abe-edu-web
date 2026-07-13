@@ -10,7 +10,6 @@ const { label, href, onDark = false, ready = false } = Astro.props;
 <p class={`waynext${onDark ? ' on-dark' : ''}`}>
   <a href={href}>
     <span class="lab">{ready ? 'Ready?' : 'Next'}</span>
-    <span class="ttl">{label}</span>
-    <ArrowRight />
+    <span class="ln"><span class="ttl">{label}</span><ArrowRight /></span>
   </a>
 </p>
