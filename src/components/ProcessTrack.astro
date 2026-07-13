@@ -1,50 +1,46 @@
 ---
-// Hero "how it works" line as a progress track: node dots joined by a hairline, led by
-// a "How it works" kicker. Variant C from the scratch file, plus the kicker.
+// Hero "how it works" line: a PROCESS eyebrow over a numbered rail (variant A). Numbered
+// steps joined by a thin connector that reads as "then"; the last number turns verify-blue
+// to mark the hand-off to the regulator.
 //
 // The steps arrive as one " → "-separated string (the frontmatter howItWorks field), so
-// this stays a single source of truth per page and the last node changes with it.
+// this stays a single source of truth per page and the last step changes with it.
 //
-// Layout is driven by a @container query, not a viewport breakpoint: the hero's left
-// column carries container-type:inline-size, so the track lays out against the width it
-// actually has. Wide enough for one line -> dots on a rail with growing segments; too
-// narrow (collapsed hero, small phone) -> it wraps and the segments drop away. The font
-// scales with the column (cqw) so the full labels fit the one-line form.
+// The rail's layout is driven by a @container query, not a viewport breakpoint: the hero's
+// left column carries container-type:inline-size, so it lays out against the width it
+// actually has. Wide enough -> one line with growing connectors; too narrow -> the steps
+// wrap and the connectors drop away. Font scales with the column.
 interface Props { steps: string; label?: string; }
-const { steps, label = 'How it works' } = Astro.props;
+const { steps, label = 'Process' } = Astro.props;
 const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
 ---
 <div class="howtrack">
-  <span class="ht-k">{label}</span>
+  <span class="ht-eyebrow">{label}</span>
   <div class="ht-rail">
     {nodes.map((n, i) => (
       <>
-        {i > 0 && <span class="ht-seg" aria-hidden="true"></span>}
-        <span class="ht-node"><span class="ht-dot" aria-hidden="true"></span>{n}</span>
+        {i > 0 && <span class="ht-link" aria-hidden="true"></span>}
+        <span class="ht-node"><span class="ht-n" aria-hidden="true">{i + 1}</span>{n}</span>
       </>
     ))}
   </div>
 </div>
 <style>
-  /* Wrapped by default (mobile-first): the kicker, then dotted nodes that wrap. Segments
-     are hidden here because a growing rail makes no sense across wrapped lines. */
-  .howtrack{ margin-top:var(--s-lg); display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; font-family:var(--font-mono); }
-  .ht-k{ flex:none; font-size:10px; letter-spacing:.13em; text-transform:uppercase; font-weight:500; color:var(--maroon); }
-  .ht-rail{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; font-size:11px; letter-spacing:.01em; color:var(--ink-2); }
-  .ht-node{ flex:none; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
-  .ht-dot{ width:7px; height:7px; border-radius:50%; background:var(--maroon); flex:none; box-shadow:0 0 0 3px rgba(128,0,0,.1); }
-  /* the last node is the hand-off from ABE to the regulator: mark it in the verify blue */
-  .ht-node:last-child .ht-dot{ background:var(--verify); box-shadow:0 0 0 3px rgba(47,93,140,.12); }
-  .ht-seg{ display:none; }
+  .howtrack{ margin-top:var(--s-lg); display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+  /* eyebrow: mono uppercase label above the rail */
+  .ht-eyebrow{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
 
-  /* One line once the column can hold it. Keyed to the column, not the viewport, so the
-     collapsed hero and the narrow two-column range both fall back to the wrapped form
-     without a viewport guess. Font scales with the column so the labels fit. */
+  /* the numbered rail: wrapped by default (mobile-first), connectors hidden */
+  .ht-rail{ align-self:stretch; display:flex; flex-wrap:wrap; align-items:center; gap:9px 12px; font-family:var(--font-mono); font-size:11px; letter-spacing:.01em; color:var(--ink-2); }
+  .ht-node{ flex:none; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+  .ht-n{ display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border-radius:50%; background:var(--maroon); color:#fff; font-size:10px; font-weight:500; flex:none; }
+  /* the last step is the hand-off to the regulator: mark its number in the verify blue */
+  .ht-node:last-child .ht-n{ background:var(--verify); }
+  .ht-link{ display:none; }
+
+  /* one line once the column can hold it (keyed to the column, not the viewport) */
   @container (min-width:560px){
-    .howtrack{ flex-wrap:nowrap; white-space:nowrap; gap:0; }
-    .ht-k{ padding-right:14px; margin-right:0; }
-    .ht-rail{ flex:1 1 auto; min-width:0; flex-wrap:nowrap; gap:0; font-size:clamp(10px, 1.95cqw, 12px); }
-    .ht-node{ gap:6px; }
-    .ht-seg{ display:block; flex:1 1 auto; min-width:10px; height:2px; margin:0 7px; border-radius:2px; background:var(--rule-strong); }
+    .ht-rail{ flex-wrap:nowrap; white-space:nowrap; gap:0; font-size:clamp(9.5px, 1.8cqw, 11px); }
+    .ht-link{ display:block; flex:1 1 auto; min-width:14px; height:1px; margin:0 12px; background:var(--rule-strong); }
   }
 </style>

@@ -1,10 +1,16 @@
 ---
-// End-of-section forward "Next: … →" scent link (static, SEO-friendly).
+import ArrowRight from './ArrowRight.astro';
+// End-of-section forward scent link: a small "Next" mono kicker beside the next section's
+// title in the display face, so it reads as "read next: [headline]" rather than a label.
+// Uses the same ArrowRight icon + fly-on-hover animation as the in-body btn-link.
+// Static and SEO-friendly.
 interface Props { label: string; href: string; onDark?: boolean; ready?: boolean; }
 const { label, href, onDark = false, ready = false } = Astro.props;
 ---
 <p class={`waynext${onDark ? ' on-dark' : ''}`}>
   <a href={href}>
-    <span class="lab">{ready ? 'Ready?' : 'Next'}</span> {label} <span class="arr" aria-hidden="true">→</span>
+    <span class="lab">{ready ? 'Ready?' : 'Next'}</span>
+    <span class="ttl">{label}</span>
+    <ArrowRight />
   </a>
 </p>

@@ -51,7 +51,7 @@ const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with A
       {/* Dividers are drawn by CSS between stats, so a wrap can never strand one. */}
       <div class="proof">
         {proof.map((p) => (
-          <span class="stat"><span class="n num">{p.n}</span> {p.text}</span>
+          <span class="stat"><span class="n num">{p.n}</span><span class="l">{p.text}</span></span>
         ))}
       </div>
       <ProcessTrack steps={howItWorks} />

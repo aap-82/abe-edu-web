@@ -3,10 +3,9 @@
   --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3);
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
-  /* chrome tone for the sticky bars (breadcrumb + wayfinder): deliberately a step
-     deeper than every section ground (#fff / #fafafa / #f7f4ef) so the bars read as
-     chrome, not as another content band. */
-  --paper-chrome:#eeeae1;
+  /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
+     breadcrumb and wayfinder read as one continuous chrome surface. */
+  --paper-chrome:var(--paper);
   --rule:#e5e7eb; --rule-strong:#d4d6da;
   --gold:#d4a843;
   --font-display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
@@ -66,9 +65,9 @@ p strong{color:var(--ink);font-weight:600;}
    times, so nothing reflows while the arrow is away.
    Out accelerates (ease-in) as if thrown; in decelerates (ease-out) as if caught. The
    last 40% of the cycle is rest: back to back, the flight reads as a stutter. */
-.btn-link .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:none;overflow:hidden;}
-.btn-link .arr{width:18px;height:18px;flex:none;}
-.btn-link:hover .arr{animation:arr-fly .9s infinite;}
+.btn-link .arr-clip,.waynext .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:none;overflow:hidden;}
+.btn-link .arr,.waynext .arr{width:18px;height:18px;flex:none;}
+.btn-link:hover .arr,.waynext a:hover .arr{animation:arr-fly .9s infinite;}
 @keyframes arr-fly{
   0%{transform:translateX(0);animation-timing-function:cubic-bezier(.7,0,.84,0);}
   30%{transform:translateX(26px);}                                     /* gone */
@@ -77,7 +76,7 @@ p strong{color:var(--ink);font-weight:600;}
   100%{transform:translateX(0);}                                       /* rest */
 }
 @media(prefers-reduced-motion:reduce){
-  .btn-link:hover .arr{animation:none;}
+  .btn-link:hover .arr,.waynext a:hover .arr{animation:none;}
 }
 .site-head{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(8px);z-index:30;}
 .site-head .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;gap:18px;}
@@ -94,7 +93,9 @@ p strong{color:var(--ink);font-weight:600;}
 /* Once stuck under the header, the bar takes the pagebar's --paper-alt tone, fading in
    step with the CTA's .3s reveal, so the stuck chrome reads as one band with the
    breadcrumb bar rather than a floating white strip. */
-.waynav.is-stuck{background:var(--paper-chrome);}
+/* once stuck at the top, the bottom rule firms up (--rule -> --rule-strong) so the bar
+   divides cleanly from the content scrolling beneath it. Still a hairline, no shadow. */
+.waynav.is-stuck{background:var(--paper-chrome);border-bottom-color:var(--rule-strong);}
 /* Spacing comes off the --s-* scale. The bar's height is load-bearing: --waynav-h feeds
    .sec scroll-margin-top, so the links must never wrap onto a second row. They scroll
    instead, as they already did on mobile. 12 + 41 (CTA) + 12 = 65px, always. */
@@ -174,13 +175,15 @@ p strong{color:var(--ink);font-weight:600;}
 /* the proof row sizes to its column, not the viewport: the hero grid collapses to one
    column at 1100px, so cqw tracks the real width where vw would not */
 .hero .wrap>div:first-child{container-type:inline-size;}
-.proof{display:flex;align-items:center;flex-wrap:nowrap;gap:0;font-size:clamp(11.5px,2.35cqw,14px);color:var(--slate);}
-.proof .stat{position:relative;display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap;padding:0 clamp(8px,1.6cqw,18px);}
+.proof{display:flex;align-items:center;flex-wrap:nowrap;gap:0;color:var(--slate);}
+/* each stat stacks: figure on top, mono-uppercase label under it */
+.proof .stat{position:relative;display:inline-flex;flex-direction:column;gap:3px;white-space:nowrap;padding:0 clamp(14px,1.9cqw,24px);}
 .proof .stat:first-child{padding-left:0;}
 .proof .stat:last-child{padding-right:0;}
+.proof .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);line-height:1.2;}
 /* divider drawn between stats, so it can never be stranded at the end of a line */
-.proof .stat+.stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:16px;background:var(--rule-strong);}
-.proof .n{font-family:var(--font-display);font-weight:600;font-size:clamp(14px,2.9cqw,18px);color:var(--ink);letter-spacing:-.01em;}
+.proof .stat+.stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:30px;background:var(--rule-strong);}
+.proof .n{font-family:var(--font-display);font-weight:600;font-size:clamp(15px,2.9cqw,19px);color:var(--ink);letter-spacing:-.01em;line-height:1;}
 /* three stats cannot fit one line on a phone, so let them wrap and drop the dividers:
    a wrapped stat must never begin a line with a stray vertical rule */
 @media(max-width:720px){
@@ -241,27 +244,22 @@ p strong{color:var(--ink);font-weight:600;}
 .capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
 /* ===== verified-with-sources line ===== */
-/* ===== verification footnote (native <details> disclosure) =====
-   No top rule: the block sits directly under the section it verifies, its own tick and
-   mono type set it apart without a line drawing extra attention 8-9 times a page.
-   Colour marks the claim (the tick and date), never the citations: the sources sit
-   in slate so nine of these do not speckle the page with links. */
-.verified{margin-top:var(--s-md);max-width:64ch;}
-.verified summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--verify);font-weight:500;padding:2px 0;}
-.verified summary::-webkit-details-marker{display:none;}
+/* ===== verification ledger (two columns) =====
+   No top rule: the block sits directly under the section it verifies. Left column is the
+   dated verification (verify-blue tick + date); right column carries the fact and its
+   linked source(s), reading "[what was checked] against [source]". Colour marks the claim
+   (the tick and date); the sources sit in slate so they do not speckle the page. */
+.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:baseline;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
+.verified .v-date{display:flex;flex-direction:column;gap:2px;color:var(--verify);font-weight:500;white-space:nowrap;}
+.verified .v-label{display:inline-flex;align-items:center;gap:6px;}
+.verified .v-day{font-weight:400;}
 .verified .check{width:12px;height:12px;flex:none;}
-.verified summary .cnt{color:var(--slate-light);font-weight:400;display:inline-flex;align-items:center;gap:6px;}
-.verified summary .chev{width:11px;height:7px;flex:none;color:var(--slate-light);transition:transform .18s;}
-.verified[open] summary .chev{transform:rotate(180deg);}
-.verified summary:hover .cnt{color:var(--slate);}
-.verified summary:focus-visible{outline:2px solid var(--verify);outline-offset:3px;border-radius:3px;}
-.verified .facts{font-family:var(--font-mono);font-size:11px;color:var(--slate-light);margin-top:8px;}
-.verified ul{list-style:none;margin-top:10px;padding:0;display:flex;flex-direction:column;gap:5px;}
-.verified li{font-family:var(--font-mono);font-size:12px;line-height:1.5;color:var(--slate-light);}
-.verified a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
-.verified a:hover{color:var(--verify);border-color:var(--verify);}
-/* no sources to disclose: same line, no control */
-.verified-bare{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--verify);font-weight:500;}
+.verified .v-body{color:var(--slate-light);}
+.verified .v-against{color:var(--slate-light);}
+.verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
+.verified .v-body a:hover{color:var(--verify);border-color:var(--verify);}
+/* stack the two columns on narrow screens */
+@media(max-width:640px){ .verified{grid-template-columns:1fr;gap:6px;} }
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
@@ -296,7 +294,6 @@ p strong{color:var(--ink);font-weight:600;}
 .cpd tbody a{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .cpd tbody a:hover{color:var(--maroon);border-color:var(--maroon);}
 .cpd .cpd-dash{color:var(--slate-light);}
-@media(prefers-reduced-motion:reduce){ .verified summary .chev{transition:none;} }
 .trust .h2{color:#fff;max-width:18ch;margin-bottom:var(--s-xl);}
 .trust-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);border-top:1px solid rgba(255,255,255,.14);padding-top:var(--s-xl);}
 .tstat .n{font-family:var(--font-display);font-weight:600;font-size:36px;letter-spacing:-.02em;color:#fff;display:block;margin-bottom:8px;}
@@ -385,10 +382,19 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 @media(max-width:1100px){.people{grid-template-columns:1fr;gap:var(--s-xl);}}
 /* ===== end-of-section wayfinder ===== */
 .waynext{margin-top:var(--s-xl);padding-top:var(--s-md);border-top:1px solid var(--rule);}
-.waynext a{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--maroon);text-decoration:none;display:inline-flex;gap:10px;align-items:center;}
-.waynext a .lab{color:var(--slate-light);}
-.waynext a .arr{transition:transform .15s;}
-.waynext a:hover{color:var(--maroon-dark);}
-.waynext a:hover .arr{transform:translateX(4px);}
+/* centre-align on a tight line-height so the arrow icon lines up with the text's optical
+   centre (baseline alignment left the arrow low against the title's tall line box) */
+.waynext a{display:inline-flex;align-items:center;gap:12px;line-height:1.25;text-decoration:none;color:var(--ink);}
+/* "NEXT" mono kicker: micro-label voice, uppercase */
+.waynext .lab{flex:none;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate-light);}
+/* the next section's title in the display face, so it reads as a headline, not a label */
+.waynext .ttl{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink);transition:color .15s;}
+/* the ArrowRight icon: maroon, centred against the title; clip + fly animation are the
+   shared .btn-link/.waynext rules above (currentColor drives the svg stroke) */
+.waynext .arr-clip{align-self:center;color:var(--maroon);}
+.waynext a:hover .ttl{color:var(--maroon);}
 .bg-dark .waynext{border-color:rgba(255,255,255,.16);}
-.bg-dark .waynext a{color:var(--gold);}
+.bg-dark .waynext .lab{color:rgba(255,255,255,.5);}
+.bg-dark .waynext .ttl{color:#fff;}
+.bg-dark .waynext .arr-clip{color:var(--gold);}
+.bg-dark .waynext a:hover .ttl{color:var(--gold);}
