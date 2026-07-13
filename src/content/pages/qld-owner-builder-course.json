@@ -1,0 +1,166 @@
+{
+  "title": "Owner Builder Course QLD - QBCC-Required, Online $179",
+  "description": "The QBCC-required QLD owner builder course, 100% online for $179. 18 modules, 80% pass mark, Certificate of Completion valid 5 years for your permit.",
+  "canonical": "https://www.abeeducation.edu.au/qld-owner-builder-course",
+  "updated": "July 2026",
+
+  "authority": "state-approved-direct",
+  "regulator": { "name": "Queensland Building and Construction Commission (QBCC)", "url": "https://www.qbcc.qld.gov.au" },
+
+  "price": { "amount": 179, "display": "$179" },
+
+  "hero": {
+    "eyebrow": "QLD Owner Builder · QBCC-approved",
+    "h1Html": "The QBCC-required owner builder course, online<span class=\"dot\">.</span>",
+    "keyword": "owner builder course",
+    "subhead": "Complete the course the QBCC requires before you apply for your owner builder permit.",
+    "ticks": ["QBCC-approved course material", "18 modules, self-paced", "Certificate valid 5 years"],
+    "cta": { "href": "#enrol", "label": "Get your certificate - $179" },
+    "proof": [{ "n": "31,000+", "text": "students trained since 2007" }],
+    "howItWorks": "Enrol, complete 18 modules and the quiz, lodge your certificate with the QBCC.",
+    "artefact": { "desc": "A Certificate of Completion on a desk beside build plans.", "spec": "4:5 · warm tone", "ratio": "r45" }
+  },
+
+  "sticky": {
+    "label": "QLD Owner Builder",
+    "sub": "certificate valid 5 years",
+    "cta": { "href": "#enrol", "label": "Get your certificate" }
+  },
+
+  "sections": [
+    {
+      "id": "accredited",
+      "nav": "Accredited?",
+      "shell": "standard",
+      "bg": "bg-alt",
+      "eyebrow": "Approved vs accredited",
+      "h2": "Is this course accredited?",
+      "blocks": [
+        {
+          "type": "capsule",
+          "html": "<b>Yes, for your permit.</b> The course is QBCC-approved, which is exactly what Queensland requires. It is not a nationally recognised qualification, and it does not need to be. You need an approved course, and this is one."
+        },
+        {
+          "type": "cancant",
+          "canTitle": "What this course is",
+          "can": [
+            "QBCC-approved course material (the NONACCABE QBCC Owner Builder Course).",
+            "Issues a Certificate of Completion the QBCC accepts for your permit.",
+            "Valid for five years from the day you complete it."
+          ],
+          "cantTitle": "What it is not",
+          "cant": [
+            "Not a qualification issued under national accreditation.",
+            "Not delivered by a Registered Training Organisation.",
+            "Not required to be accredited for you to get your owner builder permit."
+          ]
+        },
+        {
+          "type": "note",
+          "html": "<b>Why it matters:</b> only QBCC-approved course material is accepted for the permit. For an owner builder permit in Queensland, the approved course does the job."
+        },
+        {
+          "type": "verified",
+          "date": "24 Jun 2026",
+          "sources": [{ "label": "QBCC - Required courses", "href": "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders" }]
+        }
+      ]
+    },
+    {
+      "id": "how",
+      "nav": "How it works",
+      "shell": "zsplit",
+      "rev": true,
+      "eyebrow": "How it works",
+      "h2": "Three steps to your certificate",
+      "image": { "desc": "The online course interface on a laptop, clean and self-paced.", "spec": "4:5 · warm tone · ~520x650", "ratio": "r45" },
+      "blocks": [
+        {
+          "type": "capsule",
+          "html": "Enrol, work through the <b>18 modules</b> and the online quiz at your own pace, and get your Certificate of Completion the moment you pass. Most people finish the whole thing in a few hours, on any device."
+        },
+        {
+          "type": "stepper",
+          "maxWidth": "480px",
+          "steps": [
+            { "title": "Enrol online", "body": "Pay $179 and get instant access." },
+            { "title": "Complete the course", "body": "18 modules at your own pace, then an online quiz. The pass mark is 80%, with up to 3 attempts." },
+            { "title": "Get your certificate, then apply", "body": "Lodge it with your QBCC owner builder permit application." }
+          ]
+        },
+        {
+          "type": "verified",
+          "date": "24 Jun 2026",
+          "sources": [{ "label": "QBCC - Apply for an owner builder permit", "href": "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/apply-owner-builder-permit" }]
+        }
+      ]
+    },
+    {
+      "id": "cost",
+      "nav": "Cost",
+      "shell": "standard",
+      "eyebrow": "The cost",
+      "h2": "What it costs, all in",
+      "blocks": [
+        {
+          "type": "capsule",
+          "html": "The course is <b>$179</b>, GST-free, with every charge included. The QBCC permit fee is a separate government charge you pay directly when you lodge your application, so budget for both before you start. Only one of the two is the course fee."
+        },
+        {
+          "type": "price",
+          "rows": [
+            { "label": "Course fee", "sub": "Paid to ABE Education, all charges included, GST-free", "amount": "$179.00" },
+            { "label": "QBCC permit fee", "sub": "Government charge, paid to the QBCC when you lodge", "amount": "$493.59" },
+            { "label": "Ready-to-build total", "sub": "A budgeting figure only", "amount": "$672.59", "isTotal": true }
+          ]
+        },
+        {
+          "type": "verified",
+          "date": "14 Jul 2026",
+          "facts": "QBCC permit fee re-verified 14 Jul 2026 after the 1 July indexation.",
+          "sources": [{ "label": "QBCC - Fees for owner builders", "href": "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/fees-owner-builders" }]
+        }
+      ]
+    }
+  ],
+
+  "course": {
+    "name": "QLD Owner Builder Course",
+    "description": "QBCC-required owner builder training, delivered 100% online. 18 modules, online quiz with an 80% pass mark.",
+    "workload": "PT4H",
+    "credentialName": "Certificate of Completion - NONACCABE QBCC Owner Builder Course",
+    "credentialCategory": "Certificate of Completion"
+  },
+
+  "breadcrumbs": [
+    { "name": "Home", "item": "https://www.abeeducation.edu.au/" },
+    { "name": "Owner Builder Training", "item": "https://www.abeeducation.edu.au/owner-builder-courses" },
+    { "name": "QLD Owner Builder", "item": "https://www.abeeducation.edu.au/qld-owner-builder-course" }
+  ],
+
+  "experts": [
+    {
+      "name": "Dominic Ogburn",
+      "role": "Course Developer · CEO, ABE Education",
+      "jobTitle": "Course Developer",
+      "creds": "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction",
+      "bio": ["Writes the course from the builder's side of the table. CEO of ABE Education since 2007."],
+      "linkedin": "https://www.linkedin.com/in/dominic-ogburn"
+    },
+    {
+      "name": "Warwick Smith",
+      "role": "Compliance & Currency Reviewer (independent)",
+      "jobTitle": "Compliance & Currency Reviewer",
+      "creds": "27+ years in the VET sector",
+      "bio": ["Independently reviews this page to verify that its legislative references and regulatory details are current."],
+      "linkedin": "https://www.linkedin.com/in/warwick-a-l-smith/"
+    }
+  ],
+
+  "sources": [
+    { "label": "QBCC - About owner-building", "href": "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/about-owner-building", "verified": "Verified 24 Jun 2026" },
+    { "label": "QBCC - Fees ($493.59)", "href": "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/fees-owner-builders", "verified": "Verified 14 Jul 2026" }
+  ],
+
+  "disclaimersHtml": "<b>ABE Education is not a Registered Training Organisation.</b> The NONACCABE QBCC Owner Builder Course has been approved by the QBCC (interim approval); the approval applies to the approved course material only."
+}
