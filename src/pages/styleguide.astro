@@ -1,0 +1,363 @@
+---
+// Living component library for the ABE Education site. Imports and renders every shared
+// component with representative example data, using the real global.css and fonts, so it
+// stays accurate because it renders the actual components (not copies). Internal only:
+// noindex + excluded from the sitemap (see astro.config.mjs sitemap filter).
+import '../styles/global.css';
+
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import PageBar from '../components/PageBar.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+import Section from '../components/Section.astro';
+import ZSplit from '../components/ZSplit.astro';
+import Placeholder from '../components/Placeholder.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import Note from '../components/Note.astro';
+import CanCant from '../components/CanCant.astro';
+import Stepper from '../components/Stepper.astro';
+import TopicGrid from '../components/TopicGrid.astro';
+import FactGrid from '../components/FactGrid.astro';
+import PriceCard from '../components/PriceCard.astro';
+import BundleOffer from '../components/BundleOffer.astro';
+import Faq from '../components/Faq.astro';
+import ProcessTrack from '../components/ProcessTrack.astro';
+import CpdMatrix from '../components/CpdMatrix.astro';
+import Credentials from '../components/Credentials.astro';
+import VerifiedSources from '../components/VerifiedSources.astro';
+import PartnerDisclosure from '../components/PartnerDisclosure.astro';
+import SectionWayfinder from '../components/SectionWayfinder.astro';
+import ArrowRight from '../components/ArrowRight.astro';
+
+const ctaEx = { href: '#', label: 'Get your certificate — $179', microcopy: 'Instant access after payment' };
+
+const glance = [
+  { key: 'Price', value: '$179', note: 'GST-free. The permit fee is separate.' },
+  { key: 'Delivery', value: 'Online', note: 'Self-paced, finish in a few hours.' },
+  { key: 'Assessment', value: '80%', note: 'Online quiz, up to 3 attempts.' },
+  { key: 'Certificate', value: '5 yrs', note: 'Valid five years for your permit.' },
+];
+const topics = [
+  { tag: '01', title: 'Your responsibilities', body: 'What you take on as the <b>builder</b> for your own home.' },
+  { tag: '02', title: 'Safety and the site', body: 'WHS duties and the <b>National Construction Code</b>.' },
+  { tag: '03', title: 'Costing and trades', body: 'Estimate, budget, and engage <b>licensed trades</b>.' },
+];
+const steps = [
+  { title: 'Enrol online', body: 'Pay and get instant access. Card or Afterpay.' },
+  { title: 'Complete the course', body: 'Work through the modules at your own pace, then the quiz.' },
+  { title: 'Get your certificate', body: 'Emailed the moment you pass.' },
+];
+const priceRows = [
+  { label: 'Course fee', sub: 'Paid to ABE Education, GST-free', amount: '$179.00' },
+  { label: 'Government permit fee', sub: 'Paid to the regulator when you lodge', amount: '$493.59' },
+  { label: 'Ready-to-build total', sub: 'A budgeting figure only', amount: '$672.59', isTotal: true },
+];
+const faqExamples = [
+  { q: 'Is the course mandatory?', a: 'Yes, the regulator requires an approved course before it issues your permit.', open: true },
+  { q: 'How long does it take?', a: 'Most people finish online in a few hours, at their own pace.' },
+];
+const people = [{
+  name: 'Example Reviewer',
+  role: 'Compliance & Currency Reviewer (demo)',
+  creds: 'Demonstration credential line · shown to illustrate the Credentials component',
+  bio: [
+    'Placeholder biography copy showing how the card renders a mono credential line above body paragraphs.',
+    'A second paragraph demonstrates a multi-paragraph bio.',
+  ],
+  linkedin: '#',
+}];
+const vSources = [
+  { label: 'Regulator — Owner builder permit', href: '#' },
+  { label: 'Building Act (example)', href: '#' },
+];
+const footerSources = [
+  { label: 'Regulator — Owner builder permit', href: '#', verified: 'Verified 14 Jul 2026' },
+  { label: 'Building Act (example)', href: '#', verified: 'legislation' },
+];
+const navItems = [
+  { label: 'The course', href: '#course', sectionId: 'course' },
+  { label: 'Cost', href: '#cost', sectionId: 'cost' },
+  { label: 'FAQ', href: '#faq', sectionId: 'faq' },
+];
+const crumbs = [
+  { name: 'Home', item: '#' },
+  { name: 'Owner Builder Training', item: '#' },
+  { name: 'Example Course', item: '#' },
+];
+const reviewed = { name: 'Example Reviewer', href: '#', date: '14 Jul 2026' };
+const cpdStates = ['TAS', 'NSW', 'WA'];
+const cpdRows = [
+  { industry: 'Building', cells: [{ href: '#' }, { href: '#' }, null] },
+  { industry: 'Real estate', note: 'annual points', cells: [null, null, { href: '#' }] },
+];
+const heroEx = {
+  eyebrow: 'Owner Builder · Approved',
+  h1Html: 'The example owner builder course, online<span class="dot">.</span>',
+  updated: 'Updated July 2026',
+  subhead: 'A representative hero. Complete the course the regulator requires, online at your own pace, then lodge your certificate with your application.',
+  ticks: ['<b>Approved course material</b>', '<b>100% online and self-paced</b>', '<b>Certificate of Completion</b>', '<b>Valid five years</b>'],
+  cta: ctaEx,
+  proof: [{ n: 'QBCC', text: 'approved material' }, { n: '31,000+', text: 'students trained' }, { n: '2007', text: 'training since' }],
+  howItWorks: 'Enrol → Complete online → Get certificate → Apply',
+  artefactDesc: 'Example hero artefact.',
+  artefactSpec: '4:5 · warm tone',
+  artefactImg: '/images/qld-owner-builder-course-hero.avif',
+  artefactAlt: 'Example hero image of house plans with a home under construction rising behind.',
+  artefactRatio: 'r45',
+};
+
+const groups = [
+  { id: 'chrome', label: 'Page chrome' },
+  { id: 'layout', label: 'Sections & layout' },
+  { id: 'content', label: 'Content blocks' },
+  { id: 'trust', label: 'Trust & sourcing' },
+  { id: 'nav', label: 'Navigation & inline' },
+];
+---
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>ABE Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="sg">
+  <header class="sg-head">
+    <span class="sg-kicker">Internal · noindex</span>
+    <h1>Component library</h1>
+    <p>Every shared component on the ABE site, rendered live with example data and the real design tokens. This page renders the actual components, so it never drifts from production. Grouped by role; each specimen shows the component name and its key props.</p>
+    <nav class="sg-toc">
+      {groups.map((g) => <a href={`#g-${g.id}`}>{g.label}</a>)}
+    </nav>
+  </header>
+
+  <!-- ===== PAGE CHROME ===== -->
+  <section class="sg-group" id="g-chrome">
+    <h2 class="sg-group-title">Page chrome</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">SiteHeader</span><span class="sg-desc">Top nav with click-open megamenus. Self-contained, no props.</span></div>
+      <div class="sg-demo sg-demo--bleed"><SiteHeader /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Hero</span><span class="sg-desc">Above-the-fold stack: eyebrow, H1, ticks, CTA, proof, artefact.</span><span class="sg-props">eyebrow · h1Html · subhead · ticks[] · cta · proof[] · howItWorks · artefact*</span></div>
+      <div class="sg-demo sg-demo--bleed"><Hero {...heroEx} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">PageBar</span><span class="sg-desc">Breadcrumb + reviewer/freshness bar.</span><span class="sg-props">crumbs[] · reviewed?</span></div>
+      <div class="sg-demo sg-demo--bleed"><PageBar crumbs={crumbs} reviewed={reviewed} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">WayfinderNav</span><span class="sg-desc">On-this-page sticky nav with a money CTA.</span><span class="sg-props">items[] · cta</span></div>
+      <div class="sg-demo sg-demo--bleed"><WayfinderNav items={navItems} cta={ctaEx} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">CtaBand</span><span class="sg-desc">Closing conversion band before the footer.</span><span class="sg-props">eyebrow? · headingHtml · sub · cta</span></div>
+      <div class="sg-demo sg-demo--bleed"><CtaBand eyebrow="Ready?" headingHtml={'Ready to get started<span class="dot">?</span>'} sub="A representative closing CTA band." cta={ctaEx} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">SourcesFooter</span><span class="sg-desc">Page-foot sources list + disclaimers.</span><span class="sg-props">sources[] · abn? · updated? · disclaimersHtml</span></div>
+      <div class="sg-demo sg-demo--bleed"><SourcesFooter sources={footerSources} abn="64 125 455 272" updated="July 2026" disclaimersHtml="<b>ABE Education is not an RTO.</b> Example disclaimer copy showing how the footer renders sitewide legal lines." /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">StickyCta</span><span class="sg-desc">Viewport-fixed enrol bar (not rendered here to avoid a persistent overlay).</span><span class="sg-props">label · sub? · price · cta</span></div>
+      <div class="sg-demo sg-note-line">Renders as a fixed bar pinned to the viewport on course pages. See any live course page.</div>
+    </div>
+  </section>
+
+  <!-- ===== SECTIONS & LAYOUT ===== -->
+  <section class="sg-group" id="g-layout">
+    <h2 class="sg-group-title">Sections & layout</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Section</span><span class="sg-desc">Standard content section: eyebrow, H2, tonal ground.</span><span class="sg-props">bg? · id? · marker? · eyebrow? · h2 · slot</span></div>
+      <div class="sg-demo sg-demo--bleed">
+        <Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
+          <AnswerCapsule>A Section wraps content with a consistent eyebrow, question-led H2, and tonal paper ground. This capsule sits inside it.</AnswerCapsule>
+        </Section>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ZSplit</span><span class="sg-desc">Image + body split. `rev` flips the image right.</span><span class="sg-props">rev? · imgRatio? · imgSrc? · imgAlt? · slot</span></div>
+      <div class="sg-demo">
+        <ZSplit imgDesc="Example split image." imgSpec="4:5 · warm tone">
+          <span class="eyebrow"><span class="eyebrow-i">01</span>The course</span>
+          <h2 class="h2">A two-column image and body split</h2>
+          <AnswerCapsule>The image column top-aligns with the eyebrow. Add <code>rev</code> to place the image on the right.</AnswerCapsule>
+        </ZSplit>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Placeholder</span><span class="sg-desc">FPO image slot, or a real image via `src`.</span><span class="sg-props">ratio? (r54/r45) · desc · spec? · src? · alt?</span></div>
+      <div class="sg-demo sg-two">
+        <Placeholder ratio="r54" desc="Landscape FPO placeholder (5:4)." spec="5:4 · warm tone" />
+        <Placeholder ratio="r45" desc="Portrait FPO placeholder (4:5)." spec="4:5 · warm tone" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTENT BLOCKS ===== -->
+  <section class="sg-group" id="g-content">
+    <h2 class="sg-group-title">Content blocks</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">AnswerCapsule</span><span class="sg-desc">40–60 word answer capsule under a question heading. `onDark` variant.</span><span class="sg-props">onDark? · slot</span></div>
+      <div class="sg-demo"><AnswerCapsule>The answer capsule opens a section with a direct 40 to 60 word answer, sized for AI Overviews and voice snippets. It carries the key fact first.</AnswerCapsule></div>
+      <div class="sg-demo sg-demo--dark"><AnswerCapsule onDark>The same capsule on an ink ground, used inside the trust band.</AnswerCapsule></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Note</span><span class="sg-desc">Callout. One per section, type-matched to severity.</span><span class="sg-props">variant? (note/caution) · label? · maroon?</span></div>
+      <div class="sg-demo sg-stack">
+        <Note><b>Note:</b> the default informational callout.</Note>
+        <Note variant="caution" label="Important"><b>Caution:</b> used for serious or legal consequences.</Note>
+        <Note maroon><b>Maroon:</b> the accented emphasis variant.</Note>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">CanCant</span><span class="sg-desc">Two-column what-it-is / what-it-is-not.</span><span class="sg-props">canTitle · can[] · cantTitle · cant[]</span></div>
+      <div class="sg-demo">
+        <CanCant
+          canTitle="What this course is"
+          can={['An approved course.', 'Issues a Certificate of Completion.', 'Accepted for your permit.']}
+          cantTitle="What it is not"
+          cant={['Not nationally recognised.', 'Not delivered by an RTO.', 'Not a builder’s licence.']}
+        />
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Stepper</span><span class="sg-desc">Numbered linear process.</span><span class="sg-props">steps[] · maxWidth?</span></div>
+      <div class="sg-demo"><Stepper steps={steps} maxWidth="480px" /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ProcessTrack</span><span class="sg-desc">Hero how-it-works rail from an arrow-joined string.</span><span class="sg-props">steps (string) · label?</span></div>
+      <div class="sg-demo"><ProcessTrack steps="Enrol → Complete online → Get certificate → Apply" label="Process" /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">TopicGrid</span><span class="sg-desc">Card grid for browsing topics or modules.</span><span class="sg-props">items[] (tag · title · body)</span></div>
+      <div class="sg-demo"><TopicGrid items={topics} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">FactGrid</span><span class="sg-desc">At-a-glance fact cells.</span><span class="sg-props">items[] (key · value · note?)</span></div>
+      <div class="sg-demo"><FactGrid items={glance} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">PriceCard</span><span class="sg-desc">Line-item cost breakdown with a total row.</span><span class="sg-props">rows[] (label · sub? · amount · isTotal?) · foot?</span></div>
+      <div class="sg-demo"><PriceCard rows={priceRows} foot="Government fees are set by the regulator and reviewed each 1 July." /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">BundleOffer</span><span class="sg-desc">Cross-sell offer with a receipt-style tally.</span><span class="sg-props">eyebrow? · heading · lede · items[] · total · cta · note?</span></div>
+      <div class="sg-demo">
+        <BundleOffer
+          eyebrow="Bundle"
+          heading="Course + White Card, the full pathway"
+          lede="Do both together and you have the complete evidence in one enrolment."
+          items={[{ label: 'Owner builder course', price: '$179' }, { label: 'White Card', sub: 'Unit CPCWHS1001', price: '$99' }]}
+          totalLabel="Both together"
+          total="$278"
+          cta={{ href: '#', label: 'Enrol in the bundle' }}
+        />
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Faq</span><span class="sg-desc">Accordion FAQ (non-essential content only).</span><span class="sg-props">items[] (q · a · open?)</span></div>
+      <div class="sg-demo"><Faq items={faqExamples} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">CpdMatrix</span><span class="sg-desc">Industry × state CPD grid.</span><span class="sg-props">states[] · rows[] · caption?</span></div>
+      <div class="sg-demo"><CpdMatrix states={cpdStates} rows={cpdRows} caption="Example CPD availability by state." /></div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST & SOURCING ===== -->
+  <section class="sg-group" id="g-trust">
+    <h2 class="sg-group-title">Trust & sourcing</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Credentials</span><span class="sg-desc">Expert cards for the content-review section.</span><span class="sg-props">people[] (name · role · creds · bio[] · portrait?)</span></div>
+      <div class="sg-demo"><Credentials people={people} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">VerifiedSources</span><span class="sg-desc">Per-section verification ledger (date + facts + sources).</span><span class="sg-props">date · facts? · sources[]</span></div>
+      <div class="sg-demo"><VerifiedSources date="14 Jul 2026" facts="Course requirement fact-checked against the current guidance" sources={vSources} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">PartnerDisclosure</span><span class="sg-desc">ASQA-accredited RTO-partner disclosure (White Card etc.).</span><span class="sg-props">partner · rto · unitCode? · unitName? · credential?</span></div>
+      <div class="sg-demo"><PartnerDisclosure partner="Blue Dog Training" rto="31193" unitCode="CPCWHS1001" unitName="Prepare to work safely in the construction industry" credential="Statement of Attainment" /></div>
+    </div>
+  </section>
+
+  <!-- ===== NAVIGATION & INLINE ===== -->
+  <section class="sg-group" id="g-nav">
+    <h2 class="sg-group-title">Navigation & inline</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">SectionWayfinder</span><span class="sg-desc">End-of-section forward-scent link with the ArrowRight fly animation.</span><span class="sg-props">label · href · onDark? · ready?</span></div>
+      <div class="sg-demo sg-stack">
+        <SectionWayfinder label="What it costs" href="#" />
+        <SectionWayfinder label="Enrol now" href="#" ready />
+      </div>
+      <div class="sg-demo sg-demo--dark"><SectionWayfinder label="On a dark ground" href="#" onDark /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ArrowRight</span><span class="sg-desc">Inline arrow icon; flies on hover inside btn-link / waynext.</span><span class="sg-props">no props</span></div>
+      <div class="sg-demo"><a class="btn-link" href="#">See who needs a permit <ArrowRight /></a></div>
+    </div>
+  </section>
+
+  <footer class="sg-foot">ABE component library · renders live from <code>src/components</code> · noindex, excluded from sitemap</footer>
+</body>
+</html>
+
+<style is:global>
+  body.sg { background: var(--paper-alt); }
+  .sg-head { max-width: 1120px; margin: 0 auto; padding: 64px 24px 8px; }
+  .sg-kicker { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--maroon); }
+  .sg-head h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 5vw, 56px); letter-spacing: -.03em; line-height: 1.02; color: var(--ink); margin: 10px 0 14px; }
+  .sg-head p { font-family: var(--font-body); font-size: 17px; line-height: 1.6; color: var(--ink-3); max-width: 72ch; margin: 0; }
+  .sg-toc { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 24px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .sg-toc a { color: var(--slate); text-decoration: none; }
+  .sg-toc a:hover { color: var(--maroon); }
+
+  .sg-group { max-width: 1120px; margin: 0 auto; padding: 40px 24px; }
+  .sg-group-title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--slate); border-bottom: 1px solid var(--rule-strong); padding-bottom: 10px; margin: 0 0 28px; }
+  .sg-item { margin-bottom: 44px; }
+  .sg-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin-bottom: 12px; }
+  .sg-name { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 3px 9px; }
+  .sg-desc { font-family: var(--font-body); font-size: 14px; color: var(--ink-3); }
+  .sg-props { font-family: var(--font-mono); font-size: 11px; letter-spacing: .01em; color: var(--slate-light); flex-basis: 100%; }
+  .sg-demo { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 28px; overflow: hidden; }
+  .sg-demo + .sg-demo { margin-top: 12px; }
+  .sg-demo--bleed { padding: 0; }
+  .sg-demo--dark { background: var(--ink); }
+  .sg-two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .sg-stack > * + * { margin-top: 14px; }
+  .sg-note-line { font-family: var(--font-mono); font-size: 12px; color: var(--slate); }
+  .sg-foot { max-width: 1120px; margin: 0 auto; padding: 32px 24px 80px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--slate-light); }
+  @media (max-width: 640px) { .sg-two { grid-template-columns: 1fr; } }
+</style>
