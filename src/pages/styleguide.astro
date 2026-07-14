@@ -13,6 +13,7 @@ import CtaBand from '../components/CtaBand.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
 import Section from '../components/Section.astro';
 import ZSplit from '../components/ZSplit.astro';
+import ZSection from '../components/ZSection.astro';
 import Placeholder from '../components/Placeholder.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
@@ -28,6 +29,9 @@ import CpdMatrix from '../components/CpdMatrix.astro';
 import Credentials from '../components/Credentials.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
 import PartnerDisclosure from '../components/PartnerDisclosure.astro';
+import TrustBand from '../components/TrustBand.astro';
+import TrustStats from '../components/TrustStats.astro';
+import InsurancePartner from '../components/InsurancePartner.astro';
 import SectionWayfinder from '../components/SectionWayfinder.astro';
 import ArrowRight from '../components/ArrowRight.astro';
 
@@ -342,6 +346,19 @@ const groups = [
     </div>
 
     <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ZSection</span><span class="sg-desc">A full image-split SECTION: shell, marker + eyebrow + H2 inside the body column, and the forward wayfinder. Use this, never a hand-rolled &lt;section&gt;.</span><span class="sg-props">id? · bg? · marker? · eyebrow? · h2? · rev? · imgRatio? · imgDesc · imgSpec? · imgSrc? · imgAlt? · next? · slot</span></div>
+      <div class="sg-demo"><ZSection
+        id="sg-zsection"
+        marker="02"
+        eyebrow="How it works"
+        h2="A complete image-split section"
+        imgDesc="Example split image."
+        imgSpec="4:5 · warm tone"
+        next={{ label: 'What it costs', href: '#' }}
+      ><AnswerCapsule>ZSection owns the section shell, the marker, the eyebrow, the H2 and the wayfinder. The body is whatever you slot into it.</AnswerCapsule></ZSection></div>
+    </div>
+
+    <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">Placeholder</span><span class="sg-desc">FPO image slot, or a real image via `src`.</span><span class="sg-props">ratio? (r54/r45) · desc · spec? · src? · alt?</span></div>
       <div class="sg-demo sg-two">
         <Placeholder ratio="r54" desc="Landscape FPO placeholder (5:4)." spec="5:4 · warm tone" />
@@ -444,6 +461,31 @@ const groups = [
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">VerifiedSources</span><span class="sg-desc">Per-section verification ledger (date + facts + sources).</span><span class="sg-props">date · facts? · sources[]</span></div>
       <div class="sg-demo"><VerifiedSources date="14 Jul 2026" facts="Course requirement fact-checked against the current guidance" sources={vSources} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">TrustBand</span><span class="sg-desc">Dark trust band: stat row plus the authority-model attestation. Owns its own section shell.</span><span class="sg-props">id? · eyebrow? · h2 · stats[] · attestHtml · slot</span></div>
+      <div class="sg-demo"><TrustBand
+        h2="Trusted by Australian owner builders since 2007"
+        stats={[{ value: 'REG', label: 'Approved course material' }, { value: '31,000+', label: 'Students trained', numeric: true }, { value: '19', label: 'Years operating', numeric: true }, { value: '18', label: 'Modules in the course', numeric: true }]}
+        attestHtml="Example attestation line. States the authority model in plain words: what the credential is, and what it is not."
+      ><AnswerCapsule onDark>A representative on-dark capsule, sized for the trust band.</AnswerCapsule></TrustBand></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">TrustStats</span><span class="sg-desc">Four-up stat cells. `numeric` switches on tabular numerals; leave it off for a word.</span><span class="sg-props">items[] (value · label · numeric?)</span></div>
+      <div class="sg-demo" style="background:var(--ink);padding:var(--s-lg)"><TrustStats items={[{ value: 'QBCC', label: 'Approved course material' }, { value: '31,000+', label: 'Students trained', numeric: true }, { value: '19', label: 'Years operating', numeric: true }, { value: '100%', label: 'Online and self-paced', numeric: true }]} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">InsurancePartner</span><span class="sg-desc">Insurance cross-sell through the named partner. ABE is not a licensed insurance provider.</span><span class="sg-props">eyebrow? · heading · paras[] · cta · imgDesc · imgSpec? · imgSrc? · imgAlt? · imgRatio?</span></div>
+      <div class="sg-demo"><InsurancePartner
+        heading="Cover for your build, through our partner"
+        paras={['As an owner builder you carry the risk on your own site, so arrange cover before work starts.', 'ABE Education is not a licensed insurance provider. Cover is arranged by the named partner.']}
+        cta={{ href: '#', label: 'Get an owner builder insurance quote' }}
+        imgDesc="Example insurance split image."
+        imgSpec="5:4 · warm tone"
+      /></div>
     </div>
 
     <div class="sg-item">

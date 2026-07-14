@@ -402,3 +402,14 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 .bg-dark .waynext .ttl{color:#fff;}
 .bg-dark .waynext .arr-clip{color:var(--gold);}
 .bg-dark .waynext a:hover .ttl{color:var(--gold);}
+
+/* Insurance partner cross-sell (InsurancePartner.astro). Replaces the inline styles
+   that were previously hand-written into each course MDX body. */
+.ins-partner{margin-top:var(--s-2xl);}
+.ins-partner .h3{font-size:26px;margin-bottom:var(--s-sm);}
+.ins-partner p{max-width:52ch;}
+
+/* Subheads inside a prose measure. The only two on the site previously carried inline
+   margins in the MDX body; the spacing belongs to the class, not to the page. */
+.measure .h3{margin-top:var(--s-lg);margin-bottom:var(--s-2xs);}
+.measure > .h3:first-child{margin-top:0;}

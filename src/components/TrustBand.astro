@@ -1,0 +1,23 @@
+---
+import TrustStats from './TrustStats.astro';
+import type { TrustStat } from './TrustStats.astro';
+
+// The dark trust band: eyebrow, H2, an on-dark answer capsule (slot), the stat row,
+// and the attestation line that states the authority model in plain words.
+// Owns its own <section class="sec bg-dark trust"> shell so no page hand-rolls it.
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  h2: string;
+  stats: TrustStat[];
+  attestHtml: string;   // authority-model attestation; rendered with set:html for the regulator link
+}
+const { id, eyebrow = 'The numbers', h2, stats, attestHtml } = Astro.props;
+---
+<section class="sec bg-dark trust" id={id}><div class="wrap">
+  <span class="eyebrow on-dark">{eyebrow}</span>
+  <h2 class="h2" set:html={h2} />
+  <slot />
+  <TrustStats items={stats} />
+  <p class="attest" set:html={attestHtml} />
+</div></section>
