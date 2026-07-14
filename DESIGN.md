@@ -1,10 +1,11 @@
 ---
-name: ABE Education — Course Pages
+name: ABE Education, Course Pages
 description: Static Astro marketing site for Australian owner-builder and trades courses; editorial, sourced, print-like.
 colors:
   maroon: "#800000"
-  maroon-deep: "#5a0000"
+  maroon-dark: "#5a0000"
   verify-blue: "#2f5d8c"
+  ok-green: "#2e7d5b"
   gold: "#d4a843"
   ink: "#1a1a1a"
   ink-2: "#2a2a2a"
@@ -14,6 +15,7 @@ colors:
   paper: "#ffffff"
   paper-alt: "#fafafa"
   paper-warm: "#f7f4ef"
+  paper-chrome: "#ffffff"
   rule: "#e5e7eb"
   rule-strong: "#d4d6da"
 typography:
@@ -94,13 +96,21 @@ components:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     rounded: "{rounded.lg}"
+  bundle-offer:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.lg}"
+    padding: "40px"
+  trust-band:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
   faq:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     rounded: "{rounded.lg}"
 ---
 
-# Design System: ABE Education — Course Pages
+# Design System: ABE Education, Course Pages
 
 ## 1. Overview
 
@@ -112,6 +122,8 @@ Structurally it is flat and print-like. Depth comes from hairline rules and tona
 
 It explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient hero blocks, no glassy cards, no rounded pastel everything. It also rejects the opposite trap of cold govtech. The warm paper ground and generous air keep it human and readable, an authority you would actually want to read.
 
+**The system is enforced, not merely documented.** Thirty components live in `src/components`, every one of them rendered live at `/styleguide` with the real tokens. The `abe-guardrails` build integration fails the build on an inline style or a structural class in a page body, because both mean the same thing: a component is missing. Read the styleguide before choosing a component. It is the vocabulary.
+
 **Key Characteristics:**
 - Flat by default: 1px hairline rules and tonal grounds carry structure, never shadow.
 - One maroon accent, spent at 10% or less, so it always signifies.
@@ -121,14 +133,15 @@ It explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient
 
 ## 2. Colors
 
-A warm, near-monochrome paper system with one authoritative maroon and a single trust-signalling blue. Neutrals do most of the work; accents are rationed.
+A warm, near-monochrome paper system with one authoritative maroon and a small set of functional signal colours. Neutrals do most of the work; accents are rationed.
 
 ### Primary
 - **Regulator Maroon** (`#800000`): the sole brand accent. It marks the eyebrow dash, hero tick glyphs, active nav underlines, link and button hover states, section keys, and the small brand tile. Deployed on 10% or less of any screen. Its scarcity is the point.
-- **Maroon Deep** (`#5a0000`): pressed and hover-on-dark states of the maroon only. Never a fill.
+- **Maroon Dark** (`#5a0000`): pressed and hover-on-dark states of the maroon only. Never a fill.
 
-### Secondary
-- **Verify Blue** (`#2f5d8c`): a functional trust colour, never decorative. It appears only on the verified-source line, its ticks, and its citation links. If something is blue, it has been sourced and dated.
+### Secondary (functional signals, never decorative)
+- **Verify Blue** (`#2f5d8c`): a trust colour. It appears only on the verified-source line's date and its citation links on hover. If something is blue, it has been sourced and dated.
+- **Verified Green** (`#2e7d5b`): the tick glyph in the verified-source line, and nothing else. It is the single "this checks out" mark in the system.
 
 ### Tertiary
 - **Attestation Gold** (`#d4a843`): the on-dark accent. Used only inside ink-grounded sections (trust band, dark capsule border, dark wayfinder link) where maroon would go muddy.
@@ -136,14 +149,15 @@ A warm, near-monochrome paper system with one authoritative maroon and a single 
 ### Neutral
 - **Ink** (`#1a1a1a`): primary text and the dark section / footer ground. Stands in for black; true black is never used.
 - **Ink 2 / Ink 3** (`#2a2a2a` / `#4a4a4a`): emphasis text and standard body text on paper.
-- **Slate / Slate Light** (`#6e6e6e` / `#9a9a9a`): captions, meta, and muted keys.
+- **Slate / Slate Light** (`#6e6e6e` / `#9a9a9a`): captions, meta, muted keys, and the VERIFIED label itself.
 - **Paper / Paper Alt / Paper Warm** (`#ffffff` / `#fafafa` / `#f7f4ef`): the three-step ground ramp used to separate sections tonally instead of with borders or shadows.
+- **Paper Chrome** (`= paper`): the ground shared by the site header, breadcrumb bar and wayfinder nav, so the page chrome reads as one continuous surface.
 - **Rule / Rule Strong** (`#e5e7eb` / `#d4d6da`): the hairline dividers and card borders that carry all structure.
 
 ### Named Rules
 **The One Maroon Rule.** Maroon is the only brand accent and never covers more than roughly 10% of a screen. It is for marks, ticks, hovers, and active states, never for large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.
 
-**The Verify-Blue Rule.** `#2f5d8c` is reserved exclusively for sourced-and-dated facts and their citations. It is forbidden as a decorative or interface colour. Blue on this site is a promise that a claim is backed.
+**The Signal-Colour Rule.** Verify Blue and Verified Green are reserved exclusively for sourced-and-dated facts. They are forbidden as decorative or interface colours. Blue and green on this site are a promise that a claim is backed. Neither ever carries meaning alone: they always sit beside the word VERIFIED and a date, so the signal survives greyscale and colour blindness.
 
 ## 3. Typography
 
@@ -157,7 +171,7 @@ A warm, near-monochrome paper system with one authoritative maroon and a single 
 - **Display** (Archivo 600, `clamp(40px, 6.2vw, 72px)`, line-height 1.02, tracking -0.03em): the single hero H1 per page.
 - **Headline** (Archivo 600, `clamp(30px, 3.6vw, 42px)`, line-height 1.08, tracking -0.025em): section H2s, question-led.
 - **Title** (Archivo 600, 22px, tracking -0.01em): card and sub-section H3s; FAQ and price figures share this weight.
-- **Body** (DM Sans 400, 17px, line-height 1.65): reading copy. The lede steps up to 19px / line-height 1.55. Long-form answer copy is capped around 66–80ch.
+- **Body** (DM Sans 400, 17px, line-height 1.65): reading copy. The lede steps up to 19px / line-height 1.55. Long-form answer copy is capped around 66 to 80ch.
 - **Label** (DM Mono 500, 11px, tracking 0.18em, uppercase): eyebrows, stat keys, step keys, meta, and source lines. The wider the tracking, the smaller the type.
 
 ### Named Rules
@@ -174,39 +188,55 @@ The system is flat. There is no shadow vocabulary at all. Depth is built three w
 
 ## 5. Components
 
-Components are flat, bordered, and quietly rectangular (5–8px radii). Cards earn their borders; they are never stacked or nested.
+Thirty components, all rendered live at `/styleguide` with the real tokens. They are flat, bordered, and quietly rectangular (5 to 8px radii). Cards earn their borders; they are never stacked or nested.
+
+**Component discipline (build-enforced).** If a page body needs structural markup, **a component is missing**. Compose from what exists first; if the shape repeats, promote it to a component; if it is genuinely new, build it properly (component + styleguide specimen + tokens, no magic numbers). An inline `style=` or a structural class in an MDX body fails the build, and the error names the component that should own the markup. A one-off inline in one page becomes the next state page's copy-paste, which is how the trust-stat row ended up hand-written twelve times before it became `TrustStats`.
 
 ### Buttons
 - **Shape:** gently squared (6px radius).
-- **Primary:** Ink ground (`#1a1a1a`), paper text, 14px/26px padding, DM Sans 600 at 16px, with a 12px gap for a trailing arrow. Hover fills Regulator Maroon.
+- **Primary:** Ink ground (`#1a1a1a`), paper text, 14px/26px padding, DM Sans 600 at 16px. Hover fills Regulator Maroon.
 - **Secondary:** transparent with a 1px `rule-strong` border and ink text; hover darkens the border to ink.
-- **Link:** ink text on a 1px underline; hover turns maroon and slides the trailing arrow 3px.
-- **Mini:** the compact ink-to-maroon button used in the sticky nav and CTA strip.
+- **Link:** ink text with a trailing `ArrowRight`; hover turns maroon and the arrow flies out right and re-enters from the left, clipped to an 18px window (`arr-fly`). Disabled under `prefers-reduced-motion`.
 
-### Cards / Containers
-- **Corner Style:** 6px for content cards (glance, topic, note), 8px for structural containers (price card, FAQ, TOC).
-- **Background:** Paper (`#ffffff`); alternating sections sit on Paper Alt or Paper Warm.
+### Sections and layout
+- **`Section` / `ZSection`:** the two section shells. Both take the `marker` prop, which is the **single** marker mechanism (`01`, `02`, ...). `ZSection` is the image-split variant and owns the shell, marker, eyebrow, H2 and forward wayfinder.
+- **`ZSplit`:** the image-and-body split. The two columns are **top-aligned**, so the image top always lines up with the eyebrow regardless of how tall the text column is.
+
+### Eyebrow (signature)
+The section-opening label: DM Mono uppercase, 11px, 0.18em tracking, slate, preceded by an 18px maroon hairline dash and the section marker. It opens nearly every section and is the clearest single tell of the register.
+
+### Verified Source Line (signature)
+The trust device, and the most literal expression of the North Star. A two-column mono ledger, top-aligned:
+
+- **Left column:** the word `VERIFIED` in slate uppercase, preceded by a small **green tick**; the verification **date** sits beneath it in verify-blue.
+- **Right column:** what was checked, then the linked authorities, reading as *"[fact] fact-checked against the current Act against [Source], [Source]"*.
+
+Every government fact block ends in one, and they feed the page-foot Sources list.
+
+### Trust band
+`TrustBand` + `TrustStats`: the ink-grounded band carrying the proof numbers. Gold is the accent here; maroon is never used on ink.
+
+### Cards and containers
+- **Corner Style:** 6px for content cards (glance, topic, note), 8px for structural containers (price card, bundle offer, FAQ, TOC).
+- **Background:** Paper; alternating sections sit on Paper Alt or Paper Warm.
 - **Shadow Strategy:** none. See Elevation, the Hairline Rule.
 - **Border:** 1px `--rule` on all four sides. Interactive cards (topic) darken the border to ink and lift 2px on hover.
 - **Internal Padding:** 32px (`--s-lg`) for stat and topic cards.
 
-### Eyebrow (signature)
-The section-opening label: DM Mono uppercase, 11px, 0.18em tracking, slate, preceded by an 18px maroon hairline dash. It opens nearly every section and is the clearest single tell of the register.
+### Price Card and Bundle Offer
+`PriceCard` is an 8px bordered table; rows split by 1px rules, figures in Archivo with tabular numerals, and the total row inverts to an ink ground. `BundleOffer` is the cross-sell: a flat paper panel on the warm ground with a mono receipt-style tally and one primary CTA. It sells completeness, never a discount; the total is the exact sum of its parts.
 
-### Verified Source Line (signature)
-The trust device. DM Mono 12px above a 1px dashed top rule, carrying verify-blue ticks and dated citation links. Every government fact block ends in one. It is what makes the North Star literal.
+### Insurance partner
+`InsurancePartner`: the insurance cross-sell (a split, a secondary CTA and a note). It exists because the same markup had been copy-pasted across all three state pages.
 
 ### Placeholder (signature dev affordance)
-The FPO image block: a warm paper gradient (`#f0eae0` to `#e4dccf`) with a dashed inset border, a mono label, and an Archivo description. Aspect is locked by `.r54` (5:4) or `.r45` (4:5). Omit the image `src` and this stays in place; drop a real image in and it swaps to an `<img>`.
+The FPO image block: a warm paper gradient with a dashed inset border, a mono label and an Archivo description. Aspect is locked by `.r54` (5:4) or `.r45` (4:5). Omit the image `src` and this stays in place; drop a real image in and it swaps to an `<img>`.
 
 ### FAQ
-A single 8px bordered container of `<details>` rows split by 1px rules. The summary is Archivo 600 18px; a maroon plus-mark rotates 45 degrees to a cross when open.
-
-### Price Card
-An 8px bordered table; rows split by 1px rules, figures in Archivo with tabular numerals. The total row inverts to an ink ground with white text.
+A single 8px bordered container of `<details>` rows split by 1px rules. The summary is Archivo 600 18px; a maroon plus-mark rotates 45 degrees to a cross when open. Accordions are for FAQs only: decision-critical content is never hidden inside one.
 
 ### Navigation
-Sticky site header (blurred paper) with the maroon brand tile; a secondary wayfinder sub-nav of mono uppercase jump-links whose active item carries a maroon underline; and, on mobile, a fixed bottom CTA strip that slides up into view.
+Sticky site header (blurred paper, click-open megamenus) with the maroon brand tile; `PageBar` for breadcrumbs and the dated reviewer line; `WayfinderNav`, a sub-nav of mono uppercase jump-links whose active item carries a maroon underline; `SectionWayfinder`, the end-of-section forward-scent link (a mono NEXT kicker above the next section's title and the fly arrow); and, on mobile, a fixed bottom CTA strip that slides up into view.
 
 ## 6. Do's and Don'ts
 
@@ -214,16 +244,20 @@ Sticky site header (blurred paper) with the maroon brand tile; a secondary wayfi
 - **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#fafafa` to `#f7f4ef` to `#1a1a1a`).
 - **Do** set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.
 - **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile. Never a large fill.
-- **Do** reserve Verify Blue (`#2f5d8c`) strictly for sourced, dated facts and their citations.
+- **Do** reserve Verify Blue (`#2f5d8c`) and Verified Green (`#2e7d5b`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.
 - **Do** put `tabular-nums` on every price and statistic (the `.num` class).
 - **Do** give sections room: up to 112px (`--s-3xl`) vertical padding, easing to 64px on mobile.
 - **Do** use Ink (`#1a1a1a`) for text and dark grounds; on ink sections, switch the accent to Attestation Gold (`#d4a843`).
+- **Do** read `/styleguide` before choosing a component. It renders the real thing, so it cannot drift.
+- **Do** top-align the columns of any split. The image top lines up with the eyebrow, always.
 
 ### Don't:
 - **Don't** use box-shadows for elevation anywhere. The system is flat; a drop shadow reads as a 2014 app and is prohibited.
-- **Don't** use the maroon left-stripe answer capsule (`border-left: 3px solid var(--maroon)`). A colored side-stripe over 1px is a banned anti-pattern; rework it as a full 1px border, a background tint alone, or a leading mono marker.
+- **Don't** hand-roll structural markup in a page body. An inline `style=` or a structural class means **a component is missing**, and the build will stop you. Compose, promote, or build it properly.
+- **Don't** use the maroon left-stripe answer capsule (`border-left: 3px solid var(--maroon)`). A coloured side-stripe over 1px is a banned anti-pattern; rework it as a full 1px border, a background tint alone, or a leading mono marker.
 - **Don't** set eyebrows or labels in Archivo or DM Sans. Micro-type is DM Mono only; DM Mono is never used for reading copy.
 - **Don't** spend maroon on large surfaces or section backgrounds. Dark sections are Ink-grounded with Gold accents.
 - **Don't** introduce pure `#000` or `#fff` for text or borders; use the Ink and Rule tokens.
 - **Don't** use em dashes, or the word "comprehensive", in any copy (house style).
 - **Don't** nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card.
+- **Don't** hide eligibility, cost or requirements inside an accordion. Accordions are for FAQs only.
