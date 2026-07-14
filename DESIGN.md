@@ -261,3 +261,66 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 - **Don't** use em dashes, or the word "comprehensive", in any copy (house style).
 - **Don't** nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card.
 - **Don't** hide eligibility, cost or requirements inside an accordion. Accordions are for FAQs only.
+
+## 7. Content design and element selection
+
+Sections 1 to 6 are the visual system (tokens, type, colour, components). This section sits above them: which treatment a section gets, and which element serves the reader's job. It is reconciled from `outputs/md/abe-page-design-rules.md`, the fuller content-design reference. Where that source doc conflicts with this build, this file wins (see Reconciliation at the end). The authority model and copy rules live in `CLAUDE.md`.
+
+### Match the treatment to the content
+
+Do not flatten every section into one repeated block. Match the grammar to what the content is doing, and build each from the real components in Section 5.
+
+| Content type | Treatment | Live component(s) |
+|---|---|---|
+| Statement (hero) | Outcome H2, facts strip, one CTA, an artefact image | `Hero` |
+| At-a-glance | One featured figure (Archivo `--font-display`) beside a quiet key/value table | `FactGrid` |
+| Definition / orientation | Question H2, answer first, then body, then a verified line | `Section` + `AnswerCapsule` + `VerifiedSources` |
+| Argument / persuasion | Airy typographic claims, or a flat parallel card grid (no shadow, no icon-blurb) | `TopicGrid` |
+| Reference / syllabus | Dense, mono-numbered rows, scanned not read | `TopicGrid` |
+| Sequence | Numbered timeline ending in the outcome | `Stepper` (hero inline flow: `ProcessTrack`) |
+| Eligibility / criteria | Tight parallel checklist, no badges | list markup; `CanCant` for a can/cannot split |
+| Tabular (pricing, fees) | Quiet editorial table; split "pay us" from "paid separately" | `PriceCard` |
+| CPD industry by state | Accessible matrix, scrolls on mobile | `CpdMatrix` |
+| Add-on / bundle | Honest cross-sell, explicit about separate delivery | `BundleOffer` / `InsurancePartner` / `PartnerDisclosure` |
+| FAQ | Accordion, first item open, scent-carrying labels | `Faq` |
+| Credentials | Restrained bios, grayscale headshots, not testimonials | `Credentials` |
+| Trust band | Legitimacy statement, ink ground, gold accent | `TrustBand` / `TrustStats` |
+| CTA band | One repeated action, lead line plus CTA | `CtaBand` |
+| References | Descriptive source links with dated verified lines | `SourcesFooter` |
+| Callout | One per section: `caution` (2px maroon top rule plus mono kicker) for legal or warning, `note` for neutral info | `Note` |
+
+### Choose the element by the reader's job
+
+When the treatment is not obvious, pick by what the reader is trying to do in the moment.
+
+| Reader's job | Element | Avoid |
+|---|---|---|
+| Grasp one must-not-miss fact | A callout, typed by severity, one per section | Stacking callouts |
+| Take in several equal points | A bulleted list with a lead-in line | Numbering them |
+| Follow a process in order | A stepper | Bulleting steps; a diagram for a linear flow |
+| Compare values across items | A table, few columns on mobile | Cards |
+| Browse between entry points | Cards | Cards for comparison |
+| Dip into a few of many short sections | An accordion (FAQ only) | Hiding eligibility, cost, or requirements |
+| Understand branching logic | A diagram paired with text | A diagram for simple linear steps |
+
+Rules that follow: one callout per section, matched to severity; lists take a lead-in colon, stay parallel, and cap around seven; tables compare and cards browse, never compare in cards; accordions are FAQ-only; a linear journey is a stepper, not a diagram.
+
+### Imagery
+
+An image must carry information or evidence, never decorate. Earns its place: the artefact (the certificate or the plan set, in the hero), real grayscale headshots (in `Credentials`), and an on-brand line-drawing or schematic motif. Ruled out: lifestyle and construction stock, an icon per feature, and anything purely atmospheric. Every content image carries course-referenced alt text of at least 80 characters in Australian English; decorative images get `aria-hidden` and empty alt. Images hold their aspect ratio (no layout shift), never sit under running text, and never force horizontal scroll on mobile. Any regulatory detail visible in an image (NCC, R-Codes, NatHERS, BASIX) is subject to the verification rule, or is captioned as illustrative.
+
+### Reassurance-first (mandatory or compliance courses)
+
+The buyer has already decided to enrol; the page is an answer desk, not a funnel. Front-load the three facts they came for (approved-by, duration, certificate timing) and keep them in the spec rail. Sell legitimacy with the authority model and provenance, not badges. Use question-led headings that mirror their real questions, answer-first capsules, an FAQ that handles "is it really accepted?", and one action repeated and sticky on mobile.
+
+### Reconciliation (what to take, what to ignore)
+
+Take from `abe-page-design-rules.md`: the section-treatment vocabulary, the reader's-job element table, and the imagery, copy, trust, and verification guidance. These are system-agnostic and match this build.
+
+Do not import its concrete design system, which describes a different (partly reverted) direction and does not exist in this repo:
+
+- its fonts, Public Sans (body) and Source Serif 4 (prose): this build is Archivo, DM Sans, and DM Mono, and the answer capsule is `AnswerCapsule` (DM Sans, warm-cream inset), not a serif.
+- its `.t-display` / `.t-headline` / `.t-body` / `.t-prose` / `.t-label` classes: use the components above and the `--font-*` tokens.
+- `abe-tokens.css` and its oklch values: tokens live in `global.css` as hex.
+- its "cool only, no warm surfaces" rule: this build deliberately uses the warm ramp (`paper-warm #f7f4ef`) on the header and the answer capsule.
+- `audit_static.py` and `audit_render.py`: not in this repo. The build itself (component discipline) is the enforcement backstop.

@@ -53,6 +53,15 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - `BaseLayout.astro` ships robots, canonical, OG/Twitter and (via sitemap integration) the sitemap +
   `public/robots.txt` on every page. Pass an optional `ogImage` for image cards.
 
+## Content design and element selection
+When building or auditing a page (including via `/abe-seo-content-engine` and `/abe-course-page-astro`),
+use the content-design and element-selection guidance in **`DESIGN.md` section 7**: which treatment per
+content type, which element for the reader's job, imagery, and reassurance-first. That section is
+reconciled from `outputs/md/abe-page-design-rules.md`, the fuller reference. **`DESIGN.md` and
+`global.css` are canonical for tokens, fonts, class names, components, and the warm palette, and win on
+any conflict.** Do not adopt the source doc's `.t-*` classes, Public Sans / Source Serif fonts,
+`abe-tokens.css`, cool-only palette, or `audit_*.py` scripts; none of them exist in this build.
+
 ## Images
 - Served from the Cloudflare R2 public bucket, referenced by URL:
   base `https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/` (brand/logo/portraits) and
