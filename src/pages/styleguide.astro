@@ -108,7 +108,55 @@ const heroEx = {
   artefactRatio: 'r45',
 };
 
+// Design tokens, mirrored from src/styles/global.css :root.
+const colorTokens = [
+  { group: 'Accent', items: [
+    { v: '--maroon', hex: '#800000', note: 'sole brand accent, ≤10% of any screen' },
+    { v: '--maroon-dark', hex: '#5a0000', note: 'pressed / hover-on-dark' },
+    { v: '--verify', hex: '#2f5d8c', note: 'sourced + verified facts only' },
+    { v: '--gold', hex: '#d4a843', note: 'on-dark accent' },
+    { v: '--ok', hex: '#2e7d5b', note: 'success / verified tick' },
+  ] },
+  { group: 'Ink & text', items: [
+    { v: '--ink', hex: '#1a1a1a', note: 'primary text / dark ground' },
+    { v: '--ink-2', hex: '#2a2a2a', note: 'emphasis text' },
+    { v: '--ink-3', hex: '#4a4a4a', note: 'body text' },
+    { v: '--slate', hex: '#6e6e6e', note: 'labels, captions' },
+    { v: '--slate-light', hex: '#9a9a9a', note: 'muted / secondary' },
+  ] },
+  { group: 'Paper & ground', items: [
+    { v: '--paper', hex: '#ffffff' },
+    { v: '--paper-alt', hex: '#fafafa' },
+    { v: '--paper-warm', hex: '#f7f4ef' },
+    { v: '--paper-chrome', hex: 'var(--paper)', note: 'nav / breadcrumb ground' },
+  ] },
+  { group: 'Rules', items: [
+    { v: '--rule', hex: '#e5e7eb', note: 'hairline' },
+    { v: '--rule-strong', hex: '#d4d6da', note: 'stronger hairline' },
+  ] },
+];
+const families = [
+  { name: 'Archivo', role: 'Display · headlines · figures', cssvar: '--font-display', weights: '500 · 600 · 700' },
+  { name: 'DM Sans', role: 'Body copy', cssvar: '--font-body', weights: '400 · 500 · 600 · 700' },
+  { name: 'DM Mono', role: 'Labels · captions · source lines', cssvar: '--font-mono', weights: '400 · 500' },
+];
+const typeScale = [
+  { name: 'Display (H1)', font: 'display', size: 'clamp(40px, 6.2vw, 72px)', weight: 700, ls: '-.03em', sample: 'The owner builder course' },
+  { name: 'Headline (H2)', font: 'display', size: 'clamp(30px, 3.6vw, 42px)', weight: 600, ls: '-.025em', sample: 'Is this course accredited?' },
+  { name: 'Title (H3)', font: 'display', size: '22px', weight: 600, ls: '-.01em', sample: 'Course and White Card bundle' },
+  { name: 'Body', font: 'body', size: '17px', weight: 400, ls: 'normal', sample: 'Complete the course the regulator requires before you apply for your permit.' },
+  { name: 'Label / eyebrow', font: 'mono', size: '11px', weight: 500, ls: '.18em', upper: true, sample: 'At a glance' },
+];
+const spacingScale = [
+  { v: '--s-3xs', px: 4 }, { v: '--s-2xs', px: 8 }, { v: '--s-xs', px: 12 },
+  { v: '--s-sm', px: 16 }, { v: '--s-md', px: 24 }, { v: '--s-lg', px: 32 },
+  { v: '--s-xl', px: 48 }, { v: '--s-2xl', px: 72 }, { v: '--s-3xl', px: 112 },
+];
+const layoutWidths = [ { v: '--max', px: 1200, note: 'page max' }, { v: '--content', px: 980, note: 'reading content' } ];
+const radii = [ { name: 'sm', px: 5 }, { name: 'md', px: 6, note: 'buttons, cards' }, { name: 'lg', px: 8, note: 'price card, panels' } ];
+
 const groups = [
+  { id: 'foundations', label: 'Foundations' },
   { id: 'chrome', label: 'Page chrome' },
   { id: 'layout', label: 'Sections & layout' },
   { id: 'content', label: 'Content blocks' },
@@ -135,6 +183,99 @@ const groups = [
       {groups.map((g) => <a href={`#g-${g.id}`}>{g.label}</a>)}
     </nav>
   </header>
+
+  <!-- ===== FOUNDATIONS ===== -->
+  <section class="sg-group" id="g-foundations">
+    <h2 class="sg-group-title">Foundations</h2>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Colour</span><span class="sg-desc">One maroon accent, a verify-blue reserved for sourced facts, warm paper grounds. Tinted neutrals, never pure black.</span></div>
+      <div class="sg-demo">
+        {colorTokens.map((g) => (
+          <Fragment>
+            <div class="sg-sub">{g.group}</div>
+            <div class="sg-swatches">
+              {g.items.map((c) => (
+                <div class="sg-swatch">
+                  <div class="sg-chip" style={`background:${c.hex}`}></div>
+                  <span class="n">{c.v}</span>
+                  <span class="hex">{c.hex}</span>
+                  {c.note && <span class="note">{c.note}</span>}
+                </div>
+              ))}
+            </div>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Type</span><span class="sg-desc">Three voices: Archivo for display and figures, DM Sans for reading, DM Mono for labels and captions.</span></div>
+      <div class="sg-demo">
+        <div class="sg-fams">
+          {families.map((f) => (
+            <div class="sg-fam">
+              <div class="aa" style={`font-family:var(${f.cssvar})`}>Aa</div>
+              <div class="fn">{f.name}</div>
+              <div class="fr">{f.role}</div>
+              <div class="fw">{f.weights}</div>
+            </div>
+          ))}
+        </div>
+        <div class="sg-sub">Scale</div>
+        {typeScale.map((t) => (
+          <div class="sg-type-row">
+            <div class="meta">{t.name} · {t.size} · {t.weight}{t.ls !== 'normal' ? ' · ' + t.ls : ''}</div>
+            <div style={`font-family:var(--font-${t.font});font-size:${t.size};font-weight:${t.weight};letter-spacing:${t.ls};line-height:1.1;color:var(--ink);${t.upper ? 'text-transform:uppercase;' : ''}`}>{t.sample}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Spacing</span><span class="sg-desc">Rhythm and padding scale. Section padding runs up to --s-3xl (112px).</span></div>
+      <div class="sg-demo">
+        <div class="sg-scale">
+          {spacingScale.map((s) => (
+            <div class="sg-bar-row">
+              <span class="lbl">{s.v}</span>
+              <span class="sg-bar" style={`width:${s.px}px`}></span>
+              <span class="px">{s.px}px</span>
+            </div>
+          ))}
+        </div>
+        <div class="sg-sub">Layout widths</div>
+        <div class="sg-scale">
+          {layoutWidths.map((w) => (
+            <div class="sg-bar-row"><span class="lbl">{w.v}</span><span class="px">{w.px}px · {w.note}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Radius</span><span class="sg-desc">Small, flat rounding, applied directly (no CSS variable). Nothing pill-shaped.</span></div>
+      <div class="sg-demo">
+        <div class="sg-radii">
+          {radii.map((r) => (
+            <div class="sg-radius">
+              <div class="box" style={`border-radius:${r.px}px`}></div>
+              <div class="lbl">{r.name} · {r.px}px</div>
+              {r.note && <div class="note">{r.note}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Buttons</span><span class="sg-desc">Primary (the money CTA), secondary (low-emphasis), and the inline text link with the fly arrow. One money-CTA verb per page; hover moves ink to maroon.</span><span class="sg-props">.btn-primary · .btn-secondary · .btn-link</span></div>
+      <div class="sg-demo sg-btns">
+        <a class="btn-primary" href="#">Get your certificate — $179</a>
+        <a class="btn-secondary" href="#">Get an insurance quote</a>
+        <a class="btn-link" href="#">See who needs a permit <ArrowRight /></a>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== PAGE CHROME ===== -->
   <section class="sg-group" id="g-chrome">
@@ -360,4 +501,36 @@ const groups = [
   .sg-note-line { font-family: var(--font-mono); font-size: 12px; color: var(--slate); }
   .sg-foot { max-width: 1120px; margin: 0 auto; padding: 32px 24px 80px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--slate-light); }
   @media (max-width: 640px) { .sg-two { grid-template-columns: 1fr; } }
+
+  /* foundations */
+  .sg-sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--slate-light); margin: 22px 0 12px; }
+  .sg-item .sg-demo > .sg-sub:first-child { margin-top: 0; }
+  .sg-swatches { display: flex; flex-wrap: wrap; gap: 14px; }
+  .sg-swatch { width: 132px; }
+  .sg-chip { height: 56px; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.09); }
+  .sg-swatch .n { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--ink); margin-top: 8px; }
+  .sg-swatch .hex { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--slate-light); }
+  .sg-swatch .note { display: block; font-family: var(--font-body); font-size: 11px; line-height: 1.35; color: var(--slate); margin-top: 3px; }
+  .sg-fams { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .sg-fam { border: 1px solid var(--rule); border-radius: 8px; padding: 20px; }
+  .sg-fam .aa { font-size: 46px; line-height: 1; color: var(--ink); }
+  .sg-fam .fn { font-family: var(--font-mono); font-size: 12px; color: var(--ink); margin-top: 12px; }
+  .sg-fam .fr { font-family: var(--font-body); font-size: 13px; color: var(--slate); }
+  .sg-fam .fw { font-family: var(--font-mono); font-size: 10px; color: var(--slate-light); margin-top: 4px; }
+  .sg-type-row { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .sg-type-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .sg-type-row .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: .04em; color: var(--slate-light); margin-bottom: 7px; }
+  .sg-scale { display: flex; flex-direction: column; gap: 9px; }
+  .sg-bar-row { display: flex; align-items: center; gap: 14px; }
+  .sg-bar-row .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--ink); width: 74px; flex: none; }
+  .sg-bar { height: 14px; background: var(--maroon); opacity: .85; border-radius: 3px; flex: none; }
+  .sg-bar-row .px { font-family: var(--font-mono); font-size: 11px; color: var(--slate-light); }
+  .sg-radii { display: flex; flex-wrap: wrap; gap: 22px; }
+  .sg-radius { text-align: center; }
+  .sg-radius .box { width: 84px; height: 58px; background: var(--paper-warm); border: 1px solid var(--rule-strong); }
+  .sg-radius .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--ink); margin-top: 8px; }
+  .sg-radius .note { font-family: var(--font-body); font-size: 11px; color: var(--slate); }
+  .sg-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+  .sg-btns .btn-link { margin-top: 0; }
+  @media (max-width: 640px) { .sg-fams { grid-template-columns: 1fr; } }
 </style>
