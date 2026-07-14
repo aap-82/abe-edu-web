@@ -1,0 +1,41 @@
+---
+import ZSplit from './ZSplit.astro';
+import SectionWayfinder from './SectionWayfinder.astro';
+
+// A full image-split SECTION: the shell, the marker + eyebrow + H2 inside the body
+// column (where ZSplit needs them), and the forward wayfinder.
+//
+// Previously every one of these was hand-rolled in the MDX body as
+//   <section class="sec" id="..."><div class="wrap"> ... </div></section>
+// with a hand-written <span class="eyebrow-i">01</span> - a SECOND marker mechanism
+// competing with Section's `marker` prop. Both now render through the same markup.
+interface Props {
+  id?: string;
+  bg?: '' | 'bg-alt' | 'bg-warm' | 'bg-dark';
+  marker?: string;             // "01" - same prop, same rendering, as Section
+  eyebrow?: string;
+  h2?: string;                 // set:html, to allow the maroon dot
+  rev?: boolean;               // image on the right
+  imgRatio?: 'r45' | 'r54';
+  imgDesc: string;
+  imgSpec?: string;
+  imgSrc?: string;
+  imgAlt?: string;
+  next?: { label: string; href: string; ready?: boolean };   // forward scent link
+}
+const { id, bg = '', marker, eyebrow, h2, rev = false, imgRatio = 'r45', imgDesc, imgSpec, imgSrc, imgAlt, next } = Astro.props;
+---
+<section class:list={["sec", bg]} id={id}>
+  <div class="wrap">
+    <ZSplit rev={rev} imgRatio={imgRatio} imgDesc={imgDesc} imgSpec={imgSpec} imgSrc={imgSrc} imgAlt={imgAlt}>
+      {(marker || eyebrow) && (
+        <span class:list={["eyebrow", bg === 'bg-dark' && 'on-dark']}>
+          {marker && <span class="eyebrow-i">{marker}</span>}{eyebrow}
+        </span>
+      )}
+      {h2 && <h2 class="h2" set:html={h2} />}
+      <slot />
+    </ZSplit>
+    {next && <SectionWayfinder label={next.label} href={next.href} ready={next.ready} />}
+  </div>
+</section>

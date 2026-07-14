@@ -1,0 +1,31 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { CTA } from '../types/course';
+
+// Insurance partner cross-sell. ABE is not a licensed insurance provider; cover is
+// arranged by the named partner. Previously hand-rolled from raw .zsplit markup with
+// inline styles on every course page - now one component, one set of tokens.
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  paras: string[];          // one entry per paragraph
+  cta: CTA;
+  imgDesc: string;
+  imgSpec?: string;
+  imgSrc?: string;
+  imgAlt?: string;
+  imgRatio?: 'r54' | 'r45';
+}
+const { eyebrow = 'Insurance', heading, paras, cta, imgDesc, imgSpec, imgSrc, imgAlt, imgRatio = 'r54' } = Astro.props;
+---
+<div class="zsplit ins-partner">
+  <div class="z-body">
+    <span class="eyebrow">{eyebrow}</span>
+    <h3 class="h3">{heading}</h3>
+    {paras.map((p) => <p class="measure" set:html={p} />)}
+    <a class="btn-secondary" href={cta.href}>{cta.label}</a>
+  </div>
+  <div class="z-img">
+    <Placeholder ratio={imgRatio} desc={imgDesc} spec={imgSpec} src={imgSrc} alt={imgAlt} />
+  </div>
+</div>
