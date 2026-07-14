@@ -6,8 +6,8 @@ state: "TAS"
 authorityModel: "state-approved-direct"
 courseName: "TAS Owner Builder Course"
 courseDescription: "CBOS-required owner builder training for Tasmania, delivered 100% online by ABE Education as a CBOS-approved owner builder course. Certificate of Completion accepted for your owner builder permit application."
-price: "$195"
-priceNumber: "195"
+price: "$185"
+priceNumber: "185"
 courseWorkload: "PT4H"
 credentialName: "Certificate of Completion — Tasmanian Owner Builder Course"
 credentialCategory: "Certificate of Completion"
@@ -18,7 +18,7 @@ breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
   - { name: "Owner Builder Training", item: "https://www.abeeducation.edu.au/owner-builder-courses" }
   - { name: "TAS Owner Builder", item: "https://www.abeeducation.edu.au/tas-owner-builder-course" }
-# reviewedBy omitted — independent review of this page is pending [confirm: LW].
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "12 June 2026" }
 nav:
   - { label: "The course", href: "#course", sectionId: "course" }
   - { label: "Approved?", href: "#accredited", sectionId: "accredited" }
@@ -29,8 +29,8 @@ nav:
   - { label: "Become one", href: "#become", sectionId: "become" }
   - { label: "Why ABE", href: "#why", sectionId: "why" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
-cta: { href: "#enrol", label: "Enrol now — $195" }
-sticky: { label: "TAS Owner Builder", sub: "CBOS-approved course", price: "$195", cta: { href: "#enrol", label: "Enrol now" } }
+cta: { href: "#enrol", label: "Enrol now — $185" }
+sticky: { label: "TAS Owner Builder", sub: "CBOS-approved course", price: "$185", cta: { href: "#enrol", label: "Enrol now" } }
 hero:
   eyebrow: "TAS Owner Builder · CBOS-approved"
   h1Html: 'Owner builder course Tasmania, CBOS-approved and online<span class="dot">.</span>'
@@ -51,19 +51,19 @@ hero:
 ctaBand:
   headingHtml: 'Ready to get your certificate<span class="dot">?</span>'
   sub: "Start the CBOS-approved course today and have your Certificate of Completion ready for your owner builder permit application."
-  cta: { href: "#enrol", label: "Enrol now — $195", microcopy: "Instant access after payment · Certificate emailed on completion" }
+  cta: { href: "#enrol", label: "Enrol now — $185", microcopy: "Instant access after payment · Certificate emailed on completion" }
 glance:
-  - { key: "Price", value: "$195", note: "Indicative [confirm: LW]. GST-free. The CBOS permit fee is separate." }
+  - { key: "Price", value: "$185", note: "GST-free. The CBOS permit fee is separate." }
   - { key: "Delivery", value: "Online", note: "Self-paced, start when you enrol and resume on any device." }
-  - { key: "Assessment", value: "Online", note: "Online assessment. [confirm: LW] format, pass mark and attempts." }
+  - { key: "Assessment", value: "80%", note: "Online assessment, up to 3 attempts." }
   - { key: "Certificate", value: "12 mths", note: "Certificate of Completion; complete within 12 months of applying." }
 priceRows:
-  - { label: "Course fee", sub: "Paid to ABE Education, GST-free. [confirm: LW] indicative", amount: "$195.00" }
+  - { label: "Course fee", sub: "Paid to ABE Education, GST-free", amount: "$185.00" }
   - { label: "CBOS permit fee (Class 1a)", sub: "Government charge, set by CBOS and paid to Service Tasmania when you lodge", amount: "$470.40" }
-  - { label: "Ready-to-build total", sub: "Course + government permit fee, a budgeting figure only", amount: "$665.40", isTotal: true }
+  - { label: "Ready-to-build total", sub: "Course + government permit fee, a budgeting figure only", amount: "$655.40", isTotal: true }
 howItWorksSteps:
   - { title: "Enrol online", body: "Pay for the course and get instant access. Study on any device." }
-  - { title: "Complete the course", body: "Work through the modules at your own pace, then complete the online assessment. [confirm: LW] format, pass mark and attempts. You complete it yourself, as the person named on the certificate." }
+  - { title: "Complete the course", body: "Work through the modules at your own pace, then complete the online assessment. The pass mark is 80%, with up to 3 attempts. You complete it yourself, as the person named on the certificate." }
   - { title: "Get your certificate, then apply", body: "Your Certificate of Completion is emailed on completion. Lodge it with your owner builder permit application at Service Tasmania." }
 becomeSteps:
   - { title: "Complete this course", body: "Complete the CBOS-approved owner builder course. For a home (Class 1a) it must be completed within the 12 months before you apply." }
@@ -89,7 +89,6 @@ experts:
     bio:
       - "Warwick independently reviews ABE course pages to verify that legislative references, regulatory details and training requirements are current and accurately represented."
       - "His is a compliance and currency check, not a review of the course content."
-      - "Independent review of this Tasmanian page is pending. [confirm: LW]"
     linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
     portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif", alt: "Warwick Smith, independent compliance and currency reviewer for the ABE owner builder course and a VET sector veteran" }
 footerSources:
@@ -103,12 +102,14 @@ disclaimersHtml: '<b>ABE Education is not a Registered Training Organisation.</b
 ---
 
 import Section from '../../components/Section.astro';
-import ZSplit from '../../components/ZSplit.astro';
+import ZSection from '../../components/ZSection.astro';
 import AnswerCapsule from '../../components/AnswerCapsule.astro';
 import FactGrid from '../../components/FactGrid.astro';
 import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
 import Credentials from '../../components/Credentials.astro';
 import Faq from '../../components/Faq.astro';
@@ -117,7 +118,7 @@ import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
-import { moduleOutcome, obligationCards } from '../../data/modules-tas';
+import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules-tas';
 import { faqs } from '../../data/faqs-tas';
 
 <Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
@@ -125,10 +126,14 @@ import { faqs } from '../../data/faqs-tas';
   <FactGrid items={frontmatter.glance} />
 </Section>
 
-<section class="sec" id="course"><div class="wrap">
-  <ZSplit imgDesc="Owner builder on site reviewing plans, Tasmanian residential context." imgSpec="4:5 · warm tone · ~520×650">
-    <span class="eyebrow"><span class="eyebrow-i">01</span>The course</span>
-    <h2 class="h2">What is the Tasmania owner builder course?</h2>
+<ZSection
+  id="course"
+  marker="01"
+  eyebrow="The course"
+  h2="What is the Tasmania owner builder course?"
+  imgDesc="Owner builder on site reviewing plans, Tasmanian residential context." imgSpec="4:5 · warm tone · ~520×650"
+  next={{ label: "Is it approved?", href: "#accredited" }}
+>
     <AnswerCapsule><b>Yes, this is the course CBOS requires</b> before you apply for an owner builder permit for a home in Tasmania. You need the permit to do the work of a licensed builder on your own property, unless the work is low-risk work by an owner.</AnswerCapsule>
     <div class="measure">
       <p>ABE Education delivers the course 100% online, approved by Consumer, Building and Occupational Services (CBOS).</p>
@@ -137,9 +142,7 @@ import { faqs } from '../../data/faqs-tas';
       <a class="btn-link" href="#permit">See who needs a permit <ArrowRight /></a>
     </div>
     <VerifiedSources date="14 Jul 2026" facts="Course requirement and the Class 1a trigger fact-checked against the current guidance" sources={[{ label: 'CBOS — Owner builder training courses', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/training-courses' }]} />
-  </ZSplit>
-  <SectionWayfinder label="Is it approved?" href="#accredited" />
-</div></section>
+</ZSection>
 
 <Section bg="bg-alt" id="accredited" marker="02" eyebrow="Approved vs accredited" h2="Is this course approved?">
   <AnswerCapsule><b>Yes, for your permit.</b> The course is CBOS-approved, which is exactly what Tasmania requires. It is not a nationally recognised or RTO-accredited qualification, and it does not need to be. You need an approved Tasmanian course, and this is one.</AnswerCapsule>
@@ -153,23 +156,25 @@ import { faqs } from '../../data/faqs-tas';
   <SectionWayfinder label="How it works" href="#how" />
 </Section>
 
-<section class="sec" id="how"><div class="wrap">
-  <ZSplit rev imgDesc="The online course interface on a laptop, clean and self-paced." imgSpec="4:5 · warm tone · ~520×650">
-    <span class="eyebrow"><span class="eyebrow-i">03</span>How it works</span>
-    <h2 class="h2">Three steps to your certificate</h2>
+<ZSection
+  id="how"
+  marker="03"
+  eyebrow="How it works"
+  h2="Three steps to your certificate"
+  rev imgDesc="The online course interface on a laptop, clean and self-paced." imgSpec="4:5 · warm tone · ~520×650"
+  next={{ label: "What you'll learn", href: "#learn" }}
+>
     <AnswerCapsule>Enrol, work through the modules and the online assessment at your own pace, and get your Certificate of Completion when you finish.</AnswerCapsule>
     <Stepper steps={frontmatter.howItWorksSteps} maxWidth="480px" />
     <VerifiedSources date="14 Jul 2026" facts="Certificate and permit-application steps fact-checked against the current guidance" sources={[{ label: 'Service Tasmania — Apply for an owner builder permit', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }]} />
-  </ZSplit>
-  <SectionWayfinder label="What you'll learn" href="#learn" />
-</div></section>
+</ZSection>
 
 <Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="What the Tasmanian owner builder course covers">
   <AnswerCapsule>The course prepares you for the responsibilities you take on as an owner builder in Tasmania: your legal and safety duties, keeping the build compliant with the National Construction Code, costing and finance, engaging and managing licensed trades, insurance, and seeing the project through to completion. It teaches you to run the project, not to lay bricks.</AnswerCapsule>
   <div class="measure">
     <p>By the end you will be able to {moduleOutcome}</p>
   </div>
-  <Note variant="caution" label="Curriculum"><b>Detailed module list:</b> the full Tasmanian curriculum is being finalised and is confirmed on enrolment. [confirm: LW]</Note>
+  <TopicGrid items={moduleGroups} />
   <SectionWayfinder label="Do you need a permit?" href="#permit" />
 </Section>
 
@@ -190,9 +195,9 @@ import { faqs } from '../../data/faqs-tas';
 <Section bg="bg-alt" id="regulator" marker="06" eyebrow="From CBOS" h2="What the regulator requires of you">
   <AnswerCapsule>When you hold an owner builder permit you take on the licensed builder’s responsibilities under Tasmanian law. You are responsible for site safety, for coordinating the licensed trades, and you stay liable to future owners for the building work for up to <b>10 years</b>.</AnswerCapsule>
   <div class="measure">
-    <h3 class="h3" style="margin-bottom:var(--s-2xs)">Your responsibilities as an owner builder</h3>
+    <h3 class="h3">Your responsibilities as an owner builder</h3>
     <p>You carry the same duties as a licensed builder. Under the Work Health and Safety Act 2012 (Tas) you are the person conducting a business or undertaking (PCBU) for your site, so work health and safety is your responsibility. You coordinate the licensed trades, keep the build compliant with the National Construction Code, and you remain liable to any future owner for defective building work for up to 10 years after the work is complete.</p>
-    <h3 class="h3" style="margin-top:var(--s-lg);margin-bottom:var(--s-2xs)">The law behind the permit</h3>
+    <h3 class="h3">The law behind the permit</h3>
     <p>Your permit is issued under the Occupational Licensing Act 2005 (Tas). Building work itself is regulated under the Building Act 2016 (Tas) and the Building Regulations 2016, which sort work into low-risk, notifiable and permit categories. If you enter a residential building contract over $20,000, the Residential Building Work Contracts and Dispute Resolution Act 2016 (Tas) sets minimum contract terms and a dispute-resolution scheme.</p>
     <a class="btn-link" href="#become">See how to apply for your permit <ArrowRight /></a>
   </div>
@@ -200,21 +205,16 @@ import { faqs } from '../../data/faqs-tas';
   <SectionWayfinder label="What it costs" href="#cost" />
 </Section>
 
-<section class="sec bg-dark trust"><div class="wrap">
-  <span class="eyebrow on-dark">The numbers</span>
-  <h2 class="h2">Trusted by Australian owner builders since 2007</h2>
+<TrustBand
+  h2="Trusted by Australian owner builders since 2007"
+  stats={[{ value: 'CBOS', label: 'Approved course' }, { value: '31,000+', label: 'Students trained', numeric: true }, { value: '19', label: 'Years operating', numeric: true }, { value: '100%', label: 'Online and self-paced', numeric: true }]}
+  attestHtml='Course approved by Consumer, Building and Occupational Services (CBOS). This is a state-approved Certificate of Completion, not an RTO course and not nationally recognised training. ABN 64 125 455 272 · <a href="https://www.cbos.tas.gov.au/" rel="noopener">cbos.tas.gov.au</a>'
+>
   <AnswerCapsule onDark>A CBOS-approved course, delivered fully online, with more than <b>31,000</b> students trained since 2007.</AnswerCapsule>
-  <div class="trust-stats">
-    <div class="tstat"><span class="n">CBOS</span><span class="l">Approved course</span></div>
-    <div class="tstat"><span class="n num">31,000+</span><span class="l">Students trained</span></div>
-    <div class="tstat"><span class="n num">19</span><span class="l">Years operating</span></div>
-    <div class="tstat"><span class="n num">100%</span><span class="l">Online and self-paced</span></div>
-  </div>
-  <p class="attest">Course approved by Consumer, Building and Occupational Services (CBOS). This is a state-approved Certificate of Completion, not an RTO course and not nationally recognised training. ABN 64 125 455 272 · <a href="https://www.cbos.tas.gov.au/" rel="noopener">cbos.tas.gov.au</a></p>
-</div></section>
+</TrustBand>
 
 <Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
-  <AnswerCapsule>The course is <b>$195</b> to ABE (indicative). The CBOS permit fee is a separate <b>$470.40</b> for a home. Together that is <b>$665.40</b> to be ready to build. Council building permit fees are additional.</AnswerCapsule>
+  <AnswerCapsule>The course is <b>$185</b> to ABE. The CBOS permit fee is a separate <b>$470.40</b> for a home. Together that is <b>$655.40</b> to be ready to build. Council building permit fees are additional.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The CBOS permit fee ($470.40 Class 1a / $235.20 Class 10) is set by the regulator and reviewed each 1 July, so check the current amount before you lodge. Council building permit fees, a Building Administration Fee and the TBCITB training levy are additional. The $195 course fee is indicative pending confirmation." />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
@@ -222,16 +222,17 @@ import { faqs } from '../../data/faqs-tas';
 <Section id="obligations" marker="08" eyebrow="Wider obligations" h2="What else your project needs">
   <AnswerCapsule>Beyond the course and permit, a handful of obligations apply: safety training, a building surveyor, insurance, contract rules, the permit limit, and your ongoing liability.</AnswerCapsule>
   <TopicGrid items={obligationCards} />
-  <div class="zsplit" style="margin-top:var(--s-2xl)">
-    <div class="z-body">
-      <span class="eyebrow">Insurance</span>
-      <h3 class="h3" style="font-size:26px;margin-bottom:var(--s-sm)">Cover for your build, through our partner</h3>
-      <p style="max-width:52ch">As an owner builder you carry the risk on your own site. In Tasmania you must hold Public Liability insurance of at least $5 million and provide a Certificate of Currency with your application. Depending on the project you may also want contract works or material damage cover.</p>
-      <p style="max-width:52ch">ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE students for close to 20 years. We can introduce you for a quote and advice tailored to your project.</p>
-      <a class="btn-secondary" href="#enrol">Get an owner builder insurance quote</a>
-    </div>
-    <div class="z-img"><Placeholder ratio="r54" desc="Owner builder site with materials, suggesting the risk that cover protects." spec="5:4 · warm tone · ~640×512" /></div>
-  </div>
+  <InsurancePartner
+    heading="Cover for your build, through our partner"
+    paras={[
+      "As an owner builder you carry the risk on your own site. In Tasmania you must hold Public Liability insurance of at least $5 million and provide a Certificate of Currency with your application. Depending on the project you may also want contract works or material damage cover.",
+      "ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE students for close to 20 years. We can introduce you for a quote and advice tailored to your project.",
+    ]}
+    cta={{ href: "#enrol", label: "Get an owner builder insurance quote" }}
+    imgRatio="r54"
+    imgDesc="Owner builder site with materials, suggesting the risk that cover protects."
+    imgSpec="5:4 · warm tone · ~640×512"
+  />
   <Note><b>Please note:</b> this is general information, not a complete list of the cover you may need. Insurance is arranged by InsuranceTek Pty Ltd, not ABE Education.</Note>
   <VerifiedSources date="14 Jul 2026" facts="Insurance minimum, surveyor and contract rules fact-checked against the current guidance" sources={[{ label: 'Service Tasmania — What you need to apply', href: 'https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit' }, { label: 'WorkSafe Tasmania — White cards', href: 'https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction' }, { label: 'Tasmanian legislation', href: 'https://www.legislation.tas.gov.au' }]} />
   <SectionWayfinder label="Become an owner builder" href="#become" />
