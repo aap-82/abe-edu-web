@@ -251,7 +251,9 @@ p strong{color:var(--ink);font-weight:600;}
    dated verification (verify-blue tick + date); right column carries the fact and its
    linked source(s), reading "[what was checked] against [source]". Colour marks the claim
    (the tick and date); the sources sit in slate so they do not speckle the page. */
-.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:baseline;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
+/* top-align the two columns: baseline alignment took the left column's baseline from the
+   tick svg (which has none) instead of the VERIFIED text, riding the label 2px high */
+.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:start;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
 .verified .v-date{display:flex;flex-direction:column;gap:2px;color:var(--verify);font-weight:500;white-space:nowrap;}
 .verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--slate);text-transform:uppercase;letter-spacing:.09em;}
 .verified .v-day{font-weight:400;}
