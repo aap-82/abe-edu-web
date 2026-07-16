@@ -53,6 +53,14 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - `BaseLayout.astro` ships robots, canonical, OG/Twitter and (via sitemap integration) the sitemap +
   `public/robots.txt` on every page. Pass an optional `ogImage` for image cards.
 
+## Canonical URL form (decided Wave 0, Jul 2026)
+The canonical form of every URL is **`https://www.abeeducation.edu.au/<slug>/` with a trailing slash**.
+Canonicals, sitemap entries, JSON-LD `@id`s, breadcrumb items and internal links all use this form.
+Why: Astro's default `format: 'directory'` emits `/slug/index.html`, and Workers static assets'
+`html_handling: "auto-trailing-slash"` (the default) serves `/slug/` and 301s `/slug` -> `/slug/` in one
+hop. This is deliberate and replaces the earlier no-slash line in migration plan v2 §4. Apex->www and
+http->https are zone-level Cloudflare redirect rules, not per-page config.
+
 ## Content design and element selection
 When building or auditing a page (including via `/abe-seo-content-engine` and `/abe-course-page-astro`),
 use the content-design and element-selection guidance in **`DESIGN.md` section 7**: which treatment per
