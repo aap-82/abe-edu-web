@@ -19,6 +19,18 @@ const person = z.object({
   portrait: img.optional(),
 });
 
+// ASQA-accredited courses are delivered and assessed by a named RTO partner; ABE is the
+// publisher, never the RTO. partnerRto exists if and only if the model is asqa-accredited
+// (enforced by the superRefine below).
+const partnerRto = z.object({
+  name: z.string(),           // e.g. "Blue Dog Training"
+  rtoNumber: z.string(),      // e.g. "31193"
+  url: z.string().url().optional(),
+  unitCode: z.string().optional(),   // CPCCWHS1001 everywhere except WA: CPCWHS1001
+  unitName: z.string().optional(),
+  credential: z.string().optional(), // defaults to "Statement of Attainment" in PartnerDisclosure
+});
+
 const courses = defineCollection({
   loader: glob({ base: './src/content/courses', pattern: '**/*.mdx' }),
   schema: z.object({
@@ -30,6 +42,8 @@ const courses = defineCollection({
     state: z.string(),
     // authority model drives the credential's recognizedBy (state-approved only)
     authorityModel: z.enum(['state-approved-direct', 'knowledge-requirement', 'asqa-accredited']),
+    // required iff authorityModel === 'asqa-accredited' — see superRefine below
+    partnerRto: partnerRto.optional(),
     // JSON-LD inputs
     courseName: z.string(),
     courseDescription: z.string(),
@@ -72,6 +86,33 @@ const courses = defineCollection({
     experts: z.array(person),
     footerSources: z.array(source),
     disclaimersHtml: z.string(),
+  }).superRefine((data, ctx) => {
+    // partnerRto if and only if asqa-accredited: an ASQA page without a named RTO
+    // partner cannot make the "nationally recognised" claim, and a non-ASQA page
+    // carrying one would credit an RTO that has no role in the course.
+    if (data.authorityModel === 'asqa-accredited' && !data.partnerRto) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['partnerRto'],
+        message: 'asqa-accredited courses must name their partnerRto (name + rtoNumber). ABE is not an RTO.',
+      });
+    }
+    if (data.authorityModel !== 'asqa-accredited' && data.partnerRto) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['partnerRto'],
+        message: `partnerRto is only valid on asqa-accredited courses (this course is ${data.authorityModel}).`,
+      });
+    }
+    // ASQA credentials are Statements of Attainment issued by the RTO partner; the
+    // state-approved models issue a Certificate of Completion. Catch the mismatch early.
+    if (data.authorityModel === 'asqa-accredited' && /certificate of completion/i.test(data.credentialCategory)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['credentialCategory'],
+        message: 'asqa-accredited courses issue a Statement of Attainment, not a Certificate of Completion.',
+      });
+    }
   }),
 });
 
