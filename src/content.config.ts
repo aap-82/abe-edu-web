@@ -31,6 +31,35 @@ const partnerRto = z.object({
   credential: z.string().optional(), // defaults to "Statement of Attainment" in PartnerDisclosure
 });
 
+// CPD course template (W0-2). Optional: only courses that are a CPD product carry it.
+// matrix/bundle are themselves optional inside it, since not every CPD course needs a
+// cross-state comparison or an upsell bundle.
+const cpd = z.object({
+  points: z.string(),                      // headline figure, e.g. "12 points"
+  licenceClasses: z.array(z.string()),     // licence classes this course counts towards
+  approvalRef: z.object({ label: z.string(), href: z.string().url() }), // e.g. the CBOS listing
+  renewalPeriod: z.string(),               // e.g. "Renews annually, 1 July"
+  matrix: z.object({
+    caption: z.string().optional(),
+    states: z.array(z.string()),
+    rows: z.array(z.object({
+      industry: z.string(),
+      note: z.string().optional(),
+      cells: z.array(z.object({ href: z.string(), label: z.string().optional() }).nullable()),
+    })),
+  }).optional(),
+  bundle: z.object({
+    eyebrow: z.string().optional(),
+    heading: z.string(),
+    lede: z.string(),
+    items: z.array(z.object({ label: z.string(), sub: z.string().optional(), price: z.string() })),
+    totalLabel: z.string().optional(),
+    total: z.string(),
+    cta,
+    note: z.string().optional(),
+  }).optional(),
+});
+
 const courses = defineCollection({
   loader: glob({ base: './src/content/courses', pattern: '**/*.mdx' }),
   schema: z.object({
@@ -44,6 +73,8 @@ const courses = defineCollection({
     authorityModel: z.enum(['state-approved-direct', 'knowledge-requirement', 'asqa-accredited']),
     // required iff authorityModel === 'asqa-accredited' — see superRefine below
     partnerRto: partnerRto.optional(),
+    // present only on CPD course pages — see CourseLayout's cpd branch
+    cpd: cpd.optional(),
     // JSON-LD inputs
     courseName: z.string(),
     courseDescription: z.string(),
