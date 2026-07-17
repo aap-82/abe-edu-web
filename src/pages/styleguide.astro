@@ -20,12 +20,14 @@ import Note from '../components/Note.astro';
 import CanCant from '../components/CanCant.astro';
 import Stepper from '../components/Stepper.astro';
 import TopicGrid from '../components/TopicGrid.astro';
+import HubCard from '../components/HubCard.astro';
 import FactGrid from '../components/FactGrid.astro';
 import PriceCard from '../components/PriceCard.astro';
 import BundleOffer from '../components/BundleOffer.astro';
 import Faq from '../components/Faq.astro';
 import ProcessTrack from '../components/ProcessTrack.astro';
 import CpdMatrix from '../components/CpdMatrix.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
 import Credentials from '../components/Credentials.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
 import PartnerDisclosure from '../components/PartnerDisclosure.astro';
@@ -95,6 +97,17 @@ const cpdStates = ['TAS', 'NSW', 'WA'];
 const cpdRows = [
   { industry: 'Building', cells: [{ href: '#' }, { href: '#' }, null] },
   { industry: 'Real estate', note: 'annual points', cells: [null, null, { href: '#' }] },
+];
+const cmpColumns = [
+  { key: 'qld', label: 'QLD', href: '#' },
+  { key: 'wa', label: 'WA', href: '#' },
+  { key: 'tas', label: 'TAS', href: '#' },
+  { key: 'act', label: 'ACT', soon: true },
+];
+const cmpRows = [
+  { label: 'Price', values: ['$179', '$179', '$185', '—'] },
+  { label: 'Authority', values: ['QBCC-approved', 'Form 75 support', 'CBOS-approved', '—'] },
+  { label: 'Modules', values: ['18', '13', '12', '—'] },
 ];
 const heroEx = {
   eyebrow: 'Owner Builder · Approved',
@@ -414,6 +427,15 @@ const groups = [
     </div>
 
     <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">HubCard</span><span class="sg-desc">Hub spoke card: state, price, soon-state (what TopicGrid's card cannot carry).</span><span class="sg-props">state? · title · desc · price? · href? · soon?</span></div>
+      <div class="sg-demo" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <HubCard state="QLD" title="QLD Owner Builder" desc="Approved by the QBCC." price="$179" href="#" />
+        <HubCard state="WA" title="WA Owner Builder" desc="Supports your Form 75 approval." price="$179" href="#" />
+        <HubCard state="ACT" title="ACT Owner Builder" desc="In development." soon />
+      </div>
+    </div>
+
+    <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">FactGrid</span><span class="sg-desc">At-a-glance fact cells.</span><span class="sg-props">items[] (key · value · note?)</span></div>
       <div class="sg-demo"><FactGrid items={glance} /></div>
     </div>
@@ -446,6 +468,11 @@ const groups = [
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">CpdMatrix</span><span class="sg-desc">Industry × state CPD grid.</span><span class="sg-props">states[] · rows[] · caption?</span></div>
       <div class="sg-demo"><CpdMatrix states={cpdStates} rows={cpdRows} caption="Example CPD availability by state." /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ComparisonTable</span><span class="sg-desc">State/product-by-state comparison, with a trailing action row.</span><span class="sg-props">columns[] (key · label · href? · soon?) · rows[] (label · values[]) · caption? · ctaLabel?</span></div>
+      <div class="sg-demo"><ComparisonTable columns={cmpColumns} rows={cmpRows} caption="Example: owner builder by state." ctaLabel="View course" /></div>
     </div>
   </section>
 

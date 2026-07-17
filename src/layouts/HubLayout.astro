@@ -1,0 +1,98 @@
+---
+import { getEntries } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import HubCard from '../components/HubCard.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import TrustBand from '../components/TrustBand.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+
+interface Props { hub: CollectionEntry<'hubs'>['data']; }
+const { hub } = Astro.props;
+const {
+  title, description, canonical, ogImage,
+  intro, breadcrumb, reviewedBy, nav, hero, sticky, spokes,
+  comparison, trust, faqs, ctaBand, footerSources, disclaimersHtml,
+} = hub;
+
+// Spokes are typed references into `courses`: resolve them here so price, state and the
+// URL always come from the course entry itself, never a copy in the hub's own
+// frontmatter that could drift. `blurb` is the only hub-authored text per spoke.
+const spokeEntries = await getEntries(spokes.map((s) => s.course));
+const spokeCards = spokes.map((s, i) => {
+  const course = spokeEntries[i].data;
+  return {
+    state: course.state,
+    title: course.courseName,
+    desc: s.blurb,
+    price: course.price,
+    href: '/' + spokeEntries[i].id,
+  };
+});
+
+// A hub is never itself a course: no Course or EducationalOccupationalCredential node.
+// Just a BreadcrumbList and an ItemList over the spokes.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumb.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: spokeCards.map((c, i) => ({
+        '@type': 'ListItem', position: i + 1, name: c.title, url: new URL(c.href, canonical).href,
+      })),
+    },
+  ],
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  schema={schema}
+  sticky={sticky}
+  ogImage={ogImage}
+  crumbs={breadcrumb}
+  reviewed={reviewedBy}
+>
+  <Hero
+    eyebrow={hero.eyebrow}
+    h1Html={hero.h1Html}
+    updated={hero.updated}
+    subhead={hero.subhead}
+    ticks={[]}
+    proof={[]}
+    howItWorks="Choose your state → View the course → Enrol"
+    artefactDesc="Hub artefact placeholder."
+    cta={hero.cta}
+  />
+  {nav && <WayfinderNav items={nav} cta={hero.cta} />}
+  <Section id="spokes" bg="bg-alt" eyebrow="Choose your state" h2="Find the course that applies to you">
+    <AnswerCapsule><Fragment set:html={intro} /></AnswerCapsule>
+    <div class="hub-grid">
+      {spokeCards.map((c) => <HubCard {...c} />)}
+    </div>
+  </Section>
+  {/* Freeform body content (e.g. a "why ABE" section) — optional, from the hub's own MDX. */}
+  <slot />
+  {comparison && (
+    <Section id="compare" eyebrow="At a glance" h2="Compare by state">
+      <ComparisonTable columns={comparison.columns} rows={comparison.rows} caption={comparison.caption} />
+    </Section>
+  )}
+  {trust && <TrustBand h2={trust.h2} stats={trust.stats} attestHtml={trust.attestHtml} />}
+  <Section id="faq" bg="bg-alt" eyebrow="FAQ" h2="Common questions">
+    <Faq items={faqs} />
+  </Section>
+  <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
+  {footerSources && <SourcesFooter sources={footerSources} disclaimersHtml={disclaimersHtml ?? ''} />}
+</BaseLayout>

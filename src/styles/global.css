@@ -226,6 +226,19 @@ p strong{color:var(--ink);font-weight:600;}
 .topic .t-no{font-family:var(--font-mono);font-size:12px;color:var(--maroon);display:block;margin-bottom:12px;}
 .topic .h4{margin-bottom:8px;}
 .topic p{margin:0;font-size:15px;color:var(--ink-3);}
+
+/* Hub spoke card: like .topic but carries a state badge, a price, and a soon state - the
+   things a hub's course grid needs that the plain tag/title/body TopicGrid card cannot. */
+.hub-card{display:block;border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);text-decoration:none;color:inherit;transition:border-color .18s,transform .18s;}
+a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
+.hub-card.is-soon{opacity:.55;}
+.hub-card .hc-state{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:12px;}
+.hub-card .hc-title{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;}
+.hub-card .hc-desc{margin:0;font-size:14px;line-height:1.55;color:var(--ink-3);}
+.hub-card .hc-foot{margin-top:var(--s-md);display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+.hub-card .hc-price{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--ink);}
+.hub-card .hc-soon{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-light);}
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
 .cancan{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md);margin-top:var(--s-lg);}
 .can-col{border:1px solid var(--rule);border-radius:6px;background:var(--paper);overflow:hidden;}
 .can-h{padding:14px 22px;border-bottom:1px solid var(--rule);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:var(--paper-alt);}
@@ -303,6 +316,22 @@ p strong{color:var(--ink);font-weight:600;}
 .cpd tbody a{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .cpd tbody a:hover{color:var(--maroon);border-color:var(--maroon);}
 .cpd .cpd-dash{color:var(--slate-light);}
+
+/* Comparison table: products/states across the top, compared facts down the side, a
+   trailing action row. Same bordered/scrolling idiom as .cpd, but compares named things
+   side by side rather than mapping industry x state availability. */
+.cmp-wrap{margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
+.cmp{width:100%;min-width:560px;border-collapse:collapse;}
+.cmp-cap{caption-side:top;text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);padding:14px var(--s-lg);border-bottom:1px solid var(--rule);}
+.cmp thead th{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;}
+.cmp thead th.cmp-corner{text-align:left;}
+.cmp tbody th{text-align:left;padding:13px var(--s-lg);border-bottom:1px solid var(--rule);font-size:14px;color:var(--slate);font-weight:500;vertical-align:top;white-space:nowrap;}
+.cmp tbody td{text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);font-size:15px;font-weight:500;color:var(--ink-2);}
+.cmp tfoot td{text-align:center;padding:16px 14px;border-left:1px solid var(--rule);}
+.cmp tfoot th{border:0;}
+.cmp .cmp-dash{color:var(--slate-light);}
+.cmp .cmp-soon{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate-light);}
+
 .trust .h2{color:#fff;max-width:18ch;margin-bottom:var(--s-xl);}
 .trust-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);border-top:1px solid rgba(255,255,255,.14);padding-top:var(--s-xl);}
 .tstat .n{font-family:var(--font-display);font-weight:600;font-size:36px;letter-spacing:-.02em;color:#fff;display:block;margin-bottom:8px;}
@@ -355,6 +384,7 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
   .hero .wrap{grid-template-columns:1fr;gap:var(--s-xl);}
   .glance-grid{grid-template-columns:repeat(2,1fr);}
   .topic-grid{grid-template-columns:repeat(2,1fr);}
+  .hub-grid{grid-template-columns:repeat(2,1fr);}
   .trust-stats{grid-template-columns:repeat(2,1fr);gap:var(--s-xl) var(--s-lg);}
   .zsplit{grid-template-columns:1fr;gap:var(--s-lg);}
   .zsplit.rev .z-img{order:0;}
@@ -370,7 +400,7 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 @media(max-width:720px){
   .sec{padding:64px 0;}
   .hero .wrap{padding-top:56px;padding-bottom:56px;}
-  .glance-grid,.topic-grid,.cancan,.trust-stats{grid-template-columns:1fr;}
+  .glance-grid,.topic-grid,.hub-grid,.cancan,.trust-stats{grid-template-columns:1fr;}
   .price-row{flex-direction:column;gap:6px;}
   .ph.r54{max-width:520px;margin:0 auto;width:100%;}
   footer .srclist{grid-template-columns:1fr;}
