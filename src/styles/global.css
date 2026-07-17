@@ -360,7 +360,19 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .cta-end .lede{max-width:46ch;margin:0 auto var(--s-lg);}
 .cta-end .mc{margin-top:var(--s-sm);font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);}
 footer{background:var(--ink);color:rgba(255,255,255,.6);padding:var(--s-xl) 0;}
-footer .f-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;font-size:14px;}
+/* Global link columns, sitewide (W0-4). Sit above the page-specific f-top/srclist/f-auth
+   block, separated by a hairline; same ink ground, gold reserved for nothing here (the
+   footer needs no accent colour - it is the quietest, most legible part of the page). */
+footer .f-links{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);padding-bottom:var(--s-xl);margin-bottom:var(--s-xl);border-bottom:1px solid rgba(255,255,255,.14);}
+footer .f-col-h{display:block;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:var(--s-sm);}
+footer .f-col-h.f-col-sub{margin-top:var(--s-md);}
+footer .f-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+footer .f-col li{font-size:14px;}
+footer .f-pub{max-width:74ch;font-size:13px;line-height:1.65;color:rgba(255,255,255,.62);}
+footer .f-pub p{margin:0 0 6px;}
+footer .f-pub b{color:rgba(255,255,255,.75);}
+footer .f-asqa{margin:var(--s-md) 0 0;padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:12px;line-height:1.6;color:rgba(255,255,255,.5);max-width:74ch;}
+footer .f-top{margin-top:var(--s-xl);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;font-size:14px;}
 footer .brand .wm{color:#fff;} footer .brand .mk{background:#fff;color:var(--maroon);}
 footer a{color:rgba(255,255,255,.6);text-decoration:none;} footer a:hover{color:#fff;}
 footer .f-meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;}
@@ -385,6 +397,7 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
   .glance-grid{grid-template-columns:repeat(2,1fr);}
   .topic-grid{grid-template-columns:repeat(2,1fr);}
   .hub-grid{grid-template-columns:repeat(2,1fr);}
+  footer .f-links{grid-template-columns:repeat(2,1fr);}
   .trust-stats{grid-template-columns:repeat(2,1fr);gap:var(--s-xl) var(--s-lg);}
   .zsplit{grid-template-columns:1fr;gap:var(--s-lg);}
   .zsplit.rev .z-img{order:0;}
@@ -401,6 +414,7 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
   .sec{padding:64px 0;}
   .hero .wrap{padding-top:56px;padding-bottom:56px;}
   .glance-grid,.topic-grid,.hub-grid,.cancan,.trust-stats{grid-template-columns:1fr;}
+  footer .f-links{grid-template-columns:1fr;gap:var(--s-md);}
   .price-row{flex-direction:column;gap:6px;}
   .ph.r54{max-width:520px;margin:0 auto;width:100%;}
   footer .srclist{grid-template-columns:1fr;}
