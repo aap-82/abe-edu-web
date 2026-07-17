@@ -14,7 +14,7 @@ import Placeholder from '../components/Placeholder.astro';
 import type { TopicCard } from '../types/course';
 import { faqsCpd } from '../data/faqs-cpd';
 
-const canonical = 'https://www.abeeducation.edu.au/cpd/';
+const canonical = 'https://www.abeeducation.edu.au/cpd';
 const cta = { href: '#choose-state', label: 'Find your state’s CPD' };
 
 // Single source for the visible breadcrumbs and the JSON-LD BreadcrumbList below, so
@@ -79,15 +79,15 @@ const schema = {
   '@graph': [
     { '@type': 'ItemList', name: 'ABE Education CPD Courses by State',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/cpd-tas/',
+        { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/cpd-tas',
           item: { '@type': 'Course', name: 'Tasmania CPD (Building, Plumbing, Electrical)',
             description: 'Online CPD for Tasmanian building-industry licence holders. ABE is listed as a CPD training provider with CBOS Tasmania.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
-        { '@type': 'ListItem', position: 2, url: 'https://www.abeeducation.edu.au/cpd-nsw/',
+        { '@type': 'ListItem', position: 2, url: 'https://www.abeeducation.edu.au/cpd-nsw',
           item: { '@type': 'Course', name: 'NSW Building CPD',
             description: 'Online builder CPD meeting the NSW criteria under the Home Building Act 1989, administered by Building Commission NSW.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
-        { '@type': 'ListItem', position: 3, url: 'https://www.abeeducation.edu.au/cpd-wa/',
+        { '@type': 'ListItem', position: 3, url: 'https://www.abeeducation.edu.au/cpd-wa',
           item: { '@type': 'Course', name: 'WA Real Estate CPD',
             description: 'Online real estate CPD covering the mandatory points required by Consumer Protection WA.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },

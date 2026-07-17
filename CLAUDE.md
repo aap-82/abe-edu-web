@@ -53,13 +53,32 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - `BaseLayout.astro` ships robots, canonical, OG/Twitter and (via sitemap integration) the sitemap +
   `public/robots.txt` on every page. Pass an optional `ogImage` for image cards.
 
-## Canonical URL form (decided Wave 0, Jul 2026)
-The canonical form of every URL is **`https://www.abeeducation.edu.au/<slug>/` with a trailing slash**.
+## Canonical URL form (decided Wave 0, Jul 2026 — risk audit R2)
+The canonical form of every URL is **`https://www.abeeducation.edu.au/<slug>` with NO trailing slash**.
 Canonicals, sitemap entries, JSON-LD `@id`s, breadcrumb items and internal links all use this form.
-Why: Astro's default `format: 'directory'` emits `/slug/index.html`, and Workers static assets'
-`html_handling: "auto-trailing-slash"` (the default) serves `/slug/` and 301s `/slug` -> `/slug/` in one
-hop. This is deliberate and replaces the earlier no-slash line in migration plan v2 §4. Apex->www and
-http->https are zone-level Cloudflare redirect rules, not per-page config.
+`astro.config.mjs` sets `trailingSlash: 'never'`; `wrangler.jsonc`'s `assets.html_handling` is
+`"drop-trailing-slash"`.
+
+Why: every live equity URL is already slash-less (e.g. `/wa-owner-builder-course`). Astro's
+`format: 'directory'` still emits `/slug/index.html` on disk, but `drop-trailing-slash` serves a
+`/slug` request as a direct **200** from that file, and 307s a `/slug/` request to it. That makes every
+same-slug rebuild byte-identical to its current production URL: zero redirect on the equity core, and
+roughly half the redirect-map surface versus the trailing-slash alternative. This supersedes an earlier
+trailing-slash decision recorded briefly during Wave 0 (superseded before merge, never reached `main`)
+and the no-slash line in migration plan v2 §4, which it now matches. Apex->www and http->https are
+zone-level Cloudflare redirect rules, not per-page config. Verified in the W0-7 redirect spike.
+
+## Staging de-index (Wave 0 risk audit R3)
+The `*.workers.dev` preview host must never be indexable while the real domain is still in
+preparation, or Google can index the build as duplicate content on the wrong host. `_headers` can't
+vary by hostname, and Cloudflare Transform Rules only apply to zones Andrey controls (`workers.dev` is
+shared Cloudflare infra, not his zone), so the header has to be added in the Worker itself.
+`worker/entry.js` is a thin passthrough to the `ASSETS` binding (`wrangler.jsonc`'s `main` +
+`assets.binding`) that adds `X-Robots-Tag: noindex` only when the request hostname ends in
+`.workers.dev`. `assets.run_worker_first: true` is required for this to fire at all: without it,
+Cloudflare serves a matching static asset directly and never invokes `main`. This is not an SSR
+adapter and does not change Astro's static output; remove the file and the `main`/`binding`/
+`run_worker_first` lines at cutover once `workers_dev` is set to `false`.
 
 ## Content design and element selection
 When building or auditing a page (including via `/abe-seo-content-engine` and `/abe-course-page-astro`),
