@@ -19,6 +19,6 @@ export const obligationCards: TopicCard[] = [
   { tag: '02', title: 'Deposits &amp; contracts', body: 'Under Schedule 1B of the QBCC Act 1991, trade deposits are capped: 10% under $20,000, 5% at $20,000 or more.' },
   { tag: '03', title: 'The QLeave levy', body: 'Applies to building work of $150,000 or more. Owner builders are exempt but must notify QLeave and quote the permit number.' },
   { tag: '04', title: 'NCC 7-star energy', body: 'New Queensland homes must meet a minimum 7-star energy rating under NCC 2022, current in QLD to 1 May 2027.' },
-  { tag: '05', title: 'Disputes &amp; selling', body: 'A trade dispute can go to QCAT. Sell within six years of finishing and you must warn the buyer in writing before they sign.' },
+  { tag: '05', title: 'Disputes &amp; selling', body: 'A trade dispute can go to QCAT. You can hold only one owner builder permit every six years. Sell within six years of finishing and you must warn the buyer in writing before they sign, and the owner builder notation stays on the title for seven years.' },
   { tag: '06', title: 'Home Warranty', body: 'Owner builders cannot access the Queensland Home Warranty Scheme for their own work. It applies where a licensed contractor is engaged.' },
 ];

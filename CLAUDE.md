@@ -11,6 +11,16 @@ starting Wave 1+ work. `../MIGRATION.md` still covers the original Claude Code /
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 
+## House style (confirmed 15 Jul 2026, GSC-backed)
+- **"owner builder" — open, no hyphen — in all prose.** GSC shows searchers use the open form ~215:5
+  over "owner-builder", and Google normalises hyphens anyway, so the open form best mirrors query
+  language. Keep the hyphen only when quoting a regulator's exact page/document name in a Source
+  citation (e.g. QBCC "Fees for owner-builders"), and in URL slugs (`/qld-owner-builder-course`),
+  which are unaffected.
+- **Spell out "five years" in prose and answer capsules**; use numerals ("5 yrs" / "5 years") only in
+  data cells (FactGrid, PriceCard), sticky bars, CTAs and meta/schema. Applies to any duration stated
+  in body copy, not just five years specifically.
+
 ## Agreed stack (do not drift)
 - **astro ^7** (NOT 6 or 5). Stricter Rust compiler; `Astro.glob()` is gone -> use `import.meta.glob()`.
 - **Static output** (assets-only Worker). `astro build` -> `dist/`, served by `wrangler.jsonc`
