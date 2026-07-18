@@ -16,6 +16,10 @@
     // Canonical URL form is no-slash: /slug serves 200 directly from slug/index.html;
     // /slug/ redirects. See CLAUDE.md "Canonical URL form".
     "html_handling": "drop-trailing-slash",
+    // An unmatched URL (no _redirects rule, no static asset) falls through to the
+    // custom src/pages/404.astro (built to dist/404.html) instead of Cloudflare's
+    // default asset-not-found response. Verified in the W0-7 redirect spike.
+    "not_found_handling": "404-page",
     // Without this, Cloudflare serves a matching static asset directly and never invokes
     // "main" at all, silently skipping the staging noindex header below. Every request
     // routes through worker/entry.js first, which then calls env.ASSETS.fetch itself.
