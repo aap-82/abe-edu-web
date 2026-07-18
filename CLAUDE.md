@@ -6,8 +6,10 @@ merged and live as of 18 Jul 2026. Waves 1-6 (real content build-out + cutover) 
 Read `HANDOVER.md` for current state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
 (the live strategic plan — supersedes `../abe-rebuild-plan-review.md`), its
 `new site/abe-migration-plan-v2-risk-audit.md` (11 findings amended into the plan, incl. the no-slash
-canonical call below) and `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5) before
-starting Wave 1+ work. `../MIGRATION.md` still covers the original Claude Code / repo setup.
+canonical call below), `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5), and
+**`new site/abe-migration-implementation-plan.md`** (the ticket-by-ticket runbook — three build recipes,
+per-ticket DoD, the cutover runbook, and the progress tracker) before starting Wave 1+ work.
+`../MIGRATION.md` still covers the original Claude Code / repo setup.
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 

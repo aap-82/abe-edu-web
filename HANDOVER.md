@@ -2,11 +2,12 @@
 
 Where the build is, what exists, and the next-session sequence. Pairs with `CLAUDE.md` (rules).
 **The live strategic plan is now in this repo**, under `new site/`: `abe-website-migration-plan-v2.md`
-(the plan), `abe-migration-plan-v2-risk-audit.md` (11 findings amended into it 16 Jul), and
-`abe-new-site-sitemap.md` (the full Waves 1-5 IA). See "Wave 1-6 roadmap" below for the summary.
-`abe-rebuild-plan-review.md`, `MIGRATION.md` and `wave0-closeout-spec.md` (the Wave 0 ticket detail
-this handover is itself derived from) still live externally in
-`C:\Claude\Projects\2026 ASTRO Research 2 Website Pipeline\`.
+(the plan), `abe-migration-plan-v2-risk-audit.md` (11 findings amended into it 16 Jul),
+`abe-new-site-sitemap.md` (the full Waves 1-5 IA), and `abe-migration-implementation-plan.md` (the
+ticket-by-ticket runbook: three build recipes, per-ticket DoD, the cutover runbook, a progress
+tracker). See "Wave 1-6 roadmap" below for the summary. `abe-rebuild-plan-review.md`, `MIGRATION.md`
+and `wave0-closeout-spec.md` (the Wave 0 ticket detail this handover is itself derived from) still live
+externally in `C:\Claude\Projects\2026 ASTRO Research 2 Website Pipeline\`.
 
 ## Repo location
 - Canonical repo lives at **`C:\dev\abe-web`** (off OneDrive — cloud sync was corrupting builds).
@@ -207,8 +208,11 @@ for the full plan.
 The full strategic plan for everything after Wave 0 now lives **in this repo**, under `new site/`:
 `abe-website-migration-plan-v2.md` (the plan), `abe-migration-plan-v2-risk-audit.md` (11 findings, 3
 high-severity, amended into the plan — the source of the no-slash canonical call and the staging
-noindex mechanism, both already implemented in Wave 0), and `abe-new-site-sitemap.md` (the full ~44-page
-IA). Read these before starting Wave 1+ work; this section is only the index.
+noindex mechanism, both already implemented in Wave 0), `abe-new-site-sitemap.md` (the full ~44-page
+IA), and `abe-migration-implementation-plan.md` (the ticket-by-ticket runbook, referenced W0-1..W0-10,
+W1-1..W6 — three build recipes with a universal DoD, per-ticket owner/dependencies/DoD, the Wave 6
+cutover runbook, and a progress tracker). Read these before starting Wave 1+ work; this section is only
+the index.
 
 **Wave order** (dependency-first: platform → trust infra → verticals by measured equity → hubs after
 spokes → bundles after courses → homepage/cutover last):
