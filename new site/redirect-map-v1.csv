@@ -1,0 +1,64 @@
+legacy_path,action,target,category,gsc_clicks_16mo,gsc_impressions_16mo,notes
+/wa-owner-builder-course,rebuild,/wa-owner-builder-course,A,878,34738,Equity core. Already live in repo.
+/tas-owner-builder-course,rebuild,/tas-owner-builder-course,A,387,14062,Port pipeline content to MDX (Wave 2); re-verify CBOS facts.
+/qld-owner-builder-course,rebuild,/qld-owner-builder-course,A,356,28077,Equity core. Already live in repo.
+/act-owner-builder-course,rebuild,/act-owner-builder-course,A,344,16244,Full build Wave 2. State-approved-direct (Access Canberra).
+/nsw-owner-builder-course,rebuild,/nsw-owner-builder-course,A,151,12834,Canonical NSW OB target. ASQA layout (Upskill 45708). Wave 2.
+/white-card,rebuild,/white-card,A,38,10810,White Card hub. Wave 3.
+/faq,rebuild,/faq,A,14,1960,Wave 5. FAQPage schema.
+/contact,rebuild,/contact,A,10,1622,Wave 5. ContactPoint schema.
+/insurances,rebuild,/insurances,A,9,2898,Insurance hub. Wave 2. (Keeping legacy slug; /insurance nesting rejected to avoid URL churn.)
+/about,rebuild,/about,A,0,0,Wave 5. Consolidation target for /about-us.
+/cancellation-and-refund-policy,rebuild,/cancellation-and-refund-policy,A,0,143,"Legal set, Wave 5."
+/owner-builder-courses,rebuild,/owner-builder-courses,A,0,1,"OB hub, biggest impression pool (59.9k). Wave 2. LW export has a duplicate entry for this slug."
+/owner-builder-insurance,rebuild,/owner-builder-insurance,A,0,0,Service page. Wave 2.
+/professional-indemnity-insurance,rebuild,/professional-indemnity-insurance,A,0,0,Service page. Wave 2.
+/owner-builder-nsw-course,redirect,/nsw-owner-builder-course,B,324,24562,NSW OB dual-URL consolidation. The stronger legacy URL (324c) 301s to the state-first slug.
+/nsw-building-cpd-courses,redirect,/cpd-building-nsw,B,140,17446,CPD slug convention. Wave 4.
+/white-card-wa-online,redirect,/white-card-wa,B,119,36755,Never an -online suffix. Biggest growth page (36.7k impr). Wave 3.
+/wa-real-estatecpd,redirect,/cpd-real-estate-wa,B,92,5911,Fixes broken legacy slug. Wave 4.
+/tas-cpd-electrician-courses,redirect,/cpd-electrical-tas,B,82,2712,Wave 4.
+/tas-cpd-index,redirect,/cpd-tas,B,73,5762,TAS CPD state hub. Wave 4.
+/tas-cpd-courses,redirect,/cpd-tas,B,51,4051,Folds into TAS state hub.
+/tas-cpd-plumber-courses,redirect,/cpd-plumbing-tas,B,35,1329,Wave 4.
+/tas-online-white-card,redirect,/white-card-tas,B,32,6858,Wave 3.
+/tas-plumber-practitioner-cpd,redirect,/cpd-plumbing-tas,B,10,557,Duplicate legacy page folds into the one TAS plumbing course page.
+/owner-builder-learning,redirect,/owner-builder-courses,B,5,2155,Folds into OB hub.
+/special-tas-electrician-cpd-bundle,redirect,/cpd-bundles-tas,B,4,148,TAS bundle page. Wave 4.
+/nsw-building-industry,redirect,/cpd-nsw,B,3,4664,Industry page folds into NSW CPD state hub. 4.7k impr.
+/about-us,redirect,/about,B,0,8,Two live about pages consolidate to one.
+/cpd-courses,redirect,/cpd,B,0,439,CPD main hub already exists in repo.
+/special-tas-plumber-cpd-bundle,redirect,/cpd-bundles-tas,B,0,34,TAS bundle page. Wave 4.
+/tas-builder-practitioners-cpd,redirect,/cpd-building-tas,B,0,343,Folds into TAS building CPD course page. Wave 4.
+/tas-electrical-practitioners-cpd,redirect,/cpd-electrical-tas,B,0,0,Folds into TAS electrical CPD course page.
+/real-estate-agent-cpd-class-2,retire,/cpd-nsw,D,36,3629,NSW RE CPD retired. 3.6k impr forfeited knowingly.
+/real-estate-agent-cpd-class-1,retire,/cpd-nsw,D,14,2876,NSW RE CPD retired (16 Jul). 2.9k impr forfeited knowingly.
+/strata-manager-osrpm-class-1,retire,/cpd-nsw,D,12,959,NSW RE CPD retired.
+/stock-and-station-agent-cpd-class-1,retire,/cpd-nsw,D,9,633,NSW RE CPD retired.
+/tas-cpd-building-designers-courses,retire,/cpd-tas,D,7,1570,CONFIRM: is building-designers CPD a current product? Defaulting to retire.
+/strata-manager-osrpm-class-2,retire,/cpd-nsw,D,5,2584,NSW RE CPD retired.
+/nsw-real-estate-cpd,retire,/cpd-nsw,D,3,1025,NSW RE CPD retired.
+/stock-and-station-agent-cpd-class-2,retire,/cpd-nsw,D,3,497,NSW RE CPD retired.
+/tas-cpd-architects-courses,retire,/cpd-tas,D,0,74,CONFIRM: is architects CPD a current product? Defaulting to retire.
+/tas-cpd-keystone-funded-courses,retire,/cpd-tas,D,0,90,Legacy funded-courses page.
+/vic-building-industry,retire,/cpd,D,0,60,No VIC products (confirmed 16 Jul).
+/saaustralia,rebuild,/saaustralia,F,69,4678,Solar Association Australia partner page. STAYS (decision 16 Jul). Wave 5.
+/course/*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/course/:splat,E,,,175 course-player pages stay on LearnWorlds at learn.*
+/program/*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/program/:splat,E,,,54 program/bundle players stay on LearnWorlds
+/bundle/*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/bundle/:splat,E,,,Legacy bundle player URLs
+/payment*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/payment,E,,,Checkout. LW re-applies product query params; verify in spike
+/signin*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/signin,E,,,Login. Also update the nav Login link to learn.*
+/start,redirect-to-learnworlds,https://learn.abeeducation.edu.au/start,E,,,LW system page
+/cart,redirect-to-learnworlds,https://learn.abeeducation.edu.au/cart,E,,,LW system page
+/thankyou,redirect-to-learnworlds,https://learn.abeeducation.edu.au/thankyou,E,,,Post-purchase page
+/access-request-*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/:splat,E,,,LW system pages
+/email-verification-pending,redirect-to-learnworlds,https://learn.abeeducation.edu.au/email-verification-pending,E,,,LW system page
+/affiliate-registration,redirect-to-learnworlds,https://learn.abeeducation.edu.au/affiliate-registration,E,,,Functional LW page
+/affiliate-program-terms,redirect-to-learnworlds,https://learn.abeeducation.edu.au/affiliate-program-terms,E,,,Functional LW page
+/blog,redirect,/guides,B,,,LW blog shell folds into the content hub once /guides is live
+/courses,rebuild,/courses,A,,,Catalogue page rebuilt same slug (Wave 5)
+/privacy,rebuild,/privacy,A,,,"Legal set, Wave 5"
+/terms,rebuild,/terms,A,,,"Legal set, Wave 5"
+/cookies,rebuild,/cookies,A,,,"Legal set, Wave 5"
+/,rebuild,/,A,382,15869,Homepage: root redirect on preview replaced by real homepage in Wave 5
+http://* and //abeeducation.edu.au/*,normalise,https://www.abeeducation.edu.au/*,F,,,"Zone-level redirect rule (Cloudflare Rules), not _redirects: apex→www, http→https, single hop"

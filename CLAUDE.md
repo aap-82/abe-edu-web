@@ -1,9 +1,13 @@
 # ABE Education marketing site — project rules (read first)
 
-Astro 7 static marketing site for abeeducation.edu.au. Currently two course pages live on Cloudflare
-Workers (QLD + WA owner builder); rolling out the rest of the states, White Card, CPD and hubs.
-Read `HANDOVER.md` for current state + backlog. Read `../abe-rebuild-plan-review.md` for the agreed
-architecture decisions and `../MIGRATION.md` for the Claude Code / repo setup.
+Astro 7 static marketing site for abeeducation.edu.au. Four owner-builder course pages live on
+Cloudflare Workers (QLD/WA/TAS/ACT); Wave 0 (platform close-out — templates, chrome, CI, redirects) is
+merged and live as of 18 Jul 2026. Waves 1-6 (real content build-out + cutover) are next.
+Read `HANDOVER.md` for current state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
+(the live strategic plan — supersedes `../abe-rebuild-plan-review.md`), its
+`new site/abe-migration-plan-v2-risk-audit.md` (11 findings amended into the plan, incl. the no-slash
+canonical call below) and `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5) before
+starting Wave 1+ work. `../MIGRATION.md` still covers the original Claude Code / repo setup.
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 
@@ -42,6 +46,27 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - **Every government fact is sourced + dated** in the page-foot Sources block. Re-verify indexed fees
   on their cadence (WA approval fee and similar reset ~1 July). An unresolved gov fact is a publish
   hard-blocker.
+- **Product scope confirmed 16 Jul 2026** (migration plan v2 §1): NSW Real Estate CPD is retired, not a
+  current product — its legacy pages 301 away, never rebuilt. No asbestos/silica pages exist or are
+  planned. White Card is confirmed for all five states (NSW/QLD/WA/TAS/ACT). SA and VIC have no
+  products. `/saaustralia` is the Solar Association Australia partner page (not South Australia) and
+  stays.
+
+## Reviews — never `AggregateRating`
+ABE's reviews live on its Google Business Profile (4.8/5 from 52 reviews, confirmed 16 Jul 2026) — an
+off-site score. Display it and link to the profile on `/reviews` and in trust furniture; **never** mark
+it up as `AggregateRating` or any review schema anywhere on the site. Google treats third-party-sourced
+ratings in structured data as self-serving, and pages of an entity that controls reviews about itself
+are ineligible for the review-snippet rich result. Standing decision, not a preference. Collecting
+native on-site reviews post-launch is the only path to earning `AggregateRating` back.
+
+## Third-party scripts (CWV budget policy)
+Confirmed set: GA4 and Google Ads. Both route through **Cloudflare Zaraz** (or server-side GA4), never
+a raw render-blocking `gtag` tag on the main thread — this is the difference between a 100 and a ~70
+Lighthouse score. A chat widget and the Meta pixel are still "maybe" (Andrey's call, before Wave 6); if
+either lands, it loads on interaction/idle only (facade pattern) with its TBT cost measured on preview
+before shipping. Do not add any third-party script outside this policy without it being an explicit,
+measured decision.
 
 ## SEO / E-E-A-T (per page)
 - One `<h1>` (the hero), question-led sentence-case H2s, 40-60 word answer capsule opening each

@@ -1,9 +1,12 @@
 # ABE site — handover / current state (updated 18 Jul 2026, Wave 0 close-out)
 
 Where the build is, what exists, and the next-session sequence. Pairs with `CLAUDE.md` (rules).
-The planning docs (`abe-rebuild-plan-review.md`, `MIGRATION.md`, `abe-website-migration-plan-v2.md`,
-`wave0-closeout-spec.md`) live in `C:\Claude\Projects\2026 ASTRO Research 2 Website Pipeline\`, not in
-this repo.
+**The live strategic plan is now in this repo**, under `new site/`: `abe-website-migration-plan-v2.md`
+(the plan), `abe-migration-plan-v2-risk-audit.md` (11 findings amended into it 16 Jul), and
+`abe-new-site-sitemap.md` (the full Waves 1-5 IA). See "Wave 1-6 roadmap" below for the summary.
+`abe-rebuild-plan-review.md`, `MIGRATION.md` and `wave0-closeout-spec.md` (the Wave 0 ticket detail
+this handover is itself derived from) still live externally in
+`C:\Claude\Projects\2026 ASTRO Research 2 Website Pipeline\`.
 
 ## Repo location
 - Canonical repo lives at **`C:\dev\abe-web`** (off OneDrive — cloud sync was corrupting builds).
@@ -167,9 +170,10 @@ render standalone — currently only `StickyCta`, a fixed overlay). When adding 
 ## Phase status (plan phases A-F; strategic detail in the migration plan docs)
 
 Architecture is settled and not up for re-decision: **Astro 7 · static assets · token CSS · MDX +
-Content Collections.** Wave 0 (templates, chrome, config, CI, redirects) is closed out (pending merge
-and the two Andrey sign-offs below). Wave 1+ starts actual content: the rest of the course/CPD pages,
-hub content, expert profiles.
+Content Collections.** Wave 0 (templates, chrome, config, CI, redirects) is **merged to `main` and
+live** as of 18 Jul 2026 (one Andrey sign-off still open, see "Open items" below). Wave 1+ starts actual
+content: the rest of the course/CPD pages, hub content, expert profiles — see "Wave 1-6 roadmap" below
+for the full plan.
 
 - **Phase A — Guardrails: DONE.** `.claude/settings.json`, Husky pre-commit, lint-staged + secretlint,
   `/ship`, and now the CI gates from W0-6.
@@ -197,6 +201,42 @@ hub content, expert profiles.
 > **Concurrency note:** this repo has had **parallel Claude Code sessions** building at the same time.
 > Before starting work, confirm who owns what. **Always stage explicit paths, never `git add -A`** —
 > a broad add can sweep up another session's in-progress files.
+
+## Wave 1-6 roadmap (migration plan v2, 16 Jul 2026)
+
+The full strategic plan for everything after Wave 0 now lives **in this repo**, under `new site/`:
+`abe-website-migration-plan-v2.md` (the plan), `abe-migration-plan-v2-risk-audit.md` (11 findings, 3
+high-severity, amended into the plan — the source of the no-slash canonical call and the staging
+noindex mechanism, both already implemented in Wave 0), and `abe-new-site-sitemap.md` (the full ~44-page
+IA). Read these before starting Wave 1+ work; this section is only the index.
+
+**Wave order** (dependency-first: platform → trust infra → verticals by measured equity → hubs after
+spokes → bundles after courses → homepage/cutover last):
+
+| Wave | Theme | Exit gate |
+|---|---|---|
+| 0 | Platform close-out | **DONE** (this doc) |
+| 1 | Trust infra + redirect map sign-off | Experts/accreditation/reviews live; full `redirects.csv` signed off |
+| 2 | Owner Builder vertical | All 5 spokes + hub + insurance on preview, audits green |
+| 3 | White Card vertical | 5 spokes + hub on preview, ASQA gates green |
+| 4 | CPD vertical + bundles | Courses, trade/state hubs, bundles on preview |
+| 5 | Support + homepage + content-hub scaffold | Every remaining page built or retired per the map |
+| 6 | Pre-launch gates, cutover, watch | Domain flipped, redirects verified, monitoring on |
+
+**Where the equity actually is** (16-month GSC, informs build order within each wave): WA owner builder
+(878 clicks/34.7k impressions) and the OB hub (598/59.9k) are the two biggest pages on the site; White
+Card WA (36.7k impressions at position ~10) is the single biggest *growth* target; NSW owner builder is
+split across two live legacy URLs that Wave 2 consolidates onto one with 301s from both.
+
+**Confirmed 16 Jul 2026** (product truth, folded into CLAUDE.md's hard rules too): NSW Real Estate CPD
+retired, not rebuilt; no asbestos/silica pages; White Card confirmed for all five states; SAA partner
+page stays; reviews are GBP display-only, never `AggregateRating`; GA4 + Google Ads confirmed as the
+third-party script set, routed through Cloudflare Zaraz.
+
+**Open items needing Andrey** (plan §10, none blocking Wave 1 start):
+1. The LearnWorlds `learn.*` subdomain support ticket — the only real external blocker for cutover.
+2. Final yes/no on a chat widget and the Meta pixel (currently "maybe"; needed before Wave 6).
+3. Revenue data (nice-to-have) — without it, pages are prioritised by GSC traffic alone within each wave.
 
 ## Open items / watchlist
 
