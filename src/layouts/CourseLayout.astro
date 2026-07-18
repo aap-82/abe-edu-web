@@ -3,6 +3,8 @@ import BaseLayout from './BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import WayfinderNav from '../components/WayfinderNav.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Section from '../components/Section.astro';
+import PartnerDisclosure from '../components/PartnerDisclosure.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
 import type { CollectionEntry } from 'astro:content';
 
@@ -13,7 +15,19 @@ const {
   nav, cta, sticky, hero, ctaBand, footerSources, disclaimersHtml,
   courseName, courseDescription, priceNumber, courseWorkload,
   credentialName, credentialCategory, regulator, breadcrumb, reviewedBy, experts,
+  authorityModel, partnerRto,
 } = course;
+
+// ASQA branch. The schema guarantees partnerRto exists iff the model is asqa-accredited,
+// but the layout still guards on both so a template change cannot render a partner block
+// without a partner. The RTO partner delivers and issues the credential; ABE publishes.
+const asqa = authorityModel === 'asqa-accredited' && partnerRto ? partnerRto : null;
+const asqaCredential = asqa?.credential ?? 'Statement of Attainment';
+// The sitewide ASQA disclosure line, owned by the layout so no ASQA page can ship
+// without it. Prepended to the page's own disclaimers in the Sources footer.
+const asqaDisclaimer = asqa
+  ? `<p>ABE Education publishes this course and is not a registered training organisation (RTO). Training and assessment are delivered by ${asqa.name} (RTO ${asqa.rtoNumber}), regulated by the Australian Skills Quality Authority (ASQA). On completion, ${asqa.name} issues the nationally recognised ${asqaCredential}.</p>`
+  : '';
 
 // Absolute URL for the hero image, for the Course ImageObject (multimodal SEO).
 const heroImg = hero.artefactImg
@@ -37,7 +51,10 @@ const schema = {
     {
       '@type': 'EducationalOccupationalCredential', '@id': canonical + '#credential',
       name: credentialName, credentialCategory,
+      // state-approved-direct: the regulator recognises the credential (QLD/TAS yes, WA no).
+      // asqa-accredited: the RTO partner is credited as the issuing organisation — never ABE.
       ...(regulator ? { recognizedBy: { '@type': 'GovernmentOrganization', name: regulator.name, url: regulator.url } } : {}),
+      ...(asqa ? { recognizedBy: { '@type': 'Organization', name: asqa.name, identifier: `RTO ${asqa.rtoNumber}`, ...(asqa.url ? { url: asqa.url } : {}) } } : {}),
     },
     {
       '@type': 'BreadcrumbList',
@@ -66,6 +83,17 @@ const schema = {
   {/* Jump nav sits below the hero: it only sticks once you scroll past it. */}
   <WayfinderNav items={nav} cta={cta} />
   <slot />
+  {asqa && (
+    <Section id="rto-partner" bg="bg-alt" eyebrow="Delivered with our RTO partner">
+      <PartnerDisclosure
+        partner={asqa.name}
+        rto={asqa.rtoNumber}
+        unitCode={asqa.unitCode}
+        unitName={asqa.unitName}
+        credential={asqaCredential}
+      />
+    </Section>
+  )}
   <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
-  <SourcesFooter sources={footerSources} disclaimersHtml={disclaimersHtml} />
+  <SourcesFooter sources={footerSources} disclaimersHtml={asqaDisclaimer + disclaimersHtml} />
 </BaseLayout>
