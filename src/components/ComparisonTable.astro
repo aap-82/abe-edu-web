@@ -1,0 +1,45 @@
+---
+import ArrowRight from './ArrowRight.astro';
+// State-by-state (or product-by-product) comparison table: one column per item, one row
+// per compared fact, and a trailing action row. Distinct from CpdMatrix, which is an
+// industry x state grid of plain links: this compares named products side by side (e.g.
+// price, authority, points across states on a hub page). A real <table> with row/col
+// scopes; scrolls horizontally on narrow screens rather than collapsing the columns.
+interface Column { key: string; label: string; href?: string; soon?: boolean; }
+interface Row { label: string; values: string[]; } // one value per column, same order as columns
+interface Props { columns: Column[]; rows: Row[]; caption?: string; ctaLabel?: string; }
+const { columns, rows, caption, ctaLabel = 'View course' } = Astro.props;
+---
+<div class="cmp-wrap">
+  <table class="cmp">
+    {caption && <caption class="cmp-cap">{caption}</caption>}
+    <thead>
+      <tr>
+        <th scope="col" class="cmp-corner"></th>
+        {columns.map((c) => <th scope="col">{c.label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <th scope="row">{r.label}</th>
+          {r.values.map((v) => <td class="num">{v}</td>)}
+        </tr>
+      ))}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row" class="sr-only">Action</th>
+        {columns.map((c) => (
+          <td>
+            {c.soon
+              ? <span class="cmp-soon">Coming soon</span>
+              : c.href
+                ? <a class="btn-link" href={c.href}>{ctaLabel}<ArrowRight /></a>
+                : <span class="cmp-dash" aria-hidden="true">–</span>}
+          </td>
+        ))}
+      </tr>
+    </tfoot>
+  </table>
+</div>

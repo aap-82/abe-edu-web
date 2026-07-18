@@ -1,0 +1,17 @@
+---
+// Spoke card for a hub page: links out to one course, carrying a state badge, price and
+// a soon/live state — the three things TopicGrid's card (tag/title/body only) cannot
+// carry. Keeps TopicGrid unchanged for its existing jobs (module groups, obligations).
+interface Props { state?: string; title: string; desc: string; price?: string; href?: string; soon?: boolean; }
+const { state, title, desc, price, href, soon = false } = Astro.props;
+const Tag = href && !soon ? 'a' : 'div';
+---
+<Tag class:list={['hub-card', soon && 'is-soon']} href={href && !soon ? href : undefined}>
+  {state && <span class="hc-state">{state}</span>}
+  <h3 class="hc-title">{title}</h3>
+  <p class="hc-desc">{desc}</p>
+  <div class="hc-foot">
+    {price && <span class="hc-price num">{price}</span>}
+    {soon && <span class="hc-soon">Coming soon</span>}
+  </div>
+</Tag>

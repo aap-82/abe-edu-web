@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 // Reusable shapes (mirror src/types/course.ts, validated at build time).
@@ -164,4 +164,45 @@ const partners = defineCollection({
   }),
 });
 
-export const collections = { courses, experts, partners };
+// Hub / home template (W0-3). Spokes are typed references into `courses`, so price,
+// state and the URL always come from the course entry itself, never a copy that can
+// drift; `blurb` is the only hub-authored text per spoke, since a course's own
+// `description` is SEO-length, too long for a card. No Course node in a hub's JSON-LD:
+// a hub is a BreadcrumbList + ItemList over its spokes, never a Course itself.
+const hubs = defineCollection({
+  loader: glob({ base: './src/content/hubs', pattern: '**/*.mdx' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    canonical: z.string().url(),
+    ogImage: z.string().optional(),
+    intro: z.string(),          // the Answer capsule body under the hero
+    breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
+    reviewedBy: z.object({ name: z.string(), href: z.string().optional(), date: z.string() }).optional(),
+    nav: z.array(z.object({ label: z.string(), href: z.string(), sectionId: z.string() })).optional(),
+    hero: z.object({ eyebrow: z.string(), h1Html: z.string(), updated: z.string(), subhead: z.string(), cta }),
+    sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
+    spokes: z.array(z.object({
+      course: reference('courses'),
+      blurb: z.string(),
+    })),
+    comparison: z.object({
+      caption: z.string().optional(),
+      columns: z.array(z.object({ key: z.string(), label: z.string(), href: z.string().optional(), soon: z.boolean().optional() })),
+      rows: z.array(z.object({ label: z.string(), values: z.array(z.string()) })),
+    }).optional(),
+    trust: z.object({
+      h2: z.string(),
+      stats: z.array(z.object({ value: z.string(), label: z.string(), numeric: z.boolean().optional() })),
+      attestHtml: z.string(),
+    }).optional(),
+    faqs: z.array(z.object({ q: z.string(), a: z.string(), open: z.boolean().optional() })),
+    ctaBand: z.object({ headingHtml: z.string(), sub: z.string(), cta }),
+    footerSources: z.array(source).optional(),
+    disclaimersHtml: z.string().optional(),
+    publishedAt: z.string(),
+    lastReviewedAt: z.string(),
+  }),
+});
+
+export const collections = { courses, experts, partners, hubs };
