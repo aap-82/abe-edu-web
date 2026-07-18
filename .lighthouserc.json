@@ -1,0 +1,47 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npm run preview",
+      "startServerReadyPattern": "Local\\s+\\S*http://localhost:4321",
+      "startServerReadyTimeout": 30000,
+      "url": [
+        "http://localhost:4321/qld-owner-builder-course",
+        "http://localhost:4321/cpd",
+        "http://localhost:4321/styleguide"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "budgetPath": "./lighthouse-budget.json"
+      }
+    },
+    "assert": {
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": ".*/styleguide$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 1800 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 50 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.02 }],
+            "performance-budget": ["error", { "minScore": 1 }],
+            "render-blocking-resources": ["error", { "maxLength": 2 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^(?!.*styleguide).*$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 1800 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 50 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.02 }],
+            "performance-budget": ["error", { "minScore": 1 }],
+            "render-blocking-resources": ["error", { "maxLength": 1 }]
+          }
+        }
+      ]
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
