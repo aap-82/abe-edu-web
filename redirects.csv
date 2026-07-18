@@ -1,0 +1,13 @@
+legacy_path,action,target,notes
+/white-card-wa-online,redirect,/white-card-wa,"Never an -online suffix; biggest growth page (36.7k impr)"
+/owner-builder-nsw-course,redirect,/nsw-owner-builder-course,"NSW OB dual-URL consolidation, the stronger legacy URL 301s to the state-first slug"
+/nsw-building-cpd-courses,redirect,/cpd-building-nsw,"CPD slug convention"
+/tas-cpd-index,redirect,/cpd-tas,"TAS CPD state hub"
+/nsw-real-estate-cpd,retire,/cpd-nsw,"NSW RE CPD retired"
+/vic-building-industry,retire,/cpd,"No VIC products (confirmed 16 Jul)"
+/about-us,redirect,/about,"Two live about pages consolidate to one"
+/course/*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/course/:splat,"175 course-player pages stay on LearnWorlds at learn.*"
+/program/*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/program/:splat,"54 program/bundle players stay on LearnWorlds"
+/payment*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/payment,"Checkout; LW re-applies product query params, verify query-string carry in spike"
+/signin*,redirect-to-learnworlds,https://learn.abeeducation.edu.au/signin,"Login; also update the nav Login link to learn.* post-cutover"
+/blog,redirect,/guides,"LW blog shell folds into the content hub once /guides is live"

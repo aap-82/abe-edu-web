@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+
+# Touches nothing in package.json: Lighthouse CI runs via npx, pulling a pinned version
+# on demand rather than becoming a project dependency.
+jobs:
+  quality-gates:
+    name: Lighthouse + prose lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build
+
+      # IMPORTANT: the npm package literally named "lhci" is an unrelated, unofficial
+      # package (it just prints a greeting) - a trap discovered while wiring this job up.
+      # The real Lighthouse CI package is "@lhci/cli". Pinned so a new lhci release can't
+      # silently change what this gate asserts.
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=./.lighthouserc.json
+
+      # Same job as the performance gate (mistakes-log M2): a cheap grep-style check over
+      # src/content/**/*.mdx for an em dash or "comprehensive" in prose, excepting labels
+      # and data (see scripts/prose-lint.mjs's ALLOWLIST).
+      - name: Prose lint
+        run: node scripts/prose-lint.mjs

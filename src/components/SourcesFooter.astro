@@ -1,10 +1,71 @@
 ---
 import type { Source } from '../types/course';
+// Global site footer (W0-4). The link columns, the three-line publisher/RTO/enrolment
+// block and the sitewide ASQA disclosure are the same on every page, so they are
+// hardcoded here rather than threaded through every layout's props, the same way
+// SiteHeader hardcodes its own nav data. `sources` / `disclaimersHtml` stay page-specific
+// props: they are this page's own sourced facts, not sitewide chrome.
+//
+// Footer links may point at routes that do not exist yet - they land across Waves 1-5.
+// That is expected on the preview; do not add a link here for a route with no ticket.
 interface Props { sources: Source[]; abn?: string; updated?: string; disclaimersHtml: string; }
 const { sources, abn = '64 125 455 272', updated = 'July 2026', disclaimersHtml } = Astro.props;
+
+interface FLink { label: string; href: string; }
+const coursesLinks: FLink[] = [
+  { label: 'Owner Builder', href: '/owner-builder-courses' },
+  { label: 'White Card', href: '/white-card' },
+  { label: 'CPD Courses', href: '/cpd' },
+  { label: 'CPD Bundles', href: '/cpd-bundles' },
+];
+const trustLinks: FLink[] = [
+  { label: 'Accreditation', href: '/accreditation' },
+  { label: 'Our experts', href: '/experts' },
+  { label: 'Reviews', href: '/reviews' },
+];
+const companyLinks: FLink[] = [
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'FAQ', href: '/faq' },
+];
+const partnerLinks: FLink[] = [{ label: 'SA Australia', href: '/saaustralia' }];
+const legalLinks: FLink[] = [
+  { label: 'Terms', href: '/terms' },
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Cookies', href: '/cookies' },
+  { label: 'Cancellation & refund policy', href: '/cancellation-and-refund-policy' },
+];
 ---
 <footer>
   <div class="wrap">
+    <div class="f-links">
+      <div class="f-col">
+        <span class="f-col-h">Courses</span>
+        <ul>{coursesLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="f-col">
+        <span class="f-col-h">Trust</span>
+        <ul>{trustLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="f-col">
+        <span class="f-col-h">Company</span>
+        <ul>{companyLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        <span class="f-col-h f-col-sub">Partners</span>
+        <ul>{partnerLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="f-col">
+        <span class="f-col-h">Legal</span>
+        <ul>{legalLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    </div>
+
+    <div class="f-pub">
+      <p><b>Course publisher:</b> ABE Education.</p>
+      <p><b>Training providers:</b> Blue Dog Training (RTO 31193) · Upskill Institute (RTO 45708) · AlertForce (RTO 91826).</p>
+      <p><b>Enrolment:</b> processed directly by ABE Education for state-approved and WA knowledge-requirement courses; ASQA-accredited courses are enrolled through ABE Education and delivered and assessed by the named RTO partner shown on that course page.</p>
+    </div>
+    <p class="f-asqa">ABE Education is not a Registered Training Organisation (RTO). Nationally recognised, ASQA-accredited training on this site is delivered and assessed by the named RTO partner shown on that course page, not by ABE Education.</p>
+
     <div class="f-top">
       <a class="brand" href="#top"><span class="mk" aria-hidden="true">ABE</span><span class="wm">ABE Education</span></a>
       <span class="f-meta">ABN {abn} · Training Australians since 2007</span>

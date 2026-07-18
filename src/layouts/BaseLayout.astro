@@ -42,7 +42,19 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
   {ogImage && <meta name="twitter:image" content={ogImage} />}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  {/* Non-render-blocking font load (the W0-6 Lighthouse gate asserts zero render-blocking
+      third-party requests). A plain <link rel="stylesheet"> to Google Fonts blocks first
+      paint on a third-party origin; loading it as a print stylesheet that swaps to `all`
+      once fetched keeps the exact same fonts and the existing display=swap fallback, just
+      off the critical rendering path. The <noscript> keeps the fonts synchronous with JS
+      disabled, so nothing regresses for that case. */}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>

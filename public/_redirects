@@ -1,0 +1,46 @@
+# GENERATED FILE - do not hand-edit. Source of truth is redirects.csv at the repo
+# root; run `node scripts/generate-redirects.mjs` to regenerate.
+
+# /white-card-wa-online -> /white-card-wa (redirect) - Never an -online suffix; biggest growth page (36.7k impr)
+/white-card-wa-online /white-card-wa 301
+/white-card-wa-online/ /white-card-wa 301
+
+# /owner-builder-nsw-course -> /nsw-owner-builder-course (redirect) - NSW OB dual-URL consolidation, the stronger legacy URL 301s to the state-first slug
+/owner-builder-nsw-course /nsw-owner-builder-course 301
+/owner-builder-nsw-course/ /nsw-owner-builder-course 301
+
+# /nsw-building-cpd-courses -> /cpd-building-nsw (redirect) - CPD slug convention
+/nsw-building-cpd-courses /cpd-building-nsw 301
+/nsw-building-cpd-courses/ /cpd-building-nsw 301
+
+# /tas-cpd-index -> /cpd-tas (redirect) - TAS CPD state hub
+/tas-cpd-index /cpd-tas 301
+/tas-cpd-index/ /cpd-tas 301
+
+# /nsw-real-estate-cpd -> /cpd-nsw (retire) - NSW RE CPD retired
+/nsw-real-estate-cpd /cpd-nsw 301
+/nsw-real-estate-cpd/ /cpd-nsw 301
+
+# /vic-building-industry -> /cpd (retire) - No VIC products (confirmed 16 Jul)
+/vic-building-industry /cpd 301
+/vic-building-industry/ /cpd 301
+
+# /about-us -> /about (redirect) - Two live about pages consolidate to one
+/about-us /about 301
+/about-us/ /about 301
+
+# /course/* -> https://learn.abeeducation.edu.au/course/:splat (redirect-to-learnworlds) - 175 course-player pages stay on LearnWorlds at learn.*
+/course/* https://learn.abeeducation.edu.au/course/:splat 301
+
+# /program/* -> https://learn.abeeducation.edu.au/program/:splat (redirect-to-learnworlds) - 54 program/bundle players stay on LearnWorlds
+/program/* https://learn.abeeducation.edu.au/program/:splat 301
+
+# /payment* -> https://learn.abeeducation.edu.au/payment (redirect-to-learnworlds) - Checkout; LW re-applies product query params, verify query-string carry in spike
+/payment* https://learn.abeeducation.edu.au/payment 301
+
+# /signin* -> https://learn.abeeducation.edu.au/signin (redirect-to-learnworlds) - Login; also update the nav Login link to learn.* post-cutover
+/signin* https://learn.abeeducation.edu.au/signin 301
+
+# /blog -> /guides (redirect) - LW blog shell folds into the content hub once /guides is live
+/blog /guides 301
+/blog/ /guides 301

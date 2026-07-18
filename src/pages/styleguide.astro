@@ -189,7 +189,14 @@ const groups = [
   <title>ABE Component Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  {/* Non-render-blocking font load, matching BaseLayout.astro - see that file for why. */}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
 </head>
 <body class="sg">
   <header class="sg-head">
@@ -324,7 +331,7 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">SourcesFooter</span><span class="sg-desc">Page-foot sources list + disclaimers.</span><span class="sg-props">sources[] · abn? · updated? · disclaimersHtml</span></div>
+      <div class="sg-meta"><span class="sg-name">SourcesFooter</span><span class="sg-desc">Global site footer: link columns, publisher/RTO/enrolment block, sitewide ASQA disclosure, then page-foot sources + disclaimers.</span><span class="sg-props">sources[] · abn? · updated? · disclaimersHtml</span></div>
       <div class="sg-demo sg-demo--bleed"><SourcesFooter sources={footerSources} abn="64 125 455 272" updated="July 2026" disclaimersHtml="<b>ABE Education is not an RTO.</b> Example disclaimer copy showing how the footer renders sitewide legal lines." /></div>
     </div>
 

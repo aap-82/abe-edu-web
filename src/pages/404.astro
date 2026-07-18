@@ -1,0 +1,41 @@
+---
+// Custom 404 (W0-7): wrangler.jsonc's assets.not_found_handling is "404-page", which
+// serves this file (built to dist/404.html, Astro's standard convention for a page
+// literally named 404) for any request matching no _redirects rule and no static asset.
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+---
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page not found — ABE Education</title>
+  <meta name="robots" content="noindex,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {/* Non-render-blocking font load, matching BaseLayout.astro - see that file for why. */}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
+</head>
+<body>
+  <SiteHeader />
+  <section class="sec" id="top" style="text-align:center">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center">404</span>
+      <h1 class="h1">Page not found<span class="dot">.</span></h1>
+      <p class="lede" style="max-width:52ch;margin-left:auto;margin-right:auto">
+        The page you're looking for doesn't exist, or the link is out of date. Try the homepage, or one of the courses below.
+      </p>
+      <a class="btn-primary" href="/">Back to the homepage</a>
+    </div>
+  </section>
+  <SourcesFooter sources={[]} disclaimersHtml="" />
+</body>
+</html>
