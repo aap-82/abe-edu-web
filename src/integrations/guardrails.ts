@@ -66,6 +66,18 @@ function walk(dir: string, out: string[] = []): string[] {
   return out;
 }
 
+/** Recursive variant for source files: returns paths relative to `base`. */
+function walkExt(dir: string, ext: string, base = dir, out: string[] = []): string[] {
+  let entries: string[];
+  try { entries = readdirSync(dir); } catch { return out; }
+  for (const f of entries) {
+    const p = join(dir, f);
+    if (statSync(p).isDirectory()) walkExt(p, ext, base, out);
+    else if (f.endsWith(ext)) out.push(p.slice(base.length + 1).replace(/\\/g, '/'));
+  }
+  return out;
+}
+
 
 /* ---------------------------------------------------------------------------
    SOURCE LINT — the missing-component check.
@@ -105,14 +117,48 @@ const SG_EXEMPT: Record<string, string> = {
   StickyCta: 'fixed overlay; would pin itself over the styleguide. Described by name instead.',
 };
 
+/* ---------------------------------------------------------------------------
+   INLINE-STYLE RATCHET for hand-built .astro pages.
+
+   MDX bodies are held to zero inline styles (rule 1 below). Hand-built pages are
+   not, because 36 of them already exist across cpd.astro (23), cpd-tas.astro (8),
+   404.astro (3) and styleguide.astro (2), and failing the build on all of them
+   would either block every page ticket or force a component pass nobody scheduled.
+
+   A plain warning would be worse than useless: 36 lines of noise on every build is
+   noise you learn to scroll past. So this is a ratchet instead. Each file gets its
+   current count as a budget, and it can only go down:
+
+     over budget   -> fail. New inline style; build the component instead.
+     under budget  -> fail. Debt was paid; lower the number so it cannot creep back.
+     new file      -> budget 0. Pages written from here on start clean.
+
+   The "under budget" case is what makes this converge rather than rot. When
+   cpd.astro and cpd-tas.astro convert to hub collection entries in Wave B3 their
+   entries go to 0 and then disappear, and this table shrinks to the two chrome
+   pages that legitimately need a handful.
+   --------------------------------------------------------------------------- */
+const INLINE_STYLE_BUDGET: Record<string, number> = {
+  'cpd.astro': 23,          // converts to a hub entry in B3; expected to reach 0 there
+  'cpd-tas.astro': 8,       // same
+  '404.astro': 3,           // standalone chrome, duplicates BaseLayout's font block
+  'styleguide.astro': 2,    // internal page, never published
+};
+
 function lintSource(logger: { warn: (m: string) => void }): string[] {
   const fails: string[] = [];
   const root = process.cwd();
 
   // 1 - MDX bodies: no inline styles, no structural classes.
-  const dir = join(root, 'src/content/courses');
-  for (const f of readdirSync(dir).filter((x) => x.endsWith('.mdx'))) {
-    const src = readFileSync(join(dir, f), 'utf8');
+  //
+  // Walks all of src/content recursively, not just courses/. Until this changed, hub and
+  // guide MDX got none of these checks while prose-lint.mjs already walked the whole tree -
+  // two gates with different blast radii over the same files, which is how hub content
+  // would have drifted from the discipline course content is held to.
+  const contentRoot = join(root, 'src/content');
+  for (const rel of walkExt(contentRoot, '.mdx')) {
+    const f = rel;                        // e.g. "courses/qld-owner-builder-course.mdx"
+    const src = readFileSync(join(contentRoot, rel), 'utf8');
     const body = src.split(/^---$/m).slice(2).join('---');
 
     for (const m of body.matchAll(/style="([^"]*)"/g)) {
@@ -158,6 +204,88 @@ function lintSource(logger: { warn: (m: string) => void }): string[] {
       fails.push(`${name} has no styleguide specimen. The library must show every component it carries.`);
     }
   }
+
+  // 3 - inline-style ratchet on hand-built .astro pages (see INLINE_STYLE_BUDGET above).
+  const pagesRoot = join(root, 'src/pages');
+  for (const rel of walkExt(pagesRoot, '.astro')) {
+    const base = rel.split('/').pop()!;
+    const count = (readFileSync(join(pagesRoot, rel), 'utf8').match(/style="/g) ?? []).length;
+    const budget = INLINE_STYLE_BUDGET[base] ?? 0;
+    if (count > budget) {
+      fails.push(
+        `${rel}: ${count} inline style="" attribute(s), budget ${budget}. Spacing and type belong to a component. ` +
+        `If this shape is genuinely new, build the component and give it a styleguide specimen.`
+      );
+    } else if (count < budget) {
+      fails.push(
+        `${rel}: ${count} inline style="" attribute(s) but the budget is still ${budget}. ` +
+        `Lower it to ${count} in INLINE_STYLE_BUDGET so the debt cannot creep back.`
+      );
+    }
+  }
+
+  // 4 - hub bijection. A hub renders only if a page stub calls getEntry('hubs', '<id>'),
+  //     and nothing else references the collection. Both directions fail silently without
+  //     this: a hub MDX with no stub renders nowhere and the build stays green, and a stub
+  //     naming an id that does not exist throws an opaque render error instead of naming
+  //     the file. This is the assert the per-hub-stub routing decision depends on.
+  const hubDir = join(root, 'src/content/hubs');
+  const hubIds = walkExt(hubDir, '.mdx').map((f) => f.replace(/\.mdx$/, ''));
+  const stubbed = new Map<string, string>();
+  for (const rel of walkExt(pagesRoot, '.astro')) {
+    const src = readFileSync(join(pagesRoot, rel), 'utf8');
+    // The id may be written inline or hoisted to a const. Matching only the inline form
+    // made this assert silently stop working the moment a stub was written the other way,
+    // which is exactly the kind of quiet failure it exists to prevent - so it resolves both.
+    for (const m of src.matchAll(/getEntry\(\s*['"]hubs['"]\s*,\s*(?:['"]([^'"]+)['"]|([A-Za-z_$][\w$]*))\s*\)/g)) {
+      let id = m[1];
+      if (!id && m[2]) {
+        id = src.match(new RegExp(`\\b(?:const|let|var)\\s+${m[2]}\\s*=\\s*['"]([^'"]+)['"]`))?.[1];
+        if (!id) {
+          fails.push(`${rel}: getEntry('hubs', ${m[2]}) - cannot resolve ${m[2]} to a literal in this file, so the hub route cannot be verified. Assign it with a plain const.`);
+          continue;
+        }
+      }
+      if (id) stubbed.set(id, rel);
+    }
+  }
+  for (const id of hubIds) {
+    if (!stubbed.has(id)) {
+      fails.push(`hubs/${id}.mdx has no route. Add src/pages/${id}.astro calling getEntry('hubs', '${id}'), or the page renders nowhere.`);
+    }
+  }
+  for (const [id, rel] of stubbed) {
+    if (!hubIds.includes(id)) {
+      fails.push(`${rel} renders getEntry('hubs', '${id}') but src/content/hubs/${id}.mdx does not exist.`);
+    }
+  }
+
+  // 5 - no collection may be empty. src/content/hubs sat empty for a full wave while the
+  //     build stayed green and Recipe B described hubs as though they shipped.
+  for (const [name, ext] of [['courses', '.mdx'], ['hubs', '.mdx'], ['experts', '.md'], ['partners', '.md']] as const) {
+    if (walkExt(join(root, 'src/content', name), ext).length === 0) {
+      fails.push(`src/content/${name} has no ${ext} entries. An empty collection builds green and renders nothing.`);
+    }
+  }
+
+  // 6 - canonical URLs must be unique. `canonical` is an unconstrained z.string().url() in
+  //     courses, hubs AND experts, so nothing at the schema level stops two pages declaring
+  //     the same one - which is a self-inflicted duplicate-content signal on a site whose
+  //     whole migration thesis is URL preservation.
+  const seen = new Map<string, string>();
+  const canonicalSources: Array<[string, string]> = [
+    ...walkExt(contentRoot, '.mdx').map((r) => [`src/content/${r}`, readFileSync(join(contentRoot, r), 'utf8')] as [string, string]),
+    ...walkExt(contentRoot, '.md').map((r) => [`src/content/${r}`, readFileSync(join(contentRoot, r), 'utf8')] as [string, string]),
+    ...walkExt(pagesRoot, '.astro').map((r) => [`src/pages/${r}`, readFileSync(join(pagesRoot, r), 'utf8')] as [string, string]),
+  ];
+  for (const [where, src] of canonicalSources) {
+    const m = src.match(/^\s*(?:const\s+)?canonical\s*[:=]\s*['"]([^'"]+)['"]/m);
+    if (!m) continue;
+    const prev = seen.get(m[1]);
+    if (prev) fails.push(`duplicate canonical ${m[1]} declared in both ${prev} and ${where}.`);
+    else seen.set(m[1], where);
+  }
+
   return fails;
 }
 
@@ -252,6 +380,32 @@ export default function guardrails(): AstroIntegration {
 
           // 7 - unresolved facts must never ship
           if (/\[confirm:/i.test(html)) fails.push(`${name}: unresolved [confirm: ...] marker in the output.`);
+        }
+
+        // 8 - orphan pages. A page can build, pass every check above, and still be
+        //     unreachable because nothing links to it. SiteHeader's nav is a hand-maintained
+        //     HTML string, so a new page is linked only if someone remembered - and with ~30
+        //     pages still to build, "someone remembered" is not a mechanism. Checks that each
+        //     page is linked from at least one OTHER page, which is broader than "is in the
+        //     nav": /experts/dominic-ogburn is legitimately reached from /experts, not chrome.
+        const linked = new Set<string>();
+        const built = new Map<string, string>();
+        for (const rawFile of files) {
+          const file = rawFile.replace(/\\/g, '/');
+          const html = readFileSync(file, 'utf8');
+          const path = '/' + (file.split('/dist/')[1] ?? '').replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '');
+          if (!isRedirectStub(html)) built.set(path === '/' ? '/' : path, file.split('/').slice(-2).join('/'));
+          for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
+            linked.add(href.replace(/\/$/, '') || '/');
+          }
+        }
+        // 404 is served by not_found_handling, never linked. /styleguide is internal.
+        const ORPHAN_OK = new Set(['/404', '/styleguide', '/']);
+        for (const [path, name] of built) {
+          if (ORPHAN_OK.has(path)) continue;
+          if (!linked.has(path)) {
+            fails.push(`${name}: nothing links to ${path}. Add it to the nav, a hub, or a parent page, or it is unreachable and uncrawlable.`);
+          }
         }
 
         if (fails.length) {

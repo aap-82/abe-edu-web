@@ -18,8 +18,12 @@
 import { getEntry, render } from 'astro:content';
 import HubLayout from '../layouts/HubLayout.astro';
 
-const entry = await getEntry('hubs', 'owner-builder-courses');
-if (!entry) throw new Error('hubs/owner-builder-courses.mdx is missing; /owner-builder-courses cannot render.');
+const HUB_ID = 'owner-builder-courses';
+const entry = await getEntry('hubs', HUB_ID);
+// Names the id it looked for, because the two ways this fails are indistinguishable
+// otherwise: the MDX is genuinely absent, or the id here is a typo. A message that only
+// blames the file sends you looking in the wrong place.
+if (!entry) throw new Error(`No entry '${HUB_ID}' in the hubs collection. Expected src/content/hubs/${HUB_ID}.mdx - check the file exists and that this id matches its filename.`);
 const { Content } = await render(entry);
 ---
 <HubLayout hub={entry.data}>
