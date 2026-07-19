@@ -1,0 +1,16 @@
+# Normalise every text file to LF, both in the repo and in the working tree.
+# Added 19 Jul 2026 after a whole-tree CRLF flip produced a ~12,700-line phantom diff.
+* text=auto eol=lf
+
+# Binary assets — git must never touch their bytes.
+*.avif binary
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text eol=lf
+*.woff binary
+*.woff2 binary
+*.pdf binary

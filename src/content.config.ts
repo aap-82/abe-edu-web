@@ -113,8 +113,11 @@ const courses = defineCollection({
     priceRows: z.array(priceRow),
     howItWorksSteps: z.array(step),
     becomeSteps: z.array(step),
-    // people + sourcing
-    experts: z.array(person),
+    // People are typed references into the `experts` collection, not inline copies.
+    // They used to be inlined per course and had already drifted three ways across the
+    // four files (a dropped standards reference, stray punctuation in alt text, and a
+    // per-course review date living inside the shared bio). One record now owns them.
+    experts: z.array(reference('experts')),
     footerSources: z.array(source),
     disclaimersHtml: z.string(),
   }).superRefine((data, ctx) => {
@@ -147,20 +150,103 @@ const courses = defineCollection({
   }),
 });
 
-// Scaffolded for future use (per the rebuild plan). No entries yet; the pilot
-// keeps experts inline on each course for build-diff parity.
+// Expert profile pages (W1-2). Extends the shared `person` shape with everything a
+// standalone page needs. `person` itself is deliberately left alone: it is still the
+// element type of `courses.experts[]`, and widening it there would force every course
+// page to carry page-level fields it has no use for.
+//
+// NOTE the loader glob below is `**/*.md`, NOT `.mdx`. An `.mdx` file here is silently
+// ignored — the collection just stays empty and the route builds zero pages.
+const expertPage = person.extend({
+  // page + head
+  title: z.string(),
+  description: z.string(),
+  canonical: z.string().url(),
+  ogImage: z.string().optional(),
+  breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
+  // A portrait is REQUIRED on a profile page, unlike the optional one on `person`.
+  // This is the W1-2 "empty headshot URL is a missing resource" rule made mechanical:
+  // a missing photo is a named build failure, not a silently-shipped FPO placeholder.
+  // The 80-char alt minimum mirrors the build-time guardrail, but fails at authoring
+  // time with a far more useful message.
+  portrait: z.object({ src: z.string(), alt: z.string().min(80) }),
+  // card/summary copy, kept shorter than the full `bio`
+  summary: z.string(),
+  // employer, for JSON-LD worksFor
+  org: z.string(),
+  orgUrl: z.string().url().optional(),
+  yearsExperience: z.number(),
+  // JSON-LD knowsAbout
+  specialistAreas: z.array(z.string()),
+  hasCredential: z.array(z.object({
+    name: z.string(),
+    category: z.string(),
+    issuedBy: z.string(),
+    issuedByUrl: z.string().url().optional(),
+  })),
+  careerHistory: z.array(z.object({
+    role: z.string(),
+    org: z.string(),
+    period: z.string(),
+    note: z.string().optional(),
+  })),
+  // May be empty. Only publish an award/institution that is independently verified —
+  // Dominic's record has no verified qualification, so his array is deliberately empty
+  // and no `alumniOf` is emitted for him.
+  education: z.array(z.object({ award: z.string(), institution: z.string() })),
+  // JSON-LD sameAs. LinkedIn first; .url() so a typo is a build failure.
+  sameAs: z.array(z.string().url()),
+  lastVerified: z.string(),
+  // Courses this expert contributed to. `course` is a typed reference, so an entry can
+  // never point at a page that does not exist. `role` carries the relationship, because
+  // it differs per expert: Dominic is the course DEVELOPER, Warwick is the independent
+  // compliance and currency REVIEWER. `date` is optional and only meaningful for a
+  // review — it is the date published on that course page's own `reviewedBy`, so the
+  // profile and the course page can never disagree. Developer attribution carries no
+  // date, since it is an ongoing relationship rather than a dated event.
+  courses: z.array(z.object({
+    course: reference('courses'),
+    role: z.string(),
+    date: z.string().optional(),
+  })).optional(),
+  sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
+}).superRefine((data, ctx) => {
+  // Per-expert "What NOT to Claim" rules, from the Notion credentials record. These are
+  // accuracy constraints on a page whose entire purpose is establishing credibility, so
+  // they are enforced rather than documented. Scoped to this collection only.
+  const BANNED: Array<[RegExp, string]> = [
+    [/\bCDR Group\b/, 'the organisation is "Corporate Development Resource Group (CDRG)", never "CDR Group".'],
+    [/\bContent Reviewer\b/i, 'the role is "Compliance & Currency Reviewer", never "Content Reviewer".'],
+    [/factual accuracy/i, 'the correct phrasing is "legislative currency and regulatory accuracy" — he reviews published pages, not course content.'],
+    [/\bB\.?\s?Bldg\b|\bRMIT\b|Bachelor of Building/i, 'no building degree may be claimed. The verified qualification is an Associate Diploma in Business Management (Hospitality).'],
+  ];
+  const haystack = JSON.stringify(data);
+  for (const [re, why] of BANNED) {
+    if (re.test(haystack)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Prohibited claim: ${why}` });
+    }
+  }
+});
+
 const experts = defineCollection({
   loader: glob({ base: './src/content/experts', pattern: '**/*.md' }),
-  schema: person,
+  schema: expertPage,
 });
 
 const partners = defineCollection({
   loader: glob({ base: './src/content/partners', pattern: '**/*.md' }),
   schema: z.object({
-    name: z.string(),
+    name: z.string(),                      // trading name, used in copy
+    legalName: z.string().optional(),      // as registered on training.gov.au
     rtoNumber: z.string().optional(),
     role: z.string(),
     url: z.string().url().optional(),
+    // training.gov.au record — the crawlable proof link on /accreditation. ABE is not
+    // an RTO, so every "nationally recognised" claim must be verifiable against TGA.
+    // Note the capitalised path: training.gov.au serves /Organisation/Details/{code}.
+    tgaUrl: z.string().url().optional(),
+    scopeNote: z.string().optional(),
+    verified: z.string().optional(),       // dated check against the TGA record
   }),
 });
 

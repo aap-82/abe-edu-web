@@ -71,26 +71,7 @@ becomeSteps:
   - { title: "Apply to Access Canberra online", body: "Lodge the individual owner-builder licence application with your course certificate, a copy of the building approval, and the fee ($320.20 for a Class 1 or 2 building, online)." }
   - { title: "Assessment", body: "Access Canberra checks you are a fit and proper person and meet the requirements. Assessment takes at least four weeks and is never fast-tracked." }
   - { title: "Receive your licence, then build", body: "Once approved, your licence appears on the public register within about seven days and your card is posted within about 21 days. You can then act as owner builder on that approval." }
-experts:
-  - name: "Dominic Ogburn"
-    role: "Course Developer · CEO, ABE Education"
-    jobTitle: "Course Developer"
-    creds: "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 (AS 3740-2010) · 2005 NSW Minister’s Award for Consumer Advocacy"
-    bio:
-      - 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager.'
-      - 'He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles.'
-      - 'As CEO of ABE Education since 2007 he has trained more than 31,000 students, and writes the course from the builder’s side of the table.'
-    linkedin: "https://www.linkedin.com/in/dominic-ogburn"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp", alt: "Dominic Ogburn, ABE Education course developer and CEO, a licensed builder with 40-plus years in Australian construction" }
-  - name: "Warwick Smith"
-    role: "Compliance & Currency Reviewer (independent)"
-    jobTitle: "Compliance & Currency Reviewer"
-    creds: "27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals"
-    bio:
-      - "Warwick independently reviews ABE course pages to verify that legislative references, regulatory details and training requirements are current and accurately represented."
-      - "His is a compliance and currency check, not a review of the course content."
-    linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif", alt: "Warwick Smith, independent compliance and currency reviewer for the ABE owner builder course and a VET sector veteran" }
+experts: ["dominic-ogburn", "warwick-smith"]
 footerSources:
   - { label: "ACT Planning — Construction licences (owner-builder eligibility, approved courses, application steps)", href: "https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences", verified: "Verified 15 Jul 2026" }
   - { label: "ACT Planning — Responsibilities (owner-builder duties and insurance position)", href: "https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/responsibilities", verified: "Verified 15 Jul 2026" }
@@ -110,7 +91,7 @@ import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import PriceCard from '../../components/PriceCard.astro';
-import Credentials from '../../components/Credentials.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
@@ -221,7 +202,7 @@ import { faqs } from '../../data/faqs-act';
 
 <Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
-  <Credentials people={frontmatter.experts} />
+  <ExpertCredentials experts={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />
 </Section>
 

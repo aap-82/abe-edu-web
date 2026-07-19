@@ -1,0 +1,226 @@
+---
+// Accreditation (W1-4). The cross-link target for every course page's "verify our
+// accreditation", and the page that states the authority model in plain words.
+//
+// ⚠️ CLAIM-ACCURACY NOTE FOR ANY FUTURE EDIT ⚠️
+// This page carries no `data-authority`, so the build-time forbidden-claim scan in
+// src/integrations/guardrails.ts NEVER RUNS on it. The one page whose whole subject is
+// RTO and regulator claims is the one page the guardrails do not check. Every sentence
+// below was written against CLAUDE.md's authority model by hand. If you change any claim
+// here, re-read that section first — nothing will stop you shipping a wrong one.
+//
+// The three models, verbatim from CLAUDE.md:
+//   state-approved-direct (QLD/QBCC, TAS/CBOS, ACT/Access Canberra) — "approved by
+//     [regulator]", Certificate of Completion. NOT RTO/accredited, NOT a Statement of
+//     Attainment.
+//   knowledge-requirement (WA/Form 75) — "supports your Form 75 owner-builder approval".
+//     NEVER "WA-approved course/provider"; it is an approval, not a permit or licence.
+//   asqa-accredited (White Card, NSW OB) — name the RTO partner + number, "nationally
+//     recognised" is accurate, ABE is the publisher and NOT the RTO.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import TopicGrid from '../components/TopicGrid.astro';
+import CanCant from '../components/CanCant.astro';
+import Note from '../components/Note.astro';
+import VerifiedSources from '../components/VerifiedSources.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+
+const canonical = 'https://www.abeeducation.edu.au/accreditation';
+
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'Accreditation', item: canonical },
+];
+
+// Partner records are verified against training.gov.au; each card links to that record
+// so the claim is checkable rather than asserted.
+const ORDER = ['blue-dog-training', 'upskill-institute', 'alertforce'];
+const partners = (await getCollection('partners'))
+  .sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+
+const partnerCards = partners.map((p, i) => ({
+  tag: `RTO ${p.data.rtoNumber}`,
+  title: p.data.name,
+  body: `${p.data.role} ${p.data.scopeNote ?? ''} <a href="${p.data.tgaUrl}" rel="noopener">Check RTO ${p.data.rtoNumber} on training.gov.au</a>`,
+}));
+
+const regulatorCards = [
+  {
+    tag: 'QLD',
+    title: 'QBCC',
+    body: 'The Queensland Building and Construction Commission approves the owner builder course material. ABE delivers the approved course directly. <a href="https://www.qbcc.qld.gov.au" rel="noopener">qbcc.qld.gov.au</a>',
+  },
+  {
+    tag: 'TAS',
+    title: 'CBOS',
+    body: 'Consumer, Building and Occupational Services approves the Tasmanian owner builder course. <a href="https://www.cbos.tas.gov.au" rel="noopener">cbos.tas.gov.au</a>',
+  },
+  {
+    tag: 'ACT',
+    title: 'Access Canberra',
+    body: 'The Construction Occupations Registrar recognises the ACT owner builder course. <a href="https://www.accesscanberra.act.gov.au" rel="noopener">accesscanberra.act.gov.au</a>',
+  },
+  {
+    tag: 'WA',
+    title: 'Building and Energy',
+    body: 'Western Australia sets a knowledge requirement rather than approving providers. Our course supports a Form 75 owner-builder approval. <a href="https://www.wa.gov.au/organisation/energy-policy-wa/building-and-energy" rel="noopener">wa.gov.au</a>',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'EducationalOrganization',
+      '@id': 'https://www.abeeducation.edu.au/#organization',
+      name: 'ABE Education',
+      url: 'https://www.abeeducation.edu.au',
+      description:
+        'Australian publisher of owner builder and continuing professional development courses. ABE Education is not a registered training organisation; nationally recognised training is delivered by named RTO partners.',
+      // `sameAs` deliberately omitted. The obvious LinkedIn company page lists a
+      // different website domain (.com.au) and an unrelated industry classification, and
+      // sameAs is an identity assertion — not something to guess at on the page whose
+      // whole point is verifiable accuracy. Add it once the correct profile is confirmed.
+    },
+    // Partners are separate Organization nodes, NOT subOrganization of ABE. The real
+    // relationship is a commercial delivery partnership, and asserting a corporate one
+    // would be the schema-level version of the claim this page exists to deny.
+    ...partners.map((p) => ({
+      '@type': 'Organization',
+      name: p.data.legalName ?? p.data.name,
+      identifier: `RTO ${p.data.rtoNumber}`,
+      url: p.data.tgaUrl,
+    })),
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+---
+<BaseLayout
+  title="Accreditation and RTO partners | ABE Education"
+  description="ABE Education is a course publisher, not a registered training organisation. See which regulator approves each course, and which RTO partner delivers our nationally recognised training."
+  canonical={canonical}
+  schema={schema}
+  sticky={{ label: 'Accreditation', sub: 'publisher and RTO partners', price: '3 partners', cta: { href: '#partners', label: 'See our partners' } }}
+  crumbs={crumbs}
+>
+  <Hero
+    eyebrow="Trust · Accreditation"
+    h1Html={'Who approves, delivers and issues each ABE course<span class="dot">.</span>'}
+    updated="Partner records verified 19 July 2026"
+    subhead="ABE Education publishes and delivers owner builder and CPD training. For nationally recognised training we work with registered training organisations, who deliver and assess that training and issue the certificate. This page names all of them."
+    ticks={[
+      '<b>ABE Education is not an RTO</b>, and never claims to be',
+      '<b>Every RTO partner is named</b> with its number, linked to training.gov.au',
+      '<b>Every regulator is named</b> per state and course type',
+    ]}
+    proof={[
+      { n: '3', text: 'RTO partners' },
+      { n: '2007', text: 'training since' },
+    ]}
+    howItWorks="Regulator approves → ABE or an RTO partner delivers → You get the certificate"
+    artefactDesc="ABE Education accreditation and partner overview."
+    cta={{ href: '#partners', label: 'See our RTO partners' }}
+  />
+
+  <Section id="who" bg="bg-alt" eyebrow="The short answer" h2="Is ABE Education an RTO?">
+    <AnswerCapsule>
+      <b>No.</b> ABE Education is not a registered training organisation. We publish and
+      deliver owner builder and CPD courses that state regulators approve directly. Where a
+      course is nationally recognised training, a named RTO partner delivers and assesses it
+      and issues the certificate, and we say which partner on that course page.
+    </AnswerCapsule>
+    <CanCant
+      canTitle="What ABE Education does"
+      can={[
+        'Publishes and delivers owner builder and CPD courses approved by state regulators.',
+        'Issues a Certificate of Completion for those approved courses.',
+        'Names the RTO partner, and its number, on every nationally recognised course.',
+      ]}
+      cantTitle="What ABE Education is not"
+      cant={[
+        'Not a registered training organisation, and not registered with ASQA.',
+        'Not the issuer of any nationally recognised Statement of Attainment.',
+        'Not the developer of the White Card course; the RTO partner develops and assesses it.',
+      ]}
+    />
+  </Section>
+
+  <Section id="partners" eyebrow="RTO partners" h2="Which RTO delivers our nationally recognised training?">
+    <AnswerCapsule>
+      Nationally recognised training on this site is delivered and assessed by one of three
+      registered training organisations. Each is named below with its RTO number and a link
+      to its record on training.gov.au, the national register, so you can check it yourself.
+    </AnswerCapsule>
+    <TopicGrid items={partnerCards} />
+    <VerifiedSources
+      date="19 Jul 2026"
+      facts="Each partner's RTO number and registration status checked against the national register"
+      sources={[
+        { label: 'training.gov.au — national register of RTOs', href: 'https://training.gov.au/' },
+        { label: 'ASQA — the national VET regulator', href: 'https://www.asqa.gov.au/' },
+      ]}
+    />
+  </Section>
+
+  <Section id="regulators" bg="bg-alt" eyebrow="Regulators" h2="Who approves the owner builder courses?">
+    <AnswerCapsule>
+      Owner builder training is regulated state by state, and the rules genuinely differ.
+      Queensland, Tasmania and the ACT approve or recognise the course itself. Western
+      Australia does not approve providers at all; it sets a knowledge requirement that a
+      course helps you meet.
+    </AnswerCapsule>
+    <TopicGrid items={regulatorCards} />
+    <Note variant="caution" label="Western Australia is different">
+      <b>Western Australia does not approve owner builder courses or providers.</b> It sets a
+      knowledge requirement. Our WA course supports your Form 75 owner-builder approval. Any
+      claim that a course is "WA-approved" is wrong, whoever makes it, and the WA step is an
+      approval rather than a permit or a licence.
+    </Note>
+  </Section>
+
+  <Section id="certificates" eyebrow="Certificates" h2="What will you actually receive?">
+    <AnswerCapsule>
+      Two different documents, depending on the course. A state-approved course gives you a
+      Certificate of Completion from ABE Education. Nationally recognised training gives you
+      a Statement of Attainment issued by the RTO partner, not by ABE.
+    </AnswerCapsule>
+    <CanCant
+      canTitle="Certificate of Completion"
+      can={[
+        'Issued by ABE Education for a state-approved or recognised course.',
+        'What QLD, TAS and ACT owner builder applications ask for.',
+        'Not a nationally recognised qualification, and does not need to be.',
+      ]}
+      cantTitle="Statement of Attainment"
+      cant={[
+        'Issued by the RTO partner, never by ABE Education.',
+        'Nationally recognised, and carries the unit code.',
+        'What a White Card requires.',
+      ]}
+    />
+  </Section>
+
+  <CtaBand
+    headingHtml={'See which course applies to you<span class="dot">.</span>'}
+    sub="Owner builder courses for Queensland, Western Australia, Tasmania and the ACT, each with its regulator named on the page."
+    cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
+  />
+  <SourcesFooter
+    sources={[
+      { label: 'training.gov.au — national register of RTOs', href: 'https://training.gov.au/', verified: 'Verified 19 Jul 2026' },
+      ...partners.map((p) => ({ label: `${p.data.name} — RTO ${p.data.rtoNumber} on training.gov.au`, href: p.data.tgaUrl!, verified: p.data.verified })),
+      { label: 'ASQA — Australian Skills Quality Authority', href: 'https://www.asqa.gov.au/' },
+      { label: 'QBCC — owner builder', href: 'https://www.qbcc.qld.gov.au' },
+      { label: 'CBOS Tasmania — owner builder permit', href: 'https://www.cbos.tas.gov.au' },
+      { label: 'Access Canberra — construction occupations', href: 'https://www.accesscanberra.act.gov.au' },
+    ]}
+    disclaimersHtml="<b>ABE Education is not a Registered Training Organisation.</b> Courses approved by a state regulator are delivered by ABE Education and lead to a Certificate of Completion, which is not a nationally recognised qualification. Nationally recognised training is delivered and assessed by the named RTO partner, which issues the Statement of Attainment. Western Australia does not approve owner builder courses or providers; it sets a knowledge requirement that our course supports."
+  />
+</BaseLayout>

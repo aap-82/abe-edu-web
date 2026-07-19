@@ -71,27 +71,7 @@ becomeSteps:
   - { title: "Lodge Form 75", body: "Apply to Building and Energy for owner-builder approval, attach your certificate, and pay the fee ($212 residential, $467 industrial-commercial). Processing takes around six weeks." }
   - { title: "Apply for the building permit", body: "Once approved, apply to your local council for the building permit and pay the council fees." }
   - { title: "Build", body: "Work to your approval and permit, meet the inspection stages, keep your records, and complete through to the Notice of Completion (BA7)." }
-experts:
-  - name: "Dominic Ogburn"
-    role: "Course Developer · CEO, ABE Education"
-    jobTitle: "Course Developer"
-    creds: "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 · 2005 NSW Minister’s Award for Consumer Advocacy"
-    bio:
-      - 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager.'
-      - 'He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles.'
-      - 'As CEO of ABE Education since 2007 he has trained more than 31,000 students, and writes the course from the builder’s side of the table.'
-    linkedin: "https://www.linkedin.com/in/dominic-ogburn"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp", alt: "Dominic Ogburn, ABE Education course developer and CEO, a licensed builder with 40-plus years in Australian construction." }
-  - name: "Warwick Smith"
-    role: "Compliance & Currency Reviewer (independent)"
-    jobTitle: "Compliance & Currency Reviewer"
-    creds: "27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals"
-    bio:
-      - "Warwick independently reviews this page to confirm its WA legislative references, regulatory details and training requirements are current and accurately represented."
-      - "His is a compliance and currency check, not a review of the course content."
-      - "Last reviewed 4 June 2026."
-    linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif", alt: "Warwick Smith, independent compliance and currency reviewer for the ABE owner builder course and a VET sector veteran." }
+experts: ["dominic-ogburn", "warwick-smith"]
 footerSources:
   - { label: "WA — Owner-builder approval", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 7 Jul 2026" }
   - { label: "Form 75 — Approval, Owner-builder (PDF)", href: "https://www.wa.gov.au/media/50162/download", verified: "Verified 7 Jul 2026" }
@@ -115,7 +95,7 @@ import TrustBand from '../../components/TrustBand.astro';
 import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
 import BundleOffer from '../../components/BundleOffer.astro';
-import Credentials from '../../components/Credentials.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
@@ -271,7 +251,7 @@ import { faqsWa } from '../../data/faqs-wa';
 
 <Section bg="bg-warm" id="content-review" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed builder with more than forty years in Australian construction, and <b>independently reviewed by Warwick Smith</b> for compliance and currency. Warwick’s review, dated 4 June 2026, checks that the WA legislation and requirements on this page are current.</AnswerCapsule>
-  <Credentials people={frontmatter.experts} />
+  <ExpertCredentials experts={frontmatter.experts} />
 </Section>
 
 <Section id="faq" eyebrow="FAQ" h2="Common questions">
