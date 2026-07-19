@@ -156,7 +156,7 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 | W4-9 | [COW] | Confirm the live bundle set (which state × trade × points bundles are sold now). | — | — | [AP] input; drives W4-10 count. |
 | W4-10 | [CC] | Bundle pages + bundle hubs: `/cpd-bundles`, `/cpd-bundles-tas` (+ any per W4-9). `Product` + `ItemList` schema; honest savings figure; child-course links resolve. | B + A | W4-1..W4-5, W4-9 | `AggregateRating` **only** if genuine native bundle reviews exist — currently none, so omit. |
 
-**Wave 4 exit gate:** CPD courses, hubs and bundles live; multi-parent breadcrumbs + bundle schema validated.
+**Wave 4 exit gate:** CPD courses, hubs and bundles live; multi-parent breadcrumbs + bundle schema validated. **Also clears the six unresolved redirect targets carried since W1-6** — `/cpd-tas` (W4-6, five rows) and `/cpd-nsw` (W4-7, one row). Confirm both return 200 before signing this wave off, so the §8.1 redirect-target gate has nothing left to catch.
 
 ---
 
@@ -183,6 +183,9 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 - [ ] Design polish pass against `DESIGN.md` (rhythm, spacing, hierarchy, states, responsive).
 - [ ] Every fee re-verified within its cadence.
 - [ ] `redirects.csv` fully implemented as `public/_redirects`. **Full-inventory verification (R7):** a script checks every one of the ~370 live URLs (321 LW export + 298 GSC, de-duplicated) returns 200 (category A, no-slash, unchanged) or a single-hop 301 to its exact mapped target. Output saved as the cutover evidence file. Blocking — not a spot-check.
+- [ ] **Redirect-target resolution (added 19 Jul 2026).** Every distinct *target* in `redirects.csv` returns **200** on the production host. The R7 gate above checks each legacy URL redirects in one hop; it does not check the destination exists, so a rule can pass R7 and still land a user on a 404. Assert on the de-duplicated target column, not the source column — the two are different checks and both are blocking.
+
+  Known open at the time of writing: the map was finalised in W1-6 ahead of six of its targets. Five rows retire into **`/cpd-tas`** (W4-6) and one into **`/cpd-nsw`** (W4-7), neither of which exists yet. `/cpd-tas` additionally exists only as an untracked local file and is not in git, so it will not appear in any CI or Cloudflare build until it is committed — and its Electrician 12-pt bundle price is still TBC. Wave 4 must close before cutover, or these six rules ship as redirects into nothing.
 - [ ] Internal link map holds (up/down, never sideways); no dead downlinks; all internal links slash-less (R2).
 - [ ] Sitemap regenerates on the production `site`. **The marketing host does NOT robots-block `/course/`, `/program/`, `/bundle/`** — they must stay crawlable so Google follows the 301s to learn.* (R1). Crawl control for those lives on the learn.* host.
 - [ ] **Analytics parity (R11):** Zaraz + GA4 + Google Ads conversions validated on staging, so no measurement gap at the swap.
@@ -214,8 +217,8 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 
 Tick as each ticket closes. `[AP]` rows are the ones that need you.
 
-**Wave 0** — ☑ W0-1 ☑ W0-2 ☑ W0-3 ☑ W0-4 ☑ W0-5 ☑ W0-6 ☑ W0-7 ☑ W0-8 ☑ W0-10 ◐ **W0-9 [AP]** *(IA signed off 19 Jul; 2 redirect CONFIRM flags still open)*
-**Wave 1** — ☑ W1-1 ☑ W1-2 ☑ W1-3 ☑ W1-4 ☑ W1-5 ☐ **W1-6 [AP]** *(W1-1..W1-5 shipped 19 Jul on `feat/experts-collection`; W1-6 blocked on the 2 W0-9 flags)*
+**Wave 0** — ☑ W0-1 ☑ W0-2 ☑ W0-3 ☑ W0-4 ☑ W0-5 ☑ W0-6 ☑ W0-7 ☑ W0-8 ☑ W0-9 ☑ W0-10 *(complete: IA signed off 19 Jul, and both remaining redirect CONFIRM flags — `/tas-cpd-architects-courses`, `/tas-cpd-building-designers-courses` — resolved to retire into `/cpd-tas` the same day)*
+**Wave 1** — ☑ W1-1 ☑ W1-2 ☑ W1-3 ☑ W1-4 ☑ W1-5 ☑ W1-6 *(complete: all six shipped 19 Jul on `feat/experts-collection`, PRs #11 and #12. The three footer links that 404'd sitewide now resolve, and Wave 2's E-E-A-T cross-link target exists. W1-5 shipped with real quotes, not score-only. **W1-6 finalised the map ahead of six of its targets — see the redirect-target gate in the cutover runbook.**)*
 **Wave 2** — ☐ W2-1 ☐ W2-2 ☐ W2-3 ☐ W2-4 ☐ W2-5 ☐ W2-6 ☐ W2-7
 **Wave 3** — ☐ W3-1 ☐ W3-2 ☐ W3-3 ☐ W3-4 ☐ W3-5 ☐ W3-6
 **Wave 4** — ☐ W4-1 ☐ W4-2 ☐ W4-3 ☐ W4-4 ☐ W4-5 ☐ W4-6 ☐ W4-7 ☐ W4-8 ☐ **W4-9 [AP]** ☐ W4-10
@@ -227,8 +230,8 @@ Tick as each ticket closes. `[AP]` rows are the ones that need you.
 **Critical path:** W0 templates → W1 trust pages → W2 OB spokes → W2-5 OB hub · (W3, W4 run after their template + trust deps) · W5 homepage after the verticals · W6 cutover after every page + the LearnWorlds move.
 
 **What only you can do, in the order it bites:**
-1. **Now:** W0-9 (thin-hub IA sign-off + 2 redirect CONFIRM flags); raise the **LearnWorlds `learn.` subdomain ticket** (longest lead time, gates cutover).
-2. **Before Wave 4:** W4-9 (which bundles are sold now).
+1. **Now:** raise the **LearnWorlds `learn.` subdomain ticket** — longest lead time and the one external blocker on cutover. *(W0-9 is closed: IA signed off and both redirect CONFIRM flags resolved 19 Jul.)*
+2. **Before Wave 4:** W4-9 (which bundles are sold now) — and the **Electrician 12-pt bundle price**, still TBC, which blocks `/cpd-tas` from shipping and therefore blocks five signed-off redirect rules.
 3. **Before Wave 6:** final yes/no on chat + Meta pixel; optional workbook/GA4 for revenue-ranked build order.
 4. **At cutover:** the DNS/Worker steps in 8.2 (self-serve — zone is already on Cloudflare).
 
