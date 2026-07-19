@@ -1,33 +1,166 @@
 # GENERATED FILE - do not hand-edit. Source of truth is redirects.csv at the repo
 # root; run `node scripts/generate-redirects.mjs` to regenerate.
 
-# /white-card-wa-online -> /white-card-wa (redirect) - Never an -online suffix; biggest growth page (36.7k impr)
-/white-card-wa-online /white-card-wa 301
-/white-card-wa-online/ /white-card-wa 301
+# /wa-owner-builder-course -> /wa-owner-builder-course (rebuild) - Equity core. Already live in repo.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
-# /owner-builder-nsw-course -> /nsw-owner-builder-course (redirect) - NSW OB dual-URL consolidation, the stronger legacy URL 301s to the state-first slug
+# /tas-owner-builder-course -> /tas-owner-builder-course (rebuild) - Port pipeline content to MDX (Wave 2); re-verify CBOS facts.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /qld-owner-builder-course -> /qld-owner-builder-course (rebuild) - Equity core. Already live in repo.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /act-owner-builder-course -> /act-owner-builder-course (rebuild) - Full build Wave 2. State-approved-direct (Access Canberra).
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /nsw-owner-builder-course -> /nsw-owner-builder-course (rebuild) - Canonical NSW OB target. ASQA layout (Upskill 45708). Wave 2.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /white-card -> /white-card (rebuild) - White Card hub. Wave 3.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /faq -> /faq (rebuild) - Wave 5. FAQPage schema.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /contact -> /contact (rebuild) - Wave 5. ContactPoint schema.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /insurances -> /insurances (rebuild) - Insurance hub. Wave 2. (Keeping legacy slug; /insurance nesting rejected to avoid URL churn.)
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /about -> /about (rebuild) - Wave 5. Consolidation target for /about-us.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /cancellation-and-refund-policy -> /cancellation-and-refund-policy (rebuild) - Legal set, Wave 5.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /owner-builder-courses -> /owner-builder-courses (rebuild) - OB hub, biggest impression pool (59.9k). Wave 2. LW export has a duplicate entry for this slug.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /owner-builder-insurance -> /owner-builder-insurance (rebuild) - Service page. Wave 2.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /professional-indemnity-insurance -> /professional-indemnity-insurance (rebuild) - Service page. Wave 2.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /owner-builder-nsw-course -> /nsw-owner-builder-course (redirect) - NSW OB dual-URL consolidation. The stronger legacy URL (324c) 301s to the state-first slug.
 /owner-builder-nsw-course /nsw-owner-builder-course 301
 /owner-builder-nsw-course/ /nsw-owner-builder-course 301
 
-# /nsw-building-cpd-courses -> /cpd-building-nsw (redirect) - CPD slug convention
+# /nsw-building-cpd-courses -> /cpd-building-nsw (redirect) - CPD slug convention. Wave 4.
 /nsw-building-cpd-courses /cpd-building-nsw 301
 /nsw-building-cpd-courses/ /cpd-building-nsw 301
 
-# /tas-cpd-index -> /cpd-tas (redirect) - TAS CPD state hub
+# /white-card-wa-online -> /white-card-wa (redirect) - Never an -online suffix. Biggest growth page (36.7k impr). Wave 3.
+/white-card-wa-online /white-card-wa 301
+/white-card-wa-online/ /white-card-wa 301
+
+# /wa-real-estatecpd -> /cpd-real-estate-wa (redirect) - Fixes broken legacy slug. Wave 4.
+/wa-real-estatecpd /cpd-real-estate-wa 301
+/wa-real-estatecpd/ /cpd-real-estate-wa 301
+
+# /tas-cpd-electrician-courses -> /cpd-electrical-tas (redirect) - Wave 4.
+/tas-cpd-electrician-courses /cpd-electrical-tas 301
+/tas-cpd-electrician-courses/ /cpd-electrical-tas 301
+
+# /tas-cpd-index -> /cpd-tas (redirect) - TAS CPD state hub. Wave 4.
 /tas-cpd-index /cpd-tas 301
 /tas-cpd-index/ /cpd-tas 301
 
-# /nsw-real-estate-cpd -> /cpd-nsw (retire) - NSW RE CPD retired
+# /tas-cpd-courses -> /cpd-tas (redirect) - Folds into TAS state hub.
+/tas-cpd-courses /cpd-tas 301
+/tas-cpd-courses/ /cpd-tas 301
+
+# /tas-cpd-plumber-courses -> /cpd-plumbing-tas (redirect) - Wave 4.
+/tas-cpd-plumber-courses /cpd-plumbing-tas 301
+/tas-cpd-plumber-courses/ /cpd-plumbing-tas 301
+
+# /tas-online-white-card -> /white-card-tas (redirect) - Wave 3.
+/tas-online-white-card /white-card-tas 301
+/tas-online-white-card/ /white-card-tas 301
+
+# /tas-plumber-practitioner-cpd -> /cpd-plumbing-tas (redirect) - Duplicate legacy page folds into the one TAS plumbing course page.
+/tas-plumber-practitioner-cpd /cpd-plumbing-tas 301
+/tas-plumber-practitioner-cpd/ /cpd-plumbing-tas 301
+
+# /owner-builder-learning -> /owner-builder-courses (redirect) - Folds into OB hub.
+/owner-builder-learning /owner-builder-courses 301
+/owner-builder-learning/ /owner-builder-courses 301
+
+# /special-tas-electrician-cpd-bundle -> /cpd-bundles-tas (redirect) - TAS bundle page. Wave 4.
+/special-tas-electrician-cpd-bundle /cpd-bundles-tas 301
+/special-tas-electrician-cpd-bundle/ /cpd-bundles-tas 301
+
+# /nsw-building-industry -> /cpd-nsw (redirect) - Industry page folds into NSW CPD state hub. 4.7k impr.
+/nsw-building-industry /cpd-nsw 301
+/nsw-building-industry/ /cpd-nsw 301
+
+# /about-us -> /about (redirect) - Two live about pages consolidate to one.
+/about-us /about 301
+/about-us/ /about 301
+
+# /cpd-courses -> /cpd (redirect) - CPD main hub already exists in repo.
+/cpd-courses /cpd 301
+/cpd-courses/ /cpd 301
+
+# /special-tas-plumber-cpd-bundle -> /cpd-bundles-tas (redirect) - TAS bundle page. Wave 4.
+/special-tas-plumber-cpd-bundle /cpd-bundles-tas 301
+/special-tas-plumber-cpd-bundle/ /cpd-bundles-tas 301
+
+# /tas-builder-practitioners-cpd -> /cpd-building-tas (redirect) - Folds into TAS building CPD course page. Wave 4.
+/tas-builder-practitioners-cpd /cpd-building-tas 301
+/tas-builder-practitioners-cpd/ /cpd-building-tas 301
+
+# /tas-electrical-practitioners-cpd -> /cpd-electrical-tas (redirect) - Folds into TAS electrical CPD course page.
+/tas-electrical-practitioners-cpd /cpd-electrical-tas 301
+/tas-electrical-practitioners-cpd/ /cpd-electrical-tas 301
+
+# /real-estate-agent-cpd-class-2 -> /cpd-nsw (retire) - NSW RE CPD retired. 3.6k impr forfeited knowingly.
+/real-estate-agent-cpd-class-2 /cpd-nsw 301
+/real-estate-agent-cpd-class-2/ /cpd-nsw 301
+
+# /real-estate-agent-cpd-class-1 -> /cpd-nsw (retire) - NSW RE CPD retired (16 Jul). 2.9k impr forfeited knowingly.
+/real-estate-agent-cpd-class-1 /cpd-nsw 301
+/real-estate-agent-cpd-class-1/ /cpd-nsw 301
+
+# /strata-manager-osrpm-class-1 -> /cpd-nsw (retire) - NSW RE CPD retired.
+/strata-manager-osrpm-class-1 /cpd-nsw 301
+/strata-manager-osrpm-class-1/ /cpd-nsw 301
+
+# /stock-and-station-agent-cpd-class-1 -> /cpd-nsw (retire) - NSW RE CPD retired.
+/stock-and-station-agent-cpd-class-1 /cpd-nsw 301
+/stock-and-station-agent-cpd-class-1/ /cpd-nsw 301
+
+# /tas-cpd-building-designers-courses -> /cpd-tas (retire) - Retire confirmed 19 Jul 2026 (W0-9). Was: is building-designers CPD a current product? Defaulting to retire.
+/tas-cpd-building-designers-courses /cpd-tas 301
+/tas-cpd-building-designers-courses/ /cpd-tas 301
+
+# /strata-manager-osrpm-class-2 -> /cpd-nsw (retire) - NSW RE CPD retired.
+/strata-manager-osrpm-class-2 /cpd-nsw 301
+/strata-manager-osrpm-class-2/ /cpd-nsw 301
+
+# /nsw-real-estate-cpd -> /cpd-nsw (retire) - NSW RE CPD retired.
 /nsw-real-estate-cpd /cpd-nsw 301
 /nsw-real-estate-cpd/ /cpd-nsw 301
 
-# /vic-building-industry -> /cpd (retire) - No VIC products (confirmed 16 Jul)
+# /stock-and-station-agent-cpd-class-2 -> /cpd-nsw (retire) - NSW RE CPD retired.
+/stock-and-station-agent-cpd-class-2 /cpd-nsw 301
+/stock-and-station-agent-cpd-class-2/ /cpd-nsw 301
+
+# /tas-cpd-architects-courses -> /cpd-tas (retire) - Retire confirmed 19 Jul 2026 (W0-9). Was: is architects CPD a current product? Defaulting to retire.
+/tas-cpd-architects-courses /cpd-tas 301
+/tas-cpd-architects-courses/ /cpd-tas 301
+
+# /tas-cpd-keystone-funded-courses -> /cpd-tas (retire) - Legacy funded-courses page.
+/tas-cpd-keystone-funded-courses /cpd-tas 301
+/tas-cpd-keystone-funded-courses/ /cpd-tas 301
+
+# /vic-building-industry -> /cpd (retire) - No VIC products (confirmed 16 Jul).
 /vic-building-industry /cpd 301
 /vic-building-industry/ /cpd 301
 
-# /about-us -> /about (redirect) - Two live about pages consolidate to one
-/about-us /about 301
-/about-us/ /about 301
+# /saaustralia -> /saaustralia (rebuild) - Solar Association Australia partner page. STAYS (decision 16 Jul). Wave 5.
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
 # /course/* -> https://learn.abeeducation.edu.au/course/:splat (redirect-to-learnworlds) - 175 course-player pages stay on LearnWorlds at learn.*
 /course/* https://learn.abeeducation.edu.au/course/:splat 301
@@ -35,12 +168,51 @@
 # /program/* -> https://learn.abeeducation.edu.au/program/:splat (redirect-to-learnworlds) - 54 program/bundle players stay on LearnWorlds
 /program/* https://learn.abeeducation.edu.au/program/:splat 301
 
-# /payment* -> https://learn.abeeducation.edu.au/payment (redirect-to-learnworlds) - Checkout; LW re-applies product query params, verify query-string carry in spike
+# /bundle/* -> https://learn.abeeducation.edu.au/bundle/:splat (redirect-to-learnworlds) - Legacy bundle player URLs
+/bundle/* https://learn.abeeducation.edu.au/bundle/:splat 301
+
+# /payment* -> https://learn.abeeducation.edu.au/payment (redirect-to-learnworlds) - Checkout. LW re-applies product query params; verify in spike
 /payment* https://learn.abeeducation.edu.au/payment 301
 
-# /signin* -> https://learn.abeeducation.edu.au/signin (redirect-to-learnworlds) - Login; also update the nav Login link to learn.* post-cutover
+# /signin* -> https://learn.abeeducation.edu.au/signin (redirect-to-learnworlds) - Login. Also update the nav Login link to learn.*
 /signin* https://learn.abeeducation.edu.au/signin 301
+
+# /start -> https://learn.abeeducation.edu.au/start (redirect-to-learnworlds) - LW system page
+/start https://learn.abeeducation.edu.au/start 301
+
+# /cart -> https://learn.abeeducation.edu.au/cart (redirect-to-learnworlds) - LW system page
+/cart https://learn.abeeducation.edu.au/cart 301
+
+# /thankyou -> https://learn.abeeducation.edu.au/thankyou (redirect-to-learnworlds) - Post-purchase page
+/thankyou https://learn.abeeducation.edu.au/thankyou 301
+
+# /access-request-* -> https://learn.abeeducation.edu.au/:splat (redirect-to-learnworlds) - LW system pages
+/access-request-* https://learn.abeeducation.edu.au/:splat 301
+
+# /email-verification-pending -> https://learn.abeeducation.edu.au/email-verification-pending (redirect-to-learnworlds) - LW system page
+/email-verification-pending https://learn.abeeducation.edu.au/email-verification-pending 301
+
+# /affiliate-registration -> https://learn.abeeducation.edu.au/affiliate-registration (redirect-to-learnworlds) - Functional LW page
+/affiliate-registration https://learn.abeeducation.edu.au/affiliate-registration 301
+
+# /affiliate-program-terms -> https://learn.abeeducation.edu.au/affiliate-program-terms (redirect-to-learnworlds) - Functional LW page
+/affiliate-program-terms https://learn.abeeducation.edu.au/affiliate-program-terms 301
 
 # /blog -> /guides (redirect) - LW blog shell folds into the content hub once /guides is live
 /blog /guides 301
 /blog/ /guides 301
+
+# /courses -> /courses (rebuild) - Catalogue page rebuilt same slug (Wave 5)
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /privacy -> /privacy (rebuild) - Legal set, Wave 5
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /terms -> /terms (rebuild) - Legal set, Wave 5
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# /cookies -> /cookies (rebuild) - Legal set, Wave 5
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+
+# / -> / (rebuild) - Homepage: root redirect on preview replaced by real homepage in Wave 5
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
