@@ -1,0 +1,26 @@
+---
+// A single attributed customer review, quoted from a third-party profile.
+//
+// Deliberately semantic: <blockquote> + <cite>, so the quote and its attribution are
+// machine-readable as a quotation. It carries NO review or rating microdata/JSON-LD —
+// see CLAUDE.md "Reviews — never AggregateRating". Ratings sourced from a third party
+// must be displayed and linked, never marked up.
+interface Props {
+  quote: string;
+  name: string;
+  context?: string;   // what they did — e.g. "Owner builder course"
+  source?: string;    // where the review lives, e.g. "Google review"
+  excerpt?: boolean;  // true when the source truncated the review; renders an honest note
+}
+const { quote, name, context, source = 'Google review', excerpt = false } = Astro.props;
+---
+<figure class="rq">
+  <blockquote class="rq-q">{quote}</blockquote>
+  <figcaption class="rq-a">
+    <cite class="rq-n">{name}</cite>
+    <span class="rq-m">
+      {context && <span>{context}</span>}
+      <span>{excerpt ? `${source}, excerpt` : source}</span>
+    </span>
+  </figcaption>
+</figure>

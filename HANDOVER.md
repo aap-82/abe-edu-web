@@ -244,12 +244,21 @@ third-party script set, routed through Cloudflare Zaraz.
 
 ## Open items / watchlist
 
-- **W0-9 [AP, not blocking]:** sign-off on the thin-trade-hub IA (build `/cpd-building` only; skip
-  1-course plumbing/electrical/real-estate trade hubs) and two redirect CONFIRM flags
-  (`/tas-cpd-architects-courses`, `/tas-cpd-building-designers-courses`, both defaulting to retire).
-  This finalises `redirect-map-v1.csv` into the real `redirects.csv` (currently only the Wave 0 spike
-  sample, 12 rows — see W0-7 above). Nothing in Wave 0 depended on this.
-- `HubLayout` has no route yet (see Phase C) — this is real Wave 1 work, not a loose end to tidy up.
+- **CPD hub IA — DECIDED 19 Jul 2026.** Build **`/cpd-building` only** (it has two courses, NSW +
+  TAS), plus the three state hubs **`/cpd-nsw`, `/cpd-tas`, `/cpd-wa`**. The one-course trade hubs
+  (plumbing, electrical, real estate) are **not built**; those queries land directly on their course
+  pages, which avoids a thin hub cannibalising the page it links to. This is Wave 4 work (W4-6, W4-7),
+  not something to build now. Checked at decision time: the redirect map is unaffected, because every
+  trade-related row already targets a course page (`/cpd-building-nsw`, `/cpd-electrical-tas`,
+  `/cpd-plumbing-tas`, `/cpd-real-estate-wa`, `/cpd-building-tas`), never a trade hub.
+- **W0-9 remainder [AP] — the last blocker on W1-6.** Two redirect CONFIRM flags are still open:
+  `/tas-cpd-architects-courses` (0 clicks / 74 impressions) and `/tas-cpd-building-designers-courses`
+  (7 clicks / 1,570 impressions), both currently defaulting to retire into `/cpd-tas`. Until these are
+  confirmed, `redirect-map-v1.csv` cannot be finalised into the real `redirects.csv` — which is still
+  only the Wave 0 spike sample of 12 rows (see W0-7).
+- `HubLayout` still has no route. Wave 1 built `/experts` hand-built on `BaseLayout` instead, because
+  HubLayout's spokes are typed `reference('courses')` and experts are not courses. The first real
+  consumer will be the CPD hubs in Wave 4, so the routing decision lands there.
 - TAS and ACT owner builder pages have no local imagery (FPO placeholder); QLD/WA do.
 - `r2.dev` is dev-grade / rate-limited — scoped to the expert portraits + logo only now.
 - Expert profile pages (`/experts/*`) not built yet.

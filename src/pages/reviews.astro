@@ -1,0 +1,152 @@
+---
+// Reviews (W1-5). The third dead footer link becomes a real page.
+//
+// ⚠️ STANDING HARD RULE — see CLAUDE.md "Reviews — never AggregateRating".
+// The rating below is sourced from ABE's Google Business Profile, which is a third
+// party. It is DISPLAYED AND LINKED, never marked up. This page must never emit
+// AggregateRating, Review, or any rating property, in JSON-LD or microdata: Google
+// treats third-party-sourced ratings in structured data as self-serving markup, and
+// an entity that controls reviews about itself is ineligible for the review-snippet
+// rich result. The only JSON-LD here is a BreadcrumbList. Do not "improve" this.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import TrustStats from '../components/TrustStats.astro';
+import ReviewQuote from '../components/ReviewQuote.astro';
+import Note from '../components/Note.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+
+const canonical = 'https://www.abeeducation.edu.au/reviews';
+
+// Canonical Google Maps place link, resolved from the shared profile link and verified
+// 19 Jul 2026 to load "ABE Education — 4.8 (52)". The ?cid= form is the stable one; the
+// share.google shortlink it came from is opaque and can rot.
+const GBP = 'https://maps.google.com/?cid=17755658305367044815';
+const VERIFIED = '19 July 2026';
+
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'Reviews', item: canonical },
+];
+
+// Quoted verbatim from the public profile, read 19 Jul 2026. Only reviews that could be
+// captured in full, or as a self-contained excerpt, are here — Google truncates longer
+// reviews in its own interface and the remainder cannot be read, so nothing is
+// paraphrased or reconstructed. Dates are deliberately omitted: the profile reports them
+// only as relative ages ("6 months ago"), and converting that to a specific date would
+// be asserting precision the source does not give. The link goes to the real dates.
+const reviews = [
+  {
+    quote: 'Thanks to Dominic I was able to get my courses done. He helped in other avenues as well. Many thanks to you Dominic.',
+    name: 'Greg Deane',
+    context: 'Owner builder course',
+  },
+  {
+    quote: 'The Owner Builder course was thorough and invaluable to anyone undertaking an owner builder project. I highly recommend it.',
+    name: 'Chez Smilo',
+    context: 'Owner builder course',
+    excerpt: true,
+  },
+];
+
+// Only a BreadcrumbList. See the rule at the top of this file.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+---
+<BaseLayout
+  title="Student reviews | ABE Education"
+  description="ABE Education is rated 4.8 out of 5 from 52 Google reviews. Read them on our Google Business Profile, where they are collected and published by Google, not by us."
+  canonical={canonical}
+  schema={schema}
+  sticky={{ label: 'Student reviews', sub: 'on our Google Business Profile', price: '4.8 / 5', cta: { href: '#quotes', label: 'Read reviews' } }}
+  crumbs={crumbs}
+>
+  <Hero
+    eyebrow="Trust · Reviews"
+    h1Html={'What students say about ABE<span class="dot">.</span>'}
+    updated={`Rating read from Google on ${VERIFIED}`}
+    subhead="Our reviews are collected and published by Google, not by us. That means we cannot edit them, and you can read every one of them at the source."
+    ticks={[
+      '<b>Rated 4.8 out of 5</b> from 52 Google reviews',
+      '<b>Collected by Google</b>, not gathered or moderated by ABE',
+      '<b>Read them all at the source</b>, not just the ones we picked',
+    ]}
+    proof={[
+      { n: '4.8', text: 'out of 5' },
+      { n: '52', text: 'Google reviews' },
+    ]}
+    howItWorks="Complete a course → Leave a Google review → It publishes without us"
+    artefactDesc="ABE Education student reviews overview."
+    cta={{ href: '#quotes', label: 'Read the reviews' }}
+  />
+
+  <Section id="score" bg="bg-alt" eyebrow="The rating" h2="How is ABE Education rated?">
+    <AnswerCapsule>
+      ABE Education is rated <b>4.8 out of 5</b> from <b>52 Google reviews</b>, read on
+      {' '}{VERIFIED}. The rating lives on our Google Business Profile, so it is collected,
+      counted and published by Google rather than by us.
+    </AnswerCapsule>
+    <TrustStats items={[
+      { value: '4.8', label: 'Average rating', numeric: true },
+      { value: '52', label: 'Google reviews', numeric: true },
+      { value: '31,000+', label: 'Students trained', numeric: true },
+      { value: '2007', label: 'Training since', numeric: true },
+    ]} />
+    <p class="measure">
+      <a href={GBP} rel="noopener">Read all 52 reviews on Google →</a>
+    </p>
+  </Section>
+
+  <Section id="quotes" eyebrow="In their words" h2="What do students actually say?">
+    <AnswerCapsule>
+      A couple of reviews, quoted word for word from the public profile. They are a small
+      sample chosen by us, so read the full set on Google rather than taking these as
+      representative.
+    </AnswerCapsule>
+    <div class="rq-grid">
+      {reviews.map((r) => <ReviewQuote {...r} />)}
+    </div>
+    <Note>
+      <b>How to read this page.</b> The quotes above are a selection made by ABE, and
+      selections flatter. The rating and the full set of reviews are on Google, where we
+      cannot change them. One review here is marked as an excerpt because Google truncates
+      longer reviews in its own interface.
+    </Note>
+  </Section>
+
+  <Section id="how" bg="bg-warm" eyebrow="How reviews work here" h2="Why are the reviews not on this page?">
+    <div class="measure">
+      <p>
+        ABE does not collect reviews on its own website. Every review is left on our Google
+        Business Profile, which means Google verifies, publishes and counts them, and we
+        cannot remove one because we dislike it.
+      </p>
+      <p>
+        That is also why you will not see star ratings in search results for this page. A
+        business marking up its own third-party rating is treated by Google as self-serving,
+        so we display the score and link to the source instead.
+      </p>
+    </div>
+  </Section>
+
+  <CtaBand
+    headingHtml={'Ready to start your course<span class="dot">?</span>'}
+    sub="Owner builder courses for Queensland, Western Australia, Tasmania and the ACT, each approved or recognised by that state's regulator."
+    cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
+  />
+  <SourcesFooter
+    sources={[
+      { label: 'ABE Education on Google — rating and all reviews', href: GBP, verified: `Read ${VERIFIED}` },
+    ]}
+    disclaimersHtml="<b>Reviews are published by Google, not by ABE Education.</b> The 4.8 out of 5 rating from 52 reviews was read from ABE Education's Google Business Profile on 19 July 2026 and changes as new reviews are left. Quotes on this page are reproduced verbatim from that public profile and are a selection, not the full set. ABE Education does not mark up this rating as structured data."
+  />
+</BaseLayout>

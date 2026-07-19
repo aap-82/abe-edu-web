@@ -433,6 +433,19 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 .person p{font-size:15px;color:var(--ink-3);margin:0 0 10px;}
 .person a.pl{font-family:var(--font-mono);font-size:12px;color:var(--maroon);text-decoration:none;border-bottom:1px solid rgba(128,0,0,.3);}
 @media(max-width:1100px){.people{grid-template-columns:1fr;gap:var(--s-xl);}}
+/* ===== review quotes =====
+   Flat bordered card in the house register: hairline, no shadow, no pull-quote glyph.
+   The attribution is mono uppercase like every other label in the system. */
+.rq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
+.rq{margin:0;border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);display:flex;flex-direction:column;gap:var(--s-md);}
+.rq-q{margin:0;font-size:16px;line-height:1.6;color:var(--ink-2);quotes:"\201C" "\201D";}
+.rq-q::before{content:open-quote;}
+.rq-q::after{content:close-quote;}
+.rq-a{display:flex;flex-direction:column;gap:3px;margin-top:auto;}
+.rq-n{font-style:normal;font-family:var(--font-body);font-weight:600;font-size:14px;color:var(--ink);}
+.rq-m{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);}
+.rq-m span+span::before{content:"· ";}
+@media(max-width:720px){.rq-grid{grid-template-columns:1fr;}}
 /* ===== end-of-section wayfinder ===== */
 .waynext{margin-top:var(--s-xl);padding-top:var(--s-md);border-top:1px solid var(--rule);}
 /* the "NEXT" kicker sits on its own line above the title; the title + arrow share the

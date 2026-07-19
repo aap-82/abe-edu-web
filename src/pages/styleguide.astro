@@ -30,6 +30,7 @@ import CpdMatrix from '../components/CpdMatrix.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import Credentials from '../components/Credentials.astro';
 import ExpertCredentials from '../components/ExpertCredentials.astro';
+import ReviewQuote from '../components/ReviewQuote.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
 import PartnerDisclosure from '../components/PartnerDisclosure.astro';
 import TrustBand from '../components/TrustBand.astro';
@@ -496,6 +497,16 @@ const groups = [
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">ExpertCredentials</span><span class="sg-desc">Resolves `experts` collection references, then renders Credentials. Used by course MDX bodies so expert data is not copy-pasted into course frontmatter.</span><span class="sg-props">experts[] (references) · profileBase?</span></div>
       <div class="sg-demo"><ExpertCredentials experts={[{ collection: 'experts', id: 'dominic-ogburn' }, { collection: 'experts', id: 'warwick-smith' }]} profileBase="/experts" /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ReviewQuote</span><span class="sg-desc">Attributed third-party review. blockquote + cite; carries no rating markup by design (see CLAUDE.md — never AggregateRating).</span><span class="sg-props">quote · name · context? · source? · excerpt?</span></div>
+      <div class="sg-demo">
+        <div class="rq-grid">
+          <ReviewQuote quote="Example review text, quoted word for word from the public profile." name="Example Reviewer" context="Owner builder course" />
+          <ReviewQuote quote="An example of a review the source truncated, so it is labelled an excerpt." name="Example Reviewer" context="CPD course" excerpt />
+        </div>
+      </div>
     </div>
 
     <div class="sg-item">

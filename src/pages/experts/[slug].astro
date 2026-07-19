@@ -42,13 +42,21 @@ const crumbs = e.breadcrumb;
 // trailingSlash:'never', so `/experts/name/#person` would resolve through a 301.
 const personId = `${e.canonical}#person`;
 
+// `lastVerified` is authored as human-readable prose ("19 July 2026") because it renders
+// as prose in three places on this page. schema.org's dateModified is typed Date, so it
+// needs ISO 8601 — emitting the prose form silently yields an unparseable date.
+const verifiedIso = new Date(`${e.lastVerified} UTC`).toISOString().slice(0, 10);
+if (Number.isNaN(Date.parse(verifiedIso))) {
+  throw new Error(`experts/${entry.id}: lastVerified "${e.lastVerified}" is not a parseable date.`);
+}
+
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'ProfilePage',
       '@id': `${e.canonical}#profilepage`,
-      dateModified: e.lastVerified,
+      dateModified: verifiedIso,
       mainEntity: { '@id': personId },
     },
     {
