@@ -12,4 +12,10 @@ dist/
 # the competitive position for good. Keep the zips local; unzip to a scratchpad, never
 # into the repo tree. Real path is data/GSC (lowercase data, uppercase GSC - Windows hides
 # the difference, Linux does not).
-data/
+#
+# Leading slash is load-bearing: it anchors this to the repo root. Without it the pattern
+# matches ANY directory named `data` at any depth, which silently swallowed src/data/ - the
+# module and FAQ files every course page imports. Files already tracked there stayed tracked
+# (gitignore does not untrack), so nothing broke visibly; only NEW files vanished, and the
+# page still built perfectly on the machine that had them on disk.
+/data/
