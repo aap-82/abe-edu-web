@@ -74,27 +74,7 @@ becomeSteps:
   - { title: "Apply for your permit", body: "Apply through the QBCC, declare your estimated material and labour costs, and pay the $493.59 fee." }
   - { title: "Get your building approval", body: "Once your permit is issued, apply for building approval (development approval) through your local council or a private certifier. This is separate from your permit." }
   - { title: "Build to your approval", body: "Your approval sets out the inspection stages you must meet through the build." }
-experts:
-  - name: "Dominic Ogburn"
-    role: "Course Developer · CEO, ABE Education"
-    jobTitle: "Course Developer"
-    creds: "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 (AS 3740-2010) · 2005 NSW Minister’s Award for Consumer Advocacy"
-    bio:
-      - 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager.'
-      - 'He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles.'
-      - 'As CEO of ABE Education since 2007 he has trained more than 31,000 students, and writes the course from the builder’s side of the table.'
-    linkedin: "https://www.linkedin.com/in/dominic-ogburn"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp", alt: "Dominic Ogburn, ABE Education course developer and CEO, a licensed builder with 40-plus years in Australian construction" }
-  - name: "Warwick Smith"
-    role: "Compliance & Currency Reviewer (independent)"
-    jobTitle: "Compliance & Currency Reviewer"
-    creds: "27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals"
-    bio:
-      - "Warwick independently reviews this page to verify that its legislative references, regulatory details and training requirements are current and accurately represented."
-      - "His is a compliance and currency check, not a review of the course content."
-      - "Last reviewed 2 June 2026."
-    linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif", alt: "Warwick Smith, independent compliance and currency reviewer for the ABE owner builder course and a VET sector veteran" }
+experts: ["dominic-ogburn", "warwick-smith"]
 footerSources:
   - { label: "QBCC — About owner-building", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/about-owner-building", verified: "Verified 24 Jun 2026" }
   - { label: "QBCC — Required courses", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders", verified: "Verified 24 Jun 2026" }
@@ -118,7 +98,7 @@ import TrustBand from '../../components/TrustBand.astro';
 import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
 import BundleOffer from '../../components/BundleOffer.astro';
-import Credentials from '../../components/Credentials.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
@@ -256,7 +236,7 @@ import { faqs } from '../../data/faqs';
 
 <Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
-  <Credentials people={frontmatter.experts} />
+  <ExpertCredentials experts={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />
 </Section>
 

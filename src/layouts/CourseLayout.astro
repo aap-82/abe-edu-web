@@ -9,6 +9,7 @@ import FactGrid from '../components/FactGrid.astro';
 import CpdMatrix from '../components/CpdMatrix.astro';
 import BundleOffer from '../components/BundleOffer.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
+import { getEntries } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props { course: CollectionEntry<'courses'>['data']; }
@@ -20,6 +21,11 @@ const {
   credentialName, credentialCategory, regulator, breadcrumb, reviewedBy, experts,
   authorityModel, partnerRto, cpd,
 } = course;
+
+// `experts` are typed references into the `experts` collection, so resolve them before
+// building the Person nodes. Same pattern HubLayout uses for its course spokes.
+const expertEntries = await getEntries(experts);
+const expertData = expertEntries.map((e) => e.data);
 
 // CPD branch. The points-by-licence fact block reuses FactGrid (4 facts, matching its
 // grid); the approval reference is a real government listing, so it links out rather
@@ -74,7 +80,9 @@ const schema = {
       '@type': 'BreadcrumbList',
       itemListElement: breadcrumb.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
     },
-    ...experts.map((e) => ({
+    // Field order here is load-bearing: it is what keeps the rendered JSON-LD
+    // byte-identical to the pre-refactor output. Do not reorder.
+    ...expertData.map((e) => ({
       '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
       ...(e.portrait ? { image: e.portrait.src } : {}),
       sameAs: e.linkedin,

@@ -15,6 +15,7 @@ export interface Person {
   bio: string[];          // one entry per paragraph; may contain minimal inline markup
   linkedin: string;
   portrait?: Img;         // omit -> FPO placeholder, and no image in schema
+  profileHref?: string;   // set -> renders a link to that expert's profile page
 }
 
 // Visible breadcrumb trail. Built from the same data as the JSON-LD BreadcrumbList so

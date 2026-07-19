@@ -113,8 +113,11 @@ const courses = defineCollection({
     priceRows: z.array(priceRow),
     howItWorksSteps: z.array(step),
     becomeSteps: z.array(step),
-    // people + sourcing
-    experts: z.array(person),
+    // People are typed references into the `experts` collection, not inline copies.
+    // They used to be inlined per course and had already drifted three ways across the
+    // four files (a dropped standards reference, stray punctuation in alt text, and a
+    // per-course review date living inside the shared bio). One record now owns them.
+    experts: z.array(reference('experts')),
     footerSources: z.array(source),
     disclaimersHtml: z.string(),
   }).superRefine((data, ctx) => {

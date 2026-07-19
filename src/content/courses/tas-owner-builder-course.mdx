@@ -71,26 +71,7 @@ becomeSteps:
   - { title: "Arrange insurance and your White Card", body: "Take out Public Liability insurance of at least $5 million, and hold a White Card (construction induction)." }
   - { title: "Lodge your permit application", body: "Lodge the Owner Builder Permit application at a Service Tasmania service centre with your certificate, White Card and proof of ownership, and pay the CBOS fee ($470.40 for Class 1a)." }
   - { title: "Receive your permit, then your building permit", body: "CBOS issues a letter of approval with a permit number. Then obtain the building permit for the work from your council permit authority before any work begins." }
-experts:
-  - name: "Dominic Ogburn"
-    role: "Course Developer · CEO, ABE Education"
-    jobTitle: "Course Developer"
-    creds: "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 (AS 3740-2010) · 2005 NSW Minister’s Award for Consumer Advocacy"
-    bio:
-      - 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager.'
-      - 'He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles.'
-      - 'As CEO of ABE Education since 2007 he has trained more than 31,000 students, and writes the course from the builder’s side of the table.'
-    linkedin: "https://www.linkedin.com/in/dominic-ogburn"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp", alt: "Dominic Ogburn, ABE Education course developer and CEO, a licensed builder with 40-plus years in Australian construction" }
-  - name: "Warwick Smith"
-    role: "Compliance & Currency Reviewer (independent)"
-    jobTitle: "Compliance & Currency Reviewer"
-    creds: "27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals"
-    bio:
-      - "Warwick independently reviews ABE course pages to verify that legislative references, regulatory details and training requirements are current and accurately represented."
-      - "His is a compliance and currency check, not a review of the course content."
-    linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
-    portrait: { src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif", alt: "Warwick Smith, independent compliance and currency reviewer for the ABE owner builder course and a VET sector veteran" }
+experts: ["dominic-ogburn", "warwick-smith"]
 footerSources:
   - { label: "Service Tasmania — Apply for an owner builder permit", href: "https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit", verified: "Verified 14 Jul 2026 · fees 1 Jul 2026" }
   - { label: "CBOS — Owner builder permit", href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit", verified: "Verified 14 Jul 2026" }
@@ -111,7 +92,7 @@ import TopicGrid from '../../components/TopicGrid.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
-import Credentials from '../../components/Credentials.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
 import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
@@ -260,7 +241,7 @@ import { faqs } from '../../data/faqs-tas';
 
 <Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
-  <Credentials people={frontmatter.experts} />
+  <ExpertCredentials experts={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />
 </Section>
 

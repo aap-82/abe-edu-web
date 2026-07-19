@@ -29,6 +29,7 @@ import ProcessTrack from '../components/ProcessTrack.astro';
 import CpdMatrix from '../components/CpdMatrix.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import Credentials from '../components/Credentials.astro';
+import ExpertCredentials from '../components/ExpertCredentials.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
 import PartnerDisclosure from '../components/PartnerDisclosure.astro';
 import TrustBand from '../components/TrustBand.astro';
@@ -488,8 +489,13 @@ const groups = [
     <h2 class="sg-group-title">Trust & sourcing</h2>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">Credentials</span><span class="sg-desc">Expert cards for the content-review section.</span><span class="sg-props">people[] (name · role · creds · bio[] · portrait?)</span></div>
+      <div class="sg-meta"><span class="sg-name">Credentials</span><span class="sg-desc">Expert cards for the content-review section.</span><span class="sg-props">people[] (name · role · creds · bio[] · portrait? · profileHref?)</span></div>
       <div class="sg-demo"><Credentials people={people} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ExpertCredentials</span><span class="sg-desc">Resolves `experts` collection references, then renders Credentials. Used by course MDX bodies so expert data is not copy-pasted into course frontmatter.</span><span class="sg-props">experts[] (references) · profileBase?</span></div>
+      <div class="sg-demo"><ExpertCredentials experts={[{ collection: 'experts', id: 'dominic-ogburn' }, { collection: 'experts', id: 'warwick-smith' }]} profileBase="/experts" /></div>
     </div>
 
     <div class="sg-item">
