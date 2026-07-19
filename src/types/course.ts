@@ -28,8 +28,9 @@ export interface Crumb { name: string; item: string; }
 export interface PartnerInfo {
   partner: string;        // RTO trading name, e.g. "Blue Dog Training"
   rto: string;            // RTO number, e.g. "31193"
-  unitCode?: string;      // e.g. "CPCWHS1001"
-  unitName?: string;      // e.g. "Prepare to work safely in the construction industry"
+  // A list: White Card is one unit, NSW owner builder is five. See the note in
+  // content.config.ts for why this is not a single code.
+  units?: Array<{ code: string; name: string }>;
   credential?: string;    // what the partner issues; defaults to "Statement of Attainment"
 }
 

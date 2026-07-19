@@ -26,8 +26,11 @@ const partnerRto = z.object({
   name: z.string(),           // e.g. "Blue Dog Training"
   rtoNumber: z.string(),      // e.g. "31193"
   url: z.string().url().optional(),
-  unitCode: z.string().optional(),   // CPCCWHS1001 everywhere except WA: CPCWHS1001
-  unitName: z.string().optional(),
+  // A LIST, not a single unit. This was `unitCode` + `unitName` (one unit), which fits
+  // White Card - one course, one unit, CPCCWHS1001 everywhere except WA's CPCWHS1001 - and
+  // does not fit anything else. NSW owner builder needs five units, so the singular shape
+  // would have forced the other four into prose where nothing checks them.
+  units: z.array(z.object({ code: z.string(), name: z.string() })).optional(),
   credential: z.string().optional(), // defaults to "Statement of Attainment" in PartnerDisclosure
 });
 

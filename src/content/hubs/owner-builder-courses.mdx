@@ -10,12 +10,15 @@
 # sources. A hub that restates government facts independently is a hub that drifts from its
 # spokes, so it deliberately does not.
 #
-# NSW is absent because the course does not exist yet (built in A5, first ASQA page). Add
-# its spoke and a fifth comparison column in the same commit that lands it.
-title: "Owner Builder Courses Australia - QLD, WA, TAS, ACT | ABE Education"
-description: "Owner builder courses by state. Approved courses for Queensland, Tasmania and the ACT, and the knowledge course supporting a Western Australian Form 75. Online and self-paced, from $179."
+# NSW is the odd one out and the copy has to keep saying so: it is the only spoke that is
+# NATIONALLY RECOGNISED training, delivered by Upskill Institute (RTO 45708) and issued as a
+# Statement of Attainment. The other four are state-approved or state-accepted courses issued
+# as a Certificate of Completion. Any sentence here that generalises across "these courses"
+# has to hold for both, or name the exception.
+title: "Owner Builder Courses Australia - NSW, QLD, WA, TAS, ACT | ABE Education"
+description: "Owner builder courses by state. Nationally recognised training for NSW, approved courses for Queensland, Tasmania and the ACT, and the knowledge course supporting a Western Australian Form 75. Online, from $179."
 canonical: "https://www.abeeducation.edu.au/owner-builder-courses"
-intro: "Owner builder requirements are set state by state, so the course you need depends on where you are building, not where you live. ABE runs the regulator-approved course in Queensland, Tasmania and the ACT, and the knowledge course that supports a Western Australian owner builder approval. All four are online and self-paced. Choose your state to see what applies."
+intro: "Owner builder requirements are set state by state, so the course you need depends on where you are building, not where you live. ABE runs nationally recognised training for New South Wales, the regulator-approved course in Queensland, Tasmania and the ACT, and the knowledge course that supports a Western Australian owner builder approval. All five are online and self-paced. Choose your state to see what applies."
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
   - { name: "Owner Builder Courses", item: "https://www.abeeducation.edu.au/owner-builder-courses" }
@@ -29,16 +32,18 @@ hero:
   h1Html: 'Owner builder courses, by state<span class="dot">.</span>'
   updated: "Updated July 2026"
   subhead: "Each state regulates owner building differently. Pick your state below for the course that applies there, what it costs, and what the regulator asks for."
-  cta: { href: "#spokes", label: "Choose your state", microcopy: "Four states available, online and self-paced" }
+  cta: { href: "#spokes", label: "Choose your state", microcopy: "Five states available, online and self-paced" }
 sticky:
   label: "Owner Builder Courses"
-  sub: "QLD · WA · TAS · ACT"
+  sub: "NSW · QLD · WA · TAS · ACT"
   price: "from $179"
   cta: { href: "#spokes", label: "Choose your state" }
 # Spoke order follows measured search demand rather than alphabetical: WA and TAS carry the
 # most clicks of the four, so they lead. `blurb` is the only hub-authored text per spoke -
 # state, course name, price and URL all resolve from the course entry itself.
 spokes:
+  - course: "nsw-owner-builder-course"
+    blurb: "The only one of the five that is nationally recognised training. Upskill Institute (RTO 45708) delivers it and issues a Statement of Attainment for the five units NSW requires once the work is $20,000 or more."
   - course: "wa-owner-builder-course"
     blurb: "Western Australia does not run an approved course. The Building Services Board asks you to show sufficient knowledge of an owner builder's duties, and accepts a WA-specific course completed within the last two years, plus a White Card, as that evidence for your Form 75."
   - course: "tas-owner-builder-course"
@@ -50,44 +55,45 @@ spokes:
 comparison:
   caption: "Course fees are ABE's and GST-free. Government fees are set by each regulator and paid separately when you lodge. Completion windows are measured back from the day you lodge, not forward from the day you pass, and Tasmania's twelve months applies to a home (Class 1a). Figures are current at the verification dates in the Sources block below."
   columns:
+    - { key: "nsw", label: "NSW", href: "/nsw-owner-builder-course" }
     - { key: "wa", label: "WA", href: "/wa-owner-builder-course" }
     - { key: "tas", label: "TAS", href: "/tas-owner-builder-course" }
     - { key: "qld", label: "QLD", href: "/qld-owner-builder-course" }
     - { key: "act", label: "ACT", href: "/act-owner-builder-course" }
   rows:
-    - { label: "Course fee", values: ["$179", "$185", "$179", "$179"] }
-    - { label: "Government fee", values: ["$212", "$470.40", "$493.59", "$320.20"] }
-    - { label: "Regulator", values: ["Building and Energy", "CBOS", "QBCC", "Access Canberra"] }
-    - { label: "What you apply for", values: ["Owner builder approval (Form 75)", "Owner builder permit", "Owner builder permit", "Owner builder licence"] }
-    - { label: "Course status", values: ["Supports your approval", "CBOS-approved", "QBCC-approved", "Accepted by Access Canberra"] }
+    - { label: "Course fee", values: ["$199", "$179", "$185", "$179", "$179"] }
+    - { label: "Government fee", values: ["$233", "$212", "$470.40", "$493.59", "$320.20"] }
+    - { label: "Regulator", values: ["NSW Fair Trading", "Building and Energy", "CBOS", "QBCC", "Access Canberra"] }
+    - { label: "What you apply for", values: ["Owner builder permit", "Owner builder approval (Form 75)", "Owner builder permit", "Owner builder permit", "Owner builder licence"] }
+    - { label: "Course status", values: ["Nationally recognised (RTO 45708)", "Supports your approval", "CBOS-approved", "QBCC-approved", "Accepted by Access Canberra"] }
     # Measured BACK from the date you lodge, not forward from the date you pass. WA's value
     # is the Building Services Board's two-year acceptance window for a WA-specific course.
     # Do not put the WA page's "same day" figure here: that is how fast the certificate is
     # issued, not how long it stays current, and the other three columns are currency.
-    - { label: "Course completed within", values: ["2 yrs", "12 mths", "5 yrs", "5 yrs"] }
+    - { label: "Course completed within", values: ["Not stated", "2 yrs", "12 mths", "5 yrs", "5 yrs"] }
     # Added after the GSC check: "how long does owner builder course take" holds position
     # 4.2 and "how long does the online owner builder course take to complete?" position
     # 2.22, and the hub answered neither. Values are each course's `courseWorkload`
     # (PT4H / PT3H), which agrees with the per-page copy ("under three hours" for ACT,
     # "an afternoon" for WA). Numerals are correct here: this is a data cell, not prose.
-    - { label: "Time to complete", values: ["About 4 hrs", "About 4 hrs", "About 4 hrs", "About 3 hrs"] }
-    - { label: "Pass mark", values: ["80%", "80%", "80%", "80%"] }
+    - { label: "Time to complete", values: ["Self-paced", "About 4 hrs", "About 4 hrs", "About 4 hrs", "About 3 hrs"] }
+    - { label: "Pass mark", values: ["RTO-assessed", "80%", "80%", "80%", "80%"] }
 faqs:
   # Question-shaped to match how the demand is actually phrased. Both duration queries sit
   # at strong positions already, so this protects them rather than chasing something new.
   - q: "How long does the owner builder course take?"
-    a: "Most people finish in one sitting. The Queensland, Western Australian and Tasmanian courses are built around four hours of content, and the ACT course around three. Every one of them is online and self-paced, so you can stop whenever you like and pick up on any device with your progress saved. There is no classroom attendance and no scheduled start date."
+    a: "Most people finish in one sitting. The Queensland, Western Australian and Tasmanian courses are built around four hours of content, and the ACT course around three. The New South Wales course covers five units of competency and is assessed by the RTO, so it takes longer. Every one of them is online and self-paced, so you can stop whenever you like and pick up on any device with your progress saved. There is no classroom attendance and no scheduled start date."
   - q: "Which state's course do I need?"
     a: "The one for the state where the building work is, not where you live. If you live in Victoria and are building in Tasmania, you need the Tasmanian course and a Tasmanian permit."
     open: true
   - q: "Can I use one state's certificate in another state?"
     a: "No. Each regulator approves its own course against its own legislation, and a certificate is only recognised by the regulator it was designed for. If you build in two states you need both courses."
   - q: "How long is my certificate valid?"
-    a: "It varies by state, and it is measured back from the date you apply rather than forward from the date you pass. Queensland and the ACT accept a certificate up to five years old. Tasmania asks that a home owner builder complete the course within the twelve months before lodging. Western Australia's Building Services Board accepts a WA-specific course completed within the last two years, alongside a White Card. Complete the course before you lodge, and check the window still covers you if the application has been sitting a while."
+    a: "It varies by state, and it is measured back from the date you apply rather than forward from the date you pass. Queensland and the ACT accept a certificate up to five years old. Tasmania asks that a home owner builder complete the course within the twelve months before lodging. Western Australia's Building Services Board accepts a WA-specific course completed within the last two years, alongside a White Card. New South Wales names the units without stating a recency limit, so check with Building Commission NSW if your training is some years old. Complete the course before you lodge, and check the window still covers you if the application has been sitting a while."
   - q: "Do I complete the course before or after I apply?"
     a: "Before. Every one of these regulators wants the certificate lodged as part of the application, so the course is a prerequisite, not a follow-up."
   - q: "Is ABE a registered training organisation?"
-    a: "No, and these courses are not nationally recognised training. They are the regulator-approved or regulator-accepted owner builder courses for their states, issued as a Certificate of Completion. That is exactly what each of these applications asks for."
+    a: "ABE Education is not an RTO, and it depends on the state. New South Wales is nationally recognised training: Upskill Institute (RTO 45708) delivers and assesses it and issues a Statement of Attainment, because that is what NSW requires. Queensland, Tasmania, the ACT and Western Australia are not nationally recognised training and do not need to be; they are the regulator-approved or regulator-accepted courses for those states, issued as a Certificate of Completion, which is exactly what those applications ask for."
 ctaBand:
   headingHtml: 'Ready to start<span class="dot">?</span>'
   sub: "Pick your state, enrol online, and complete the course at your own pace. Your certificate is emailed the moment you pass."
@@ -100,7 +106,7 @@ footerSources:
   - { label: "CBOS - Owner builder permit", href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit", verified: "Verified 14 Jul 2026" }
   - { label: "QBCC - Required courses for owner-builders", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders", verified: "Verified 24 Jun 2026" }
   - { label: "ACT Planning - Construction licences", href: "https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences", verified: "Verified 15 Jul 2026" }
-disclaimersHtml: "<p>ABE Education is not a registered training organisation. The owner builder courses listed here are approved or accepted by their state regulator and are issued as a Certificate of Completion, not as nationally recognised training. Government fees are set by each regulator, change on their own cycles, and are paid directly to them.</p>"
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. The New South Wales course is nationally recognised training delivered and assessed by Upskill Institute Pty Ltd (RTO 45708), which issues the Statement of Attainment. The Queensland, Tasmanian, ACT and Western Australian courses are approved or accepted by their state regulator and are issued as a Certificate of Completion, not as nationally recognised training. Government fees are set by each regulator, change on their own cycles, and are paid directly to them.</p>"
 publishedAt: "2026-07-19"
 lastReviewedAt: "2026-07-19"
 ---
