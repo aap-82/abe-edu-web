@@ -272,12 +272,21 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 /* top-align the two columns: baseline alignment took the left column's baseline from the
    tick svg (which has none) instead of the VERIFIED text, riding the label 2px high */
 .verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:start;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
-.verified .v-date{display:flex;flex-direction:column;gap:2px;color:var(--verify);font-weight:500;white-space:nowrap;}
+/* Colour is applied per element, not set on the container and overridden back. .v-date used
+   to carry --verify and .v-label then reset itself to slate, which left the date blue only
+   by inheritance rather than intent - fragile, and it read as an inconsistency because two
+   adjacent items in the same block were coloured by opposite mechanisms. */
+.verified .v-date{display:flex;flex-direction:column;gap:2px;font-weight:500;white-space:nowrap;}
 .verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--slate);text-transform:uppercase;letter-spacing:.09em;}
-.verified .v-day{font-weight:400;}
+.verified .v-day{color:var(--verify);font-weight:400;}
 .verified .check{width:12px;height:12px;flex:none;color:var(--ok);}
-.verified .v-body{color:var(--slate-light);}
-.verified .v-against{color:var(--slate-light);}
+/* --slate-light, not --slate, was a WCAG AA failure and the source of the "washed out
+   middle" look: at 12px it measured 2.81:1 on paper, 2.70:1 on paper-alt and 2.56:1 on
+   paper-warm against a required 4.5:1, while the VERIFIED label (5.10:1), the date (6.85:1)
+   and the links (5.10:1) around it all passed. The least readable text in the component was
+   the part that says what was actually checked. --slate passes on all three grounds
+   (5.10 / 4.89 / 4.65). PRODUCT.md targets WCAG 2.1 AA. */
+.verified .v-body{color:var(--slate);}
 .verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .verified .v-body a:hover{color:var(--verify);border-color:var(--verify);}
 /* stack the two columns on narrow screens */
@@ -432,14 +441,37 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;}}
 /* ===== two-profile credentials ===== */
 .people{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2xl);margin-top:var(--s-lg);}
-.person{display:grid;grid-template-columns:96px 1fr;gap:var(--s-md);align-items:start;}
-.person .ph.r45{width:96px;}
-.person .role{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);margin:2px 0 8px;}
+/* Portrait steps 96px -> 140px. These are real photographs of named people doing the
+   trust work on a YMYL-adjacent page, and at 96px a face is barely legible: the image was
+   present without being persuasive. clamp keeps it from crowding the text column when the
+   two-up grid collapses. */
+.person{display:grid;grid-template-columns:clamp(112px,18vw,140px) 1fr;gap:var(--s-md);align-items:start;}
+.person .ph.r45{width:100%;}
 .person h3{font-size:20px;margin-bottom:3px;}
-.person .creds{font-family:var(--font-mono);font-size:12px;color:var(--slate);line-height:1.7;margin-bottom:10px;}
-.person .creds .cred-sep{color:#800000;}
+.person .role{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);margin:2px 0 var(--s-sm);}
+/* Credentials as a real list, hairline-separated, not a run-on line of bullet-joined
+   claims. Four separate facts read as four facts, and the block is now visibly a different
+   kind of content from the bio prose underneath it. */
+.person .cred-list{list-style:none;margin:0 0 var(--s-md);padding:0;border-top:1px solid var(--rule);}
+.person .cred-list li{font-family:var(--font-mono);font-size:11.5px;line-height:1.5;letter-spacing:.02em;color:var(--slate);padding:7px 0;border-bottom:1px solid var(--rule);}
 .person p{font-size:15px;color:var(--ink-3);margin:0 0 10px;}
+/* Actions sit on one line, ABE's profile first. The secondary link is quieter in weight,
+   not just in position, so the primary action wins without a second colour. */
+.person .p-links{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-md);margin:var(--s-sm) 0 0;}
 .person a.pl{font-family:var(--font-mono);font-size:12px;color:var(--maroon);text-decoration:none;border-bottom:1px solid rgba(128,0,0,.3);}
+.person a.pl:hover{border-bottom-color:var(--maroon);}
+.person a.pl-2{color:var(--slate);border-bottom-color:var(--rule-strong);}
+.person a.pl-2:hover{color:var(--ink);border-bottom-color:var(--ink);}
+/* Stack on narrow screens. Side by side at 375px the text column was 183px, which wrapped
+   mono credential lines like "Standards Australia committee BD-038 (AS 3740-2010)" to three
+   rows each. Stacking gives the text the full 319px and drops those to one or two, at the
+   cost of vertical space these readers are already scrolling through. The portrait keeps a
+   deliberate width rather than going full-bleed: a 319px-wide face reads as a hero image,
+   not as supporting credential evidence. */
+@media(max-width:560px){
+  .person{grid-template-columns:1fr;gap:var(--s-sm);}
+  .person .ph.r45{width:132px;}
+}
 @media(max-width:1100px){.people{grid-template-columns:1fr;gap:var(--s-xl);}}
 /* ===== review quotes =====
    Flat bordered card in the house register: hairline, no shadow, no pull-quote glyph.
