@@ -20,6 +20,7 @@ import Note from '../components/Note.astro';
 import CanCant from '../components/CanCant.astro';
 import Stepper from '../components/Stepper.astro';
 import TopicGrid from '../components/TopicGrid.astro';
+import ModuleRows from '../components/ModuleRows.astro';
 import HubCard from '../components/HubCard.astro';
 import FactGrid from '../components/FactGrid.astro';
 import PriceCard from '../components/PriceCard.astro';
@@ -58,6 +59,13 @@ const steps = [
   { title: 'Enrol online', body: 'Pay and get instant access. Card or Afterpay.' },
   { title: 'Complete the course', body: 'Work through the modules at your own pace, then the quiz.' },
   { title: 'Get your certificate', body: 'Emailed the moment you pass.' },
+];
+// Two rows with outcomes and one without, so the specimen shows the optional fields both
+// present and absent - a state that has not authored outcomes yet must still render cleanly.
+const moduleRowsEx = [
+  { tag: 'Group 01', modules: 'Modules 1-2', title: 'Getting started', body: 'Course Introduction, and the Key Responsibilities of an Owner Builder.', outcome: 'set up your build, and explain what you take on when you sign as the owner builder.' },
+  { tag: 'Group 02', modules: 'Modules 3, 11, 12', title: 'Legal &amp; safety obligations', body: 'Work Health and Safety, Obligations Under the QBCC Act 1991, and Approvals and Inspections.', outcome: 'apply work health and safety on your own site.' },
+  { tag: '03', title: 'A group with no module range or outcome', body: 'How a state that has not authored the optional fields still renders.' },
 ];
 const priceRows = [
   { label: 'Course fee', sub: 'Paid to ABE Education, GST-free', amount: '$179.00' },
@@ -454,6 +462,11 @@ const groups = [
       <div class="sg-meta"><span class="sg-name">ProcessTrack</span><span class="sg-desc">Hero how-it-works rail from an arrow-joined string.</span><span class="sg-props">steps (string) · label?</span></div>
       <div class="sg-demo"><ProcessTrack steps="Enrol → Complete online → Get certificate → Apply" label="Process" /></div>
     </div>
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ModuleRows</span><span class="sg-desc">Syllabus rows: mono key rail, module range, contents, optional outcome. Rows not cards, per DESIGN.md s7 (reference/syllabus). Third row shows the optional fields absent.</span><span class="sg-props">items[] (tag · title · body · modules? · outcome?)</span></div>
+      <div class="sg-demo"><ModuleRows items={moduleRowsEx} /></div>
+    </div>
+
 
     <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">TopicGrid</span><span class="sg-desc">Card grid for browsing topics or modules.</span><span class="sg-props">items[] (tag · title · body)</span></div>

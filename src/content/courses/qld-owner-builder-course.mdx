@@ -94,6 +94,7 @@ import FactGrid from '../../components/FactGrid.astro';
 import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
+import ModuleRows from '../../components/ModuleRows.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
@@ -105,7 +106,7 @@ import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
-import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules';
+import { moduleGroups, obligationCards } from '../../data/modules';
 import { faqs } from '../../data/faqs';
 
 <Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
@@ -158,8 +159,12 @@ import { faqs } from '../../data/faqs';
 
 <Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="18 modules, grouped by the stage of your build">
   <AnswerCapsule><b>18 modules</b> covering everything you need to run a compliant Queensland build, from permits and safety to costing, trades and move-in. It teaches you to manage the project, not to lay bricks.</AnswerCapsule>
-  <TopicGrid items={moduleGroups} />
-  <Note><b>By the end</b> {moduleOutcome.replace(/^By the end you will be able to /, 'you will be able to ')}</Note>
+  <ModuleRows items={moduleGroups} />
+  {/* The aggregate `moduleOutcome` note that sat here has been removed. Every clause of it
+      is now the `outcome` line on the group it belongs to, so keeping both stated the same
+      content twice: once split across the rows and once joined into a single sentence
+      directly beneath them. `moduleOutcome` is still exported and still used by the states
+      that have no per-group outcomes yet. */}
   <VerifiedSources date="Course modules v2.0, 2026" facts="Module list checked against the current course syllabus" sources={[{ label: 'ABE Education owner builder course modules (NONACCABE QBCC Owner Builder Course)', href: '' }]} />
   <SectionWayfinder label="Do you need a permit?" href="#permit" />
 </Section>

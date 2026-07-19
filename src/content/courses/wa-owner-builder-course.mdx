@@ -91,6 +91,7 @@ import FactGrid from '../../components/FactGrid.astro';
 import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
+import ModuleRows from '../../components/ModuleRows.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import InsurancePartner from '../../components/InsurancePartner.astro';
 import PriceCard from '../../components/PriceCard.astro';
@@ -174,7 +175,7 @@ import { faqsWa } from '../../data/faqs-wa';
 
 <Section id="learn" marker="05" eyebrow="What you'll learn" h2="Introduction plus 12 modules, written for WA">
   <AnswerCapsule>An <b>Introduction and twelve modules</b>, written for Western Australia and updated in June 2026. It runs from deciding whether owner-building suits you, through WA legislation, the National Construction Code, bushfire and site-hazard requirements, contracts and insurance, to running the build and completing it.</AnswerCapsule>
-  <TopicGrid items={moduleGroupsWa} />
+  <ModuleRows items={moduleGroupsWa} />
   <Note><b>By the end</b> {moduleOutcomeWa.replace(/^By the end you will be able to /, 'you will be able to ')}</Note>
   <VerifiedSources date="Course v2.0, 27 Jun 2026" facts="WA-specific content, thresholds fact-checked Feb 2026, within the 2-year acceptance window" sources={[{ label: 'ABE Education — WA Owner-Builder Course modules and learning outcomes (v2.0)', href: '' }]} />
   <SectionWayfinder label="How it works" href="#how" />

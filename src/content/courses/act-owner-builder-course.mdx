@@ -89,6 +89,7 @@ import FactGrid from '../../components/FactGrid.astro';
 import CanCant from '../../components/CanCant.astro';
 import Stepper from '../../components/Stepper.astro';
 import TopicGrid from '../../components/TopicGrid.astro';
+import ModuleRows from '../../components/ModuleRows.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import PriceCard from '../../components/PriceCard.astro';
 import ExpertCredentials from '../../components/ExpertCredentials.astro';
@@ -154,7 +155,7 @@ import { faqs } from '../../data/faqs-act';
   <div class="measure">
     <p>By the end you will be able to {moduleOutcome}</p>
   </div>
-  <TopicGrid items={moduleGroups} />
+  <ModuleRows items={moduleGroups} />
   <SectionWayfinder label="What it costs" href="#cost" />
 </Section>
 

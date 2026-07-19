@@ -1,11 +1,11 @@
-import type { TopicCard } from '../types/course';
+import type { TopicCard, ModuleGroup } from '../types/course';
 
 // Section 4 — the ACT course curriculum, taken from the LearnWorlds table of contents
 // (confirmed by Andrey, 15 Jul 2026). Twelve numbered sections. The front items (declaration,
 // downloads, the Introduction group: disclaimer, course aim, insurance primers, pros and cons)
 // and the closing items (Downloads, Certification) are course admin, not curriculum, and are
 // deliberately not listed here. Each section ends with a multiple-choice quiz.
-export const moduleGroups: TopicCard[] = [
+export const moduleGroups: ModuleGroup[] = [
   { tag: '01', title: 'Owner-builder definitions & obligations', body: 'What an owner builder is, the obligations you take on, how you become eligible for a licence and where to apply.' },
   { tag: '02', title: 'Project documentation & development approval', body: 'The documents your build runs on, and getting development and building approval in place.' },
   { tag: '03', title: 'Project budget', body: 'Building a realistic budget for the project and keeping the build to it.' },

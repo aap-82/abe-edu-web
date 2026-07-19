@@ -1,0 +1,98 @@
+---
+import type { ModuleGroup } from '../types/course';
+/**
+ * The syllabus. Rows, not cards.
+ *
+ * DESIGN.md section 7 already prescribes this: "Reference / syllabus | Dense, mono-numbered
+ * rows, scanned not read". It assigned TopicGrid to the job, but TopicGrid renders a
+ * three-column card grid, so the output contradicted the rule it was meant to satisfy.
+ *
+ * Cards were wrong for a second reason. The reader's-job table gives cards to "browse
+ * between entry points", and a module group is not an entry point: there is nowhere to
+ * click. Six equal boxes in a grid make the eye re-enter at every tile, when the job is to
+ * run down a list and take in scope.
+ *
+ * Structure separates what the cards welded together. A card body read "Your role and
+ * responsibilities. Modules 1-2: Course Introduction, Key Responsibilities" - a theme and a
+ * contents list in one sentence, with the module numbers doing real work but buried
+ * mid-paragraph. Here the number, the theme, the range and the contents each get their own
+ * slot, and the outcome answers the question the reader actually has: what will I be able to
+ * do after this.
+ *
+ * `modules` and `outcome` are optional by design. See the ModuleGroup type: the five states
+ * author this data differently, and a state opts in when its copy is written rather than
+ * being back-filled from a guess.
+ */
+interface Props { items: ModuleGroup[]; }
+const { items } = Astro.props;
+---
+<ol class="mrows" role="list">
+  {items.map((m) => (
+    <li class="mrow">
+      <div class="mr-key">
+        <span class="mr-no num">{m.tag}</span>
+        {m.modules && <span class="mr-mods num">{m.modules}</span>}
+      </div>
+      <div class="mr-main">
+        <h3 class="mr-title" set:html={m.title} />
+        <p class="mr-body" set:html={m.body} />
+        {m.outcome && (
+          <p class="mr-outcome">
+            <span class="mr-olabel">You will be able to</span>
+            <span set:html={m.outcome} />
+          </p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  /* Hairline-separated rows on the section ground: no card borders, because a border per
+     group implies six separable objects when this is one list. Depth comes from the rules,
+     per DESIGN.md's hairline rule. */
+  .mrows{ list-style:none; margin:var(--s-lg) 0 0; padding:0; border-top:1px solid var(--rule); }
+  .mrow{
+    display:grid; grid-template-columns:150px 1fr; gap:var(--s-md);
+    padding:var(--s-md) 0; border-bottom:1px solid var(--rule);
+  }
+
+  /* The key column is a fixed rail so the numbers line up down the page and can be scanned
+     without reading. Tabular figures via .num keep the ranges from jittering. */
+  .mr-key{ display:flex; flex-direction:column; gap:4px; }
+  .mr-no{
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--maroon);
+  }
+  .mr-mods{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); }
+
+  .mr-title{
+    font-family:var(--font-display); font-weight:600; font-size:18px;
+    line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0 0 5px;
+  }
+  .mr-body{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0; max-width:70ch; }
+
+  /* The outcome is the payoff line, so it is set apart rather than appended: a mono kicker
+     and a rule above it, in the same grammar the verified-source line uses for its label. */
+  /* Block, not flex. Flex-wrap put the label inline when the outcome was short enough to fit
+     beside it and on its own line when it was not, so the outcomes started at two different
+     x-positions down the same list - measured on the QLD page, groups 03 and 04 sat inline
+     while 01, 02, 05 and 06 wrapped. A kicker that moves depending on sentence length is
+     worse than no kicker. */
+  .mr-outcome{
+    margin:10px 0 0; padding-top:9px; border-top:1px solid var(--rule);
+    font-size:14px; line-height:1.55; color:var(--ink-2); max-width:70ch;
+  }
+  .mr-olabel{
+    display:block; margin-bottom:3px;
+    font-family:var(--font-mono); font-size:10px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
+  }
+
+  /* Stack the rail above the content on narrow screens. A 150px rail beside a ~170px text
+     column is not a list any more, it is two cramped columns. */
+  @media (max-width:640px){
+    .mrow{ grid-template-columns:1fr; gap:6px; padding:var(--s-sm) 0; }
+    .mr-key{ flex-direction:row; align-items:baseline; gap:10px; }
+  }
+</style>

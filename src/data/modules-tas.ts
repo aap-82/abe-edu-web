@@ -1,10 +1,10 @@
-import type { TopicCard } from '../types/course';
+import type { TopicCard, ModuleGroup } from '../types/course';
 
 // Section 5 — the TAS course curriculum, taken from the LearnWorlds table of contents
 // (confirmed by Andrey, 14 Jul 2026). Nine numbered sections. The front items (course
 // disclaimer, insurance pages, foreword) and the closing items (Downloads, Certification)
 // are course admin, not curriculum, and are deliberately not listed here.
-export const moduleGroups: TopicCard[] = [
+export const moduleGroups: ModuleGroup[] = [
   { tag: '01', title: 'Prepare to be an owner builder', body: 'What the owner builder role actually means before you commit to it.' },
   { tag: '02', title: 'The regulatory authorities, permits and certificates', body: 'The Director of Building Control, your <b>building surveyor</b>, the certificate of likely compliance, planning and building permits, plumbing applications, start-work notification, and the Tasmanian Heritage Register.' },
   { tag: '03', title: 'The professionals', body: 'Who you need on the job, what each one is licensed to do, and how to engage them.' },
