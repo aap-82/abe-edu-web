@@ -191,16 +191,10 @@ const groups = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <title>ABE Component Library</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  {/* Non-render-blocking font load, matching BaseLayout.astro - see that file for why. */}
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
-    media="print"
-    onload="this.media='all'"
-  />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
+  {/* Fonts self-hosted from /fonts; see the @font-face block in global.css and the
+      note in BaseLayout.astro. */}
+  <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 <body class="sg">
   <header class="sg-head">

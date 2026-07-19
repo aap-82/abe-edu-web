@@ -4,8 +4,23 @@
       "startServerCommand": "npm run preview",
       "startServerReadyPattern": "Local\\s+\\S*http://localhost:4321",
       "startServerReadyTimeout": 30000,
+      "_comment_url": [
+        "One URL per TEMPLATE, not per page. Three of these were added when the site grew",
+        "past the original three: a collection-driven hub, an expert profile and a",
+        "hand-built support page were all shipping unmeasured. Adding a page to an existing",
+        "template does not need a new entry here; adding a new template does.",
+        "course -> qld (state-approved-direct, the frozen exemplar)",
+        "hub -> owner-builder-courses (HubLayout via a stub route)",
+        "expert -> dominic-ogburn (ProfilePage template)",
+        "support -> reviews (hand-built .astro on BaseLayout)",
+        "cpd -> cpd (hand-built, converts to a hub in B3; drop this then)",
+        "styleguide -> the component gallery, heaviest page in the build"
+      ],
       "url": [
         "http://localhost:4321/qld-owner-builder-course",
+        "http://localhost:4321/owner-builder-courses",
+        "http://localhost:4321/experts/dominic-ogburn",
+        "http://localhost:4321/reviews",
         "http://localhost:4321/cpd",
         "http://localhost:4321/styleguide"
       ],
