@@ -75,6 +75,16 @@ const bundleCardEx: Bundle[] = [
   { trade: 'Electricians', title: 'Example unpriced bundle', blurb: 'Shows the state used when a price is not confirmed yet.',
     points: '12', delivery: 'Online' },
 ];
+// The five NSW owner builder units, so the specimen shows the multi-unit case as well as
+// the single-unit White Card one. A component that only ever renders one item in its
+// gallery is a component whose list behaviour nobody has looked at.
+const partnerUnitsEx = [
+  { code: 'CPCCWHS2001', name: 'Apply WHS requirements, policies and procedures in the construction industry' },
+  { code: 'CPCCOM2001', name: 'Read and interpret plans and specifications' },
+  { code: 'CPCCCM1011', name: 'Undertake basic estimation and costing' },
+  { code: 'CPCCOM1013', name: 'Plan and organise work' },
+  { code: 'CPCCOM1014', name: 'Conduct workplace communication' },
+];
 const faqExamples = [
   { q: 'Is the course mandatory?', a: 'Yes, the regulator requires an approved course before it issues your permit.', open: true },
   { q: 'How long does it take?', a: 'Most people finish online in a few hours, at their own pace.' },
@@ -562,8 +572,8 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">PartnerDisclosure</span><span class="sg-desc">ASQA-accredited RTO-partner disclosure (White Card etc.).</span><span class="sg-props">partner · rto · unitCode? · unitName? · credential?</span></div>
-      <div class="sg-demo"><PartnerDisclosure partner="Blue Dog Training" rto="31193" unitCode="CPCWHS1001" unitName="Prepare to work safely in the construction industry" credential="Statement of Attainment" /></div>
+      <div class="sg-meta"><span class="sg-name">PartnerDisclosure</span><span class="sg-desc">ASQA-accredited RTO-partner disclosure (White Card etc.).</span><span class="sg-props">partner · rto · units?[] (code · name) · credential?</span></div>
+      <div class="sg-demo"><PartnerDisclosure partner="Blue Dog Training" rto="31193" units={[{ code: 'CPCWHS1001', name: 'Prepare to work safely in the construction industry' }]} credential="Statement of Attainment" /><PartnerDisclosure partner="Upskill Institute" rto="45708" units={partnerUnitsEx} credential="Statement of Attainment" /></div>
     </div>
   </section>
 
