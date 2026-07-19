@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-redirects.mjs",
     "build": "astro build",
+    "postbuild": "node scripts/check-redirect-targets.mjs",
     "preview": "astro preview",
     "check": "astro check",
+    "lint:prose": "node scripts/prose-lint.mjs",
     "prepare": "husky"
   },
   "dependencies": {

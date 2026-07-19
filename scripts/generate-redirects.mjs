@@ -3,9 +3,13 @@
 // source of truth; this script is the only thing that writes public/_redirects, so
 // never hand-edit that file.
 //
-// redirects.csv right now holds the Wave 0 SPIKE sample only (12 rows), not the full
-// signed-off map: the full redirect-map-v1.csv import is gated on Andrey's W0-9
-// sign-off (the thin-trade-hub IA call and the two TAS CONFIRM flags) - see HANDOVER.md.
+// redirects.csv holds the full signed-off map (W1-6, 19 Jul 2026), not the Wave 0 spike
+// sample this comment used to describe. Both W0-9 CONFIRM flags are resolved.
+//
+// This runs automatically as npm `prebuild`, so public/_redirects cannot drift from the
+// CSV just because someone forgot to regenerate it. `postbuild` then runs
+// scripts/check-redirect-targets.mjs, which asserts every internal target actually
+// resolves to a page - a separate assertion from the map being well-formed.
 //
 // Canonical URL form is no-slash (CLAUDE.md "Canonical URL form"). Rules:
 //   redirect / retire  -> emit BOTH the no-slash and the /slash legacy variant, each a

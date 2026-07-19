@@ -18,7 +18,25 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
+
+      # Type-checks .astro frontmatter and inline scripts. The script has existed since
+      # Wave 0 but was never wired into CI, so TypeScript errors could ship - six were
+      # sitting in main when this step was added (five in SiteHeader's nav controller,
+      # one widened prop literal in the styleguide), all fixed in the same commit.
+      # Runs before the build so a type error fails fast rather than after Lighthouse.
+      - name: Type check
+        run: npm run check
+
+      # `npm run build` now carries two redirect hooks: `prebuild` regenerates
+      # public/_redirects from redirects.csv, and `postbuild` asserts every internal
+      # redirect target resolves to a real page in dist/.
       - run: npm run build
+
+      # public/_redirects is generated, so a hand-edit or a stale commit would silently
+      # ship a redirect map that does not match its source of truth. prebuild has just
+      # rewritten it from the CSV; if that changed anything, the committed copy was wrong.
+      - name: Redirect artifact is in sync with redirects.csv
+        run: git diff --exit-code -- public/_redirects
 
       # IMPORTANT: the npm package literally named "lhci" is an unrelated, unofficial
       # package (it just prints a greeting) - a trap discovered while wiring this job up.

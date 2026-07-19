@@ -1,0 +1,31 @@
+---
+// Hub route stub. One of these per hub, deliberately, rather than a shared dynamic route.
+//
+// The `hubs` collection cannot be folded into src/pages/[slug]/index.astro: putting
+// CourseLayout and HubLayout behind one page file pulls both layouts' component graphs
+// into the same Rollup entry, which is how commit 1c75bb2 leaked BundleOffer's and
+// ProcessTrack's scoped stylesheets onto every course page. That was reverted. Only six
+// components in this repo carry scoped <style> blocks, and those two are among them, so
+// the leak is a real hazard rather than a theoretical one.
+//
+// A per-hub stub keeps each layout in its own module graph. It also costs nothing at the
+// URL level: static routes outrank dynamic ones in Astro, and [slug]'s getStaticPaths only
+// ever emits the four course ids, so there is no collision. /cpd and /cpd-tas already prove
+// the pattern.
+//
+// The trade-off is that a hub MDX with no stub renders silently nowhere. The guardrails
+// bijection assert (A2) is what closes that hole - do not add a hub without it.
+import { getEntry, render } from 'astro:content';
+import HubLayout from '../layouts/HubLayout.astro';
+
+const HUB_ID = 'owner-builder-courses';
+const entry = await getEntry('hubs', HUB_ID);
+// Names the id it looked for, because the two ways this fails are indistinguishable
+// otherwise: the MDX is genuinely absent, or the id here is a typo. A message that only
+// blames the file sends you looking in the wrong place.
+if (!entry) throw new Error(`No entry '${HUB_ID}' in the hubs collection. Expected src/content/hubs/${HUB_ID}.mdx - check the file exists and that this id matches its filename.`);
+const { Content } = await render(entry);
+---
+<HubLayout hub={entry.data}>
+  <Content />
+</HubLayout>

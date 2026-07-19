@@ -1,0 +1,96 @@
+---
+# The owner builder hub. Second-biggest page on the site by impressions (59.9k over 16
+# months, position 8.2), and the single largest equity-protect job in the migration, so the
+# slug is unchanged and the canonical is slash-less: this URL is byte-identical to the one
+# live today and takes no redirect at cutover.
+#
+# Every per-state figure below is resolved from the spoke course entries, not re-researched
+# here: prices come from the course frontmatter via `spokes` at render time, and the
+# comparison rows quote the same values the spokes already carry with their own dated
+# sources. A hub that restates government facts independently is a hub that drifts from its
+# spokes, so it deliberately does not.
+#
+# NSW is absent because the course does not exist yet (built in A5, first ASQA page). Add
+# its spoke and a fifth comparison column in the same commit that lands it.
+title: "Owner Builder Courses Australia - QLD, WA, TAS, ACT | ABE Education"
+description: "Owner builder courses by state. Approved courses for Queensland, Tasmania and the ACT, and the knowledge course supporting a Western Australian Form 75. Online and self-paced, from $179."
+canonical: "https://www.abeeducation.edu.au/owner-builder-courses"
+intro: "Owner builder requirements are set state by state, so the course you need depends on where you are building, not where you live. ABE runs the regulator-approved course in Queensland, Tasmania and the ACT, and the knowledge course that supports a Western Australian owner builder approval. Choose your state to see what applies."
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "Owner Builder Courses", item: "https://www.abeeducation.edu.au/owner-builder-courses" }
+reviewedBy: { name: "Dominic Ogburn", href: "https://www.linkedin.com/in/dominic-ogburn", date: "19 July 2026" }
+nav:
+  - { label: "Choose your state", href: "#spokes", sectionId: "spokes" }
+  - { label: "Compare", href: "#compare", sectionId: "compare" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+hero:
+  eyebrow: "Owner Builder"
+  h1Html: 'Owner builder courses, by state<span class="dot">.</span>'
+  updated: "Updated July 2026"
+  subhead: "Each state regulates owner building differently. Pick your state below for the course that applies there, what it costs, and what the regulator asks for."
+  cta: { href: "#spokes", label: "Choose your state", microcopy: "Four states available, online and self-paced" }
+sticky:
+  label: "Owner Builder Courses"
+  sub: "QLD · WA · TAS · ACT"
+  price: "from $179"
+  cta: { href: "#spokes", label: "Choose your state" }
+# Spoke order follows measured search demand rather than alphabetical: WA and TAS carry the
+# most clicks of the four, so they lead. `blurb` is the only hub-authored text per spoke -
+# state, course name, price and URL all resolve from the course entry itself.
+spokes:
+  - course: "wa-owner-builder-course"
+    blurb: "Western Australia does not run an approved course. The Building Services Board asks you to show sufficient knowledge of an owner builder's duties, and accepts a WA-specific course completed within the last two years, plus a White Card, as that evidence for your Form 75."
+  - course: "tas-owner-builder-course"
+    blurb: "The CBOS-approved course for a Tasmanian owner builder permit. For a home, complete it within the twelve months before you lodge at Service Tasmania."
+  - course: "qld-owner-builder-course"
+    blurb: "The QBCC-approved course for a Queensland owner builder permit, required once residential work is worth more than $11,000 including GST."
+  - course: "act-owner-builder-course"
+    blurb: "The course accepted by Access Canberra for an ACT owner builder licence, Class 1 or Class 2. Your certificate must be under five years old when you apply."
+comparison:
+  caption: "Course fees are ABE's and GST-free. Government fees are set by each regulator and paid separately when you lodge. Completion windows are measured back from the day you lodge, not forward from the day you pass, and Tasmania's twelve months applies to a home (Class 1a). Figures are current at the verification dates in the Sources block below."
+  columns:
+    - { key: "wa", label: "WA", href: "/wa-owner-builder-course" }
+    - { key: "tas", label: "TAS", href: "/tas-owner-builder-course" }
+    - { key: "qld", label: "QLD", href: "/qld-owner-builder-course" }
+    - { key: "act", label: "ACT", href: "/act-owner-builder-course" }
+  rows:
+    - { label: "Course fee", values: ["$179", "$185", "$179", "$179"] }
+    - { label: "Government fee", values: ["$212", "$470.40", "$493.59", "$320.20"] }
+    - { label: "Regulator", values: ["Building and Energy", "CBOS", "QBCC", "Access Canberra"] }
+    - { label: "What you apply for", values: ["Owner builder approval (Form 75)", "Owner builder permit", "Owner builder permit", "Owner builder licence"] }
+    - { label: "Course status", values: ["Supports your approval", "CBOS-approved", "QBCC-approved", "Accepted by Access Canberra"] }
+    # Measured BACK from the date you lodge, not forward from the date you pass. WA's value
+    # is the Building Services Board's two-year acceptance window for a WA-specific course.
+    # Do not put the WA page's "same day" figure here: that is how fast the certificate is
+    # issued, not how long it stays current, and the other three columns are currency.
+    - { label: "Course completed within", values: ["2 yrs", "12 mths", "5 yrs", "5 yrs"] }
+    - { label: "Pass mark", values: ["80%", "80%", "80%", "80%"] }
+faqs:
+  - q: "Which state's course do I need?"
+    a: "The one for the state where the building work is, not where you live. If you live in Victoria and are building in Tasmania, you need the Tasmanian course and a Tasmanian permit."
+    open: true
+  - q: "Can I use one state's certificate in another state?"
+    a: "No. Each regulator approves its own course against its own legislation, and a certificate is only recognised by the regulator it was designed for. If you build in two states you need both courses."
+  - q: "How long is my certificate valid?"
+    a: "It varies by state, and it is measured back from the date you apply rather than forward from the date you pass. Queensland and the ACT accept a certificate up to five years old. Tasmania asks that a home owner builder complete the course within the twelve months before lodging. Western Australia's Building Services Board accepts a WA-specific course completed within the last two years, alongside a White Card. Complete the course before you lodge, and check the window still covers you if the application has been sitting a while."
+  - q: "Do I complete the course before or after I apply?"
+    a: "Before. Every one of these regulators wants the certificate lodged as part of the application, so the course is a prerequisite, not a follow-up."
+  - q: "Is ABE a registered training organisation?"
+    a: "No, and these courses are not nationally recognised training. They are the regulator-approved or regulator-accepted owner builder courses for their states, issued as a Certificate of Completion. That is exactly what each of these applications asks for."
+ctaBand:
+  headingHtml: 'Ready to start<span class="dot">?</span>'
+  sub: "Pick your state, enrol online, and complete the course at your own pace. Your certificate is emailed the moment you pass."
+  cta: { href: "#spokes", label: "Choose your state" }
+footerSources:
+  - { label: "WA - Owner-builder approval", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 7 Jul 2026" }
+  # Cited because the table and FAQ now state WA's two-year completion window. Same source
+  # the WA course page uses for it.
+  - { label: "BSB - Sufficient knowledge of the duties and responsibilities of an owner-builder (PDF)", href: "https://www.wa.gov.au/system/files/2024-10/bsb_policy_-_sufficient_knowledge_of_the_duties_and_responsibilities_of_an_owner-builder.pdf", verified: "Board-approved 10 Sep 2024" }
+  - { label: "CBOS - Owner builder permit", href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit", verified: "Verified 14 Jul 2026" }
+  - { label: "QBCC - Required courses for owner-builders", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders", verified: "Verified 24 Jun 2026" }
+  - { label: "ACT Planning - Construction licences", href: "https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences", verified: "Verified 15 Jul 2026" }
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. The owner builder courses listed here are approved or accepted by their state regulator and are issued as a Certificate of Completion, not as nationally recognised training. Government fees are set by each regulator, change on their own cycles, and are paid directly to them.</p>"
+publishedAt: "2026-07-19"
+lastReviewedAt: "2026-07-19"
+---
