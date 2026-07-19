@@ -40,22 +40,45 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   {ogImage && <meta name="twitter:image" content={ogImage} />}
-  {/* Fonts are self-hosted from /fonts (see the @font-face block at the top of global.css).
-      This replaced a Google Fonts stylesheet loaded via a media="print" onload swap, which
-      kept fonts off the critical path but still put them on a third-party origin.
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {/* Non-render-blocking font load (the W0-6 Lighthouse gate asserts zero render-blocking
+      third-party requests). A plain <link rel="stylesheet"> to Google Fonts blocks first
+      paint on a third-party origin; loading it as a print stylesheet that swaps to `all`
+      once fetched keeps the exact same fonts and the existing display=swap fallback, just
+      off the critical rendering path. The <noscript> keeps the fonts synchronous with JS
+      disabled, so nothing regresses for that case.
 
-      DELIBERATELY NOT PRELOADED. Preloading Archivo and DM Sans was tried and measurably
-      made things worse: LCP on a course page went from ~1804ms to ~2255ms and the
-      performance score fell to 0.98. The reason is that the LCP element here is the hero
-      AVIF, not text - it already carries loading="eager" fetchpriority="high" - and a font
-      preload in <head> is fetched at high priority too, so 72KB of fonts won the race
-      against the image that actually paints. Resource timings confirmed it: the two woff2
-      files started ahead of both global.css and the hero image.
+      SELF-HOSTING WAS TRIED AND REVERTED (19-20 Jul 2026). Migration plan v2 §6.2 asks for
+      self-hosted subset woff2, and on paper it is the better answer: no third-party origin,
+      no extra DNS or TLS, no privacy surface. Measured on a course page, three runs each,
+      dev server stopped:
 
-      font-display:swap makes preloading unnecessary anyway. Text paints immediately in the
-      fallback and swaps when the face arrives, so the fonts are never on the critical path.
-      Do not "optimise" this by adding preloads back without measuring LCP before and
-      after on a throttled run. */}
+        Google Fonts (this)                  FCP ~1000ms   LCP 1506ms   score 1.00
+        self-hosted, 102KB                   FCP ~1815ms   LCP 2258ms   score 0.97
+        self-hosted, subset to 93KB          FCP ~1663ms   LCP 2259ms   score 0.98
+        self-hosted, @font-face off crit path              LCP 2260ms
+        self-hosted + preload Archivo                      LCP 3009ms
+
+      LCP is pinned near 2258ms no matter what is done to the bytes, which is a latency
+      bound, not a bandwidth one. The LCP element is the <h1>, set in Archivo. Self-hosted,
+      the face is reached via HTML -> CSS -> font: three sequential round trips at Lantern's
+      simulated 562.5ms RTT, and the h1 repaints on swap at the end of them. Loaded this way
+      the faces sit on a separate origin behind a non-blocking stylesheet, so they never
+      enter that chain at all.
+
+      Before re-attempting: the 750ms is substantially a Lighthouse simulation artifact
+      (Lantern models bandwidth per origin), so self-hosting may well be faster for real
+      users while measuring worse here. Reverted because the CI gate is the thing that
+      blocks merges. If you revisit it, measure LCP before and after on a throttled run and
+      do not assume preloading helps - it measured worst of everything tried. */}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>
