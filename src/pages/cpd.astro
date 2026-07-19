@@ -4,6 +4,7 @@ import WayfinderNav from '../components/WayfinderNav.astro';
 import Section from '../components/Section.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import TopicGrid from '../components/TopicGrid.astro';
+import HubCard from '../components/HubCard.astro';
 import Faq from '../components/Faq.astro';
 import Note from '../components/Note.astro';
 import VerifiedSources from '../components/VerifiedSources.astro';
@@ -35,22 +36,21 @@ const nav = [
   { label: 'FAQ', href: '#faq', sectionId: 'faq' },
 ];
 
-// State chooser cards. The per-state CPD pages (/cpd-tas, /cpd-nsw, /cpd-wa) do not
-// exist yet, on this site or the old one, so their calls to action are rendered as
-// inert "coming soon" text rather than links to a 404. Restore the <a> the moment the
-// page ships. Scoped styles do not reach TopicGrid's set:html body, hence the inline
-// style rather than a class.
-// .btn-link no longer carries an underline, so state the dashed rule outright rather
-// than only overriding its style.
-const soonCta = (label: string) => `<span class="btn-link" style="opacity:.45;cursor:default;border-bottom:1px dashed currentColor;padding-bottom:3px">${label} coming soon</span>`;
-
-const stateCards: TopicCard[] = [
-  { tag: 'Tasmania', title: 'Building · Plumbing · Electrical CPD',
-    body: 'Regulator: <b>CBOS Tasmania</b>. ABE is listed as a CPD training provider on the CBOS website. ' + soonCta('Tasmania CPD courses') },
-  { tag: 'New South Wales', title: 'Building CPD',
-    body: 'Regulator: <b>Building Commission NSW</b>. Meets the NSW builder CPD criteria under the Home Building Act 1989. ' + soonCta('NSW Building CPD') },
-  { tag: 'Western Australia', title: 'Real Estate CPD',
-    body: 'Regulator: <b>Consumer Protection WA</b>. Covers the mandatory real estate CPD points required each year. ' + soonCta('WA Real Estate CPD') },
+// State entry points. These were TopicGrid cards with a hand-built "coming soon" span,
+// inline-styled because scoped styles cannot reach TopicGrid's set:html body. HubCard
+// already models exactly this shape - state badge, title, description, and a live/soon
+// distinction - and it swaps <a> for <div> when soon, so an unavailable card is not a
+// link at all rather than a link that looks disabled. No inline style, no new component.
+//
+// Tasmania is now LIVE. /cpd-tas shipped, and this hub was still advertising it as coming
+// soon, dead-ending a page that exists. NSW and WA remain genuinely unbuilt (B3).
+const stateCards = [
+  { state: 'Tasmania', title: 'Building · Plumbing · Electrical CPD', href: '/cpd-tas',
+    desc: 'Regulator: CBOS Tasmania. ABE is listed as a CPD training provider on the CBOS website.', price: 'from $449' },
+  { state: 'New South Wales', title: 'Building CPD', soon: true,
+    desc: 'Regulator: Building Commission NSW. Meets the NSW builder CPD criteria under the Home Building Act 1989.' },
+  { state: 'Western Australia', title: 'Real Estate CPD', soon: true,
+    desc: 'Regulator: Consumer Protection WA. Covers the mandatory real estate CPD points required each year.' },
 ];
 
 // Why ABE — reasons as cards.
@@ -148,8 +148,8 @@ const schema = {
 
   <Section id="choose-state" bg="bg-alt" eyebrow="Choose your state" h2="Find the CPD that applies to your licence">
     <AnswerCapsule>ABE currently offers CPD in three states. Pick yours to see the courses and points that apply, and the fees for each.</AnswerCapsule>
-    <TopicGrid items={stateCards} />
-    <Note><b>Fees:</b> course fees are shown on each state page, alongside the points each course carries. Need several points at once? Tasmania CPD points bundles are coming soon.</Note>
+    <div class="hub-grid">{stateCards.map((c) => <HubCard {...c} />)}</div>
+    <Note><b>Fees:</b> course fees are shown on each state page, alongside the points each course carries. Need several points at once? The <a href="/cpd-tas#bundles">Tasmanian trade bundles</a> cover a full year in one purchase, from $449.</Note>
     <VerifiedSources date="10 July 2026" facts="Regulator and CPD requirement fact-checked per state" sources={[
       { label: 'CBOS Tasmania — CPD', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd' },
       { label: 'Building Commission NSW', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission' },
