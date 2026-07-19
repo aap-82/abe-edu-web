@@ -40,7 +40,7 @@ sticky:
 # state, course name, price and URL all resolve from the course entry itself.
 spokes:
   - course: "wa-owner-builder-course"
-    blurb: "Western Australia does not run an approved course. Building and Energy asks you to show sufficient knowledge of an owner builder's duties, and this course is how you evidence that on your Form 75 application."
+    blurb: "Western Australia does not run an approved course. The Building Services Board asks you to show sufficient knowledge of an owner builder's duties, and accepts a WA-specific course completed within the last two years, plus a White Card, as that evidence for your Form 75."
   - course: "tas-owner-builder-course"
     blurb: "The CBOS-approved course for a Tasmanian owner builder permit. For a home, complete it within the twelve months before you lodge at Service Tasmania."
   - course: "qld-owner-builder-course"
@@ -48,7 +48,7 @@ spokes:
   - course: "act-owner-builder-course"
     blurb: "The course accepted by Access Canberra for an ACT owner builder licence, Class 1 or Class 2. Your certificate must be under five years old when you apply."
 comparison:
-  caption: "Course fees are ABE's and GST-free. Government fees are set by each regulator and paid separately when you lodge. Figures are current at the verification dates in the Sources block below."
+  caption: "Course fees are ABE's and GST-free. Government fees are set by each regulator and paid separately when you lodge. Completion windows are measured back from the day you lodge, not forward from the day you pass, and Tasmania's twelve months applies to a home (Class 1a). Figures are current at the verification dates in the Sources block below."
   columns:
     - { key: "wa", label: "WA", href: "/wa-owner-builder-course" }
     - { key: "tas", label: "TAS", href: "/tas-owner-builder-course" }
@@ -60,7 +60,11 @@ comparison:
     - { label: "Regulator", values: ["Building and Energy", "CBOS", "QBCC", "Access Canberra"] }
     - { label: "What you apply for", values: ["Owner builder approval (Form 75)", "Owner builder permit", "Owner builder permit", "Owner builder licence"] }
     - { label: "Course status", values: ["Supports your approval", "CBOS-approved", "QBCC-approved", "Accepted by Access Canberra"] }
-    - { label: "Certificate currency", values: ["Same day", "12 mths", "5 yrs", "5 yrs"] }
+    # Measured BACK from the date you lodge, not forward from the date you pass. WA's value
+    # is the Building Services Board's two-year acceptance window for a WA-specific course.
+    # Do not put the WA page's "same day" figure here: that is how fast the certificate is
+    # issued, not how long it stays current, and the other three columns are currency.
+    - { label: "Course completed within", values: ["2 yrs", "12 mths", "5 yrs", "5 yrs"] }
     - { label: "Pass mark", values: ["80%", "80%", "80%", "80%"] }
 faqs:
   - q: "Which state's course do I need?"
@@ -69,7 +73,7 @@ faqs:
   - q: "Can I use one state's certificate in another state?"
     a: "No. Each regulator approves its own course against its own legislation, and a certificate is only recognised by the regulator it was designed for. If you build in two states you need both courses."
   - q: "How long is my certificate valid?"
-    a: "It varies by state, and it is measured back from the date you apply rather than forward from the date you pass. Queensland and the ACT accept a certificate up to five years old. Tasmania asks that a home owner builder complete the course within the twelve months before lodging. Western Australia issues yours the same day for your Form 75."
+    a: "It varies by state, and it is measured back from the date you apply rather than forward from the date you pass. Queensland and the ACT accept a certificate up to five years old. Tasmania asks that a home owner builder complete the course within the twelve months before lodging. Western Australia's Building Services Board accepts a WA-specific course completed within the last two years, alongside a White Card. Complete the course before you lodge, and check the window still covers you if the application has been sitting a while."
   - q: "Do I complete the course before or after I apply?"
     a: "Before. Every one of these regulators wants the certificate lodged as part of the application, so the course is a prerequisite, not a follow-up."
   - q: "Is ABE a registered training organisation?"
@@ -80,6 +84,9 @@ ctaBand:
   cta: { href: "#spokes", label: "Choose your state" }
 footerSources:
   - { label: "WA - Owner-builder approval", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 7 Jul 2026" }
+  # Cited because the table and FAQ now state WA's two-year completion window. Same source
+  # the WA course page uses for it.
+  - { label: "BSB - Sufficient knowledge of the duties and responsibilities of an owner-builder (PDF)", href: "https://www.wa.gov.au/system/files/2024-10/bsb_policy_-_sufficient_knowledge_of_the_duties_and_responsibilities_of_an_owner-builder.pdf", verified: "Board-approved 10 Sep 2024" }
   - { label: "CBOS - Owner builder permit", href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit", verified: "Verified 14 Jul 2026" }
   - { label: "QBCC - Required courses for owner-builders", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/required-courses-owner-builders", verified: "Verified 24 Jun 2026" }
   - { label: "ACT Planning - Construction licences", href: "https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences", verified: "Verified 15 Jul 2026" }
