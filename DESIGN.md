@@ -5,6 +5,7 @@ colors:
   maroon: "#800000"
   maroon-dark: "#5a0000"
   verify-blue: "#2f5d8c"
+  verify-deep: "#1e3d5c"
   ok-green: "#2e7d5b"
   gold: "#d4a843"
   ink: "#1a1a1a"
@@ -127,7 +128,7 @@ It explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient
 **Key Characteristics:**
 - Flat by default: 1px hairline rules and tonal grounds carry structure, never shadow.
 - One maroon accent, spent at 10% or less, so it always signifies.
-- A dedicated verify-blue that appears only on sourced, dated facts.
+- Two verify blues, deep and mid, that appear only on sourced, dated facts.
 - Monospace uppercase for all micro-type: eyebrows, keys, captions, source lines.
 - Generous vertical rhythm (up to 112px section padding) and tabular figures on every number.
 
@@ -140,8 +141,9 @@ A warm, near-monochrome paper system with one authoritative maroon and a small s
 - **Maroon Dark** (`#5a0000`): pressed and hover-on-dark states of the maroon only. Never a fill.
 
 ### Secondary (functional signals, never decorative)
-- **Verify Blue** (`#2f5d8c`): a trust colour. It appears only on the verified-source line's date and its citation links on hover. If something is blue, it has been sourced and dated.
-- **Verified Green** (`#2e7d5b`): the tick glyph in the verified-source line, and nothing else. It is the single "this checks out" mark in the system.
+- **Verify Deep** (`#1e3d5c`): the attestation mark. The tick glyph and the word `VERIFIED` beside it, and nothing else. The two together are one signature, so they carry one colour.
+- **Verify Blue** (`#2f5d8c`): the same trust colour, one step lighter. The verification **date**, and citation links on hover. If something is blue, it has been sourced and dated; the deeper blue signs it, the lighter one dates and cites it.
+- **Verified Green** (`#2e7d5b`): **retired 20 Jul 2026**, and currently unused. It was the tick glyph. The tick joined the `VERIFIED` label in Verify Deep because a green glyph beside a grey word read as two unrelated things rather than one mark. The token remains defined but is referenced nowhere; give it a job or delete it, do not reintroduce it decoratively.
 
 ### Tertiary
 - **Attestation Gold** (`#d4a843`): the on-dark accent. Used only inside ink-grounded sections (trust band, dark capsule border, dark wayfinder link) where maroon would go muddy.
@@ -157,7 +159,7 @@ A warm, near-monochrome paper system with one authoritative maroon and a small s
 ### Named Rules
 **The One Maroon Rule.** Maroon is the only brand accent and never covers more than roughly 10% of a screen. It is for marks, ticks, hovers, and active states, never for large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.
 
-**The Signal-Colour Rule.** Verify Blue and Verified Green are reserved exclusively for sourced-and-dated facts. They are forbidden as decorative or interface colours. Blue and green on this site are a promise that a claim is backed. Neither ever carries meaning alone: they always sit beside the word VERIFIED and a date, so the signal survives greyscale and colour blindness.
+**The Signal-Colour Rule.** Both verify blues are reserved exclusively for sourced-and-dated facts. They are forbidden as decorative or interface colours. Blue on this site is a promise that a claim is backed. It never carries meaning alone: it always sits beside the word VERIFIED and a date, so the signal survives greyscale and colour blindness. Both pass WCAG AA at the 12px this type is set in (Verify Deep 10.2:1, Verify Blue 6.24:1 on the warm ground).
 
 ## 3. Typography
 
@@ -208,7 +210,7 @@ The section-opening label: DM Mono uppercase, 11px, 0.18em tracking, slate, prec
 ### Verified Source Line (signature)
 The trust device, and the most literal expression of the North Star. A two-column mono ledger, top-aligned:
 
-- **Left column:** the word `VERIFIED` in slate uppercase, preceded by a small **green tick**; the verification **date** sits beneath it in verify-blue.
+- **Left column:** the word `VERIFIED` in uppercase preceded by a small tick, both in **verify-deep** as a single mark; the verification **date** sits beneath it in the lighter **verify-blue**.
 - **Right column:** what was checked, then the linked authorities, reading as *"[fact] fact-checked against the current Act against [Source], [Source]"*.
 
 Every government fact block ends in one, and they feed the page-foot Sources list.
@@ -244,7 +246,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 - **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#fafafa` to `#f7f4ef` to `#1a1a1a`).
 - **Do** set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.
 - **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile. Never a large fill.
-- **Do** reserve Verify Blue (`#2f5d8c`) and Verified Green (`#2e7d5b`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.
+- **Do** reserve Verify Deep (`#1e3d5c`) and Verify Blue (`#2f5d8c`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.
 - **Do** put `tabular-nums` on every price and statistic (the `.num` class).
 - **Do** give sections room: up to 112px (`--s-3xl`) vertical padding, easing to 64px on mobile.
 - **Do** use Ink (`#1a1a1a`) for text and dark grounds; on ink sections, switch the accent to Attestation Gold (`#d4a843`).

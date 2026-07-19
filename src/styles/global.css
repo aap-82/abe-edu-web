@@ -275,9 +275,21 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    (the tick and date); the sources sit in slate so they do not speckle the page. */
 /* top-align the two columns: baseline alignment took the left column's baseline from the
    tick svg (which has none) instead of the VERIFIED text, riding the label 2px high */
-/* align-items:stretch, not start, so the divider below spans the full row rather than only
-   the height of whichever column happens to be shorter. */
-.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:stretch;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
+/* The measure cap moved OFF the component and ONTO the text (see .v-body). It used to sit
+   here as max-width:74ch, which had two problems. `ch` resolves against the element's own
+   font, and this element is 12px DM Mono where a character is 7.2px, so 74ch was 533px -
+   DESIGN.md's 65-75ch guidance is for reading copy in 17px DM Sans and produces a much
+   longer line there. And the cap applied to the whole component, so the 84px date column
+   and the gap ate into it: the text itself only ever got about 60 characters, in a
+   container offering 1200px. Capping the text instead gives the sentence its intended
+   measure and lets the ledger be as wide as it needs to be.
+
+   Dashed rule above, no divider between the columns. The boundary that carries meaning is
+   between the claim and its attestation, not between a date and a sentence - nobody was
+   confusing those two. A ledger rules above its total, not down its middle. Dashed rather
+   than solid because this annotates the section rather than structuring it: solid is
+   structure, dashed is the edge of a note, dotted (see ModuleRows) separates within one. */
+.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:start;margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px dashed var(--rule-strong);font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
 /* Colour is applied per element, not set on the container and overridden back. .v-date used
    to carry --verify and .v-label then reset itself to slate, which left the date blue only
    by inheritance rather than intent - fragile, and it read as an inconsistency because two
@@ -295,20 +307,17 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    and the links (5.10:1) around it all passed. The least readable text in the component was
    the part that says what was actually checked. --slate passes on all three grounds
    (5.10 / 4.89 / 4.65). PRODUCT.md targets WCAG 2.1 AA. */
-/* Hairline between the attestation and what it attests to. The two columns are different
-   kinds of thing - a signature and a claim - and 18px of whitespace read as one wrapped
-   block. Symmetric 18px either side of the rule. */
-.verified .v-body{color:var(--slate);border-left:1px solid var(--rule);padding-left:18px;}
+/* The measure lives here, on the text, which is what a measure is for. 74ch of 12px mono is
+   the sentence's own line length; the date column and gap now sit outside it instead of
+   eating into it. */
+.verified .v-body{color:var(--slate);max-width:74ch;}
 .verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .verified .v-body a:hover{color:var(--verify);border-color:var(--verify);}
 /* stack the two columns on narrow screens */
-/* Stacked, the column divider has no columns to divide: a 1px line down the left of a
-   full-width block is an orphaned side-stripe, which is a banned pattern in spirit even at
-   1px. It becomes the horizontal rule between the two stacked blocks instead. */
-@media(max-width:640px){
-  .verified{grid-template-columns:1fr;gap:6px;}
-  .verified .v-body{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:8px;}
-}
+/* Stacks below 640px. The dashed top rule carries over unchanged - it separates the note
+   from the section, which is true at every width - so there is nothing responsive left to
+   fix here beyond the column collapse. */
+@media(max-width:640px){ .verified{grid-template-columns:1fr;gap:6px;} }
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
