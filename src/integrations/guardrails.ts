@@ -238,7 +238,7 @@ function lintSource(logger: { warn: (m: string) => void }): string[] {
     // made this assert silently stop working the moment a stub was written the other way,
     // which is exactly the kind of quiet failure it exists to prevent - so it resolves both.
     for (const m of src.matchAll(/getEntry\(\s*['"]hubs['"]\s*,\s*(?:['"]([^'"]+)['"]|([A-Za-z_$][\w$]*))\s*\)/g)) {
-      let id = m[1];
+      let id: string | undefined = m[1];
       if (!id && m[2]) {
         id = src.match(new RegExp(`\\b(?:const|let|var)\\s+${m[2]}\\s*=\\s*['"]([^'"]+)['"]`))?.[1];
         if (!id) {
