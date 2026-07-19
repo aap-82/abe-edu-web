@@ -41,17 +41,21 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
   <meta name="twitter:description" content={description} />
   {ogImage && <meta name="twitter:image" content={ogImage} />}
   {/* Fonts are self-hosted from /fonts (see the @font-face block at the top of global.css).
-      This replaced a Google Fonts stylesheet loaded via the media="print" onload swap - a
-      good trick, but it still put first paint behind a third-party origin we do not
-      control, and left no headroom under the Lighthouse LCP budget. The preconnects it
-      needed are gone with it.
+      This replaced a Google Fonts stylesheet loaded via a media="print" onload swap, which
+      kept fonts off the critical path but still put them on a third-party origin.
 
-      Only the two above-the-fold families are preloaded. DM Mono is deliberately not:
-      it renders eyebrows and data cells, never the LCP element, so preloading it would
-      compete for bandwidth with the fonts that do paint the hero. crossorigin is required
-      on font preloads even same-origin, or the browser fetches the file twice. */}
-  <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
+      DELIBERATELY NOT PRELOADED. Preloading Archivo and DM Sans was tried and measurably
+      made things worse: LCP on a course page went from ~1804ms to ~2255ms and the
+      performance score fell to 0.98. The reason is that the LCP element here is the hero
+      AVIF, not text - it already carries loading="eager" fetchpriority="high" - and a font
+      preload in <head> is fetched at high priority too, so 72KB of fonts won the race
+      against the image that actually paints. Resource timings confirmed it: the two woff2
+      files started ahead of both global.css and the hero image.
+
+      font-display:swap makes preloading unnecessary anyway. Text paints immediately in the
+      fallback and swaps when the face arrives, so the fonts are never on the critical path.
+      Do not "optimise" this by adding preloads back without measuring LCP before and
+      after on a throttled run. */}
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>

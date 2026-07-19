@@ -13,10 +13,8 @@ import SourcesFooter from '../components/SourcesFooter.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page not found — ABE Education</title>
   <meta name="robots" content="noindex,follow" />
-  {/* Fonts self-hosted from /fonts; see the @font-face block in global.css and the
-      note in BaseLayout.astro. */}
-  <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
+  {/* Fonts self-hosted from /fonts; see the @font-face block in global.css. Not
+      preloaded - see the note in BaseLayout.astro for the measurement that ruled it out. */}
 </head>
 <body>
   <SiteHeader />
