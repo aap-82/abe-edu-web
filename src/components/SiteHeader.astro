@@ -22,7 +22,12 @@
 // back to inline JSX. Sticky and layout rules use header.site-head as the selector so
 // they beat global.css whatever the stylesheet order.
 
-const logo = 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/ABE%20Education%20Online%20Owner%20Builder%20CPD%20Training%20Provider.svg';
+// 7.9KB of real vector. The file this replaced was 591KB: an SVG wrapper around a single
+// base64-encoded raster (one <path>, one base64 blob), so every page on the site shipped
+// 591KB to draw a 32px mark. Found while profiling LCP, where it was the heaviest asset on
+// the page by an order of magnitude. If this URL is ever swapped again, check the byte size
+// first: "it's an SVG" does not mean it is vector.
+const logo = 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/ABE%20Logo%20SVG.svg';
 
 interface Sub { code: string; name: string; href?: string; soon?: boolean; desc: string; }
 interface Feature { kicker: string; title: string; body: string; price?: string; }

@@ -1,0 +1,201 @@
+---
+// The trade-bundle chooser. Three parallel bundles the reader picks between by trade, not
+// a cross-sell: BundleOffer is the cross-sell (one bundle, receipt tally, inside a course
+// page) and does a different job.
+//
+// This exists because the bundles were being rendered through TopicGrid, which carries a
+// tag, a title and a prose blob and nothing else. With no slot for a price, a points
+// figure or an action, all three ended up crammed into one sentence with the saving in an
+// inline-styled span and the CTA as a text link at the end of a paragraph. The cramped
+// layout was the symptom; the missing component was the cause.
+//
+// Reader's job: "I'm a plumber, which one is mine, what does it cost, what do I get."
+// Identify then act, so scan order is trade -> what it covers -> the numbers -> action.
+//
+// Register: flat paper card, 1px hairline, 6px radius, no shadow. Micro-type is DM Mono
+// uppercase. Every figure carries tabular numerals so the three cards' prices align down
+// the row. Maroon appears once, on the saving, which is the only thing on the card that
+// benefits from being the loudest.
+//
+// Unlike BundleOffer, this DOES lead with a discount, because unlike BundleOffer these
+// bundles are genuinely discounted ($499 against $1,188 bought singly). BundleOffer's
+// "sell completeness, never a saving" rule exists because its total is the exact sum of
+// its parts. That is not the case here, and hiding a real saving would fail PRODUCT.md's
+// "price the whole truth" more than showing it.
+export interface Bundle {
+  trade: string;
+  title: string;
+  /** One line on what the bundle covers. Kept short: the ledger carries the facts. */
+  blurb: string;
+  points: string;
+  /** Short factual value, e.g. "Online". NOT the course count: every course is worth
+   *  exactly 1 point, so a Courses row would restate Points and the blurb both. */
+  delivery: string;
+  /** Omit price + rrp for a bundle that is not on sale yet; the card renders a soon state. */
+  price?: string;
+  rrp?: string;
+  perPoint?: string;
+  cta?: { href: string; label: string };
+  /** Rendered under the ledger. Used for the Plumber bundle's 11-of-12 honesty note. */
+  foot?: string;
+  soonLabel?: string;
+}
+interface Props { items: Bundle[]; }
+const { items } = Astro.props;
+
+// Derived here rather than authored per card, so a price edit cannot leave a stale saving
+// behind it. Returns null when either figure is absent or unparseable, and the card simply
+// omits the saving line rather than printing "$NaN".
+function saving(price?: string, rrp?: string): string | null {
+  const n = (s?: string) => (s ? Number(s.replace(/[^0-9.]/g, '')) : NaN);
+  const p = n(price), r = n(rrp);
+  if (!Number.isFinite(p) || !Number.isFinite(r) || r <= p) return null;
+  return '$' + Math.round(r - p).toLocaleString('en-AU');
+}
+---
+<ul class="bundle-cards" role="list">
+  {items.map((b) => {
+    const save = saving(b.price, b.rrp);
+    const isSoon = !b.price;
+    return (
+      <li class:list={['bcard', { 'is-soon': isSoon }]}>
+        <span class="bc-trade">{b.trade}</span>
+        <h3 class="bc-title">{b.title}</h3>
+        <p class="bc-blurb">{b.blurb}</p>
+
+        <dl class="bc-spec">
+          <div class="bc-row">
+            <dt>Points</dt>
+            <dd class="num">{b.points}</dd>
+          </div>
+          <div class="bc-row">
+            <dt>Delivery</dt>
+            <dd>{b.delivery}</dd>
+          </div>
+          {b.perPoint && (
+            <div class="bc-row">
+              <dt>Per point</dt>
+              <dd class="num">{b.perPoint}</dd>
+            </div>
+          )}
+        </dl>
+
+        {b.foot && <p class="bc-foot">{b.foot}</p>}
+
+        <div class="bc-buy">
+          {isSoon ? (
+            <p class="bc-soon">{b.soonLabel ?? 'Pricing coming soon'}</p>
+          ) : (
+            <>
+              {/* <s> is the right element for a superseded price, but on its own a screen
+                  reader just hears two numbers in a row. The visually-hidden labels make
+                  the relationship audible without adding visual noise. */}
+              <p class="bc-price">
+                <span class="bc-amount num">{b.price}</span>
+                {b.rrp && (
+                  <s class="bc-rrp num"><span class="sr-only">Usually </span>{b.rrp}</s>
+                )}
+              </p>
+              {save && <p class="bc-save num">Save {save}</p>}
+            </>
+          )}
+          {b.cta && !isSoon && <a class="btn-primary bc-cta" href={b.cta.href}>{b.cta.label}</a>}
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  /* auto-fit rather than a fixed 3-up: a fourth trade bundle drops in without touching the
+     grid, and at narrow widths the cards stack instead of being squeezed. */
+  .bundle-cards{
+    list-style:none; margin:var(--s-lg) 0 0; padding:0;
+    display:grid; gap:var(--s-md);
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  }
+
+  /* Flex column so .bc-buy can be pushed to the bottom edge with margin-top:auto. Without
+     it, cards with different blurb lengths put their prices and buttons at different
+     heights, which is what makes a row of cards look untidy. */
+  .bcard{
+    display:flex; flex-direction:column;
+    border:1px solid var(--rule); border-radius:6px;
+    background:var(--paper); padding:var(--s-lg);
+  }
+
+  .bc-trade{
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--maroon);
+    display:block; margin-bottom:12px;
+  }
+  .bc-title{
+    font-family:var(--font-display); font-weight:600; font-size:19px;
+    line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin:0 0 8px;
+  }
+  .bc-blurb{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0 0 var(--s-md); }
+
+  /* The density device: a mono key/value ledger, the same idiom as BundleOffer's tally and
+     FactGrid. Hairline-separated rows pack three facts into the height one prose line would
+     take, and stay scannable down the column across all three cards. */
+  .bc-spec{ margin:0; border-top:1px solid var(--rule); }
+  .bc-row{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    padding:9px 0; border-bottom:1px solid var(--rule);
+  }
+  .bc-row dt{
+    font-family:var(--font-mono); font-size:10px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
+  }
+  .bc-row dd{
+    margin:0; font-family:var(--font-display); font-weight:600;
+    font-size:15px; color:var(--ink-2);
+  }
+
+  .bc-foot{
+    font-family:var(--font-mono); font-size:10.5px; line-height:1.5; letter-spacing:.02em;
+    color:var(--slate); margin:var(--s-xs) 0 0;
+  }
+
+  /* margin-top:auto pins the commercial block to the card foot regardless of blurb length,
+     so prices and CTAs line up across the row. */
+  .bc-buy{ margin-top:auto; padding-top:var(--s-md); }
+
+  .bc-price{ display:flex; align-items:baseline; gap:10px; margin:0; }
+  .bc-amount{
+    font-family:var(--font-display); font-weight:600;
+    font-size:32px; line-height:1; letter-spacing:-.015em; color:var(--ink);
+  }
+  .bc-rrp{ font-family:var(--font-display); font-size:15px; color:var(--slate-light); text-decoration-thickness:1px; }
+  .bc-save{
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--maroon);
+    margin:8px 0 0;
+  }
+
+  /* Full-width CTA: this is the card's whole purpose, and a button that spans the card is
+     both the clearest affordance and a comfortable touch target on the phone most of these
+     readers are holding. */
+  .bc-cta{ display:flex; justify-content:center; width:100%; margin-top:var(--s-md); }
+
+  /* Soon state. Deliberately not a disabled button: there is nothing to press, and a greyed
+     button invites a tap that does nothing. A mono line states the fact and the card keeps
+     its place in the row so the trade is still discoverable. */
+  .is-soon{ background:var(--paper-alt); }
+  /* ...and it does NOT bottom-anchor. margin-top:auto exists to line CTAs up across the
+     row; this card has no CTA to line up with, so anchoring it only opened ~200px of dead
+     space between the ledger and the message (measured in-browser). Let it follow the
+     content and leave the slack at the foot, where it reads as a shorter card rather than
+     a floating line. */
+  .is-soon .bc-buy{ margin-top:0; }
+  .bc-soon{
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--slate);
+    margin:0; padding:14px 0; border-top:1px solid var(--rule);
+  }
+
+  @media (max-width:560px){
+    .bcard{ padding:var(--s-md); }
+    .bc-amount{ font-size:28px; }
+  }
+</style>

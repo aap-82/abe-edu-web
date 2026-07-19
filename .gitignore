@@ -5,3 +5,11 @@ dist/
 .lighthouseci/
 *.log
 .DS_Store
+
+# Search Console exports. Deliberately never committed: this repo is public, and these
+# files are ABE's commercial search data - traffic, query demand and ranking positions
+# across ~1,000 queries. Git history is permanent, so a single accidental commit publishes
+# the competitive position for good. Keep the zips local; unzip to a scratchpad, never
+# into the repo tree. Real path is data/GSC (lowercase data, uppercase GSC - Windows hides
+# the difference, Linux does not).
+data/

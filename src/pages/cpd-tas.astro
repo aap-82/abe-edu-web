@@ -6,6 +6,8 @@ import AnswerCapsule from '../components/AnswerCapsule.astro';
 import FactGrid from '../components/FactGrid.astro';
 import CanCant from '../components/CanCant.astro';
 import TopicGrid from '../components/TopicGrid.astro';
+import BundleCard from '../components/BundleCard.astro';
+import type { Bundle } from '../components/BundleCard.astro';
 import Stepper from '../components/Stepper.astro';
 import Faq from '../components/Faq.astro';
 import Note from '../components/Note.astro';
@@ -45,17 +47,41 @@ const pointsFacts: Fact[] = [
   { key: 'Hold two licences?', value: 'Highest', note: 'the highest single total, not the sum' },
 ];
 
-// Bundle chooser cards. The Electrician bundle has no confirmed price yet, so its call to
-// action is rendered as inert "pricing coming soon" text rather than a live link, matching
-// the /cpd hub pattern. Switch it to an <a href> the moment the price lands.
-const soon = (label: string) => `<span class="btn-link" style="opacity:.45;cursor:default;border-bottom:1px dashed currentColor;padding-bottom:3px">${label} coming soon</span>`;
-const bundleCards: TopicCard[] = [
-  { tag: 'Builders', title: 'TAS Builder CPD bundle, 12 points',
-    body: 'The 12-point Builder CPD bundle: twelve CBOS-approved courses that meet a builder’s full year. <b>$499</b> <span style="color:var(--slate)">usually $1,188, a $689 saving</span>. <a href="/program/tas-builder-cpd-bundle-01092025">View the Builder bundle</a>' },
-  { tag: 'Plumbers', title: 'TAS Plumber CPD bundle, 11 points',
-    body: 'Plumber CPD in Tasmania: eleven CBOS-approved courses covering most of your year. Add 1 further point from another approved activity to reach 12. <b>$449</b> <span style="color:var(--slate)">usually $1,089</span>. <a href="/program/tas-plumber-cpd-bundle-01092025">View the Plumber bundle</a>' },
-  { tag: 'Electricians', title: 'TAS Electrician CPD bundle, 12 points',
-    body: 'Electrical CPD points in Tasmania: twelve CBOS-approved courses that meet an electrician’s full year. ' + soon('Pricing') },
+// Bundle chooser. These were TopicGrid cards, which carry a tag, a title and a prose blob:
+// no slot for a price, a points figure or an action, so all three were crammed into one
+// sentence with the saving in an inline-styled span and the CTA as a text link. BundleCard
+// owns the shape now, and the saving is derived from price vs rrp rather than authored, so
+// a price edit cannot leave a stale figure behind it.
+//
+// Per-point figures are plain arithmetic on ABE's own prices ($499 / 12, $449 / 11) against
+// $99 for a single course, so they introduce no fact needing verification.
+//
+// The Electrician bundle still has no confirmed price. Omitting `price` renders the soon
+// state; add price, rrp and cta together when it lands.
+const bundles: Bundle[] = [
+  {
+    trade: 'Builders',
+    title: 'TAS Builder CPD bundle',
+    blurb: 'Twelve CBOS-approved courses covering a builder’s full year in one purchase.',
+    points: '12', delivery: 'Online', perPoint: '$42',
+    price: '$499', rrp: '$1,188',
+    cta: { href: '/program/tas-builder-cpd-bundle-01092025', label: 'View the Builder bundle' },
+  },
+  {
+    trade: 'Plumbers',
+    title: 'TAS Plumber CPD bundle',
+    blurb: 'Eleven CBOS-approved courses covering most of a plumber’s year.',
+    points: '11', delivery: 'Online', perPoint: '$41',
+    price: '$449', rrp: '$1,089',
+    cta: { href: '/program/tas-plumber-cpd-bundle-01092025', label: 'View the Plumber bundle' },
+    foot: 'Add 1 further point from another approved activity to reach 12.',
+  },
+  {
+    trade: 'Electricians',
+    title: 'TAS Electrician CPD bundle',
+    blurb: 'Twelve CBOS-approved courses covering an electrician’s full year.',
+    points: '12', delivery: 'Online',
+  },
 ];
 
 // How it works.
@@ -209,7 +235,7 @@ const schema = {
 
   <Section id="bundles" bg="bg-alt" eyebrow="Choose your bundle" h2="CPD bundles by trade">
     <AnswerCapsule>ABE packages its CBOS-approved courses into trade bundles, so you meet your points in one purchase instead of paying course by course. The 12-point Builder bundle is $499 and covers a builder’s full year. The 11-point Plumber bundle is $449. The Electrician bundle is coming soon.</AnswerCapsule>
-    <TopicGrid items={bundleCards} />
+    <BundleCard items={bundles} />
     <Note label="Better value"><b>Every bundle is built from individual courses, each worth 1 CPD point at $99.</b> Bought one at a time, a full 12-point year is $1,188. The Builder bundle brings that to $499 and the Plumber bundle to $449, so a trade bundle is the better-value way to meet your CBOS points. Single courses are still available at $99 each if you only need to top up.</Note>
     <Note variant="caution" label="Before you buy">CPD you count toward your licence should relate to the work you are licensed for, and CBOS sets an annual limit on how many work health and safety points can count in a year. Our bundles deliberately mix safety with trade and technical topics for this reason. If you are close to renewal, check your remaining points with CBOS first.</Note>
   </Section>
