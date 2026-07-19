@@ -139,10 +139,10 @@ const SG_EXEMPT: Record<string, string> = {
    pages that legitimately need a handful.
    --------------------------------------------------------------------------- */
 const INLINE_STYLE_BUDGET: Record<string, number> = {
-  // 23 -> 22 when HubCard replaced the hand-built "coming soon" span. The remaining 22 are
-  // almost entirely one hand-rolled <table> (19 of them, on every th/td) that should be
-  // ComparisonTable; that is its own pass. Converts to a hub entry in B3, expected to reach 0.
-  'cpd.astro': 22,
+  // 23 -> 22 (HubCard took the "coming soon" span) -> 3 (ComparisonTable took the
+  // hand-rolled table, which was 19 of them on its own th/td). The 3 left are margin and
+  // max-width nudges, not structure. Converts to a hub entry in B3, expected to reach 0.
+  'cpd.astro': 3,
   'cpd-tas.astro': 5,       // 8 -> 5 when BundleCard took over the bundle chooser
   '404.astro': 3,           // standalone chrome, duplicates BaseLayout's font block
   'styleguide.astro': 2,    // internal page, never published
