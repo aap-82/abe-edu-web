@@ -217,7 +217,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   if (head) {
     /* megamenu: click to open, hover only tints */
     const items = Array.from(head.querySelectorAll('.ni'));
-    const shut = (except) => items.forEach((i) => {
+    const shut = (except: Element | null) => items.forEach((i) => {
       if (i !== except) { i.classList.remove('open'); i.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false'); }
     });
     items.forEach((i) => {
@@ -237,17 +237,18 @@ const mnavHtml = navGroups.map(mGroup).join('')
     const shutM = () => { mnav?.classList.remove('open'); bBtn?.setAttribute('aria-expanded', 'false'); };
     bBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!mnav) return;
       const open = !mnav.classList.contains('open');
       mnav.classList.toggle('open', open);
       bBtn.setAttribute('aria-expanded', String(open));
     });
     mnav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shutM));
 
-    document.addEventListener('click', (e) => { if (!head.contains(e.target)) { shut(null); shutM(); } });
+    document.addEventListener('click', (e) => { if (!head.contains(e.target as Node)) { shut(null); shutM(); } });
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       const open = items.find((i) => i.classList.contains('open'));
-      if (open) { const btn = open.querySelector('.nav-trigger'); shut(null); btn?.focus(); }
+      if (open) { const btn = open.querySelector<HTMLElement>('.nav-trigger'); shut(null); btn?.focus(); }
       shutM();
     });
 

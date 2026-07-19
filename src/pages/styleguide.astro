@@ -124,7 +124,9 @@ const heroEx = {
   artefactSpec: '4:5 · warm tone',
   artefactImg: '/images/qld-owner-builder-course-hero.avif',
   artefactAlt: 'Example hero image of house plans with a home under construction rising behind.',
-  artefactRatio: 'r45',
+  // `as const` so the literal narrows to Hero's `'r54' | 'r45'` union rather than
+  // widening to string, which does not satisfy the prop type.
+  artefactRatio: 'r45' as const,
 };
 
 // Design tokens, mirrored from src/styles/global.css :root.

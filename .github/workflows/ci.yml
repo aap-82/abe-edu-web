@@ -18,6 +18,15 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
+
+      # Type-checks .astro frontmatter and inline scripts. The script has existed since
+      # Wave 0 but was never wired into CI, so TypeScript errors could ship - six were
+      # sitting in main when this step was added (five in SiteHeader's nav controller,
+      # one widened prop literal in the styleguide), all fixed in the same commit.
+      # Runs before the build so a type error fails fast rather than after Lighthouse.
+      - name: Type check
+        run: npm run check
+
       - run: npm run build
 
       # IMPORTANT: the npm package literally named "lhci" is an unrelated, unofficial
