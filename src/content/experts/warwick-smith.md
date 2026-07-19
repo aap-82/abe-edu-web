@@ -1,6 +1,6 @@
 ---
 # Source: Notion Experts database (AHE-1), Verification Status "All Verified",
-# credentials last verified 14 April 2026 via LinkedIn and the CDRG website.
+# credentials last verified 19 July 2026 via LinkedIn and the CDRG website.
 #
 # Accuracy constraints on this record are enforced by the `expertPage` superRefine in
 # src/content.config.ts: no building degree may be claimed, the organisation is
@@ -73,7 +73,7 @@ education:
     institution: "Central Queensland Institute of TAFE"
 sameAs:
   - "https://www.linkedin.com/in/warwick-a-l-smith/"
-lastVerified: "14 April 2026"
+lastVerified: "19 July 2026"
 # Dates are the ones published on each course page's own `reviewedBy`, so the profile
 # and the course page can never disagree. `course` is a typed reference, so a review
 # cannot point at a page that does not exist.

@@ -1,6 +1,6 @@
 ---
 # Source: Notion Experts database (AHE-3), v1.14, Verification Status "All Verified",
-# credentials last verified 14 April 2026. Only credentials the source marks ✅ verified
+# credentials last verified 19 July 2026. Only credentials the source marks ✅ verified
 # with documentary evidence appear here.
 #
 # DELIBERATELY OMITTED, per that record's "What NOT to Claim" list — do not add:
@@ -84,7 +84,7 @@ careerHistory:
 education: []
 sameAs:
   - "https://www.linkedin.com/in/dominic-ogburn"
-lastVerified: "14 April 2026"
+lastVerified: "19 July 2026"
 # Developer attribution, not review — hence no dates (see the schema note). TAS is
 # deliberately absent: the source record flags Dominic's TAS developer attribution as
 # open and unconfirmed, unlike Warwick's TAS review which is confirmed. NSW is absent

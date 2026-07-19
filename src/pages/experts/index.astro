@@ -27,6 +27,13 @@ const entries = (await getCollection('experts'))
 // deliberately do not set it, so they render exactly as before.
 const people = entries.map((e) => ({ ...e.data, profileHref: `/experts/${e.id}` }));
 
+// Derived, never hardcoded: this line drifted from the profile pages once already. Both
+// experts are verified in the same pass, so they agree; if they ever diverge the hub must
+// show the older of the two, or it would overstate how current the stalest profile is.
+const lastVerified = entries
+  .map((e) => e.data.lastVerified)
+  .reduce((oldest, d) => (Date.parse(d) < Date.parse(oldest) ? d : oldest));
+
 const crumbs = [
   { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
   { name: 'Our experts', item: canonical },
@@ -67,7 +74,7 @@ const schema = {
   <Hero
     eyebrow="Trust · Named experts"
     h1Html={'The people behind ABE courses<span class="dot">.</span>'}
-    updated="Credentials last verified 14 April 2026"
+    updated={`Credentials last verified ${lastVerified}`}
     subhead="Every ABE course is written by a named person and independently checked by another. Both are listed here with credentials you can verify against the issuing authority."
     ticks={[
       '<b>A licensed NSW builder</b> develops the owner builder and CPD courses',
