@@ -24,6 +24,8 @@ import HubCard from '../components/HubCard.astro';
 import FactGrid from '../components/FactGrid.astro';
 import PriceCard from '../components/PriceCard.astro';
 import BundleOffer from '../components/BundleOffer.astro';
+import BundleCard from '../components/BundleCard.astro';
+import type { Bundle } from '../components/BundleCard.astro';
 import Faq from '../components/Faq.astro';
 import ProcessTrack from '../components/ProcessTrack.astro';
 import CpdMatrix from '../components/CpdMatrix.astro';
@@ -61,6 +63,17 @@ const priceRows = [
   { label: 'Course fee', sub: 'Paid to ABE Education, GST-free', amount: '$179.00' },
   { label: 'Government permit fee', sub: 'Paid to the regulator when you lodge', amount: '$493.59' },
   { label: 'Ready-to-build total', sub: 'A budgeting figure only', amount: '$672.59', isTotal: true },
+];
+// Third item deliberately omits price/cta so the specimen shows the soon state, which is
+// otherwise invisible until a real bundle is unpriced.
+const bundleCardEx: Bundle[] = [
+  { trade: 'Builders', title: 'Example Builder bundle', blurb: 'Twelve approved courses covering a full year in one purchase.',
+    points: '12', delivery: 'Online', perPoint: '$42', price: '$499', rrp: '$1,188', cta: { href: '#', label: 'View the bundle' } },
+  { trade: 'Plumbers', title: 'Example Plumber bundle', blurb: 'Eleven approved courses covering most of a year.',
+    points: '11', delivery: 'Online', perPoint: '$41', price: '$449', rrp: '$1,089', cta: { href: '#', label: 'View the bundle' },
+    foot: 'Add 1 further point from another approved activity to reach 12.' },
+  { trade: 'Electricians', title: 'Example unpriced bundle', blurb: 'Shows the state used when a price is not confirmed yet.',
+    points: '12', delivery: 'Online' },
 ];
 const faqExamples = [
   { q: 'Is the course mandatory?', a: 'Yes, the regulator requires an approved course before it issues your permit.', open: true },
@@ -460,6 +473,13 @@ const groups = [
           total="$278"
           cta={{ href: '#', label: 'Enrol in the bundle' }}
         />
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">BundleCard</span><span class="sg-desc">Trade-bundle chooser. Distinct from BundleOffer: parallel bundles the reader picks between, not one cross-sell. Third card shows the no-price state.</span><span class="sg-props">items[] (trade · title · blurb · points · courses · price? · rrp? · perPoint? · cta? · foot? · soonLabel?)</span></div>
+      <div class="sg-demo">
+        <BundleCard items={bundleCardEx} />
       </div>
     </div>
 

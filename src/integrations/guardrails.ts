@@ -140,7 +140,7 @@ const SG_EXEMPT: Record<string, string> = {
    --------------------------------------------------------------------------- */
 const INLINE_STYLE_BUDGET: Record<string, number> = {
   'cpd.astro': 23,          // converts to a hub entry in B3; expected to reach 0 there
-  'cpd-tas.astro': 8,       // same
+  'cpd-tas.astro': 5,       // 8 -> 5 when BundleCard took over the bundle chooser
   '404.astro': 3,           // standalone chrome, duplicates BaseLayout's font block
   'styleguide.astro': 2,    // internal page, never published
 };
