@@ -1,0 +1,126 @@
+---
+// Experts hub (W1-3). Hand-built on BaseLayout rather than HubLayout: HubLayout's
+// spokes are typed reference('courses'), and experts are not courses.
+//
+// Like the profile pages, this deliberately does not pass `authority` — see the note in
+// [slug].astro.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import Credentials from '../../components/Credentials.astro';
+import Note from '../../components/Note.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import SourcesFooter from '../../components/SourcesFooter.astro';
+
+const canonical = 'https://www.abeeducation.edu.au/experts';
+
+// Sorted so the ordering is deterministic rather than filesystem-dependent: the course
+// developer first, then the independent reviewer, matching how they appear on a course
+// page's own "Developed and reviewed by" block.
+const ORDER = ['dominic-ogburn', 'warwick-smith'];
+const entries = (await getCollection('experts'))
+  .sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+
+// `profileHref` is what turns each card into a route into the profile page. Course pages
+// deliberately do not set it, so they render exactly as before.
+const people = entries.map((e) => ({ ...e.data, profileHref: `/experts/${e.id}` }));
+
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'Our experts', item: canonical },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      itemListElement: entries.map((e, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: e.data.canonical,
+        item: {
+          '@type': 'Person',
+          '@id': `${e.data.canonical}#person`,
+          name: e.data.name,
+          jobTitle: e.data.jobTitle,
+        },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+---
+<BaseLayout
+  title="Our experts — who writes and reviews ABE courses | ABE Education"
+  description="ABE Education's courses are developed by a licensed NSW builder and independently reviewed for legislative currency by a VET compliance specialist. Meet both."
+  canonical={canonical}
+  schema={schema}
+  sticky={{ label: 'Our experts', sub: 'who writes and reviews ABE courses', price: '2 experts', cta: { href: '#people', label: 'Meet them' } }}
+  crumbs={crumbs}
+>
+  <Hero
+    eyebrow="Trust · Named experts"
+    h1Html={'The people behind ABE courses<span class="dot">.</span>'}
+    updated="Credentials last verified 14 April 2026"
+    subhead="Every ABE course is written by a named person and independently checked by another. Both are listed here with credentials you can verify against the issuing authority."
+    ticks={[
+      '<b>A licensed NSW builder</b> develops the owner builder and CPD courses',
+      '<b>An independent VET compliance specialist</b> reviews every published course page',
+      '<b>Credentials you can check</b>, each linked to the issuing authority',
+    ]}
+    proof={[
+      { n: '2', text: 'named experts' },
+      { n: '67+', text: 'combined years' },
+    ]}
+    howItWorks="Developed by a builder → Reviewed for currency → Published"
+    artefactDesc="ABE Education brand mark."
+    cta={{ href: '#people', label: 'Meet the experts' }}
+  />
+
+  <Section id="people" bg="bg-alt" eyebrow="Our experts" h2="Who writes and reviews ABE courses">
+    <AnswerCapsule>
+      ABE's owner builder and CPD courses are developed by <b>Dominic Ogburn</b>, a licensed
+      NSW builder with more than 40 years in Australian construction. Every published course
+      page is then independently reviewed by <b>Warwick Smith</b> for legislative currency
+      and regulatory accuracy.
+    </AnswerCapsule>
+    <Credentials people={people} />
+  </Section>
+
+  <Section id="how" eyebrow="How it works" h2="Why two people, not one">
+    <div class="measure">
+      <p>
+        Course development and compliance review are different jobs, so ABE separates them.
+        The person who writes a course should not be the only person checking whether its
+        legislative references are still current.
+      </p>
+      <p>
+        Dominic develops the courses ABE delivers directly. Warwick, who is independent of
+        ABE, then reviews the published page against current legislation and regulator
+        guidance, and that review is dated on every course page.
+      </p>
+    </div>
+    <Note>
+      <b>ABE Education is not a Registered Training Organisation.</b> White Card training is
+      developed, delivered and assessed by our RTO partners, who issue the nationally
+      recognised Statement of Attainment. Warwick's review covers legislative currency and
+      regulatory accuracy of the published page, not the course content itself.
+    </Note>
+  </Section>
+
+  <CtaBand
+    headingHtml={'See the courses they work on<span class="dot">.</span>'}
+    sub="Owner builder courses for Queensland, Western Australia, Tasmania and the ACT."
+    cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
+  />
+  <SourcesFooter
+    sources={entries.map((e) => ({ label: `${e.data.name} on LinkedIn`, href: e.data.linkedin, verified: `Verified ${e.data.lastVerified}` }))}
+    disclaimersHtml="<b>ABE Education is not a Registered Training Organisation.</b> Credentials listed on this page are held by the named individuals, not by ABE Education."
+  />
+</BaseLayout>

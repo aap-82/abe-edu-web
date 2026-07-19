@@ -1,0 +1,191 @@
+---
+// Expert profile pages (W1-2). One route over the `experts` collection, so adding an
+// expert is a content change, not a code change.
+//
+// This page deliberately does NOT pass `authority` to BaseLayout. That prop sets
+// <html data-authority>, which switches on the strict course audit in guardrails
+// (Course + credential + exactly two Person nodes + price parity). A profile is not a
+// course and cannot satisfy it.
+import { getCollection, getEntries } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import Stepper from '../../components/Stepper.astro';
+import Note from '../../components/Note.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import SourcesFooter from '../../components/SourcesFooter.astro';
+
+export async function getStaticPaths() {
+  const people = await getCollection('experts');
+  return people.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const e = entry.data;
+
+// Resolve the courses this person contributed to, so a link can never point at a page
+// that does not exist. `role` differs per expert: Dominic develops, Warwick reviews.
+const courseRefs = e.courses ?? [];
+const courseEntries = await getEntries(courseRefs.map((c) => c.course));
+const courseRows = courseRefs.map((c, i) => ({
+  name: courseEntries[i].data.courseName,
+  href: '/' + courseEntries[i].id,
+  role: c.role,
+  date: c.date,
+}));
+
+const crumbs = e.breadcrumb;
+// The `@id` deliberately has no trailing slash before the fragment: the site is
+// trailingSlash:'never', so `/experts/name/#person` would resolve through a 301.
+const personId = `${e.canonical}#person`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${e.canonical}#profilepage`,
+      dateModified: e.lastVerified,
+      mainEntity: { '@id': personId },
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: e.name,
+      jobTitle: e.jobTitle,
+      description: e.summary,
+      image: e.portrait.src,
+      url: e.canonical,
+      sameAs: e.sameAs,
+      worksFor: { '@type': 'Organization', name: e.org, ...(e.orgUrl ? { url: e.orgUrl } : {}) },
+      knowsAbout: e.specialistAreas,
+      hasCredential: e.hasCredential.map((c) => ({
+        '@type': 'EducationalOccupationalCredential',
+        name: c.name,
+        credentialCategory: c.category,
+        recognizedBy: {
+          '@type': 'Organization',
+          name: c.issuedBy,
+          ...(c.issuedByUrl ? { url: c.issuedByUrl } : {}),
+        },
+      })),
+      // alumniOf is emitted only when there is a verified qualification to name.
+      ...(e.education.length
+        ? { alumniOf: e.education.map((ed) => ({ '@type': 'EducationalOrganization', name: ed.institution })) }
+        : {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+
+const credentialFacts = e.hasCredential.map((c) => ({
+  key: c.category,
+  value: c.name,
+  note: `Issued by ${c.issuedBy}.`,
+}));
+
+const careerSteps = e.careerHistory.map((r) => ({
+  title: `${r.role} — ${r.org}`,
+  body: [r.period, r.note].filter(Boolean).join('. '),
+}));
+
+const credentialSources = e.hasCredential
+  .filter((c) => c.issuedByUrl)
+  .map((c) => ({ label: `${c.issuedBy} — ${c.name}`, href: c.issuedByUrl! }));
+---
+<BaseLayout
+  title={e.title}
+  description={e.description}
+  canonical={e.canonical}
+  schema={schema}
+  sticky={e.sticky}
+  ogImage={e.ogImage}
+  crumbs={crumbs}
+>
+  <Hero
+    eyebrow={`${e.role}`}
+    h1Html={`${e.name}<span class="dot">.</span>`}
+    updated={`Credentials last verified ${e.lastVerified}`}
+    subhead={e.summary}
+    ticks={e.creds.split(' · ').slice(0, 3).map((c) => `<b>${c}</b>`)}
+    proof={[
+      { n: `${e.yearsExperience}+`, text: 'years in industry' },
+      { n: String(e.hasCredential.length), text: 'verified credentials' },
+    ]}
+    howItWorks={e.specialistAreas.slice(0, 4).join(' → ')}
+    artefactDesc={`Portrait of ${e.name}.`}
+    artefactImg={e.portrait.src}
+    artefactAlt={e.portrait.alt}
+    artefactRatio="r45"
+    cta={{ href: '#credentials', label: 'See verified credentials' }}
+  />
+
+  <Section id="about" bg="bg-alt" eyebrow="About" h2={`Who is ${e.name.split(' ')[0]}?`}>
+    <AnswerCapsule set:html={e.summary} />
+    <div class="measure">
+      {e.bio.map((para) => <p set:html={para} />)}
+    </div>
+  </Section>
+
+  <Section id="credentials" eyebrow="Verified credentials" h2="What can be independently checked">
+    <FactGrid items={credentialFacts} />
+    <VerifiedSources
+      date={e.lastVerified}
+      facts="Credentials checked against the issuing authority's own record"
+      sources={credentialSources}
+    />
+  </Section>
+
+  <Section id="career" bg="bg-alt" eyebrow="Career" h2="Where that experience comes from">
+    <Stepper steps={careerSteps} maxWidth="640px" />
+  </Section>
+
+  {courseRows.length > 0 && (
+    <Section id="courses" eyebrow="Courses" h2={`Courses ${e.name.split(' ')[0]} works on`}>
+      <ul class="measure">
+        {courseRows.map((c) => (
+          <li>
+            <a href={c.href}>{c.name}</a> — {c.role}{c.date ? `, ${c.date}` : ''}
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  <Section id="scope" bg="bg-warm" eyebrow="Scope" h2="What this role does and does not cover">
+    <Note>
+      <b>ABE Education is not a Registered Training Organisation.</b> Owner builder and CPD
+      courses that ABE delivers directly are developed by Dominic Ogburn. White Card training
+      is delivered by our RTO partners, who develop and assess that content and issue the
+      Statement of Attainment. Every ABE-published course page is independently reviewed for
+      currency by Warwick Smith, whose review covers legislative currency and regulatory
+      accuracy, not the course content itself.
+    </Note>
+  </Section>
+
+  <CtaBand
+    headingHtml={'Ready to start your course<span class="dot">?</span>'}
+    sub="Browse the owner builder courses developed and reviewed by the people on this page."
+    cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
+  />
+  <SourcesFooter
+    sources={[{ label: `${e.name} on LinkedIn`, href: e.linkedin, verified: `Verified ${e.lastVerified}` }, ...credentialSources]}
+    disclaimersHtml="<b>ABE Education is not a Registered Training Organisation.</b> Credentials on this page are held by the named individual, not by ABE Education, and are listed only where they can be checked against the issuing authority's own record."
+  />
+</BaseLayout>
+
+<!-- Portraits are grayscale by default and colourise on hover, matching Credentials.
+     This MUST be `is:global`: the <img> is rendered inside Placeholder (via Hero), so a
+     scoped style here never reaches it and the rule silently does nothing. Caught in
+     testing — the computed filter was `none` before this was added. -->
+<style is:global>
+  .hero .ph-img { filter: grayscale(100%); transition: filter .35s ease; }
+  .hero .ph-img:hover { filter: grayscale(0); }
+  @media (prefers-reduced-motion: reduce) { .hero .ph-img { transition: none; } }
+</style>
