@@ -1,6 +1,10 @@
 :root{
   --maroon:#800000; --maroon-dark:#5a0000;
-  --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
+  /* --verify-deep is the attestation mark: the tick and the word VERIFIED. --verify stays
+     the date and the citation-link hover. Same hue, 1.63:1 apart, so the mark reads as the
+     heavier of the two without introducing a second colour family. 10.2:1 on the lightest
+     ground, well clear of AA at the 12px this type is set in. */
+  --verify:#2f5d8c; --verify-deep:#1e3d5c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
   /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
@@ -271,26 +275,40 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    (the tick and date); the sources sit in slate so they do not speckle the page. */
 /* top-align the two columns: baseline alignment took the left column's baseline from the
    tick svg (which has none) instead of the VERIFIED text, riding the label 2px high */
-.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:start;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
+/* align-items:stretch, not start, so the divider below spans the full row rather than only
+   the height of whichever column happens to be shorter. */
+.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:stretch;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
 /* Colour is applied per element, not set on the container and overridden back. .v-date used
    to carry --verify and .v-label then reset itself to slate, which left the date blue only
    by inheritance rather than intent - fragile, and it read as an inconsistency because two
    adjacent items in the same block were coloured by opposite mechanisms. */
 .verified .v-date{display:flex;flex-direction:column;gap:2px;font-weight:500;white-space:nowrap;}
-.verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--slate);text-transform:uppercase;letter-spacing:.09em;}
+/* The tick and the word VERIFIED are one mark and now read as one: same deep blue, so the
+   attestation is a single object rather than a green glyph beside a grey word. The date
+   stays the lighter --verify, which keeps the pair related but ranked. */
+.verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--verify-deep);text-transform:uppercase;letter-spacing:.09em;}
 .verified .v-day{color:var(--verify);font-weight:400;}
-.verified .check{width:12px;height:12px;flex:none;color:var(--ok);}
+.verified .check{width:12px;height:12px;flex:none;color:var(--verify-deep);}
 /* --slate-light, not --slate, was a WCAG AA failure and the source of the "washed out
    middle" look: at 12px it measured 2.81:1 on paper, 2.70:1 on paper-alt and 2.56:1 on
    paper-warm against a required 4.5:1, while the VERIFIED label (5.10:1), the date (6.85:1)
    and the links (5.10:1) around it all passed. The least readable text in the component was
    the part that says what was actually checked. --slate passes on all three grounds
    (5.10 / 4.89 / 4.65). PRODUCT.md targets WCAG 2.1 AA. */
-.verified .v-body{color:var(--slate);}
+/* Hairline between the attestation and what it attests to. The two columns are different
+   kinds of thing - a signature and a claim - and 18px of whitespace read as one wrapped
+   block. Symmetric 18px either side of the rule. */
+.verified .v-body{color:var(--slate);border-left:1px solid var(--rule);padding-left:18px;}
 .verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .verified .v-body a:hover{color:var(--verify);border-color:var(--verify);}
 /* stack the two columns on narrow screens */
-@media(max-width:640px){ .verified{grid-template-columns:1fr;gap:6px;} }
+/* Stacked, the column divider has no columns to divide: a 1px line down the left of a
+   full-width block is an orphaned side-stripe, which is a banned pattern in spirit even at
+   1px. It becomes the horizontal rule between the two stacked blocks instead. */
+@media(max-width:640px){
+  .verified{grid-template-columns:1fr;gap:6px;}
+  .verified .v-body{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:8px;}
+}
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}

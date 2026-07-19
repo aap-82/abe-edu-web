@@ -79,8 +79,11 @@ const { items } = Astro.props;
      x-positions down the same list - measured on the QLD page, groups 03 and 04 sat inline
      while 01, 02, 05 and 06 wrapped. A kicker that moves depending on sentence length is
      worse than no kicker. */
+  /* Dotted, not solid. The row is already closed by a solid rule at its foot, and a second
+     solid line inside it read as a row boundary in the wrong place. Dotted separates the
+     outcome from the contents without competing with the structure. */
   .mr-outcome{
-    margin:10px 0 0; padding-top:9px; border-top:1px solid var(--rule);
+    margin:10px 0 0; padding-top:9px; border-top:1px dotted var(--rule-strong);
     font-size:14px; line-height:1.55; color:var(--ink-2); max-width:70ch;
   }
   .mr-olabel{
