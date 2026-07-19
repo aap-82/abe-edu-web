@@ -30,7 +30,6 @@ const DIST = join(ROOT, 'dist');
 // Every entry must name the pass that builds it, so this reads as a work list rather than
 // a list of exceptions. Sourced from the migration plan's remaining passes.
 const PENDING = new Map([
-  ['/owner-builder-courses', 'A1 - owner builder hub'],
   ['/nsw-owner-builder-course', 'A5 - NSW owner builder, first ASQA page'],
   ['/white-card-wa', 'B2 - White Card WA'],
   ['/white-card-tas', 'B2 - White Card TAS'],
