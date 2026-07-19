@@ -81,7 +81,7 @@ Detail in `wave0-closeout-spec.md`. Tickets:
 | W0-7 | [CC] | Redirect spike: generate `public/_redirects` from ~12 sample rows of `redirect-map-v1.csv`; verify single-hop 301s + 404 fall-through + a no-slash equity URL served 200 unchanged, on the preview Worker. | W0-5 | `curl -sI` loop shows one hop each; `/payment` query-param behaviour to learn.* recorded. |
 | W0-8 | [CC] | Refresh `HANDOVER.md` (component list vs `/styleguide/`; QLD fee $493.59; styleguide-specimen convention; concurrency rule). | — | Doc matches reality. |
 | W0-10 | [CC] | **Staging de-index (R3):** serve `X-Robots-Tag: noindex` on the `workers.dev` host only (hostname-scoped Worker rule; `_headers` can't vary by host); check current indexation (`site:abe-edu-web…workers.dev`). | — | workers.dev returns `noindex`; indexation status recorded; cutover note added to remove it + set `workers_dev: false`. |
-| W0-9 | [AP] | Sign off the IA refinement: build `/cpd-building` only, skip the 1-course plumbing/electrical/real-estate trade hubs (queries land on the course pages). Confirm the 2 redirect CONFIRM flags (TAS architects, TAS building-designers CPD). | — | Decision recorded; `redirect-map-v1.csv` finalised to `redirects.csv`. |
+| W0-9 | [AP] | **IA half SIGNED OFF 19 Jul 2026:** build `/cpd-building` only (NSW + TAS), plus the three state hubs `/cpd-nsw`, `/cpd-tas`, `/cpd-wa`. The 1-course plumbing/electrical/real-estate trade hubs are **not built**; those queries land directly on their course pages. Verified redirect-map-safe: every trade-related row already targets a course page (`/cpd-building-nsw`, `/cpd-electrical-tas`, `/cpd-plumbing-tas`, `/cpd-real-estate-wa`, `/cpd-building-tas`), never a trade hub, so no redirect target is invalidated. **STILL OPEN:** the 2 redirect CONFIRM flags (TAS architects, TAS building-designers CPD), both defaulting to retire. | — | IA decision recorded ✅; `redirect-map-v1.csv` → `redirects.csv` still blocked on the 2 flags. |
 
 **Wave 0 exit gate:** W0-1..W0-8 and W0-10 green; W0-9 decided. Templates, chrome, CI gate, redirect mechanism and staging de-index all proven on the preview.
 
@@ -214,8 +214,8 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 
 Tick as each ticket closes. `[AP]` rows are the ones that need you.
 
-**Wave 0** — ☑ W0-1 ☑ W0-2 ☑ W0-3 ☑ W0-4 ☑ W0-5 ☑ W0-6 ☑ W0-7 ☑ W0-8 ☑ W0-10 ☐ **W0-9 [AP]** *(closed 19 Jul 2026)*
-**Wave 1** — ☐ W1-1 ☐ W1-2 ☐ W1-3 ☐ W1-4 ☐ W1-5 ☐ **W1-6 [AP]**
+**Wave 0** — ☑ W0-1 ☑ W0-2 ☑ W0-3 ☑ W0-4 ☑ W0-5 ☑ W0-6 ☑ W0-7 ☑ W0-8 ☑ W0-10 ◐ **W0-9 [AP]** *(IA signed off 19 Jul; 2 redirect CONFIRM flags still open)*
+**Wave 1** — ☑ W1-1 ☑ W1-2 ☑ W1-3 ☑ W1-4 ☑ W1-5 ☐ **W1-6 [AP]** *(W1-1..W1-5 shipped 19 Jul on `feat/experts-collection`; W1-6 blocked on the 2 W0-9 flags)*
 **Wave 2** — ☐ W2-1 ☐ W2-2 ☐ W2-3 ☐ W2-4 ☐ W2-5 ☐ W2-6 ☐ W2-7
 **Wave 3** — ☐ W3-1 ☐ W3-2 ☐ W3-3 ☐ W3-4 ☐ W3-5 ☐ W3-6
 **Wave 4** — ☐ W4-1 ☐ W4-2 ☐ W4-3 ☐ W4-4 ☐ W4-5 ☐ W4-6 ☐ W4-7 ☐ W4-8 ☐ **W4-9 [AP]** ☐ W4-10
