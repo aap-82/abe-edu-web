@@ -67,9 +67,7 @@ const navGroups: Group[] = [
     megaLabel: 'Owner builder courses by state',
     hub: { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
     items: [
-      // Inert until the NSW page is rebuilt here. It still exists on the old apex, but
-      // the menu links to Astro routes only, so this renders as a label, not a link.
-      { code: 'NSW', name: 'NSW Owner Builder', soon: true, desc: 'Nationally recognised, with our RTO partner' },
+      { code: 'NSW', name: 'NSW Owner Builder', href: '/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
       { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'Approved by the QBCC' },
       { code: 'WA', name: 'WA Owner Builder', href: '/wa-owner-builder-course', desc: 'Supports your Form 75 approval' },
       { code: 'TAS', name: 'TAS Owner Builder', href: '/tas-owner-builder-course', desc: 'Approved by CBOS Tasmania' },
