@@ -514,7 +514,13 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 .rq-m span+span::before{content:"· ";}
 @media(max-width:720px){.rq-grid{grid-template-columns:1fr;}}
 /* ===== end-of-section wayfinder ===== */
-.waynext{margin-top:var(--s-xl);padding-top:var(--s-md);border-top:1px solid var(--rule);}
+/* No top rule. It used to be the only horizontal line at a section foot, which was fine.
+   Once .verified gained its dashed rule, 8 of the 10 sections on a course page ended with
+   two rules 48px apart - the attestation's and this one - and read as noise rather than
+   structure. This is the one to drop: the verified rule BINDS a note to the claim above it,
+   whereas this one only separated a block that is already unmistakable from its mono NEXT
+   kicker, display title and arrow. The 48px margin does the separating. */
+.waynext{margin-top:var(--s-xl);}
 /* the "NEXT" kicker sits on its own line above the title; the title + arrow share the
    row below, centre-aligned on a tight line-height so the arrow sits on the title's
    optical centre (baseline alignment left the arrow low against its tall line box) */
