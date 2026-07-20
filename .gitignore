@@ -26,5 +26,10 @@ dist/
 # "new site/reference/". They have sat here untracked since June and were swept
 # into a commit by a blanket `git add -A` once already. Keep them local: quote the
 # facts in the page copy and cite them in a Sources block instead.
-new site/reference/
+#
+# The SOURCE DOCUMENTS are ignored, not the folder. Notes written about them belong
+# in version control - see "new site/reference/qbcc-approval-conditions.md", which
+# carries every condition the site has to satisfy without carrying the signature.
 *.pdf
+*.docx
+new site/reference/*.doc
