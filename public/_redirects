@@ -13,8 +13,9 @@
 # /act-owner-builder-course -> /act-owner-builder-course (rebuild) - Full build Wave 2. State-approved-direct (Access Canberra).
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
-# /nsw-owner-builder-course -> /nsw-owner-builder-course (rebuild) - Canonical NSW OB target. ASQA layout (Upskill 45708). Wave 2.
-# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
+# /nsw-owner-builder-course -> /owner-builder-nsw-course (redirect) - NSW OB dual-URL consolidation. Per-page GSC (16mo): shares 150 queries with the target and loses 122 of them; its 51 unique queries earn 0 clicks.
+/nsw-owner-builder-course /owner-builder-nsw-course 301
+/nsw-owner-builder-course/ /owner-builder-nsw-course 301
 
 # /white-card -> /white-card (rebuild) - White Card hub. Wave 3.
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
@@ -43,9 +44,8 @@
 # /professional-indemnity-insurance -> /professional-indemnity-insurance (rebuild) - Service page. Wave 2.
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
-# /owner-builder-nsw-course -> /nsw-owner-builder-course (redirect) - NSW OB dual-URL consolidation. The stronger legacy URL (324c) 301s to the state-first slug.
-/owner-builder-nsw-course /nsw-owner-builder-course 301
-/owner-builder-nsw-course/ /nsw-owner-builder-course 301
+# /owner-builder-nsw-course -> /owner-builder-nsw-course (rebuild) - Canonical NSW OB target. ASQA layout (Upskill 45708). The stronger of the two live URLs: pos 9.7 vs 16.5
+# no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
 # /nsw-building-cpd-courses -> /cpd-building-nsw (redirect) - CPD slug convention. Wave 4.
 /nsw-building-cpd-courses /cpd-building-nsw 301
