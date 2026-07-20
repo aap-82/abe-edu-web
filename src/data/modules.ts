@@ -1,13 +1,53 @@
-import type { TopicCard } from '../types/course';
+import type { ModuleGroup, TopicCard } from '../types/course';
 
-// Section 5 — 18 modules grouped into 6 project-stage cards (rendered by <TopicGrid>).
-export const moduleGroups: TopicCard[] = [
-  { tag: 'Group 01', title: 'Getting started', body: 'Your role and responsibilities. <b>Modules 1–2:</b> Course Introduction, Key Responsibilities of an Owner Builder.' },
-  { tag: 'Group 02', title: 'Legal &amp; safety obligations', body: '<b>Modules 3, 11, 12:</b> Work Health and Safety, Obligations Under the QBCC Act 1991, Approvals and Inspections.' },
-  { tag: 'Group 03', title: 'Design &amp; energy', body: '<b>Modules 4–5:</b> Design, and Environment and Energy, including the minimum 7-star energy rating.' },
-  { tag: 'Group 04', title: 'Costing &amp; finance', body: '<b>Modules 6, 9, 10:</b> Estimating, Costing and Budgets; Finance and Loan Requirements; Taxation and the QLeave levy.' },
-  { tag: 'Group 05', title: 'Planning &amp; running the build', body: '<b>Modules 7, 8, 13, 14:</b> Planning and Scheduling, Sequencing Building Activities, Building Coordination, Payments to Trade Contractors.' },
-  { tag: 'Group 06', title: 'Protecting yourself &amp; finishing', body: '<b>Modules 15–18:</b> Insurances, Conflict Prevention and Resolution, Move In and Maintenance, Checklists and Appendix.' },
+// Section 5 — 18 modules in 6 project-stage groups, rendered as rows by <ModuleRows>.
+//
+// SOURCE OF TRUTH: "Learning Material — Cover Sheet and Currency Statement", NONACCABE QBCC
+// Owner Builder Course, v2.0 (created 07 Jan 2026, last edited 02 Jul 2026), section 2
+// "Module Content and Learning Outcomes". Every `outcome` below is a compression of that
+// module group's STATED learning outcomes, not marketing copy written around them.
+//
+// Two things from that document's change log that this list depends on. v2.0 renumbered and
+// reordered the modules to the approved A-4 sequence, and consolidated insurance under
+// Module 15 (former Module 1 + Module 14). The groupings here match the v2.0 numbering, so
+// if the course is renumbered again these ranges move with it. Modules 1 and 18 carry no
+// stated learning outcomes in the source (a Course Introduction and an Appendix), which is
+// why they appear in the group contents but contribute nothing to the outcome lines.
+//
+// Outcomes are full sentences and start with a capital: the row renders a "You will be able
+// to" kicker on its own line above them, not inline, so a lowercase continuation would read
+// as a fragment.
+export const moduleGroups: ModuleGroup[] = [
+  {
+    tag: 'Group 01', modules: 'Modules 1–2', title: 'Getting started',
+    body: 'Course Introduction, and the Key Responsibilities of an Owner Builder.',
+    outcome: 'Identify the roles you take on, document every decision, variation and agreement in writing, and coordinate trade contractors, site activities and your neighbours from day one.',
+  },
+  {
+    tag: 'Group 02', modules: 'Modules 3, 11, 12', title: 'Legal &amp; safety obligations',
+    body: 'Work Health and Safety, Obligations Under the QBCC Act 1991, and Approvals and Inspections.',
+    outcome: 'Apply your duties as a PCBU and principal contractor under the WHS Act, work within the permit conditions the QBCC Act sets, and book the compulsory building and plumbing inspections at the right stages.',
+  },
+  {
+    tag: 'Group 03', modules: 'Modules 4–5', title: 'Design &amp; energy',
+    body: 'Design, and Environment and Energy, including the minimum 7-star energy rating.',
+    outcome: 'Choose and brief a licensed designer, read a full set of working drawings, and meet the 7-star minimum energy rating that has applied to Queensland houses since 1 May 2024.',
+  },
+  {
+    tag: 'Group 04', modules: 'Modules 6, 9, 10', title: 'Costing &amp; finance',
+    body: 'Estimating, Costing and Budgets; Finance and Loan Requirements; Taxation and the QLeave levy.',
+    outcome: 'Estimate the build, carry a contingency, track actual costs against budget, align your draw-downs with your contracts, and handle GST, PAYG and the QLeave levy exemption.',
+  },
+  {
+    tag: 'Group 05', modules: 'Modules 7, 8, 13, 14', title: 'Planning &amp; running the build',
+    body: 'Planning and Scheduling, Sequencing Building Activities, Building Coordination, and Payments to Trade Contractors.',
+    outcome: 'Build a schedule, sequence the trades and inspections in the right order, engage QBCC-licensed contractors on written contracts, and run progress payments, variations and retention correctly.',
+  },
+  {
+    tag: 'Group 06', modules: 'Modules 15–18', title: 'Protecting yourself &amp; finishing',
+    body: 'Insurances, Conflict Prevention and Resolution, Move In and Maintenance, and Checklists and Appendix.',
+    outcome: 'Insure the build properly rather than assuming your home policy covers it, resolve disputes through the QBCC or QCAT, and work through the completion checklist, service connections and ongoing maintenance.',
+  },
 ];
 
 export const moduleOutcome =

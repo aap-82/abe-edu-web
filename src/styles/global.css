@@ -1,6 +1,10 @@
 :root{
   --maroon:#800000; --maroon-dark:#5a0000;
-  --verify:#2f5d8c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
+  /* --verify-deep is the attestation mark: the tick and the word VERIFIED. --verify stays
+     the date and the citation-link hover. Same hue, 1.63:1 apart, so the mark reads as the
+     heavier of the two without introducing a second colour family. 10.2:1 on the lightest
+     ground, well clear of AA at the 12px this type is set in. */
+  --verify:#2f5d8c; --verify-deep:#1e3d5c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
   /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
@@ -271,25 +275,48 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    (the tick and date); the sources sit in slate so they do not speckle the page. */
 /* top-align the two columns: baseline alignment took the left column's baseline from the
    tick svg (which has none) instead of the VERIFIED text, riding the label 2px high */
-.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 20px;align-items:start;margin-top:var(--s-md);max-width:74ch;font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
+/* The measure cap moved OFF the component and ONTO the text (see .v-body). It used to sit
+   here as max-width:74ch, which had two problems. `ch` resolves against the element's own
+   font, and this element is 12px DM Mono where a character is 7.2px, so 74ch was 533px -
+   DESIGN.md's 65-75ch guidance is for reading copy in 17px DM Sans and produces a much
+   longer line there. And the cap applied to the whole component, so the 84px date column
+   and the gap ate into it: the text itself only ever got about 60 characters, in a
+   container offering 1200px. Capping the text instead gives the sentence its intended
+   measure and lets the ledger be as wide as it needs to be.
+
+   Dashed rule above, no divider between the columns. The boundary that carries meaning is
+   between the claim and its attestation, not between a date and a sentence - nobody was
+   confusing those two. A ledger rules above its total, not down its middle. Dashed rather
+   than solid because this annotates the section rather than structuring it: solid is
+   structure, dashed is the edge of a note, dotted (see ModuleRows) separates within one. */
+.verified{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:start;margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px dashed var(--rule-strong);font-family:var(--font-mono);font-size:12px;line-height:1.55;letter-spacing:.02em;}
 /* Colour is applied per element, not set on the container and overridden back. .v-date used
    to carry --verify and .v-label then reset itself to slate, which left the date blue only
    by inheritance rather than intent - fragile, and it read as an inconsistency because two
    adjacent items in the same block were coloured by opposite mechanisms. */
 .verified .v-date{display:flex;flex-direction:column;gap:2px;font-weight:500;white-space:nowrap;}
-.verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--slate);text-transform:uppercase;letter-spacing:.09em;}
+/* The tick and the word VERIFIED are one mark and now read as one: same deep blue, so the
+   attestation is a single object rather than a green glyph beside a grey word. The date
+   stays the lighter --verify, which keeps the pair related but ranked. */
+.verified .v-label{display:inline-flex;align-items:center;gap:6px;color:var(--verify-deep);text-transform:uppercase;letter-spacing:.09em;}
 .verified .v-day{color:var(--verify);font-weight:400;}
-.verified .check{width:12px;height:12px;flex:none;color:var(--ok);}
+.verified .check{width:12px;height:12px;flex:none;color:var(--verify-deep);}
 /* --slate-light, not --slate, was a WCAG AA failure and the source of the "washed out
    middle" look: at 12px it measured 2.81:1 on paper, 2.70:1 on paper-alt and 2.56:1 on
    paper-warm against a required 4.5:1, while the VERIFIED label (5.10:1), the date (6.85:1)
    and the links (5.10:1) around it all passed. The least readable text in the component was
    the part that says what was actually checked. --slate passes on all three grounds
    (5.10 / 4.89 / 4.65). PRODUCT.md targets WCAG 2.1 AA. */
-.verified .v-body{color:var(--slate);}
+/* The measure lives here, on the text, which is what a measure is for. 74ch of 12px mono is
+   the sentence's own line length; the date column and gap now sit outside it instead of
+   eating into it. */
+.verified .v-body{color:var(--slate);max-width:74ch;}
 .verified .v-body a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .verified .v-body a:hover{color:var(--verify);border-color:var(--verify);}
 /* stack the two columns on narrow screens */
+/* Stacks below 640px. The dashed top rule carries over unchanged - it separates the note
+   from the section, which is true at every width - so there is nothing responsive left to
+   fix here beyond the column collapse. */
 @media(max-width:640px){ .verified{grid-template-columns:1fr;gap:6px;} }
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */

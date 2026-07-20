@@ -5,6 +5,18 @@ export interface Source { label: string; href: string; verified?: string; }
 export interface Fact { key: string; value: string; note?: string; }
 export interface Step { title: string; body: string; }
 export interface TopicCard { tag: string; title: string; body: string; } // body may contain <b>
+
+/**
+ * A syllabus row. Widens TopicCard rather than replacing it, because the five states author
+ * their module data differently: QLD and WA carry module numbers inside `body`, ACT and TAS
+ * are prose with none, and NSW's "groups" are the regulator's units of competency. Both new
+ * fields are optional, so every existing file renders unchanged and a state adopts them when
+ * its copy is actually written, rather than being back-filled from a guess.
+ */
+export interface ModuleGroup extends TopicCard {
+  modules?: string;   // e.g. "Modules 1-2" - pulled out of the prose so it can be scanned
+  outcome?: string;   // what the reader can DO after this group
+}
 export interface PriceRow { label: string; sub?: string; amount: string; isTotal?: boolean; }
 export interface FAQItem { q: string; a: string; open?: boolean; }
 export interface NavItem { label: string; href: string; sectionId: string; }

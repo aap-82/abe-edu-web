@@ -1,4 +1,4 @@
-import type { TopicCard } from '../types/course';
+import type { TopicCard, ModuleGroup } from '../types/course';
 
 /**
  * NSW is the first ASQA-accredited course page, and its module list is not an ABE
@@ -11,7 +11,7 @@ import type { TopicCard } from '../types/course';
  * have to move together - a superseded unit taught as current is a mistakes-log M1
  * blocker, not a copy edit.
  */
-export const moduleGroups: TopicCard[] = [
+export const moduleGroups: ModuleGroup[] = [
   {
     tag: 'CPCCWHS2001',
     title: 'Apply WHS requirements, policies and procedures in the construction industry',
