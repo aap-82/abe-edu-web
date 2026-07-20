@@ -65,7 +65,11 @@ const navGroups: Group[] = [
   {
     label: 'Owner Builder',
     megaLabel: 'Owner builder courses by state',
-    hub: { label: 'Owner Builder Hub', href: 'https://www.abeeducation.edu.au/owner-builder-courses' },
+    // Relative: this hub ships in THIS build (A1), so an absolute URL would send preview
+    // and dev traffic to the legacy site for a page that exists right here. The remaining
+    // absolute hrefs in this file point at pages that only exist on the old site; they are
+    // allow-listed in guardrails' LEGACY_LINK_OK and become paths as each one ships.
+    hub: { label: 'Owner Builder Hub', href: '/owner-builder-courses' },
     items: [
       { code: 'NSW', name: 'NSW Owner Builder', href: '/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
       { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'Approved by the QBCC' },

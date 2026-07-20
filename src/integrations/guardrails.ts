@@ -118,6 +118,27 @@ const SG_EXEMPT: Record<string, string> = {
 };
 
 /* ---------------------------------------------------------------------------
+   PRODUCTION-ORIGIN LINK ALLOWLIST (see check 7b).
+
+   Paths that may still be linked absolutely because they exist ONLY on the legacy
+   LearnWorlds site, not on this build. Linking them relatively would 404 on the
+   preview and on production until their replacement ships.
+
+   Each entry names the wave that retires it. This list should empty itself: when a
+   page ships here, its entry comes out and the link becomes a path. Nothing enforces
+   that automatically the way the redirect PENDING list does, because a page existing
+   in dist/ is not proof the nav should stop pointing at the old one - that is a
+   content decision. Check it at each wave's exit gate.
+   --------------------------------------------------------------------------- */
+const LEGACY_LINK_OK = new Set<string>([
+  '/white-card',   // B2 - White Card hub
+  '/insurances',   // B1 - insurance hub
+  '/about',        // B4
+  '/faq',          // B4
+  '/contact',      // B4
+]);
+
+/* ---------------------------------------------------------------------------
    INLINE-STYLE RATCHET for hand-built .astro pages.
 
    MDX bodies are held to zero inline styles (rule 1 below). Hand-built pages are
@@ -383,6 +404,24 @@ export default function guardrails(): AstroIntegration {
 
           // 7 - unresolved facts must never ship
           if (/\[confirm:/i.test(html)) fails.push(`${name}: unresolved [confirm: ...] marker in the output.`);
+
+          // 7b - no VISIBLE link may hardcode our own production origin.
+          //
+          // This is the third bug in one week caused by the preview host differing from the
+          // production host, after the staging noindex and the breadcrumb trail. An <a> to
+          // https://www.abeeducation.edu.au/x navigates OFF the preview Worker to the real
+          // domain, which until cutover is still the LearnWorlds site and has none of these
+          // pages - so the link 404s for anyone testing, and breaks `npm run dev` the same
+          // way. Post-cutover it still forces a cross-origin navigation for no reason.
+          //
+          // Only <a href> is checked. Canonical, OG/Twitter meta and the JSON-LD @id / item
+          // / url fields are all REQUIRED to be absolute and are left alone: this reads
+          // anchors only, not the whole document.
+          for (const [, href] of html.matchAll(/<a\b[^>]*\shref="(https?:\/\/(?:www\.)?abeeducation\.edu\.au[^"]*)"/gi)) {
+            const path = href.replace(/^https?:\/\/(?:www\.)?abeeducation\.edu\.au/i, '') || '/';
+            if (LEGACY_LINK_OK.has(path)) continue;
+            fails.push(`${name}: <a> links to the production origin (${href}). Use the path "${path}" so it resolves on whatever host serves the page. If it points at a page that only exists on the legacy site, add it to LEGACY_LINK_OK with the wave that replaces it.`);
+          }
         }
 
         // 8 - orphan pages. A page can build, pass every check above, and still be
