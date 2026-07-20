@@ -31,7 +31,9 @@ const logo = 'https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/ABE%20Logo%20S
 
 interface Sub { code: string; name: string; href?: string; soon?: boolean; desc: string; }
 interface Feature { kicker: string; title: string; body: string; price?: string; }
-interface Hub { label: string; href: string; }
+// `href` optional and `soon` added for the same reason Sub and Link carry them: a
+// destination that does not exist yet renders inert rather than linking somewhere wrong.
+interface Hub { label: string; href?: string; soon?: boolean; }
 interface Link { label: string; href?: string; soon?: boolean; }
 // One shape for every megamenu: a labelled grid of state (or bundle) cards, a hub link,
 // a feature panel, and an optional `extra` row of plain links below a separator. CPD
@@ -49,7 +51,8 @@ const navGroups: Group[] = [
   {
     label: 'White Card',
     megaLabel: 'White Card by state',
-    hub: { label: 'White Card Hub', href: 'https://www.abeeducation.edu.au/white-card' },
+    // Inert until /white-card ships (B2). Was an absolute link to the legacy site.
+    hub: { label: 'White Card Hub', soon: true },
     items: [
       // TODO: none of these five slugs has a page yet, on this site or the old one.
       // Flagged soon so each renders inert rather than linking to a 404. Restore the
@@ -65,10 +68,9 @@ const navGroups: Group[] = [
   {
     label: 'Owner Builder',
     megaLabel: 'Owner builder courses by state',
-    // Relative: this hub ships in THIS build (A1), so an absolute URL would send preview
-    // and dev traffic to the legacy site for a page that exists right here. The remaining
-    // absolute hrefs in this file point at pages that only exist on the old site; they are
-    // allow-listed in guardrails' LEGACY_LINK_OK and become paths as each one ships.
+    // Every destination in this file is now either a path on THIS site or inert. Nothing
+    // links to the production origin: that sent preview and dev traffic to the legacy
+    // LearnWorlds site, and would break outright the moment that site is retired.
     hub: { label: 'Owner Builder Hub', href: '/owner-builder-courses' },
     items: [
       { code: 'NSW', name: 'NSW Owner Builder', href: '/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
@@ -83,7 +85,7 @@ const navGroups: Group[] = [
     // cross-sell, not a sitewide utility link.
     extra: [
       { label: 'Project Advisory', soon: true },
-      { label: 'Insurance', href: 'https://www.abeeducation.edu.au/insurances' },
+      { label: 'Insurance', soon: true },
     ],
   },
   {
@@ -115,9 +117,11 @@ const navGroups: Group[] = [
 // Utility row: About, FAQ, Contact, then Login (below). Experts moved to the footer's
 // Trust column; it is not a top-level nav item in the final IA.
 const utility: Link[] = [
-  { label: 'About', href: 'https://www.abeeducation.edu.au/about' },
-  { label: 'FAQ', href: 'https://www.abeeducation.edu.au/faq' },
-  { label: 'Contact', href: 'https://www.abeeducation.edu.au/contact' },
+  // All three ship in B4. Inert until then rather than linking to the legacy site, which
+  // sends preview and dev traffic off-site and breaks the moment that site is retired.
+  { label: 'About', soon: true },
+  { label: 'FAQ', soon: true },
+  { label: 'Contact', soon: true },
 ];
 
 // Student sign-in, in the main row where the enrol CTA used to sit. Outlined rather
@@ -132,6 +136,11 @@ const norm = (h?: string) => (h ?? '').replace(/\/+$/, '') || '/';
 const path = norm(Astro.url.pathname);
 const on = (h?: string) => !!h && h.startsWith('/') && norm(h) === path;
 const groupOn = (g: Group) => g.items.some((s) => !s.soon && on(s.href));
+
+// Desktop megamenu "Start here" hub link.
+const hubLink = (h: Hub) => h.soon
+  ? `<span class="mlink soon" aria-disabled="true">${h.label}<em>Soon</em></span>`
+  : `<a class="mlink" href="${h.href}">${h.label} <span class="arr" aria-hidden="true">&rarr;</span></a>`;
 
 const card = (s: Sub) => s.soon
   ? `<span class="mcard soon"><span class="mst">${s.code}</span><span class="mname">${s.name}<em>Soon</em></span><span class="mdesc">${s.desc}</span></span>`
@@ -152,7 +161,7 @@ const mega = (g: Group, i: number) => `<div class="mega" id="mega-${i}">`
   + extraHtml(g)
   + `</div>`
   + `<div class="mcol mcol-side"><p class="mlabel">Start here</p>`
-  + `<a class="mlink" href="${g.hub.href}">${g.hub.label} <span class="arr" aria-hidden="true">&rarr;</span></a>`
+  + hubLink(g.hub)
   + `<div class="mfeat"><span class="mfeat-k">${g.feature.kicker}</span><p class="mfeat-t">${g.feature.title}</p><p class="mfeat-d">${g.feature.body}</p>`
   + priceHtml(g.feature)
   + `</div></div></div></div>`;
@@ -174,15 +183,24 @@ const triggerFor = (label: string, active: boolean, i: number) => `<button type=
 const megaItem = (g: Group, i: number) => `<div class="ni ni-mega">` + triggerFor(g.label, groupOn(g), i) + mega(g, i) + `</div>`;
 
 // About/FAQ/Contact have no panel behind them, so they render as plain links.
-const navLink = (l: Link) => `<a class="nav-l${on(l.href) ? ' active' : ''}" href="${l.href}">${l.label}</a>`;
+const navLink = (l: Link) => l.soon
+  ? `<span class="nav-l soon" aria-disabled="true" title="Coming soon">${l.label}</span>`
+  : `<a class="nav-l${on(l.href) ? ' active' : ''}" href="${l.href}">${l.label}</a>`;
 
 // One row: the four megamenus first, in the final IA's order, then the utility links.
 const navHtml = navGroups.map((g, i) => megaItem(g, i)).join('') + utility.map(navLink).join('');
 
-const link = (l: Link) => `<a href="${l.href}">${l.label}</a>`;
+const link = (l: Link) => l.soon
+  ? `<span class="dd-soon" aria-disabled="true">${l.label}<em>Soon</em></span>`
+  : `<a href="${l.href}">${l.label}</a>`;
 
 // Burger menu keeps everything the strip drops on small screens.
 const moreLinks = utility.concat([studentPortal]).map(link).join('');
+
+// Mobile burger hub link.
+const mHub = (h: Hub) => h.soon
+  ? `<span class="bg-hub soon" aria-disabled="true">${h.label}<em>Soon</em></span>`
+  : `<a class="bg-hub" href="${h.href}">${h.label}</a>`;
 
 const mSub = (s: Sub) => s.soon
   ? `<span class="dd-soon" aria-disabled="true">${s.name}<em>Soon</em></span>`
@@ -195,7 +213,7 @@ const mExtra = (e: Link) => e.soon
 const mGroup = (g: Group) => `<div class="bg"><p class="bg-h">${g.label}</p>`
   + g.items.map(mSub).join('')
   + (g.extra ? `<p class="bg-sub">Also</p>` + g.extra.map(mExtra).join('') : '')
-  + `<a class="bg-hub" href="${g.hub.href}">${g.hub.label}</a></div>`;
+  + mHub(g.hub) + `</div>`;
 
 // Burger order mirrors the primary row.
 const mnavHtml = navGroups.map(mGroup).join('')
@@ -318,6 +336,8 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .nav-trigger.active{ color:var(--maroon); background:var(--active-bg); }
   .site-head .ni.open .nav-trigger{ color:var(--maroon); background:var(--nav-hover); }
   /* Experts and Insurance: plain links, no chevron, since no panel sits behind them */
+  .site-head .nav-l.soon{ color:var(--slate-light); cursor:default; }
+  .site-head .nav-l.soon:hover{ color:var(--slate-light); background:none; }
   .site-head .nav-l{ font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; color:var(--ink-3); text-decoration:none; line-height:1; display:inline-flex; align-items:center; padding:10px 12px; border-radius:7px; transition:color .15s, background .15s; }
   .site-head .nav-l:hover{ color:var(--maroon); background:var(--nav-hover); }
   .site-head .nav-l.active{ color:var(--maroon); background:var(--active-bg); }
@@ -358,7 +378,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mcard.soon{ cursor:default; }
   .site-head .mcard.soon .mst, .site-head .mcard.soon .mname{ color:var(--slate-light); }
   .site-head .mcard.soon .mst{ border-color:var(--rule); }
-  .site-head .mcard em, .site-head .dd-soon em, .site-head .mextra-l em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  .site-head .mcard em, .site-head .dd-soon em, .site-head .mextra-l em, .site-head .mlink.soon em, .site-head .bg-hub.soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
   /* Extra row (Owner Builder's Project Advisory + Insurance): plain links below a
      hairline, inside the same main column as the state grid. */
   .site-head .mextra{ margin-top:18px; padding-top:16px; border-top:1px solid var(--rule); display:flex; gap:22px; flex-wrap:wrap; }
@@ -367,6 +387,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mextra-l.soon{ color:var(--slate-light); cursor:default; }
 
   .site-head .mcol-side{ border-left:1px solid var(--rule); padding-left:34px; }
+  .site-head .mlink.soon{ display:inline-flex; align-items:center; gap:8px; color:var(--slate-light); border-bottom:0; cursor:default; }
   .site-head .mlink{ display:inline-block; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-strong); padding-bottom:2px; transition:color .15s, border-color .15s; }
   .site-head .mlink:hover{ color:var(--maroon); border-color:var(--maroon); }
   .site-head .mfeat{ margin-top:22px; border:1px solid var(--rule); border-radius:9px; padding:16px 17px; background:var(--paper-warm); }
@@ -396,6 +417,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate-light); margin:12px 0 3px; }
   .site-head .mnav .bg-h + .bg-sub{ margin-top:2px; }
   .site-head .mnav .bg-hub{ color:var(--maroon); font-weight:600; }
+  .site-head .mnav .bg-hub.soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--slate-light); font-weight:500; cursor:default; }
   .site-head .mnav .dd-soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 6px; color:var(--slate-light); }
 
   @media (max-width:900px){
