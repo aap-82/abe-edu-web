@@ -10,8 +10,14 @@
 # credentialCategory MUST be "Statement of Attainment" here; the schema's superRefine rejects
 # "Certificate of Completion" on an asqa-accredited course.
 #
-# This page consolidates two live URLs, /owner-builder-nsw-course (335 clicks) and
-# /nsw-owner-builder-course (151), onto this slug. Both 301s are already in redirects.csv.
+# This page consolidates two live URLs onto this slug, and the direction is evidence-led
+# rather than tidy. /nsw-owner-builder-course reads better beside qld-/wa-/tas-/act-, but the
+# per-page GSC exports (16 months, pulled 20 Jul 2026) show it losing on every axis that
+# matters: the two URLs share 150 queries, /owner-builder-nsw-course ranks better on 122 of
+# them, and the 51 queries unique to /nsw-owner-builder-course produce ZERO clicks. Making the
+# weaker URL canonical would have redirected a page-one URL (pos 9.7) into a page-two one
+# (pos 16.5) to buy slug symmetry nobody outside this repo can see. Both 301s are in
+# redirects.csv.
 #
 # Government facts verified against nsw.gov.au on 20 Jul 2026. NOT yet fact-ledgered, and
 # therefore deliberately absent: home building compensation cover, warranty obligations on
@@ -19,7 +25,7 @@
 # write them from memory.
 title: "Owner Builder Course NSW - Nationally Recognised, Online $199"
 description: "The NSW owner builder course, online and self-paced for $199. Five nationally recognised units delivered by Upskill Institute (RTO 45708) for your NSW owner-builder permit."
-canonical: "https://www.abeeducation.edu.au/nsw-owner-builder-course"
+canonical: "https://www.abeeducation.edu.au/owner-builder-nsw-course"
 state: "NSW"
 authorityModel: "asqa-accredited"
 partnerRto:
@@ -48,7 +54,7 @@ regulator:
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
   - { name: "Owner Builder Training", item: "https://www.abeeducation.edu.au/owner-builder-courses" }
-  - { name: "NSW Owner Builder", item: "https://www.abeeducation.edu.au/nsw-owner-builder-course" }
+  - { name: "NSW Owner Builder", item: "https://www.abeeducation.edu.au/owner-builder-nsw-course" }
 reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "20 July 2026" }
 nav:
   - { label: "Need a permit?", href: "#need", sectionId: "need" }
