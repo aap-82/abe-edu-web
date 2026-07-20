@@ -42,7 +42,8 @@ interface Link { label: string; href?: string; soon?: boolean; }
 // Builder and White Card, so one Group type and one renderer now covers all four.
 interface Group { label: string; megaLabel: string; hub: Hub; items: Sub[]; feature: Feature; extra?: Link[]; }
 
-// Authority lines are legally load-bearing. QLD is QBCC-approved; WA only supports a
+// Authority lines are legally load-bearing. QLD is QBCC-approved AND must name the
+// NONACCABE course code wherever approval is claimed (QBCC approval condition 4); WA only supports a
 // Form 75 approval, since no approved owner-builder course exists in WA; NSW and the
 // White Card are nationally recognised via the RTO partner. Unreleased states claim
 // nothing at all. Final nav IA (W0-4): four dropdowns in this order - White Card,
@@ -74,7 +75,7 @@ const navGroups: Group[] = [
     hub: { label: 'Owner Builder Hub', href: '/owner-builder-courses' },
     items: [
       { code: 'NSW', name: 'NSW Owner Builder', href: '/nsw-owner-builder-course', desc: 'Nationally recognised, with our RTO partner' },
-      { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'Approved by the QBCC' },
+      { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'QBCC-approved: the NONACCABE course' },
       { code: 'WA', name: 'WA Owner Builder', href: '/wa-owner-builder-course', desc: 'Supports your Form 75 approval' },
       { code: 'TAS', name: 'TAS Owner Builder', href: '/tas-owner-builder-course', desc: 'Approved by CBOS Tasmania' },
       { code: 'ACT', name: 'ACT Owner Builder', href: '/act-owner-builder-course', desc: 'State-approved via Access Canberra' },

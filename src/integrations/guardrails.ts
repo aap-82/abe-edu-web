@@ -407,6 +407,46 @@ export default function guardrails(): AstroIntegration {
             const path = href.replace(/^https?:\/\/(?:www\.)?abeeducation\.edu\.au/i, '') || '/';
             fails.push(`${name}: <a> links to the production origin (${href}). Use the path "${path}" if that page exists in this build, or render the item inert (soon: true) if it does not. Nothing in this build should link to the live domain.`);
           }
+
+          // 7c - QBCC approval claims must carry the approved course code.
+          //
+          // Not a style rule. ABE's QLD owner builder approval is INTERIM and NON-EXCLUSIVE
+          // (QBCC letter, Cameron Byram, 25 May 2026), and two of its eight conditions bind
+          // this site directly:
+          //
+          //   condition 2 - all references to 10274NAT must be removed. That is the code the
+          //                 material was reviewed AGAINST, not the code it now carries.
+          //   condition 4 - any reference to QBCC approval must include the approved course
+          //                 code, NONACCABE QBCC Owner Builder Course.
+          //
+          // Condition 7 lets the QBCC suspend or withdraw approval over "misleading
+          // representations", which is what makes a bare "QBCC-approved" badge a commercial
+          // risk rather than a wording preference. From 1 Jan 2027 the QBCC accepts permit
+          // applications only where the completion carries the NONACC prefix.
+          //
+          // Enforced per CLAIM, by proximity - deliberately not per page. A per-page check
+          // reads as the obvious implementation and is worthless here: SiteHeader's nav
+          // carries "QBCC-approved: the NONACCABE course" into every page in the build, so
+          // "does this page mention NONACCABE anywhere" is true on all 16 pages no matter
+          // what the body copy says. Verified by stripping the code from the hub's own copy
+          // and watching a page-level check pass it.
+          //
+          // So each claim must carry the code within its own window. 200 chars either side,
+          // which is wide enough to survive the markup between a claim and its code (the QLD
+          // capsule puts the code ~40 chars ahead of the claim, inside tags) and tight enough
+          // that a claim cannot borrow the nav's copy from the top of the document.
+          if (/10274/.test(html)) {
+            fails.push(`${name}: references 10274NAT, the superseded course code. QBCC approval condition 2 requires every reference to it to be removed. The approved code is NONACCABE QBCC Owner Builder Course.`);
+          }
+          const CLAIM = /QBCC[- ]approved|approved by the QBCC/gi;
+          for (const m of html.matchAll(CLAIM)) {
+            const at = m.index ?? 0;
+            const window = html.slice(Math.max(0, at - 200), at + m[0].length + 200);
+            if (!/NONACC/i.test(window)) {
+              const snippet = html.slice(Math.max(0, at - 60), at + 60).replace(/\s+/g, ' ');
+              fails.push(`${name}: claims QBCC approval without the course code beside it ("...${snippet}..."). QBCC approval condition 4 requires any reference to QBCC approval to include "NONACCABE QBCC Owner Builder Course", or "NONACCABE" where space is tight. The approval covers the reviewed course material only, never ABE Education as an organisation.`);
+            }
+          }
         }
 
         // 8 - orphan pages. A page can build, pass every check above, and still be
