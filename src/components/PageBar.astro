@@ -20,10 +20,24 @@ import type { Crumb, Reviewed } from '../types/course';
 interface Props { crumbs: Crumb[]; reviewed?: Reviewed; }
 const { crumbs, reviewed } = Astro.props;
 
+// `item` is absolute because schema.org's BreadcrumbList requires it, and the visible
+// trail shares that field so the two cannot drift. But an absolute production URL is the
+// wrong thing to put in a VISIBLE href: on the preview Worker it navigates off the preview
+// to www.abeeducation.edu.au, which until cutover is still the LearnWorlds site and has
+// none of these pages, so every breadcrumb click 404s. It breaks `npm run dev` the same
+// way. Strip our own origin so the link is same-origin wherever the page is served, and
+// keep `item` absolute for the JSON-LD.
+//
+// Only OUR origin is stripped: a crumb pointing anywhere else stays absolute, and a crumb
+// already written as a path passes through untouched.
+const origin = Astro.site?.origin ?? '';
+const toPath = (item: string) =>
+  origin && item.startsWith(origin) ? (item.slice(origin.length) || '/') : item;
+
 const last = crumbs.length - 1;
 const crumb = (c: Crumb, i: number) => i === last
   ? `<li><span aria-current="page">${c.name}</span></li>`
-  : `<li><a href="${c.item}">${c.name}</a></li>`;
+  : `<li><a href="${toPath(c.item)}">${c.name}</a></li>`;
 const crumbsHtml = crumbs.map(crumb).join('');
 
 // The reviewer's name links to the proof of the review: an on-page section anchor on
