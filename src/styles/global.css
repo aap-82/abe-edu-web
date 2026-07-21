@@ -123,7 +123,10 @@ p strong{color:var(--ink);font-weight:600;}
 /* Active ("you are here"): a deeper grey chip with full-ink bold text. Neutral, not an accent,
    and a clearly darker grey than the hover pill so the two never read alike. Hovering the
    active chip deepens the grey a touch more for feedback. */
-.waynav a.j.active{color:var(--ink);background:var(--way-active);font-weight:600;}
+/* 500, not 600: DM Mono is loaded at 400 and 500 only (see BaseLayout's font link), so 600
+   was being synthesised as a faux-bold - a smeared approximation rather than a real cut. 500
+   is the heaviest weight the face actually ships, so it is both lighter and cleaner. */
+.waynav a.j.active{color:var(--ink);background:var(--way-active);font-weight:500;}
 .waynav a.j.active:hover{color:var(--ink);background:#cdcfd3;}
 /* 9px/20px: a 26-character label needs more side air than 16px, and the extra 1px of
    vertical padding balances the cap height. Radius steps 5->6 for the taller box.
