@@ -19,6 +19,13 @@ const person = z.object({
   portrait: img.optional(),
 });
 
+// Where a layout-owned block renders relative to the MDX body. Defaults to 'after-body',
+// which is the behaviour every page had before this existed, so adding it changes nothing
+// until a page opts in. 'after-hero' puts the block directly under the wayfinder nav, i.e.
+// first content on the page - which is where a CPD page's points and an ASQA page's RTO
+// partner belong, since both answer the question the reader arrived with.
+const blockPlacement = z.enum(['after-hero', 'after-body']).default('after-body');
+
 // ASQA-accredited courses are delivered and assessed by a named RTO partner; ABE is the
 // publisher, never the RTO. partnerRto exists if and only if the model is asqa-accredited
 // (enforced by the superRefine below).
@@ -32,6 +39,10 @@ const partnerRto = z.object({
   // would have forced the other four into prose where nothing checks them.
   units: z.array(z.object({ code: z.string(), name: z.string() })).optional(),
   credential: z.string().optional(), // defaults to "Statement of Attainment" in PartnerDisclosure
+  placement: blockPlacement,
+  // Heading copy is content, not layout. It was hardcoded in CourseLayout, which meant a
+  // White Card page and an NSW owner builder page were forced to use the same words.
+  eyebrow: z.string().default('Delivered with our RTO partner'),
 });
 
 // CPD course template (W0-2). Optional: only courses that are a CPD product carry it.
@@ -42,6 +53,23 @@ const cpd = z.object({
   licenceClasses: z.array(z.string()),     // licence classes this course counts towards
   approvalRef: z.object({ label: z.string(), href: z.string().url() }), // e.g. the CBOS listing
   renewalPeriod: z.string(),               // e.g. "Renews annually, 1 July"
+  placement: blockPlacement,
+  // Same reasoning as partnerRto.eyebrow. Defaults reproduce the strings that were
+  // previously hardcoded in CourseLayout, so existing pages render identically.
+  headings: z.object({
+    points: z.object({
+      eyebrow: z.string().default('What you need'),
+      h2: z.string().default('How many CPD points does this course give you?'),
+    }).prefault({}),
+    matrix: z.object({
+      eyebrow: z.string().default('Compare'),
+      h2: z.string().default('Where else this counts'),
+    }).prefault({}),
+    bundle: z.object({
+      eyebrow: z.string().default('Bundle and save time'),
+      h2: z.string().default('Complete your full CPD requirement in one order'),
+    }).prefault({}),
+  }).prefault({}),
   matrix: z.object({
     caption: z.string().optional(),
     states: z.array(z.string()),

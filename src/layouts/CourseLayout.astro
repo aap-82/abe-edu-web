@@ -42,6 +42,12 @@ const cpdFacts = cpd ? [
 // but the layout still guards on both so a template change cannot render a partner block
 // without a partner. The RTO partner delivers and issues the credential; ABE publishes.
 const asqa = authorityModel === 'asqa-accredited' && partnerRto ? partnerRto : null;
+// Placement is read off the block itself so the two can differ. A page carrying both a cpd
+// object and an asqa partner is unusual but not impossible, and there is no reason they
+// should be forced to the same position. `asqa` is partnerRto passed through by reference
+// (line above), not reshaped, so `placement` and `eyebrow` carry through unchanged.
+const cpdPlacement = cpd?.placement ?? 'after-body';
+const rtoPlacement = asqa?.placement ?? 'after-body';
 const asqaCredential = asqa?.credential ?? 'Statement of Attainment';
 // The per-course ASQA footer legal disclosure (location 3 of the 7 the ASQA disclosure
 // framework requires per course page), owned by the layout so no ASQA page can ship without
@@ -113,31 +119,57 @@ const schema = {
   <Hero {...hero} cta={cta} />
   {/* Jump nav sits below the hero: it only sticks once you scroll past it. */}
   <WayfinderNav items={nav} cta={cta} />
+  {/* Layout-owned blocks render either side of the body, per each block's own `placement`.
+      The two branches are mutually exclusive, so every id appears at most once at runtime. */}
+  {cpd && cpdPlacement === 'after-hero' && (
+    <>
+      <Section id="cpd-points" bg="bg-alt" eyebrow={cpd.headings.points.eyebrow} h2={cpd.headings.points.h2}>
+        <FactGrid items={cpdFacts} />
+        <p class="cpd-approval-note">Listed as an approved CPD activity by <a href={cpd.approvalRef.href}>{cpd.approvalRef.label}</a>.</p>
+      </Section>
+      {cpd.matrix && (
+        <Section id="cpd-matrix" eyebrow={cpd.headings.matrix.eyebrow} h2={cpd.headings.matrix.h2}>
+          <CpdMatrix states={cpd.matrix.states} rows={cpd.matrix.rows} caption={cpd.matrix.caption} />
+        </Section>
+      )}
+      {cpd.bundle && (
+        <Section id="cpd-bundle" bg="bg-alt" eyebrow={cpd.headings.bundle.eyebrow} h2={cpd.headings.bundle.h2}>
+          <BundleOffer {...cpd.bundle} />
+        </Section>
+      )}
+    </>
+  )}
+
+  {asqa && rtoPlacement === 'after-hero' && (
+    <Section id="rto-partner" bg="bg-alt" eyebrow={asqa.eyebrow}>
+      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} />
+    </Section>
+  )}
+
   <slot />
-  {cpd && (
-    <Section id="cpd-points" bg="bg-alt" eyebrow="What you need" h2="How many CPD points does this course give you?">
-      <FactGrid items={cpdFacts} />
-      <p class="cpd-approval-note">Listed as an approved CPD activity by <a href={cpd.approvalRef.href}>{cpd.approvalRef.label}</a>.</p>
-    </Section>
+
+  {cpd && cpdPlacement === 'after-body' && (
+    <>
+      <Section id="cpd-points" bg="bg-alt" eyebrow={cpd.headings.points.eyebrow} h2={cpd.headings.points.h2}>
+        <FactGrid items={cpdFacts} />
+        <p class="cpd-approval-note">Listed as an approved CPD activity by <a href={cpd.approvalRef.href}>{cpd.approvalRef.label}</a>.</p>
+      </Section>
+      {cpd.matrix && (
+        <Section id="cpd-matrix" eyebrow={cpd.headings.matrix.eyebrow} h2={cpd.headings.matrix.h2}>
+          <CpdMatrix states={cpd.matrix.states} rows={cpd.matrix.rows} caption={cpd.matrix.caption} />
+        </Section>
+      )}
+      {cpd.bundle && (
+        <Section id="cpd-bundle" bg="bg-alt" eyebrow={cpd.headings.bundle.eyebrow} h2={cpd.headings.bundle.h2}>
+          <BundleOffer {...cpd.bundle} />
+        </Section>
+      )}
+    </>
   )}
-  {cpd?.matrix && (
-    <Section id="cpd-matrix" eyebrow="Compare" h2="Where else this counts">
-      <CpdMatrix states={cpd.matrix.states} rows={cpd.matrix.rows} caption={cpd.matrix.caption} />
-    </Section>
-  )}
-  {cpd?.bundle && (
-    <Section id="cpd-bundle" bg="bg-alt" eyebrow="Bundle and save time" h2="Complete your full CPD requirement in one order">
-      <BundleOffer {...cpd.bundle} />
-    </Section>
-  )}
-  {asqa && (
-    <Section id="rto-partner" bg="bg-alt" eyebrow="Delivered with our RTO partner">
-      <PartnerDisclosure
-        partner={asqa.name}
-        rto={asqa.rtoNumber}
-        units={asqa.units}
-        credential={asqaCredential}
-      />
+
+  {asqa && rtoPlacement === 'after-body' && (
+    <Section id="rto-partner" bg="bg-alt" eyebrow={asqa.eyebrow}>
+      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} />
     </Section>
   )}
   <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
