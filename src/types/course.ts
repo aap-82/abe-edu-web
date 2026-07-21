@@ -16,6 +16,16 @@ export interface TopicCard { tag: string; title: string; body: string; } // body
 export interface ModuleGroup extends TopicCard {
   modules?: string;   // e.g. "Modules 1-2" - pulled out of the prose so it can be scanned
   outcome?: string;   // what the reader can DO after this group
+  /**
+   * The individual modules in this group, numbered. Optional, and where present it REPLACES
+   * the prose body: "Course Introduction, and the Key Responsibilities of an Owner Builder"
+   * buried both module numbers and both names in one sentence, so a reader could not tell
+   * which name belonged to which number. Each module gets its own line instead.
+   *
+   * `body` stays available for a note the list cannot carry. It is not a second copy of the
+   * list - duplicating the contents in both fields is exactly how the two drift apart.
+   */
+  contents?: Array<{ n: string; name: string }>;
 }
 export interface PriceRow { label: string; sub?: string; amount: string; isTotal?: boolean; }
 export interface FAQItem { q: string; a: string; open?: boolean; }

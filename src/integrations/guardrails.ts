@@ -117,6 +117,37 @@ const SG_EXEMPT: Record<string, string> = {
   StickyCta: 'fixed overlay; would pin itself over the styleguide. Described by name instead.',
 };
 
+/* Components that exist but have no specimen YET.
+
+   SG_EXEMPT is permanent and structural: StickyCta will never have a specimen because it
+   would pin itself over the page. SG_PENDING is the opposite - a component that SHOULD be
+   documented and is not yet, because it is still being drafted.
+
+   This mirrors the `[confirm: ...]` convention for facts: legal while drafting, a publish
+   hard-blocker at the gate. The TAS page carried eight stranded `[confirm:]` markers until
+   the build started refusing them, so the expiry below is not optional decoration - it is
+   the part that stops this list becoming a graveyard.
+
+   Three exits, all failures:
+     used on an indexable page  -> fail. Draft shapes stay on noindex variants.
+     used in a second file      -> fail. Two uses is the promotion rule; it is real now.
+     older than PENDING_MAX_DAYS-> fail. Draft state is temporary by definition.  */
+const SG_PENDING: Record<string, { added: string; owner: string; why: string }> = {
+  // CpdPointsLede: {
+  //   added: '2026-07-21',
+  //   owner: 'Andrey',
+  //   why: 'points-first opening for the CPD archetype; no existing component carries it',
+  // },
+};
+
+const PENDING_MAX_DAYS = 30;
+
+// The YAML frontmatter block of an MDX file, or '' if it has none.
+function frontmatterOf(src: string): string {
+  const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  return m ? m[1] : '';
+}
+
 
 /* ---------------------------------------------------------------------------
    INLINE-STYLE RATCHET for hand-built .astro pages.
@@ -199,14 +230,87 @@ function lintSource(logger: { warn: (m: string) => void }): string[] {
       }
     }
   }
-  // 2 - every component must have a styleguide specimen, or a stated reason not to.
+  // 2 - every component must have a styleguide specimen, a permanent exemption, or a dated
+  //     pending entry. See SG_PENDING for what pending permits and how it expires.
   const sg = readFileSync(join(root, 'src/pages/styleguide.astro'), 'utf8');
+  // contentRoot is already declared by rule 1 above (same value); reused rather than shadowed.
+  const pagesDir = join(root, 'src/pages');
+  const mdxRel = walkExt(contentRoot, '.mdx');
+  const astroRel = walkExt(pagesDir, '.astro');
+  const pendingReport: string[] = [];
+
   for (const f of readdirSync(join(root, 'src/components'))) {
     const name = f.replace('.astro', '');
     if (SG_EXEMPT[name]) continue;
-    if (!sg.includes(`components/${f}`)) {
-      fails.push(`${name} has no styleguide specimen. The library must show every component it carries.`);
+    if (sg.includes(`components/${f}`)) continue;
+
+    const pending = SG_PENDING[name];
+    if (!pending) {
+      fails.push(
+        `${name} has no styleguide specimen. The library must show every component it carries. ` +
+        `If this shape is still being drafted, add a dated SG_PENDING entry rather than leaving it undocumented.`
+      );
+      continue;
     }
+
+    // Where is it actually used?
+    const used = new RegExp(`<${name}[\\s/>]`);
+    const inMdx = mdxRel.filter((r) => used.test(readFileSync(join(contentRoot, r), 'utf8')));
+    const inAstro = astroRel.filter((r) => used.test(readFileSync(join(pagesDir, r), 'utf8')))
+      // the styleguide and preview pages are internal and never published
+      .filter((r) => !/(styleguide|preview)\.astro$/.test(r));
+
+    // Exit 1 - indexable pages. A pending component is a draft; drafts live on noindex
+    // variants, which are already out of the sitemap and exempt from the orphan check.
+    // ^-anchored, multiline: `noindex` must be a real YAML key at the start of its line, not a
+    // mention inside a frontmatter COMMENT. The patch's original /\bnoindex:\s*true\b/ matched
+    // this page's own comment block ("It is `noindex: true`, excluded from the sitemap..."),
+    // so an indexable page read as noindex and exit 1 silently never fired.
+    const indexable = inMdx.filter((r) => !/^noindex:\s*true\b/m.test(frontmatterOf(readFileSync(join(contentRoot, r), 'utf8'))));
+    for (const r of indexable) {
+      fails.push(
+        `${name} is pending a styleguide specimen but is used on the indexable page src/content/${r}. ` +
+        `Give it a specimen, or set noindex: true on that page while the shape is still a draft.`
+      );
+    }
+    for (const r of inAstro) {
+      fails.push(
+        `${name} is pending a styleguide specimen but is used in the hand-built page src/pages/${r}, ` +
+        `which cannot be marked noindex. Give it a specimen before using it there.`
+      );
+    }
+
+    // Exit 2 - second use. The promotion rule: the same shape twice is a component,
+    // and a component in two places is one that will be copy-pasted into a third.
+    const useCount = inMdx.length + inAstro.length;
+    if (useCount > 1) {
+      fails.push(
+        `${name} is pending a styleguide specimen but is used in ${useCount} files ` +
+        `(${[...inMdx, ...inAstro].join(', ')}). Two uses means the shape is real. Build the specimen.`
+      );
+    }
+
+    // Exit 3 - expiry.
+    const addedMs = Date.parse(pending.added);
+    if (Number.isNaN(addedMs)) {
+      fails.push(`${name}: SG_PENDING.added ("${pending.added}") is not a parseable date. Use YYYY-MM-DD.`);
+    } else {
+      const days = Math.floor((Date.now() - addedMs) / 86_400_000);
+      if (days > PENDING_MAX_DAYS) {
+        fails.push(
+          `${name} has been pending a styleguide specimen for ${days} days (limit ${PENDING_MAX_DAYS}, owner ${pending.owner}). ` +
+          `Build the specimen, or delete the component if the shape was abandoned.`
+        );
+      } else {
+        pendingReport.push(`${name} - ${days}d of ${PENDING_MAX_DAYS}, owner ${pending.owner}, ${useCount} use(s). ${pending.why}`);
+      }
+    }
+  }
+
+  // The register, printed once. A pending list nobody sees is an allowance, not a queue.
+  if (pendingReport.length) {
+    logger.warn(`ABE guardrails: ${pendingReport.length} component(s) pending a styleguide specimen:`);
+    for (const line of pendingReport) logger.warn(`  - ${line}`);
   }
 
   // 3 - inline-style ratchet on hand-built .astro pages (see INLINE_STYLE_BUDGET above).
