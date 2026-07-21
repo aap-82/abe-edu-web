@@ -13,12 +13,13 @@ interface Props {
   sticky: { label: string; sub?: string; price: string; cta: CTA };
   authority?: string;            // authority model, exposed to the build-time guardrails
   ogImage?: string;              // absolute URL of a social share image; omit to ship text-only cards
+  noindex?: boolean;             // variants and drafts: keep out of the index, stay in the audit
   crumbs?: Crumb[];              // same source as the JSON-LD BreadcrumbList
   reviewed?: Reviewed;           // Warwick Smith on course pages, Dominic Ogburn on hubs
 }
 // WayfinderNav is not rendered here. It belongs between the hero and the first section,
 // so each page places it itself. The scroll-spy script below finds it wherever it sits.
-const { title, description, canonical, schema, sticky, authority, ogImage, crumbs, reviewed } = Astro.props;
+const { title, description, canonical, schema, sticky, authority, ogImage, crumbs, reviewed, noindex } = Astro.props;
 ---
 <!doctype html>
 <html lang="en-AU" data-authority={authority}>
@@ -28,7 +29,7 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ABE Education" />
   <meta property="og:locale" content="en_AU" />

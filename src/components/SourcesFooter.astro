@@ -38,6 +38,16 @@ const legalLinks: FLink[] = [
 ---
 <footer>
   <div class="wrap">
+    {sources.length > 0 && (
+      <div class="f-sources">
+        <span class="f-col-h">Sources</span>
+        <ul class="srclist">
+          {sources.map((s) => (
+            <li><a href={s.href}>{s.label}</a> {s.verified && <span class="vd">{s.verified}</span>}</li>
+          ))}
+        </ul>
+      </div>
+    )}
     <div class="f-links">
       <div class="f-col">
         <span class="f-col-h">Courses</span>
@@ -71,11 +81,6 @@ const legalLinks: FLink[] = [
       <span class="f-meta">ABN {abn} · Training Australians since 2007</span>
       <span class="f-meta">Last updated {updated}</span>
     </div>
-    <ul class="srclist">
-      {sources.map((s) => (
-        <li><a href={s.href}>{s.label}</a> {s.verified && <span class="vd">{s.verified}</span>}</li>
-      ))}
-    </ul>
     <p class="f-auth" set:html={disclaimersHtml} />
   </div>
 </footer>

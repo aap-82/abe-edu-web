@@ -70,6 +70,13 @@ const courses = defineCollection({
     title: z.string(),
     description: z.string(),
     canonical: z.string().url(),
+    // Keeps a page out of the index without keeping it out of the audit. Built for content
+    // VARIANTS: a second take on a page that already ranks must never be crawlable, or the two
+    // cannibalise each other - which is exactly what the NSW dual-URL consolidation had to undo.
+    // Setting this also drops the page from the sitemap (astro.config.mjs) and exempts it from
+    // the orphan check (guardrails 8), since a variant is deliberately unlinked. Everything else
+    // in the audit still runs, so a variant is held to the same standard as a live page.
+    noindex: z.boolean().optional(),
     ogImage: z.string().optional(),
     state: z.string(),
     // authority model drives the credential's recognizedBy (state-approved only)
@@ -83,7 +90,11 @@ const courses = defineCollection({
     courseDescription: z.string(),
     price: z.string(),          // display, e.g. "$179"
     priceNumber: z.string(),    // schema, e.g. "179"
-    courseWorkload: z.string().default('PT4H'),
+    // Optional, no default: a course duration is a MEASURED fact (LearnWorlds average), not
+    // something to guess. Defaulting it silently shipped an invented duration on any page that
+    // omitted it; a self-paced course with no measured average simply carries none, and the
+    // layout omits timeRequired from the schema rather than asserting a number nobody checked.
+    courseWorkload: z.string().optional(),
     credentialName: z.string(),
     credentialCategory: z.string().default('Certificate of Completion'),
     regulator: z.object({ name: z.string(), url: z.string().url() }).optional(),
