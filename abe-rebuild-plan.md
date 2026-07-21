@@ -109,7 +109,7 @@ Clear these before the cutover:
   the settled structure and nothing needs re-slugging after launch.
 - **On-page SEO finalisation** — audit every page against the SEO / E-E-A-T checklist: one H1,
   question-led H2s, 40-60 word answer capsules, single JSON-LD `@graph` with the correct authority model,
-  titles/meta, canonical, internal linking. Use the `abe-seo-content-engine` skill as the checker.
+  titles/meta, canonical, internal linking. Use the `abe-course-page-astro` skill as the checker.
 
 ### Phase E — Go-live cutover
 See the cutover playbook in section 5.

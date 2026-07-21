@@ -153,16 +153,18 @@ render standalone — currently only `StickyCta`, a fixed overlay). When adding 
    needs a specific viewport state), add it to `SG_EXEMPT` in `src/integrations/guardrails.ts` with a
    one-line reason — do not just leave it out silently.
 
-## Verified facts on the live pages (re-verify on cadence)
+## Facts on the live pages
 
-- QLD: QBCC permit fee **$493.59** (re-verified 14 Jul 2026 after the 1 July indexation — this
-  corrects the $477.47 indexation-pending figure this doc previously carried); course $179; bundle
-  $303 (+$124 White Card, CPCCWHS1001); 18 modules; 80% pass / 3 attempts.
-- WA: approval fee **$212 residential / $467 industrial-commercial** — confirmed current 2025-26 (from
-  1 July), verified 8 Jul 2026; **next re-verify 1 Jul 2027**. Course $179; bundle $278 (+$99 White
-  Card, CPCWHS1001); Introduction + 12 modules; 80% pass / 3 attempts; Warwick review 4 Jun 2026.
-- TAS: CBOS permit fees $470.40 (Class 1a) / $235.20 (Class 10), verified 14 Jul 2026, indexed each
-  1 July. Course $185; 80% pass / 3 attempts.
+> **Government figures are not restated here.** `kb/register/` is their single owner, and this section
+> carrying its own verified dates is what let the QLD fee sit at a stale $477.47 while the register had
+> moved on. For any fee, threshold or statutory date, read `kb/register/state-fees-register.md` (indexed
+> by `kb/content-source-map.md`) and nothing else. `npm run build` reports staleness via
+> `scripts/check-freshness.mjs`. Below are the ABE-internal facts only, which the register does not own.
+
+- QLD: course $179; bundle $303 (+$124 White Card, CPCCWHS1001); 18 modules; 80% pass / 3 attempts.
+- WA: course $179; bundle $278 (+$99 White Card, CPCWHS1001); Introduction + 12 modules; 80% pass /
+  3 attempts; Warwick review 4 Jun 2026.
+- TAS: course $185; 80% pass / 3 attempts.
 - ACT: see `content/courses/act-owner-builder-course.mdx` frontmatter and footer sources directly for
   current sourced facts.
 - Full sourced facts live in the research space memory (QLD/WA verified-facts). Fold the load-bearing

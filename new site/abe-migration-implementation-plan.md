@@ -44,7 +44,7 @@ For every owner-builder, White Card and CPD course page. Output: one `content/co
 2b. **[COW] Query-coverage parity gate (category A/B rebuilds only — R4).** From the GSC export, list every query that the *legacy* URL for this page won with clicks > 0. Each must be explicitly covered in the new page — a heading, an answer capsule, or body copy — and the title's search intent stays continuous with the old page. A full content rewrite can rank better, but this gate stops it silently dropping a query the old copy happened to answer. Record the checklist in the fact ledger and confirm at ship.
 3. **[CC] Author** via the `abe-course-page-astro` skill (or the `abe-research-to-webpage` conductor), Stage-6 output target `content/courses/{slug}.mdx`. Set `authorityModel` in frontmatter; `partnerRto` if ASQA. Reuse existing components; any new component ships with a `/styleguide/` specimen in the same commit.
 4. **[CC] In-force check** (mistakes-log M1): verify any standard/NCC edition against the in-force edition for that jurisdiction on the day; treat "newer taught as current" and "superseded taught as current" as equal blockers.
-5. **[CC/COW] Audits:** `abe-seo-content-engine` pre-production check → `abe-readability-audit` → `final-check` / `ai-detector`. Apply fixes.
+5. **[CC/COW] Audits:** the `abe-course-page-astro` Stage-7 pre-production check → `abe-readability-audit` → `final-check` / `ai-detector`. Apply fixes.
 6. **[CC] Ship** when the universal DoD is green. Register the page's primary/secondary keywords for rank tracking (skill Step 7.5).
 
 ### Recipe B — hub page
@@ -179,7 +179,7 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 ## 8. Wave 6 — pre-launch gates, cutover, watch
 
 ### 8.1 Pre-launch gates (all block go-live) — `[CC]`/`[COW]`
-- [ ] Site-wide `abe-seo-content-engine` pre-production audit + `abe-readability-audit` + `final-check` across the finished site.
+- [ ] Site-wide `abe-course-page-astro` Stage-7 pre-production audit + `abe-readability-audit` + `final-check` across the finished site.
 - [ ] Design polish pass against `DESIGN.md` (rhythm, spacing, hierarchy, states, responsive).
 - [ ] Every fee re-verified within its cadence.
 - [ ] `redirects.csv` fully implemented as `public/_redirects`. **Full-inventory verification (R7):** a script checks every one of the ~370 live URLs (321 LW export + 298 GSC, de-duplicated) returns 200 (category A, no-slash, unchanged) or a single-hop 301 to its exact mapped target. Output saved as the cutover evidence file. Blocking — not a spot-check.
