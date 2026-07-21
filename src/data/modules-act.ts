@@ -27,7 +27,7 @@ export const moduleOutcome =
 
 // Section 6 — wider duties cards (ACT). Verified regulatory facts, not course content.
 export const obligationCards: TopicCard[] = [
-  { tag: '01', title: 'Safety training', body: 'The ACT Government expects owner builders to hold a <b>White Card</b> (construction induction) and do <b>asbestos awareness</b> training, and to make sure their workers do too. In the ACT the White Card is delivered face to face and the card carries a <b>$42</b> Access Canberra fee. Both are separate from this course.' },
+  { tag: '01', title: 'Safety training', body: 'The ACT Government expects owner builders to hold a <b>White Card</b> (construction induction) and do <b>asbestos awareness</b> training, and to make sure their workers do too. In the ACT the White Card is delivered face to face and the card carries a <b>$47</b> Access Canberra fee. Both are separate from this course.' },
   { tag: '02', title: 'Insurance', body: 'ACT owner builders <b>do not need residential building (warranty) insurance</b>. But you control the site, so arrange <b>workers compensation</b> for anyone you engage and consider public liability cover.' },
   { tag: '03', title: 'Individuals only', body: 'An owner builder licence can only be held by an <b>individual</b>, not a company, trust or SMSF, and you must be the lessee of the block.' },
   { tag: '04', title: 'One building approval', body: 'The licence attaches to <b>one specific building approval</b>. A later project needs a fresh building approval and a fresh licence.' },
