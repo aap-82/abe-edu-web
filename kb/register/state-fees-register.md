@@ -1,14 +1,13 @@
 ---
 verified: 2026-07-22
 cadence: annual-july
-partial: true
 ---
 
 # ABE Education — State Government Fees Register
 
 The **government** fees an ABE student pays a regulator (never to ABE) — Owner Builder permit/licence/approval fees and White Card card/lodgement fees — for the states where ABE offers the relevant course. Use to populate "total cost" and "what else will I pay" sections and FAQs without re-researching each time. Every figure here is separate from, and additional to, ABE's course fee.
 
-**Partially verified: 22 July 2026.** The 1 July 2026 indexation has passed and every row was re-checked at its official source on 22 July 2026. Seven of the eight changed, one was confirmed unchanged, and **WA alone remains UNVERIFIED for FY26-27** because LGIRS still publishes its owner-builder fees under a 2025-2026 heading (see §4). Do not publish an unverified figure. Re-verify at the official source, update the cell, and move it to the verified list in §4.
+**Verified: 22 July 2026.** The 1 July 2026 indexation has passed and every row was re-checked at its official source on 22 July 2026. Seven of the eight figures changed; NSW's initial White Card position was confirmed unchanged. **All rows are current for FY26-27.** One caveat worth carrying: WA's figures are current per Andrey's confirmation, because LGIRS still publishes its owner-builder fees under a 2025-2026 heading (see §4).
 
 **Re-verify:** before publishing any dollar figure, and at minimum each July — most building and WHS fees are indexed on 1 July. Treat every figure as current-as-at the date noted, not permanent.
 
@@ -22,7 +21,7 @@ The **government** fees an ABE student pays a regulator (never to ABE) — Owner
 |---|---|---|---|---|---|
 | **NSW** | Owner-builder **permit** | Building Commission NSW (lodged via Service NSW) | **$233** ✅ | Verified 22 Jul 2026 (FY26-27) | $90 processing + $143 fixed component; CPI-indexed each 1 July. Published as "Fees for July 2026 - June 2027" (supersedes $224 = $86 + $138). Permit needed for residential work over $10,000; approved course needed at $20,000+. NSW OB course is delivered by RTO partner **Upskill Institute (RTO 45708)**, ABE as enrolment partner only. |
 | **QLD** | Owner builder **permit** | QBCC | **$493.59** ✅ | Verified 21 Jul 2026 (FY26-27) | Non-refundable if unsuccessful; QBCC indexes fees each 1 July. Permit required for residential work over $11,000 (farm buildings exempt to $27,500), approved before any work starts. Approved owner builder course within last 5 years required (QBCC licensees exempt). One permit per 6 years. |
-| **WA** | Owner-builder **approval** (Form 75), then a **building permit** from the local government | Building Services Board, via Building and Energy (LGIRS) — approval; local council permit authority — building permit | **$212.00** residential building / **$467.00** industrial/commercial building (owner-builder approval; non-refundable, GST not payable), **plus** value-based council building permit fees ⚠️ | Checked 22 Jul 2026 — still UNVERIFIED for FY26-27 | **Do not publish.** The LGIRS fee schedule was read on 22 July 2026 and its owner-builder table is still headed "2025-2026 Non-refundable Fee (From 1 July)", so the only figures LGIRS publishes are labelled as the *previous* financial year. The page itself was last updated 10 July 2026 and the owner-builder approval service page 9 July 2026, both after the indexation, but neither presents a 2026-27 figure and no sibling table on the page carries a 2026-27 heading either. $212.00 / $467.00 may well be unchanged, but treating a 2025-2026 label as an FY26-27 figure would be carrying it forward on the assumption indexation did not happen. Resolve with LGIRS Licensing Services (1300 489 099, be.licensingenquiries@lgirs.wa.gov.au) or a 2026 amendment to the Building Services (Registration) Regulations 2011. Two separate costs. Required only where work is over **$20,000**. Approval is valid 6 months — a building-permit application must follow within 6 months or it lapses. One owner-build per 6 years (waiver via Form 76). Resale restriction: offence to sell within 7 years without disclosure. ABE's certificate **supports the Form 75 application** (WA uses a knowledge-requirement model — not a "WA-approved provider"). Fees per the [LGIRS Building and Energy fee schedule](https://www.wa.gov.au/government/multi-step-guides/lgirs-licensing-and-registration-fees-and-charges/building-and-energy-fees) (supersedes the old 2013 $145/$444 figures). |
+| **WA** | Owner-builder **approval** (Form 75), then a **building permit** from the local government | Building Services Board, via Building and Energy (LGIRS) — approval; local council permit authority — building permit | **$212.00** residential building / **$467.00** industrial/commercial building (owner-builder approval; non-refundable, GST not payable), **plus** value-based council building permit fees ✅ | Current for FY26-27 as at 22 Jul 2026 | Figures as published on the [LGIRS Building and Energy fee schedule](https://www.wa.gov.au/government/multi-step-guides/lgirs-licensing-and-registration-fees-and-charges/building-and-energy-fees), read 22 July 2026. LGIRS still heads that table "2025-2026 Non-refundable Fee (From 1 July)" and has published no 2026-27 schedule; the page itself was refreshed 10 July 2026 and the owner-builder approval page 9 July 2026, both after the indexation. Taken as current for FY26-27 on Andrey's confirmation (22 July 2026), not on a 2026-27 label at the source. Re-check when LGIRS republishes the schedule. Two separate costs. Required only where work is over **$20,000**. Approval is valid 6 months — a building-permit application must follow within 6 months or it lapses. One owner-build per 6 years (waiver via Form 76). Resale restriction: offence to sell within 7 years without disclosure. ABE's certificate **supports the Form 75 application** (WA uses a knowledge-requirement model — not a "WA-approved provider"). Fees per the [LGIRS Building and Energy fee schedule](https://www.wa.gov.au/government/multi-step-guides/lgirs-licensing-and-registration-fees-and-charges/building-and-energy-fees) (supersedes the old 2013 $145/$444 figures). |
 | **TAS** | Owner builder **permit**, then a **building permit** from the council permit authority | CBOS (Occupational Licensing Act 2005) — permit; council permit authority — building permit | **$470.40** (work on a Class 1a or 1b building) / **$235.20** (work not on a Class 1a or 1b building) per project ✅ | Verified 22 Jul 2026 (FY26-27) | Per the CBOS fee schedule (Occupational Licensing (Building Services Work) Regulations 2016 s 29C(c), item 2), marked "Updated: 01 Jul 2026"; GST not applicable. Supersedes $458.40 / $229.20. The schedule frames the lower fee as work **not** on a Class 1a or 1b building, which is the same set the register previously described as Class 10a, 10b and 8. Individual only (no company/trust/SMSF). Requires an engaged licensed building surveyor and Public Liability insurance of at least **$5 million**. An approved Tasmanian owner builder course completed in the last **12 months** is required for residential (Class 1a) work; not required for Class 10. Two permits per 10-year period (strictest in Australia). Council building fees (Building Administration Fee + TBCITB training levy) are additional. |
 | **ACT** | Owner builder **licence** | Access Canberra — Construction Occupations Registrar (Construction Occupations (Licensing) Act 2004) | **$320.20** (class 1 or 2, online) / **$239.13** (class 10a only, online) ✅ | Verified 22 Jul 2026 — eff 1 Jul 2026 (DI2026-165) | Per the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), items 2.15-2.18, column 5 (2026-27), which commenced 1 July 2026 and revoked DI2025-166. Supersedes $309.07 / $230.82. In person or via post: **$344.99** (class 1 or 2, item 2.16) / **$250.11** (class 10 only, item 2.18). Owner builders pay **no** separate licence-term fee. An owner builder course completed within the last 5 years is required; a copy of the building approval must accompany the application. |
 
@@ -69,7 +68,9 @@ ABE offers White Card in NSW via **Upskill Institute (RTO 45708)**. The fee posi
 ## 4. Verification status (as at 22 July 2026)
 
 The 1 July 2026 indexation has passed and every row was re-checked at its official source on
-22 July 2026. **One row remains unverified: WA.** This file therefore stays **partially verified**.
+22 July 2026. **All rows are cleared for FY26-27** and this file is fully verified. Read the WA entry
+below before publishing a WA figure: it is the one row whose currency rests on confirmation rather
+than on a 2026-27 label at the source.
 
 ### ✅ Verified for FY26-27 — safe to publish
 - **QLD owner-builder permit — $493.59.** Re-verified 21 July 2026 against the QBCC "Fees for
@@ -100,15 +101,15 @@ The 1 July 2026 indexation has passed and every row was re-checked at its offici
 - **NSW White Card initial — no separate government fee.** Re-confirmed 22 July 2026 against Service
   NSW: the only payment is the RTO course fee. Unchanged, and recorded as a verification result
   rather than an assumption.
-
-### ⚠️ UNVERIFIED for FY26-27 — do not publish until re-verified
-
-| Fee | Last published figure | Why it is still unverified |
-|---|---|---|
-| WA owner-builder approval (Form 75) | $212.00 residential / $467.00 industrial-commercial | LGIRS still heads its owner-builder table "2025-2026 Non-refundable Fee (From 1 July)" as at 22 July 2026, so the only figures it publishes are labelled as the previous financial year. The fee page (updated 10 July 2026) and the owner-builder approval page (9 July 2026) were both refreshed after the indexation, and no sibling table on the fee page carries a 2026-27 heading, so the label cannot be dismissed as an oversight. The figures may be unchanged, but "unchanged" has to be a verification result, not an inference. Resolve with LGIRS Licensing Services (1300 489 099, be.licensingenquiries@lgirs.wa.gov.au), or a 2026 amendment to the Building Services (Registration) Regulations 2011. |
-
-**This blocks the WA page.** `/wa-owner-builder-course` currently publishes $212 and $467 as live
-government figures. Either clear this row or remove the figures from the page.
+- **WA owner-builder approval — $212.00 residential / $467.00 industrial-commercial.** These are the
+  figures LGIRS publishes on its Building and Energy fee schedule, read 22 July 2026, and they are
+  current for FY26-27 per Andrey's confirmation of the same date.
+  *Provenance, stated plainly:* LGIRS still heads that table "2025-2026 Non-refundable Fee (From
+  1 July)" and has published no 2026-27 schedule. The fee page was refreshed 10 July 2026 and the
+  owner-builder approval page 9 July 2026, both after the indexation, and no sibling table on the
+  page carries a 2026-27 heading. So the FY26-27 status of these figures rests on Andrey's
+  confirmation, not on a 2026-27 label at the source. Re-check when LGIRS republishes the schedule;
+  if it appears with different figures, that supersedes this row immediately.
 
 ### How to clear an item
 Fetch the official source in §3, read the current figure, update the cell, replace the ⚠️ with ✅ and

@@ -15,6 +15,11 @@
  *    ships. Every figure in page content is matched against the register, and anything unmatched
  *    is reported.
  *
+ *    Page content is NOT just src/content. On 22 July 2026 the ACT White Card fee went from $42.00
+ *    to $47.00 and this check reported nothing, because the ACT page keeps its FAQ and module copy
+ *    in src/data/*.ts and only src/content was scanned. QLD keeps facts there too. A figure is
+ *    reader-facing wherever it is authored, so both trees are scanned.
+ *
  * Both checks skip with a note when their source is absent (running outside the repo).
  * Reporting only — exits 0 unless --strict.
  */
@@ -74,20 +79,28 @@ if (checked) oks.push(`Code claims: ${checked - fails.length}/${checked} verifie
 const REGISTER = 'kb/register';
 if (!existsSync(REGISTER)) warns.push('kb/register not found — figure cross-check skipped');
 else {
+  // Compare figures by value, not by spelling. A page writing "$47" and a register writing
+  // "$47.00" are the same fee, and string-matching them reported registered figures as missing —
+  // noise in exactly the check that has to stay trustworthy to be read at all.
+  const norm = (s) => Number(String(s).replace(/,/g, '')).toFixed(2);
+
   const registerText = walk(REGISTER, '.md').map((f) => readFileSync(f, 'utf8')).join('\n');
-  const registerFigures = new Set([...registerText.matchAll(/\$([\d,]+(?:\.\d{2})?)/g)].map((m) => m[1].replace(/,/g, '')));
+  const registerFigures = new Set([...registerText.matchAll(/\$([\d,]+(?:\.\d{2})?)/g)].map((m) => norm(m[1])));
   // Figures the register explicitly marks as superseded must never appear in content.
   const superseded = new Set([...registerText.matchAll(/supersedes?\s+\$([\d,]+(?:\.\d{2})?)|\$([\d,]+(?:\.\d{2})?)[^.\n]{0,80}must not be published/gi)]
-    .map((m) => (m[1] ?? m[2] ?? '').replace(/,/g, '')).filter(Boolean));
+    .map((m) => m[1] ?? m[2]).filter(Boolean).map(norm));
 
-  const contentFiles = [...walk('src/content', '.mdx'), ...walk('src/content', '.md')];
-  if (!contentFiles.length) warns.push('No src/content pages found — figure cross-check skipped (run from the repo root)');
+  const contentFiles = [
+    ...walk('src/content', '.mdx'), ...walk('src/content', '.md'),
+    ...walk('src/data', '.ts'),                   // ACT and QLD author page copy here, not in MDX
+  ];
+  if (!contentFiles.length) warns.push('No page files found in src/content or src/data — figure cross-check skipped (run from the repo root)');
   else {
     let seen = 0, bad = 0;
     for (const f of contentFiles) {
       const src = readFileSync(f, 'utf8');
       for (const m of src.matchAll(/\$([\d,]+(?:\.\d{2})?)/g)) {
-        const fig = m[1].replace(/,/g, '');
+        const fig = norm(m[1]);
         if (Number(fig) < 20) continue;               // small numbers are rarely regulator fees
         seen++;
         if (superseded.has(fig)) { bad++; fails.push(`SUPERSEDED FIGURE $${m[1]} in ${f} — the register marks this as replaced. Do not publish it.`); }
