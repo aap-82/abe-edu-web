@@ -1,5 +1,5 @@
 ---
-verified: 2026-07-21
+verified: 2026-07-22
 cadence: annual-july
 partial: true
 ---
@@ -8,7 +8,7 @@ partial: true
 
 The **government** fees an ABE student pays a regulator (never to ABE) — Owner Builder permit/licence/approval fees and White Card card/lodgement fees — for the states where ABE offers the relevant course. Use to populate "total cost" and "what else will I pay" sections and FAQs without re-researching each time. Every figure here is separate from, and additional to, ABE's course fee.
 
-**Partially verified: 21 July 2026.** The 1 July 2026 indexation has passed. **QLD was re-verified on 21 July 2026 and the fee changed.** Every other figure in this file was last verified 27 May 2026, which is *before* the indexation, and is therefore **UNVERIFIED for FY26-27**. Do not publish an unverified figure. Re-verify at the official source, update the cell, and move it to the verified list in §4.
+**Partially verified: 22 July 2026.** The 1 July 2026 indexation has passed and every row was re-checked at its official source on 22 July 2026. Seven of the eight changed, one was confirmed unchanged, and **WA alone remains UNVERIFIED for FY26-27** because LGIRS still publishes its owner-builder fees under a 2025-2026 heading (see §4). Do not publish an unverified figure. Re-verify at the official source, update the cell, and move it to the verified list in §4.
 
 **Re-verify:** before publishing any dollar figure, and at minimum each July — most building and WHS fees are indexed on 1 July. Treat every figure as current-as-at the date noted, not permanent.
 
@@ -20,11 +20,11 @@ The **government** fees an ABE student pays a regulator (never to ABE) — Owner
 
 | State | What the applicant obtains | Issuing body | Government fee | As at | Notes |
 |---|---|---|---|---|---|
-| **NSW** | Owner-builder **permit** | Building Commission NSW (lodged via Service NSW) | **$224** ⚠️ | 27 May 2026 — UNVERIFIED for FY26-27 | $86 processing + $138 fixed component; CPI-indexed each 1 July. Permit needed for residential work over $10,000; approved course needed at $20,000+. NSW OB course is delivered by RTO partner **Upskill Institute (RTO 45708)**, ABE as enrolment partner only. |
+| **NSW** | Owner-builder **permit** | Building Commission NSW (lodged via Service NSW) | **$233** ✅ | Verified 22 Jul 2026 (FY26-27) | $90 processing + $143 fixed component; CPI-indexed each 1 July. Published as "Fees for July 2026 - June 2027" (supersedes $224 = $86 + $138). Permit needed for residential work over $10,000; approved course needed at $20,000+. NSW OB course is delivered by RTO partner **Upskill Institute (RTO 45708)**, ABE as enrolment partner only. |
 | **QLD** | Owner builder **permit** | QBCC | **$493.59** ✅ | Verified 21 Jul 2026 (FY26-27) | Non-refundable if unsuccessful; QBCC indexes fees each 1 July. Permit required for residential work over $11,000 (farm buildings exempt to $27,500), approved before any work starts. Approved owner builder course within last 5 years required (QBCC licensees exempt). One permit per 6 years. |
-| **WA** | Owner-builder **approval** (Form 75), then a **building permit** from the local government | Building Services Board, via Building and Energy (LGIRS) — approval; local council permit authority — building permit | **$212.00** residential building / **$467.00** industrial/commercial building (owner-builder approval; non-refundable, GST not payable), **plus** value-based council building permit fees ⚠️ | 5 Feb 2026 — UNVERIFIED for FY26-27 | Two separate costs. Required only where work is over **$20,000**. Approval is valid 6 months — a building-permit application must follow within 6 months or it lapses. One owner-build per 6 years (waiver via Form 76). Resale restriction: offence to sell within 7 years without disclosure. ABE's certificate **supports the Form 75 application** (WA uses a knowledge-requirement model — not a "WA-approved provider"). Fees per the [LGIRS Building and Energy fee schedule](https://www.wa.gov.au/government/multi-step-guides/lgirs-licensing-and-registration-fees-and-charges/building-and-energy-fees) (supersedes the old 2013 $145/$444 figures). |
-| **TAS** | Owner builder **permit**, then a **building permit** from the council permit authority | CBOS (Occupational Licensing Act 2005) — permit; council permit authority — building permit | **$458.40** (Class 1a) / **$229.20** (Class 10a, 10b and 8) per project ⚠️ | 1 Jul 2025 — UNVERIFIED for FY26-27 | Individual only (no company/trust/SMSF). Requires an engaged licensed building surveyor and Public Liability insurance of at least **$5 million**. An approved Tasmanian owner builder course completed in the last **12 months** is required for residential (Class 1a) work; not required for Class 10. Two permits per 10-year period (strictest in Australia). Council building fees (Building Administration Fee + TBCITB training levy) are additional. |
-| **ACT** | Owner builder **licence** | Access Canberra — Construction Occupations Registrar (Construction Occupations (Licensing) Act 2004) | **$309.07** (Class 1 or 2, online) / **$230.82** (Class 10a only, online) ⚠️ | eff 1 Jul 2025 (DI2025-166) — UNVERIFIED for FY26-27; check for a DI2026 determination | In-person/postal applications are higher (range to ~$333). Owner builders pay **no** separate licence-term fee. An owner builder course completed within the last 5 years is required; a copy of the building approval must accompany the application. |
+| **WA** | Owner-builder **approval** (Form 75), then a **building permit** from the local government | Building Services Board, via Building and Energy (LGIRS) — approval; local council permit authority — building permit | **$212.00** residential building / **$467.00** industrial/commercial building (owner-builder approval; non-refundable, GST not payable), **plus** value-based council building permit fees ⚠️ | Checked 22 Jul 2026 — still UNVERIFIED for FY26-27 | **Do not publish.** The LGIRS fee schedule was read on 22 July 2026 and its owner-builder table is still headed "2025-2026 Non-refundable Fee (From 1 July)", so the only figures LGIRS publishes are labelled as the *previous* financial year. The page itself was last updated 10 July 2026 and the owner-builder approval service page 9 July 2026, both after the indexation, but neither presents a 2026-27 figure and no sibling table on the page carries a 2026-27 heading either. $212.00 / $467.00 may well be unchanged, but treating a 2025-2026 label as an FY26-27 figure would be carrying it forward on the assumption indexation did not happen. Resolve with LGIRS Licensing Services (1300 489 099, be.licensingenquiries@lgirs.wa.gov.au) or a 2026 amendment to the Building Services (Registration) Regulations 2011. Two separate costs. Required only where work is over **$20,000**. Approval is valid 6 months — a building-permit application must follow within 6 months or it lapses. One owner-build per 6 years (waiver via Form 76). Resale restriction: offence to sell within 7 years without disclosure. ABE's certificate **supports the Form 75 application** (WA uses a knowledge-requirement model — not a "WA-approved provider"). Fees per the [LGIRS Building and Energy fee schedule](https://www.wa.gov.au/government/multi-step-guides/lgirs-licensing-and-registration-fees-and-charges/building-and-energy-fees) (supersedes the old 2013 $145/$444 figures). |
+| **TAS** | Owner builder **permit**, then a **building permit** from the council permit authority | CBOS (Occupational Licensing Act 2005) — permit; council permit authority — building permit | **$470.40** (work on a Class 1a or 1b building) / **$235.20** (work not on a Class 1a or 1b building) per project ✅ | Verified 22 Jul 2026 (FY26-27) | Per the CBOS fee schedule (Occupational Licensing (Building Services Work) Regulations 2016 s 29C(c), item 2), marked "Updated: 01 Jul 2026"; GST not applicable. Supersedes $458.40 / $229.20. The schedule frames the lower fee as work **not** on a Class 1a or 1b building, which is the same set the register previously described as Class 10a, 10b and 8. Individual only (no company/trust/SMSF). Requires an engaged licensed building surveyor and Public Liability insurance of at least **$5 million**. An approved Tasmanian owner builder course completed in the last **12 months** is required for residential (Class 1a) work; not required for Class 10. Two permits per 10-year period (strictest in Australia). Council building fees (Building Administration Fee + TBCITB training levy) are additional. |
+| **ACT** | Owner builder **licence** | Access Canberra — Construction Occupations Registrar (Construction Occupations (Licensing) Act 2004) | **$320.20** (class 1 or 2, online) / **$239.13** (class 10a only, online) ✅ | Verified 22 Jul 2026 — eff 1 Jul 2026 (DI2026-165) | Per the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), items 2.15-2.18, column 5 (2026-27), which commenced 1 July 2026 and revoked DI2025-166. Supersedes $309.07 / $230.82. In person or via post: **$344.99** (class 1 or 2, item 2.16) / **$250.11** (class 10 only, item 2.18). Owner builders pay **no** separate licence-term fee. An owner builder course completed within the last 5 years is required; a copy of the building approval must accompany the application. |
 
 ---
 
@@ -34,13 +34,13 @@ ABE's White Card is delivered by **Blue Dog Training (RTO 31193)** in QLD, WA an
 
 | State | Issuing body | Government fee to the applicant | As at | Notes |
 |---|---|---|---|---|
-| **NSW** | SafeWork NSW (General Construction Induction card); the RTO lodges the application on the worker's behalf | **None for the initial card** — the only payment is the RTO course fee (set independently by the RTO). The worker receives a Statement of Training valid 60 days; the card usually arrives within 30 days. **Replacement card: $42** (online discount may apply). | FY Jul 2025 – Jun 2026 | Delivered by Upskill Institute (RTO 45708) — trainer-led virtual classroom or in person, never self-paced online. Sources: [Service NSW — apply](https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card); [SafeWork NSW licence fees](https://www.safework.nsw.gov.au/resource-library/licence-and-registrations/licensing-fees). |
-| **TAS** | WorkSafe Tasmania, via Service Tasmania | **$13.37** (new application and replacement) ⚠️ | 1 Jul 2025 — UNVERIFIED for FY26-27 | Lodged **in person** at Service Tasmania within **60 days** of the SOA. Full workflow in `card-lodgement-process-tas.md`. |
-| **ACT** | Access Canberra (General Construction Induction Card) | **$42.00** application fee ⚠️ | 27 May 2026 — UNVERIFIED for FY26-27 | Applied for **online** via an ACT Digital Account within **60 days** of the certificate; the receipt + training certificate lets the worker start while the application is assessed (up to ~1 month); card posted within ~2 weeks of approval; does not expire. (Fee per Access Canberra, corroborated by ACT RTOs; the official page renders the amount dynamically.) |
+| **NSW** | SafeWork NSW (General Construction Induction card); the RTO lodges the application on the worker's behalf | **None for the initial card** — the only payment is the RTO course fee (set independently by the RTO). The worker receives a Statement of Training valid 60 days; the card usually arrives within 30 days. **Replacement card: $43**, or **$36** if ordered online. | Verified 22 Jul 2026 (FY26-27) | Delivered by Upskill Institute (RTO 45708) — trainer-led virtual classroom or in person, never self-paced online. Sources: [Service NSW — apply](https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card); [SafeWork NSW licence fees](https://www.safework.nsw.gov.au/resource-library/licence-and-registrations/licensing-fees). |
+| **TAS** | WorkSafe Tasmania, via Service Tasmania | **$13.72** (new application and replacement) ✅ | Verified 22 Jul 2026 (FY26-27) | Service Tasmania states "Fees and charges last updated 1 July, 2026"; the same $13.72 applies to both "Construction induction, white card application" and "Construction induction, white card replacement". Supersedes $13.37. Lodged **in person** at Service Tasmania within **60 days** of the SOA. Full workflow in `card-lodgement-process-tas.md`. |
+| **ACT** | Access Canberra (General Construction Induction Card) | **$47.00** application fee; **$44.00** replacement card ✅ | Verified 22 Jul 2026 (FY26-27) | Access Canberra states "Fees are current from 1 July 2026 to 30 June 2027". Supersedes $42.00. The amount renders dynamically and does not appear in fetched HTML, so it was read in a browser. Applied for **online** via an ACT Digital Account within **60 days** of the certificate; the receipt + training certificate lets the worker start while the application is assessed (up to ~1 month); card posted within ~2 weeks of approval; does not expire. (Fee per Access Canberra, corroborated by ACT RTOs; the official page renders the amount dynamically.) |
 | **QLD** | RTO, approved by WHSQ (General Construction Induction Training / GCIT card) | **None** — no separate government card fee; the RTO issues the card with the course | n/a | Replacement is obtained from the issuing RTO at an RTO-set fee (typically ~$39–49). |
 | **WA** | RTO, approved by WorkSafe WA (LGIRS) | **None** — no separate government card fee; the RTO issues and mails the card with the course | n/a | Replacement is obtained from the issuing RTO at an RTO-set fee (typically ~$30). |
 
-ABE offers White Card in NSW via **Upskill Institute (RTO 45708)**. The fee position was confirmed on 30 May 2026 against the official Service NSW and SafeWork NSW sources (see the NSW row and §3): there is no separate government fee for the initial card (RTO course fee only), and the replacement card is **$42** (2025–26).
+ABE offers White Card in NSW via **Upskill Institute (RTO 45708)**. The fee position was re-confirmed on 22 July 2026 against the official Service NSW and SafeWork NSW sources (see the NSW row and §3): there is still no separate government fee for the initial card (RTO course fee only), and the replacement card is **$43**, or **$36** online, on the SafeWork NSW 2026-27 fee page.
 
 ---
 
@@ -66,9 +66,10 @@ ABE offers White Card in NSW via **Upskill Institute (RTO 45708)**. The fee posi
 
 ---
 
-## 4. Verification status (as at 21 July 2026)
+## 4. Verification status (as at 22 July 2026)
 
-The 1 July 2026 indexation has passed. This file is **partially verified**.
+The 1 July 2026 indexation has passed and every row was re-checked at its official source on
+22 July 2026. **One row remains unverified: WA.** This file therefore stays **partially verified**.
 
 ### ✅ Verified for FY26-27 — safe to publish
 - **QLD owner-builder permit — $493.59.** Re-verified 21 July 2026 against the QBCC "Fees for
@@ -79,24 +80,35 @@ The 1 July 2026 indexation has passed. This file is **partially verified**.
   (FSG0061_v11_04/26, effective April 2026) still shows $477.47. The fees page is the source of
   record and it shows $493.59. Where QBCC's own documents disagree, prefer the fees page and note
   the date checked.
+- **NSW owner-builder permit — $233** ($90 processing + $143 fixed). Verified 22 July 2026 against
+  the Building Commission NSW fees page, published as "Fees for July 2026 - June 2027". Supersedes
+  $224 ($86 + $138).
+- **TAS owner-builder permit — $470.40** (work on a Class 1a or 1b building) **/ $235.20** (work not
+  on a Class 1a or 1b building). Verified 22 July 2026 against the CBOS fee schedule, marked
+  "Updated: 01 Jul 2026". Supersedes $458.40 / $229.20.
+- **ACT owner-builder licence — $320.20** (class 1 or 2, online) **/ $239.13** (class 10a only,
+  online); in person or via post **$344.99 / $250.11**. Verified 22 July 2026 against DI2026-165,
+  which commenced 1 July 2026 and revoked DI2025-166. The determination sets out both years side by
+  side and s 3 makes **column 5 (2026-27)** the payable fee. Supersedes $309.07 / $230.82.
+- **TAS White Card — $13.72**, the same for a new application and a replacement. Verified 22 July
+  2026 against Service Tasmania, "Fees and charges last updated 1 July, 2026". Supersedes $13.37.
+- **ACT White Card — $47.00** application, **$44.00** replacement. Verified 22 July 2026 against
+  Access Canberra, "Fees are current from 1 July 2026 to 30 June 2027". Supersedes $42.00. The
+  amount renders dynamically and is invisible to a plain HTML fetch, so it must be read in a browser.
+- **NSW White Card replacement — $43**, or **$36** ordered online. Verified 22 July 2026 against the
+  SafeWork NSW licence fees page for 2026-27. Supersedes $42, and the online rate is new.
+- **NSW White Card initial — no separate government fee.** Re-confirmed 22 July 2026 against Service
+  NSW: the only payment is the RTO course fee. Unchanged, and recorded as a verification result
+  rather than an assumption.
 
 ### ⚠️ UNVERIFIED for FY26-27 — do not publish until re-verified
-Each was last verified 27 May 2026 or earlier, before the indexation. The figure shown is the
-**previous** year's and is likely to have changed.
 
-| Fee | Last verified figure | Source to check |
+| Fee | Last published figure | Why it is still unverified |
 |---|---|---|
-| NSW owner-builder permit | $224 | Building Commission NSW fees page (§3) |
-| WA owner-builder approval (Form 75) | $212.00 / $467.00 | LGIRS Building and Energy fee schedule (§3) |
-| TAS owner-builder permit | $458.40 / $229.20 | CBOS fee schedule + Service Tasmania (§3) |
-| ACT owner-builder licence | $309.07 / $230.82 | Look for a 2026 Construction Occupations (Licensing) (Fees) Determination replacing DI2025-166 |
-| TAS White Card | $13.37 | Service Tasmania (§3) |
-| ACT White Card | $42.00 | Access Canberra (§3) |
-| NSW White Card replacement | $42 | SafeWork NSW licence fees (§3) |
+| WA owner-builder approval (Form 75) | $212.00 residential / $467.00 industrial-commercial | LGIRS still heads its owner-builder table "2025-2026 Non-refundable Fee (From 1 July)" as at 22 July 2026, so the only figures it publishes are labelled as the previous financial year. The fee page (updated 10 July 2026) and the owner-builder approval page (9 July 2026) were both refreshed after the indexation, and no sibling table on the fee page carries a 2026-27 heading, so the label cannot be dismissed as an oversight. The figures may be unchanged, but "unchanged" has to be a verification result, not an inference. Resolve with LGIRS Licensing Services (1300 489 099, be.licensingenquiries@lgirs.wa.gov.au), or a 2026 amendment to the Building Services (Registration) Regulations 2011. |
 
-NSW White Card **initial** card: no separate government fee (RTO course fee only). That is a
-structural position rather than a dollar figure, so it does not lapse with indexation — but confirm
-it still holds when re-verifying the replacement fee.
+**This blocks the WA page.** `/wa-owner-builder-course` currently publishes $212 and $467 as live
+government figures. Either clear this row or remove the figures from the page.
 
 ### How to clear an item
 Fetch the official source in §3, read the current figure, update the cell, replace the ⚠️ with ✅ and
