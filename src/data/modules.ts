@@ -17,35 +17,75 @@ import type { ModuleGroup, TopicCard } from '../types/course';
 // Outcomes are full sentences and start with a capital: the row renders a "You will be able
 // to" kicker on its own line above them, not inline, so a lowercase continuation would read
 // as a fragment.
+//
+// `contents` carries the module breakdown, one numbered module per line, and `body` is
+// therefore empty on every group here. It used to hold the same information as prose
+// ("Course Introduction, and the Key Responsibilities of an Owner Builder"), which buried
+// both numbers and both names in one sentence: a reader could not tell which name went with
+// which number, and it mattered most exactly where the numbers are NOT contiguous - group 02
+// is modules 3, 11 and 12. The prose is not kept alongside the list, because two copies of
+// the same contents is how the two drift apart. Group 03's "including the minimum 7-star
+// energy rating" was the only fact the prose carried beyond the names, and it survives in
+// that group's `outcome` and in the NCC 7-star obligation card below.
 export const moduleGroups: ModuleGroup[] = [
   {
-    tag: 'Group 01', modules: 'Modules 1–2', title: 'Getting started',
-    body: 'Course Introduction, and the Key Responsibilities of an Owner Builder.',
+    tag: 'Group 01', title: 'Getting started',
+    contents: [
+      { n: '1', name: 'Course Introduction' },
+      { n: '2', name: 'Key Responsibilities of an Owner Builder' },
+    ],
+    body: '',
     outcome: 'Identify the roles you take on, document every decision, variation and agreement in writing, and coordinate trade contractors, site activities and your neighbours from day one.',
   },
   {
-    tag: 'Group 02', modules: 'Modules 3, 11, 12', title: 'Legal &amp; safety obligations',
-    body: 'Work Health and Safety, Obligations Under the QBCC Act 1991, and Approvals and Inspections.',
+    tag: 'Group 02', title: 'Legal &amp; safety obligations',
+    contents: [
+      { n: '3', name: 'Work Health and Safety' },
+      { n: '11', name: 'Obligations Under the QBCC Act 1991' },
+      { n: '12', name: 'Approvals and Inspections' },
+    ],
+    body: '',
     outcome: 'Apply your duties as a PCBU and principal contractor under the WHS Act, work within the permit conditions the QBCC Act sets, and book the compulsory building and plumbing inspections at the right stages.',
   },
   {
-    tag: 'Group 03', modules: 'Modules 4–5', title: 'Design &amp; energy',
-    body: 'Design, and Environment and Energy, including the minimum 7-star energy rating.',
+    tag: 'Group 03', title: 'Design &amp; energy',
+    contents: [
+      { n: '4', name: 'Design' },
+      { n: '5', name: 'Environment and Energy' },
+    ],
+    body: '',
     outcome: 'Choose and brief a licensed designer, read a full set of working drawings, and meet the 7-star minimum energy rating that has applied to Queensland houses since 1 May 2024.',
   },
   {
-    tag: 'Group 04', modules: 'Modules 6, 9, 10', title: 'Costing &amp; finance',
-    body: 'Estimating, Costing and Budgets; Finance and Loan Requirements; Taxation and the QLeave levy.',
+    tag: 'Group 04', title: 'Costing &amp; finance',
+    contents: [
+      { n: '6', name: 'Estimating, Costing and Budgets' },
+      { n: '9', name: 'Finance and Loan Requirements' },
+      { n: '10', name: 'Taxation and the QLeave levy' },
+    ],
+    body: '',
     outcome: 'Estimate the build, carry a contingency, track actual costs against budget, align your draw-downs with your contracts, and handle GST, PAYG and the QLeave levy exemption.',
   },
   {
-    tag: 'Group 05', modules: 'Modules 7, 8, 13, 14', title: 'Planning &amp; running the build',
-    body: 'Planning and Scheduling, Sequencing Building Activities, Building Coordination, and Payments to Trade Contractors.',
+    tag: 'Group 05', title: 'Planning &amp; running the build',
+    contents: [
+      { n: '7', name: 'Planning and Scheduling' },
+      { n: '8', name: 'Sequencing Building Activities' },
+      { n: '13', name: 'Building Coordination' },
+      { n: '14', name: 'Payments to Trade Contractors' },
+    ],
+    body: '',
     outcome: 'Build a schedule, sequence the trades and inspections in the right order, engage QBCC-licensed contractors on written contracts, and run progress payments, variations and retention correctly.',
   },
   {
-    tag: 'Group 06', modules: 'Modules 15–18', title: 'Protecting yourself &amp; finishing',
-    body: 'Insurances, Conflict Prevention and Resolution, Move In and Maintenance, and Checklists and Appendix.',
+    tag: 'Group 06', title: 'Protecting yourself &amp; finishing',
+    contents: [
+      { n: '15', name: 'Insurances' },
+      { n: '16', name: 'Conflict Prevention and Resolution' },
+      { n: '17', name: 'Move In and Maintenance' },
+      { n: '18', name: 'Checklists and Appendix' },
+    ],
+    body: '',
     outcome: 'Insure the build properly rather than assuming your home policy covers it, resolve disputes through the QBCC or QCAT, and work through the completion checklist, service connections and ongoing maintenance.',
   },
 ];

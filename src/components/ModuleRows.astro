@@ -35,7 +35,14 @@ const { items } = Astro.props;
       </div>
       <div class="mr-main">
         <h3 class="mr-title" set:html={m.title} />
-        <p class="mr-body" set:html={m.body} />
+        {m.contents && (
+          <ul class="mr-mods-list" role="list">
+            {m.contents.map((c) => (
+              <li><span class="mr-mnum num">Module {c.n}</span><span set:html={c.name} /></li>
+            ))}
+          </ul>
+        )}
+        {m.body && <p class="mr-body" set:html={m.body} />}
         {m.outcome && (
           <p class="mr-outcome">
             <span class="mr-olabel">You will be able to</span>
@@ -71,6 +78,20 @@ const { items } = Astro.props;
     line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0 0 5px;
   }
   .mr-body{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0; max-width:70ch; }
+
+  /* One module per line, its number set in the mono/tabular face so the numbers form a
+     scannable column instead of hiding mid-sentence. A group's modules are not always
+     contiguous (group 02 is 3, 11, 12), which is precisely why the range in the rail is not
+     enough on its own. */
+  .mr-mods-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; max-width:70ch; }
+  .mr-mods-list li{ display:grid; grid-template-columns:88px 1fr; gap:var(--s-sm); font-size:15px; line-height:1.5; color:var(--ink-3); }
+  /* A deeper maroon than --maroon (#800000): these numbers repeat down the whole column, so
+     they sit back a step rather than competing with the group titles beside them. */
+  .mr-mnum{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:#600000; padding-top:3px; }
+  /* Stack on narrow screens: an 88px rail beside a short name wastes the line. */
+  @media (max-width:640px){
+    .mr-mods-list li{ grid-template-columns:1fr; gap:1px; }
+  }
 
   /* The outcome is the payoff line, so it is set apart rather than appended: a mono kicker
      and a rule above it, in the same grammar the verified-source line uses for its label. */

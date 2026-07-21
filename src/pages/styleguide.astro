@@ -60,11 +60,22 @@ const steps = [
   { title: 'Complete the course', body: 'Work through the modules at your own pace, then the quiz.' },
   { title: 'Get your certificate', body: 'Emailed the moment you pass.' },
 ];
-// Two rows with outcomes and one without, so the specimen shows the optional fields both
-// present and absent - a state that has not authored outcomes yet must still render cleanly.
+// Shows the optional fields both present and absent - a state that has not authored them yet
+// must still render cleanly. Row 1 is the `contents` form (one numbered module per line, and
+// deliberately non-contiguous: 3, 11, 12, which is the case the old prose could not express);
+// row 2 is the prose `body` form the other states still use; row 3 carries neither.
 const moduleRowsEx = [
+  {
+    tag: 'Group 02', title: 'Legal &amp; safety obligations',
+    contents: [
+      { n: '3', name: 'Work Health and Safety' },
+      { n: '11', name: 'Obligations Under the QBCC Act 1991' },
+      { n: '12', name: 'Approvals and Inspections' },
+    ],
+    body: '',
+    outcome: 'apply work health and safety on your own site.',
+  },
   { tag: 'Group 01', modules: 'Modules 1-2', title: 'Getting started', body: 'Course Introduction, and the Key Responsibilities of an Owner Builder.', outcome: 'set up your build, and explain what you take on when you sign as the owner builder.' },
-  { tag: 'Group 02', modules: 'Modules 3, 11, 12', title: 'Legal &amp; safety obligations', body: 'Work Health and Safety, Obligations Under the QBCC Act 1991, and Approvals and Inspections.', outcome: 'apply work health and safety on your own site.' },
   { tag: '03', title: 'A group with no module range or outcome', body: 'How a state that has not authored the optional fields still renders.' },
 ];
 const priceRows = [
