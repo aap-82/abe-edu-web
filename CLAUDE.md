@@ -58,6 +58,10 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - **Every government fact is sourced + dated** in the page-foot Sources block. Re-verify indexed fees
   on their cadence (WA approval fee and similar reset ~1 July). An unresolved gov fact is a publish
   hard-blocker.
+- **Never default a regulatory fact.** Verify it, or mark it explicitly UNVERIFIED. A plausible figure
+  is worse than a visible gap.
+- `[confirm: ...]` marks a regulatory fact awaiting verification and nothing else. Internal facts
+  (price, pass mark, points, modules) are asked and answered before content is written.
 - **Product scope confirmed 16 Jul 2026** (migration plan v2 §1): NSW Real Estate CPD is retired, not a
   current product — its legacy pages 301 away, never rebuilt. No asbestos/silica pages exist or are
   planned. White Card is confirmed for all five states (NSW/QLD/WA/TAS/ACT). SA and VIC have no
@@ -118,7 +122,7 @@ adapter and does not change Astro's static output; remove the file and the `main
 `run_worker_first` lines at cutover once `workers_dev` is set to `false`.
 
 ## Content design and element selection
-When building or auditing a page (including via `/abe-seo-content-engine` and `/abe-course-page-astro`),
+When building or auditing a page (including via `/abe-course-page-astro`),
 use the content-design and element-selection guidance in **`DESIGN.md` section 7**: which treatment per
 content type, which element for the reader's job, imagery, and reassurance-first. That section is
 reconciled from `outputs/md/abe-page-design-rules.md`, the fuller reference. **`DESIGN.md` and
@@ -177,6 +181,38 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
   the repo on a plain local path (e.g. `C:\dev\abe-web`) or in WSL2. If a write looks truncated, verify
   the on-disk bytes and rewrite via a shell heredoc.
 
+## Knowledge base and pipeline conventions
+- `kb/register/` is the single owner of every verified regulatory figure. No second copies anywhere in
+  the repo, the skill, or page data.
+- `kb/content-source-map.md` is the index — read it before going live to a `.gov.au` page.
+- `kb/rules/` holds the authority model, the authority/SEO rules and the ASQA disclosure framework, in
+  full. This file carries only the short form.
+- Stage artefacts are files: `pipeline/{slug}/01-source-map.md`, `02-gap.md`, `03-briefs.md`, and so on.
+- GSC exports live in `data/GSC/` (lowercase `data`, uppercase `GSC` — the whole `/data/` tree is
+  gitignored because it is ABE's commercial search data).
+- `scripts/check-freshness.mjs` runs on every build via `prebuild` and warns without blocking.
+  `system-health.mjs` before planning work, `review-trends.mjs` after filing a Stage-9 review,
+  `check-claims.mjs` when docs or figures change.
+
+## Ask, don't assume
+- Ask when the request forks into materially different outputs, or a needed constraint is missing and
+  cannot be inferred. Look in the brief, `pipeline/{slug}/` and `kb/` **first** — re-asking for
+  something already on disk is its own failure.
+- Where a sensible default will do, proceed and **flag the assumption inline**. Never bury it.
+- Closed questions (either/or, pick-from-a-set, confirm-or-correct) use the interactive question tool,
+  with the most likely value offered as an option. Open questions are asked in plain prose.
+- Batch questions: one interaction with up to three beats three interactions.
+- **Subagents cannot ask** — `AskUserQuestion` is unavailable to them. A subagent that hits an unknown
+  stops and reports it upward. It never guesses.
+
+## Human gates
+- **Production deploys are human-triggered, always.** No agent, hook or workflow deploys to production
+  without an explicit go in that session.
+- Stage checkpoints stand: show the stage output and get a go-ahead before starting the next.
+- The improvement pass proposes diffs only. It must never edit `src/integrations/guardrails.ts`, the
+  hooks, or this file's Human gates section.
+- Legal pages (`terms`, `privacy`, `refund`, `contact`) are placed, never drafted or reworded.
+
 ## Git workflow (once the repo exists)
 - Trunk-based on `main`; Conventional Commits (`feat:`/`fix:`/`chore:`/`content:`).
 - Do not push unless asked. Use `/ship` (validate + show diff + wait for "ship it").
@@ -189,3 +225,5 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
 - Never `rm -rf`, `wrangler delete`, or `wrangler ... delete`.
 - Never downgrade Astro below 7. Never introduce an SSR adapter without an explicit decision.
 - Never claim ABE is an RTO or that WA has a government-approved course.
+- Never weaken a guardrail, or silence a check, to make a build pass. Fix the content or the data.
+- Never keep a second copy of a figure that `kb/register/` owns.

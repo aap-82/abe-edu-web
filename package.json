@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/generate-redirects.mjs",
+    "prebuild": "node scripts/generate-redirects.mjs && node scripts/check-freshness.mjs",
     "build": "astro build",
     "postbuild": "node scripts/check-redirect-targets.mjs",
     "preview": "astro preview",
