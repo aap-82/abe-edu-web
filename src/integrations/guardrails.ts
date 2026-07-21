@@ -461,7 +461,12 @@ export default function guardrails(): AstroIntegration {
           const file = rawFile.replace(/\\/g, '/');
           const html = readFileSync(file, 'utf8');
           const path = '/' + (file.split('/dist/')[1] ?? '').replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '');
-          if (!isRedirectStub(html)) built.set(path === '/' ? '/' : path, file.split('/').slice(-2).join('/'));
+          // A noindexed page is deliberately unreachable - a content variant must not be linked
+          // from anywhere, or it competes with the page it is a variant OF. Read the rendered
+          // robots tag rather than keeping a list: the exemption then tracks the page's actual
+          // output, and un-setting `noindex` re-arms the orphan check automatically.
+          const isNoindex = /<meta name="robots" content="noindex/i.test(html);
+          if (!isRedirectStub(html) && !isNoindex) built.set(path === '/' ? '/' : path, file.split('/').slice(-2).join('/'));
           for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
             linked.add(href.replace(/\/$/, '') || '/');
           }

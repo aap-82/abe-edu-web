@@ -43,10 +43,18 @@ const cpdFacts = cpd ? [
 // without a partner. The RTO partner delivers and issues the credential; ABE publishes.
 const asqa = authorityModel === 'asqa-accredited' && partnerRto ? partnerRto : null;
 const asqaCredential = asqa?.credential ?? 'Statement of Attainment';
-// The sitewide ASQA disclosure line, owned by the layout so no ASQA page can ship
-// without it. Prepended to the page's own disclaimers in the Sources footer.
+// The per-course ASQA footer legal disclosure (location 3 of the 7 the ASQA disclosure
+// framework requires per course page), owned by the layout so no ASQA page can ship without
+// it. Prepended to the page's own disclaimers in the Sources footer.
+//
+// Worded to the framework's prescribed form: it frames ABE positively as the "authorised
+// third-party enrolment partner" rather than repeating "ABE is not a registered training
+// organisation". That "not an RTO" statement is still made twice on the page - by the
+// SITEWIDE compliance footer (.f-asqa in SourcesFooter, a separate required disclosure) and
+// by the #rto-partner PartnerDisclosure section - so nothing is lost; this just stops the
+// footer stating it two ways four lines apart.
 const asqaDisclaimer = asqa
-  ? `<p>ABE Education publishes this course and is not a registered training organisation (RTO). Training and assessment are delivered by ${asqa.name} (RTO ${asqa.rtoNumber}), regulated by the Australian Skills Quality Authority (ASQA). On completion, ${asqa.name} issues the nationally recognised ${asqaCredential}.</p>`
+  ? `<p>This website is operated by ABE Education (ABN 64 125 455 272) as an authorised third-party enrolment partner. This course is delivered and assessed by ${asqa.name}, a nationally recognised Registered Training Organisation (RTO ${asqa.rtoNumber}) accredited by the Australian Skills Quality Authority (ASQA), which issues the ${asqaCredential} on completion.</p>`
   : '';
 
 // Absolute URL for the hero image, for the Course ImageObject (multimodal SEO).
@@ -66,7 +74,7 @@ const schema = {
       inLanguage: 'en-AU',
       ...(heroImg ? { image: { '@type': 'ImageObject', contentUrl: heroImg, caption: hero.artefactAlt, inLanguage: 'en-AU' } } : {}),
       offers: { '@type': 'Offer', price: priceNumber, priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },
-      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload },
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', ...(courseWorkload ? { courseWorkload } : {}) },
     },
     {
       '@type': 'EducationalOccupationalCredential', '@id': canonical + '#credential',
@@ -98,6 +106,7 @@ const schema = {
   sticky={sticky}
   authority={course.authorityModel}
   ogImage={ogImage}
+  noindex={course.noindex}
   crumbs={breadcrumb}
   reviewed={reviewedBy}
 >
