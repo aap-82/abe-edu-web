@@ -235,6 +235,77 @@ three to answer one layout question, record it. On the **second** occurrence, me
 
 ---
 
+## Recording policy — what to record, and where
+
+Four layers. Which layer a thing belongs to is decided by **who reads it**, not by how important it
+feels.
+
+**The governing idea: bloat is attention, not disk.** A 10,000-line JSONL file costs a megabyte and
+is read only by a script. The `check-claims` output at 93 warnings cost nothing on disk and was
+actively harmful, because it buried a real error in noise. Only one of those is bloat.
+
+**Layer 0 — git.** Already records every change, diff, message and timestamp. This is the
+record-everything layer and it is free. When you need to know why a figure changed or when a rule
+appeared, `git log -p` answers it.
+*Never duplicate git.* A log entry saying "updated the TAS fee" is strictly worse than the commit
+that did it.
+
+**Layer 1 — state files.** `CLAUDE.md`, `ROADMAP.md`, `kb/register/`, `kb/rules/`,
+`kb/mistakes-log.md`. These answer **"what is true now."** Read by humans and by every run, so every
+line costs attention on every run.
+*This is the only layer where bloat is real.* Keep it small. Prune actively — the mistakes log's
+ten-run archive rule is the model.
+
+**Layer 2 — event logs.** `data/health-log.jsonl`, the frontmatter blocks in `skill-reviews/`. These
+answer **"what changed over time."** Read only by scripts.
+*Append freely.* Volume is nearly free here, and a trend you did not record cannot be reconstructed
+later.
+
+**Layer 3 — derived views.** The dashboard, `review-trends` output, the `system-health` scorecard.
+Computed from layers 1 and 2 on demand, stored nowhere, deletable and regenerable at any time.
+*Never treat a derived view as a source.* If it is not reproducible from layers 1 and 2, it is a
+layer 2 record wearing the wrong clothes.
+
+### The rules that follow
+
+1. **If git captures it, do not log it.** Changes belong in commits. Only *measurements* belong in
+   logs.
+2. **Log an event only where you want a trend.** A trend needs three or more points and a decision
+   hanging off it.
+3. **Machine-readable or do not bother.** Numbers and enums survive and can be computed over. Prose
+   logs are written once and never read again.
+4. **Write `null`, never `0`, for something you could not determine.** A zero and an unknown must not
+   look the same to a later reader.
+5. **Every human-read line must earn its attention.** If adding a line to a layer 1 file does not
+   change what someone would do, it belongs in layer 2 or nowhere.
+
+### The test, before adding any record
+
+**Name the decision it will inform.** Not "it might be useful" — an actual decision someone makes.
+
+- Health counts over time → *is the system degrading, and since when?*
+- Run metrics per review → *should the skill be split, or a subagent added?*
+- Outcome results at 4 and 12 weeks → *did this page actually work?*
+
+If you cannot name the decision, do not add the record. An unread record is worse than an absent one,
+because it creates false confidence that something is covered.
+
+### Currently recorded, and why
+
+| What | Layer | Decision it informs |
+|---|---|---|
+| `kb/register/` figures + dates | 1 | May this figure be published today? |
+| `kb/mistakes-log.md` | 1 | What should pre-flight check before this run? |
+| `skill-reviews/` frontmatter | 2 | Is the pipeline improving? Should structure change? |
+| `data/health-log.jsonl` | 2 | Is system health trending up or down? |
+| Outcome-target blocks | 2 | Did the page achieve what was predicted? |
+| `pipeline/{slug}/` artefacts | 2 | What did this run actually do, and can it be resumed or graded? |
+
+Nothing else is logged deliberately. `check-freshness`, `check-claims` and `review-trends` are all
+aggregated by `system-health`, so they do not log separately — one record per health run covers them.
+
+---
+
 ## Why the phases are ordered this way
 
 An earlier draft of this plan built all the structure first — skills split, subagents wired, hooks

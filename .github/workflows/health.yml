@@ -1,0 +1,78 @@
+name: System health
+
+# Records one health measurement per run so the series in data/health-log.jsonl is filled by CI
+# rather than by whoever remembers. The decision it informs: is the system degrading, and since
+# when? A series that only exists when someone runs the script by hand is sparse and irregular,
+# which makes a trend line misleading rather than informative.
+#
+# REPORTS, NEVER BLOCKS. system-health exits 0 by design and is not run with --strict here, so a
+# health finding is recorded and summarised rather than standing in anyone's way. There is no
+# pull_request trigger either, so this workflow cannot gate a merge even in principle.
+#
+# What it deliberately does NOT do is swallow errors. If the script itself breaks, or the commit
+# is rejected, the run goes red and someone sees it. A workflow that always reports success would
+# produce a flat line that looks like stability and is actually silence, which is worse than
+# having no schedule at all.
+on:
+  push:
+    branches: [main]
+    # The job commits back to main, and that commit is itself a push to main. Ignoring the log
+    # path stops it retriggering itself. The `[skip ci]` marker on the commit is the second belt.
+    paths-ignore:
+      - 'data/health-log.jsonl'
+  schedule:
+    # Mondays 20:00 UTC, which is Tuesday morning in Australia. Keeps the series moving in quiet
+    # weeks so a flat line means "nothing changed", not "nobody pushed".
+    - cron: '0 20 * * 1'
+  workflow_dispatch:
+
+# One at a time. Two runs committing to the same file would race, and the loser would be rejected
+# on push rather than merged.
+concurrency:
+  group: health-log
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    name: Record health
+    runs-on: ubuntu-latest
+    steps:
+      # v5 on both. The v4 tags run on Node 20, which is being removed from runners.
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.nvmrc'
+
+      # No `npm ci`. system-health and the checks it aggregates import only node: builtins, so
+      # installing dependencies would add a minute to every run and change nothing.
+      - name: Run system health
+        id: health
+        run: |
+          node scripts/system-health.mjs | tee health.txt
+          echo '### System health' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          tail -n 20 health.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # Twenty pushes that change no counts should not produce twenty lines.
+      - name: Deduplicate the log
+        run: node scripts/health-log-dedupe.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the record if it is new
+        run: |
+          if git diff --quiet -- data/health-log.jsonl; then
+            echo 'No new health record to commit.' | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/health-log.jsonl
+          git commit -m 'chore(health): record system health [skip ci]'
+          git push
+          echo 'Committed a new health record.' | tee -a "$GITHUB_STEP_SUMMARY"

@@ -10,9 +10,11 @@ jobs:
     name: Lighthouse + prose lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # v5 on both. The v4 tags run on Node 20, which is being removed from runners, and this
+      # workflow was emitting a deprecation warning on every PR.
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
