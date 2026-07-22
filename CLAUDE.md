@@ -3,13 +3,15 @@
 Astro 7 static marketing site for abeeducation.edu.au. Four owner-builder course pages live on
 Cloudflare Workers (QLD/WA/TAS/ACT); Wave 0 (platform close-out — templates, chrome, CI, redirects) is
 merged and live as of 18 Jul 2026. Waves 1-6 (real content build-out + cutover) are next.
-Read `HANDOVER.md` for current state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
+Read the current handover in `handover/` for state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
 (the live strategic plan — supersedes `../abe-rebuild-plan-review.md`), its
 `new site/abe-migration-plan-v2-risk-audit.md` (11 findings amended into the plan, incl. the no-slash
 canonical call below), `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5), and
 **`new site/abe-migration-implementation-plan.md`** (the ticket-by-ticket runbook — three build recipes,
 per-ticket DoD, the cutover runbook, and the progress tracker) before starting Wave 1+ work.
 `../MIGRATION.md` still covers the original Claude Code / repo setup.
+**Read `ROADMAP.md` before starting phase work** — it says what phase the system is in, what is gated,
+and what must not be built yet. If it disagrees with `node scripts/system-health.mjs`, the script wins.
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 
