@@ -43,9 +43,13 @@ console.log('\n=== ABE system health ===\n');
 if (existsSync('scripts/check-freshness.mjs')) {
   const out = run('check-freshness.mjs');
   const m = out.match(/Register freshness: (\d+)\/(\d+) current/);
-  const bad = (out.match(/^\s+(LAPSED|PARTIAL|NO-DATE|NO-CADENCE)/gm) ?? []).length;
+  const bad = (out.match(/^\s+(LAPSED|PARTIAL|NO-DATE|NO-CADENCE|RECHECK-DUE)/gm) ?? []).length;
   if (m) (bad ? W : OK)(`Register: ${m[1]}/${m[2]} current${bad ? `, ${bad} need attention` : ''}`);
   for (const l of out.split('\n').filter((l) => /^\s+(LAPSED|PARTIAL)/.test(l))) F(`Register ${l.trim()}`);
+  // RECHECK-DUE is a scheduling signal, not a publish hazard: the file is in date, but something in
+  // it rests on softer ground than its source label. Visible, never fatal — unlike LAPSED/PARTIAL,
+  // it does not mean a figure on a page is untrustworthy today.
+  for (const l of out.split('\n').filter((l) => /^\s+RECHECK-DUE/.test(l))) W(`Register ${l.trim()}`);
 } else W('scripts/check-freshness.mjs missing — register staleness is unchecked');
 
 // 2 - dangling references in skills. The drift class that has bitten three times.

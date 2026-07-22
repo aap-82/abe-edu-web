@@ -56,14 +56,62 @@ What type of course is this page about?
 │
 ├── CPD course?
 │   ├── YES → Provider = ABE Education
-│   │         recognizedBy = state regulator
 │   │         credentialCategory = "CPD Points"
 │   │         No ASQA disclosure needed
+│   │         recognizedBy = CONDITIONAL — read the state below. There is no CPD default.
 │   │
-│   └── Which state?
-│       ├── TAS → CBOS Tasmania (approved CPD provider)
-│       ├── ACT → Access Canberra
-│       └── Other states → Check approval status
+│   └── Which state? (ABE offers CPD in three, and only three)
+│       ├── TAS — building, plumbing, electrical → CBOS Tasmania
+│       │         recognizedBy = CBOS Tasmania
+│       │         Approval is course-by-course by the Administrator of Occupational
+│       │         Licensing, never provider-wide. A provider being listed does not make
+│       │         its other courses approved. "CBOS-approved" is accurate per approved course.
+│       │
+│       ├── NSW — building → Building Commission NSW  (NOT NSW Fair Trading)
+│       │         recognizedBy = NONE — omit the node entirely
+│       │         NSW runs self-declaration plus audit, with no provider-approval regime.
+│       │         Building Commission NSW "cannot and does not endorse any provider of
+│       │         training and/or CPD", so asserting recognition claims what the regulator
+│       │         disclaims. Say ABE's CPD *meets the NSW CPD criteria* under the
+│       │         Home Building Act 1989. 12 points per year, self-declared at renewal.
+│       │         (Building Commission NSW took over Fair Trading's building functions on
+│       │         1 Dec 2023. Fair Trading still hosts older CPD guideline PDFs — hosting
+│       │         a document is not administering the scheme.)
+│       │
+│       └── WA — real estate → Consumer Protection (LGIRS)
+│                 recognizedBy = Consumer Protection (LGIRS)
+│                 NOT Building and Energy — that is the WA *owner-builder* pathway.
+│                 Both sit inside LGIRS (Department of Local Government, Industry
+│                 Regulation and Safety, formed 1 July 2025) but they are different
+│                 groups under different rules. Naming the department alone collapses them.
+│                 WA DOES run an approved-provider regime, and **ABE Education Pty Ltd is
+│                 on the approved list** — Real Estate and Business Agents + Settlement
+│                 Agents; Legal Requirements, Ethics or Professional Responsibility,
+│                 Professional Skills; delivered Online. Verified 22 Jul 2026 at
+│                 consumerprotection.wa.gov.au/approved-cpd-training-providers
+│                 (page last updated 17 Jun 2026). "Approved CPD training provider" is
+│                 accurate in WA — it is the one CPD state where ABE may say "approved"
+│                 of itself rather than of a course.
+│
+│                 ⚠ THE TRAP: that page opens "The following registered training
+│                 organisations deliver CPD activities." ABE is on the list and is NOT an
+│                 RTO. The regulator is using "registered training organisation" loosely as
+│                 a label for its listed providers; it is not an ASQA registration and
+│                 confers none. Never quote that sentence, never let it justify an RTO
+│                 claim, and never paraphrase the listing as "ABE is a registered training
+│                 organisation". ASQA registration is verifiable only on training.gov.au,
+│                 and ABE is not on it.
+│                 Settled by the regulator's own approval criteria, which never mention
+│                 RTOs: "You must be an approved training provider to deliver CPD training",
+│                 open to an organisation or an individual demonstrating relevant expertise
+│                 and a strong history in property services subject matter. RTO status is
+│                 not required to be approved, so the listing cannot imply it.
+│                 (consumerprotection.wa.gov.au/cpd-training-providers-information,
+│                 verified 22 Jul 2026)
+│
+│       ABE offers NO ACT or QLD CPD. Access Canberra and the QBCC do administer CPD in
+│       their states, but there is no ABE product — do not build a page for either.
+│       NSW *real estate* CPD is a retired product (confirmed 16 Jul 2026), not a gap.
 │
 └── Bundle?
     └── Follow rules for the DOMINANT course type in the bundle
@@ -159,12 +207,57 @@ NSW Owner Builder is **not** like the other states' Owner Builder courses. It is
 }
 ```
 
-### CPD courses (state-approved)
+### CPD courses — three states, and **not** one authority model
 
-**Approved messaging (example TAS):**
-> "This course is approved by CBOS Tasmania for CPD point allocation. ABE Education is an approved CPD provider for Tasmania building practitioners."
+CPD is not a single pathway. TAS approves courses; NSW approves nothing and audits instead; WA is a
+different regulator inside the same department as the WA owner-builder pathway. Copying one state's
+CPD wording to another is the failure this section exists to prevent.
 
-**Schema pattern:**
+| | **TAS** — building, plumbing, electrical | **NSW** — building | **WA** — real estate |
+|---|---|---|---|
+| Regulator | CBOS Tasmania | Building Commission NSW | Consumer Protection (LGIRS) |
+| Model | Course-by-course approval | Self-declaration + audit | Approved **provider** list |
+| `recognizedBy` | CBOS Tasmania | **omit — none** | Consumer Protection (LGIRS) |
+| May ABE say "approved"? | Yes, per approved course | **No** | Yes — of ABE itself |
+
+Note how the three differ in *what* is approved: TAS approves the **course**, WA approves the
+**provider**, NSW approves **nothing**. "Approved" without saying what was approved is wrong in at
+least one state whichever one you mean.
+
+**TAS messaging:**
+> "This course is approved by CBOS Tasmania for CPD point allocation. ABE Education is listed as a CPD provider with CBOS, and each course is individually approved for points."
+
+**NSW messaging** (note what it does *not* say):
+> "ABE Education's CPD meets the NSW CPD criteria for builders and swimming pool builders, administered by Building Commission NSW under the Home Building Act 1989. Builders self-declare 12 points each year at renewal and keep their own records."
+
+Never "Building Commission NSW-approved", "NSW Fair Trading-approved", "endorsed" or "mandated
+provider" for NSW. The regulator states it "cannot and does not endorse any provider of training
+and/or CPD" — there is no approval to claim.
+
+**WA messaging:**
+> "ABE Education is an approved CPD training provider for Western Australia's property industry, listed by Consumer Protection for Real Estate and Business Agents and for Settlement Agents. CPD points can be earned only through an approved provider, and ABE's activities are delivered online."
+
+Name **Consumer Protection**, not LGIRS alone and never Building and Energy. Do not repeat the
+regulator's "registered training organisations" framing in any form — see the trap in §2 and the
+prohibited-claims table below.
+
+**Schema — WA:**
+```json
+{
+  "@type": "Course",
+  "provider": { "@type": "EducationalOrganization", "name": "ABE Education" },
+  "recognizedBy": {
+    "@type": "Organization",
+    "name": "Consumer Protection",
+    "parentOrganization": "Department of Local Government, Industry Regulation and Safety",
+    "url": "https://www.consumerprotection.wa.gov.au/"
+  }
+}
+```
+(`parentOrganization` is fine here — it describes the *regulator's* own department, not ABE's
+relationship to an RTO. The prohibition below is on linking **ABE** to an RTO partner.)
+
+**Schema — TAS (the only CPD state with a `recognizedBy`):**
 ```json
 {
   "@type": "Course",
@@ -180,6 +273,9 @@ NSW Owner Builder is **not** like the other states' Owner Builder courses. It is
   }
 }
 ```
+
+**Schema — NSW:** identical, minus the `recognizedBy` node. Same shape as the WA owner-builder
+knowledge-requirement model: the credential is real, the endorsement is not.
 
 ---
 
@@ -202,6 +298,13 @@ Any of these appearing in content = automatic pre-production FAIL.
 | AlertForce on QLD/WA/TAS White Card pages | QLD/WA/TAS White Card is delivered by Blue Dog Training | "Blue Dog Training (RTO 31193)" on QLD/WA/TAS pages |
 | "Self-paced" / "fully online at your own pace" White Card to NSW residents | Self-paced fully online White Card is restricted to WA and TAS residents; NSW requires trainer-led virtual classroom or in person | "Live virtual classroom or in-person training delivered by Upskill Institute (RTO 45708)" |
 | "ABE Education (RTO 45708)", or ABE delivering/developing NSW Owner Builder | RTO 45708 belongs to Upskill Institute; ABE is enrolment partner only | "Delivered by Upskill Institute (RTO 45708) · Enrolled through ABE Education" |
+| "NSW Fair Trading" as the NSW building CPD regulator | Building Commission NSW took over Fair Trading's building functions on 1 Dec 2023; Fair Trading retains general consumer matters only | "Building Commission NSW" |
+| "Building Commission NSW-approved / endorsed CPD", "approved CPD provider" or "mandated provider" for NSW | NSW has no provider-approval regime; the regulator states it "cannot and does not endorse any provider of training and/or CPD" | "Meets the NSW CPD criteria administered by Building Commission NSW under the *Home Building Act 1989*" |
+| `recognizedBy` on a NSW building CPD course | Asserts a recognition the regulator explicitly disclaims | Omit the node — as with the WA owner-builder knowledge-requirement model |
+| Quoting "the following registered training organisations deliver CPD activities" from the WA approved-provider page, or paraphrasing ABE's listing as ABE being a registered training organisation | The regulator uses that phrase loosely as a label for everyone on its list. ABE appears on it and is **not** an RTO; the listing confers approval as a CPD provider, not ASQA registration | "ABE Education is an approved CPD training provider listed by Consumer Protection" — say what was approved, and by whom |
+| "Approved" with no object, on any CPD page | TAS approves the course, WA approves the provider, NSW approves nothing — a bare "approved" is wrong in at least one state | "This course is approved by CBOS" (TAS) / "ABE is an approved CPD training provider" (WA) |
+| "LGIRS" alone, or "Building and Energy", as the WA **real estate** CPD regulator | Real estate CPD sits with Consumer Protection; Building and Energy is the owner-builder pathway. Both are groups inside LGIRS, under different rules | "Consumer Protection (LGIRS)" |
+| Any ACT or QLD CPD page, or NSW **real estate** CPD | ABE offers CPD in TAS, NSW and WA only; NSW real estate CPD was retired 16 Jul 2026 | Build only TAS, NSW building, WA real estate |
 | `parentOrganization` (or `subOrganization`) linking ABE to any RTO partner in schema markup | Asserts corporate ownership — ABE is an enrolment partner, not a subsidiary, and there are three RTO partners | Give each RTO its own `Organization` node with its own `hasCredential`, and link only at course level via `Course.provider` |
 
 ---

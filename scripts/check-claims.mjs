@@ -20,15 +20,40 @@
  *    in src/data/*.ts and only src/content was scanned. QLD keeps facts there too. A figure is
  *    reader-facing wherever it is authored, so both trees are scanned.
  *
+ *    A page's own ABE price is excluded. It is an ABE price by definition, it does not belong in
+ *    kb/register/, and repeating the warning for every mention of it buried the real finding: on
+ *    22 July 2026 the TAS page carried a wrong course price inside a list of ~93 warnings, about 40
+ *    of them the price $179 restated. A check nobody reads is worse than no check, because it
+ *    confers false confidence.
+ *
+ *    Three narrow extensions of "its own price", each tied to what the file IS rather than to a
+ *    missing field, so none of them widens by accident:
+ *      · src/data/*.ts has no frontmatter — a data file inherits the price of the state in its
+ *        filename (faqs-act.ts -> the ACT page), falling back to the union only if it names none.
+ *      · src/content/hubs/* restates its course pages' prices, which are ABE prices on the hub for
+ *        the same reason they are on the course page.
+ *      · a total already reconciled by check 3, on the page that reconciled it.
+ *    Everything excluded is listed by --verbose. An exclusion nobody can see is a claim to be taken
+ *    on trust, and this check exists precisely because a number taken on trust was wrong.
+ *
+ * 3. DERIVED-TOTAL DRIFT. Checks 1 and 2 can only see figures that are supposed to exist somewhere.
+ *    A page total that sums the ABE price and a government fee exists in neither the register nor
+ *    the frontmatter, so it could only ever warn, never fail — and a wrong total is a wrong number
+ *    in front of a buyer. Each course page's priceRows are reconciled: course fee + government fee
+ *    must equal the row marked isTotal, and no figure equal to price + a SUPERSEDED fee may appear.
+ *    A mismatch FAILs. Pages whose government fee cannot be identified unambiguously are skipped
+ *    and named, because a false FAIL here would cost more than the gap it closes.
+ *
  * Both checks skip with a note when their source is absent (running outside the repo).
- * Reporting only — exits 0 unless --strict.
+ * Reporting only — exits 0 unless --strict. Pass --verbose to itemise every excluded figure.
  */
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const STRICT = process.argv.includes('--strict');
-const fails = [], warns = [], oks = [];
+const VERBOSE = process.argv.includes('--verbose');
+const fails = [], warns = [], oks = [], skips = [];
 const walk = (d, ext, out = []) => {
   if (!existsSync(d)) return out;
   for (const e of readdirSync(d)) {
@@ -90,27 +115,160 @@ else {
   const superseded = new Set([...registerText.matchAll(/supersedes?\s+\$([\d,]+(?:\.\d{2})?)|\$([\d,]+(?:\.\d{2})?)[^.\n]{0,80}must not be published/gi)]
     .map((m) => m[1] ?? m[2]).filter(Boolean).map(norm));
 
-  const contentFiles = [
-    ...walk('src/content', '.mdx'), ...walk('src/content', '.md'),
-    ...walk('src/data', '.ts'),                   // ACT and QLD author page copy here, not in MDX
-  ];
+  // A figure the register marks UNVERIFIED is recorded, not blessed. Left in the matched set, the
+  // act of writing an unverified figure down would silence the warning saying it is unverified —
+  // turning the register into a way to launder a figure nobody has checked.
+  //
+  // Only the FIRST figure on the line counts: the row's subject. An UNVERIFIED row routinely cites
+  // verified figures while explaining itself (the WA $50,000 row cites the verified $20,000 approval
+  // trigger), and taking every figure on the line stripped $20,000 from the register and produced 40
+  // false warnings on a correct figure. Register convention: state the row's own figure first.
+  const unverified = new Set([...registerText.matchAll(/^.*UNVERIFIED.*$/gim)]
+    .map((line) => line[0].match(/\$([\d,]+(?:\.\d{2})?)/)).filter(Boolean).map((m) => norm(m[1])));
+  for (const u of unverified) registerFigures.delete(u);
+
+  const pageFiles = [...walk('src/content', '.mdx'), ...walk('src/content', '.md')];
+  const dataFiles = walk('src/data', '.ts');        // ACT and QLD author page copy here, not in MDX
+  const contentFiles = [...pageFiles, ...dataFiles];
+
+  // An ABE price is not a government figure and never belongs in kb/register/, so a page's own
+  // price is not a finding. Prices come from frontmatter, which src/data/*.ts has none of, so a
+  // data file inherits the price of the state named in its filename (faqs-act.ts -> the ACT page).
+  // A data file naming no state falls back to the union of every course price; the figure would
+  // have to be a government fee exactly equal to an ABE price to be masked, and such a fee would
+  // be in the register anyway, so it would never have reached this branch.
+  const frontmatter = (src) => (src.match(/^---\r?\n([\s\S]*?)\r?\n---/) || [])[1] || '';
+  const priceFields = [/^price:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^priceNumber:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
+                       /^priceWas:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^salePrice:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m];
+  const pricesIn = (src) => {
+    const fm = frontmatter(src), out = new Set();
+    for (const re of priceFields) { const m = fm.match(re); if (m) out.add(norm(m[1])); }
+    return out;
+  };
+  const stateOf = (p) => (p.replace(/\\/g, '/').split('/').pop().match(/(?:^|[-_])(act|nsw|qld|tas|wa)(?=[-_.])/i) || [])[1]?.toLowerCase();
+
+  const pricesByState = new Map(), allPrices = new Set();
+  for (const f of pageFiles) {
+    const ps = pricesIn(readFileSync(f, 'utf8'));
+    if (!ps.size) continue;
+    for (const v of ps) allPrices.add(v);
+    const st = stateOf(f);
+    if (st) pricesByState.set(st, new Set([...(pricesByState.get(st) || []), ...ps]));
+  }
+  // Hubs get the same fallback: a hub restates its course pages' prices, which are ABE prices there
+  // for exactly the reason they are ABE prices on the course page.
+  //
+  // Scoped to hubs by collection, NOT to "any page with no price field". Both readings excuse the
+  // same six figures today, but the loose one also silently covers experts and partners, and would
+  // pick up every future collection that happens to carry no price. Tie the exemption to what a hub
+  // IS, so it cannot widen on its own.
+  const isUnder = (f, dir) => f.replace(/\\/g, '/').includes(`src/content/${dir}/`);
+  const priceSourceFor = (f, src) => {
+    if (f.replace(/\\/g, '/').includes('src/data/')) {
+      const st = stateOf(f), byState = st && pricesByState.get(st);
+      return byState
+        ? { set: byState, label: `${st.toUpperCase()} course price` }
+        : { set: allPrices, label: 'any ABE course price (file names no state)' };
+    }
+    if (isUnder(f, 'hubs')) return { set: allPrices, label: 'any ABE course price (hub restates its course pages)' };
+    return { set: pricesIn(src), label: 'this page\'s own price' };
+  };
+
+  /* ---- 3. Derived-total drift ------------------------------------------- */
+  /* Runs before the figure scan so a total this proves correct is not then reported as an
+     unregistered figure. A reconciled total is arithmetic on two checked numbers, not a third
+     fact needing its own source.
+
+     Scoped per file, not globally: a total is only excused on the page that proved it. Every
+     total currently lives only on its own course page, so this costs nothing, and it keeps the
+     exclusion from quietly excusing the same number somewhere it was never reconciled. */
+  const cents = (v) => Math.round(Number(v) * 100);
+  const rowRe = /^\s*-\s*\{(.+)\}\s*$/;
+  const validatedTotals = new Map();   // file -> totals proven on that file
+  let reconciled = 0;
+  for (const f of pageFiles) {
+    const src = readFileSync(f, 'utf8'), fm = frontmatter(src);
+    const price = [...pricesIn(src)][0];
+    const block = fm.match(/^priceRows:\s*\r?\n([\s\S]*?)(?=^\S)/m);
+    if (!price || !block) continue;                   // not a priced course page
+
+    const rows = block[1].split(/\r?\n/).map((l) => l.match(rowRe)).filter(Boolean).map((m) => ({
+      amount: (m[1].match(/amount:\s*["']\$?([\d,]+(?:\.\d{2})?)["']/) || [])[1],
+      isTotal: /isTotal:\s*true/.test(m[1]),
+      label: (m[1].match(/label:\s*["']([^"']*)["']/) || [])[1] ?? '',
+    })).filter((r) => r.amount);
+
+    const totalRow = rows.find((r) => r.isTotal);
+    const parts = rows.filter((r) => !r.isTotal);
+    const govRows = parts.filter((r) => registerFigures.has(norm(r.amount)));
+    const priceRows = parts.filter((r) => norm(r.amount) === price);
+
+    if (!totalRow || govRows.length !== 1 || priceRows.length !== 1) {
+      warns.push(`Total not reconciled in ${f} — need exactly one course-fee row and one government-fee row present in kb/register/, plus an isTotal row (found ${priceRows.length} price, ${govRows.length} government, ${totalRow ? 1 : 0} total). Skipped rather than guessed.`);
+      continue;
+    }
+
+    const expect = cents(price) + cents(norm(govRows[0].amount));
+    if (cents(norm(totalRow.amount)) !== expect) {
+      fails.push(`WRONG TOTAL in ${f} — "${totalRow.label}" states $${totalRow.amount} but the course fee $${priceRows[0].amount} plus the government fee $${govRows[0].amount} is $${(expect / 100).toFixed(2)}. A published total is wrong; correct the figure, not this check.`);
+      continue;
+    }
+    // A total built on a fee the register has replaced is wrong even though it sums correctly.
+    for (const old of superseded) {
+      const stale = ((cents(price) + cents(old)) / 100).toFixed(2);
+      if (new RegExp(`\\$${stale.replace('.', '\\.')}\\b`).test(src))
+        fails.push(`STALE TOTAL in ${f} — $${stale} is the course fee $${price} plus the SUPERSEDED fee $${old}. Recompute it from the current register figure.`);
+    }
+    validatedTotals.set(f, new Set([...(validatedTotals.get(f) || []), norm(totalRow.amount)]));
+    reconciled++;
+  }
+  if (reconciled) oks.push(`Totals: ${reconciled} course page total(s) reconcile with price + register fee`);
+
   if (!contentFiles.length) warns.push('No page files found in src/content or src/data — figure cross-check skipped (run from the repo root)');
   else {
     let seen = 0, bad = 0;
     for (const f of contentFiles) {
       const src = readFileSync(f, 'utf8');
+      const { set: mine, label } = priceSourceFor(f, src);
       for (const m of src.matchAll(/\$([\d,]+(?:\.\d{2})?)/g)) {
         const fig = norm(m[1]);
         if (Number(fig) < 20) continue;               // small numbers are rarely regulator fees
+        // "$179," in prose captures the trailing comma. Harmless for matching (norm strips it) but
+        // it reaches the message, where "$179," reads like a different figure from "$179".
+        const raw = m[1].replace(/,+$/, '');
+        if (mine.has(fig)) { skips.push({ f, fig: raw, why: label }); continue; }
+        if (validatedTotals.get(f)?.has(fig)) { skips.push({ f, fig: raw, why: 'total reconciled by the sum check' }); continue; }
         seen++;
-        if (superseded.has(fig)) { bad++; fails.push(`SUPERSEDED FIGURE $${m[1]} in ${f} — the register marks this as replaced. Do not publish it.`); }
-        else if (!registerFigures.has(fig)) { bad++; warns.push(`Figure $${m[1]} in ${f} does not appear anywhere in kb/register/. Either it is an ABE price (fine, ignore) or it is an unverified government figure (not fine).`); }
+        if (superseded.has(fig)) { bad++; fails.push(`SUPERSEDED FIGURE $${raw} in ${f} — the register marks this as replaced. Do not publish it.`); }
+        else if (unverified.has(fig)) { bad++; warns.push(`UNVERIFIED FIGURE $${raw} in ${f} — kb/register/ records this figure but marks it UNVERIFIED, so it is published without a source. Verify it or remove it.`); }
+        else if (!registerFigures.has(fig)) { bad++; warns.push(`Figure $${raw} in ${f} does not appear anywhere in kb/register/. Either it is an ABE price (fine, ignore) or it is an unverified government figure (not fine).`); }
       }
     }
-    oks.push(`Figures: ${seen - bad}/${seen} page figures match the register`);
+    oks.push(`Figures: ${seen - bad}/${seen} page figures match the register (${skips.length} excluded — run with --verbose to list them)`);
   }
 }
 
 for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) for (const m of xs) console.log(`  ${l.padEnd(5)} ${m}`);
-console.log(`\n  ${fails.length} failing, ${warns.length} warning, ${oks.length} ok`);
+
+// An exclusion nobody can see is a claim to be taken on trust. --verbose itemises every figure the
+// scan chose not to report, and why, so the exclusion rules can be audited rather than believed.
+if (VERBOSE && skips.length) {
+  console.log(`\n  Excluded from the figure scan — ${skips.length} figure(s):`);
+  const byFile = new Map();
+  for (const s of skips) byFile.set(s.f, [...(byFile.get(s.f) || []), s]);
+  for (const [f, xs] of byFile) {
+    console.log(`\n    ${f}`);
+    const byReason = new Map();
+    for (const s of xs) {
+      const counts = byReason.get(s.why) ?? new Map();
+      counts.set(s.fig, (counts.get(s.fig) ?? 0) + 1);
+      byReason.set(s.why, counts);
+    }
+    for (const [why, counts] of byReason) {
+      const figs = [...counts].map(([fig, n]) => (n > 1 ? `$${fig} ×${n}` : `$${fig}`));
+      console.log(`      ${figs.join(', ')}  — ${why}`);
+    }
+  }
+}
+console.log(`\n  ${fails.length} failing, ${warns.length} warning, ${oks.length} ok${VERBOSE || !skips.length ? '' : `, ${skips.length} excluded`}`);
 if (fails.length && STRICT) process.exit(1);

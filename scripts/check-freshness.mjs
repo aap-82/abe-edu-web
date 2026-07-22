@@ -12,6 +12,11 @@
  * line so no register file has to be rewritten to be covered. Files with neither are reported
  * as unknown, which is a finding, not a pass.
  *
+ * `recheck:` (with optional `recheck-reason:`) is a one-off date that fires independently of the
+ * cadence, for a file that is in date but rests on something softer than its source label — a
+ * figure current on someone's confirmation rather than a published schedule. Reported like
+ * PARTIAL: visible, not fatal.
+ *
  * Cadences: `annual-july` (indexed fees, reset 1 July), `<n>d`, or `none`. Set per file in
  * CADENCE below — a fee indexes each July, legislation does not, and applying the fee cadence
  * to everything produces fifteen alarms where one is real. A check that cries wolf gets
@@ -53,7 +58,12 @@ function parseVerified(src) {
     const v = fm[1].match(/^verified:\s*(\S+)/m);
     const c = fm[1].match(/^cadence:\s*(\S+)/m);
     const partial = /^partial:\s*true\b/m.test(fm[1]);
-    if (v) return { date: new Date(v[1]), cadence: c?.[1] ?? null, partial, source: 'frontmatter' };
+    const r = fm[1].match(/^recheck:\s*(\S+)/m);
+    const reason = fm[1].match(/^recheck-reason:\s*(.+)$/m);
+    if (v) return {
+      date: new Date(v[1]), cadence: c?.[1] ?? null, partial, source: 'frontmatter',
+      recheck: r ? new Date(r[1]) : null, recheckReason: reason?.[1].trim() ?? null,
+    };
   }
   // Prose fallback: **Verified:** 27 May 2026
   const p = src.match(/\*\*Verified:?\*\*[^\n]*?(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
@@ -86,6 +96,11 @@ for (const f of readdirSync(REGISTER).filter((x) => x.endsWith('.md') && x !== '
   if (exp && today > exp) {
     const daysOver = Math.floor((today - exp) / 86_400_000);
     rows.push({ f, state: 'LAPSED', detail: `verified ${iso(parsed.date)}, due ${iso(exp)}, ${daysOver}d overdue` });
+  } else if (parsed.recheck && today > parsed.recheck) {
+    // Independent of the cadence. A file can be well inside its annual window and still rest on
+    // something that needs looking at sooner — WA's FY26-27 figures are current on a person's
+    // confirmation, not a source label, and that caveat lived only as prose in a table cell.
+    rows.push({ f, state: 'RECHECK-DUE', detail: `verified ${iso(parsed.date)} and in date, but a re-check was set for ${iso(parsed.recheck)}${parsed.recheckReason ? ` — ${parsed.recheckReason}` : ''}` });
   } else if (parsed.partial) {
     // A file can be in date and still have unverified cells. Reporting it as ok would
     // hide exactly the figures most likely to be wrong.
