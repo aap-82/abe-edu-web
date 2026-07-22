@@ -18,6 +18,7 @@ import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
 import CtaBand from '../components/CtaBand.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
 
 // Imported from scripts/ on purpose — see the header of cpd-derive.mjs. The check scripts and
 // this page must share one implementation of the counting rules, or a page could disagree with
@@ -28,7 +29,7 @@ import {
 } from '../../scripts/lib/cpd-derive.mjs';
 import register from '../../kb/register/cpd/tas-courses.json';
 import type { CpdCourse } from '../types/cpd';
-import type { CollectionEntry } from 'astro:content';
+import { getEntries, type CollectionEntry } from 'astro:content';
 
 interface Props { bundle: CollectionEntry<'cpdBundles'>['data'] }
 const { bundle } = Astro.props;
@@ -37,6 +38,9 @@ const { bundle } = Astro.props;
 // `.map()` below would take an implicitly-typed parameter. Annotating here rather than at each
 // call site keeps the shape declared once. `npm run check` runs before the build in CI and fails
 // on the implicit any, so this is load-bearing rather than decorative.
+// Resolved rather than inlined, same as CourseLayout: one record owns each person.
+const expertData = (await getEntries(bundle.experts)).map((e) => e.data);
+
 const members: CpdCourse[] = liveMembers(register, bundle.category);
 const points = bundlePoints(register, bundle.category);
 const live = liveTotal(register, bundle.category);
@@ -76,11 +80,33 @@ const schema = {
       })),
     },
     {
+      // state-approved-direct: CBOS approves each course, so the regulator recognises the
+      // credential. This is a certificate of completion, never a Statement of Attainment and
+      // never "nationally recognised" — that belongs to the ASQA model and not to CPD.
+      '@type': 'EducationalOccupationalCredential',
+      '@id': `${bundle.canonical}#credential`,
+      name: `Certificate of Completion — ${bundle.title.split(' - ')[0]}`,
+      credentialCategory: 'Certificate of Completion',
+      recognizedBy: {
+        '@type': 'GovernmentOrganization',
+        name: bundle.regulator.name,
+        url: bundle.regulator.url,
+      },
+    },
+    {
       '@type': 'BreadcrumbList',
       itemListElement: bundle.breadcrumb.map((c: any, i: number) => ({
         '@type': 'ListItem', position: i + 1, name: c.name, item: c.item,
       })),
     },
+    // Two named people, developer and independent reviewer, with sameAs LinkedIn. Required by
+    // the E-E-A-T rule and previously absent here: the Stage 7 audit caught it, because the
+    // guardrails' node check only fires on a page that declares its authority model.
+    ...expertData.map((e) => ({
+      '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
+      ...(e.portrait ? { image: e.portrait.src } : {}),
+      sameAs: e.linkedin,
+    })),
   ],
 };
 ---
@@ -90,6 +116,7 @@ const schema = {
   canonical={bundle.canonical}
   schema={schema}
   sticky={bundle.sticky}
+  authority="state-approved-direct"
   ogImage={bundle.ogImage}
   noindex={bundle.noindex}
   crumbs={bundle.breadcrumb}
@@ -104,13 +131,32 @@ const schema = {
     </div>
   </header>
 
+  {bundle.nav && <WayfinderNav items={bundle.nav} cta={bundle.sticky.cta} />}
+
+  {/* No marker here. The guardrail counts markers within the MDX file, so the body owns the
+      numbered sequence; carrying one here too rendered a second "01" on the page. */}
   <Section id="whats-in" eyebrow="What you get" h2={`What is in the ${bundle.category} bundle?`}>
     <AnswerCapsule>
-      {points} CBOS-approved courses, each worth 1 CPD point, for {bundle.price}.
+      {points} CBOS-approved courses, one point each, for {bundle.price}, and about ten hours of work.
       {shortfall > 0
-        ? ` That covers most of a ${POINTS_CAP}-point licence year — you would add ${shortfall} further point${shortfall === 1 ? '' : 's'} from another approved activity to reach ${POINTS_CAP}.`
-        : ` That is the full annual requirement for a ${POINTS_CAP}-point licence.`}
+        ? ` That is ${points} points against a ${POINTS_CAP}-point year, so you would add ${shortfall} more from another approved activity.`
+        : ` That is ${points} points against a builder's ${POINTS_CAP}-point year, subject to the category caps below.`}
+      {' '}The list is generated from ABE's CBOS approval register, so it shows what is approved today.
     </AnswerCapsule>
+
+    {/* When the WHS classification has not been imported, `countable` is null and this block used
+        to render nothing at all — leaving the points figure standing unqualified beside a page
+        that elsewhere explains the cap exists. Silence resolved the ambiguity in the sale's
+        favour, which is archetype 4's forbidden "implying an obligation is satisfied". An honest
+        "we cannot tell you the split yet" is the correct output for an unknown. */}
+    {countable === null && (
+      <Note variant="caution" label="What actually counts">
+        CBOS counts at most {WHS_POINTS_CAP} work health and safety points a year. This bundle
+        carries safety content, so how many of its {points} points count toward your renewal depends
+        on what you have already recorded this year. Check your remaining points with CBOS before you
+        buy if your renewal is close.
+      </Note>
+    )}
 
     {countable !== null && countable < points && (
       <Note variant="caution" label="What actually counts">

@@ -363,6 +363,11 @@ const cpdBundles = defineCollection({
     price: z.string(),                 // display, e.g. "$499"
     priceNumber: z.string(),           // schema, e.g. "499"
     rrp: z.string().optional(),
+    // The per-course price the rrp is built from. Declared rather than left loose in prose so
+    // check-claims can recognise it as an ABE commercial figure; otherwise every mention of it
+    // reports as an unverified government figure, and a warning that is always wrong is how a
+    // warning list stops being read.
+    singleCoursePrice: z.string().optional(),
     buyUrl: z.string(),                // the LearnWorlds program this bundle is sold as
     licences: z.string(),
     intro: z.string(),
@@ -373,6 +378,13 @@ const cpdBundles = defineCollection({
     sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
     ctaBand: z.object({ headingHtml: z.string(), sub: z.string(), cta }),
     experts: z.array(reference('experts')),
+    // Structured content the MDX body composes. `priceRows` carries the honest arithmetic the
+    // archetype requires (bundle price, sum of the parts, the difference) and `requirementRows`
+    // the per-licence obligation. Neither restates a derived figure: the bundle's POINTS still
+    // come from the register, never from here.
+    priceRows: z.array(priceRow).optional(),
+    requirementRows: z.array(fact).optional(),
+    howItWorksSteps: z.array(step).optional(),
     faqs: z.array(z.object({ q: z.string(), a: z.string(), open: z.boolean().optional() })),
     footerSources: z.array(source).optional(),
     disclaimersHtml: z.string().optional(),

@@ -160,7 +160,8 @@ else {
   // list stops being read.
   const priceFields = [/^price:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^priceNumber:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
                        /^priceWas:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^salePrice:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
-                       /^rrp:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m];
+                       /^rrp:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
+                       /^singleCoursePrice:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m];
   const pricesIn = (src) => {
     const fm = frontmatter(src), out = new Set();
     for (const re of priceFields) { const m = fm.match(re); if (m) out.add(norm(m[1])); }

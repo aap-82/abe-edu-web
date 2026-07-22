@@ -84,7 +84,12 @@ const bundles: Bundle[] = [
     licences: 'Builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities.',
     points: '12', delivery: 'Online', perPoint: '$42',
     price: '$499', rrp: '$1,188',
-    cta: { href: '/program/tas-builder-cpd-bundle-01092025', label: 'View the Building bundle' },
+    // Points at the bundle PAGE, not straight at the LearnWorlds program. The hub links down to
+    // the page and the page links out to the checkout, which is the up/down rule and also what
+    // GSC says is broken today: /program/tas-builder-cpd-bundle-01092025 outranks the marketing
+    // page built to sell it (638 impressions to 347, six clicks to zero), and /program/* is
+    // robots-blocked at cutover, so those impressions have nowhere to land.
+    cta: { href: '/cpd-building-tas', label: 'View the Building bundle' },
   },
   {
     trade: 'Plumbing',

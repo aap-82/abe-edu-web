@@ -33,7 +33,6 @@ const PENDING = new Map([
   ['/white-card-wa', 'B2 - White Card WA'],
   ['/white-card-tas', 'B2 - White Card TAS'],
   ['/cpd-building-nsw', 'B3 - CPD building NSW'],
-  ['/cpd-building-tas', 'B3 - CPD building TAS'],
   ['/cpd-plumbing-tas', 'B3 - CPD plumbing TAS'],
   ['/cpd-electrical-tas', 'B3 - CPD electrical TAS'],
   ['/cpd-real-estate-wa', 'B3 - CPD real estate WA'],
