@@ -14,7 +14,7 @@ legacy_path,action,target,notes
 /owner-builder-courses,rebuild,/owner-builder-courses,"OB hub, biggest impression pool (59.9k). Wave 2. LW export has a duplicate entry for this slug."
 /owner-builder-insurance,rebuild,/owner-builder-insurance,Service page. Wave 2.
 /professional-indemnity-insurance,rebuild,/professional-indemnity-insurance,Service page. Wave 2.
-/owner-builder-nsw-course,rebuild,/owner-builder-nsw-course,Canonical NSW OB target. ASQA layout (Upskill 45708). The stronger of the two live URLs: pos 9.7 vs 16.5, 2.2x the clicks, and it already outranks the alternative on 81% of shared queries.
+/owner-builder-nsw-course,rebuild,/owner-builder-nsw-course,"BLOCKED AT CUTOVER — DO NOT SHIP THE CURRENT PAGE. The NSW OB course is on hold (unsigned Upskill partnership + units not on RTO 45708's scope), so the ASQA layout this row was written for cannot ship. Keep the URL live as a pre-launch info page instead of redirecting it away — see ROADMAP.md 'NSW Owner Builder pre-launch page'. Retained as the canonical NSW OB target because it is the stronger of the two live URLs: pos 9.7 vs 16.5, 2.2x the clicks, and it already outranks the alternative on 81% of shared queries."
 /nsw-building-cpd-courses,redirect,/cpd-building-nsw,CPD slug convention. Wave 4.
 /white-card-wa-online,redirect,/white-card-wa,Never an -online suffix. Biggest growth page (36.7k impr). Wave 3.
 /wa-real-estatecpd,redirect,/cpd-real-estate-wa,Fixes broken legacy slug. Wave 4.

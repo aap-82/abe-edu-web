@@ -107,6 +107,55 @@ list is the specification for phase 3. Without it, phase 3 has no basis.
 
 ---
 
+## Queued — NSW Owner Builder pre-launch page (decided 22 Jul 2026, builds after phase 2)
+
+Rather than 301 `/owner-builder-nsw-course` away while the course is on hold, keep the URL live
+as a **pre-launch information page**. It holds far more of the NSW equity (pos 9.7, page one)
+than a redirect to the hub would, and it has a real product to convert to today.
+
+**Sequencing: after phase 2.** Andrey's call, 22 July. The CPD TAS evidence run goes first, so
+this gets built with a proven process. Nothing is at risk meanwhile — both NSW pages are
+pre-cutover and noindexed. **But see the cutover race below.**
+
+**Decisions already made** (do not re-litigate; ask only if something has changed):
+
+- **Base:** merge the best of both existing NSW pages — v1's structure plus the `-w` variant's
+  deeper research (insurance, resale disclosure, licensed work, the two separate warranty
+  clocks). Result lands on the equity slug `/owner-builder-nsw-course`.
+- **Primary CTA is the NSW White Card, not the email box.** A White Card is mandatory on every
+  NSW owner-builder permit application, and ABE sells it today through a partnership that *is*
+  in force. This is what makes the page convert rather than just park.
+- **Secondary CTA: an outbound link to a third-party form (Fillout or similar)** for "notify me
+  when the course is live". A **link, not an embed** — that keeps every third-party script off
+  the page, so the GA4 + Google Ads CWV policy and the CSP are untouched and no Worker endpoint
+  is needed. Costs a click; worth it. Flag to Andrey whether the privacy page needs to name the
+  form processor (legal pages are placed, never drafted).
+- **Schema changes shape, it does not just lose a field.** No `Course`, no
+  `EducationalOccupationalCredential`, no `offers` — asserting a purchasable product that does
+  not exist is the same class of error as the RTO claim. Use `WebPage`/`Article` + `FAQPage` +
+  `BreadcrumbList` + `Person`.
+- **"Coming soon" must not appear in the title tag.** It signals unavailability in the SERP and
+  kills CTR on transactional queries. Title stays informational and authoritative; the launch
+  notice sits in the body, below the answer capsule.
+- **No RTO named, anywhere, in any form.** The whole point of the page is that there is not one.
+- **Expect gradual ranking decay** and set a review date. An info page satisfies transactional
+  intent less well than a course page, so position will drift over months. It holds much more
+  than a redirect, not everything.
+
+**⛔ Cutover race — the one thing that can go wrong.** `redirects.csv` marks
+`/owner-builder-nsw-course` as `rebuild`, and `/nsw-owner-builder-course` 301s *into* it. If
+cutover happens before this page is built, both NSW URLs funnel into a page carrying the false
+RTO claim. The row is annotated BLOCKED, but **if cutover is scheduled before phase 2 finishes,
+this page jumps the queue** — or the URL needs an interim destination.
+
+**Archetype: extract it on the second one, not this one.** A pre-launch archetype generalises
+well (SA/VIC have no products; other courses will go on hold), but building it now is phase 3
+work arriving ahead of the demand list. Build the page, then let a second pre-launch page prove
+what the archetype needs. Trigger to watch in the phase 3 table: "a non-course page is needed
+next".
+
+---
+
 ## Phase 3 — structure on demand 🔒 blocked on phase 2's demand list
 
 **Nothing in this section may be built until the demand list names it.** These are candidates

@@ -48,7 +48,7 @@
 # /professional-indemnity-insurance -> /professional-indemnity-insurance (rebuild) - Service page. Wave 2.
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
-# /owner-builder-nsw-course -> /owner-builder-nsw-course (rebuild) - Canonical NSW OB target. ASQA layout (Upskill 45708). The stronger of the two live URLs: pos 9.7 vs 16.5
+# /owner-builder-nsw-course -> /owner-builder-nsw-course (rebuild) - BLOCKED AT CUTOVER — DO NOT SHIP THE CURRENT PAGE. The NSW OB course is on hold (unsigned Upskill partnership + units not on RTO 45708's scope), so the ASQA layout this row was written for cannot ship. Keep the URL live as a pre-launch info page instead of redirecting it away — see ROADMAP.md 'NSW Owner Builder pre-launch page'. Retained as the canonical NSW OB target because it is the stronger of the two live URLs: pos 9.7 vs 16.5, 2.2x the clicks, and it already outranks the alternative on 81% of shared queries.
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
 # /nsw-building-cpd-courses -> /cpd-building-nsw (redirect) - CPD slug convention. Wave 4.
