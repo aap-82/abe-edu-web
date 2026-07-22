@@ -122,8 +122,8 @@
 | **CPD Plumbing** | — | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Electrical** | — | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Real Estate** | — | — | ✅ | — | — | ABE Education (direct) |
-| **Asbestos Awareness** | — | — | — | — | ✅ | AlertForce (RTO 91826) |
-| **Silica Awareness** | — | — | — | — | ✅ | AlertForce (RTO 91826) |
+| **Asbestos Awareness** | ✅ | ✅ | ✅ | ✅ | ✅ | AlertForce (RTO 91826) — resold nationally |
+| **Silica Awareness** | ✅ | ✅ | ✅ | ✅ | ✅ | AlertForce (RTO 91826) — resold nationally |
 
 **Rules:**
 - ❌ means ABE does not currently offer this course in this state — do not create a landing page

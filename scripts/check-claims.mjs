@@ -109,7 +109,18 @@ else {
   // noise in exactly the check that has to stay trustworthy to be read at all.
   const norm = (s) => Number(String(s).replace(/,/g, '')).toFixed(2);
 
-  const registerText = walk(REGISTER, '.md').map((f) => readFileSync(f, 'utf8')).join('\n');
+  // Not every file under kb/register/ is a source of truth for a figure on a page. These two are
+  // commercial snapshots — competitor prices, and ABE's own sales and search performance. Their
+  // numbers are evidence for deciding WHAT to build, never provenance for a government fee.
+  //
+  // Left in the corpus they quietly weaken the check that matters most: a page could state a wrong
+  // fee and pass because some unrelated revenue total happens to carry the same digits. The
+  // exclusion is by filename rather than by heuristic, so it cannot widen on its own — the same
+  // discipline the "its own price" exclusions above follow.
+  const NON_REGULATORY = new Set(['competitor-pricing-snapshot.md', 'demand-and-revenue-snapshot.md']);
+  const registerText = walk(REGISTER, '.md')
+    .filter((f) => !NON_REGULATORY.has(f.replace(/\\/g, '/').split('/').pop()))
+    .map((f) => readFileSync(f, 'utf8')).join('\n');
   const registerFigures = new Set([...registerText.matchAll(/\$([\d,]+(?:\.\d{2})?)/g)].map((m) => norm(m[1])));
   // Figures the register explicitly marks as superseded must never appear in content.
   const superseded = new Set([...registerText.matchAll(/supersedes?\s+\$([\d,]+(?:\.\d{2})?)|\$([\d,]+(?:\.\d{2})?)[^.\n]{0,80}must not be published/gi)]
@@ -142,8 +153,14 @@ else {
   // have to be a government fee exactly equal to an ABE price to be masked, and such a fee would
   // be in the register anyway, so it would never have reached this branch.
   const frontmatter = (src) => (src.match(/^---\r?\n([\s\S]*?)\r?\n---/) || [])[1] || '';
+  // `rrp` joins these for the same reason `priceWas` did: on a CPD bundle it is the sum of the
+  // component courses' ABE prices (12 x $99 = $1,188), so it is an ABE commercial figure by
+  // construction and could never be in kb/register/. Left out, every bundle page reports its own
+  // rrp as an unverified government figure — and a warning that is always wrong is how a warning
+  // list stops being read.
   const priceFields = [/^price:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^priceNumber:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
-                       /^priceWas:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^salePrice:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m];
+                       /^priceWas:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m, /^salePrice:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m,
+                       /^rrp:\s*["']?\$?([\d,]+(?:\.\d{2})?)/m];
   const pricesIn = (src) => {
     const fm = frontmatter(src), out = new Set();
     for (const re of priceFields) { const m = fm.match(re); if (m) out.add(norm(m[1])); }
@@ -284,6 +301,69 @@ else {
       }
     }
     oks.push(`Figures: ${seen - bad}/${seen} page figures match the register (${skips.length} excluded — run with --verbose to list them)`);
+  }
+}
+
+// ---------------------------------------------------------------------------------------
+// 3. CPD REGISTER INTEGRITY.
+//
+// The register is a generated projection of a doc ABE maintains elsewhere, so the failure mode
+// is not a stale figure but a forked one: someone edits the JSON directly, the site and the
+// source doc disagree, and both look authoritative. The checksum makes that visible.
+//
+// The derived counts are re-stated here rather than trusted, because every published points
+// figure depends on the live-only filter. Getting that wrong is how the Electrical bundle came
+// to advertise 12 points with one of its courses three months expired.
+// ---------------------------------------------------------------------------------------
+{
+  const cpd = await import('./lib/cpd-register.mjs');
+  if (cpd.registerExists()) {
+    const reg = cpd.readRegister();
+
+    if (!cpd.checksumMatches(reg)) {
+      fails.push(
+        `CPD register checksum does not match its payload — ${cpd.REGISTER_PATH} has been hand-edited. ` +
+        `That forks it from the source doc it is generated from. Re-run \`npm run sync:cpd\`; if the change ` +
+        `was intentional, make it in the source doc first.`
+      );
+    } else {
+      oks.push(`CPD register: checksum matches, ${reg.courses.length} rows from ${reg.generated.sourceName} (synced ${reg.generated.syncedAt})`);
+    }
+
+    for (const cat of cpd.BUNDLE_CATEGORIES) {
+      const tagged = cpd.taggedMembers(reg, cat).length;
+      const live = cpd.liveTotal(reg, cat);
+      const published = cpd.bundlePoints(reg, cat);
+
+      if (live > cpd.POINTS_CAP) {
+        warns.push(
+          `CPD ${cat}: ${live} live courses against a ${cpd.POINTS_CAP}-point cap, so ${live - cpd.POINTS_CAP} is surplus and the sold set is ambiguous. ` +
+          `Prune it in the source doc — and spend that choice keeping the bundle inside the WHS cap rather than dropping one at random.`
+        );
+      } else if (live < cpd.POINTS_CAP) {
+        warns.push(
+          `CPD ${cat}: ${published} points, short of the ${cpd.POINTS_CAP} a 12-point licence needs. ` +
+          `The page must disclose the shortfall rather than imply full coverage.`
+        );
+      } else {
+        oks.push(`CPD ${cat}: ${published} points from ${live} live course(s) of ${tagged} tagged`);
+      }
+
+      // WHS cap — WARNS, never fails. Unlike expiry, which is a date that has or has not
+      // passed, WHS classification is CBOS's judgement about course content. Failing a build
+      // on an inference would block unrelated work over a disputable call, and a check that
+      // cries wolf gets scrolled past. The editorial rule still stands: where the cap bites,
+      // the page states the countable number.
+      const countable = cpd.countablePoints(reg, cat);
+      if (countable === null) {
+        warns.push(`CPD ${cat}: WHS cap unchecked — some live courses have no studyArea. Import it from ABE Courses (Keystone Study Area).`);
+      } else if (countable < published) {
+        warns.push(
+          `CPD ${cat}: advertises ${published} points but only ${countable} are countable — CBOS allows at most ` +
+          `${cpd.WHS_POINTS_CAP} WHS points a year and this bundle carries ${cpd.whsPoints(reg, cat)}. State the countable number on the page.`
+        );
+      }
+    }
   }
 }
 

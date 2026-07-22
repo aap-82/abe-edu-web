@@ -86,13 +86,16 @@ const priceRows = [
 // Third item deliberately omits price/cta so the specimen shows the soon state, which is
 // otherwise invisible until a real bundle is unpriced.
 const bundleCardEx: Bundle[] = [
-  { trade: 'Builders', title: 'Example Builder bundle', blurb: 'Twelve approved courses covering a full year in one purchase.',
+  { trade: 'Building', title: 'Example Building bundle', blurb: 'Twelve approved courses covering a full year in one purchase.',
+    licences: 'Builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities.',
     points: '12', delivery: 'Online', perPoint: '$42', price: '$499', rrp: '$1,188', cta: { href: '#', label: 'View the bundle' } },
-  { trade: 'Plumbers', title: 'Example Plumber bundle', blurb: 'Eleven approved courses covering most of a year.',
-    points: '11', delivery: 'Online', perPoint: '$41', price: '$449', rrp: '$1,089', cta: { href: '#', label: 'View the bundle' },
+  { trade: 'Plumbing', title: 'Example Plumbing bundle', blurb: 'Twelve approved courses covering a full year in one purchase.',
+    licences: 'Plumbers and nominated managers.',
+    points: '12', delivery: 'Online', perPoint: '$42', price: '$499', rrp: '$1,188', cta: { href: '#', label: 'View the bundle' } },
+  { trade: 'Electrical', title: 'Example unpriced bundle', blurb: 'Shows the state used when a price is not confirmed yet, and a shortfall note.',
+    licences: 'Electricians, restricted electrical licence holders and nominated managers.',
+    points: '11', delivery: 'Online',
     foot: 'Add 1 further point from another approved activity to reach 12.' },
-  { trade: 'Electricians', title: 'Example unpriced bundle', blurb: 'Shows the state used when a price is not confirmed yet.',
-    points: '12', delivery: 'Online' },
 ];
 // The five NSW owner builder units, so the specimen shows the multi-unit case as well as
 // the single-unit White Card one. A component that only ever renders one item in its

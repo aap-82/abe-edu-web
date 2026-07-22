@@ -75,6 +75,35 @@ the craft method, `skill-reviews/_TEMPLATE.md`, and four scripts — `check-fres
 
 ---
 
+## CPD Stage A — done 23 July 2026 (prerequisite for phase 2)
+
+CPD did not fit the one-course-one-state shape the site was built around, so the data model had to
+land before the evidence run could be honest. Delivered:
+
+- `kb/register/cpd/tas-courses.json` — generated projection of ABE's operational CPD register
+  (Superhuman Docs), refreshed by `npm run sync:cpd`. Owns per-course points, approval and expiry
+  dates, bundle membership and status.
+- `scripts/lib/cpd-derive.mjs` — the counting rules, in **one** place, imported by both the check
+  scripts and the bundle pages so a page cannot disagree with the check policing it.
+- **Expiry is a build-blocker.** `check-freshness` fails, without `--strict`, on a course marked
+  live, past its CBOS expiry, and still sold. **The WHS cap warns and never blocks** — it is CBOS's
+  judgement about content, not a date that has passed.
+- `cpdBundles` collection + `CpdBundleLayout` + `/cpd-building-tas` as a **noindex stub**, so Phase
+  2 builds the real page rather than editing one someone already shaped.
+- Bundles renamed to the register's category axis: Building, Electrical, Plumbing.
+
+**Three findings the register surfaced, all corrected on `/cpd-tas`:** Electrical was advertising 12
+points with one course expired since April (now 11, with a shortfall note); Plumbing was selling 11
+for $449 against 13 live approved courses (now 12 at $499); and expired courses stay tagged to their
+bundles in the source doc, so any unfiltered count overstates every bundle.
+
+**Open, non-blocking:** the WHS classification is not imported, so the 4-point cap is unchecked —
+by title the Building bundle may hold ~6 WHS courses, which would make it 10 countable points, not
+12. One surplus plumbing course needs pruning in the source doc, and the LearnWorlds Plumbing
+program still sells 11 for $449 and must be updated before `/cpd-tas` goes public.
+
+---
+
 ## Phase 2 — the evidence run ⬅ next
 
 **Build one CPD course page end to end through the skill.** Recommended: `/cpd-building-tas` — CBOS

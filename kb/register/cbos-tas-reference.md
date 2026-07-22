@@ -50,6 +50,51 @@ A person holding **several** licence categories does **not** add the requirement
 - CBOS requires **all proposed CPD training/activities to be submitted for approval and/or notification** — including internal training and toolbox meetings.
 - On a page: claim CBOS approval only for courses ABE has actual approval for, and mark the specific point value `[confirm: LW]` until verified against ABE's records. Never assert a point value from memory.
 
+### A6. Asbestos — a CBOS CPD course, NOT an asbestos awareness card
+
+ABE holds a **CBOS-approved asbestos CPD course for Tasmania** — "Workplace Asbestos Basics" in
+CBOS's records, `TAS CPD Workplace Asbestos Basics` in the register, 1 point, live, in all three
+TAS bundles. Confirmed by Andrey 23 July 2026. It is a legitimate CPD component and may be
+described as CBOS-approved for 1 CPD point.
+
+**It is not a nationally recognised asbestos awareness course, and must never be written as one.**
+ABE has no ASQA asbestos product. The distinction is the whole authority model in miniature: a
+CBOS CPD point is a Tasmanian licence-renewal credit; an asbestos awareness course is a
+nationally recognised credential issued by an RTO. Conflating them claims a credential ABE cannot
+issue.
+
+- ✅ "CBOS-approved for 1 CPD point toward your Tasmanian licence renewal"
+- ❌ "asbestos awareness course", "asbestos awareness training", "nationally recognised",
+  "certification", or anything implying a card or ticket
+
+**Do not build a page for it on search demand.** Checked against the site-wide GSC export
+(16 months, 20 July 2026): asbestos and silica carry 7,421 impressions across 77 queries, and
+**none is TAS-qualified and none is CPD-flavoured**. It is national demand for an awareness card
+(4,614 impressions), interstate demand mostly around Melbourne (1,552), and removal licensing
+(1,073) — none of which ABE can serve. One click in sixteen months, at positions 37 to 77. The
+demand is real and it is for a different product.
+
+**Silica is separate and is refused.** CBOS refused approval for ABE's Silica Awareness Course
+(status `refused` in the register). It carries no points and must not appear as approved.
+
+**The AlertForce awareness courses are a separate, legitimate product.** ABE resells AlertForce's
+(RTO 91826) nationally recognised Asbestos Awareness and Silica Awareness courses in every state
+— see `kb/rules/authority-model.md` § "Asbestos and Silica Awareness". That resolves what the
+LearnWorlds products "Online Asbestos Awareness Course" and "TAS Online Asbestos Awareness Course"
+most likely are, and their naming is accurate for that product.
+
+**What still must not happen is conflating the two.** A TAS licence holder can buy either: a CBOS
+CPD point, or a nationally recognised awareness credential. They are different products with
+different regulators and different claims, and only one of them is "nationally recognised". Check
+which product a page is describing before writing a single claim about it.
+
+---
+
+**Per-course approvals live in `kb/register/cpd/tas-courses.json`** — a generated projection of the operational register ABE maintains in Superhuman Docs ("TAS CPD Courses"), refreshed with `npm run sync:cpd`. It owns each course's point value, approval and expiry dates, bundle membership and status. **This file stays the owner of the *requirement* (A1-A3); the JSON owns the *approvals*.** Two things about it are load-bearing:
+
+- **CBOS approval lapses two years after approval.** `check-freshness.mjs` fails the build — without `--strict`, unlike everything else in this register — if a course is marked `live`, past its expiry, and still sold in a bundle. A lapsed approval on a live page tells a licence holder they have discharged an obligation they have not.
+- **Expired and refused courses stay tagged to their bundles in the source doc.** Any count that does not filter on `status === 'live'` overstates every bundle. The rule is implemented once, in `scripts/lib/cpd-derive.mjs`, and both the check scripts and the bundle pages import it.
+
 ### A5. Record-keeping (useful FAQ content)
 
 Responsibility for recording CPD sits with the **licence holder** (employees keep their own record and ensure the employer's register reflects it; sole practitioners are wholly responsible). Records should be retained and portable between employers. Good source for a "how do I track my CPD" FAQ.

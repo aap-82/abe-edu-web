@@ -38,18 +38,15 @@
 │
 ├── CPD ───────────────────────────────────────────────────────────
 │   /cpd                            CPD main hub                      ◇  (W4-8)
-│   ├── /cpd-building               Trade hub (NSW + TAS)             ○  (W4-6)
 │   ├── /cpd-nsw                    State hub                         ○  (W4-7)
-│   ├── /cpd-tas                    State hub                         ○  (W4-7)
+│   ├── /cpd-tas                    State hub                         ●  (live)
 │   ├── /cpd-wa                     State hub                         ○  (W4-7)
-│   │   Course pages (all ABE state-approved-direct):
+│   │   Bundle pages — the bundle IS the course page (see note below):
+│   ├── /cpd-building-tas           TAS Building · CBOS · 12 pts      ◐  (W4-2, Phase 2)
+│   ├── /cpd-plumbing-tas           TAS Plumbing · CBOS · 12 pts      ○  (W4-3)
+│   ├── /cpd-electrical-tas         TAS Electrical · CBOS · 11 pts    ○  (W4-4)
 │   ├── /cpd-building-nsw           CPD Building NSW                  ○  (W4-1)
-│   ├── /cpd-building-tas           CPD Building TAS · CBOS           ○  (W4-2)
-│   ├── /cpd-plumbing-tas           CPD Plumbing TAS · CBOS           ○  (W4-3)
-│   ├── /cpd-electrical-tas         CPD Electrical TAS · CBOS         ○  (W4-4)
-│   └── /cpd-real-estate-wa         CPD Real Estate WA               ○  (W4-5)
-│   /cpd-bundles                    Bundle hub                        ○  (W4-10)
-│   └── /cpd-bundles-tas            TAS bundle page (+ others per W4-9)  ○ (W4-10)
+│   └── /cpd-real-estate-wa         CPD Real Estate WA                ○  (W4-5)
 │
 ├── TRUST ─────────────────────────────────────────────────────────
 │   /experts                        Experts hub                       ○  (W1-3)
@@ -78,6 +75,21 @@
 
 ---
 
+**CPD structure changed 23 July 2026.** Three entries above were dropped, and the reason is the
+same in each case — two pages were chasing one query with only one of them holding a purchase path:
+
+- **`/cpd-bundles` and `/cpd-bundles-tas` are gone.** The bundle *is* the product, so it is the
+  course page: `/cpd-{category}-{state}`. A separate bundle hub would compete with the state hubs,
+  which already index them.
+- **`/cpd-building` (trade hub across NSW + TAS) is gone.** It intersected the state hubs at
+  exactly the pages that sell, which is the worst place for two hubs to overlap.
+- **Bundles are named for the register's category axis** — Building, Electrical, Plumbing — not a
+  single trade, because one category serves several licence types with different annual point
+  requirements. This is why the slugs above are unchanged: `-building-` was right all along.
+
+Point figures shown are **derived at build** from `kb/register/cpd/tas-courses.json` (live courses
+only, capped at 12) and are current as at 23 July 2026, not authored targets.
+
 ## Counts
 
 | Group | Pages |
@@ -85,12 +97,12 @@
 | Homepage + catalogue | 2 |
 | Owner Builder (5 spokes + hub + 2 insurance + advisory) | 9 |
 | White Card (5 spokes + hub) | 6 |
-| CPD (5 courses + 4 hubs + main hub + 2 bundles) | 12 |
+| CPD (5 bundle/course pages + 3 state hubs + main hub) | 9 |
 | Trust (2 experts + hub + accreditation + reviews) | 5 |
 | Content hub (index; articles later) | 1 |
 | Support | 5 |
 | Legal | 4 |
-| **Total indexable pages at launch** | **~44** |
+| **Total indexable pages at launch** | **~41** |
 
 Not in this sitemap and deliberately excluded: the 175 `/course/*` and 54 `/program/*` LearnWorlds player URLs (they stay on `learn.abeeducation.edu.au` and are robots-blocked from the marketing site), the retired NSW Real Estate CPD set, and any asbestos/silica pages (no product). All of those are handled as 301s in `redirect-map-v1.csv`.
 

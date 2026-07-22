@@ -85,8 +85,26 @@ for (const row of rows) {
 
 // Astro builds with format:'directory', so `/foo` is `dist/foo/index.html`. The `.html`
 // form is checked too so this does not silently break if that config ever changes.
-const resolves = (p) =>
-  existsSync(join(DIST, p, 'index.html')) || existsSync(join(DIST, `${p}.html`));
+const pageFile = (p) => {
+  const dir = join(DIST, p, 'index.html');
+  if (existsSync(dir)) return dir;
+  const flat = join(DIST, `${p}.html`);
+  return existsSync(flat) ? flat : null;
+};
+
+/**
+ * A noindex page is NOT a resolved redirect target.
+ *
+ * Existing on disk is not the same as being a valid destination for equity: redirecting a
+ * ranking URL into a noindexed page discards the ranking rather than moving it. Stub pages get
+ * built during a wave long before they are written, so without this a stub would clear its own
+ * PENDING entry and the redirect would look done while quietly pointing at a dead end.
+ */
+const resolves = (p) => {
+  const f = pageFile(p);
+  if (!f) return false;
+  return !/<meta[^>]+name=["']robots["'][^>]*noindex/i.test(readFileSync(f, 'utf8'));
+};
 
 const fails = [];
 const stale = [];

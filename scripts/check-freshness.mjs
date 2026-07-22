@@ -121,3 +121,65 @@ if (bad.length) {
   );
   if (STRICT) process.exit(1);
 }
+
+// ---------------------------------------------------------------------------------------
+// CPD approval expiry (TAS / CBOS).
+//
+// This section BLOCKS THE BUILD, unlike everything above, and does so without --strict.
+// The rest of this file reports a figure that may have drifted; here the failure is a claim
+// that is affirmatively false. CBOS approval runs two years, and a lapsed course is no longer
+// recognised for points — so a page still offering it as a CBOS-approved point is telling a
+// licence holder they have discharged an obligation they have not. CLAUDE.md treats an
+// unresolved government fact as a publish hard-blocker; this is the automated form of that.
+//
+// The failing condition is deliberately narrow: status `live` AND past its expiry AND tagged
+// to a bundle. A course already marked `expired` is handled correctly by the status filter
+// downstream and is not a lie on any page — it is only untidy, so it warns. What cannot be
+// tolerated is the register asserting `live` over a date that has passed, because every
+// derived figure trusts `status`.
+// ---------------------------------------------------------------------------------------
+const cpd = await import('./lib/cpd-register.mjs');
+if (cpd.registerExists()) {
+  const reg = cpd.readRegister();
+  const fatal = [];
+  const warn = [];
+
+  for (const c of reg.courses) {
+    const bundled = (c.bundles ?? []).length > 0;
+    const days = cpd.daysUntilExpiry(c, today);
+
+    if (c.status === 'live' && bundled && days !== null && days < 0) {
+      fatal.push(`${c.name} — approval lapsed ${c.expiresAt} (${-days}d ago) but still marked live and sold in ${c.bundles.join(', ')}`);
+    } else if (c.status === 'live' && bundled && days !== null && days <= 90) {
+      warn.push(`EXPIRING  ${c.name} — ${days}d left (${c.expiresAt}), in ${c.bundles.join(', ')}`);
+    } else if (c.status !== 'live' && bundled) {
+      warn.push(`STALE-TAG ${c.name} — ${c.status}, but still tagged to ${c.bundles.join(', ')}. Prune it in the source doc so the sold set is unambiguous.`);
+    }
+  }
+
+  const softBasis = reg.courses.filter((c) => c.status === 'live' && c.expiryBasis === 'submission').length;
+  const unclassified = reg.courses.filter((c) => c.status === 'live' && c.studyArea == null).length;
+
+  console.log('');
+  for (const w of warn) console.log(`  ${w}`);
+  if (softBasis) {
+    console.log(`  SOFT-DATE ${softBasis} live course(s) date their expiry from submission, not a recorded approval — an estimate, not a confirmation.`);
+  }
+  if (unclassified) {
+    console.log(`  NO-WHS    ${unclassified} live course(s) have no studyArea, so the CBOS 4-point WHS cap cannot be checked.`);
+  }
+
+  const live = reg.courses.filter((c) => c.status === 'live').length;
+  console.log(`CPD approvals: ${live} live of ${reg.courses.length}, ${fatal.length} lapsed-but-live.`);
+
+  if (fatal.length) {
+    console.log('\n  FAIL  A course is sold as CBOS-approved on an approval that has expired:\n');
+    for (const f of fatal) console.log(`        ${f}`);
+    console.log(
+      '\n        Fix in the source doc, then `npm run sync:cpd`. Either the approval was renewed\n' +
+      '        (record the new date), or it was not (set the status, and drop it from the bundle).\n' +
+      '        Do not edit the generated JSON to clear this.\n'
+    );
+    process.exit(1);
+  }
+}

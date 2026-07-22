@@ -53,34 +53,55 @@ const pointsFacts: Fact[] = [
 // owns the shape now, and the saving is derived from price vs rrp rather than authored, so
 // a price edit cannot leave a stale figure behind it.
 //
-// Per-point figures are plain arithmetic on ABE's own prices ($499 / 12, $449 / 11) against
-// $99 for a single course, so they introduce no fact needing verification.
+// Per-point figures are plain arithmetic on ABE's own prices ($499 / 12) against $99 for a
+// single course, so they introduce no fact needing verification.
 //
-// The Electrician bundle still has no confirmed price. Omitting `price` renders the soon
-// state; add price, rrp and cta together when it lands.
+// NAMING (23 Jul 2026). Bundles are named for the register's Category axis — Building,
+// Electrical, Plumbing — not for a single trade, because one category serves several licence
+// types with different annual point requirements. `licences` names them explicitly, taken from
+// the register's Category Description rather than inferred from the bundle title. The points
+// table above stays in trade-person language, since it describes who needs what.
+//
+// COUNTS come from the TAS CPD Courses register (Superhuman Docs), counting only rows with
+// Status = Live. Expired and refused courses stay tagged to their bundles there, so a raw
+// membership count overstates every one of them. Live as at 23 Jul 2026: Building 12,
+// Plumbing 13 (capped at 12), Electrical 11.
+//
+// ⚠ PLUMBING IS AHEAD OF THE PRODUCT — resolve before cutover. The register holds 13 live
+// plumbing courses, so under the composition rule (min(live, 12)) the bundle is a 12-point
+// bundle at $499, and that is what this page now states. The LearnWorlds program it links to
+// still sells 11 courses for $449. Update the program, and drop one of the 13 in the register
+// so the sold set is unambiguous, before this page goes public. Choose the dropped course to
+// keep the bundle within the CBOS 4-point WHS cap.
+//
+// The Electrical bundle has no confirmed price. Omitting `price` renders the soon state; add
+// price, rrp and cta together when it lands.
 const bundles: Bundle[] = [
   {
-    trade: 'Builders',
-    title: 'TAS Builder CPD bundle',
-    blurb: 'Twelve CBOS-approved courses covering a builder’s full year in one purchase.',
+    trade: 'Building',
+    title: 'TAS Building CPD bundle',
+    blurb: 'Twelve CBOS-approved courses covering a full year in one purchase.',
+    licences: 'Builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities.',
     points: '12', delivery: 'Online', perPoint: '$42',
     price: '$499', rrp: '$1,188',
-    cta: { href: '/program/tas-builder-cpd-bundle-01092025', label: 'View the Builder bundle' },
+    cta: { href: '/program/tas-builder-cpd-bundle-01092025', label: 'View the Building bundle' },
   },
   {
-    trade: 'Plumbers',
-    title: 'TAS Plumber CPD bundle',
-    blurb: 'Eleven CBOS-approved courses covering most of a plumber’s year.',
-    points: '11', delivery: 'Online', perPoint: '$41',
-    price: '$449', rrp: '$1,089',
-    cta: { href: '/program/tas-plumber-cpd-bundle-01092025', label: 'View the Plumber bundle' },
+    trade: 'Plumbing',
+    title: 'TAS Plumbing CPD bundle',
+    blurb: 'Twelve CBOS-approved courses covering a plumber’s full year in one purchase.',
+    licences: 'Plumbers and nominated managers.',
+    points: '12', delivery: 'Online', perPoint: '$42',
+    price: '$499', rrp: '$1,188',
+    cta: { href: '/program/tas-plumber-cpd-bundle-01092025', label: 'View the Plumbing bundle' },
+  },
+  {
+    trade: 'Electrical',
+    title: 'TAS Electrical CPD bundle',
+    blurb: 'Eleven CBOS-approved courses covering most of an electrician’s year.',
+    licences: 'Electricians, restricted electrical licence holders and nominated managers.',
+    points: '11', delivery: 'Online',
     foot: 'Add 1 further point from another approved activity to reach 12.',
-  },
-  {
-    trade: 'Electricians',
-    title: 'TAS Electrician CPD bundle',
-    blurb: 'Twelve CBOS-approved courses covering an electrician’s full year.',
-    points: '12', delivery: 'Online',
   },
 ];
 
@@ -112,7 +133,7 @@ const faqs: FAQItem[] = [
   { open: true, q: 'How many CPD points do I need in Tasmania?', a: 'Builders, plumbers and electricians each need at least 12 CPD points per licence year. Building Designers and Architects need 20, and Building Surveyors and Engineers 30. You confirm you have met your points when you renew your licence.' },
   { q: 'Are ABE’s courses actually approved by CBOS?', a: 'Yes. ABE is listed as a CPD provider with CBOS, and each course in the bundles has been individually approved by CBOS for 1 CPD point. You receive a certificate of completion for every course you finish.' },
   { q: 'I hold two licences. Do I need double the points?', a: 'No. You meet the highest single requirement across the licences you hold, not the sum. A licensed builder and plumber needs 12 points, not 24, though some of that learning should relate to each type of work.' },
-  { q: 'Does the 12-point bundle cover my whole year?', a: 'For a builder or electrician, the 12-point bundle is built to meet your full annual requirement. The plumber bundle is 11 points, so it covers most of your year and you would add 1 further point from another approved activity. CPD you count should relate to your licensed work, and CBOS sets an annual limit on how many work health and safety points can count, so a good mix matters.' },
+  { q: 'Does the 12-point bundle cover my whole year?', a: 'The Building and Plumbing bundles are 12 points, built to meet the full annual requirement for a builder or plumber. The Electrical bundle is 11 points, so it covers most of your year and you would add 1 further point from another approved activity. If you hold a licence with a higher requirement, such as a building surveyor or engineer at 30 points, a bundle covers part of your year rather than all of it. CPD you count should relate to your licensed work, and CBOS sets an annual limit on how many work health and safety points can count, so a good mix matters.' },
   { q: 'Can I complete the CPD online?', a: 'Yes. Every course is online and self-paced, on any device, and your progress is saved. You do not need to attend in person or book a classroom day.' },
   { q: 'How do I record my CPD?', a: 'You keep your own CPD record and your certificates. Employees should make sure their employer’s register reflects their CPD, and sole practitioners are responsible for their own record. Keep your certificates in case CBOS asks to see them.' },
 ];
@@ -134,16 +155,16 @@ const schema = {
     { '@type': 'ItemList', name: 'ABE Education Tasmania CPD Bundles',
       itemListElement: [
         { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/program/tas-builder-cpd-bundle-01092025',
-          item: { '@type': 'Course', name: 'TAS Builder CPD, 12 CBOS-approved points',
-            description: 'Twelve CBOS-approved CPD courses for Tasmanian builders, delivered online. Meets the 12-point annual builder requirement.',
+          item: { '@type': 'Course', name: 'TAS Building CPD, 12 CBOS-approved points',
+            description: 'Twelve CBOS-approved CPD courses for Tasmanian building practitioners, delivered online. Meets the 12-point annual requirement for a builder.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
         { '@type': 'ListItem', position: 2, url: 'https://www.abeeducation.edu.au/program/tas-plumber-cpd-bundle-01092025',
-          item: { '@type': 'Course', name: 'TAS Plumber CPD, 11 CBOS-approved points',
-            description: 'Eleven CBOS-approved CPD courses for Tasmanian plumbers, delivered online. Covers most of the 12-point annual plumber requirement.',
+          item: { '@type': 'Course', name: 'TAS Plumbing CPD, 12 CBOS-approved points',
+            description: 'Twelve CBOS-approved CPD courses for Tasmanian plumbers, delivered online. Meets the 12-point annual plumber requirement.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
         { '@type': 'ListItem', position: 3, url: 'https://www.abeeducation.edu.au/program/tas-electrician-cpd-bundle-01092025',
-          item: { '@type': 'Course', name: 'TAS Electrician CPD, 12 CBOS-approved points',
-            description: 'Twelve CBOS-approved CPD courses for Tasmanian electricians, delivered online. Meets the 12-point annual electrician requirement.',
+          item: { '@type': 'Course', name: 'TAS Electrical CPD, 11 CBOS-approved points',
+            description: 'Eleven CBOS-approved CPD courses for Tasmanian electricians, delivered online. Covers most of the 12-point annual electrician requirement.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
       ] },
     { '@type': 'BreadcrumbList',
@@ -153,10 +174,10 @@ const schema = {
 ---
 <BaseLayout
   title="TAS CPD Courses: CBOS-Approved Points | ABE Education"
-  description="CBOS-approved CPD for Tasmanian builders, plumbers and electricians. Meet your annual points online and self-paced, with a certificate on completion. Trade bundles from $449."
+  description="CBOS-approved CPD for Tasmanian builders, plumbers and electricians. Meet your annual points online and self-paced, with a certificate on completion. Trade bundles $499."
   canonical={canonical}
   schema={schema}
-  sticky={{ label: 'TAS CPD', sub: 'building · plumbing · electrical', price: 'from $449', cta: { href: '#bundles', label: 'Choose your bundle' } }}
+  sticky={{ label: 'TAS CPD', sub: 'building · plumbing · electrical', price: '$499', cta: { href: '#bundles', label: 'Choose your bundle' } }}
   crumbs={crumbs}
   reviewed={reviewed}
 >
@@ -166,7 +187,7 @@ const schema = {
         <span class="eyebrow">Continuing Professional Development <span class="e-dot">•</span> CBOS-approved <span class="e-dot">•</span> Delivered by ABE Education</span>
         <h1 class="h1">Tasmania CPD courses that keep your licence current<span class="dot">.</span></h1>
         <span class="updated">Updated July 2026</span>
-        <p class="lede">CBOS-approved CPD for Tasmanian builders, plumbers and electricians. Meet your annual points in one bundle from $449, online and self-paced, instead of paying course by course, with a certificate the moment you finish each course.</p>
+        <p class="lede">CBOS-approved CPD for Tasmanian builders, plumbers and electricians. Meet your annual points in one bundle for $499, online and self-paced, instead of paying course by course, with a certificate the moment you finish each course.</p>
         <ul class="hero-ticks">
           <li><b>CBOS-approved courses</b>, delivered directly by ABE Education</li>
           <li><b>100% online and self-paced</b>, complete it around work</li>
@@ -234,9 +255,9 @@ const schema = {
   </Section>
 
   <Section id="bundles" bg="bg-alt" eyebrow="Choose your bundle" h2="CPD bundles by trade">
-    <AnswerCapsule>ABE packages its CBOS-approved courses into trade bundles, so you meet your points in one purchase instead of paying course by course. The 12-point Builder bundle is $499 and covers a builder’s full year. The 11-point Plumber bundle is $449. The Electrician bundle is coming soon.</AnswerCapsule>
+    <AnswerCapsule>ABE packages its CBOS-approved courses into trade bundles, so you meet your points in one purchase instead of paying course by course. The 12-point Building and Plumbing bundles are $499 each and cover a builder’s or plumber’s full year. The Electrical bundle is 11 points and is coming soon.</AnswerCapsule>
     <BundleCard items={bundles} />
-    <Note label="Better value"><b>Every bundle is built from individual courses, each worth 1 CPD point at $99.</b> Bought one at a time, a full 12-point year is $1,188. The Builder bundle brings that to $499 and the Plumber bundle to $449, so a trade bundle is the better-value way to meet your CBOS points. Single courses are still available at $99 each if you only need to top up.</Note>
+    <Note label="Better value"><b>Every bundle is built from individual courses, each worth 1 CPD point at $99.</b> Bought one at a time, a full 12-point year is $1,188. The Building and Plumbing bundles bring that to $499, so a trade bundle is the better-value way to meet your CBOS points. Single courses are still available at $99 each if you only need to top up.</Note>
     <Note variant="caution" label="Before you buy">CPD you count toward your licence should relate to the work you are licensed for, and CBOS sets an annual limit on how many work health and safety points can count in a year. Our bundles deliberately mix safety with trade and technical topics for this reason. If you are close to renewal, check your remaining points with CBOS first.</Note>
   </Section>
 

@@ -3,11 +3,25 @@
 A packaged set of CPD courses sold to discharge a whole cycle's obligation. The reader is doing
 arithmetic, not evaluating courses.
 
-**Build shape (confirmed against the W4 plan).** `/cpd-bundles` is a **hub collection entry**, not a
-course. So this archetype is a hub variant: it uses the hub schema and `HubLayout`, and its spokes are
-typed references to the CPD course entries. The separate `cpd.bundle` object inside a course entry is
-a different thing — a cross-sell block on a single course page, not this page. Read `06-hub.md`
-alongside this file for the routing mechanics; this file governs the copy.
+**Build shape (revised 23 July 2026 — supersedes the hub-variant reading).** A bundle is its own
+collection, `cpdBundles`, rendered by `CpdBundleLayout` from a per-page route stub. It is **not** a
+hub variant: a hub indexes pages, and this one is the product, sold at a price, at
+`/cpd-{category}-{state}` — `/cpd-building-tas`, `/cpd-plumbing-tas`, `/cpd-electrical-tas`. The
+earlier `/cpd-bundles` and `/cpd-bundles-tas` pages were dropped from the IA.
+
+**Do not add it to `src/pages/[slug]/index.astro`.** Two layouts behind one page file pull both
+component graphs into the same Rollup entry, which previously leaked scoped stylesheets across
+pages — see the note in `owner-builder-courses.astro`. Use a route stub per bundle.
+
+**The points figure is DERIVED and must never be authored.** `CpdBundleLayout` counts it from
+`kb/register/cpd/tas-courses.json` — courses with `status: 'live'` only, capped at 12 — via
+`scripts/lib/cpd-derive.mjs`. The `cpdBundles` schema has no `points` field on purpose. Expired and
+refused courses stay tagged to their bundles in the source register, so an unfiltered count
+overstates every one of them; that is how the Electrical bundle advertised 12 points for three
+months after one of its courses had expired.
+
+The separate `cpd.bundle` object inside a *course* entry is a different thing — a cross-sell block
+on a single course page, not this page.
 
 ## 1 · Reader and arrival state
 
@@ -53,10 +67,10 @@ rules, what does it cost per point, how long will the lot take, and can I do it 
 
 ## 5 · Schema and frontmatter
 
-Hub schema: `BreadcrumbList` + `ItemList` over the spoke courses. **No `Course` node** — a hub is
-never a Course itself, and the guardrails only require `BreadcrumbList` on a page with no
-`data-authority` attribute. Price and points come from the referenced course entries rather than
-being copied, so they cannot drift.
+`Course` + `offers` + `BreadcrumbList`, with the member courses as `hasPart`. A bundle **is** a
+purchasable course here, unlike a hub, so the `Course` node is correct and the offer is real.
+`offers.price` must equal the on-page price. `hasPart` is built from the live member list, so it
+cannot drift from the points figure — both are counted from the same filtered set.
 
 ## 6 · Component defaults
 

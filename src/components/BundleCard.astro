@@ -36,9 +36,15 @@ export interface Bundle {
   rrp?: string;
   perPoint?: string;
   cta?: { href: string; label: string };
-  /** Rendered under the ledger. Used for the Plumber bundle's 11-of-12 honesty note. */
+  /** Rendered under the ledger. Carries a coverage shortfall note where one applies. */
   foot?: string;
   soonLabel?: string;
+  /** Licence types this bundle's category applies to, from the register's Category
+   *  Description. Named rather than implied: a bundle is titled for its category
+   *  (Building / Electrical / Plumbing), and the category covers several licences with
+   *  different annual point requirements, so "who is this for" cannot be read off the
+   *  title. Omit and the line is not rendered. */
+  licences?: string;
 }
 interface Props { items: Bundle[]; }
 const { items } = Astro.props;
@@ -62,6 +68,7 @@ function saving(price?: string, rrp?: string): string | null {
         <span class="bc-trade">{b.trade}</span>
         <h3 class="bc-title">{b.title}</h3>
         <p class="bc-blurb">{b.blurb}</p>
+        {b.licences && <p class="bc-lic"><span class="bc-lic-k">For</span> {b.licences}</p>}
 
         <dl class="bc-spec">
           <div class="bc-row">
@@ -133,7 +140,18 @@ function saving(price?: string, rrp?: string): string | null {
     font-family:var(--font-display); font-weight:600; font-size:19px;
     line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin:0 0 8px;
   }
-  .bc-blurb{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0 0 var(--s-md); }
+  .bc-blurb{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0 0 10px; }
+
+  /* Sits between the blurb and the ledger: it qualifies the prose rather than being a
+     countable fact, so it stays out of the mono ledger and reads as a continuation of the
+     sentence above it. The "For" key borrows the ledger's mono treatment so the eye still
+     files it as metadata. */
+  .bc-lic{ font-size:13.5px; line-height:1.55; color:var(--slate); margin:0 0 var(--s-md); }
+  .bc-lic-k{
+    font-family:var(--font-mono); font-size:10px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
+    margin-right:6px;
+  }
 
   /* The density device: a mono key/value ledger, the same idiom as BundleOffer's tally and
      FactGrid. Hairline-separated rows pack three facts into the height one prose line would
