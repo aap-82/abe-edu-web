@@ -370,11 +370,27 @@ const cpdBundles = defineCollection({
     singleCoursePrice: z.string().optional(),
     buyUrl: z.string(),                // the LearnWorlds program this bundle is sold as
     licences: z.string(),
+    // Measured completion time for the whole bundle, e.g. "About ten hours". Authored, not
+    // derived: it comes from LearnWorlds study-time data, which the register does not hold.
+    // Optional so a bundle without a measured figure states nothing rather than guessing.
+    hours: z.string().optional(),
     intro: z.string(),
     breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
     reviewedBy: z.object({ name: z.string(), href: z.string().optional(), date: z.string() }).optional(),
     nav: z.array(z.object({ label: z.string(), href: z.string(), sectionId: z.string() })).optional(),
-    hero: z.object({ eyebrow: z.string(), h1Html: z.string(), updated: z.string(), subhead: z.string(), cta }),
+    // Matches Hero.astro's props, because bundle pages now render the shared Hero instead of a
+    // hand-rolled one. The proof array is deliberately absent here: the layout composes it, so
+    // the points figure stays derived from the register rather than authored on the page.
+    hero: z.object({
+      eyebrow: z.string(), h1Html: z.string(), updated: z.string(), subhead: z.string(), cta,
+      ticks: z.array(z.string()).min(3).max(4),
+      howItWorks: z.string(),
+      artefactDesc: z.string(),
+      artefactSpec: z.string().optional(),
+      artefactImg: z.string().optional(),   // omit to keep the FPO placeholder
+      artefactAlt: z.string().optional(),
+      artefactRatio: z.enum(['r54','r45']).optional(),
+    }),
     sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
     ctaBand: z.object({ headingHtml: z.string(), sub: z.string(), cta }),
     experts: z.array(reference('experts')),

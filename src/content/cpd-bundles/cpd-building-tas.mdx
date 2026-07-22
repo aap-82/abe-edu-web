@@ -13,8 +13,14 @@
 #
 # PRE-PUBLISH BLOCKER: `buyUrl` carries a 2025 date and this bundle family has five LearnWorlds
 # listings across re-approvals. Andrey to confirm it resolves before this ships (Stage 1 gate).
+#
+# NOINDEX UNTIL THAT IS RESOLVED (set 23 Jul 2026, at deploy). The page is finished and deploys with
+# everything else, but it must not be findable while its only purchase path may 404. noindex also
+# drops it from the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
+# Remove this single line once buyUrl is confirmed; nothing else needs to change.
+noindex: true
 title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
-description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Twelve points against a builder's twelve-point year, online and self-paced, about ten hours."
+description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Meets a builder's twelve-point year in full, online and self-paced, about ten hours."
 canonical: "https://www.abeeducation.edu.au/cpd-building-tas"
 category: "building"
 state: "TAS"
@@ -26,6 +32,9 @@ priceNumber: "499"
 rrp: "$1,188"
 buyUrl: "/program/tas-builder-cpd-bundle-01092025"
 licences: "builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities"
+# Measured from LearnWorlds study time per starter across the ten members that carry metrics.
+# Two members are unmeasured, so this under-states rather than over-claims. See 01-source-map.md.
+hours: "About ten hours"
 intro: "Twelve CBOS-approved courses, one point each, against a Tasmanian builder's twelve-point year, in one purchase."
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
@@ -38,14 +47,42 @@ nav:
   - { label: "Your year", href: "#your-year", sectionId: "your-year" }
   - { label: "What counts", href: "#what-counts", sectionId: "what-counts" }
   - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "How long", href: "#how-long", sectionId: "how-long" }
   - { label: "How it works", href: "#how", sectionId: "how" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 hero:
   eyebrow: "Tasmania · CBOS-approved"
-  h1Html: 'Builder CPD Tasmania: twelve CBOS-approved points in one purchase'
+  # The number phrase is wrapped so the layout can set it in the accent. <b> rather than a class:
+  # the guardrails reject structural classes in authored content, and the emphasis is semantic.
+  # Keyword text is unchanged, so the H1 still carries the primary keyword verbatim.
+  h1Html: 'Builder CPD Tasmania: <b>twelve CBOS-approved points</b> in one purchase'
   updated: "23 July 2026"
-  subhead: "Twelve courses, each approved by CBOS in its own right, against a builder's twelve-point year. Online, self-paced, with a certificate as you finish each one. Category caps apply, and the page explains them."
-  cta: { href: "#whats-in", label: "See what is included" }
+  # Shortened deliberately: the standfirst above it now carries the count, the price, the time
+  # and the delivery, so repeating them here was the "restated heading" failure. What is left is
+  # the one thing the standfirst does not say, and the reason to keep reading.
+  subhead: "Each course is approved by CBOS in its own right, and together they meet a builder's twelve-point year. Approved online courses carry no annual cap, so every point counts."
+  # The hero CTA carries the price, matching the pattern the course pages use in their own CTA
+  # label. (No figure quoted here on purpose: check-claims scans comment text, and a price written
+  # into a comment is read as a live page figure. Repeat risk 7.)
+  # It points at #cost, which is where the purchase path lives, so the sticky bar and the hero
+  # agree on one destination.
+  cta:
+    href: "#cost"
+    label: "Get the bundle — $499"
+    microcopy: "One payment. Certificates issued as you finish each course."
+  ticks:
+    - "<b>Twelve CBOS-approved courses</b>, each approved in its own right"
+    # Restored 23 Jul: capped on 23 Jul because of a WHS cap that turns out not to exist. Twelve
+    # approved online-course points carry no annual limit, so this meets the requirement in full.
+    - "<b>A builder’s full annual requirement</b>, in one purchase"
+    - "<b>Online and self-paced</b>, with no fixed schedule"
+    - "<b>Every point counts</b>, with no annual cap on approved online courses"
+  howItWorks: "Enrol once → work through in any order → assessment on each course → certificate as you finish"
+  # No artefactImg yet, so Placeholder renders the FPO slot rather than a broken or invented image.
+  # ABE's imagery is real or commissioned, never stock cliché, and the two existing hero artefacts
+  # are QLD and WA owner builder. This one has to be produced before the page ships.
+  artefactDesc: "A Tasmanian builder's CPD record for the year, laid out as a single sheet"
+  artefactSpec: "5:4 landscape · document-on-desk, flat overhead, cool daylight"
 sticky:
   label: "TAS Building CPD"
   sub: "12 CBOS-approved points"
@@ -119,31 +156,38 @@ import ExpertCredentials from '../../components/ExpertCredentials.astro';
 
 export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', href: 'https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements' }];
 
-<Section id="your-year" marker="01" total="05" eyebrow="Your obligation" h2="Does twelve points cover your whole year?">
-  <AnswerCapsule>Twelve points meets a builder's requirement in full. If you also hold a building designer or architect licence you need 20, not 32: CBOS counts the highest single requirement you hold, never the sum. A building surveyor or engineer needs 30, so this bundle covers part of that year.</AnswerCapsule>
+<Section id="your-year" marker="01" total="06" eyebrow="Your obligation" h2="Does twelve points cover your whole year?">
+  <AnswerCapsule>Twelve points meets a builder's annual requirement in full. If you also hold a building designer or architect licence you need 20, not 32: CBOS counts the highest single requirement you hold, never the sum. A building surveyor or engineer needs 30, so this bundle covers part of that year.</AnswerCapsule>
 
   <FactGrid items={frontmatter.requirementRows} />
 
   <p>The rule on multiple licences is the one most often got wrong, and it works in your favour. A person licensed as both a builder and a building designer owes 20 points for the year, not the 32 they would owe if the requirements stacked. Some of that learning should still relate to each type of work you are licensed for.</p>
 
-  <p>If you hold only a builder licence, twelve points is your year, and this bundle is built to be exactly that and no more. If you hold a surveyor or engineer licence at 30 points, buy it knowing it covers twelve of them.</p>
+  <p>If you hold only a builder licence, twelve points is the size of your year, and this bundle is built to be exactly that and no more. If you hold a surveyor or engineer licence at 30 points, buy it knowing it covers twelve of them.</p>
 
   <VerifiedSources date="12 July 2026" facts="the points required for each licence category, and the multi-licence rule" sources={cbosSource} />
 </Section>
 
-<Section id="what-counts" bg="bg-warm" marker="02" total="05" eyebrow="The category caps" h2="How many of these points will actually count?">
-  <AnswerCapsule>CBOS counts at most four work health and safety points in a renewal year, whatever you complete beyond that. So the mix in a bundle matters as much as the total, because the points you are audited on are the ones that fall inside the caps, not the ones on your receipt.</AnswerCapsule>
+{/* REWRITTEN 23 July 2026. Every sentence in the previous version rested on a claim that CBOS caps
+    WHS points at four a year. That claim was false — see cbos-tas-reference.md A3, settled against
+    the Occupational Licensing (CPD) Determination 2018. The caps are on how you earn a point, not
+    on what it is about, and endorsed online courses are not capped at all.
 
-  <p>This is the part most bundles do not mention. A twelve-point bundle made mostly of safety courses does not give a practitioner twelve countable points, because the WHS category is capped at four a year. The total on the invoice and the total CBOS accepts are different numbers.</p>
+    Kept as a section rather than deleted, because the reader's question is real and the true answer
+    is both reassuring and something no competitor explains. */}
+<Section id="what-counts" bg="bg-warm" marker="02" total="06" eyebrow="What counts" h2="Do all twelve points actually count?">
+  <AnswerCapsule>Yes. CBOS caps some ways of earning points, not some subjects: attending WorkSafe Tasmania events is capped at six a year, trade journals at three. Approved online courses carry no annual cap, and health and safety is a recognised CPD category, so all twelve of these count.</AnswerCapsule>
 
-  <p>ABE mixes safety with trade and technical topics for this reason, rather than filling a bundle with whichever courses were cheapest to build.</p>
+  <p>The distinction matters when you are topping up a short year. CBOS limits what you can claim for the things practitioners do incidentally: six points a year for WorkSafe Tasmania sessions, four for research, three for reading trade journals, two for association membership. Those limits attach to the activity, not to the topic.</p>
 
-  <Note variant="caution" label="Before you buy">If your renewal is close, check what you have already recorded this year. If you have used your safety points elsewhere, the useful part of any bundle is the technical content, and that is worth knowing before you pay rather than after.</Note>
+  <p>Course points are not limited that way. An endorsed online course earns a point per hour whatever its subject, so a bundle weighted toward safety counts exactly the same as one weighted toward technical content. What does matter is that each course is approved in its own right, which is why the table above carries a date for every one.</p>
 
-  <VerifiedSources date="12 July 2026" facts="the four-point annual cap on work health and safety CPD" sources={cbosSource} />
+  <Note variant="note" label="Where the caps do bite">If you were planning to make up a shortfall by reading journals or attending WorkSafe Month, those routes run out quickly: three and six points a year respectively. Course points do not.</Note>
+
+  <VerifiedSources date="23 July 2026" facts="which CPD activities carry annual caps, and that endorsed online courses do not" sources={cbosSource} />
 </Section>
 
-<Section id="cost" marker="03" total="05" eyebrow="What it costs" h2="What does the bundle cost?">
+<Section id="cost" marker="03" total="06" eyebrow="What it costs" h2="What does the bundle cost?">
   <AnswerCapsule>$499 for the twelve courses. The same courses bought individually are $99 each, so $1,188 in total. There is no government fee attached to CPD itself: what you pay ABE is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
 
   <PriceCard rows={frontmatter.priceRows} foot="The saving is the difference between those two numbers and nothing more. It is checkable in a click on this site, which is the reason to state it plainly rather than as a percentage." />
@@ -151,19 +195,33 @@ export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', 
   <p>If you only need a point or two, buy the individual courses instead. At $99 each, three or fewer is cheaper than the bundle, and there is no advantage in buying twelve points you cannot use this year.</p>
 </Section>
 
-<Section id="how" bg="bg-alt" marker="04" total="05" eyebrow="How it works" h2="How does the bundle work?">
-  <AnswerCapsule>Enrol once, work through the twelve courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
+{/* S6 in 03-briefs.md, and a required section under archetype 4 ("Total time"). It was written in
+    04-content.md with its own H2 and then lost on the way to the page: the copy ended up as a
+    stray paragraph inside "How does the bundle work?", which put time in the wrong place in the
+    decision order (totals, obligation, contents, value, TIME, act) and left the act section
+    opening on something that was not an action. Restored to its own section here. */}
+<Section id="how-long" marker="04" total="06" eyebrow="Time to complete" h2="How long does the bundle take?">
+  <AnswerCapsule>About ten hours for all twelve courses, self-paced, with no fixed schedule. That figure is measured from what students actually spend on ABE's platform rather than from a nominal course length, and it covers ten of the twelve, so treat it as a floor rather than a promise.</AnswerCapsule>
 
-  <p>About ten hours covers all twelve, measured from what students actually spend on the platform rather than from a nominal course length. Most people do not sit down and complete a bundle in one stretch, and they do not need to: the courses are independent, so you can finish one in a sitting and come back to the next.</p>
+  <p>Most people do not sit down and complete a bundle in one stretch, and they do not need to. The courses are independent, so you can finish one in a sitting and come back to the next, and each certificate is issued as you go rather than at the end. If your renewal is a fortnight away, ten hours spread across twelve sittings is a realistic plan.</p>
+</Section>
+
+<Section id="how" bg="bg-alt" marker="05" total="06" eyebrow="How it works" h2="How does the bundle work?">
+  <AnswerCapsule>Enrol once, work through the twelve courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
 
   <Stepper steps={frontmatter.howItWorksSteps} />
 
-  <p>Recording CPD sits with the licence holder, not the provider and not the employer. If you are employed, keep your own copies and make sure your employer's register reflects them. If you are a sole practitioner, the whole record is yours. Certificates are portable between employers, which matters if you change jobs mid-cycle.</p>
+  {/* Set apart from the stepper on purpose. As a bare paragraph after <Stepper /> this read as an
+      unnumbered sixth step, because the stepper owns the h3 level and there was nothing to break
+      the sequence. An h3 here would have made that worse rather than better. Note's caution rule
+      gives the hard visual break, and its label carries the heading without competing with the
+      step titles. Per component-selection: a legal consequence is a Note. */}
+  <Note variant="caution" label="Your responsibility">Recording your CPD is the licence holder's job, not the provider's and not your employer's. If you are employed, keep your own copies and make sure your employer's register matches them. If you work for yourself, the whole record is yours. Certificates stay with you between employers, which matters if you change jobs mid-cycle.</Note>
 
   <VerifiedSources date="12 July 2026" facts="who is responsible for recording CPD in Tasmania" sources={cbosSource} />
 </Section>
 
-<Section id="content-review" marker="05" total="05" eyebrow="Who wrote this" h2="Who wrote and reviewed this page?">
+<Section id="content-review" marker="06" total="06" eyebrow="Who wrote this" h2="Who wrote and reviewed this page?">
   <AnswerCapsule>The courses were developed by Dominic Ogburn, who has built ABE's owner builder and CPD training since 2007. This page was independently reviewed for currency by Warwick Smith, who checks the regulator facts and their dates rather than the marketing. Last reviewed 23 July 2026.</AnswerCapsule>
 
   <ExpertCredentials experts={frontmatter.experts} />

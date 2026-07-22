@@ -13,6 +13,7 @@
  * from frontmatter, because a typed figure is the thing that goes stale.
  */
 import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
@@ -24,8 +25,7 @@ import WayfinderNav from '../components/WayfinderNav.astro';
 // this page must share one implementation of the counting rules, or a page could disagree with
 // the check that polices it and the check would go on passing.
 import {
-  liveMembers, bundlePoints, liveTotal, countablePoints, whsPoints,
-  POINTS_CAP, WHS_POINTS_CAP,
+  liveMembers, bundlePoints, liveTotal, POINTS_CAP,
 } from '../../scripts/lib/cpd-derive.mjs';
 import register from '../../kb/register/cpd/tas-courses.json';
 import type { CpdCourse } from '../types/cpd';
@@ -44,13 +44,42 @@ const expertData = (await getEntries(bundle.experts)).map((e) => e.data);
 const members: CpdCourse[] = liveMembers(register, bundle.category);
 const points = bundlePoints(register, bundle.category);
 const live = liveTotal(register, bundle.category);
-const countable = countablePoints(register, bundle.category);
-const whs = whsPoints(register, bundle.category);
 
 // Coverage is stated, never implied. Archetype 4 §4 forbids implying a bundle discharges an
 // obligation it only partly covers, so a short bundle says so in its own words rather than
 // leaving the reader to subtract.
 const shortfall = POINTS_CAP - points;
+
+// How many member expiry dates are estimates rather than recorded approvals. check-freshness
+// already reports this as SOFT-DATE; the page has to carry the same qualifier or it presents an
+// estimate as a confirmation.
+const estimatedCount = members.filter((m) => m.expiresAt && m.expiryBasis === 'submission').length;
+
+// The bought-separately comparison is authored (it lives in priceRows, in the MDX body, which the
+// layout cannot inject into) but it is DERIVABLE: members x single-course price. An authored
+// derived figure is exactly what the "you save" row was deleted for — lose a member to expiry and
+// a typed total keeps claiming twelve courses while the derived points figure says eleven.
+//
+// So it is asserted rather than trusted. A mismatch fails the build, which is the only way a
+// figure nobody re-checks stays true.
+const singlePrice = Number(String(bundle.singleCoursePrice ?? '').replace(/[^0-9.]/g, '')) || 0;
+const rrpTyped = Number(String(bundle.rrp ?? '').replace(/[^0-9.]/g, '')) || 0;
+if (singlePrice && rrpTyped && rrpTyped !== points * singlePrice) {
+  throw new Error(
+    `[cpd] ${bundle.canonical}: rrp ${bundle.rrp} does not equal ${points} live members x ` +
+    `${bundle.singleCoursePrice} (= $${points * singlePrice}). Update rrp and the priceRows ` +
+    `comparison row, or the page advertises a saving against a course count it no longer sells.`,
+  );
+}
+
+// Hero proof row. The points figure is derived; price and hours are authored internal facts.
+// `hours` is optional, so a bundle without a measured completion time shows two stats rather
+// than inventing a third.
+const proof = [
+  { n: String(points), text: 'CBOS-approved points' },
+  { n: bundle.price, text: 'one payment' },
+  ...(bundle.hours ? [{ n: bundle.hours.replace(/^About\s+/i, ''), text: 'to complete' }] : []),
+];
 
 // No `Course.offers` on a bundle whose points are short of the cap would still be honest, but
 // the offer is real either way: this is a purchasable product at a stated price. What must not
@@ -122,14 +151,19 @@ const schema = {
   crumbs={bundle.breadcrumb}
   reviewed={bundle.reviewedBy}
 >
-  <header class="hero" id="top">
-    <div class="wrap">
-      <p class="eyebrow">{bundle.hero.eyebrow}</p>
-      <h1 set:html={bundle.hero.h1Html} />
-      <p class="lede">{bundle.hero.subhead}</p>
-      <p class="bundle-for"><b>For</b> {bundle.licences}</p>
-    </div>
-  </header>
+  {/*
+    The shared Hero, not a hand-rolled one. This layout used to build its own hero markup, which is
+    why it had no image slot, no CTA and no proof row, and why four bare children auto-placed into
+    the course hero's two-column grid and read as a zigzag. Hero.astro already owned all of it, and
+    hand-rolling a shape a component already covers is the anti-pattern the build exists to catch.
+
+    `proof` is composed here rather than authored in frontmatter, so the points figure stays derived
+    from the CBOS register. Price and hours are authored, because neither can be counted.
+  */}
+  <div class="hero-bundle">
+    <Hero {...bundle.hero} proof={proof} />
+    <p class="wrap bundle-for"><b>For</b> {bundle.licences}</p>
+  </div>
 
   {bundle.nav && <WayfinderNav items={bundle.nav} cta={bundle.sticky.cta} />}
 
@@ -140,32 +174,33 @@ const schema = {
       {points} CBOS-approved courses, one point each, for {bundle.price}, and about ten hours of work.
       {shortfall > 0
         ? ` That is ${points} points against a ${POINTS_CAP}-point year, so you would add ${shortfall} more from another approved activity.`
-        : ` That is ${points} points against a builder's ${POINTS_CAP}-point year, subject to the category caps below.`}
+        : ` That meets a builder's ${POINTS_CAP}-point year in full, with no annual cap on approved online courses.`}
       {' '}The list is generated from ABE's CBOS approval register, so it shows what is approved today.
     </AnswerCapsule>
 
-    {/* When the WHS classification has not been imported, `countable` is null and this block used
-        to render nothing at all — leaving the points figure standing unqualified beside a page
-        that elsewhere explains the cap exists. Silence resolved the ambiguity in the sale's
-        favour, which is archetype 4's forbidden "implying an obligation is satisfied". An honest
-        "we cannot tell you the split yet" is the correct output for an unknown. */}
-    {countable === null && (
-      <Note variant="caution" label="What actually counts">
-        CBOS counts at most {WHS_POINTS_CAP} work health and safety points a year. This bundle
-        carries safety content, so how many of its {points} points count toward your renewal depends
-        on what you have already recorded this year. Check your remaining points with CBOS before you
-        buy if your renewal is close.
-      </Note>
-    )}
+    {/* Stage-2 gap 3, and the section's distinctive material. It was written in 04-content.md and
+        then existed on the page only as an FAQ answer, which is the "spend the research nowhere"
+        failure: the finding that should change what the section leads with was demoted to the
+        bottom of the page.
 
-    {countable !== null && countable < points && (
-      <Note variant="caution" label="What actually counts">
-        This bundle carries {whs} work health and safety points, and CBOS counts at most {WHS_POINTS_CAP} a
-        year. <b>{countable} of the {points} points will count toward your renewal</b>, so plan the balance
-        from another approved activity.
-      </Note>
-    )}
+        04's version also asserted that the dates in the table are "the actual dates on ABE's
+        register". That is not true for nine of the twelve, whose expiry is calculated from a
+        submission date, so the claim is dropped rather than reproduced. The table marks the
+        estimates itself. */}
+    <p>
+      Each course carries one CPD point, and each was approved by CBOS separately. That matters more
+      than it sounds: CBOS approves courses, not providers, so a provider appearing on a list does
+      not make everything it sells count toward your renewal. A course drops off this page when its
+      approval lapses, rather than sitting here until someone notices.
+    </p>
 
+    {/* The WHS caution blocks that stood here are gone. They stated "CBOS counts at most 4 work
+        health and safety points a year", which is false: the Occupational Licensing (Continuing
+        Professional Development) Determination 2018 caps delivery CHANNELS, not subjects, and
+        endorsed on-line courses carry no annual cap at all. See cbos-tas-reference.md A3.
+
+        The claim was wrong in the direction that cost a sale: it told a buyer their safety points
+        might not count when they count in full. */}
     {live > POINTS_CAP && (
       <Note variant="caution" label="Register ahead of the product">
         The register holds {live} live approved courses for this category against a {POINTS_CAP}-point cap.
@@ -174,16 +209,32 @@ const schema = {
     )}
 
     <table class="member-table">
-      <caption>Courses in this bundle, counted from ABE's CBOS approval register.</caption>
+      <caption>
+        Courses in this bundle, counted from ABE's CBOS approval register.
+        {estimatedCount > 0 && (
+          <> An asterisk marks a date calculated from the submission date because no approval date
+          is recorded, so treat {estimatedCount} of these {members.length} as estimates rather than
+          confirmed dates.</>
+        )}
+      </caption>
       <thead>
-        <tr><th scope="col">Course</th><th scope="col">Points</th><th scope="col">Approved to</th></tr>
+        <tr><th scope="col">Course</th><th scope="col">Points</th><th scope="col">Counts until</th></tr>
       </thead>
       <tbody>
         {members.map((m) => (
           <tr>
             <td>{m.cbosName ?? m.name}</td>
             <td class="num">{m.points}</td>
-            <td class="num">{m.expiresAt ?? '—'}</td>
+            {/* An expiry dated from the submission date rather than a recorded approval is an
+                estimate, and the register says so via expiryBasis. Presenting all twelve as
+                confirmed approvals was the "never default a regulatory fact" rule failing at the
+                presentation layer: the register carried the qualifier and the page dropped it.
+                Marked inline, with the marker explained in the caption rather than left as a
+                bare symbol. */}
+            <td class="num">
+              {m.expiresAt ?? '—'}
+              {m.expiresAt && m.expiryBasis === 'submission' && <span class="est" title="Estimated">*</span>}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -197,7 +248,14 @@ const schema = {
 </BaseLayout>
 
 <style>
-  .bundle-for{ font-size:15px; color:var(--slate); margin-top:var(--s-sm); }
+  /* The hero is Hero.astro now, so it needs no styles here: its own scoped rules and the shared
+     .hero grid in global.css own it. The overrides that used to live here (single-column wrap,
+     standfirst, h1 scale) were written for the hand-rolled hero and are gone with it. Scoped
+     styles do not cross a component boundary in any case, so keeping them would have left dead
+     rules that look load-bearing. */
+
+  /* Credit line under the hero. This markup belongs to this layout, so a scoped rule reaches it. */
+  .bundle-for{ font-size:15px; color:var(--slate); margin-top:var(--s-md); padding-top:var(--s-sm); border-top:1px solid var(--rule); }
   .bundle-for b{
     font-family:var(--font-mono); font-size:10px; font-weight:500;
     letter-spacing:.12em; text-transform:uppercase; margin-right:6px;
@@ -210,4 +268,22 @@ const schema = {
     letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
   }
   .member-table .num{ font-family:var(--font-mono); text-align:right; white-space:nowrap; }
+  /* Estimate marker. Colour is not the only signal: the caption says what the asterisk means. */
+  .member-table .est{ color:var(--slate); margin-left:2px; }
+</style>
+
+<!--
+  The headline accent has to be global, and this is not a shortcut. `h1Html` is rendered with
+  `set:html`, and Astro does not add its scope attribute to injected markup, so a scoped
+  `.hero-bundle h1 b` selector never matches. CLAUDE.md records the same behaviour for
+  SiteHeader. Every selector here is prefixed with `.hero-bundle`, so nothing reaches another
+  layout.
+
+  The accent carries the argument. The page turns on the number, so the number phrase is the one
+  thing set in maroon and everything else stays ink. #800000 on paper measures about 10:1, so the
+  emphasis costs no contrast, and it is never the only signal: the phrase reads identically in
+  greyscale because the sentence still says it.
+-->
+<style is:global>
+  .hero-bundle h1 b{ color:var(--maroon); font-weight:inherit; }
 </style>

@@ -25,9 +25,18 @@ export const BUNDLE_CATEGORIES = ['building', 'electrical', 'plumbing'];
  *  read it from. */
 export const POINTS_CAP = 12;
 
-/** CBOS counts at most this many WHS points per renewal year (cbos-tas-reference.md A3). */
-export const WHS_POINTS_CAP = 4;
-
+/**
+ * REMOVED 23 July 2026: there is no WHS points cap, and there never was.
+ *
+ * WHS_POINTS_CAP was 4, taken from cbos-tas-reference.md A3. Settled against the Occupational
+ * Licensing (Continuing Professional Development) Determination 2018, read in full: health and
+ * safety is one of five CPD activity CATEGORIES (s7.1(d)) and no category is capped. Every cap in
+ * s7.4 is on delivery channel - RTO training 6/day, WorkSafe Tasmania activities 6/year, trade
+ * journals 3/year. Endorsed on-line courses, which is what ABE sells, carry NO annual cap.
+ *
+ * whsPoints() and countablePoints() are gone with it. Nothing should compute a countable total
+ * that differs from the points total on this basis, because no such reduction exists.
+ */
 /** Only these count toward anything published. `expired` and `refused` stay tagged to their
  *  bundles in the source doc, so they arrive here and must be filtered, not assumed absent. */
 export const PUBLISHABLE_STATUS = 'live';
@@ -57,24 +66,6 @@ export function liveTotal(reg, category) {
  */
 export function bundlePoints(reg, category) {
   return Math.min(liveTotal(reg, category), POINTS_CAP);
-}
-
-/**
- * WHS points among the live members. Returns `null` when any live member has no studyArea,
- * because a partial count reads as a clean pass while silently ignoring unclassified courses.
- * Unknown is a finding, not a pass — the same stance check-freshness takes on a missing date.
- */
-export function whsPoints(reg, category) {
-  const members = liveMembers(reg, category);
-  if (members.some((c) => c.studyArea == null)) return null;
-  return members.filter((c) => c.studyArea === 'WHS').reduce((n, c) => n + (c.points ?? 0), 0);
-}
-
-/** Points a practitioner can actually count, once the WHS cap is applied. Null if unknown. */
-export function countablePoints(reg, category) {
-  const whs = whsPoints(reg, category);
-  if (whs === null) return null;
-  return bundlePoints(reg, category) - Math.max(0, whs - WHS_POINTS_CAP);
 }
 
 /** Days until expiry, negative once lapsed. `today` is injected so checks stay testable. */

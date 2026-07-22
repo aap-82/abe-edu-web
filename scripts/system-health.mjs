@@ -159,6 +159,20 @@ if (existsSync('scripts/check-claims.mjs')) {
   if (bundles) rec.bundles = { reconcile: +bundles[1], checked: +bundles[1] };
 } else W('scripts/check-claims.mjs missing — claim drift and figure contradictions are unchecked');
 
+// 4b - pipeline conformance. Aggregated here rather than logged separately: one record per health
+// run covers every check, per the recording policy in ROADMAP.md.
+if (existsSync('scripts/check-pipeline.mjs')) {
+  const out = run('check-pipeline.mjs');
+  for (const l of out.split('\n')) {
+    const t = l.trim();
+    if (t.startsWith('FAIL')) F(t.replace(/^FAIL\s+/, ''));
+    else if (t.startsWith('WARN')) W(t.replace(/^WARN\s+/, ''));
+    else if (t.startsWith('OK')) OK(t.replace(/^OK\s+/, ''));
+  }
+  const m = out.match(/(\d+) failing, (\d+) warning, (\d+) ok/);
+  if (m) rec.pipeline = { fail: +m[1], warn: +m[2], ok: +m[3] };
+} else W('scripts/check-pipeline.mjs missing — brief-to-page drift is unchecked');
+
 // 5 - repeat risks
 if (existsSync('kb/mistakes-log.md')) {
   const rows = readFileSync('kb/mistakes-log.md', 'utf8').split('\n').filter((l) => /^\|\s*\d+\s*\|/.test(l));

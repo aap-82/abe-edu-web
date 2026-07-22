@@ -38,6 +38,10 @@ const PENDING = new Map([
   ['/cpd-real-estate-wa', 'B3 - CPD real estate WA'],
   ['/cpd-nsw', 'B3 - CPD NSW state hub'],
   ['/cpd-bundles-tas', 'B3 - TAS bundle hub'],
+  // Built and deployed, but noindex until buyUrl is verified, so it cannot yet inherit the
+  // ranking of /tas-builder-practitioners-cpd. Remove BOTH this line and the noindex flag
+  // together: a redirect into a noindexed page discards the equity it was meant to move.
+  ['/cpd-building-tas', 'noindex pending buyUrl verification'],
   ['/about', 'B4 - about page'],
   ['/guides', 'B5 - content hub index'],
 ]);

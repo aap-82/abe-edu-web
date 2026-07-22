@@ -7,6 +7,12 @@
 // accessible text, not CSS-generated content. Omit it for an unmarked aside.
 // `maroon` is the original boolean API, kept as an alias for variant="caution" so existing
 // <Note maroon> pages keep working. Prefer `variant` on new pages.
+//
+// MDX CONTRACT: keep the slot content on ONE line. This renders a <p>, and MDX wraps multi-line
+// JSX children in a <p> of their own. A <p> inside a <p> is invalid, so the browser hoists the
+// text out and you get an empty callout box with the body text stranded underneath it. The
+// failure is silent: the build passes and only the rendered page shows it. In .astro files there
+// is no markdown processing, so multi-line content is fine there.
 type Variant = 'note' | 'caution';
 interface Props { variant?: Variant; maroon?: boolean; label?: string; }
 const { variant, maroon = false, label } = Astro.props;

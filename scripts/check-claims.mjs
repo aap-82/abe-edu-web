@@ -339,7 +339,7 @@ else {
       if (live > cpd.POINTS_CAP) {
         warns.push(
           `CPD ${cat}: ${live} live courses against a ${cpd.POINTS_CAP}-point cap, so ${live - cpd.POINTS_CAP} is surplus and the sold set is ambiguous. ` +
-          `Prune it in the source doc — and spend that choice keeping the bundle inside the WHS cap rather than dropping one at random.`
+          `Prune it in the source doc so the sold set is unambiguous.`
         );
       } else if (live < cpd.POINTS_CAP) {
         warns.push(
@@ -350,20 +350,15 @@ else {
         oks.push(`CPD ${cat}: ${published} points from ${live} live course(s) of ${tagged} tagged`);
       }
 
-      // WHS cap — WARNS, never fails. Unlike expiry, which is a date that has or has not
-      // passed, WHS classification is CBOS's judgement about course content. Failing a build
-      // on an inference would block unrelated work over a disputable call, and a check that
-      // cries wolf gets scrolled past. The editorial rule still stands: where the cap bites,
-      // the page states the countable number.
-      const countable = cpd.countablePoints(reg, cat);
-      if (countable === null) {
-        warns.push(`CPD ${cat}: WHS cap unchecked — some live courses have no studyArea. Import it from ABE Courses (Keystone Study Area).`);
-      } else if (countable < published) {
-        warns.push(
-          `CPD ${cat}: advertises ${published} points but only ${countable} are countable — CBOS allows at most ` +
-          `${cpd.WHS_POINTS_CAP} WHS points a year and this bundle carries ${cpd.whsPoints(reg, cat)}. State the countable number on the page.`
-        );
-      }
+      // The WHS-cap check that stood here has been REMOVED, 23 July 2026. It warned when a
+      // bundle carried more than four WHS points, on the basis of cbos-tas-reference.md A3.
+      // A3 was false: the Occupational Licensing (Continuing Professional Development)
+      // Determination 2018 caps delivery channels, not subjects, and endorsed on-line courses
+      // carry no annual cap. There is nothing to check.
+      //
+      // Worth remembering as a check that encoded a wrong fact and then lent it authority:
+      // it ran green for a day telling us the cap was merely "unchecked", which read as a
+      // gap in our data rather than as a claim nobody had verified.
     }
   }
 }

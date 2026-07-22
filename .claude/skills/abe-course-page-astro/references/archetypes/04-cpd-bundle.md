@@ -64,6 +64,12 @@ rules, what does it cost per point, how long will the lot take, and can I do it 
 - **Inflated value claims.** Overstated savings are checkable in one click across your own site.
 - **Manufactured urgency.** The cycle deadline is real. Use it plainly and add nothing.
 - **Implying the bundle satisfies an obligation it only partly satisfies.** State the shortfall.
+- **Resolving an unknown in the direction that favours the sale.** Where a figure the coverage claim
+  depends on cannot be computed, **the claim in the H1, the meta title, the meta description and the
+  hero is capped at what is verifiable.** A page that states a cap in its body while claiming full coverage
+  in its headline has resolved its own ambiguity toward the purchase. A code path that renders
+  nothing when a figure is `null` is a claim by omission: the honest output for an unknown is to say
+  it is unknown, in the place the claim is made.
 
 ## 5 · Schema and frontmatter
 
@@ -121,3 +127,26 @@ own site, so honest arithmetic or none at all.
 
 **Do not transfer.** This is not a place to re-sell the component courses. The purchase decision was
 made before arrival; slowing it with individual course merits works against the reader.
+
+---
+
+## Worked example of the rule above, and its opposite
+
+This rule came from `/cpd-building-tas`, where it was applied and then **had to be unwound**, which
+is the more useful half of the lesson.
+
+The page capped every coverage claim because the register said CBOS limits WHS points to four a
+year and the classification needed to compute the split was missing. Correct behaviour on the facts
+as known. But the register entry was **false** — the Occupational Licensing (CPD) Determination 2018
+caps delivery channels, not subjects, and endorsed online courses carry no annual cap at all. The
+claims were then restored.
+
+**Two things to take from it.**
+
+1. **Capping an unknown is right, and it is not free.** The capped page told a buyer their safety
+   points might not count when they counted in full. Erring toward caution is still erring when the
+   underlying fact is wrong.
+2. **Before a regulatory fact justifies a whole section, read it at source.** The cap was not merely
+   unverified — it was contradicted by the instrument, and nobody had opened the instrument. A claim
+   that earns its own section, caps a headline, or drives a build check has become load-bearing, and
+   load-bearing claims get read at the primary source regardless of what the register's cadence says.

@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // advertised in the sitemap either - a sitemap entry for a noindexed URL is a contradictory
 // signal. The sitemap filter only sees a URL, so a noindexed slug is named here as well as
 // flagged in its frontmatter. Keep the two in step.
-const NOINDEX = ['/owner-builder-nsw-course-w'];
+const NOINDEX = ['/owner-builder-nsw-course-w', '/cpd-building-tas'];
 import mdx from '@astrojs/mdx';
 import guardrails from './src/integrations/guardrails';
 

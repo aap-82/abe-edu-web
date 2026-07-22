@@ -121,6 +121,14 @@ and-flow finding. The cold reread is a self-check by the author of the copy and 
 **7 · Stage 5 and Stage 6 left no artefacts.** `pipeline/cpd-building-tas/` holds 01, 02, 03, 04 and 07.
 The component handover and the build stage are unauditable and unresumable.
 
+> **Amended 23 Jul 2026, after grading.** This finding was recorded structurally and not itemised,
+> and one named Stage 6 deliverable was missed by the run *and* by this review: the
+> **image-generation prompts for ChatGPT and Gemini**, which the skill requires one-per-image-slot
+> with filename and alt text. The page has three placeholders (one hero artefact, two expert
+> portraits) and produced no prompts for any of them. Written up afterwards as
+> `06-image-prompts.md`. The lesson for the checklist is that "no artefact" and "which deliverables
+> are absent" are different findings, and only the second is actionable.
+
 **8 · Page-specific warnings were reported as a clean bill.** `07-verification.md` records
 `check-claims ✅ 150/150, 0 failing`. True, and it omits that the same run emits *"Total not reconciled
 in src\content\cpd-bundles\cpd-building-tas.mdx"* and the WHS-cap warning, both about this page. Zero

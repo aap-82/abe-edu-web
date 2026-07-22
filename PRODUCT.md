@@ -52,12 +52,21 @@ people to get me through it." The reader should feel briefed, not sold to.
 ## Anti-references
 
 - **SaaS marketing gloss.** Gradient hero blocks, glassy cards, soft drop shadows, rounded pastel
-  everything, hero-metric stat rows, countdown urgency. The course-marketplace look.
+  everything, decorative metric tiles, countdown urgency. The course-marketplace look.
+  **What this does not mean.** The hero's `proof` row is not a metric tile: it is three plain
+  figures with mono labels, no card, no shadow, no accent fill, and every figure is one a buyer
+  needs before deciding. Numbers in the hero are correct and expected. What is banned is the
+  *tile treatment* and figures chosen for impact rather than use.
 - **Cold govtech**, the opposite trap. Dense grey compliance pages, form-first layouts, no warmth,
   nothing a human would choose to read.
 - **Ed-tech friendliness.** Blob illustrations, mascots, exclamation marks, "Let's get started!"
-- **Stock-photo cliché and AI imagery.** Hard hats pointing at clipboards. Expert headshots are real
-  photographs of real people, never generated.
+- **Stock-photo cliché.** Hard hats pointing at clipboards, handshakes, smiling models at laptops.
+  The ban is on the *cliché*, not on the production method: the QLD and WA hero artefacts are
+  commissioned images produced to a written brief, and every page carries an image slot that falls
+  back to a labelled placeholder rather than shipping something generic.
+  **Expert headshots are the hard exception: real photographs of real people, never generated.**
+  A page with no image is a gap to fill, not restraint. If the artefact does not exist yet, leave
+  the placeholder visible so it reads as unfinished rather than as a design choice.
 - Anything that reads as an **advertisement** rather than a **document**.
 
 ## Design Principles
@@ -65,7 +74,12 @@ people to get me through it." The reader should feel briefed, not sold to.
 1. **Show the paper trail.** Every government fact carries a dated, linked source *on the page*.
    Trust is earned by exposing the evidence, not by asserting authority.
 2. **Answer first, sell second.** Every section opens with a direct 40 to 60 word answer to the
-   question the reader actually typed. The CTA waits until they believe you.
+   question the reader actually typed. **Inside a section**, the CTA waits until the answer has
+   landed: no CTA in an answer capsule, none in the FAQ block.
+   **This is about section order, not about the hero.** The hero carries a priced CTA, and should,
+   because a reader who already knows what they want must not have to hunt for the buy path. The
+   shipped course heroes have done this since Wave 0 ("Get your certificate — $179"). A page whose
+   only purchase path is below the fold is a defect, not restraint.
 3. **Say exactly what the regulator says.** Authority language is per-jurisdiction and never rounded
    up. "Approved" is not "accredited"; a certificate is not a licence. Precision *is* the product.
 4. **Price the whole truth.** Show the government fees ABE never receives alongside its own, so the

@@ -38,10 +38,74 @@ The CPD year runs against the licence renewal cycle; the licence holder confirms
 
 A person holding **several** licence categories does **not** add the requirements together. They meet the **highest single** requirement, not the sum. Worked example (from CBOS): someone licensed as both a **builder (12)** and a **building designer (20)** needs **20 points total per year, not 32** — though at least some of those points should be relevant to the builder work. State this cap on any CPD page that could be read by multi-licence holders.
 
-### A3. Category caps within the total
+### A3. Activity caps within the total
 
-- **WHS courses:** CBOS allows a **maximum of 4 WHS points per renewal year**. Do not imply a practitioner can fill their whole requirement with WHS content.
-- Persons holding licences in several categories have a cap on combined points (see A2).
+> ⛔ **CORRECTED 23 July 2026. THERE IS NO WHS POINTS CAP. The previous entry — "CBOS allows a
+> maximum of 4 WHS points per renewal year" — was false.**
+>
+> Settled against the primary instrument: **Occupational Licensing (Continuing Professional
+> Development) Determination 2018**, made by Dale Edward Webster, Administrator of Occupational
+> Licensing, commenced 19 December 2018
+> (`cbos.tas.gov.au/__data/assets/pdf_file/0008/453680/…Continuing-Professional-Development.pdf`),
+> read in full on 23 July 2026, plus the CBOS "Achieving your CPD requirements" page read the same
+> day. **CBOS returns 403 to WebFetch** — the page needs a real browser and the PDF needs a direct
+> fetch.
+>
+> **§7.1 lists health and safety issues as one of five CPD activity categories, and no category
+> carries a cap.** §7.3 states caps apply per day and to "some activities". §7.4's table confirms
+> every cap is on **delivery channel**, never on subject matter.
+>
+> **Where the "4" probably came from:** two unrelated rows cap at 4 points per year — *research to
+> update skills* and *formal membership briefings*. Neither is WHS.
+
+**The actual rules.** Caps are on **activity type**, not subject. Verbatim from §7.4 of the
+Determination, matching the summary page.
+
+| Activity | Points | Cap |
+|---|---|---|
+| Training or briefing by/for the Administrator | 1 per hour | may attract double points |
+| Nationally accredited training by an RTO | 1 per hour | max 6 per **day** |
+| **Approved on-line courses** | **1 per hour** | **no annual cap stated** |
+| Approved face-to-face by an industry association | 1 per hour | max 6 per day |
+| Approved face-to-face by an employer | 1 per hour | max 6 per day |
+| **WorkSafe Tasmania activities** | 1 per hour | **max 6 per year** — includes WorkSafe Month |
+| Reading trade or professional journals | 1 per journal | max 3 per year |
+| Industry association membership | 1 per organisation | max 2 per year |
+| Approved trade events | set at approval | max 3 per year |
+| Research to update skills | 1 per hour | max 3 per year |
+| Formal membership briefings | 1 per hour | max 4 per year |
+| Mentoring | 1 per hour | max 4 per year |
+| Preparing responses to government legislation or policy | 2 per hour | — |
+
+**What this means for a CPD bundle page — state it this way:**
+
+1. **A safety-topic course counts like any other.** "Health and safety issues" is an approved CPD
+   category (§7.1(d)) with no limit. A bundle heavy in safety content is not thereby capped.
+2. **ABE's courses fall under "endorsed on-line courses": 1 point per hour, no annual cap.**
+3. **The one WHS-adjacent cap is a channel, not a subject.** WorkSafe Tasmania activities, including
+   WorkSafe Month sessions, are capped at 6 points per annum. That limits how much a practitioner
+   can claim for *attending WorkSafe Tasmania events*, and has nothing to do with buying a
+   safety-topic course from an approved provider.
+4. **Never write "CBOS caps WHS points."** It is false, and it talks a buyer out of a purchase that
+   would have counted in full.
+
+### A3b. Two different determinations — do not mix them
+
+The Determination read above governs **occupational licences** (plumbers, electricians, gas-fitters,
+lineworkers, cable jointers): §6.4 sets **12 points per year**, and §6.2 phases a 3-year licence to
+**36 points** from 1 July 2019.
+
+**Builders, architects, designers, surveyors and engineers are NOT in it.** Their requirement comes
+from the *Occupational Licensing (Building Services Work) Determination*, which is the source for
+the 12 / 20 / 30 table in A1. The CBOS summary page carries both, in two separate accordions.
+
+A page for a **builder** bundle uses A1 (Builder 12). A page for a **plumbing or electrical** bundle
+uses this Determination (12 per year, 36 across a 3-year licence) — and the 36 figure is one to
+handle carefully, because it is the phased total, not an annual one.
+
+- Persons holding licences in several categories have a cap on combined points (see A2). **Confirmed
+  on the live page**: "Note: persons holding licences in several categories have a cap on their CPD
+  points."
 - `[VERIFY AT BUILD]` any other per-category cap relevant to the specific course being written.
 
 ### A4. Course approval rule (the CBOS gate)
@@ -151,4 +215,4 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 
 ---
 
-**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **Open items to confirm at build:** owner-builder permit dollar threshold (B1), liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
+**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **Open items to confirm at build:** owner-builder permit dollar threshold (B1), liability insurance figure (B4), plumber/gas-fitter per-module points (A1).

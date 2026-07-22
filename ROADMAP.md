@@ -107,9 +107,15 @@ program still sells 11 for $449 and must be updated before `/cpd-tas` goes publi
 ## Phase 2 — the evidence run ✅ done 23 July 2026, verdict Amber
 
 `/cpd-building-tas` was built end to end through `abe-course-page-astro`. Artefacts in
-`pipeline/cpd-building-tas/` (01, 02, 03, 04, 07 — **05 and 06 produced none, which is itself a
-finding**). Review: `skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`, graded by
-a fresh subagent that saw only the artefacts and the built HTML.
+`pipeline/cpd-building-tas/`. Review:
+`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`, graded by a fresh subagent that
+saw only the artefacts and the built HTML.
+
+**The run produced 01, 02, 03, 04 and 07 only.** 05 and 06 were written afterwards, and their absence
+was not cosmetic: with no brief-to-section map, a section briefed at Stage 3 and written at Stage 4
+was lost on the way to the page and sat undetected through the build, the guardrails, `check-claims`
+and the independent grading. No image prompts were produced either. Both gaps are now closed, and
+`check-pipeline.mjs` exists so the next run cannot repeat them.
 
 **Verdict Amber. `correct_and_safe` amber, `passed_gates_first_time` red.** The page does not ship
 yet: `buyUrl` is unverified, and the coverage claim needs either the WHS classification imported or
@@ -358,3 +364,32 @@ each was corrected only when someone read the code.
 So the order is: build the foundation, build one real page, then build only the structure that page
 proves is missing. Phases 3 and 4 shrink to whatever phase 2 demands. If phase 2 shows the skill
 works as one file with no subagents, that is a successful result, not a failure to build things.
+
+---
+
+## Preventing the phase-2 defect class
+
+Every defect the phase-2 run produced **survived a green build**: a briefed section vanished, a
+prop contract broke silently, a page skipped half its guardrails by not declaring what it was, and
+an audit ticked five rows the built HTML fails. The gates checked structure; nothing checked
+intent against output.
+
+Three changes address that, in order of leverage.
+
+1. **`check-pipeline.mjs` — built 23 July, wired into `system-health`.** Asserts every stage
+   artefact exists, and that the section ids in `05-components.md` and the built page match in both
+   directions. Verified against the real defect: removing `#how-long` from `dist/` produces
+   `FAIL — section(s) planned in 05 but absent from dist`. This is the lesson made mechanical, and
+   it is the only one that cannot be forgotten.
+2. **Stage 7 runs as a fresh subagent reading only `dist/`, reporting measured values.** Specced in
+   `SKILL.md`. A tick is a claim about output made from memory of intent; the author of the copy
+   cannot see the copy.
+3. **Warnings surfaced per slug.** `check-claims`, `check-freshness` and `system-health` all raised
+   page-relevant warnings on the phase-2 page that never reached its audit. Zero failing is not
+   zero findings.
+
+**Still open, and worth doing:** make an undeclared authority model a build failure rather than a
+silent skip (mistakes-log #10). Absence is currently the quiet state, which is the dangerous one.
+
+**The principle underneath all of it:** a green check proves consistency, never correctness. Where a
+check can only be satisfied by a human assertion, it is not a check.

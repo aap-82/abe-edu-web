@@ -31,10 +31,28 @@ carry no RTO / "accredited" / "Statement of Attainment" claims, and knowledge-re
 Enter at whatever stage the user asks for; the stages are ordered but independently useful. Show the
 output of each stage and get a go-ahead before starting the next when the user is walking through it.
 
-**Stage outputs are files, not chat.** Write each stage's artefact to `pipeline/{slug}/` —
-`01-source-map.md`, `02-gap.md`, `03-briefs.md`, `04-content.md`, and so on. A later stage, a grader,
-or a resumed session reads them from there. Anything that exists only in the conversation cannot be
-audited, resumed, or graded independently.
+**Stage outputs are files, not chat.** Write each stage's artefact to `pipeline/{slug}/`. A later
+stage, a grader, or a resumed session reads them from there. Anything that exists only in the
+conversation cannot be audited, resumed, or graded independently.
+
+**The full set, and none of it is optional:**
+
+| File | Stage | Without it |
+|---|---|---|
+| `01-source-map.md` | 1 | no fact provenance |
+| `02-gap.md` | 2 | keywords are assertion |
+| `03-briefs.md` | 3 | Stage 4 invents the section's point |
+| `04-content.md` | 4 | copy cannot be reviewed apart from markup |
+| `05-components.md` | 5 | **nothing maps briefs to sections — a briefed section can vanish silently** |
+| `06-image-prompts.md` | 6 | image slots ship as placeholders nobody was asked to fill |
+| `07-verification.md` | 7 | the audit is unrepeatable |
+
+**A missing artefact is a stage that did not happen, whatever the page looks like.** On the
+cpd-building-tas run, 05 and 06 were skipped: a required section written at Stage 4 was then lost on
+the way to the page, no image prompts were produced, and every automated gate stayed green through
+both. **When reporting a gap, name the deliverable, not the stage** — "Stage 5 left no artefact" is
+true and unactionable; "no brief-to-section mapping exists, and `#how-long` is in `04-content.md` but
+not on the page" is a fix.
 
 ## Checking the system, not just the page
 `guardrails.ts` checks one page at build. These check the system:
@@ -201,6 +219,24 @@ Worked example: section 7 of any archetype file. Method: `references/content-pip
 ### 4 · Extended content
 Write one section at a time, from its brief. Do not write from the heading.
 
+**Write a `{placeholder}` wherever the page computes the figure, never a literal.** If the layout
+derives it — a points total counted from a register, a member count, a price pulled from
+frontmatter, a shortfall — then `04-content.md` says `{points}`, not "twelve". Three reasons, and
+the third is the one that bites:
+- the artefact stops carrying a number that can go stale independently of the page;
+- it makes the two mechanically comparable, which is what `check-pipeline.mjs` needs;
+- **it records which figures are computed.** On cpd-building-tas the Stage 4 draft wrote "Twelve
+  courses … for $499" for a capsule the layout generates from `{points}` and `{bundle.price}`.
+  Artefact and page then read differently forever, and nobody could tell that apart from real drift.
+
+Prose everywhere else stays prose. This applies to derived figures only, not to every number.
+
+**04 is a draft, not a permanent record.** Once the page is built, the page is the source of truth
+for copy and the artefact is the record of how it was arrived at. When they disagree, judge each
+difference: a compliance correction made after drafting means the artefact is stale and should be
+brought forward; content present in the artefact and missing from the page means the page lost it.
+Neither file wins automatically.
+
 **Read two things first.** `references/content-craft.md` is the method — translate facts rather than
 restate them, spend the distinctive material, write the capsule as an answer rather than an
 introduction, name the objection out loud, and the voice rules. Then section 8 of your archetype file,
@@ -227,6 +263,19 @@ asked at Stage 1 and are answered before a word is written. Method:
 Turn the extended content into a **section plan**: an ordered list of sections, each with an id, a nav
 label, a marker, a question-led H2, and the **components** that carry its content. Choose each component
 by the **shape** of the content, not by what the last page happened to use.
+
+**Write it to `05-components.md` as a table, one row per section, with a column naming the brief it
+comes from.** That column is the whole point of the artefact: it is the only thing that maps
+`03-briefs.md` onto the page, and it is what makes the Stage 7 conformance check possible. Without it,
+a briefed section can be merged, reordered or dropped and nothing will notice.
+
+**Record every deviation from the briefs, and why.** Merging two briefed sections is often the right
+editorial call. Doing it silently is not, because a later reader cannot tell a deliberate merge from a
+dropped section. State which briefs were combined, which moved, and which were cut.
+
+**Also record any component prop contract that is invisible at the call site** — a slot that must be
+single-line, a prop that gets joined to another with a connecting word. These have cost this pipeline
+real time twice, and they live nowhere a page author would look.
 
 **The styleguide is the vocabulary, and it is live.** `/styleguide` renders every component from
 `src/components` with real data and real tokens, so it cannot drift from production. Read it before
@@ -299,8 +348,30 @@ versions — the template uses the current forms, so confirm before altering the
 layer only; ABE facts, authority model, SEO and copy stay with the skill's own references.
 
 ### 7 · Pre-deploy verification
-Before deploying, run the checks on the built HTML (`dist/{slug}/index.html`) and fix FAILs by
-correcting the content or data, never by watering down the components:
+
+**Run this as a fresh subagent whose only inputs are `dist/{slug}/index.html`, `05-components.md`
+and the checklist.** Not your reasoning, not your account of the run. The author of the copy cannot
+see the copy: on the cpd-building-tas run the audit ticked five rows the built HTML fails, two of
+them defects introduced by fixes recorded on that same page as complete. This is the argument Stage 9
+already won for grading, and it applies here for the same reason.
+
+**Every row reports a measured value, never a tick.** "Capsules 40-60 words ✅" is a claim about
+output made from memory of intent; "capsule 6 (#content-review): 28 words" is a measurement. If a row
+cannot carry a measured value, it is not a check. Word counts, the rendered marker sequence, the CTA's
+resolved target, the schema node list: read them out of `dist/`.
+
+**Three checks that exist because they were missed:**
+1. **Section conformance.** Every section id in `05-components.md` appears in `dist/`, and every
+   section in `dist/` appears in the table. A briefed section vanished between Stage 4 and the page
+   and no gate noticed.
+2. **Quote every WARN naming this slug**, from `check-claims`, `check-freshness` and `system-health`
+   — not just the failing count. All three raised page-relevant warnings that never reached the
+   audit table. **Zero failing is not zero findings.**
+3. **Artefact completeness.** `pipeline/{slug}/` holds 01 through 07. A missing file is a stage that
+   did not happen.
+
+Then run the checks on the built HTML and fix FAILs by correcting the content or data, never by
+watering down the components:
 - **pre-production audit (`references/seo/audit-workflow.md`)** — (a) *structure & schema*: one H1 with the target
   keyword, valid server-rendered JSON-LD (Course + Credential + BreadcrumbList + Person x2, zero errors,
   logged-out DOM), `recognizedBy` matching the authority model (regulator for state-approved-direct,
