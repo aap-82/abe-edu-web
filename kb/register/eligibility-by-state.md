@@ -4,7 +4,7 @@ Per-state eligibility and permit-trigger facts for ABE's owner builder course pa
 
 **Verified:** 26 May 2026 against state regulator pages (Service NSW / Building Commission NSW, QBCC) and current cross-state guides. **Re-verify:** annually, and before publishing any dollar figure in body copy. **Thresholds are reviewed periodically by each regulator and do change** — treat the figures below as current-as-at the verified date, not permanent.
 
-Regulator names and remits are in `regulator-roles-by-state.md`. ABE develops and delivers the owner builder course directly in **QLD, WA, TAS and ACT**. The **NSW** Owner Builder course is delivered by ABE's RTO partner **Upskill Institute (RTO 45708)**, with ABE as enrolment partner only.
+Regulator names and remits are in `regulator-roles-by-state.md`. ABE develops and delivers the owner builder course directly in **QLD, WA, TAS and ACT**. ⛔ **NSW is on hold and not currently offered** — the intended Upskill Institute (RTO 45708) arrangement is unsigned and the five required units are not on that RTO's scope, so ABE has no NSW owner builder product today. The NSW eligibility facts below stay in the register because they are regulator facts and remain true; they are **not** clearance to build the page. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 
 ---
 

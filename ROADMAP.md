@@ -37,7 +37,19 @@ Last updated: 22 July 2026.
 
 ### Outstanding right now (before phase 2)
 
-**Nothing. The gate is clear.** Handovers now live in `handover/`.
+**Nothing blocks phase 2. The gate is clear.** Handovers now live in `handover/`.
+
+**One standing product blocker, parallel to the phases — ⛔ NSW Owner Builder is on hold.**
+Confirmed by Andrey 22 July 2026: the Upskill Institute partnership intended for that course is
+still in negotiation and temporarily on hold, so ABE has no delivering RTO for it. Separately,
+none of the five units NSW requires is on RTO 45708's scope, so closing the deal is necessary
+but not sufficient. `src/content/courses/owner-builder-nsw-course.mdx` and its `-w` variant
+still carry the full nationally-recognised claim; both are pre-cutover and noindexed, and
+**neither may ship at cutover in its current form.** The reference set was walked back on 22 July
+so a pipeline run cannot read the partnership as settled. **NSW White Card is unaffected and
+remains live** — that partnership is in force and CPCWHS1001 *is* on 45708's scope, so the White
+Card wave is not gated by this. Canonical status: `kb/rules/authority-model.md` → "NSW Owner
+Builder".
 
 The post-merge fixes landed in PR #29 (merged 22 July): the TAS course price was wrong at $185 and
 is now $195, `check-claims` went from ~93 warnings to 8, derived totals reconcile and FAIL on

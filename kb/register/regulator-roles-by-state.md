@@ -48,7 +48,7 @@ State codes: lowercase in URLs (`nsw`, `qld`, `wa`, `tas`, `act`), uppercase in 
 - In Tasmania, **CBOS** handles owner builder and CPD; **WorkSafe Tasmania** handles WHS / White Card. Do not attribute White Cards to CBOS.
 - WA owner builder: never "Building Services Board-approved provider", "LGIRS-approved provider" or "WA-government-approved provider" — WA uses the Form 75 knowledge-requirement model, so ABE's certificate **supports the Form 75 application / meets WA's training requirement** rather than being "approved".
 - NSW builder CPD: never "Building Commission NSW-approved CPD provider", "NSW Fair Trading-approved CPD provider" or "mandated provider" — NSW operates on **self-declaration plus audit**, with no provider-approval regime for builders' CPD. ABE's CPD **meets the NSW CPD criteria** (administered by Building Commission NSW under the *Home Building Act 1989*).
-- NSW owner builder: delivered by ABE's RTO partner **Upskill Institute (RTO 45708)**, not directly by ABE. The NSW OB page must disclose the delivering RTO and ABE's enrolment-partner role; never present ABE as the deliverer or developer of the NSW OB course.
+- NSW owner builder: ⛔ **on hold — ABE has no delivering RTO for this course.** The Upskill Institute (RTO 45708) arrangement is unsigned, and the five units NSW requires are not on 45708's scope. Never present ABE as the deliverer or developer of a NSW OB course either. Do not build the page. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 - ABE is **not** an RTO. Never give ABE an RTO number (the former RTO 91794 was withdrawn). RTO numbers belong only to the partners below.
 
 ---
@@ -56,7 +56,7 @@ State codes: lowercase in URLs (`nsw`, `qld`, `wa`, `tas`, `act`), uppercase in 
 ## 4. ABE's delivery model by course type
 
 - **White Card** — delivered by ABE's RTO partners, never by ABE directly: **Blue Dog Training (RTO 31193)** for QLD, WA and TAS; **AlertForce (RTO 91826)** for ACT; **Upskill Institute (RTO 45708)** for NSW (trainer-led virtual classroom or in person — never self-paced online). Pages must disclose the delivering RTO.
-- **Owner Builder** — developed and delivered directly by ABE Education across **QLD, WA, TAS and ACT** (state-approved or state-listed where the regulator maintains such a list — CBOS, Access Canberra — or accepted under a knowledge-requirement model, WA Form 75). **NSW is the exception:** the NSW Owner Builder course is delivered by ABE's RTO partner **Upskill Institute (RTO 45708)**, with ABE acting as **enrolment partner only** — not direct ABE delivery.
+- **Owner Builder** — developed and delivered directly by ABE Education across **QLD, WA, TAS and ACT** (state-approved or state-listed where the regulator maintains such a list — CBOS, Access Canberra — or accepted under a knowledge-requirement model, WA Form 75). **NSW is not currently offered:** the intended Upskill Institute (RTO 45708) arrangement is ⛔ on hold and not in force, and the five required units are not on that RTO's scope. Treat NSW Owner Builder as a product ABE does not have today. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 - **CPD** — developed and delivered directly by ABE Education where offered (NSW building CPD; TAS building, plumbing and electrical CPD; WA real estate CPD).
 
 ---

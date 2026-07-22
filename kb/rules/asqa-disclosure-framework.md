@@ -1,6 +1,8 @@
 ## ASQA Compliance Reference (Accredited Courses Only)
 
-This section applies when the content is for an **accredited course** delivered by an RTO partner. Skip this section entirely for non-accredited content such as CPD courses or the **QLD, WA, TAS and ACT** Owner Builder courses (delivered directly by ABE). **Exception — NSW Owner Builder:** it is nationally recognised and delivered by Upskill Institute (RTO 45708), so this section **does** apply to the NSW Owner Builder page.
+This section applies when the content is for an **accredited course** delivered by an RTO partner. Skip this section entirely for non-accredited content such as CPD courses or the Owner Builder courses.
+
+> ⛔ **NSW Owner Builder was going to be the one Owner Builder exception. It is on hold and not in force** — the Upskill partnership is unsigned and the five required units are not on RTO 45708's scope. Do not apply this framework to a NSW Owner Builder page, and do not build one. `kb/rules/authority-model.md` → "NSW Owner Builder" is the canonical status. **NSW White Card is unaffected and live** — this framework applies to it normally.
 
 > **Core principle:** ABE Education is the enrolment partner, not the training provider. The RTO delivers training, conducts assessment, and issues qualifications. Every page for an accredited course must make this distinction unmistakably clear.
 
@@ -13,7 +15,7 @@ This section applies when the content is for an **accredited course** delivered 
 | White Card (CPCWHS1001) | ACT | AlertForce Pty Ltd (RTO 91826) |
 | Asbestos Awareness | ACT | AlertForce Pty Ltd (RTO 91826) |
 | Silica Awareness | ACT | AlertForce Pty Ltd (RTO 91826) |
-| Owner Builder (nationally recognised) | NSW | Upskill Institute Pty Ltd (RTO 45708) |
+| ~~Owner Builder (nationally recognised)~~ | ~~NSW~~ | ⛔ **ON HOLD — no RTO partner in force.** Intended: Upskill Institute Pty Ltd (RTO 45708). Unsigned, and the five units are not on its scope. Do not use. |
 
 **Rule:** Always substitute the correct RTO name and number for the state. Never use Blue Dog wording on an ACT page or AlertForce wording on a QLD/WA/TAS page.
 

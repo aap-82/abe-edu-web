@@ -117,7 +117,7 @@
 | Course | NSW | QLD | WA | TAS | ACT | RTO Partner |
 |---|---|---|---|---|---|---|
 | **White Card** | ✅ | ✅ | ✅ | ✅ | ✅ | NSW: Upskill Institute (RTO 45708) · QLD/WA/TAS: Blue Dog Training (RTO 31193) · ACT: AlertForce (RTO 91826) |
-| **Owner Builder** | ✅ | ✅ | ✅ | ✅ | ✅ | ABE Education (direct, state-approved) |
+| **Owner Builder** | ⛔ | ✅ | ✅ | ✅ | ✅ | QLD/WA/TAS/ACT: ABE Education (direct, state-approved). **NSW: ON HOLD — do not build.** No delivering RTO in force; see note below |
 | **CPD Building** | ✅ | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Plumbing** | — | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Electrical** | — | — | — | ✅ | — | ABE Education (direct) |
@@ -127,9 +127,12 @@
 
 **Rules:**
 - ❌ means ABE does not currently offer this course in this state — do not create a landing page
+- ⛔ means **blocked** — a product decision or compliance gate is open; do not create or update a landing page even if source material exists
 - ✅ means actively sold — landing page should exist
 - — means not applicable or not offered
 - Check this matrix before creating any new state-specific page
+
+> ⛔ **NSW Owner Builder — on hold, do not build (22 Jul 2026).** The Upskill Institute (RTO 45708) partnership intended for this course is still in negotiation and is temporarily on hold, so ABE has no delivering RTO for it. Separately, none of the five units NSW requires is on 45708's scope, so signing alone would not make the claim publishable. Pre-cutover pages for this slug already exist and carry the claim; they must not ship. **NSW White Card is unaffected and remains live** — that partnership is in force and CPCWHS1001 *is* on 45708's scope. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 
 ---
 
