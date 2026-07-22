@@ -399,8 +399,9 @@ Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
   for an internal fact — those are asked at Stage 1 (see the unknowns gate) and answered before content
   is written. A marker that reaches the built HTML is a publish hard-blocker, and the `abe-guardrails`
   build integration fails the build on one, so it cannot ship by accident. It has: the TAS page carried
-  eight markers, including a live price rendered as "$195 — Indicative [confirm: LW]", until the build
-  started refusing them.
+  eight markers, including a live price rendered as "[price] — Indicative [confirm: LW]", until the
+  build started refusing them. (The figure is deliberately not quoted here: this file is read before
+  every run, and a price written into an anecdote gets picked up as though it were current.)
 - **SEO / E-E-A-T:** one H1, question-led H2s, 40-60 word answer capsules, price visible and equal to
   `Course.offers.price`, two named Person profiles (developer + independent reviewer) with `sameAs`
   LinkedIn, image alt >= 80 chars. Sitemap + robots + OG/Twitter shipped by the template.

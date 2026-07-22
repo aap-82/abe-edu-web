@@ -51,8 +51,8 @@ remains live** — that partnership is in force and CPCWHS1001 *is* on 45708's s
 Card wave is not gated by this. Canonical status: `kb/rules/authority-model.md` → "NSW Owner
 Builder".
 
-The post-merge fixes landed in PR #29 (merged 22 July): the TAS course price was wrong at $185 and
-is now $195, `check-claims` went from ~93 warnings to 8, derived totals reconcile and FAIL on
+The post-merge fixes landed in PR #29 (merged 22 July): `check-claims` went from ~93 warnings to 8,
+derived totals reconcile and FAIL on
 mismatch, and the register hygiene is done. The small-fixes pass then took `check-claims` to **0
 warnings** by giving every remaining figure an owner — bundle offers reconcile, and the WA $50,000
 Class 10a threshold is verified rather than published unsourced.
