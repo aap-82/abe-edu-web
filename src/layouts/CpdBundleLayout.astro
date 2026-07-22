@@ -1,0 +1,167 @@
+---
+/**
+ * CPD bundle layout.
+ *
+ * DELIBERATELY MINIMAL. Stage A of the CPD plan exists to unblock Phase 2, not to pre-empt it:
+ * Phase 2 is the evidence run that builds this page through the skill using archetype 4, and a
+ * finished page here would destroy the evidence that run exists to produce. So this layout wires
+ * the parts the register owns — the derived points figure, the member table, the coverage note —
+ * and leaves the section design, copy and component selection to the run.
+ *
+ * THE ONE RULE THIS FILE ENFORCES: every points figure on the page is counted from the register
+ * at build time, filtered to status `live` and capped at 12. Nothing here accepts a points figure
+ * from frontmatter, because a typed figure is the thing that goes stale.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import Note from '../components/Note.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+
+// Imported from scripts/ on purpose — see the header of cpd-derive.mjs. The check scripts and
+// this page must share one implementation of the counting rules, or a page could disagree with
+// the check that polices it and the check would go on passing.
+import {
+  liveMembers, bundlePoints, liveTotal, countablePoints, whsPoints,
+  POINTS_CAP, WHS_POINTS_CAP,
+} from '../../scripts/lib/cpd-derive.mjs';
+import register from '../../kb/register/cpd/tas-courses.json';
+import type { CpdCourse } from '../types/cpd';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { bundle: CollectionEntry<'cpdBundles'>['data'] }
+const { bundle } = Astro.props;
+
+// cpd-derive.mjs is plain JS with no types of its own, so its returns arrive as `any` and every
+// `.map()` below would take an implicitly-typed parameter. Annotating here rather than at each
+// call site keeps the shape declared once. `npm run check` runs before the build in CI and fails
+// on the implicit any, so this is load-bearing rather than decorative.
+const members: CpdCourse[] = liveMembers(register, bundle.category);
+const points = bundlePoints(register, bundle.category);
+const live = liveTotal(register, bundle.category);
+const countable = countablePoints(register, bundle.category);
+const whs = whsPoints(register, bundle.category);
+
+// Coverage is stated, never implied. Archetype 4 §4 forbids implying a bundle discharges an
+// obligation it only partly covers, so a short bundle says so in its own words rather than
+// leaving the reader to subtract.
+const shortfall = POINTS_CAP - points;
+
+// No `Course.offers` on a bundle whose points are short of the cap would still be honest, but
+// the offer is real either way: this is a purchasable product at a stated price. What must not
+// appear is a points figure that disagrees with the member count, so `points` is used here too.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Course',
+      '@id': `${bundle.canonical}#course`,
+      name: bundle.title,
+      description: bundle.description,
+      inLanguage: 'en-AU',
+      provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      offers: {
+        '@type': 'Offer',
+        price: bundle.priceNumber,
+        priceCurrency: 'AUD',
+        category: 'Paid',
+        url: bundle.canonical,
+      },
+      hasPart: members.map((m) => ({
+        '@type': 'Course',
+        name: m.cbosName ?? m.name,
+        provider: { '@type': 'Organization', name: 'ABE Education' },
+        inLanguage: 'en-AU',
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: bundle.breadcrumb.map((c: any, i: number) => ({
+        '@type': 'ListItem', position: i + 1, name: c.name, item: c.item,
+      })),
+    },
+  ],
+};
+---
+<BaseLayout
+  title={bundle.title}
+  description={bundle.description}
+  canonical={bundle.canonical}
+  schema={schema}
+  sticky={bundle.sticky}
+  ogImage={bundle.ogImage}
+  noindex={bundle.noindex}
+  crumbs={bundle.breadcrumb}
+  reviewed={bundle.reviewedBy}
+>
+  <header class="hero" id="top">
+    <div class="wrap">
+      <p class="eyebrow">{bundle.hero.eyebrow}</p>
+      <h1 set:html={bundle.hero.h1Html} />
+      <p class="lede">{bundle.hero.subhead}</p>
+      <p class="bundle-for"><b>For</b> {bundle.licences}</p>
+    </div>
+  </header>
+
+  <Section id="whats-in" eyebrow="What you get" h2={`What is in the ${bundle.category} bundle?`}>
+    <AnswerCapsule>
+      {points} CBOS-approved courses, each worth 1 CPD point, for {bundle.price}.
+      {shortfall > 0
+        ? ` That covers most of a ${POINTS_CAP}-point licence year — you would add ${shortfall} further point${shortfall === 1 ? '' : 's'} from another approved activity to reach ${POINTS_CAP}.`
+        : ` That is the full annual requirement for a ${POINTS_CAP}-point licence.`}
+    </AnswerCapsule>
+
+    {countable !== null && countable < points && (
+      <Note variant="caution" label="What actually counts">
+        This bundle carries {whs} work health and safety points, and CBOS counts at most {WHS_POINTS_CAP} a
+        year. <b>{countable} of the {points} points will count toward your renewal</b>, so plan the balance
+        from another approved activity.
+      </Note>
+    )}
+
+    {live > POINTS_CAP && (
+      <Note variant="caution" label="Register ahead of the product">
+        The register holds {live} live approved courses for this category against a {POINTS_CAP}-point cap.
+        The sold set needs pruning in the source doc before this page is published.
+      </Note>
+    )}
+
+    <table class="member-table">
+      <caption>Courses in this bundle, counted from ABE's CBOS approval register.</caption>
+      <thead>
+        <tr><th scope="col">Course</th><th scope="col">Points</th><th scope="col">Approved to</th></tr>
+      </thead>
+      <tbody>
+        {members.map((m) => (
+          <tr>
+            <td>{m.cbosName ?? m.name}</td>
+            <td class="num">{m.points}</td>
+            <td class="num">{m.expiresAt ?? '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Section>
+
+  <slot />
+
+  <CtaBand headingHtml={bundle.ctaBand.headingHtml} sub={bundle.ctaBand.sub} cta={bundle.ctaBand.cta} />
+  <SourcesFooter sources={bundle.footerSources ?? []} disclaimersHtml={bundle.disclaimersHtml ?? ''} />
+</BaseLayout>
+
+<style>
+  .bundle-for{ font-size:15px; color:var(--slate); margin-top:var(--s-sm); }
+  .bundle-for b{
+    font-family:var(--font-mono); font-size:10px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; margin-right:6px;
+  }
+  .member-table{ width:100%; border-collapse:collapse; margin-top:var(--s-md); font-size:15px; }
+  .member-table caption{ text-align:left; color:var(--slate); font-size:13.5px; margin-bottom:8px; }
+  .member-table th, .member-table td{ text-align:left; padding:9px 0; border-bottom:1px solid var(--rule); }
+  .member-table th{
+    font-family:var(--font-mono); font-size:10px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
+  }
+  .member-table .num{ font-family:var(--font-mono); text-align:right; white-space:nowrap; }
+</style>

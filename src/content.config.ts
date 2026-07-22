@@ -333,4 +333,52 @@ const hubs = defineCollection({
   }),
 });
 
-export const collections = { courses, experts, partners, hubs };
+// A CPD bundle: the page and the product, one per {category × state}.
+//
+// WHAT IS DELIBERATELY ABSENT: `points`, and the member course list. Both are DERIVED at build
+// from kb/register/cpd/tas-courses.json, counting only courses with status `live` and capping at
+// 12. Authoring a points figure here would create a second copy of a number the register owns,
+// and the copy is what goes stale — the Electrical bundle advertised 12 points for three months
+// after one of its courses expired, because the figure was typed on a page rather than counted.
+// This schema therefore holds only what the register does NOT know: price, the buy link, and copy.
+//
+// `licences` names the licence types the category applies to, from the register's Category
+// Description. A category spans several licences with different annual requirements (12, 20, 30),
+// so "who is this for" cannot be read off the bundle title and must be stated.
+const cpdBundles = defineCollection({
+  loader: glob({ base: './src/content/cpd-bundles', pattern: '**/*.mdx' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    canonical: z.string().url(),
+    ogImage: z.string().optional(),
+    noindex: z.boolean().optional(),
+    // Must be one of the three bundles ABE sells. The register carries a fourth category,
+    // gas-fitting, which is not offered — an enum rather than a string keeps a page for it
+    // from being created by accident.
+    category: z.enum(['building', 'electrical', 'plumbing']),
+    state: z.string(),
+    regulator: z.object({ name: z.string(), url: z.string().url() }),
+    // Commercial facts the register does not hold.
+    price: z.string(),                 // display, e.g. "$499"
+    priceNumber: z.string(),           // schema, e.g. "499"
+    rrp: z.string().optional(),
+    buyUrl: z.string(),                // the LearnWorlds program this bundle is sold as
+    licences: z.string(),
+    intro: z.string(),
+    breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
+    reviewedBy: z.object({ name: z.string(), href: z.string().optional(), date: z.string() }).optional(),
+    nav: z.array(z.object({ label: z.string(), href: z.string(), sectionId: z.string() })).optional(),
+    hero: z.object({ eyebrow: z.string(), h1Html: z.string(), updated: z.string(), subhead: z.string(), cta }),
+    sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
+    ctaBand: z.object({ headingHtml: z.string(), sub: z.string(), cta }),
+    experts: z.array(reference('experts')),
+    faqs: z.array(z.object({ q: z.string(), a: z.string(), open: z.boolean().optional() })),
+    footerSources: z.array(source).optional(),
+    disclaimersHtml: z.string().optional(),
+    publishedAt: z.string(),
+    lastReviewedAt: z.string(),
+  }),
+});
+
+export const collections = { courses, experts, partners, hubs, cpdBundles };

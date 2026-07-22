@@ -1,0 +1,70 @@
+---
+# =============================================================================================
+# STAGE A STUB — noindex until Phase 2 writes this page.
+# =============================================================================================
+# This entry exists to prove the wiring, not to be the page. Phase 2 (ROADMAP.md) is the
+# evidence run that builds /cpd-building-tas through the skill using archetype 4, and its whole
+# value is that the run happens as specified rather than against a page someone already shaped.
+# So the frontmatter below carries only what the register cannot supply, and the body is empty.
+#
+# `noindex: true` is the guard: a stub that shipped would be a thin page on a commercial query.
+# Phase 2 removes the flag as part of writing the real thing.
+#
+# THERE IS NO `points` FIELD, AND THERE MUST NOT BE. The figure is counted at build from
+# kb/register/cpd/tas-courses.json — live courses only, capped at 12. See CpdBundleLayout.
+noindex: true
+title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
+description: "Twelve CBOS-approved CPD courses for Tasmanian building practitioners, online and self-paced. Meets the 12-point annual requirement for a builder."
+canonical: "https://www.abeeducation.edu.au/cpd-building-tas"
+category: "building"
+state: "TAS"
+regulator:
+  name: "CBOS Tasmania"
+  url: "https://www.cbos.tas.gov.au"
+price: "$499"
+priceNumber: "499"
+rrp: "$1,188"
+buyUrl: "/program/tas-builder-cpd-bundle-01092025"
+# From the register's Category Description. A category spans several licences with different
+# annual requirements, so this cannot be read off the bundle title.
+licences: "builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities"
+intro: "Twelve CBOS-approved courses, each worth 1 CPD point, covering a Tasmanian builder's full annual requirement in one purchase."
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "CPD Courses", item: "https://www.abeeducation.edu.au/cpd" }
+  - { name: "Tasmania", item: "https://www.abeeducation.edu.au/cpd-tas" }
+  - { name: "Building CPD", item: "https://www.abeeducation.edu.au/cpd-building-tas" }
+# No `href` while this is a stub: the guardrails correctly reject a chrome link to a
+# #content-review anchor that the page does not render. Phase 2 adds the review section and
+# restores the href to it.
+reviewedBy: { name: "Dominic Ogburn", date: "23 July 2026" }
+hero:
+  eyebrow: "Tasmania · CBOS-approved"
+  h1Html: "TAS Building CPD bundle"
+  updated: "23 July 2026"
+  subhead: "Meet your annual CPD points in one purchase, online and self-paced, with a certificate as you finish each course."
+  cta: { href: "#whats-in", label: "See what is included" }
+sticky:
+  label: "TAS Building CPD"
+  sub: "CBOS-approved"
+  price: "$499"
+  cta: { href: "#whats-in", label: "See what is included" }
+ctaBand:
+  headingHtml: "Ready to complete your CPD year?"
+  sub: "Twelve CBOS-approved courses, online and self-paced."
+  cta: { href: "/program/tas-builder-cpd-bundle-01092025", label: "View the Building bundle" }
+experts:
+  - dominic-ogburn
+  - warwick-smith
+faqs:
+  - q: "Are these courses actually approved by CBOS?"
+    a: "Yes. ABE is listed as a CPD provider with CBOS, and each course in this bundle has been individually approved for 1 CPD point. Approval is course-specific, so a provider being listed does not make every one of its courses approved."
+    open: true
+footerSources:
+  - label: "CBOS — Achieving your CPD requirements"
+    href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/occupational-licensing/continuing-professional-development"
+    verified: "Verified 12 July 2026"
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. CPD courses are approved by the Director of Building Control (CBOS) for the points shown.</p>"
+publishedAt: "2026-07-23"
+lastReviewedAt: "2026-07-23"
+---

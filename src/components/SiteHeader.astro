@@ -106,8 +106,13 @@ const navGroups: Group[] = [
     megaLabel: 'CPD bundles',
     hub: { label: 'CPD Hub', href: '/cpd' },
     items: [
-      // TODO: neither bundle page exists yet (Wave 4). Restore the href and drop
-      // `soon` once /cpd-bundles and /cpd-bundles-tas ship.
+      // TODO — REWORK, do not simply restore these hrefs. `/cpd-bundles` and
+      // `/cpd-bundles-tas` were dropped from the IA on 23 Jul 2026: the bundle IS the CPD
+      // course page, so the products live at `/cpd-{category}-{state}` (`/cpd-building-tas`,
+      // `/cpd-plumbing-tas`, `/cpd-electrical-tas`) and the state hubs index them. Building a
+      // separate bundle hub would put two pages on one query with only one holding a purchase
+      // path. When those pages ship, point these entries at them — or fold this whole group
+      // into CPD Courses, since under the new IA the two now describe the same pages.
       { code: 'ALL', name: 'CPD Bundles', soon: true, desc: 'Multi-course point bundles across states' },
       { code: 'TAS', name: 'TAS CPD Bundles', soon: true, desc: 'Tasmania-specific point bundles' },
     ],

@@ -34,8 +34,8 @@ What type of course is this page about?
 │       ├── White Card TAS → Blue Dog Training (RTO 31193)
 │       ├── White Card ACT → AlertForce (RTO 91826)
 │       ├── White Card NSW → Upskill Institute (RTO 45708)
-│       ├── Asbestos Awareness ACT → AlertForce (RTO 91826)
-│       ├── Silica Awareness ACT → AlertForce (RTO 91826)
+│       ├── Asbestos Awareness (ALL STATES) → AlertForce (RTO 91826)
+│       ├── Silica Awareness (ALL STATES) → AlertForce (RTO 91826)
 │       └── NSW Owner Builder → ⛔ ON HOLD — partnership not in force. Do not build.
 │                                  See "NSW Owner Builder" below before writing anything.
 │
@@ -130,7 +130,9 @@ What type of course is this page about?
 **QLD, WA, TAS — Blue Dog Training (RTO 31193):**
 > "This course is delivered in partnership with Blue Dog Training (RTO 31193), a nationally registered training organisation. Your Statement of Attainment and White Card will be issued by Blue Dog Training."
 
-**ACT — AlertForce (RTO 91826) — White Card, Asbestos Awareness, Silica Awareness:**
+**AlertForce (RTO 91826) — ACT White Card, and Asbestos / Silica Awareness in ALL states:**
+(The White Card partnership is ACT-only. Asbestos and Silica Awareness are resold nationally —
+corrected 23 July 2026, see §"Asbestos and Silica" below.)
 > "This course is delivered in partnership with AlertForce (RTO 91826), a nationally registered training organisation. Your Statement of Attainment will be issued by AlertForce."
 
 **NSW — Upskill Institute (RTO 45708):**
@@ -157,6 +159,40 @@ Delivery mode in NSW is trainer-led virtual classroom (accepted as face-to-face)
   }
 }
 ```
+
+### Asbestos and Silica Awareness — national resell, in force (23 Jul 2026)
+
+**ABE resells AlertForce's (RTO 91826) Asbestos Awareness and Silica Awareness courses in every
+state**, confirmed by Andrey 23 July 2026. This corrects an ACT-only scoping that was recorded in
+five places across the kb and skill, which came from the ACT White Card partnership and was never
+true of the awareness courses. The White Card partnership with AlertForce **is** ACT-only; do not
+re-merge the two.
+
+They are **nationally recognised and carry a course code**, so the ASQA disclosure framework
+applies in full: name AlertForce and RTO 91826, "nationally recognised" is accurate, Statement of
+Attainment is issued by AlertForce, and ABE is the publisher and enrolment partner, never the RTO.
+
+**⚠ The course codes are UNVERIFIED and must not be written from memory.** Andrey confirmed codes
+exist; nobody has yet recorded which. Before any page states one, open
+`training.gov.au/Organisation/Details/91826` **in a browser** (WebFetch cannot — the register is a
+client-rendered SPA) and confirm the exact code sits on AlertForce's current scope. That is the
+step that was skipped for NSW Owner Builder, where the RTO was real, the partnership was assumed,
+and none of the five required units was actually on scope.
+
+**Do not confuse these with the TAS CBOS asbestos CPD course.** ABE has both, and they are
+different products under different authority models: the CBOS one is a Tasmanian CPD point, these
+are nationally recognised credentials. See `kb/register/cbos-tas-reference.md` §A6.
+
+**Not built, and deliberately so (Andrey, 23 July 2026 — park and note).** Recorded here because
+the demand is the largest unserved pool in the GSC data and will be rediscovered otherwise:
+asbestos and silica carry **7,421 impressions across 77 queries** in the 16-month site-wide
+export, at positions 37 to 77, with **one click**. About 6,200 of those impressions are generic
+national or interstate (Melbourne-heavy) — previously written off as unaddressable, and
+addressable after all now that the resell is known to be national. Against that, the existing
+products have sold ~40 units for ~A$3,300 all-time. Revisit after phase 2, once the course codes
+are verified.
+
+---
 
 ### NSW Owner Builder — ⛔ ON HOLD, NOT IN FORCE (canonical status, 22 Jul 2026)
 
@@ -373,8 +409,10 @@ When Page Identity Card shows `ASQA req'd: Yes`, disclosures must appear in **7 
 - Quality assurance oversight
 
 ### AlertForce (RTO 91826) provides:
-- RTO accreditation for ACT White Card (CPCWHS1001), Asbestos Awareness, and Silica Awareness
-- Assessment and certification for ACT White Card, Asbestos Awareness, and Silica Awareness
+- RTO accreditation for ACT White Card (CPCWHS1001), and for Asbestos Awareness and Silica
+  Awareness **in every state** — the White Card partnership is ACT-only, the awareness courses
+  are not
+- Assessment and certification for the same
 - Statement of Attainment issuance for all three courses
 
 ### Upskill Institute (RTO 45708) provides:

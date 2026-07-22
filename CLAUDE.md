@@ -54,9 +54,11 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
 - **Knowledge-requirement** (WA / Form 75): "supports your Form 75 owner-builder approval". No
   "WA-approved course/provider", no "permit"/"licence" for the owner-builder step (it is an *approval*).
   Schema credential has **no `recognizedBy`**. White Card unit is `CPCWHS1001` (single C in WA).
-- **ASQA-accredited** (White Card, NSW OB, asbestos/silica): name the RTO partner + number
+- **ASQA-accredited** (White Card, asbestos/silica): name the RTO partner + number
   (Blue Dog Training RTO 31193, AlertForce RTO 91826), "nationally recognised" is accurate, carry ASQA
-  disclosure. ABE is the publisher, not the RTO.
+  disclosure. ABE is the publisher, not the RTO. **NSW Owner Builder was in this group and is now
+  ⛔ on hold** — unsigned partnership, and the five required units are not on RTO 45708's scope.
+  Do not build it. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 - **Every government fact is sourced + dated** in the page-foot Sources block. Re-verify indexed fees
   on their cadence (WA approval fee and similar reset ~1 July). An unresolved gov fact is a publish
   hard-blocker.
@@ -64,11 +66,21 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   is worse than a visible gap.
 - `[confirm: ...]` marks a regulatory fact awaiting verification and nothing else. Internal facts
   (price, pass mark, points, modules) are asked and answered before content is written.
-- **Product scope confirmed 16 Jul 2026** (migration plan v2 §1): NSW Real Estate CPD is retired, not a
-  current product — its legacy pages 301 away, never rebuilt. No asbestos/silica pages exist or are
-  planned. White Card is confirmed for all five states (NSW/QLD/WA/TAS/ACT). SA and VIC have no
-  products. `/saaustralia` is the Solar Association Australia partner page (not South Australia) and
-  stays.
+- **Product scope confirmed 16 Jul 2026** (migration plan v2 §1), amended 23 Jul 2026: NSW Real Estate
+  CPD is retired, not a current product — its legacy pages 301 away, never rebuilt. White Card is
+  confirmed for all five states (NSW/QLD/WA/TAS/ACT). SA and VIC have no products. `/saaustralia` is
+  the Solar Association Australia partner page (not South Australia) and stays.
+- **Asbestos and silica (amended 23 Jul 2026 — the earlier "no asbestos/silica" line was wrong).**
+  ABE has **two different products** here and conflating them is an authority-model error:
+  1. **AlertForce (RTO 91826) Asbestos Awareness and Silica Awareness**, resold by ABE **in every
+     state** and **nationally recognised with a course code**. Full ASQA disclosure applies. The
+     codes are **UNVERIFIED** — confirm on AlertForce's scope at
+     `training.gov.au/Organisation/Details/91826` **in a browser** before any page states one.
+  2. **A CBOS-approved asbestos CPD course for TAS** ("Workplace Asbestos Basics", 1 point, a bundle
+     component). A Tasmanian licence-renewal credit, **not** an awareness card, and never
+     "nationally recognised".
+  No page exists for either yet and none is planned this wave — parked 23 Jul, evidence recorded in
+  `kb/rules/authority-model.md` and `kb/register/cbos-tas-reference.md` §A6.
 
 ## Reviews — never `AggregateRating`
 ABE's reviews live on its Google Business Profile (4.8/5 from 52 reviews, confirmed 16 Jul 2026) — an

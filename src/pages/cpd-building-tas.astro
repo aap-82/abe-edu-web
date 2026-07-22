@@ -1,0 +1,21 @@
+---
+// CPD bundle route stub. One per bundle, deliberately, rather than a shared dynamic route.
+//
+// This follows owner-builder-courses.astro rather than src/pages/[slug]/index.astro, and the
+// reason is recorded there: putting two layouts behind one page file pulls both component
+// graphs into the same Rollup entry, which is how commit 1c75bb2 leaked BundleOffer's and
+// ProcessTrack's scoped stylesheets onto every course page. CpdBundleLayout carries its own
+// scoped <style>, so folding it into [slug] would recreate exactly that hazard.
+//
+// Static routes outrank dynamic ones in Astro, and [slug]'s getStaticPaths only emits course
+// ids, so there is no collision.
+import { getEntry, render } from 'astro:content';
+import CpdBundleLayout from '../layouts/CpdBundleLayout.astro';
+
+const entry = await getEntry('cpdBundles', 'cpd-building-tas');
+if (!entry) throw new Error('Missing cpdBundles entry: cpd-building-tas');
+const { Content } = await render(entry);
+---
+<CpdBundleLayout bundle={entry.data}>
+  <Content />
+</CpdBundleLayout>

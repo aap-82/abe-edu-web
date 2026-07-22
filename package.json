@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "lint:prose": "node scripts/prose-lint.mjs",
+    "sync:cpd": "node scripts/sync-cpd-register.mjs",
     "prepare": "husky"
   },
   "dependencies": {
