@@ -61,6 +61,12 @@ comparison:
     - { key: "qld", label: "QLD", href: "/qld-owner-builder-course" }
     - { key: "act", label: "ACT", href: "/act-owner-builder-course" }
   rows:
+    # TAS course fee confirmed by Andrey 23 Jul 2026: this hub was right and the course page was
+    # wrong. PR #29 repriced tas-owner-builder-course.mdx away from the correct figure, and the
+    # course page has now been moved back to match. Do not "reconcile" this cell to the course
+    # page again without confirming which of the two is actually correct.
+    # (No figures written in this comment: the check-claims scanner reads comment text too, so
+    # quoting a price here reintroduces it as a phantom page figure.)
     - { label: "Course fee", values: ["$199", "$179", "$185", "$179", "$179"] }
     - { label: "Government fee", values: ["$233", "$212", "$470.40", "$493.59", "$320.20"] }
     - { label: "Regulator", values: ["NSW Fair Trading", "Building and Energy", "CBOS", "QBCC", "Access Canberra"] }
