@@ -123,7 +123,11 @@ else {
   // verified figures while explaining itself (the WA $50,000 row cites the verified $20,000 approval
   // trigger), and taking every figure on the line stripped $20,000 from the register and produced 40
   // false warnings on a correct figure. Register convention: state the row's own figure first.
-  const unverified = new Set([...registerText.matchAll(/^.*UNVERIFIED.*$/gim)]
+  // Case-SENSITIVE, and a whole word: UNVERIFIED is a deliberate marker, not any use of the word.
+  // A register routinely discusses verification in prose - the sentence recording *why* the WA
+  // $50,000 was once unverified is not itself a claim that it still is - and matching case
+  // -insensitively made writing that history re-flag the figure the history was about.
+  const unverified = new Set([...registerText.matchAll(/^.*\bUNVERIFIED\b.*$/gm)]
     .map((line) => line[0].match(/\$([\d,]+(?:\.\d{2})?)/)).filter(Boolean).map((m) => norm(m[1])));
   for (const u of unverified) registerFigures.delete(u);
 
@@ -224,6 +228,40 @@ else {
   }
   if (reconciled) oks.push(`Totals: ${reconciled} course page total(s) reconcile with price + register fee`);
 
+  /* Bundle offers. <BundleOffer> sells an ABE course plus ABE's White Card at an ABE price: every
+     figure in it is commercial, none belongs in kb/register/, and the six of them were the bulk of
+     the remaining warnings. Reconciled rather than muted, for the same reason as the page total
+     above - the arithmetic is the only thing that can go wrong here, so check it instead of
+     agreeing not to look. Bundle figures live in the MDX body, not frontmatter, so they are parsed
+     from the component call. */
+  const bundleFigures = new Map();
+  let bundles = 0;
+  for (const f of pageFiles) {
+    const src = readFileSync(f, 'utf8');
+    for (const call of src.match(/<BundleOffer[\s\S]*?\/>/g) ?? []) {
+      const items = [...call.matchAll(/price:\s*['"]\$?([\d,]+(?:\.\d{2})?)['"]/g)].map((m) => m[1]);
+      const total = (call.match(/total=['"]\$?([\d,]+(?:\.\d{2})?)['"]/) || [])[1];
+      if (items.length < 2 || !total) {
+        warns.push(`Bundle not reconciled in ${f} — a <BundleOffer> needs at least two item prices and a total to check (found ${items.length} item(s), total ${total ? `$${total}` : 'absent'}). Skipped rather than guessed.`);
+        continue;
+      }
+      const sum = items.reduce((a, v) => a + cents(norm(v)), 0);
+      if (sum !== cents(norm(total))) {
+        fails.push(`WRONG BUNDLE TOTAL in ${f} — items ${items.map((v) => `$${v}`).join(' + ')} sum to $${(sum / 100).toFixed(2)} but the bundle states $${total}. Correct the figure, not this check.`);
+        continue;
+      }
+      bundleFigures.set(f, new Set([...(bundleFigures.get(f) || []), ...items.map(norm), norm(total)]));
+      // The FAQ copy for a state restates its bundle total in prose, and src/data/*.ts has no
+      // frontmatter to own it. Same shape as a government figure: one owner, and every restatement
+      // checked against it. The owner here is the BundleOffer, because that is the actual offer.
+      const st = stateOf(f);
+      if (st) for (const d of dataFiles.filter((x) => stateOf(x) === st))
+        bundleFigures.set(d, new Set([...(bundleFigures.get(d) || []), ...items.map(norm), norm(total)]));
+      bundles++;
+    }
+  }
+  if (bundles) oks.push(`Bundles: ${bundles} bundle offer(s) reconcile (ABE commercial prices, not register figures)`);
+
   if (!contentFiles.length) warns.push('No page files found in src/content or src/data — figure cross-check skipped (run from the repo root)');
   else {
     let seen = 0, bad = 0;
@@ -238,6 +276,7 @@ else {
         const raw = m[1].replace(/,+$/, '');
         if (mine.has(fig)) { skips.push({ f, fig: raw, why: label }); continue; }
         if (validatedTotals.get(f)?.has(fig)) { skips.push({ f, fig: raw, why: 'total reconciled by the sum check' }); continue; }
+        if (bundleFigures.get(f)?.has(fig)) { skips.push({ f, fig: raw, why: 'ABE bundle price, reconciled by the bundle check' }); continue; }
         seen++;
         if (superseded.has(fig)) { bad++; fails.push(`SUPERSEDED FIGURE $${raw} in ${f} — the register marks this as replaced. Do not publish it.`); }
         else if (unverified.has(fig)) { bad++; warns.push(`UNVERIFIED FIGURE $${raw} in ${f} — kb/register/ records this figure but marks it UNVERIFIED, so it is published without a source. Verify it or remove it.`); }
