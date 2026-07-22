@@ -17,7 +17,13 @@ on:
   push:
     branches: [main]
     # The job commits back to main, and that commit is itself a push to main. Ignoring the log
-    # path stops it retriggering itself. The `[skip ci]` marker on the commit is the second belt.
+    # path stops it retriggering itself. The skip-ci marker on the commit below is the second belt.
+    #
+    # WARNING for whoever edits this next: that marker is honoured by GitHub anywhere in a commit
+    # MESSAGE, including the body, and including when you are merely describing it. Writing it
+    # into a commit message about this workflow silently skips the whole run — which is how the
+    # PR that introduced this file came to have no CI at all. Describe it in words; never paste
+    # the literal token into a commit message. Inside a file, as here, it is inert.
     paths-ignore:
       - 'data/health-log.jsonl'
   schedule:
