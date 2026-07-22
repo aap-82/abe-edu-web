@@ -207,6 +207,8 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
 - `scripts/check-freshness.mjs` runs on every build via `prebuild` and warns without blocking.
   `system-health.mjs` before planning work, `review-trends.mjs` after filing a Stage-9 review,
   `check-claims.mjs` when docs or figures change.
+- Before adding any new record, log or file, read the recording policy in ROADMAP.md. Name the
+  decision the record informs; if you cannot, do not add it.
 
 ## Ask, don't assume
 - Ask when the request forks into materially different outputs, or a needed constraint is missing and
