@@ -1,3 +1,29 @@
+---
+verified: 2026-07-22
+cadence: 365d
+---
+
+<!-- Dated 22 Jul 2026, the first time this file has carried a verified date: it was inherited
+     undated from 14-government-listings-template.
+
+     `partial` is deliberately NOT set. The state it guards against is a row ASSERTING a listing
+     without a date, and there is no longer one — every ✅ row below was checked first-hand on
+     22 Jul 2026 and carries both its verified date and the regulator page's own last-updated
+     date. The rows still marked 🔍 (Access Canberra, other regulators) assert nothing; they are
+     backlog, and their marker is the warning. Setting `partial` for them would leave this file
+     permanently flagged, because "other regulators — to search" can never be closed.
+
+     Set `partial: true` the moment a ✅ row appears without a date. -->
+
+<!-- Checked 22 Jul 2026 via the in-app browser, not WebFetch: cbos.tas.gov.au and
+     consumerprotection.wa.gov.au both return 403 to automated fetches, so a plain
+     WebFetch/curl re-verification will fail and is not evidence the listing is gone. -->
+
+<!-- Reading corrected 22 Jul 2026: a "listing" means the regulator names ABE on a page. WA's
+     Form 75 pathway does not, and never did — it accepts ABE's certificate as evidence of
+     knowledge. That row is now ❌, not ✅. Accepting evidence is not listing a provider, and the
+     two carry different claims on a page. -->
+
 # Government Listings: E-E-A-T Integration
 **How to leverage official .gov.au recognition on ABE pages**
 **Source:** 14-government-listings-template
@@ -20,10 +46,42 @@ A government website (.gov.au) that officially lists ABE Education as an approve
 
 | Regulator | Course type | Listed? | URL |
 |---|---|---|---|
-| CBOS Tasmania | Owner Builder training | ✅ Verified | `https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/training-courses` |
-| LGIRS (Building and Energy) — WA Form 75 | Owner Builder training | ✅ Verified — ABE's Certificate of Completion supports the Form 75 owner-builder approval application | lgirs.wa.gov.au |
-| Access Canberra | Owner Builder (ACT) | 🔍 To verify | accesscanberra.act.gov.au |
+| **Consumer Protection (LGIRS)** — WA | **Real estate CPD** | ✅ **Verified 22 Jul 2026** — **ABE Education Pty Ltd** appears on the Approved CPD training providers list. Industries: Real Estate and Business Agents, **and Settlement Agents**. Subjects: Legal Requirements; Ethics or Professional Responsibility; Professional Skills. Delivery: Online. Regulator page last updated 17 Jun 2026. **ABE may say "approved CPD training provider" in WA.** ⚠ The page's intro calls its listed providers "registered training organisations" — that is the regulator's loose label, **not** an ASQA registration. Never restate it: ABE is not an RTO. | `https://www.consumerprotection.wa.gov.au/approved-cpd-training-providers` |
+| CBOS Tasmania | Owner Builder training | ✅ **Verified 22 Jul 2026** — **ABE Education Pty Ltd** is named on "Owner builder training courses", delivery On-line, alongside Absolute Education Pty Ltd and Whetstone Pty Ltd. The page states "Only Tasmanian approved courses are accepted for applicants wanting to be an owner builder." Regulator page last updated **11 Aug 2023** (stable, not archived). | `https://www.cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/training-courses` |
+| LGIRS (Building and Energy) — WA Form 75 | Owner Builder training | ❌ **No listing exists, and none can** — corrected 22 Jul 2026. WA runs the knowledge-requirement model: approval issues only where the applicant has "sufficient knowledge", evidenced by a **White Card** plus either WA building-practitioner/architect/surveyor/engineer registration **or** "owner-builder training with Western Australian specific content within the previous 24 months". The regulator page contains no approved-provider list — zero occurrences of "approved provider", "registered training" or "ABE". Previously recorded here as "✅ Listed", which was wrong: ABE's certificate is **accepted as evidence**, it is not a listing. Say "supports your Form 75", never "listed by" or "approved provider". Page last updated 9 Jul 2026. | `https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval` |
+| CBOS Tasmania | **CPD** (building, plumbing, electrical) | ✅ Listed as a CPD provider, each course individually approved for points — per `cpd-tas.astro` sources, verified 16 Jul 2026 | `https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources` |
+| Building Commission NSW | Building CPD | ❌ **No listing exists, and none can.** NSW runs self-declaration plus audit; the regulator "cannot and does not endorse any provider of training and/or CPD". Do not seek or claim one. Verified 22 Jul 2026 | `https://www.nsw.gov.au/business-and-economy/licences-and-credentials/building-and-trade-licences-and-registrations/continuing-professional-development/for-builders-and-swimming-pool-builders` |
+| ACT — City and Environment Directorate (Planning) | Owner Builder (ACT) | ✅ **Verified 22 Jul 2026** — under "Owner-builder licence courses": "You can find approved owner-builder licence courses at: **Access Building Education** / Absolute Owner Builder Online". **⚠ Two wrinkles, both material.** (1) **ABE is listed under the wrong name.** "Access Building Education" is not ABE's legal name (ABE Education Pty Ltd) and not its trading style. It is ABE — the link resolves to `abeeducation.edu.au` — but a reader sent to verify the listing will not find "ABE Education" on the page, which blunts the E-E-A-T value. Worth asking the Directorate to correct. (2) **The link points at a legacy URL:** `abeeducation.edu.au/training-courses/owner-builder-courses/act-owner-builder-course.cfm`. See the cutover note below. Note the listing is on **planning.act.gov.au**, not Access Canberra — the old Access Canberra owner-builder page now 404s after a site restructure. | `https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences` |
 | Other regulators | Various | 🔍 To search | — |
+
+### ⚠ Cutover risk — a .gov.au inbound link the redirect map does not cover
+
+Found 22 Jul 2026. The ACT listing above links to:
+
+```
+https://abeeducation.edu.au/training-courses/owner-builder-courses/act-owner-builder-course.cfm
+```
+
+`redirects.csv` contains **no** rule for that path — no `.cfm` row, no `/training-courses/*` row, and
+none of the six wildcards in `public/_redirects` (`/course/*`, `/program/*`, `/bundle/*`, `/payment*`,
+`/signin*`, `/access-request-*`) matches it. **At cutover this government link 404s.**
+
+This is the one link class this file calls "the strongest possible E-E-A-T signal... cannot be
+self-claimed", so losing it costs more than its click volume suggests. The redirect map was scoped
+from GSC equity data, which ranks by impressions and clicks — a government citation earning almost no
+clicks is exactly the URL that scoping method misses.
+
+**Not fixed here.** `public/_redirects` is generated and must never be hand-edited; the signed-off
+source is `redirects.csv` (W1-6, 19 Jul 2026), and adding to a signed-off map is a decision, not a
+tidy-up. The proposed row:
+
+```csv
+/training-courses/owner-builder-courses/act-owner-builder-course.cfm,redirect,/act-owner-builder-course,Inbound .gov.au link from planning.act.gov.au construction-licences (ACT owner-builder course list). Verified 22 Jul 2026.
+```
+
+Before adding it, sweep the rest of the legacy `.cfm` tree the same way: if the ACT listing points at
+one, the TAS/QLD/WA/NSW equivalents very likely do too, from their own regulator pages, and each is
+the same silent loss.
 
 ---
 

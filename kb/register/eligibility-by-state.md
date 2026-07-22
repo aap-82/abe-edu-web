@@ -38,9 +38,27 @@ Regulator names and remits are in `regulator-roles-by-state.md`. ABE develops an
 
 **WA** — Highest threshold in Australia ($20,000); WA calls it an **Owner Builder Approval** rather than a permit. WA uses a knowledge-requirement model — ABE's Certificate of Completion supports the applicant's **Form 75** rather than ABE being an "approved provider". (Regulator name is in flux — see the WA note in `regulator-roles-by-state.md`.)
 
+**WA — how "sufficient knowledge" is satisfied** (verified 22 Jul 2026 at the Building and Energy owner-builder approval page, last updated 9 Jul 2026): approval issues only where the applicant has sufficient knowledge of an owner-builder's duties. At least one applicant must hold a **general construction induction card (White Card or blue card)** *and* either hold current or previous WA Building Practitioners registration, be a WA-registered architect / building surveyor / building engineer, **or** have completed **owner-builder training with Western Australian specific content within the previous 24 months**. Where several people own the land, only one need demonstrate the knowledge. There is **no prescribed course and no approved-provider scheme** — the page carries no provider list. The 24-month currency and the White Card prerequisite were already stated correctly on `/wa-owner-builder-course` and in `faqs-wa.ts`; they are recorded here so the register, not the page, is the source.
+
 **TAS** — Lowest threshold and strictest frequency limit (two permits per decade). The approved Tasmanian course must be current (completed within 12 months) and is **not** required for Class 10a/10b structures. Applications are lodged at a Service Tasmania shop; CBOS administers the permit. (Permit fees by building class belong in the fees register, not here.)
 
 **ACT** — Owner-builder licences are issued by the Construction Occupations Registrar through Access Canberra; home warranty insurance applies above $12,000, with resale disclosure within 6 years.
+
+---
+
+## 3a. Other regulatory thresholds stated on course pages
+
+Thresholds that are not permit triggers but are stated in page copy, and so need an owner and a date
+like any other government figure.
+
+| Threshold | State | What it triggers | Status |
+|---|---|---|---|
+| **$150,000** (excluding GST) | QLD | The **QLeave portable long service leave levy**, imposed on the total direct and indirect cost of building and construction work costing $150,000 or more. Owner builders are exempt from paying but must still notify QLeave and quote the permit number. Under the *Building and Construction Industry (Portable Long Service Leave) Act 1991*. | ✅ Verified 22 Jul 2026 against QBCC's QLeave levy page (issuing authority), which states the figure and the GST exclusion. Stated in `src/data/modules.ts`. |
+| **$50,000** | WA | Claimed on `/wa-owner-builder-course` and in `src/data/faqs-wa.ts` as the value below which a **Class 10a** structure does not require owner-builder approval. | ⚠️ **UNVERIFIED.** Checked 22 Jul 2026 against the WA owner-builder approval page, which confirms the **$20,000** general approval trigger but states no Class 10a figure. Do not re-publish or restate the $50,000 until it is found at its source — most likely the building-permit exemptions in the *Building Regulations 2012* (WA), which is a **building permit** exemption and may not be an owner-builder-approval exemption at all. |
+
+The $50,000 row is deliberately recorded as a gap rather than omitted. It is already on a live page,
+so a silent absence from this register would read as "not a government figure" rather than "not yet
+checked".
 
 ---
 
@@ -51,5 +69,7 @@ Regulator names and remits are in `regulator-roles-by-state.md`. ABE develops an
 - WA: wa.gov.au (Owner Builder Approval, Form 75) — confirm current regulator name
 - TAS: cbos.tas.gov.au (owner-builder permit) — **confirm the current threshold**
 - ACT: accesscanberra / planning.act.gov.au (construction licences)
+- QLD (QLeave levy threshold, §3a): https://www.qbcc.qld.gov.au/resources/qleave-levy — verified 22 Jul 2026
+- WA (Class 10a $50,000 claim, §3a): https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval — checked 22 Jul 2026, figure **not** present
 
 Always confirm the current dollar threshold, course requirement and frequency rule against the regulator before publishing them on a course page. Where this file flags a figure as uncertain (TAS threshold, residency-intention period), do not state a precise number in body copy until verified.
