@@ -18,7 +18,18 @@ dist/
 # module and FAQ files every course page imports. Files already tracked there stayed tracked
 # (gitignore does not untrack), so nothing broke visibly; only NEW files vanished, and the
 # page still built perfectly on the machine that had them on disk.
-/data/
+/data/*
+
+# ...with one deliberate exception. data/health-log.jsonl is the system-health history: counts
+# only, no queries, no positions, no traffic. It has to be committed or the trend it exists to
+# show lives on one machine and dies with it.
+#
+# Note the pattern above is `/data/*`, not `/data/`. Git cannot re-include a file whose parent
+# directory is excluded, so `/data/` plus a negation would silently do nothing. Excluding the
+# CONTENTS lets the negation below work. data/GSC/ is still matched as a directory, so every
+# export under it stays ignored - verify with `git check-ignore -v data/GSC/anything.zip`
+# after touching this block.
+!/data/health-log.jsonl
 
 # Regulator and partner paperwork. THIS REPO IS PUBLIC. The QBCC approval letters
 # are signed legal documents carrying Docusign envelope IDs, a signature and the
