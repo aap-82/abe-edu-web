@@ -6,7 +6,7 @@ An entry not seen in ten consecutive runs moves to Archive, counter intact, revi
 
 | # | Risk | Times seen | Last seen | Guard |
 |---|---|---|---|---|
-| 1 | Documentation describing the build drifted from the code and was trusted over it | 3 | 2026-07-21 | Read `content.config.ts` / `guardrails.ts` before asserting build behaviour |
+| 1 | Documentation describing the build drifted from the code and was trusted over it | 4 | 2026-07-23 | Read `content.config.ts` / `guardrails.ts` before asserting build behaviour. Seen 4th as a **verification table asserting properties of `dist/` that `dist/` does not have** — a tick is a claim about output, so measure the output and record the measured value, never the intent |
 | 2 | Worked examples existed for one archetype only, so every page inherited that shape | 1 | 2026-07-21 | Each archetype file carries its own worked copy (section 8) |
 | 3 | Skill referenced files that were never installed (`assets/`), so stages ran without exemplars | 1 | 2026-07-21 | Repo-first: references resolve by path, or they do not exist |
 | 4 | A commercial arrangement was recorded as settled fact across the reference set on one confirmation, then reconciled site-wide — so an unsigned partnership read as live in ~8 files | 1 | 2026-07-22 | A partner arrangement is a **dated status**, not a fact: name who confirmed it and when, keep one canonical owner (`authority-model.md`), and have every other file point at it rather than restate it |
@@ -14,6 +14,8 @@ An entry not seen in ten consecutive runs moves to Archive, counter intact, revi
 | 6 | Two pages disagreed on an ABE price, and the disagreement was "resolved" by editing one to match the other without asking which was right — twice, in opposite directions | 2 | 2026-07-23 | A price is an internal fact, so **ask**; do not infer the correct value from whichever page looks more authoritative. A green build proves the two now agree, not that they agree on the right number |
 | 7 | A figure quoted inside a comment or an anecdote was scanned as a live page figure | 1 | 2026-07-23 | `check-claims` reads comment text. Never write a price into a comment, a changelog line or a worked example in a file that a run reads — describe it instead |
 | 8 | A control token written into prose was obeyed as a control token — a commit message *describing* the CI skip marker skipped CI for the whole PR | 1 | 2026-07-23 | Same family as #7, and the general rule: anything a machine scans for, do not quote. Skip markers, `[confirm: ...]`, `$` figures. Describe them in words, or the description becomes the instruction |
+| 9 | An unknown was resolved in the direction that favoured the sale — the countable-points classification was missing, so the caution silently did not render, and the headline claimed full coverage while the body stated the cap that makes it doubtful | 1 | 2026-07-23 | An unknown that changes what a reader can rely on **caps the headline claim**; it does not decorate the body. Where a figure cannot be computed, the page says so where the claim is made, and a code path that renders nothing on `null` is a claim by omission |
+| 10 | A page was invisible to half its own guardrails because it never declared what it was — no `authority` prop, so the JSON-LD and authority-language checks never fired and the build went green | 1 | 2026-07-23 | Absence must be loud. A page in a course or bundle collection with no declared authority model should FAIL, not silently skip the checks that model triggers |
 
 ## Archive
 _(none yet)_

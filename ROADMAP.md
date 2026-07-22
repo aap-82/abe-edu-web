@@ -104,7 +104,35 @@ program still sells 11 for $449 and must be updated before `/cpd-tas` goes publi
 
 ---
 
-## Phase 2 — the evidence run ⬅ next
+## Phase 2 — the evidence run ✅ done 23 July 2026, verdict Amber
+
+`/cpd-building-tas` was built end to end through `abe-course-page-astro`. Artefacts in
+`pipeline/cpd-building-tas/` (01, 02, 03, 04, 07 — **05 and 06 produced none, which is itself a
+finding**). Review: `skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`, graded by
+a fresh subagent that saw only the artefacts and the built HTML.
+
+**Verdict Amber. `correct_and_safe` amber, `passed_gates_first_time` red.** The page does not ship
+yet: `buyUrl` is unverified, and the coverage claim needs either the WHS classification imported or
+the headline capped at what is verifiable.
+
+**What the run proved about the pipeline, which is the point:**
+- **Self-certification does not work.** Stage 7 ticked five rows the built HTML fails, two of them
+  defects introduced by fixes recorded on that same page as complete. The independent grader found
+  them in twenty minutes from the artefacts alone.
+- **The checks already fired and nobody read them.** `check-claims`, `check-freshness` and
+  `system-health` all raised warnings naming this exact slug. None reached the verification table.
+  The gap was unread signal, not missing signal.
+- **A page can be invisible to its own guardrails.** No declared authority model meant the JSON-LD
+  and authority-language checks never ran, and the build was green because the page had not said
+  what it was.
+- **Derivation worked exactly where it was wired**, and the typed "twelve" in title, meta, H1,
+  sticky and intro is unprotected by it.
+
+**The demand list is in the review** and is the input to phase 3. Five entries, each with evidence.
+
+---
+
+## Phase 2 — the evidence run (original brief, kept for reference)
 
 **Build one CPD course page end to end through the skill.** Recommended: `/cpd-building-tas` — CBOS
 Tasmania is the best-understood regulator, its fees are verified, and an existing hand-built
@@ -185,9 +213,22 @@ next".
 
 ---
 
-## Phase 3 — structure on demand 🔒 blocked on phase 2's demand list
+## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, three triggers have fired
 
-**Nothing in this section may be built until the demand list names it.** These are candidates
+Phase 2's demand list now exists, so the gate is open for **the candidates it names and no others**.
+Three triggers fired, with evidence in
+`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`:
+
+| Candidate | Trigger | Evidence |
+|---|---|---|
+| **`page-auditor` subagent** | "the audit wanted its own context, or graded inconsistently" | Stage 7 ticked five rows the built HTML fails. Runs as a fresh subagent given only `dist/{slug}/index.html`, and reports a **measured value per row**, never a tick. |
+| **Per-slug warning filter** | not on the original candidate list; earned by the run | Three scripts raised warnings naming the slug; none was read. A `--slug` filter turns existing signal into used signal, with no new checks. |
+| **Guardrail: fail on undeclared authority** | "a rule was violated that a hook would have caught" | A page in a course or bundle collection with no `authority` silently skips the checks that model triggers. |
+
+Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,
+`token-lint`, event-driven Stage 1 verification.
+
+**Everything below remains a candidate list, not a plan.** These are candidates
 identified in design, not commitments. Each has a trigger.
 
 | Candidate | Build only if the demand list shows |

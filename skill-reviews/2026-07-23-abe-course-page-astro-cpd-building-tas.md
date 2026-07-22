@@ -149,9 +149,9 @@ verbose output, steps that wanted isolation, checks that failed silently.
 
 ## Output — every Amber or Red needs at least one
 - [x] Fix applied — none yet by this grader; the review is the artefact. All fixes below are specs.
-- [ ] Memory written
+- [x] Memory written — feedback_self_certification_fails (session memory, outside the repo)
 - [x] Skill-change spec for the improvement pass
-- [x] `kb/mistakes-log.md` entry added or incremented
+- [x] `kb/mistakes-log.md` — #1 incremented to 4, and #9 and #10 added (applied 23 Jul, after grading)
 
 **Blockers before this page ships** (in order):
 1. Resolve `buyUrl`, and add a purchase link inside `#cost` where the sticky CTA lands.
