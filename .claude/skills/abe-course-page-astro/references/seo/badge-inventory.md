@@ -134,7 +134,7 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 
 **Correct wording:**
 - Full (NSW White Card): "This course is delivered in partnership with Upskill Institute (RTO 45708), a nationally registered training organisation. Your Statement of Attainment and White Card will be issued by Upskill Institute."
-- Full (NSW Owner Builder): "This course is delivered in partnership with Upskill Institute (RTO 45708), a nationally registered training organisation. Your Statement of Attainment will be issued by Upskill Institute."
+- ~~Full (NSW Owner Builder)~~ — ⛔ **ON HOLD, do not use.** The Upskill arrangement for NSW Owner Builder is unsigned and the five required units are not on RTO 45708's scope. No badge, no disclosure, no page. See `kb/rules/authority-model.md` → "NSW Owner Builder". NSW **White Card** wording above is unaffected.
 - Short (hero/badge strip): "Delivered with Upskill Institute (RTO 45708)"
 - Schema: `provider` → `EducationalOrganization` with `identifier: "RTO 45708"`
 
@@ -622,7 +622,7 @@ These are **not approval badges**. ABE cannot claim "approved by" any state WHS 
 ### High Priority (unlock new badges)
 
 1. **Confirm AlertForce partnership scope** — which specific courses, RTO number, messaging approval
-2. **Confirm Upskill Institute partnership scope** — NSW White Card + NSW Owner Builder, RTO 45708, messaging approval, NRT/logo usage rights
+2. **Confirm Upskill Institute partnership scope** — NSW White Card is **confirmed in force** (22 Jul 2026) and CPCWHS1001 is on RTO 45708's scope. NSW Owner Builder is ⛔ **on hold**: partnership still in negotiation, and the five required units are **not** on 45708's scope — both must resolve before any OB badge, messaging or NRT/logo usage is discussed
 3. **Verify CBOS CPD provider listing** — search CBOS website for public CPD provider register; contact CBOS if not found
 4. **Verify Access Canberra listing** — search for ABE on ACT government approved providers pages
 5. **Confirm actual review rating and count** — pull from LearnWorlds or review platform

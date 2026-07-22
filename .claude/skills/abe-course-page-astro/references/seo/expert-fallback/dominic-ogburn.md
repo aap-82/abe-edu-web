@@ -25,14 +25,15 @@ Source page: https://www.notion.so/34266bffe8808113b9c5cc588b59d1cc · Notion do
 | Last Verified | 14 April 2026 (next quarterly review due July 2026) |
 | Regulatory record | Clean — zero disciplinary actions across all five jurisdictions |
 
-**Open data-integrity flags (require product clarification):** (1) NSW Owner Builder — RESOLVED 27 May 2026: nationally recognised, delivered by **Upskill Institute (RTO 45708)** with ABE as enrolment partner — **not** developed or delivered by ABE or Dominic. Do **not** add it to Dominic's Courses Developed map; Warwick Smith is the named reviewer for the NSW Owner Builder page. (2) TAS Owner Builder is missing from `Courses Reviewed` despite being offered. (3) "CPD Courses" is a single value but live CPD pages exist per state/trade.
+**Open data-integrity flags (require product clarification):** (1) NSW Owner Builder — ⛔ **REOPENED 22 Jul 2026** (the 27 May "resolved, delivered by Upskill Institute" reading no longer holds): the Upskill arrangement is unsigned and on hold, and the five required units are not on RTO 45708's scope, so ABE has **no** NSW Owner Builder product today. It is **not** developed or delivered by ABE or Dominic, and must **not** go in Dominic's Courses Developed map — that part is unchanged and unaffected by the hold. Do not build the page at all. See `kb/rules/authority-model.md` → "NSW Owner Builder". (2) TAS Owner Builder is missing from `Courses Reviewed` despite being offered. (3) "CPD Courses" is a single value but live CPD pages exist per state/trade.
 
 ---
 
 ## Course-development scope (critical — two models)
 
 - **ABE-delivered courses (Owner Builder — QLD, WA, TAS, ACT — and CPD):** Dominic IS the course developer. Warwick reviews webpage currency. Both named on the page.
-- **RTO-partner-delivered courses (White Card, asbestos, silica, NSW Owner Builder):** content developed by the RTO partner — Blue Dog Training (RTO 31193) for QLD/WA/TAS White Card, AlertForce (RTO 91826) for ACT White Card / Asbestos / Silica, or Upskill Institute (RTO 45708) for the NSW Owner Builder. Dominic is NOT the developer for these.
+- **RTO-partner-delivered courses (White Card, asbestos, silica):** content developed by the RTO partner — Blue Dog Training (RTO 31193) for QLD/WA/TAS White Card, AlertForce (RTO 91826) for ACT White Card / Asbestos / Silica, Upskill Institute (RTO 45708) for the **NSW White Card** (in force, 22 Jul 2026). Dominic is NOT the developer for these.
+- **NSW Owner Builder sits in neither model.** ⛔ On hold, no delivering RTO in force — see the flag above. Dominic is not its developer, and there is no partner to name in his place.
 
 ---
 
@@ -212,7 +213,7 @@ Implementation notes: inject in the LearnWorlds logged-out custom-code tab; alwa
 - ❌ "Dominic develops every ABE course" (RTO-partner courses are developed by the partner)
 - ❌ "Dominic developed the White Card course" (Blue Dog Training or AlertForce develop White Card)
 - ❌ "All ABE training written by Dominic Ogburn" (scope is owner builder + CPD only)
-- ❌ "Dominic developed the NSW Owner Builder course" (the NSW Owner Builder course is delivered by Upskill Institute (RTO 45708); Dominic is not its developer — Warwick Smith reviews it)
+- ❌ "Dominic developed the NSW Owner Builder course" (ABE has no NSW Owner Builder product — the intended Upskill arrangement is on hold; Dominic is not its developer either way)
 - ❌ "Nationally accredited" (ABE is not an RTO) · ❌ "Government-certified" (use "approved"/"listed")
 - ❌ "NSW Fair Trading-approved CPD provider" / "Mandated education provider" (no such regime for builders' CPD in NSW)
 - ❌ "Building Services Board-approved" / "LGIRS-approved" / "WA-government-approved CPD provider" (WA uses a knowledge-requirement model via Form 75)

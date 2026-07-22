@@ -36,7 +36,8 @@ What type of course is this page about?
 │       ├── White Card NSW → Upskill Institute (RTO 45708)
 │       ├── Asbestos Awareness ACT → AlertForce (RTO 91826)
 │       ├── Silica Awareness ACT → AlertForce (RTO 91826)
-│       └── NSW Owner Builder → Upskill Institute (RTO 45708)
+│       └── NSW Owner Builder → ⛔ ON HOLD — partnership not in force. Do not build.
+│                                  See "NSW Owner Builder" below before writing anything.
 │
 ├── Owner Builder course?
 │   ├── QLD / WA / TAS / ACT → Provider = ABE Education
@@ -157,11 +158,45 @@ Delivery mode in NSW is trainer-led virtual classroom (accepted as face-to-face)
 }
 ```
 
-### NSW Owner Builder (RTO-partnered — nationally recognised)
+### NSW Owner Builder — ⛔ ON HOLD, NOT IN FORCE (canonical status, 22 Jul 2026)
 
-NSW Owner Builder is **not** like the other states' Owner Builder courses. It is a nationally recognised qualification delivered by **Upskill Institute (RTO 45708)**, with ABE as enrolment partner only — so it follows the **RTO-partnered / ASQA** pathway (full ASQA disclosure), not the state-approved Owner Builder pathway.
+**This is the single owner of the NSW Owner Builder authority status. Every other file defers to it.**
 
-**Messaging:**
+**Do not build, publish, deploy or write copy for a NSW Owner Builder course page, and do not
+state or imply an Upskill Institute arrangement for it, until Andrey confirms both gates below
+have closed.** This is a commercial-fact hold, not a wording problem: no rewording makes the
+claim publishable while the arrangement does not exist.
+
+**Gate 1 — the partnership is not signed.** Confirmed by Andrey 22 Jul 2026: NSW Owner Builder
+is *planned* to be delivered via an Upskill Institute partnership, but that is at the
+negotiation stage and is **temporarily on hold**. Until it closes, ABE has no delivering RTO for
+this course.
+
+**Gate 2 — the units are not on Upskill's scope, and signing alone will not fix that.** Verified
+21 Jul 2026 by reading Upskill's full scope of registration on training.gov.au in a browser
+(WebFetch cannot — the register is a client-rendered SPA): **none** of the five units NSW Fair
+Trading requires — CPCCWHS2001, CPCCOM2001, CPCCCM1011, CPCCOM1013, CPCCOM1014 — is on RTO
+45708's scope. 45708 is a traffic-control / work-safety / first-aid RTO; the only construction
+unit it holds is **CPCWHS1001**, the White Card unit. Registration itself is genuine and Current
+to 08 Jul 2030, ASQA-managed, no adverse decisions. So even once the deal closes, Upskill must
+add these five units to its scope before "nationally recognised" or "Statement of Attainment"
+can stand on a NSW Owner Builder page.
+
+**Re-verification when the hold lifts:** open `training.gov.au/Organisation/Details/45708` in a
+browser and confirm all five units are listed. About a minute. If they are not, the claim still
+fails, whatever the contract says.
+
+**NSW White Card is unaffected and remains live.** That partnership is in place, and CPCWHS1001
+*is* on 45708's scope — so it is both commercially and scope-wise sound. Nothing in this hold
+touches it. Do not let this entry block White Card work.
+
+**Existing pages.** `src/content/courses/owner-builder-nsw-course.mdx` and its `-w` variant
+still carry the full nationally-recognised / RTO 45708 claim. Both are pre-cutover and not
+indexed. Their copy was deliberately left unchanged pending Andrey's call, because correcting it
+means either naming a real delivering RTO or pulling the nationally-recognised claim, and that
+is a commercial decision. **Neither may ship at cutover in its current form.**
+
+**Messaging, once and only once both gates close:**
 > "This course is delivered in partnership with Upskill Institute (RTO 45708), a nationally registered training organisation. Your Statement of Attainment will be issued by Upskill Institute. ABE Education is your enrolment partner."
 
 **Schema pattern:**
@@ -293,7 +328,8 @@ Any of these appearing in content = automatic pre-production FAIL.
 | "ABE Education delivers training" (for ASQA courses) | ABE is the enrolment partner only | "Training delivered by [RTO Name]" |
 | "ABE conducts assessment" | Assessment is exclusively an RTO function | "Assessment conducted by [RTO Name]" |
 | "ABE issues qualifications" | Qualification issuance is exclusively an RTO function | "Your Statement of Attainment is issued by [RTO Name]" |
-| "Nationally accredited" for QLD/WA/TAS/ACT OB or CPD courses | Those Owner Builder and CPD courses are not ASQA-accredited — **NSW Owner Builder is the exception** (nationally recognised via Upskill Institute RTO 45708) | "State regulator approved" / "Approved by CBOS Tasmania" (for the non-accredited courses) |
+| "Nationally accredited" for QLD/WA/TAS/ACT OB or CPD courses | Those Owner Builder and CPD courses are not ASQA-accredited. NSW Owner Builder was the intended exception, but that arrangement is **on hold and not in force** — see the NSW Owner Builder status block above | "State regulator approved" / "Approved by CBOS Tasmania" (for the non-accredited courses) |
+| "Nationally recognised" / "Statement of Attainment" / any RTO attribution on a **NSW Owner Builder** page | The Upskill partnership is unsigned and the five required units are not on RTO 45708's scope — the claim is unpublishable on both counts | Nothing. Do not build the page. See the NSW Owner Builder status block above |
 | Blue Dog Training on ACT White Card page | ACT White Card is delivered by AlertForce, not Blue Dog | "AlertForce (RTO 91826)" on ACT pages |
 | AlertForce on QLD/WA/TAS White Card pages | QLD/WA/TAS White Card is delivered by Blue Dog Training | "Blue Dog Training (RTO 31193)" on QLD/WA/TAS pages |
 | "Self-paced" / "fully online at your own pace" White Card to NSW residents | Self-paced fully online White Card is restricted to WA and TAS residents; NSW requires trainer-led virtual classroom or in person | "Live virtual classroom or in-person training delivered by Upskill Institute (RTO 45708)" |
@@ -316,7 +352,7 @@ When Page Identity Card shows `ASQA req'd: Yes`, disclosures must appear in **7 
 - **QLD, WA, TAS:** Blue Dog Training (RTO 31193)
 - **ACT:** AlertForce (RTO 91826)
 - **NSW White Card:** Upskill Institute (RTO 45708) — nationally recognised; this disclosure framework applies. Trainer-led virtual classroom or in person (never self-paced online).
-- **NSW Owner Builder:** Upskill Institute (RTO 45708) — nationally recognised; this disclosure framework applies
+- **NSW Owner Builder:** ⛔ **ON HOLD — no RTO.** The Upskill arrangement is not in force and the five units are not on 45708's scope. This framework does not apply to a page that must not be built. See the NSW Owner Builder status block above.
 
 1. **Hero inline** (short form): "Training delivered by [RTO Name] (RTO [Number]) · Enrolled through ABE Education"
 2. **Near every CTA button**: Full ASQA template paragraph (substitute RTO name/number)
