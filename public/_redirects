@@ -13,6 +13,10 @@
 # /act-owner-builder-course -> /act-owner-builder-course (rebuild) - Full build Wave 2. State-approved-direct (Access Canberra).
 # no rule: same-slug rebuild, drop-trailing-slash serves it 200 unchanged
 
+# /training-courses/owner-builder-courses/act-owner-builder-course.cfm -> /act-owner-builder-course (redirect) - Inbound .gov.au link: planning.act.gov.au construction-licences lists ABE (as "Access Building Education") and links this legacy path. The legacy platform 301s it today; that rule does not exist on the new site, so cutover breaks it. Zero GSC impressions - the value is the .gov.au referral, not search equity. Verified 22 Jul 2026.
+/training-courses/owner-builder-courses/act-owner-builder-course.cfm /act-owner-builder-course 301
+/training-courses/owner-builder-courses/act-owner-builder-course.cfm/ /act-owner-builder-course 301
+
 # /nsw-owner-builder-course -> /owner-builder-nsw-course (redirect) - NSW OB dual-URL consolidation. Per-page GSC (16mo): shares 150 queries with the target and loses 122 of them; its 51 unique queries earn 0 clicks.
 /nsw-owner-builder-course /owner-builder-nsw-course 301
 /nsw-owner-builder-course/ /owner-builder-nsw-course 301

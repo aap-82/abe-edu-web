@@ -3,6 +3,7 @@ legacy_path,action,target,notes
 /tas-owner-builder-course,rebuild,/tas-owner-builder-course,Port pipeline content to MDX (Wave 2); re-verify CBOS facts.
 /qld-owner-builder-course,rebuild,/qld-owner-builder-course,Equity core. Already live in repo.
 /act-owner-builder-course,rebuild,/act-owner-builder-course,Full build Wave 2. State-approved-direct (Access Canberra).
+/training-courses/owner-builder-courses/act-owner-builder-course.cfm,redirect,/act-owner-builder-course,"Inbound .gov.au link: planning.act.gov.au construction-licences lists ABE (as ""Access Building Education"") and links this legacy path. The legacy platform 301s it today; that rule does not exist on the new site, so cutover breaks it. Zero GSC impressions - the value is the .gov.au referral, not search equity. Verified 22 Jul 2026."
 /nsw-owner-builder-course,redirect,/owner-builder-nsw-course,NSW OB dual-URL consolidation. Per-page GSC (16mo): shares 150 queries with the target and loses 122 of them; its 51 unique queries earn 0 clicks.
 /white-card,rebuild,/white-card,White Card hub. Wave 3.
 /faq,rebuild,/faq,Wave 5. FAQPage schema.
