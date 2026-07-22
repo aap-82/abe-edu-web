@@ -27,11 +27,17 @@ import {
   POINTS_CAP, WHS_POINTS_CAP,
 } from '../../scripts/lib/cpd-derive.mjs';
 import register from '../../kb/register/cpd/tas-courses.json';
+import type { CpdCourse } from '../types/cpd';
+import type { CollectionEntry } from 'astro:content';
 
-interface Props { bundle: any }
+interface Props { bundle: CollectionEntry<'cpdBundles'>['data'] }
 const { bundle } = Astro.props;
 
-const members = liveMembers(register, bundle.category);
+// cpd-derive.mjs is plain JS with no types of its own, so its returns arrive as `any` and every
+// `.map()` below would take an implicitly-typed parameter. Annotating here rather than at each
+// call site keeps the shape declared once. `npm run check` runs before the build in CI and fails
+// on the implicit any, so this is load-bearing rather than decorative.
+const members: CpdCourse[] = liveMembers(register, bundle.category);
 const points = bundlePoints(register, bundle.category);
 const live = liveTotal(register, bundle.category);
 const countable = countablePoints(register, bundle.category);
