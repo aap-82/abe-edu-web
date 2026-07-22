@@ -1,6 +1,8 @@
 ---
 verified: 2026-07-22
 cadence: annual-july
+recheck: 2026-09-30
+recheck-reason: WA rests on confirmation, not a 2026-27 source label — re-check when LGIRS republishes
 ---
 
 # ABE Education — State Government Fees Register
@@ -57,7 +59,8 @@ ABE offers White Card in NSW via **Upskill Institute (RTO 45708)**. The fee posi
 | TAS — apply for an owner builder permit (FY25–26 fees) — Service Tasmania | https://www.service.tas.gov.au/services/housing-and-property/owner-builder-permit/apply-for-an-owner-builder-permit |
 | TAS — CBOS fee schedule | https://cbos.tas.gov.au/topics/resources-tools/cbos-fee-schedule |
 | ACT — owner builder licence + construction occupations fees — Access Canberra / ACT Planning | https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences |
-| ACT — Construction Occupations (Licensing) (Fees) Determination 2025 (DI2025-166) | https://legislation.act.gov.au/di/2025-166 |
+| ACT — Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165) — current, commenced 1 Jul 2026 | https://legislation.act.gov.au/di/2026-165 |
+| ACT — Determination 2025 (DI2025-166) — **revoked** 1 Jul 2026 by DI2026-165, kept for history only, not a current source | https://legislation.act.gov.au/di/2025-166 |
 | TAS — White Card (Service Tasmania) | https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card |
 | ACT — General Construction Induction Card — Access Canberra | https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card |
 | NSW — apply for a general construction induction card (white card) — Service NSW | https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card |
