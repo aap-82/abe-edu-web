@@ -8,8 +8,17 @@ import type { Source } from '../types/course';
 //
 // Footer links may point at routes that do not exist yet - they land across Waves 1-5.
 // That is expected on the preview; do not add a link here for a route with no ticket.
-interface Props { sources: Source[]; abn?: string; updated?: string; disclaimersHtml: string; }
-const { sources, abn = '64 125 455 272', updated = 'July 2026', disclaimersHtml } = Astro.props;
+// `asqa` gates the RTO-partner content. On a page that is NOT asqa-accredited (state-approved-direct,
+// knowledge-requirement, a hub, a static page) naming three RTO partners is irrelevant at best and at
+// worst implies an RTO is involved in a course that has none — the exact inference the
+// knowledge-requirement model must not invite. So the partner list and the "ASQA-accredited training
+// is delivered by the named RTO partner" sentence render only when the page actually is one.
+//
+// What does NOT move: "ABE Education is not a Registered Training Organisation" stays on EVERY page.
+// It is a standing claim (CLAUDE.md), and three pages — cpd-building-tas, the owner-builder hub and
+// reviews — carry it nowhere else, so gating it would delete it from them entirely.
+interface Props { sources: Source[]; abn?: string; updated?: string; disclaimersHtml: string; asqa?: boolean; }
+const { sources, abn = '64 125 455 272', updated = 'July 2026', disclaimersHtml, asqa = false } = Astro.props;
 
 interface FLink { label: string; href: string; }
 const coursesLinks: FLink[] = [
@@ -71,10 +80,14 @@ const legalLinks: FLink[] = [
 
     <div class="f-pub">
       <p><b>Course publisher:</b> ABE Education.</p>
-      <p><b>Training providers:</b> Blue Dog Training (RTO 31193) · Upskill Institute (RTO 45708) · AlertForce (RTO 91826).</p>
-      <p><b>Enrolment:</b> processed directly by ABE Education for state-approved and WA knowledge-requirement courses; ASQA-accredited courses are enrolled through ABE Education and delivered and assessed by the named RTO partner shown on that course page.</p>
+      {asqa && <p><b>Training providers:</b> Blue Dog Training (RTO 31193) · Upskill Institute (RTO 45708) · AlertForce (RTO 91826).</p>}
+      {asqa
+        ? <p><b>Enrolment:</b> processed through ABE Education; the nationally recognised training on this page is delivered and assessed by the named RTO partner.</p>
+        : <p><b>Enrolment:</b> processed directly by ABE Education.</p>}
     </div>
-    <p class="f-asqa">ABE Education is not a Registered Training Organisation (RTO). Nationally recognised, ASQA-accredited training on this site is delivered and assessed by the named RTO partner shown on that course page, not by ABE Education.</p>
+    {asqa
+      ? <p class="f-asqa">ABE Education is not a Registered Training Organisation (RTO). Nationally recognised, ASQA-accredited training on this site is delivered and assessed by the named RTO partner shown on that course page, not by ABE Education.</p>
+      : <p class="f-asqa">ABE Education is not a Registered Training Organisation (RTO). Its owner builder and CPD courses are delivered directly by ABE Education under state government approvals.</p>}
 
     <div class="f-top">
       <a class="brand" href="#top"><span class="mk" aria-hidden="true">ABE</span><span class="wm">ABE Education</span></a>

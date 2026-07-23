@@ -461,3 +461,49 @@ what no check named. The gap is now closed with a build guard (an asqa page fail
 or a Person titled "developer"), which immediately caught the same breach on two other pages — but the
 standing point is that a new *kind* of claim needs a new check, and until it has one, neither
 automation nor an independent grader will flag it.
+
+### 8h · Run 3 update — wa-owner-builder-course (23 July 2026)
+
+The third evidence run: an **audit-and-rebuild of a LIVE, indexed page** (archetype 1, state-approval
+course — **knowledge-requirement** variant). This closes the authority-model set: run 1
+state-approved-direct, run 2 asqa-accredited, run 3 knowledge-requirement. Graded independently,
+verdict **Amber**, with a **RED on `passed_gates_first_time`**.
+
+**8b predictions after three runs.** Nothing has flipped. Artefacts-as-files (seen 3), `page-auditor`
+(seen 3) and subagent-blindness-mitigated (seen 3) are confirmed on every run. `fact-verifier` /
+`keyword-analyst` are **refuted a third time** — the load-bearing research here was reading a PDF form
+in the repo and a GSC export, neither of which wanted an isolated context. The five-skill split
+remains **not reached** (seen 0). Three runs is the threshold §8a set for restructuring, and the
+evidence says: keep artefacts-as-files and the independent auditor, do not build the other subagents,
+do not split the skill.
+
+**The new finding, and it is structural: a gate that runs after the deploy is not a gate.** Two commits
+changed the live page (14:09, 15:03); `07-verification.md` was written at 15:48 and was still untracked
+at grading. Stage 7 itself was the most rigorous of the three runs — it proved the absence of
+`recognizedBy` by cross-checking the sibling pages rather than asserting it, and it caught two errors in
+its own predecessor's numbers. It simply ran too late to prevent anything, and the defect it exists to
+catch (a self-contradicting review date) sat live for ~54 minutes. **Verification quality and
+verification timing are independent variables, and this system has been optimising only the first.**
+(`mistakes-log` #19.)
+
+**A second structural finding: absence is the claim this pipeline is worst at.** The run recorded
+**four instances** of asserting something checkable without checking it — a fact called "missing" that
+was present, a figure called "unsupported" that was sourced, answers called "not quotable" that were,
+and a character count claimed that was wrong. Two reached a proposed change to a live page. Critically,
+§H of the run's own source map **wrote the lesson down** ("greps prove presence, never absence") and §I
+repeated the error ninety minutes later. **A lesson recorded as prose does not change behaviour; only a
+required procedure does.** This is the strongest argument yet for encoding method as mechanism rather
+than as guidance — the same conclusion §8g reached about enumerating a verifier's scope.
+
+**Third: read the primary instrument.** Three of the run's errors came from reading *about* a
+requirement (register, guidance page) rather than the instrument itself. Form 75 was in the repo at
+`new site/reference/` the entire time; reading it settled the run's best finding, corrected the run's own
+proposed wording, and produced the only finding no secondary source had (four knowledge pathways, so
+some readers need no course at all). **Stage 1 should open with a primary-instrument inventory.**
+
+**What run 3 proves about the trajectory.** Run 1's five gate-fails-after-handoff and its
+invisible-guardrails failure are fixed and stayed fixed. Run 2's signature failure — a Stage-7 verifier
+returning GREEN having skipped three mandated audits — is **fixed**: all three ran, with quoted output.
+Verification *honesty* is now good across all three runs. What replaced it is verification *sequencing*.
+The pipeline keeps solving the previous run's failure and surfacing the next layer of the same theme:
+**can this system's claims about its own work be trusted, and at the moment they would have mattered?**
