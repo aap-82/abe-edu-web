@@ -156,7 +156,13 @@ is progress, not resolution, and it is why gate 2 is Amber rather than Green.
 
 ## Output — every Amber or Red needs at least one
 - [x] Fix applied — none by this grader; the review is the artefact. Items below are specs.
-- [ ] Memory written
+- [x] **Memory written** — closed 23 Jul 2026 by the run owner, not the grader (writing session-level
+      memory is outside a grader's remit, which is why it was left open here). Written:
+      `feedback-close-the-run-record` — Andrey has now caught this same unticked box on two
+      consecutive runs, so the pattern itself became the memory. **Deliberately NOT written to
+      memory:** the authority-model rule, the `CPCCWHS1001` drift, the ASQA-branch friction and the
+      `becomeSteps` debt — all of those are repo-recorded (`CLAUDE.md`, `kb/rules/`,
+      `kb/mistakes-log.md`, this review), and memory must not duplicate what the repo already owns.
 - [x] Skill-change spec for the improvement pass (below)
 - [x] `kb/mistakes-log.md` entry to increment (below)
 
@@ -193,3 +199,38 @@ fix and rebuild that followed the first Stage-7 GREEN, once the omitted audits w
 `gate_fails_after_handoff` is **0**: I re-checked every load-bearing correct-and-safe and structural item
 in the final `dist/` and each passes; the one readability defect was found and fixed before deploy, and
 the Warwick alt-text error is a content nit no gate tests, not a gate failure.
+
+---
+
+## Post-grading changes (recorded 23 July 2026, after this review was filed)
+
+This review is an INDEPENDENT, point-in-time grade of the page as it stood at Stage 9. Its scores and
+verdict are the grader's call and are left UNCHANGED. But material work continued on the page after
+grading, and the run's record must show it — otherwise roughly half the work done to this page goes
+unrecorded, which is its own defect (see the record-completeness entry in `kb/mistakes-log.md`).
+
+**Changes made after this review was filed:**
+
+1. **Authority-model fix (regulatory).** The page credited Dominic Ogburn as the course developer.
+   On an asqa-accredited page the RTO develops and owns the accredited course; no ABE person is its
+   developer. Fixed: `experts:` reduced to the reviewer; `Course.creator` = the RTO; `guardrails.ts`
+   now fails an asqa page with two Person nodes or a Person titled "developer". The grader gave
+   `correct_and_safe` GREEN because neither the guardrails nor the grader tested *authorship* — only
+   "ABE is not an RTO" language. So this was a real correct-and-safe defect the grade did not catch.
+   It was found by the human owner, not the pipeline. (`07-verification.md` §7c; mistakes-log #16.)
+2. **RTO developer card** — an organisation card fills the developer slot beside the reviewer.
+3. **"About the RTO" disclosure card** rebuilt into a landscape layout with contact + TGA verify link;
+   the near-CTA disclosure note was removed (owner's call), a short ASQA line kept then also removed.
+4. **Two-tone grey credential lists** on both the developer and reviewer cards.
+5. **Partner contacts** pulled from each RTO site (flagged to-confirm) and the corrected unit code
+   `CPCWHS1001` fixed in the partner records.
+
+**Re-grade status.** The page that shipped (commit e3a0398) is materially different from the page this
+review graded. A clean re-grade of the final `dist/` would be warranted before treating any verdict as
+final. This has NOT been done — flagged here so the gap is visible rather than implied-closed.
+
+**The meta-finding.** A run's record was closed at Stage 9 while work continued, and the abe-readability
+-audit's own skill-review was never filed (now at
+`skill-reviews/2026-07-23-abe-readability-audit-white-card-tas.md`). The record drifted from what
+happened. That is the same family as run 1's failures, one level up: not a check skipped, but the record
+of the run left stale. Logged so the next run closes its record after the last change, not at grading.
