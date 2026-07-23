@@ -40,7 +40,7 @@ and keep the page tight; depth belongs in a linked info guide.
 | State acceptance and delivery mode | Online delivery is not permitted everywhere; state it per jurisdiction. |
 | Price and time | Both visible. |
 | How assessment works | Reduces refunds and support load. |
-| Who developed and reviewed it | Named, dated. |
+| Who developed and reviewed it | The **RTO develops and owns** the accredited course — credit the RTO (an Organization), never an ABE person. ABE names an independent **reviewer** only. `experts:` holds the reviewer alone; the build fails an asqa page with two Person nodes or a Person titled "developer". See `kb/rules/asqa-disclosure-framework.md`. |
 | Sources | Every regulatory claim. |
 
 ## 4 · Forbidden carry-overs

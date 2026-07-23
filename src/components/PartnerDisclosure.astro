@@ -1,39 +1,76 @@
 ---
+import { getCollection } from 'astro:content';
 import type { PartnerInfo } from '../types/course';
-// ASQA-accredited disclosure. ABE Education publishes the course; the named RTO partner
-// delivers it and issues the nationally recognised credential. ABE is not an RTO. The RTO
-// number is a fact, set in tabular figures. See CLAUDE.md authority model (asqa-accredited).
+// "About the RTO" card for an asqa-accredited page, LANDSCAPE layout. ABE Education publishes the
+// course; the named RTO partner DEVELOPS, delivers and assesses it and issues the nationally
+// recognised credential. ABE is not an RTO. See kb/rules/authority-model.md §6.
+//
+// Identity + units + credential arrive as props from the page's `partnerRto`; the richer profile
+// (legal name, description, contact, training.gov.au link, verified date) is resolved here from the
+// matching `partners` record by RTO number. This card is ASQA disclosure locations 2 and 6 combined,
+// so nothing factual can be dropped: name, unit, delivered-by/number/credential, contact, the
+// "recruits and markets ... not an RTO" disclosure, and the TGA verify link all stay.
+//
+// GROUPING: an identity header (who + how to verify) across the top; a two-column body (the training
+// facts | plain-language description + contact); the formal ASQA disclosure as fine print at the foot.
+// CSS class names avoid the substring "rto" on purpose: the authority-language guardrail scans the
+// bundled CSS on state-approved pages and matches it as a forbidden claim.
 type Props = PartnerInfo;
 const { partner, rto, units = [], credential = 'Statement of Attainment' } = Astro.props;
 
-// Hoisted so no template literal nests inside another literal's interpolation.
-const facts: Array<[string, string, boolean]> = [
-  ['Delivered by', partner, false],
-  ['RTO number', rto, true],
-  ['Credential', credential, false],
-];
+const rec = (await getCollection('partners')).find((p) => p.data.rtoNumber === rto)?.data;
+const legal = rec?.legalName ?? partner;
 ---
-<div class="partner">
-  <span class="eyebrow">Nationally recognised training</span>
-  {units.length > 0 && (
-    <ul class="p-units" role="list">
-      {units.map((u) => (
-        <li class="p-unit">
-          <span class="p-code num">{u.code}</span>
-          <span class="p-name">{u.name}</span>
-        </li>
-      ))}
-    </ul>
-  )}
-  <dl class="p-facts">
-    {facts.map(([k, v, isNum]) => (
-      <div class="p-row">
-        <dt>{k}</dt>
-        <dd class:list={[isNum && 'num']}>{v}</dd>
-      </div>
-    ))}
-  </dl>
-  <p class="p-disc">This course is published by ABE Education and delivered by {partner}, a
-    registered training organisation (RTO {rto}). ABE Education is not an RTO. On completion,
-    {' '}{partner} issues a nationally recognised {credential}.</p>
+<div class="partner partner-land">
+  <div class="pl-head">
+    <div class="pl-id">
+      <h3 class="h3">{legal}</h3>
+      <p class="pl-role">{rec?.role ?? 'Registered training organisation'}</p>
+    </div>
+    <div class="pl-check">
+      <span class="pl-reg"><span class="pl-reg-k">RTO</span><span class="pl-reg-n num">{rto}</span></span>
+      {rec?.tgaUrl && <a class="pl-verify" href={rec.tgaUrl} rel="noopener">Verify on training.gov.au →</a>}
+      {rec?.verified && <span class="pl-verified">{rec.verified}</span>}
+    </div>
+  </div>
+
+  <div class="pl-grid">
+    <div class="pl-col">
+      <span class="pl-lbl">The training</span>
+      {units.length > 0 && (
+        <ul class="p-units" role="list">
+          {units.map((u) => (
+            <li class="p-unit">
+              <span class="p-code num">{u.code}</span>
+              <span class="p-name">{u.name}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <dl class="pl-facts">
+        <div class="pl-frow"><dt>Delivered by</dt><dd>{partner}</dd></div>
+        <div class="pl-frow"><dt>Credential</dt><dd>{credential}</dd></div>
+      </dl>
+    </div>
+
+    <div class="pl-col">
+      <span class="pl-lbl">About and contact</span>
+      {rec?.blurb && <p class="pl-blurb">{rec.blurb}</p>}
+      {(rec?.email || rec?.phone) && (
+        <dl class="pl-facts">
+          {rec?.email && (
+            <div class="pl-frow"><dt>Email</dt><dd><a href={`mailto:${rec.email}`}>{rec.email}</a></dd></div>
+          )}
+          {rec?.phone && (
+            <div class="pl-frow"><dt>Phone</dt><dd><a href={`tel:${rec.phone.replace(/\s+/g, '')}`}>{rec.phone}</a></dd></div>
+          )}
+        </dl>
+      )}
+    </div>
+  </div>
+
+  <p class="pl-disc">ABE Education recruits and markets this training on behalf of {legal}. {legal} is the
+    registered training organisation responsible for developing, delivering and assessing this
+    qualification and issuing certification, in accordance with the Standards for Registered Training
+    Organisations 2025. ABE Education is not a registered training organisation.</p>
 </div>

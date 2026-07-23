@@ -402,10 +402,24 @@ When Page Identity Card shows `ASQA req'd: Yes`, disclosures must appear in **7 
 
 ## 6. Division of Responsibilities
 
+> **Course authorship on asqa-accredited pages (added 23 July 2026).** The RTO partner **develops,
+> owns and delivers** the accredited course under the Standards for RTOs. **ABE develops nothing on
+> an asqa-accredited page, and no ABE person may be credited as the course developer** — not even
+> ABE's own course developer, whose scope is the state-approved-direct owner-builder and CPD courses.
+> This holds for resold national units (White Card, asbestos, silica) and for any ABE-branded course
+> delivered through an RTO's scope (NSW owner builder). On these pages ABE names an independent
+> **reviewer** only; the developer is the RTO, shown as an Organization via `Course.creator` and the
+> credential's `recognizedBy`. The build enforces it: an asqa page carries exactly one Person node
+> (the reviewer), and a Person titled "developer" is a publish hard-blocker. Contrast the
+> state-approved-direct courses (QLD/TAS/ACT owner builder, CPD), which ABE **does** develop, where
+> the ABE developer is correctly named.
+
 ### Blue Dog Training (RTO 31193) provides:
 - RTO accreditation and ASQA compliance for **QLD, WA, TAS** White Card (CPCWHS1001) only
+- **Development and ownership of the accredited course** (the CPCWHS1001 unit), plus delivery
 - Assessment and certification for White Card
-- Statement of Attainment and White Card issuance
+- Statement of Attainment issuance (the physical White Card is issued by the state regulator; in
+  **TAS** that is WorkSafe Tasmania via Service Tasmania, not the RTO — see `card-lodgement-process-tas.md`)
 - Quality assurance oversight
 
 ### AlertForce (RTO 91826) provides:

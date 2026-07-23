@@ -71,6 +71,7 @@ Separate T&Cs page — not on the course page itself, but the course page must l
 | "ASQA registered" without specifying the RTO | Implies ABE holds the registration |
 | "ABE Education is the enrolled learning platform" | Misleading — corrected in earlier reviews |
 | Any claim that ABE conducts assessment or issues qualifications | These are exclusively RTO functions |
+| Crediting an ABE person (e.g. the ABE course developer) as the developer/author of the accredited course | The RTO **develops, owns and delivers** the accredited course under the Standards for RTOs. ABE develops nothing here. Name the RTO as the developer (an Organization), and an ABE **reviewer** only. This holds for every asqa-accredited page — resold national units (White Card, asbestos, silica) and any ABE course delivered through an RTO's scope (NSW owner builder). Enforced at build: an asqa page must carry exactly **one** Person node (the reviewer) and credit the RTO via `Course.creator` + the credential's `recognizedBy`; a Person titled "developer" FAILS the build. |
 | Blue Dog Training on ACT course pages | ACT courses are delivered by AlertForce |
 | AlertForce on QLD/WA/TAS course pages | QLD/WA/TAS courses are delivered by Blue Dog Training |
 

@@ -113,7 +113,7 @@ becomeSteps:
   - { title: "Complete this course", body: "Complete the five units and receive your nationally recognised Statement of Attainment from Upskill Institute." }
   - { title: "Get development consent", body: "You need an approved Development Application or Complying Development Certificate for the work before you apply. The permit attaches to that consent." }
   - { title: "Apply to Service NSW", body: "Lodge your application with your Statement of Attainment, your White Card and the $233 permit fee. Owner-builder permits are issued for a one-year term." }
-experts: ["dominic-ogburn", "warwick-smith"]
+experts: ["warwick-smith"]
 footerSources:
   - { label: "NSW Government — Apply for an owner-builder permit (eligibility, units of competency, White Card)", href: "https://www.nsw.gov.au/housing-and-construction/building-or-renovating-a-home/owner-builder/apply-for-permit", verified: "Verified 21 Jul 2026" }
   - { label: "NSW Government — When an owner-builder permit is needed ($10,000 threshold, five-year rule)", href: "https://www.nsw.gov.au/housing-and-construction/building-or-renovating-a-home/owner-builder/when-a-permit-needed", verified: "Verified 21 Jul 2026" }
@@ -281,8 +281,8 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
 </Section>
 
 <Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
-  <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
-  <ExpertCredentials experts={frontmatter.experts} />
+  <AnswerCapsule>This course is <b>developed, owned and delivered by Upskill Institute, RTO 45708</b>, under the Standards for Registered Training Organisations. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
+  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
   <SectionWayfinder label="FAQ" href="#faq" />
 </Section>
 

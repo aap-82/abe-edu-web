@@ -102,9 +102,16 @@ measured decision.
 - One `<h1>` (the hero), question-led sentence-case H2s, 40-60 word answer capsule opening each
   section (except FAQ).
 - Single server-rendered JSON-LD `@graph`: Course + EducationalOccupationalCredential + BreadcrumbList
-  + Person x2. `Course.offers.price` must equal the on-page price. `recognizedBy` conditional (above).
-- Two named experts (Dominic Ogburn developer; Warwick Smith independent compliance/currency reviewer)
-  with `sameAs` LinkedIn and a dated last-reviewed line.
+  + Person (x2 for ABE-developed courses; **x1 for asqa-accredited**, see below). `Course.offers.price`
+  must equal the on-page price. `recognizedBy` conditional (above).
+- Named experts: **state-approved-direct and knowledge-requirement** courses (owner builder QLD/WA/TAS/ACT,
+  CPD) are developed by ABE, so name **two** — Dominic Ogburn (developer) and Warwick Smith (independent
+  compliance/currency reviewer) — with `sameAs` LinkedIn and a dated last-reviewed line.
+  **asqa-accredited** courses (White Card, asbestos, silica, NSW owner builder) are developed and owned
+  by the **RTO partner**, not ABE: never credit an ABE person as developer. Name **one** Person (Warwick,
+  the reviewer) and credit the RTO as the developer via `Course.creator` + `recognizedBy`. The build
+  fails an asqa page with two Person nodes or a Person titled "developer". Owner: `kb/rules/authority-model.md`
+  §6 and `kb/rules/asqa-disclosure-framework.md`.
 - `BaseLayout.astro` ships robots, canonical, OG/Twitter and (via sitemap integration) the sitemap +
   `public/robots.txt` on every page. Pass an optional `ogImage` for image cards.
 

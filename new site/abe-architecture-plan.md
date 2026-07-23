@@ -17,7 +17,7 @@ What it does, end to end:
 - **Verifies regulatory facts** against official `.gov.au` sources and stores each exactly once in
   `kb/register/`, dated, with a re-verification cadence per file (fees reset each 1 July).
 - **Researches each page**: government source map and fact ledger, competitor and keyword gap
-  (GSC exports in `data/gsc/`, Ubersuggest), so copy is built from demand, not habit.
+  (GSC exports in `data/GSC/`, Ubersuggest), so copy is built from demand, not habit.
 - **Selects the page shape** from ten archetypes — state-approval course, nationally recognised
   course, CPD, CPD bundle, expert profile, hub, info guide, blog post, insurance type, about — each
   with its reader model, decision order, required sections, forbidden carry-overs and worked copy.
@@ -78,13 +78,18 @@ version control; repo-first fixes both structurally rather than by discipline.
 
 ## 3 · Target architecture
 
+> **Read §8 alongside this.** The evidence run of 23 July 2026 tested several of the structures
+> proposed here. Some were confirmed, some were not reached, and one prediction about which
+> subagents matter most turned out to be wrong. Nothing below has been edited to match the
+> outcome — the predictions stand as written so they can be scored.
+
 ```
 abe-web/                          (the existing repo — one home)
 ├── kb/                           SHARED LIBRARY — data + rules, single owner
 │   ├── register/                 F1: state-fees, eligibility, legislation-{state},
 │   │                                 penalties, online-delivery, regulator-roles,
 │   │                                 cbos-tas … (moved OUT of the engine, not copied)
-│   ├── authority-model.md        F6: one text, referenced by skills AND by guardrails
+│   ├── rules/authority-model.md  F6: one text, referenced by skills AND by guardrails
 │   ├── content-source-map.md     index: fact → file → cadence
 │   └── mistakes-log.md           the learning loop's memory
 ├── .claude/
@@ -155,7 +160,8 @@ reality. Re-cut so a real page arrives second, and structure is justified by wha
 **Phase 1 — the library.** Create `kb/`; move the register and authority-model out of the engine
 (moved, never copied); GSC exports to `data/gsc/`; rewrite `content-source-map.md` as the index;
 delete `content-model.md`. Drop the reworked abe-course-page-astro into `.claude/skills/` **as one
-skill, unsplit**, with its Stage 1 pointed at the new `kb/` paths. Uninstall the superseded skills
+skill, unsplit**, with its Stage 1 pointed at the new `kb/` paths. GSC exports land at `data/GSC/`
+(uppercase `GSC`, lowercase `data`). Uninstall the superseded skills
 from claude.ai Settings (abe-seo-content-engine, abe-research-to-webpage, seo-content-2026) — they
 keep triggering in chat until removed, "retire" is not a state, uninstalled is.
 
@@ -227,6 +233,9 @@ Un-curated memory is noise wearing a seatbelt.
 
 ## 5c · The check suite (as built, 21 July 2026)
 
+> **Superseded in part by §8c.** The suite has grown to nine since this was written. The six below
+> are all still in force and still accurate; the list is incomplete, not wrong.
+
 Six mechanisms, each answering one question at one moment. Everything below phase 1 already exists
 in the bundle and has been run against real inputs.
 
@@ -275,3 +284,180 @@ first run that must read all three to answer one layout question merges them int
 One operational note: `pipeline/` artefact commits will trigger the git-connected Cloudflare build.
 Harmless at ~1.3s builds, but add a paths filter (or watch only `src/`, `public/`, config) if the
 noise annoys.
+
+---
+
+## 8 · Amendment: what the first evidence run showed (23 July 2026)
+
+Phase 2 ran `/cpd-building-tas` end to end through `abe-course-page-astro`. Artefacts in
+`pipeline/cpd-building-tas/`; review in
+`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`, graded by a fresh subagent
+that saw only the artefacts and the built HTML. Verdict **Amber**.
+
+**Nothing in sections 1-7 has been edited to match the outcome.** The predictions stand as written.
+This section scores them. A plan that quietly rewrites its own forecasts stops being evidence that
+the method works.
+
+### 8a · How to read this section
+
+Each observation carries an evidence counter, the same convention `kb/mistakes-log.md` already uses
+for repeat risks:
+
+> **`seen: 1`** — observed in one run, of one archetype, against one register.
+
+**One run is a hypothesis, not a mandate.** Restructure on an observation confirmed across at least
+two runs of *different* archetypes or *different* authority models. A single confirmation tells you
+the run happened, not that the pattern generalises. Increment the counter when a later run repeats
+it; strike the observation if a later run refutes it, and record that it was struck.
+
+### 8b · Predictions the run scored
+
+| Predicted in | Prediction | Outcome | seen |
+|---|---|---|---|
+| §3, §5b | **Stage artefacts as files make independent grading free.** | **Confirmed, and it was the plan's best call.** The grader found five defects in twenty minutes reading only `pipeline/{slug}/` and the built HTML. None of it needed the run's context. | 1 |
+| §5, §3 | **`fact-verifier` and `keyword-analyst` are "the likely first two" subagents.** | **Refuted.** Neither trigger fired. The run's factual failure was that nobody opened the primary source, not that verification flooded the context, so a subagent would not have caught it. | 1 |
+| §3 | **`page-auditor` earns its context window.** | **Confirmed, with the strongest evidence of the run.** Stage 7 self-certified five rows that the built HTML fails, two of them defects introduced by fixes recorded on that same page as complete. | 1 |
+| §3, §5 | **Five skills, split along seams the run exposes.** | **Not reached.** The split trigger never fired: no file was too large to hold, no description misfired. Still one skill, correctly. | 0 |
+| §6 | **Subagent blindness, mitigated by artefacts-as-files.** | **Confirmed as mitigated.** Every delegation named its input files and no subagent stalled for want of chat context. | 1 |
+| §3 | **`PostToolUse` on `kb/register/**` validates the verified-date format.** | **Evidence arrived, but it reshapes the hook.** See 8c.3: a well-formed file-level date is exactly what the false claim hid behind. | 1 |
+
+### 8c · Four things the architecture has no concept of
+
+Each of these was needed to build one page and has no home in sections 1-7.
+
+**1 · Generated-projection register files.** `kb/register/cpd/tas-courses.json` is synced from an
+external operational source (Superhuman Docs) by `npm run sync:cpd`, committed, and never
+hand-edited. §1's F1 assumes every register file is hand-maintained markdown with a human author and
+a re-verification cadence. This is a different kind of file with a different failure mode: it goes
+stale when the *upstream* changes, not when a date lapses, and it needs a checksum rather than a
+cadence. The single-owner rule survives intact, because the repo file is a projection and not a
+second author.
+
+**2 · A derivation library shared between the checks and the pages.** `scripts/lib/cpd-derive.mjs`
+holds the counting rules and is imported by both `check-claims` and `CpdBundleLayout.astro`. The
+architecture has no notion of runtime logic shared across that boundary, and the sharing is
+load-bearing: it is what makes it structurally impossible for a page to disagree with the check
+policing it. Where derivation was wired, it held. Where it was not, which is the word "twelve" typed
+into title, meta, H1, sticky bar and intro, it was unprotected, and that is where the run drifted.
+
+**3 · Per-claim provenance, not per-file verified dates.** The run's largest error was a false
+regulatory claim ("CBOS caps WHS points at 4 a year") that sat in `kb/register/` under a current,
+well-formed, file-level verified date. The neighbouring claim A1 carried an inline citation to its
+source instrument and was correct. That contrast is architectural rather than incidental: **a
+file-level date certifies that someone looked at the file, not that anyone checked the claim.** §3's
+proposed `kb/register/**` hook should validate that each claim carries its own source and date,
+which the current format cannot express.
+
+**4 · Register files that must be excluded from the figure corpus.** `competitor-pricing-snapshot.md`
+and `demand-and-revenue-snapshot.md` live in `kb/register/` but are commercial evidence for deciding
+what to build, never provenance for a published figure. `check-claims` needs the distinction, so
+`kb/` holds at least two classes of file where the architecture describes one.
+
+### 8d · The check suite has grown to nine
+
+§5c lists six mechanisms, all still in force and still accurate. Three have been added since:
+
+| Mechanism | Question it answers | When it runs |
+|---|---|---|
+| `scripts/check-pipeline.mjs` | Did this run actually produce every artefact, and does the page match the content that was signed off? (artefacts 01-07 present; section ids reconcile both ways against `05-components.md`; 04's capsules match the page with figures normalised) | With system-health; end of every run |
+| `scripts/check-redirect-targets.mjs` | Does every redirect still land on an indexable page? | With system-health; before shipping redirects |
+| `scripts/prose-lint.mjs` | Does the copy hold house style? (banned words, em dashes in body copy) | With the build |
+
+Two further pieces sit alongside them: `scripts/sync-cpd-register.mjs` (the projection refresh, 8c.1)
+and `scripts/health-log-dedupe.mjs` (maintenance for the append-only health history).
+
+**One new standing rule, earned the hard way.** §5c already says *data with no reader quietly stops
+being true*. The run added its converse: **a reader with no route to a decision is the same failure
+wearing a badge.** `check-claims`, `check-freshness` and `system-health` each raised warnings naming
+this exact slug during the run. All three were read. None reached the verification table, because
+nothing routed a warning to the page it was about. The gap was unread signal, not missing signal,
+and more checks would not have closed it.
+
+### 8e · Not yet evidenced — do not build
+
+Per §5 and `ROADMAP.md`, these remain candidates and their triggers have not fired:
+
+- The five-skill split (8b).
+- `fact-verifier` and `keyword-analyst` as subagents (8b), actively counter-indicated on current
+  evidence.
+- The `SubagentStop` hook on page-auditor, which presumes a page-auditor exists.
+- `scripts/package-skills.mjs` and the claude.ai bundle surface (§4). Untested, so the two-surface
+  drift risk in §6 is still entirely unmeasured.
+- The §7 usability-consolidation trigger. The run read component-selection guidance and `DESIGN.md`
+  but was not forced to read all three sources to answer one layout question. Close, not fired.
+
+### 8f · Corrections applied in place
+
+Small factual errors, fixed directly rather than amended, because they are not predictions:
+
+- `data/gsc/` became **`data/GSC/`** (§1, phase 1). Lowercase `data`, uppercase `GSC`; the casing has
+  caused trouble before.
+- `kb/authority-model.md` became **`kb/rules/authority-model.md`** in the §3 tree.
+- §3's `pipeline/{slug}/` listing ends "…04-content.md …". The ellipsis concealed **05-components.md,
+  06-image-prompts.md and 07-verification.md, all of which are mandatory.** Their absence was not
+  cosmetic: with no brief-to-section map, a section briefed at Stage 3 and written at Stage 4 was
+  lost before the page and passed undetected through the build, the guardrails, `check-claims` and
+  the independent grading.
+
+### 8g · Run 2 update — white-card-tas (23 July 2026)
+
+The second evidence run: a TAS White Card page (archetype 2, nationally-recognised-course;
+authority model **asqa-accredited**), chosen for variance from run 1 (which was a CPD bundle,
+state-approved-direct). Different archetype, different authority model, different regulator. Graded
+independently, verdict **Amber** (`correct_and_safe` green; `passed_gates_first_time` amber). This
+is the second data point the 8b counters were waiting for.
+
+**The single number that matters.** `review-trends.mjs`, gate-fails-after-handoff: run 1 = **5**,
+run 2 = **0**. Run 1's headline failure was five defects that slipped past its own verification;
+run 2 shipped none into final `dist/`. The pipeline fixes held, measured, not asserted.
+
+**8b predictions, re-scored:**
+
+| Prediction | Run 1 | Run 2 | seen |
+|---|---|---|---|
+| Stage artefacts as files make independent grading free | confirmed | **confirmed** — the grader found the ASQA-branch and skipped-audit issues from artefacts + `dist/` alone | 2 |
+| `fact-verifier` / `keyword-analyst` are the likely first two subagents | refuted | **refuted again** — the keyword layer (Neil Patel connector + GSC) and the load-bearing fact check (Blue Dog scope at training.gov.au, in a browser) were both done inline without flooding context. Neither wanted isolation | 2 |
+| `page-auditor` earns its window | confirmed | **confirmed** — the Stage-7 verifier and the Stage-9 grader each found real defects; and the *second* verification caught the *first* one's incompleteness | 2 |
+| Five skills, split along seams the run exposes | not reached | **not reached** — still one skill, no file too large, no description misfire | 0 |
+| Subagent blindness, mitigated by artefacts-as-files | confirmed | **confirmed** — both subagents worked from named input files; neither stalled for want of chat | 2 |
+
+Nothing flipped. The two-run picture: artefacts-as-files and an independent auditor are the load-
+bearing calls; the five-skill split and the fact/keyword subagents remain unfired.
+
+**Two new findings run 2 adds to 8c/8d:**
+
+1. **An independent verifier certifies only the scope it was given.** Run 2's Stage-7 subagent ran
+   the structural/schema/authority/pipeline checks honestly and returned GREEN, but silently omitted
+   the three mandated skill-audits (`abe-readability-audit`, `final-check`, `ai-detector`) — a third
+   of the checklist. The omission surfaced only because the person asked, and running them then found
+   a real defect (an ASQA disclosure block at ~135 CPL). This refines "artefacts-as-files make grading
+   free": grading is only as complete as the delegation prompt enumerates. A verification's *scope* is
+   part of what it certifies, so the prompt must name every required check and the verifier must report
+   each as run-or-not; a GREEN with any required check absent is a FAIL. (`mistakes-log.md` #14.)
+
+2. **The asqa-accredited branch works but under-renders its archetype.** Run 2 is the first page to
+   exercise the ASQA path (the branch the roadmap flagged "unproven"). Schema, `PartnerDisclosure`,
+   the seven disclosure locations and `recognizedBy`-the-RTO all fired correctly. But the layout's
+   auto-rendered `#rto-partner` section emits only the fact card — no H2, capsule or sources — so it
+   cannot carry archetype 2's strongest move (the "verify the RTO yourself on training.gov.au"
+   invitation). The run worked around it with a separate authored `#real` section. A built branch that
+   has never been run against its archetype can pass every gate and still be shaped wrong.
+
+**8d footnote.** `check-pipeline.mjs` (added after run 1) did its job on run 2: it caught a real
+drift — an at-a-glance capsule present on the page but never written into `04-content.md` — and a
+format mismatch that would have hidden the section map from the checker. The guard that run 1's
+failure created earned its place on the next run.
+
+**8g addendum — a third finding, surfaced after grading.** The independent grader gave run 2
+`correct_and_safe` green, and it shipped an authority-model breach anyway: an ABE person credited as
+the developer of an RTO-developed accredited course. Neither the build guardrails nor the grader
+caught it, because both tested the authority model's *language* ("ABE is not an RTO") and not its
+*authorship* (who developed the course). It took the human owner to see it. Two lessons compound
+here: (1) an authority check is only as complete as the dimensions it enumerates — "not an RTO" and
+"who developed it" are different claims, and a page can pass the first while failing the second; and
+(2) `correct_and_safe` is the one score a fresh grader **cannot** fully stand in for when the check
+suite itself has a blind spot — the grader re-measured the known checks faithfully and still missed
+what no check named. The gap is now closed with a build guard (an asqa page fails on two Person nodes
+or a Person titled "developer"), which immediately caught the same breach on two other pages — but the
+standing point is that a new *kind* of claim needs a new check, and until it has one, neither
+automation nor an independent grader will flag it.

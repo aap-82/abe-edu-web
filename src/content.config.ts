@@ -281,7 +281,12 @@ const partners = defineCollection({
     name: z.string(),                      // trading name, used in copy
     legalName: z.string().optional(),      // as registered on training.gov.au
     rtoNumber: z.string().optional(),
-    role: z.string(),
+    role: z.string(),                      // SHORT label, e.g. "Registered training organisation"
+    // Longer description paragraph for the RTO developer card (Credentials `org`), mirroring a
+    // person's bio. `role` stays the one-line label above it; keep the sentence-length prose here.
+    blurb: z.string().optional(),
+    email: z.string().optional(),          // RTO contact for training/assessment enquiries
+    phone: z.string().optional(),
     url: z.string().url().optional(),
     // training.gov.au record — the crawlable proof link on /accreditation. ABE is not
     // an RTO, so every "nationally recognised" claim must be verifiable against TGA.

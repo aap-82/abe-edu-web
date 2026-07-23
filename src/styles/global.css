@@ -339,24 +339,48 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 /* Partner / RTO disclosure — ASQA-accredited courses (White Card and similar). ABE is the
    publisher, the partner is the RTO. Structural 8px container; mono keys; the RTO number
    carries tabular figures. */
-.partner{max-width:600px;margin:var(--s-md) 0 var(--s-lg);padding:var(--s-lg);background:var(--paper);border:1px solid var(--rule-strong);border-radius:8px;}
-.partner .eyebrow{margin-bottom:var(--s-sm);}
-/* Units are a list now, because a course can be built from several: White Card is one unit,
-   NSW owner builder is five. A single unit still renders as one row and looks unchanged. */
+/* "About the RTO" card, LANDSCAPE. Flat, one maroon accent, sub-edited. Identity header across the
+   top, a two-column body (the training | description + contact), formal ASQA disclosure as fine
+   print at the foot. Full column width, not the old 600px portrait cap. (Styles live here, not in a
+   component <style>, to match the rest of .partner and avoid a scoped-style compile quirk.)
+   Class names avoid the substring "rto": the authority guardrail scans the bundled CSS. */
+.partner{margin:var(--s-md) 0 var(--s-lg);padding:var(--s-lg);background:var(--paper);border:1px solid var(--rule-strong);border-radius:8px;}
+/* Units are a list: White Card is one unit, NSW owner builder is five. */
 .partner .p-units{list-style:none;margin:0 0 var(--s-md);padding:0;}
 .partner .p-unit{display:flex;flex-direction:column;gap:3px;padding:10px 0;border-bottom:1px solid var(--rule);}
 .partner .p-unit:first-child{padding-top:0;}
 .partner .p-unit:last-child{border-bottom:0;padding-bottom:0;}
 .partner .p-code{font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--maroon);font-weight:500;}
-/* Steps down from 20px: at five units the old display size dominated the whole panel and
-   competed with the section H2. A single unit still reads as the panel's headline. */
 .partner .p-name{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;line-height:1.25;color:var(--ink);}
-.partner .p-units:has(.p-unit:only-child) .p-name{font-size:20px;}
-.partner .p-facts{margin:0 0 var(--s-md);border-top:1px solid var(--rule);}
-.partner .p-row{display:grid;grid-template-columns:132px 1fr;gap:var(--s-md);padding:11px 0;border-bottom:1px solid var(--rule);}
-.partner .p-row dt{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
-.partner .p-row dd{margin:0;font-size:15px;font-weight:500;color:var(--ink-2);}
-.partner .p-disc{margin:0;font-size:13px;line-height:1.6;color:var(--slate);}
+.partner .p-units:has(.p-unit:only-child) .p-name{font-size:18px;}
+
+.pl-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:var(--s-md);padding-bottom:var(--s-md);border-bottom:1px solid var(--rule-strong);}
+.pl-id h3.h3{margin:0;}
+.pl-role{margin:.2rem 0 0;font-size:14px;color:var(--ink-3);}
+.pl-check{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;text-align:right;}
+.pl-reg{display:inline-flex;align-items:baseline;gap:.4rem;}
+.pl-reg-k{font:600 11px/1 var(--font-mono);letter-spacing:.18em;color:var(--slate);}
+.pl-reg-n{font:700 24px/1 var(--font-mono);color:var(--maroon);}
+.pl-verify{font-size:14px;}
+.pl-verified{font-size:12px;color:var(--slate);}
+
+.pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-lg);padding:var(--s-md) 0;}
+.pl-col{min-width:0;}
+.pl-lbl{display:block;margin-bottom:.6rem;font:600 11px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
+.pl-blurb{margin:0 0 var(--s-sm);font-size:15px;line-height:1.6;color:var(--ink-2);max-width:60ch;}
+.pl-facts{margin:0;}
+.pl-frow{display:grid;grid-template-columns:108px 1fr;gap:var(--s-sm);padding:8px 0;border-bottom:1px solid var(--rule);}
+.pl-frow:last-child{border-bottom:0;}
+.pl-frow dt{font:500 11px/1.3 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--slate);}
+.pl-frow dd{margin:0;font-size:15px;font-weight:500;color:var(--ink-2);}
+
+.pl-disc{margin:0;padding-top:var(--s-md);border-top:1px solid var(--rule);font-size:12px;line-height:1.6;color:var(--slate);}
+
+@media (max-width:640px){
+  .pl-head{flex-direction:column;}
+  .pl-check{align-items:flex-start;text-align:left;}
+  .pl-grid{grid-template-columns:1fr;gap:var(--s-md);}
+}
 
 /* CPD matrix: industries down the side, states across the top. A real bordered table that
    scrolls on narrow screens rather than wrapping. Mono uppercase heads; maroon-hover cell

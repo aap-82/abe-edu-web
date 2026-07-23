@@ -77,6 +77,11 @@ const schema = {
       '@type': 'Course', '@id': canonical + '#course', name: courseName,
       description: courseDescription,
       provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      // asqa-accredited: the RTO partner develops, owns and delivers the accredited course under the
+      // Standards for RTOs. ABE develops nothing here, so the course is credited to the RTO as its
+      // creator (developer) and provider — never to ABE or an ABE person. For state-approved-direct
+      // and knowledge-requirement courses ABE IS the developer, so no creator override is added.
+      ...(asqa ? { creator: { '@type': 'Organization', name: asqa.name, identifier: `RTO ${asqa.rtoNumber}`, ...(asqa.url ? { url: asqa.url } : {}) } } : {}),
       inLanguage: 'en-AU',
       ...(heroImg ? { image: { '@type': 'ImageObject', contentUrl: heroImg, caption: hero.artefactAlt, inLanguage: 'en-AU' } } : {}),
       offers: { '@type': 'Offer', price: priceNumber, priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },

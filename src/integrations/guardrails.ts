@@ -441,7 +441,24 @@ export default function guardrails(): AstroIntegration {
               for (const req of ['Course', 'EducationalOccupationalCredential', 'BreadcrumbList']) {
                 if (!types.includes(req)) fails.push(`${name}: JSON-LD missing ${req}.`);
               }
-              if (types.filter((t: string) => t === 'Person').length !== 2) {
+              const persons = (graph['@graph'] ?? []).filter((n: any) => n['@type'] === 'Person');
+              const credential = (graph['@graph'] ?? []).find((n: any) => n['@type'] === 'EducationalOccupationalCredential');
+              if (model === 'asqa-accredited') {
+                // The RTO partner develops, owns and delivers an accredited course; ABE develops
+                // nothing, so no ABE person may be its developer. The page names ONE Person (the
+                // independent reviewer), and the RTO is credited as an Organization via the
+                // credential's recognizedBy and the Course.creator. Two Person nodes here means a
+                // developer has been (wrongly) named. A Person titled "developer" is the same breach.
+                if (persons.length !== 1) {
+                  fails.push(`${name}: an asqa-accredited page must have exactly 1 Person node (the reviewer). The course developer is the RTO, an Organization, not an ABE person.`);
+                }
+                if (persons.some((p: any) => /develop/i.test(p.jobTitle ?? ''))) {
+                  fails.push(`${name}: asqa-accredited course credits an ABE person as developer. The RTO develops the accredited course; ABE may name a reviewer only.`);
+                }
+                if (!(credential?.recognizedBy?.['@type'] === 'Organization')) {
+                  fails.push(`${name}: asqa-accredited credential must be recognizedBy the RTO Organization.`);
+                }
+              } else if (persons.length !== 2) {
                 fails.push(`${name}: JSON-LD needs exactly 2 Person nodes (developer + reviewer).`);
               }
 

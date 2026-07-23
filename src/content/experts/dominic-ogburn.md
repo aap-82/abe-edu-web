@@ -16,9 +16,12 @@
 #     evidence; he did not give oral testimony.
 #   · "Former builder" or "registered builder" — the licence is CURRENT, and NSW uses
 #     "licensed".
-#   · Any suggestion he develops every ABE course. His scope is owner builder and CPD
-#     only; White Card is developed by the RTO partner, and he is NOT the developer of
-#     the NSW owner builder course (Upskill Institute delivers it).
+#   · Any suggestion he develops every ABE course. His scope is the STATE-APPROVED-DIRECT
+#     courses ABE develops itself: owner builder QLD/WA/TAS/ACT and CPD, only. He is NOT the
+#     developer of any ASQA-ACCREDITED course — those are developed and owned by the RTO
+#     partner: White Card (Blue Dog / AlertForce), asbestos, silica, and the NSW owner builder
+#     course (Upskill Institute). Do not put him in `experts:` on an asqa-accredited page; the
+#     build blocks a Person titled "developer" there. See kb/rules/authority-model.md §6.
 name: "Dominic Ogburn"
 role: "Course Developer · CEO, ABE Education"
 jobTitle: "Course Developer"

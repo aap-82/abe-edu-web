@@ -554,7 +554,12 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">ExpertCredentials</span><span class="sg-desc">Resolves `experts` collection references, then renders Credentials. Used by course MDX bodies so expert data is not copy-pasted into course frontmatter.</span><span class="sg-props">experts[] (references) · profileBase?</span></div>
+      <div class="sg-meta"><span class="sg-name">Credentials + org (asqa developer)</span><span class="sg-desc">On an asqa-accredited page the developer is the RTO, not an ABE person. `org` fills the developer slot with an organisation card (monogram badge, RTO number, ASQA line, training.gov.au verify link), rendered before the reviewer.</span><span class="sg-props">people[] · org (name · rtoNumber · role · scopeNote? · tgaUrl? · verified?)</span></div>
+      <div class="sg-demo"><Credentials people={[people[1] ?? people[0]]} org={{ name: 'Blue Dog Training', legalName: 'Blue Dog Training Pty Ltd', rtoNumber: '31193', role: 'Registered training organisation', blurb: 'Develops, delivers and assesses the nationally recognised White Card unit and issues the Statement of Attainment. ABE Education publishes the course and enrols students; Blue Dog Training is the RTO responsible for the training and the qualification.', scopeNote: 'White Card (unit CPCWHS1001) for QLD, WA and TAS.', tgaUrl: 'https://training.gov.au/Organisation/Details/31193', verified: 'Verified 23 Jul 2026' }} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ExpertCredentials</span><span class="sg-desc">Resolves `experts` collection references, then renders Credentials. `developerRto` (asqa only) resolves the matching partners record into the RTO developer card. Used by course MDX bodies so expert data is not copy-pasted into course frontmatter.</span><span class="sg-props">experts[] (references) · profileBase? · developerRto?</span></div>
       <div class="sg-demo"><ExpertCredentials experts={[{ collection: 'experts', id: 'dominic-ogburn' }, { collection: 'experts', id: 'warwick-smith' }]} profileBase="/experts" /></div>
     </div>
 
