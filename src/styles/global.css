@@ -55,6 +55,15 @@ h1.h1{font-size:clamp(40px,6.2vw,72px);letter-spacing:-.03em;line-height:1.02;}
 p{margin-bottom:var(--s-sm);}
 p strong{color:var(--ink);font-weight:600;}
 .measure{max-width:480px;}
+/* .note and .price-foot cap their own measure (below) because they are frequently direct
+   children of a section rather than of .measure, and without a cap they rendered 128-172
+   characters per line on four live course pages.
+   The caps are in PX, not ch, and that is deliberate. `ch` is the advance width of "0", which in
+   DM Sans is ~8.3px against a real average character of ~7.2px, so a 66ch cap measured 94-95 actual
+   characters per line - still over the 75 ceiling. Measured with Range.getClientRects() on the live
+   page: .note keeps a 480px text column (matching .measure) plus its own 2x--s-lg padding, and
+   .price-foot caps at 440px, landing both near 67 CPL. NOTE: .capsule and footer .f-auth still use
+   66ch and are therefore looser than they read - worth revisiting on the same evidence. */
 .btn-primary{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--paper);font-family:var(--font-body);font-weight:600;font-size:16px;padding:14px 26px;border-radius:6px;text-decoration:none;transition:background .18s;}
 .btn-primary:hover{background:var(--maroon);}
 .btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--ink);font-family:var(--font-body);font-weight:600;font-size:16px;padding:13px 24px;border:1px solid var(--rule-strong);border-radius:6px;text-decoration:none;transition:border-color .18s;}
@@ -233,6 +242,15 @@ p strong{color:var(--ink);font-weight:600;}
 .zsplit{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2xl);align-items:start;}
 .zsplit.rev .z-img{order:2;}
 .z-body .measure{max-width:480px;}
+/* .note and .price-foot cap their own measure (below) because they are frequently direct
+   children of a section rather than of .measure, and without a cap they rendered 128-172
+   characters per line on four live course pages.
+   The caps are in PX, not ch, and that is deliberate. `ch` is the advance width of "0", which in
+   DM Sans is ~8.3px against a real average character of ~7.2px, so a 66ch cap measured 94-95 actual
+   characters per line - still over the 75 ceiling. Measured with Range.getClientRects() on the live
+   page: .note keeps a 480px text column (matching .measure) plus its own 2x--s-lg padding, and
+   .price-foot caps at 440px, landing both near 67 CPL. NOTE: .capsule and footer .f-auth still use
+   66ch and are therefore looser than they read - worth revisiting on the same evidence. */
 .steps{display:grid;gap:var(--s-lg);margin-top:var(--s-md);}
 .step{border-top:1px solid var(--rule);padding-top:var(--s-md);}
 .step .s-k{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:8px;}
@@ -266,7 +284,7 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .can-col li+li{border-top:1px solid var(--rule);}
 .can-col .gl{flex:none;font-weight:700;line-height:1.4;}
 .can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate-light);}
-.note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);}
+.note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
 .note b{color:var(--ink);}
 /* Caution variant: attention without the banned side-stripe. A single 2px maroon rule
    across the top edge (a hairline, not a side-stripe) plus the DM Mono marker carry the
@@ -428,7 +446,7 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .price-row .p-v{font-family:var(--font-display);font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);white-space:nowrap;}
 .price-row.total{background:var(--ink);}
 .price-row.total .p-k,.price-row.total .p-v{color:#fff;}
-.price-foot{font-size:14px;color:var(--slate);margin-top:var(--s-md);}
+.price-foot{font-size:14px;color:var(--slate);margin-top:var(--s-md);max-width:440px;}
 .faq{border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin-top:var(--s-lg);overflow:hidden;}
 .faq details+details{border-top:1px solid var(--rule);}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 24px;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);transition:background .15s;}

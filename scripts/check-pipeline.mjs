@@ -30,6 +30,7 @@
 
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { execSync } from 'node:child_process';
 
 const PIPELINE = 'pipeline';
 const DIST = 'dist';
@@ -184,6 +185,58 @@ for (const slug of slugs) {
     oks.push(`${slug}: ${mdCapsules.length} capsule(s) match 04-content.md (figures normalised)`);
   }
 }
+
+// ---------------------------------------------------------------------------------------------
+// 4 . GATE ORDERING. A verification that runs after the deploy is a report, not a gate.
+//
+// On the wa-owner-builder-course run, two commits changed a LIVE page and 07-verification.md was
+// written 45 minutes after the second one, and was still untracked at grading. The defect the gate
+// exists to catch (a review date updated in one file but not another, so the published page
+// contradicted itself) reached production and sat live for ~54 minutes. Stage 7 was thorough and
+// honest; it simply ran too late to prevent anything. See kb/mistakes-log.md #19.
+//
+// The invariant enforced here: CONTENT MUST NEVER OUTRUN ITS VERIFICATION.
+//   - is 07 committed?                 else the gate is not in version control at all
+//   - is the page source no newer?     else the page changed after it was last verified
+//
+// Commit times, not mtimes: a checkout rewrites mtimes and would make this lie.
+// Known limit: only the page's own content file is compared. A change confined to an imported data
+// file (src/data/faqs-{state}.ts) will not trip this, which is exactly how the WA review-date defect
+// slipped through, so it is stated here rather than left implied.
+// ---------------------------------------------------------------------------------------------
+const gitTime = (f) => {
+  try {
+    const o = execSync('git log -1 --format=%ct -- "' + f + '"', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return o ? parseInt(o, 10) : null;
+  } catch { return null; }
+};
+
+for (const slug of slugs) {
+  const vdir = join(PIPELINE, slug);
+  const ver = readdirSync(vdir).find((f) => f.startsWith('07-'));
+  if (!ver) continue;
+  const verPath = join(vdir, ver);
+
+  const pageFile = [
+    join('src', 'content', 'courses', slug + '.mdx'),
+    join('src', 'content', 'cpd-bundles', slug + '.mdx'),
+    join('src', 'content', 'hubs', slug + '.mdx'),
+  ].find((f) => existsSync(f));
+  if (!pageFile) continue;
+
+  const verTime = gitTime(verPath);
+  const srcTime = gitTime(pageFile);
+
+  if (verTime === null) {
+    fails.push(slug + ': 07 is not committed while its page source is. The verification is not in version control, so nothing records that the gate ran before the page shipped.');
+  } else if (srcTime !== null && srcTime > verTime) {
+    const mins = Math.round((srcTime - verTime) / 60);
+    fails.push(slug + ': the page changed ' + mins + ' minute(s) AFTER its last verification (' + pageFile + ' is newer than ' + verPath + '). Re-run Stage 7 before shipping again - a verification that predates the content it certifies has certified nothing.');
+  } else {
+    oks.push(slug + ': verification is current (07 is no older than the page source)');
+  }
+}
+
 
 console.log('=== Pipeline conformance ===\n');
 for (const f of fails) console.log(`  FAIL  ${f}`);
