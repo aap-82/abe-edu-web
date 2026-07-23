@@ -21,6 +21,13 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   language. Keep the hyphen only when quoting a regulator's exact page/document name in a Source
   citation (e.g. QBCC "Fees for owner-builders"), and in URL slugs (`/qld-owner-builder-course`),
   which are unaffected.
+- **The company is "ABE Education", never bare "ABE", anywhere a reader can see it.** Prose, headings,
+  answer capsules, FAQ answers, alt text, meta and schema, CanCant lists, button labels. The one
+  exception is the logotype in `SiteHeader.astro`, where "ABE" is the mark and "Education" sits beside
+  it. Bare "ABE" reads as an initialism the reader has to decode, it competes with the many other
+  three-letter training brands, and it made the site inconsistent with its own footer disclaimer
+  ("ABE Education is not a Registered Training Organisation"). Internal files (comments, `kb/`,
+  `pipeline/`, `/styleguide`) may use the short form freely. Enforced by `check-claims.mjs` §6.
 - **Spell out "five years" in prose and answer capsules**; use numerals ("5 yrs" / "5 years") only in
   data cells (FactGrid, PriceCard), sticky bars, CTAs and meta/schema. Applies to any duration stated
   in body copy, not just five years specifically.

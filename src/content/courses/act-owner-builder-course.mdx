@@ -27,7 +27,7 @@ nav:
   - { label: "Cost", href: "#cost", sectionId: "cost" }
   - { label: "Duties", href: "#duties", sectionId: "duties" }
   - { label: "Get licensed", href: "#become", sectionId: "become" }
-  - { label: "Why ABE", href: "#why", sectionId: "why" }
+  - { label: "Why ABE Education", href: "#why", sectionId: "why" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 cta: { href: "#enrol", label: "Enrol now — $179" }
 sticky: { label: "ACT Owner Builder", sub: "Registrar-recognised course", price: "$179", cta: { href: "#enrol", label: "Enrol now" } }
@@ -79,7 +79,7 @@ footerSources:
   - { label: "Construction Occupations (Licensing) (Qualifications) Declaration 2024 (DI2024-276)", href: "https://legislation.act.gov.au/di/2024-276", verified: "The recognised-course test · verified 15 Jul 2026" }
   - { label: "Access Canberra — General Construction Induction Card (White Card)", href: "https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card", verified: "Verified 15 Jul 2026" }
   - { label: "ACT legislation — Construction Occupations (Licensing) Act 2004, Building Act 2004", href: "https://www.legislation.act.gov.au", verified: "legislation.act.gov.au" }
-disclaimersHtml: '<b>ABE Education is not a Registered Training Organisation.</b> The ACT owner builder course is a course recognised by the Construction Occupations Registrar for owner builder licensing; recognition applies to the course itself and is not an endorsement of ABE Education or any other ABE product or service. It is a state-recognised Certificate of Completion, not a nationally recognised or RTO-accredited qualification and not a Statement of Attainment. <b>Licence fees:</b> the Access Canberra owner builder licence fees ($320.20 Class 1/2 online, $239.13 Class 10a online, higher for in-person lodgement) are set under the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), were verified 15 July 2026, and are indexed each 1 July, so confirm the current amount with Access Canberra before you lodge. <b>Insurance:</b> ACT owner builders do not require residential building (warranty) insurance; arrange workers compensation and any public liability cover through your own insurer or broker.'
+disclaimersHtml: '<b>ABE Education is not a Registered Training Organisation.</b> The ACT owner builder course is a course recognised by the Construction Occupations Registrar for owner builder licensing; recognition applies to the course itself and is not an endorsement of ABE Education or any other ABE Education product or service. It is a state-recognised Certificate of Completion, not a nationally recognised or RTO-accredited qualification and not a Statement of Attainment. <b>Licence fees:</b> the Access Canberra owner builder licence fees ($320.20 Class 1/2 online, $239.13 Class 10a online, higher for in-person lodgement) are set under the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), were verified 15 July 2026, and are indexed each 1 July, so confirm the current amount with Access Canberra before you lodge. <b>Insurance:</b> ACT owner builders do not require residential building (warranty) insurance; arrange workers compensation and any public liability cover through your own insurer or broker.'
 ---
 
 import Section from '../../components/Section.astro';
@@ -101,8 +101,8 @@ import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules-act';
 import { faqs } from '../../data/faqs-act';
 
-<Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
-  <AnswerCapsule>Two costs, one course. You pay ABE <b>$179</b> for the course, then a separate government licence fee to Access Canberra (<b>$320.20</b> for a Class 1 or 2 building, online). The course is online, and your certificate is recognised for <b>five years</b> from completion.</AnswerCapsule>
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>The course and the licence are separate payments. You pay ABE Education <b>$179</b> for the course, then a government licence fee to Access Canberra (<b>$320.20</b> for a Class 1 or 2 building, online). The course is online, and your certificate is recognised for <b>five years</b> from completion.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -117,7 +117,7 @@ import { faqs } from '../../data/faqs-act';
     <AnswerCapsule><b>Yes, if you take on the licensed builder’s role</b> on work that needs building approval, for a home you own. In the ACT the trigger is a building approval, not a dollar figure. You must be the lessee, it must be your main home or ancillary to it, and only an individual can hold the licence.</AnswerCapsule>
     <CanCant
       canTitle="When you need a licence"
-      can={['The work needs building approval and is a Class 1, 2 or 10a building.', 'It is your main home, or a structure ancillary to it.', 'You are acting as the builder yourself, coordinating the build.']}
+      can={['The work needs building approval, on a Class 1, 2 or 10a building.', 'It is your main home, or a structure ancillary to it.', 'You are acting as the builder yourself, coordinating the build.']}
       cantTitle="When the licence does not apply"
       cant={['Specialist building work such as demolition or a swimming pool. That goes to a licensed contractor.', 'Held by a company, trust or SMSF. Owner builder licences are for individuals only.', 'A blanket licence for future builds. It attaches to one specific building approval.']}
     />
@@ -126,7 +126,7 @@ import { faqs } from '../../data/faqs-act';
 </ZSection>
 
 <Section bg="bg-alt" id="recognised" marker="02" eyebrow="Recognised vs accredited" h2="Is this course recognised in the ACT?">
-  <AnswerCapsule><b>Yes.</b> The ACT Government lists ABE as an approved owner builder licence course, and the law recognises the certificate. The Qualifications Declaration accepts "an owner builder course certificate recognised by the construction occupations registrar", issued within the last five years. That is exactly what this course gives you.</AnswerCapsule>
+  <AnswerCapsule><b>Yes.</b> The ACT Government lists ABE Education as an approved owner builder licence course, and the law recognises the certificate. The Qualifications Declaration accepts "an owner builder course certificate recognised by the construction occupations registrar", issued within the last five years. That is exactly what this course gives you.</AnswerCapsule>
   <CanCant
     canTitle="What this course is"
     can={['A course recognised by the Construction Occupations Registrar for owner builder licensing.', 'One of the courses the ACT Government lists as an approved owner builder licence course.', 'Recognised for your application when completed within the previous five years.']}
@@ -141,7 +141,7 @@ import { faqs } from '../../data/faqs-act';
   id="how"
   marker="03"
   eyebrow="How it works"
-  h2="Three steps to your certificate"
+  h2="How does the course work?"
   rev imgDesc="The online course interface on a laptop, clean and self-paced, in a home setting." imgSpec="4:5 · warm tone · ~520×650"
   next={{ label: "What you'll learn", href: "#learn" }}
 >
@@ -150,7 +150,7 @@ import { faqs } from '../../data/faqs-act';
     <VerifiedSources date="15 Jul 2026" facts="Certificate and licence-application steps fact-checked against ACT Planning" sources={[{ label: 'ACT Planning — Construction licences', href: 'https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences' }]} />
 </ZSection>
 
-<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="What the ACT owner builder course covers">
+<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="What does the ACT owner builder course cover?">
   <AnswerCapsule>The course prepares you for the responsibilities you take on as an ACT owner builder, across twelve sections: your obligations and licensing, project documentation and approvals, budget and finance, insurance and taxation, work health and safety, contracts and claims, contractors and consultants, records, the National Construction Code, and building disputes. It teaches you to run the build, not to lay bricks.</AnswerCapsule>
   <div class="measure">
     <p>By the end you will be able to {moduleOutcome}</p>
@@ -159,8 +159,8 @@ import { faqs } from '../../data/faqs-act';
   <SectionWayfinder label="What it costs" href="#cost" />
 </Section>
 
-<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
-  <AnswerCapsule>The course is <b>$179</b> to ABE. The Access Canberra licence fee is separate: <b>$320.20</b> for a Class 1 or 2 building lodged online. Together that is <b>$499.20</b> to be ready to apply. Owner builders pay no licence-term fee.</AnswerCapsule>
+<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What will you pay in total?">
+  <AnswerCapsule>The course is <b>$179</b> to ABE Education. The Access Canberra licence fee is separate: <b>$320.20</b> for a Class 1 or 2 building lodged online. Together that is <b>$499.20</b> to be ready to apply. Owner builders pay no licence-term fee.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The Access Canberra licence fee is a Class 1 or 2 building lodged online. A Class 10a building is $239.13 online, and lodging in person or by post is higher ($344.99 Class 1/2, $250.11 Class 10). Fees are set under the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), effective 1 July 2026 and indexed each 1 July, so check the current amount before you lodge. Owner builders pay no licence-term fee." />
   <SectionWayfinder label="Your duties" href="#duties" />
 </Section>
@@ -181,16 +181,16 @@ import { faqs } from '../../data/faqs-act';
   <AnswerCapsule onDark>A course the ACT Government lists and the Registrar recognises, delivered fully online, with more than <b>31,000</b> students trained since 2007.</AnswerCapsule>
 </TrustBand>
 
-<Section bg="bg-alt" id="become" marker="07" eyebrow="The full path" h2="How to get your owner builder licence in the ACT">
+<Section bg="bg-alt" id="become" marker="07" eyebrow="The full path" h2="How to become an owner builder in the ACT">
   <AnswerCapsule>Five steps: complete the recognised course, get your building approval, apply online to Access Canberra with your certificate and a copy of the approval, wait out the assessment, then receive your licence and build.</AnswerCapsule>
   <Stepper steps={frontmatter.becomeSteps} maxWidth="640px" />
   <Note variant="caution" label="Important"><b>No licence, no building.</b> Assessment takes at least four weeks and is never fast-tracked, so complete the course and apply well before you plan to start work.</Note>
   <VerifiedSources date="15 Jul 2026" facts="The path to a licence, the evidence required and the assessment timeframe fact-checked against ACT Planning" sources={[{ label: 'ACT Planning — Construction licences', href: 'https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences' }]} />
-  <SectionWayfinder label="Why ABE" href="#why" />
+  <SectionWayfinder label="Why ABE Education" href="#why" />
 </Section>
 
-<Section id="why" marker="08" eyebrow="Why ABE" h2="Why complete your course with ABE">
-  <AnswerCapsule>ABE Education delivers the recognised ACT owner builder course directly, online, with the certificate you need emailed the moment you finish. It is developed and independently reviewed by named, credentialed people, and ABE has trained owner builders since 2007.</AnswerCapsule>
+<Section id="why" marker="08" eyebrow="Why ABE Education" h2="Why complete your course with ABE Education?">
+  <AnswerCapsule>ABE Education delivers the recognised ACT owner builder course directly, online, with the certificate you need emailed the moment you finish. It is developed and independently reviewed by named, credentialed people, and ABE Education has trained owner builders since 2007.</AnswerCapsule>
   <TopicGrid items={[
     { tag: '01', title: 'ACT Government listed', body: 'One of the owner builder courses the ACT Government lists, recognised by the Construction Occupations Registrar.' },
     { tag: '02', title: 'Since 2007', body: 'Australian-owned and training owner builders since 2007.' },
@@ -201,7 +201,7 @@ import { faqs } from '../../data/faqs-act';
   <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
 </Section>
 
-<Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+<Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course?">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />

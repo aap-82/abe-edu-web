@@ -30,11 +30,11 @@
 │
 ├── WHITE CARD ────────────────────────────────────────────────────
 │   /white-card                     White Card hub                    ○  (W3-6)
-│   ├── /white-card-nsw             ASQA (Upskill 45708) · CPCCWHS1001  ○ (W3-2)
-│   ├── /white-card-qld             ASQA (Blue Dog 31193) · CPCCWHS1001 ○ (W3-3)
+│   ├── /white-card-nsw             ASQA (Upskill 45708) · CPCWHS1001  ○ (W3-2)
+│   ├── /white-card-qld             ASQA (Blue Dog 31193) · CPCWHS1001 ○ (W3-3)
 │   ├── /white-card-wa              ASQA (Blue Dog 31193) · CPCWHS1001  ○ (W3-1)
-│   ├── /white-card-tas             ASQA (Blue Dog 31193) · CPCCWHS1001 ○ (W3-4)
-│   └── /white-card-act             ASQA (AlertForce 91826) · CPCCWHS1001 ○ (W3-5)
+│   ├── /white-card-tas             ASQA (Blue Dog 31193) · CPCWHS1001 ○ (W3-4)
+│   └── /white-card-act             ASQA (AlertForce 91826) · CPCWHS1001 ○ (W3-5)
 │
 ├── CPD ───────────────────────────────────────────────────────────
 │   /cpd                            CPD main hub                      ◇  (W4-8)

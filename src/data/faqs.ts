@@ -8,5 +8,5 @@ export const faqs: FAQItem[] = [
   { q: 'What do I get when I finish?', a: 'A Certificate of Completion, emailed as a PDF the moment you pass. It is the evidence you lodge with your QBCC owner builder permit application, and it is valid for five years.' },
   { q: 'Is this an owner builder licence?', a: 'People often call it a licence, but in Queensland it is an owner builder permit, issued by the QBCC. This course gives you the Certificate of Completion you need before you can apply for that permit.' },
   { q: 'Is the course approved by the QBCC?', a: 'Yes. The NONACCABE QBCC Owner Builder Course has been approved by the QBCC (interim approval). The approval covers the course material only and is not an endorsement of ABE Education or its other products.' },
-  { q: 'Do I need a White Card as well?', a: 'You will generally need a current White Card (CPCCWHS1001) if you will carry out or supervise work on your site. It is separate from the owner builder course, so confirm what applies to you with the QBCC before you apply.' },
+  { q: 'Do I need a White Card as well?', a: 'You will generally need a current White Card (CPCWHS1001) if you will carry out or supervise work on your site. It is separate from the owner builder course, so confirm what applies to you with the QBCC before you apply.' },
 ];

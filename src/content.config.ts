@@ -34,7 +34,8 @@ const partnerRto = z.object({
   rtoNumber: z.string(),      // e.g. "31193"
   url: z.string().url().optional(),
   // A LIST, not a single unit. This was `unitCode` + `unitName` (one unit), which fits
-  // White Card - one course, one unit, CPCCWHS1001 everywhere except WA's CPCWHS1001 - and
+  // White Card - one course, one unit, CPCWHS1001 in every state (the earlier CPCCWHS1001 is
+  // superseded; see kb/register/legislation-references-{tas,wa}.md) - and
   // does not fit anything else. NSW owner builder needs five units, so the singular shape
   // would have forced the other four into prose where nothing checks them.
   units: z.array(z.object({ code: z.string(), name: z.string() })).optional(),

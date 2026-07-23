@@ -1,22 +1,28 @@
 ---
+import { leadClause } from '../lib/lead-clause';
+
 interface Props { canTitle: string; can: string[]; cantTitle: string; cant: string[]; }
 const { canTitle, can, cantTitle, cant } = Astro.props;
+
+// Each line keeps its body colour; only the leading clause takes the darker ink, so the item
+// reads as one statement with its point carried up front rather than as two colours competing.
+// Lines with no natural clause break render plain - see src/lib/lead-clause.ts.
 ---
 <div class="cancan">
   <div class="can-col can">
     <p class="can-h">{canTitle}</p>
     <ul>
-      {can.map((li) => (
-        <li><span class="gl" aria-hidden="true">✓</span><span set:html={li} /></li>
-      ))}
+      {can.map((li) => { const [k, rest] = leadClause(li); return (
+        <li><span class="gl" aria-hidden="true">✓</span><span>{k && <span class="cc-k" set:html={k} />}<span set:html={rest} /></span></li>
+      ); })}
     </ul>
   </div>
   <div class="can-col cant">
     <p class="can-h">{cantTitle}</p>
     <ul>
-      {cant.map((li) => (
-        <li><span class="gl" aria-hidden="true">✕</span><span set:html={li} /></li>
-      ))}
+      {cant.map((li) => { const [k, rest] = leadClause(li); return (
+        <li><span class="gl" aria-hidden="true">✕</span><span>{k && <span class="cc-k" set:html={k} />}<span set:html={rest} /></span></li>
+      ); })}
     </ul>
   </div>
 </div>

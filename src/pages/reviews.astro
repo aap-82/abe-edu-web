@@ -2,7 +2,7 @@
 // Reviews (W1-5). The third dead footer link becomes a real page.
 //
 // ⚠️ STANDING HARD RULE — see CLAUDE.md "Reviews — never AggregateRating".
-// The rating below is sourced from ABE's Google Business Profile, which is a third
+// The rating below is sourced from ABE Education's Google Business Profile, which is a third
 // party. It is DISPLAYED AND LINKED, never marked up. This page must never emit
 // AggregateRating, Review, or any rating property, in JSON-LD or microdata: Google
 // treats third-party-sourced ratings in structured data as self-serving markup, and
@@ -72,12 +72,12 @@ const schema = {
 >
   <Hero
     eyebrow="Trust · Reviews"
-    h1Html={'What students say about ABE<span class="dot">.</span>'}
+    h1Html={'What students say about ABE Education<span class="dot">.</span>'}
     updated={`Rating read from Google on ${VERIFIED}`}
     subhead="Our reviews are collected and published by Google, not by us. That means we cannot edit them, and you can read every one of them at the source."
     ticks={[
       '<b>Rated 4.8 out of 5</b> from 52 Google reviews',
-      '<b>Collected by Google</b>, not gathered or moderated by ABE',
+      '<b>Collected by Google</b>, not gathered or moderated by ABE Education',
       '<b>Read them all at the source</b>, not just the ones we picked',
     ]}
     proof={[
@@ -116,7 +116,7 @@ const schema = {
       {reviews.map((r) => <ReviewQuote {...r} />)}
     </div>
     <Note>
-      <b>How to read this page.</b> The quotes above are a selection made by ABE, and
+      <b>How to read this page.</b> The quotes above are a selection made by ABE Education, and
       selections flatter. The rating and the full set of reviews are on Google, where we
       cannot change them. One review here is marked as an excerpt because Google truncates
       longer reviews in its own interface.
@@ -126,7 +126,7 @@ const schema = {
   <Section id="how" bg="bg-warm" eyebrow="How reviews work here" h2="Why are the reviews not on this page?">
     <div class="measure">
       <p>
-        ABE does not collect reviews on its own website. Every review is left on our Google
+        ABE Education does not collect reviews on its own website. Every review is left on our Google
         Business Profile, which means Google verifies, publishes and counts them, and we
         cannot remove one because we dislike it.
       </p>

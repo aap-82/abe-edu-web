@@ -1,7 +1,7 @@
 import type { TopicCard, ModuleGroup } from '../types/course';
 
 // Section 5 — Introduction + 12 modules grouped into 4 project-stage cards (rendered by <TopicGrid>).
-// Source: ABE — WA Owner-Builder Course, Modules and Learning Outcomes, v2.0, 27 Jun 2026.
+// Source: ABE Education — WA Owner-Builder Course, Modules and Learning Outcomes, v2.0, 27 Jun 2026.
 export const moduleGroupsWa: ModuleGroup[] = [
   { tag: 'Getting started', title: 'Deciding, and preparing', body: '<b>Introduction and Module 1:</b> course overview and requirements, an honest pros-and-cons self-assessment, then your responsibilities and liabilities as the principal builder.' },
   { tag: 'The law & the code', title: 'Legislation, NCC and bushfire', body: '<b>Modules 2, 3, 4:</b> WA legislation and safety (the three governing Acts), the National Construction Code (Class 1 and 10, Deemed-to-Satisfy, energy efficiency), and WA bushfire (BAL) requirements.' },

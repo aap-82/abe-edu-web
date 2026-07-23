@@ -53,7 +53,7 @@ const pointsFacts: Fact[] = [
 // owns the shape now, and the saving is derived from price vs rrp rather than authored, so
 // a price edit cannot leave a stale figure behind it.
 //
-// Per-point figures are plain arithmetic on ABE's own prices ($499 / 12) against $99 for a
+// Per-point figures are plain arithmetic on ABE Education's own prices ($499 / 12) against $99 for a
 // single course, so they introduce no fact needing verification.
 //
 // NAMING (23 Jul 2026). Bundles are named for the register's Category axis — Building,
@@ -118,7 +118,7 @@ const howSteps: Step[] = [
   { title: 'Record your points', body: 'Keep your certificates with your CPD record for your licence renewal and any audit.' },
 ];
 
-// Why ABE.
+// Why ABE Education.
 const whyCards: TopicCard[] = [
   { tag: '01', title: 'Recognised where it counts', body: 'Listed as a CPD provider with CBOS, with each course individually approved for points.' },
   { tag: '02', title: 'Fully online and self-paced', body: 'Start when you like and finish around work, on any device.' },
@@ -131,12 +131,12 @@ const whyCards: TopicCard[] = [
 // so /tas-cpd-index can redirect into this hub without stranding them.
 const otherTradeCards: TopicCard[] = [
   { tag: '20 points / year', title: 'Building Designers & Architects', body: 'A different annual requirement and course set. <a href="/tas-cpd-building-designers-courses">Building Designers CPD</a> · <a href="/tas-cpd-architects-courses">Architects CPD</a>' },
-  { tag: '30 points / year', title: 'Building Surveyors & Engineers', body: 'The highest CPD requirement in Tasmania. Contact ABE for the courses that apply to your licence.' },
+  { tag: '30 points / year', title: 'Building Surveyors & Engineers', body: 'The highest CPD requirement in Tasmania. Contact ABE Education for the courses that apply to your licence.' },
 ];
 
 const faqs: FAQItem[] = [
   { open: true, q: 'How many CPD points do I need in Tasmania?', a: 'Builders, plumbers and electricians each need at least 12 CPD points per licence year. Building Designers and Architects need 20, and Building Surveyors and Engineers 30. You confirm you have met your points when you renew your licence.' },
-  { q: 'Are ABE’s courses actually approved by CBOS?', a: 'Yes. ABE is listed as a CPD provider with CBOS, and each course in the bundles has been individually approved by CBOS for 1 CPD point. You receive a certificate of completion for every course you finish.' },
+  { q: 'Are ABE Education’s courses actually approved by CBOS?', a: 'Yes. ABE Education is listed as a CPD provider with CBOS, and each course in the bundles has been individually approved by CBOS for 1 CPD point. You receive a certificate of completion for every course you finish.' },
   { q: 'I hold two licences. Do I need double the points?', a: 'No. You meet the highest single requirement across the licences you hold, not the sum. A licensed builder and plumber needs 12 points, not 24, though some of that learning should relate to each type of work.' },
   { q: 'Does the 12-point bundle cover my whole year?', a: 'The Building and Plumbing bundles are 12 points and meet a 12-point year in full. CBOS caps some ways of earning points, such as WorkSafe Tasmania events and trade journals, but approved online courses carry no annual cap. The Electrical bundle is 11 points, so it covers most of your year and you would add 1 further point from another approved activity. If you hold a licence with a higher requirement, such as a building surveyor or engineer at 30 points, a bundle covers part of your year rather than all of it. CPD you count should relate to your licensed work, and CBOS sets an annual limit on how many work health and safety points can count, so a good mix matters.' },
   { q: 'Can I complete the CPD online?', a: 'Yes. Every course is online and self-paced, on any device, and your progress is saved. You do not need to attend in person or book a classroom day.' },
@@ -145,12 +145,12 @@ const faqs: FAQItem[] = [
 
 const footerSources: Source[] = [
   { label: 'CBOS Tasmania — Continuing Professional Development', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'Verified 16 Jul 2026' },
-  { label: 'CBOS Tasmania — CPD training providers (ABE listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources', verified: 'Verified 16 Jul 2026' },
+  { label: 'CBOS Tasmania — CPD training providers (ABE Education listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources', verified: 'Verified 16 Jul 2026' },
   { label: 'CBOS Tasmania — Achieving your CPD requirements', href: 'https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements', verified: 'Verified 16 Jul 2026' },
   { label: 'Occupational Licensing Act 2005 (Tas) · CPD Determination', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'via CBOS' },
 ];
 
-const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisation.</b> These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification. ABE is listed as a CPD training provider with CBOS, and its Tasmanian courses are individually approved by CBOS for CPD points. Government requirements verified 16 July 2026; CPD point rules and any work health and safety limit are set by CBOS and can change (often around 1 July), so confirm the current figures with CBOS before you rely on them.';
+const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisation.</b> These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification. ABE Education is listed as a CPD training provider with CBOS, and its Tasmanian courses are individually approved by CBOS for CPD points. Government requirements verified 16 July 2026; CPD point rules and any work health and safety limit are set by CBOS and can change (often around 1 July), so confirm the current figures with CBOS before you rely on them.';
 
 // JSON-LD — hub page type: ItemList of the trade bundles as Course, plus BreadcrumbList.
 // No single Course.offers and no RTO claim.
@@ -218,10 +218,10 @@ const schema = {
   <WayfinderNav items={nav} cta={cta} />
 
   <Section id="what" eyebrow="The basics" h2="What is CPD, and who needs it in Tasmania?">
-    <AnswerCapsule>Continuing Professional Development, or CPD, is the ongoing training Tasmanian licence holders complete to keep their skills current and their licence in good standing. If you hold a builder, plumber or electrical licence, CBOS expects you to earn a set number of CPD points each licence year. ABE delivers that training online.</AnswerCapsule>
+    <AnswerCapsule>Continuing Professional Development, or CPD, is the ongoing training Tasmanian licence holders complete to keep their skills current and their licence in good standing. If you hold a builder, plumber or electrical licence, CBOS expects you to earn a set number of CPD points each licence year. ABE Education delivers that training online.</AnswerCapsule>
     <div class="measure" style="max-width:64ch">
       <p>In Tasmania, occupational licences for the building trades are administered by Consumer, Building and Occupational Services (CBOS), a division of the Department of Justice. Part of holding a licence is showing that you keep learning across its life, and CPD is how you demonstrate that. CBOS sets a minimum number of points for each licence category.</p>
-      <p style="margin-top:var(--s-sm)">The points you need depend on what you are licensed to do. This page covers the CPD that applies to Tasmanian builders, plumbers and electricians, shows the courses ABE has approved with CBOS, and lets you meet your points online at your own pace.</p>
+      <p style="margin-top:var(--s-sm)">The points you need depend on what you are licensed to do. This page covers the CPD that applies to Tasmanian builders, plumbers and electricians, shows the courses ABE Education has approved with CBOS, and lets you meet your points online at your own pace.</p>
     </div>
   </Section>
 
@@ -235,32 +235,32 @@ const schema = {
     ]} />
   </Section>
 
-  <Section id="approved" eyebrow="Authority" h2="Are ABE’s CPD courses CBOS-approved?">
-    <AnswerCapsule>Yes. ABE Education is listed as a CPD training provider with CBOS, and each course in our Tasmanian bundles has been individually approved by CBOS for 1 CPD point. You complete the course online, and ABE issues a certificate of completion for your record. ABE is not a Registered Training Organisation, so this is non-accredited CPD.</AnswerCapsule>
+  <Section id="approved" eyebrow="Authority" h2="Are ABE Education’s CPD courses CBOS-approved?">
+    <AnswerCapsule>Yes. ABE Education is listed as a CPD training provider with CBOS, and each course in our Tasmanian bundles has been individually approved by CBOS for 1 CPD point. You complete the course online, and ABE Education issues a certificate of completion for your record. ABE Education is not a Registered Training Organisation, so this is non-accredited CPD.</AnswerCapsule>
     <div class="measure" style="max-width:64ch">
-      <p>Two things are worth being clear about, because they are often confused. First, ABE is listed as a CPD training provider on the CBOS website. Second, and separately, each individual course has been submitted to CBOS and approved for points. Approval is course by course, and every course in the Tasmanian bundles carries 1 CPD point, so a 12-point bundle is made up of 12 approved courses.</p>
+      <p>Two things are worth being clear about, because they are often confused. First, ABE Education is listed as a CPD training provider on the CBOS website. Second, and separately, each individual course has been submitted to CBOS and approved for points. Approval is course by course, and every course in the Tasmanian bundles carries 1 CPD point, so a 12-point bundle is made up of 12 approved courses.</p>
     </div>
     <CanCant
-      canTitle="What ABE CPD is"
+      canTitle="What ABE Education CPD is"
       can={[
         'CBOS-approved CPD, worth points toward your annual requirement',
-        'Delivered fully online, with a certificate of completion issued by ABE',
+        'Delivered fully online, with a certificate of completion issued by ABE Education',
         'Approved course by course, each worth 1 CPD point',
       ]}
       cantTitle="What it is not"
       cant={[
-        'Nationally recognised or accredited training',
-        'A qualification or Statement of Attainment',
-        'Delivered by a Registered Training Organisation. ABE is not an RTO',
+        'Not nationally recognised training. CPD is approved by CBOS for points, which is a separate thing.',
+        'Not a qualification or a Statement of Attainment. You receive a certificate of completion.',
+        'Not delivered by a Registered Training Organisation. ABE Education is not an RTO.',
       ]}
     />
     <VerifiedSources date="16 July 2026" facts="Provider listing and course approval fact-checked" sources={[
-      { label: 'CBOS — CPD training providers (ABE listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources' },
+      { label: 'CBOS — CPD training providers (ABE Education listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources' },
     ]} />
   </Section>
 
   <Section id="bundles" bg="bg-alt" eyebrow="Choose your bundle" h2="CPD bundles by trade">
-    <AnswerCapsule>ABE packages its CBOS-approved courses into trade bundles, so you meet your points in one purchase instead of paying course by course. The 12-point Building and Plumbing bundles are $499 each and cover a builder’s or plumber’s full year. The Electrical bundle is 11 points and is coming soon.</AnswerCapsule>
+    <AnswerCapsule>ABE Education packages its CBOS-approved courses into trade bundles, so you meet your points in one purchase instead of paying course by course. The 12-point Building and Plumbing bundles are $499 each and cover a builder’s or plumber’s full year. The Electrical bundle is 11 points and is coming soon.</AnswerCapsule>
     <BundleCard items={bundles} />
     <Note label="Better value"><b>Every bundle is built from individual courses, each worth 1 CPD point at $99.</b> Bought one at a time, a full 12-point year is $1,188. The Building and Plumbing bundles bring that to $499, so a trade bundle is the better-value way to meet your CBOS points. Single courses are still available at $99 each if you only need to top up.</Note>
     <Note variant="caution" label="Before you buy">CPD you count toward your licence should relate to the work you are licensed for, and CBOS sets an annual limit on how many work health and safety points can count in a year. Our bundles deliberately mix safety with trade and technical topics for this reason. If you are close to renewal, check your remaining points with CBOS first.</Note>
@@ -278,18 +278,18 @@ const schema = {
   </Section>
 
   <Section id="how" bg="bg-alt" eyebrow="How it works" h2="Complete your CPD online, at your own pace">
-    <AnswerCapsule>Every ABE CPD course is online and self-paced, so you complete your points around work, on any device, without booking a classroom day. Choose your bundle, work through the courses whenever suits you, download your certificate as you finish each one, and record the points against your licence.</AnswerCapsule>
+    <AnswerCapsule>Every ABE Education CPD course is online and self-paced, so you complete your points around work, on any device, without booking a classroom day. Choose your bundle, work through the courses whenever suits you, download your certificate as you finish each one, and record the points against your licence.</AnswerCapsule>
     <Stepper steps={howSteps} maxWidth="880px" />
   </Section>
 
-  <Section id="why" eyebrow="Why ABE" h2="Why choose ABE Education for your Tasmanian CPD">
-    <AnswerCapsule>Practitioners choose ABE because the CPD is recognised where it counts, listed with CBOS and approved course by course, fully online, written for the trade rather than filled with generic content, kept current with the rules, and backed by a certificate you can put straight into your record.</AnswerCapsule>
+  <Section id="why" eyebrow="Why ABE Education" h2="Why choose ABE Education for your Tasmanian CPD">
+    <AnswerCapsule>Practitioners choose ABE Education because the CPD is recognised where it counts, listed with CBOS and approved course by course, fully online, written for the trade rather than filled with generic content, kept current with the rules, and backed by a certificate you can put straight into your record.</AnswerCapsule>
     <TopicGrid items={whyCards} />
     <Note maroon>ABE Education develops and delivers this CPD directly. These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification.</Note>
   </Section>
 
   <Section id="other" bg="bg-alt" eyebrow="Other licences" h2="Hold a different Tasmanian licence?">
-    <AnswerCapsule>ABE also offers Tasmanian CPD for other licence categories with different annual requirements. If you are a Building Designer, Architect, Building Surveyor or Engineer, your points and courses differ from the trades above.</AnswerCapsule>
+    <AnswerCapsule>ABE Education also offers Tasmanian CPD for other licence categories with different annual requirements. If you are a Building Designer, Architect, Building Surveyor or Engineer, your points and courses differ from the trades above.</AnswerCapsule>
     <TopicGrid items={otherTradeCards} />
   </Section>
 

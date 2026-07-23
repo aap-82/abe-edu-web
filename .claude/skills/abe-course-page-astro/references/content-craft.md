@@ -64,6 +64,36 @@ Introductions look like: "There are a few things to consider when…", "Understa
 is an important part of…", "Many people ask whether…". None of these answer anything. Cut them and
 start at the answer.
 
+**Answer the question the heading actually asks.** "Answer first" is not the whole rule, and on its
+own it produces a subtler failure: an answer of the wrong *shape*. Two live pages opened a section
+headed "What is the Tasmanian owner builder course?" with "Yes, this is the course CBOS requires…".
+Answer-shaped, confidently written, and a grammatical mismatch the reader feels in the first three
+words. Match the reply to the question type:
+
+| Heading asks | The capsule opens with |
+|---|---|
+| What is / What does | a definition, in the terms of the heading |
+| Is / Do / Can / Does | yes or no, then the qualification |
+| How much / What does it cost | the figure |
+| How / What are the steps | the first step, or the count of them |
+| Who / When / Where | the person, the time, the place |
+
+A yes/no opener under a what/how/who/when/where/why/which heading now **fails the build**
+(`guardrails.ts`). If the yes/no answer is the one the reader wants, that is a signal the heading is
+wrong, not the capsule: change the heading to the yes/no question it is really answering.
+
+**No two sections may answer the same question.** The same two pages ran "What is the X course?" and
+"Is this course approved?" back to back, both opening "Yes," and both asserting the course is the
+approved one. The second section then had nothing left to say and restated the first. Before writing
+a capsule, read the one above it: if you could swap them without the reader noticing, the sections
+have collapsed into one and the brief was wrong at Stage 3. A section that only restates its
+neighbour should be merged or cut.
+
+**Do not open with a slogan.** "Two costs, one course." reads as advertising, not as an answer, and
+because it scans well it spread verbatim to six pages before anyone objected. A telegraphic fragment
+is a tell that the heading above it was not a question. Say the thing plainly: "The course and the
+permit are separate payments."
+
 Keep roughly 120 to 180 words between headings. If a section runs long, it is usually two sections.
 
 ## Move 4 — Name the objection out loud
@@ -93,6 +123,8 @@ Write for a capable adult who is short of time and slightly worried about gettin
 - **Say the unhelpful thing.** Who does not need the course, what the total actually costs including
   the fees ABE does not receive, what the course does not cover. This is the single most reliable
   trust signal available and competitors will not copy it.
+- **Name the company in full: "ABE Education".** Never bare "ABE" in anything a reader sees, the
+  logotype aside. See CLAUDE.md house style; the build fails on it.
 - Australian English. No em dashes in body copy. Never "comprehensive".
 
 ## Move 5 — The cold reread

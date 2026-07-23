@@ -16,7 +16,7 @@
 //   knowledge-requirement (WA/Form 75) — "supports your Form 75 owner-builder approval".
 //     NEVER "WA-approved course/provider"; it is an approval, not a permit or licence.
 //   asqa-accredited (White Card, NSW OB) — name the RTO partner + number, "nationally
-//     recognised" is accurate, ABE is the publisher and NOT the RTO.
+//     recognised" is accurate, ABE Education is the publisher and NOT the RTO.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
@@ -52,7 +52,7 @@ const regulatorCards = [
   {
     tag: 'QLD',
     title: 'QBCC',
-    body: 'The Queensland Building and Construction Commission has given interim approval to the <strong>NONACCABE QBCC Owner Builder Course</strong> material. The approval covers that course material only and is not an endorsement of ABE Education. ABE delivers the approved course directly. <a href="https://www.qbcc.qld.gov.au" rel="noopener">qbcc.qld.gov.au</a>',
+    body: 'The Queensland Building and Construction Commission has given interim approval to the <strong>NONACCABE QBCC Owner Builder Course</strong> material. The approval covers that course material only and is not an endorsement of ABE Education. ABE Education delivers the approved course directly. <a href="https://www.qbcc.qld.gov.au" rel="noopener">qbcc.qld.gov.au</a>',
   },
   {
     tag: 'TAS',
@@ -86,7 +86,7 @@ const schema = {
       // sameAs is an identity assertion — not something to guess at on the page whose
       // whole point is verifiable accuracy. Add it once the correct profile is confirmed.
     },
-    // Partners are separate Organization nodes, NOT subOrganization of ABE. The real
+    // Partners are separate Organization nodes, NOT subOrganization of ABE Education. The real
     // relationship is a commercial delivery partnership, and asserting a corporate one
     // would be the schema-level version of the claim this page exists to deny.
     ...partners.map((p) => ({
@@ -112,7 +112,7 @@ const schema = {
 >
   <Hero
     eyebrow="Trust · Accreditation"
-    h1Html={'Who approves, delivers and issues each ABE course<span class="dot">.</span>'}
+    h1Html={'Who approves, delivers and issues each ABE Education course<span class="dot">.</span>'}
     updated="Partner records verified 19 July 2026"
     subhead="ABE Education publishes and delivers owner builder and CPD training. For nationally recognised training we work with registered training organisations, who deliver and assess that training and issue the certificate. This page names all of them."
     ticks={[
@@ -124,7 +124,7 @@ const schema = {
       { n: '3', text: 'RTO partners' },
       { n: '2007', text: 'training since' },
     ]}
-    howItWorks="Regulator approves → ABE or an RTO partner delivers → You get the certificate"
+    howItWorks="Regulator approves → ABE Education or an RTO partner delivers → You get the certificate"
     artefactDesc="ABE Education accreditation and partner overview."
     cta={{ href: '#partners', label: 'See our RTO partners' }}
   />
@@ -189,13 +189,13 @@ const schema = {
     <AnswerCapsule>
       Two different documents, depending on the course. A state-approved course gives you a
       Certificate of Completion from ABE Education. Nationally recognised training gives you
-      a Statement of Attainment issued by the RTO partner, not by ABE.
+      a Statement of Attainment issued by the RTO partner, not by ABE Education.
     </AnswerCapsule>
     <CanCant
       canTitle="Certificate of Completion"
       can={[
         'Issued by ABE Education for a state-approved or recognised course.',
-        'What QLD, TAS and ACT owner builder applications ask for.',
+        'Accepted for owner builder applications in QLD, TAS and ACT.',
         'Not a nationally recognised qualification, and does not need to be.',
       ]}
       cantTitle="Statement of Attainment"

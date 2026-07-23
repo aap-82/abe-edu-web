@@ -10,6 +10,6 @@ blurb: "Develops, delivers and assesses the nationally recognised ACT White Card
 phone: "1800 900 222"
 url: "https://alertforce.com.au/"
 tgaUrl: "https://training.gov.au/Organisation/Details/91826"
-scopeNote: "White Card (CPCCWHS1001) for the ACT."
+scopeNote: "White Card (unit CPCWHS1001) for the ACT."
 verified: "Verified 19 Jul 2026"
 ---

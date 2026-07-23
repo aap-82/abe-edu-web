@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 22 July 2026.
+Last updated: 24 July 2026.
 
 ---
 
@@ -20,7 +20,33 @@ Last updated: 22 July 2026.
 
 ---
 
-## Current state (22 July 2026)
+## Current state (24 July 2026)
+
+**The short version.** Phase 1, CPD Stage A and Phase 2 are done. Three evidence runs have closed the
+authority-model set. Phase 3 is unblocked, three of its candidates have fired and none is built yet.
+On the content side the migration tracker was **stale**: Wave 2 read as unstarted while five of its
+seven tickets were built and live. Re-ticked 24 Jul against `dist/`.
+
+- **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, and the `/owner-builder-courses`
+  hub (59.9k impressions, the biggest single equity-protect page), plus `/accreditation`,
+  `/experts`, `/reviews`, `/cpd`, `/cpd-tas`.
+- **Built but held back:** `/white-card-tas` and `/cpd-building-tas`, both noindexed pending
+  Andrey-only inputs. `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and
+  ⛔ must not ship in their current form.
+- **Not started:** W2-6 insurance, W2-7 Project Advisory, four of five White Card state pages and
+  the hub, eight of ten CPD tickets, and all of Waves 5 and 6.
+
+**Three things need Andrey, in the order they bite:**
+1. **The LearnWorlds `learn.` subdomain ticket** — longest lead time, the one external blocker on
+   cutover. Outstanding since 19 July.
+2. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
+   five signed-off redirect rules.
+3. **White Card TAS launch inputs** — `buyUrl`, two photos, three RTO contacts.
+
+**One standing FAIL:** `cpd-building-tas` changed 191 minutes after its Stage 7 and has never been
+re-verified. `system-health` reports it every run; it is a true positive, not noise.
+
+### Where this stood on 22 July (kept — the phase-1 close-out)
 
 - **Phase 1 is complete and merged to `main`.** The pipeline lives in the repo: `kb/` owns the
   regulatory register and authority rules, the skill is in `.claude/skills/abe-course-page-astro/`,
@@ -32,8 +58,8 @@ Last updated: 22 July 2026.
   `abe-research-to-webpage`, `seo-content-2026`). The repo is the only home.
 - **Health**: 0 FAIL, skill references resolve, code claims verified, 17 pages build with guardrails
   green.
-- **No page has yet been built through the pipeline.** Everything in the skill — the archetypes, the
-  section briefs, the craft method, the independent grader — is designed but unexercised.
+- **No page had yet been built through the pipeline** *(true on 22 Jul; superseded — three runs have
+  since exercised the archetypes, the section briefs, the craft method and the independent grader).*
 
 ### Outstanding right now (before phase 2)
 
@@ -216,6 +242,66 @@ well (SA/VIC have no products; other courses will go on hold), but building it n
 work arriving ahead of the demand list. Build the page, then let a second pre-launch page prove
 what the archetype needs. Trigger to watch in the phase 3 table: "a non-course page is needed
 next".
+
+---
+
+## Evidence runs 2 and 3 — the authority-model set is closed ✅ 23 July 2026
+
+Phase 2 exercised one authority model. Two more runs were added deliberately, chosen for **variance
+over volume**: one page per remaining model, each verifying the fact that distinguishes it. The set
+is now closed and there is no third thing to learn from a fourth run of the same shape.
+
+| Run | Page | Model | What only this model could prove |
+|---|---|---|---|
+| 1 | `/cpd-building-tas` | state-approved-direct | regulator in `recognizedBy` |
+| 2 | `/white-card-tas` | asqa-accredited | **RTO** in `recognizedBy`, and the RTO is the developer |
+| 3 | `/wa-owner-builder-course` | knowledge-requirement | **no** `recognizedBy` at all |
+
+Artefacts in `pipeline/{slug}/`, reviews in `skill-reviews/`. Both new runs graded **Amber**; run 3
+scored **red on `passed_gates_first_time`**.
+
+**Run 2 found an authority-model breach the guardrails could not see.** The page credited an ABE
+person as developer of an RTO-developed accredited course — a real E-E-A-T and ASQA error — and every
+check passed, because the guardrails tested "ABE is not an RTO" *language* and never asked **who
+developed the course**. The shared expert record's own header comment already warned against it. Now
+enforced: an asqa page carries exactly one Person (the reviewer), credits the RTO via `Course.creator`
++ `recognizedBy`, and a Person titled "developer" FAILS the build. Adding the guard immediately caught
+the same breach on both NSW pages. Mistakes-log #16.
+
+**Run 3's finding is about ordering, not content.** Stage 7 ran 45 minutes *after* two commits had
+already deployed a live indexed page, so the gate gated nothing — and the defect it exists to catch
+(a review date updated in the MDX but not in `src/data/faqs-wa.ts`, so the published page contradicted
+itself) was live for ~54 minutes. `check-pipeline.mjs` §4 now compares commit times and FAILs a slug
+whose page source is newer than its `07`. On its first run it caught a real historical case.
+Mistakes-log #19.
+
+**Run 3 also produced the session's most useful lesson, twice over.** Two audit findings asserted a
+fact was *absent* from a regex structurally incapable of finding it — the second one proposed removing
+correct, sourced content from a live page and wrote the falsehood into `kb/register/`. Caught by
+Andrey, not by any check. The meta-lesson is the one that matters: writing "greps prove presence,
+never absence" into an artefact did **not** prevent the repeat ninety minutes later. A lesson recorded
+as prose is not a method change. Mistakes-log #18.
+
+### What three runs decided about Phase 3
+
+Three independent runs is enough signal to settle the candidate list rather than keep it open:
+
+- **Keep artefacts-as-files and the independent grader.** Confirmed 3/3. The grader found in twenty
+  minutes what self-certification missed every time.
+- **Do not build `fact-verifier` or `keyword-analyst`.** Refuted 3/3 — neither flooded context in any
+  run. Their triggers have now had three chances to fire and have not.
+- **Do not split the skill.** Never triggered in three runs.
+
+That leaves the three candidates whose triggers *did* fire, none of which is built yet (checked
+24 Jul, not assumed): the `page-auditor` subagent, the per-slug warning filter, and the
+fail-on-undeclared-authority guardrail. Stage 7 is run as a fresh subagent by convention, which is
+the practice but not the mechanism.
+
+**What did land instead, earned by the runs rather than planned:** the asqa Person/developer rule,
+`check-pipeline.mjs` §4 gate-ordering, a superseded-unit-code check (`CPCCWHS1001` was live on two
+indexed pages), and a company-name check ("ABE Education", never bare "ABE" — 133 occurrences were
+live). Each exists because a run produced the failure it prevents, which is the sequencing this
+roadmap was built to enforce.
 
 ---
 

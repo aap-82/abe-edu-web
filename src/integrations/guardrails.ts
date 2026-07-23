@@ -416,6 +416,22 @@ export default function guardrails(): AstroIntegration {
           const h1s = html.match(/<h1[\s>]/gi) ?? [];
           if (h1s.length !== 1) fails.push(`${name}: ${h1s.length} H1 tags, expected exactly 1.`);
 
+          // 1b - the capsule must answer the QUESTION ITS OWN H2 ASKS.
+          // Move 3 of content-craft says "answer first", and that is what produced the defect:
+          // two live pages opened a "What is the X owner builder course?" section with "Yes, this
+          // is the course CBOS requires...". Answer-shaped, but the wrong shape of answer. A
+          // yes/no opener under a what/how/who/when/where/why/which heading is a grammatical
+          // mismatch a reader feels immediately and no other check can see. Found by Andrey
+          // reading the page, not by any gate. Narrow on purpose: only an unambiguous
+          // interrogative opener paired with an unambiguous yes/no reply fails.
+          for (const m of html.matchAll(/<h2[^>]*>(.*?)<\/h2>[\s\S]{0,400}?<p class="capsule"[^>]*>(.*?)<\/p>/gi)) {
+            const h2 = m[1].replace(/<[^>]+>/g, '').trim();
+            const cap = m[2].replace(/<[^>]+>/g, '').trim();
+            if (/^(what|how|who|when|where|why|which)\s/i.test(h2) && /^(yes|no)[,.\s]/i.test(cap)) {
+              fails.push(`${name}: the capsule under "${h2}" opens "${cap.slice(0, 24)}...". A yes/no opener does not answer a ${h2.split(' ')[0].toLowerCase()}-question. Answer the question the heading asks, or change the heading to a yes/no question.`);
+            }
+          }
+
           // A page carrying data-authority is a COURSE page and gets the full audit.
           // Everything else (hubs like /cpd) gets only the checks that apply to any page.
           const model = html.match(/data-authority="([^"]+)"/)?.[1];

@@ -141,7 +141,7 @@ import TopicGrid from '../../components/TopicGrid.astro';
 import ModuleRows from '../../components/ModuleRows.astro';
 // PartnerDisclosure is NOT imported here on purpose: CourseLayout auto-injects an
 // #rto-partner section carrying it for every asqa-accredited page (see CourseLayout ~125).
-// Adding a second one in the body duplicated the "ABE is not an RTO" disclosure - v1 relies
+// Adding a second one in the body duplicated the "ABE Education is not an RTO" disclosure - v1 relies
 // on the layout's section only, and so does this page.
 import BundleOffer from '../../components/BundleOffer.astro';
 import TrustBand from '../../components/TrustBand.astro';
@@ -155,8 +155,8 @@ import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import { moduleGroups, moduleOutcome } from '../../data/modules-nsw';
 import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
 
-<Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
-  <AnswerCapsule>Two costs, one course. You pay ABE <b>$199</b> for the training, then a separate <b>$233</b> permit fee to Service NSW when you apply. The course is online and self-paced, and it delivers the <b>five units</b> NSW Fair Trading requires once the work is $20,000 or more.</AnswerCapsule>
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>The course and the permit are separate payments. You pay ABE Education <b>$199</b> for the training, then <b>$233</b> to Service NSW when you apply. The course is online and self-paced, and it delivers the <b>five units</b> NSW Fair Trading requires once the work is $20,000 or more.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -166,7 +166,7 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
     canTitle="What the course is"
     can={['Five units of competency, delivered online and assessed by Upskill Institute (RTO 45708).', 'The NSW education requirement for owner-builder work valued at $20,000 or more.', 'A nationally recognised Statement of Attainment on completion, issued by the RTO.']}
     cantTitle="What it is not"
-    cant={['Not delivered by ABE Education as a registered training organisation. ABE publishes it; it is not an RTO.', 'Not the permit itself. The course is one part of a Service NSW application, not a substitute for it.', 'Not a White Card, and not a trade licence. Both are separate.']}
+    cant={['Not delivered by ABE Education as a registered training organisation. ABE Education publishes it; it is not an RTO.', 'Not the permit itself. The course is one part of a Service NSW application, not a substitute for it.', 'Not a White Card, and not a trade licence. Both are separate.']}
   />
   <SectionWayfinder label="Do you need one?" href="#need" />
 </Section>
@@ -199,7 +199,7 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
 </Section>
 
 <Section bg="bg-alt" id="recognised" marker="04" eyebrow="Nationally recognised" h2="Is this course nationally recognised?">
-  <AnswerCapsule><b>Yes.</b> Unlike ABE's other state courses, the NSW course is nationally recognised training. Upskill Institute, a registered training organisation (RTO 45708), delivers and assesses it and issues the Statement of Attainment. ABE Education publishes the course and is not an RTO.</AnswerCapsule>
+  <AnswerCapsule><b>Yes.</b> Unlike ABE Education's other state courses, the NSW course is nationally recognised training. Upskill Institute, a registered training organisation (RTO 45708), delivers and assesses it and issues the Statement of Attainment. ABE Education publishes the course and is not an RTO.</AnswerCapsule>
   <CanCant
     canTitle="What this course is"
     can={['Nationally recognised training, delivered and assessed by Upskill Institute (RTO 45708).', 'A Statement of Attainment for the five units NSW Fair Trading names for the education requirement.', 'Accepted for a NSW owner-builder permit application where the work is $20,000 or more.']}
@@ -214,7 +214,7 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
   id="how"
   marker="05"
   eyebrow="How it works"
-  h2="Three steps to your Statement of Attainment"
+  h2="How does the course work?"
   rev imgDesc="The online course interface open on a laptop at a kitchen table, self-paced study in a home setting with a coffee and a notepad." imgSpec="4:5 · warm tone · ~520×650"
   next={{ label: "What you'll learn", href: "#learn" }}
 >
@@ -224,7 +224,7 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
 </ZSection>
 
 <Section bg="bg-alt" id="learn" marker="06" eyebrow="What you'll learn" h2="Which units does the NSW course cover?">
-  <AnswerCapsule>Five units of competency, and they are not ABE's choice: NSW Fair Trading names these exact units as the owner-builder education requirement. They cover site safety, reading plans and specifications, estimating and costing, planning the work, and workplace communication.</AnswerCapsule>
+  <AnswerCapsule>Five units of competency, and they are not ABE Education's choice: NSW Fair Trading names these exact units as the owner-builder education requirement. They cover site safety, reading plans and specifications, estimating and costing, planning the work, and workplace communication.</AnswerCapsule>
   <div class="measure">
     <p>By the end you will {moduleOutcome}</p>
   </div>
@@ -233,8 +233,8 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
   <SectionWayfinder label="What it costs" href="#cost" />
 </Section>
 
-<Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
-  <AnswerCapsule>The course is <b>$199</b> to ABE. The NSW owner-builder permit fee is separate: <b>$233</b>, paid to Service NSW when you apply. Together that is <b>$432</b> to be ready to lodge. A White Card, if you do not already hold one, is a further separate cost.</AnswerCapsule>
+<Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="What will you pay in total?">
+  <AnswerCapsule>The course is <b>$199</b> to ABE Education. The NSW owner-builder permit fee is separate: <b>$233</b>, paid to Service NSW when you apply. Together that is <b>$432</b> to be ready to lodge. A White Card, if you do not already hold one, is a further separate cost.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $233 permit fee is made up of a $90 processing component and a $143 fixed component, applies to the 2026 to 2027 financial year, and is subject to an annual CPI increase at the start of each financial year. Owner-builder permits are issued for a one-year term only. Confirm the current fee with Service NSW before you lodge." />
   <SectionWayfinder label="What else you need" href="#build" />
 </Section>
@@ -266,21 +266,21 @@ import { liabilityCards, whyAbeCards, faqsW } from '../../data/nsw-w';
   <AnswerCapsule onDark>Nationally recognised training for the NSW requirement, delivered online with a registered training organisation, from a publisher that has trained more than <b>31,000</b> students since 2007.</AnswerCapsule>
 </TrustBand>
 
-<Section id="become" marker="09" eyebrow="The full path" h2="How to get your owner builder permit in NSW">
+<Section id="become" marker="09" eyebrow="The full path" h2="How to become an owner builder in NSW">
   <AnswerCapsule>Five steps: check what the work is worth, get your White Card, complete this course for the education requirement, obtain development consent, then lodge with Service NSW and pay the $233 permit fee.</AnswerCapsule>
   <Stepper steps={frontmatter.becomeSteps} maxWidth="640px" />
   <Note variant="caution" label="Order matters"><b>Order matters.</b> The Statement of Attainment and the White Card both have to be in hand before you lodge, and the permit attaches to a development consent you already hold. Complete the course well before you plan to start work.</Note>
   <VerifiedSources date="21 Jul 2026" facts="The application path, the evidence required and the permit fee fact-checked against Service NSW and the NSW fee schedule" sources={[{ label: 'Service NSW — Apply for an Owner-Builder Permit', href: 'https://www.service.nsw.gov.au/transaction/apply-for-an-owner-builder-permit' }, { label: 'NSW Government — Fees for licences and certificates', href: 'https://www.nsw.gov.au/business-and-economy/licences-and-credentials/building-and-trade-licences-and-registrations/assessment-process-and-time-frames/fees-for-licences-and-certificates' }]} />
-  <SectionWayfinder label="Why ABE" href="#why" />
+  <SectionWayfinder label="Why ABE Education" href="#why" />
 </Section>
 
-<Section bg="bg-alt" id="why" marker="10" eyebrow="Why ABE" h2="Why complete the NSW course with ABE?">
+<Section bg="bg-alt" id="why" marker="10" eyebrow="Why ABE Education" h2="Why complete the NSW course with ABE Education?">
   <AnswerCapsule>Because this page tells you the whole picture, sourced. The insurance you cannot get, the warning you owe a buyer, and the work you still cannot touch are things six competitor courses left out entirely. Every figure here is dated and linked to its NSW Government source.</AnswerCapsule>
   <TopicGrid items={whyAbeCards} />
   <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
 </Section>
 
-<Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+<Section bg="bg-warm" id="content-review" marker="11" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course?">
   <AnswerCapsule>This course is <b>developed, owned and delivered by Upskill Institute, RTO 45708</b>, under the Standards for Registered Training Organisations. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
   <SectionWayfinder label="FAQ" href="#faq" />

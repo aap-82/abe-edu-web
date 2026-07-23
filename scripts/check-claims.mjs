@@ -363,6 +363,79 @@ else {
   }
 }
 
+/* ---- 5. Superseded White Card unit code --------------------------------- */
+/* CPC + CWHS1001 (double C) is the RETIRED White Card unit. The current national code is
+   CPCWHS1001, verified at training.gov.au and re-confirmed on Blue Dog's scope 23 Jul 2026.
+   The retired code was found live on two indexed pages (a QLD bundle tile, an FAQ answer, and
+   AlertForce's scopeNote rendering on /accreditation) plus four docs, while only kb/register/
+   had it right - mistakes-log #1's sixth sighting. This turns that per-run act of vigilance
+   into a gate.
+
+   ALLOWED only where the line explains the code is retired: the register files say the current
+   code "supersedes and is equivalent to the earlier" one, and the mistakes log, pipeline
+   artefacts and skill reviews describe the finding. Those records are what make the code's
+   status knowable, so a blind find-and-replace would destroy exactly the evidence. A line
+   counts as explanatory when it mentions supersede / retired / earlier / old / former /
+   replaced / deprecated.
+
+   The literal is assembled at runtime so this file does not itself trip the scan (same reason
+   as #7 in the mistakes log: never write the token a machine scans for). */
+const RETIRED_UNIT = 'CPC' + 'CWHS1001';
+const EXPLAINS_RETIRED = /supersed|retired|earlier|\bold\b|former|replaced|deprecat/i;
+const unitHits = [];
+for (const dir of ['src', 'new site', '.claude/skills']) {
+  for (const ext of ['.md', '.mdx', '.ts', '.astro', '.mjs']) {
+    for (const f of walk(dir, ext)) {
+      const text = readFileSync(f, 'utf8');
+      if (!text.includes(RETIRED_UNIT)) continue;
+      text.split('\n').forEach((line, i) => {
+        if (line.includes(RETIRED_UNIT) && !EXPLAINS_RETIRED.test(line)) unitHits.push(`${f}:${i + 1}`);
+      });
+    }
+  }
+}
+if (unitHits.length) {
+  fails.push(`Superseded White Card unit ${RETIRED_UNIT} presented as current in ${unitHits.length} place(s): ${unitHits.slice(0, 6).join(', ')}${unitHits.length > 6 ? ' ...' : ''}. The current code is CPCWHS1001 (kb/register/legislation-references-tas.md). Only a line that says the code is superseded may mention it.`);
+} else {
+  oks.push(`Superseded White Card unit ${RETIRED_UNIT} is not presented as current in src/, new site/ or the skill`);
+}
+
+
+/* ---- 6. Company name in full ------------------------------------------- */
+/* The company is "ABE Education" in anything a reader sees. Bare "ABE" reads as an initialism
+   to decode, competes with the other three-letter training brands, and left the site
+   contradicting its own footer, which has always said "ABE Education is not a Registered
+   Training Organisation". 133 bare occurrences were expanded on 24 Jul 2026; without a gate
+   the next page written would reintroduce them.
+
+   Scope is reader-facing source only: page content, page data and components. Internal files
+   (kb/, pipeline/, comments in scripts) keep the short form, because nobody reads them as copy.
+
+   EXEMPT, by path:
+     SiteHeader.astro  the logotype - "ABE" is the mark, with "Education" folded in beside it
+     styleguide.astro  an internal, noindex component library, not customer copy
+   A comment line is exempt too: a comment explaining the rule must be able to name what it bans. */
+const BARE_ABE = /\bABE\b(?! Education)/;
+const NAME_EXEMPT_PATHS = ['SiteHeader.astro', 'styleguide.astro'];
+const isComment = (l) => /^\s*(\/\/|\*|\/\*|#|<!--)/.test(l);
+const nameHits = [];
+for (const dir of ['src/content', 'src/pages', 'src/data', 'src/components']) {
+  for (const ext of ['.md', '.mdx', '.ts', '.astro']) {
+    for (const f of walk(dir, ext)) {
+      if (NAME_EXEMPT_PATHS.some((x) => f.endsWith(x))) continue;
+      readFileSync(f, 'utf8').split('\n').forEach((line, i) => {
+        if (BARE_ABE.test(line) && !isComment(line)) nameHits.push(`${f}:${i + 1}`);
+      });
+    }
+  }
+}
+if (nameHits.length) {
+  fails.push(`Bare "ABE" in reader-facing content in ${nameHits.length} place(s): ${nameHits.slice(0, 6).join(', ')}${nameHits.length > 6 ? ' ...' : ''}. The company is "ABE Education" everywhere a reader can see it (CLAUDE.md house style). Only the SiteHeader logotype and the styleguide are exempt.`);
+} else {
+  oks.push('Company name: no bare "ABE" in reader-facing content');
+}
+
+
 for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) for (const m of xs) console.log(`  ${l.padEnd(5)} ${m}`);
 
 // An exclusion nobody can see is a claim to be taken on trust. --verbose itemises every figure the

@@ -284,6 +284,10 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .can-col li+li{border-top:1px solid var(--rule);}
 .can-col .gl{flex:none;font-weight:700;line-height:1.4;}
 .can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate-light);}
+/* Leading clause takes the darker ink so the point of each line lands first and the list is
+   scannable without reading it. Same values as Credentials' .cl-k, and the same split rule
+   (src/lib/lead-clause.ts). Lines with no clause break carry no emphasis. */
+.can-col .cc-k{color:var(--ink);font-weight:600;}
 .note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
 .note b{color:var(--ink);}
 /* Caution variant: attention without the banned side-stripe. A single 2px maroon rule

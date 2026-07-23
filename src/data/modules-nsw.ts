@@ -1,7 +1,7 @@
 import type { TopicCard, ModuleGroup } from '../types/course';
 
 /**
- * NSW is the first ASQA-accredited course page, and its module list is not an ABE
+ * NSW is the first ASQA-accredited course page, and its module list is not an ABE Education
  * curriculum decision: NSW Fair Trading names the exact units of competency an owner
  * builder must hold when the work is $20,000 or more. So these five cards ARE the
  * regulator's requirement, quoted, not a syllabus written around it.

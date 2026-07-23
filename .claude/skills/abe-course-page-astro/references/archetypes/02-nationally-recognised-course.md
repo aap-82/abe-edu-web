@@ -87,7 +87,7 @@ partner record before reuse.
 > ### Who issues this White Card?
 >
 > The course is delivered with our RTO partner Blue Dog Training, RTO 31193, and you receive a
-> nationally recognised Statement of Attainment for CPCCWHS1001 Prepare to work safely in the
+> nationally recognised Statement of Attainment for CPCWHS1001 Prepare to work safely in the
 > construction industry. Blue Dog issues the Statement of Attainment; ABE Education publishes and
 > supports the course and is not a Registered Training Organisation.
 >

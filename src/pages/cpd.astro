@@ -32,7 +32,7 @@ const reviewed = { name: 'Dominic Ogburn', href: 'https://www.linkedin.com/in/do
 const nav = [
   { label: 'What is CPD', href: '#what', sectionId: 'what' },
   { label: 'Choose your state', href: '#choose-state', sectionId: 'choose-state' },
-  { label: 'Why ABE', href: '#why', sectionId: 'why' },
+  { label: 'Why ABE Education', href: '#why', sectionId: 'why' },
   { label: 'By state', href: '#compare', sectionId: 'compare' },
   { label: 'FAQ', href: '#faq', sectionId: 'faq' },
 ];
@@ -47,7 +47,7 @@ const nav = [
 // soon, dead-ending a page that exists. NSW and WA remain genuinely unbuilt (B3).
 const stateCards = [
   { state: 'Tasmania', title: 'Building · Plumbing · Electrical CPD', href: '/cpd-tas',
-    desc: 'Regulator: CBOS Tasmania. ABE is listed as a CPD training provider on the CBOS website.', price: '$499' },
+    desc: 'Regulator: CBOS Tasmania. ABE Education is listed as a CPD training provider on the CBOS website.', price: '$499' },
   { state: 'New South Wales', title: 'Building CPD', soon: true,
     desc: 'Regulator: Building Commission NSW. Meets the NSW builder CPD criteria under the Home Building Act 1989.' },
   { state: 'Western Australia', title: 'Real Estate CPD', soon: true,
@@ -69,7 +69,7 @@ const cmpColumns = [
   { key: 'wa', label: 'Western Australia', soon: true },
 ];
 const cmpRows = [
-  { label: 'Occupations (ABE CPD)', values: ['Building · Plumbing · Electrical', 'Building', 'Real Estate'] },
+  { label: 'Occupations (ABE Education CPD)', values: ['Building · Plumbing · Electrical', 'Building', 'Real Estate'] },
   { label: 'Regulator', values: ['CBOS Tasmania', 'Building Commission NSW', 'Consumer Protection WA'] },
   { label: 'How CPD is set', values: [
     'Points per licence period (for example Builder 12 a year, Building Surveyor 30 a year); activities are RTO-accredited or approved by CBOS',
@@ -78,7 +78,7 @@ const cmpRows = [
   ] },
 ];
 
-// Why ABE — reasons as cards.
+// Why ABE Education — reasons as cards.
 const whyCards: TopicCard[] = [
   { tag: '01', title: 'Recognised where it counts', body: 'Listed with CBOS Tasmania, and built to meet the CPD criteria set by Building Commission NSW and Consumer Protection WA.' },
   { tag: '02', title: 'Fully online and self-paced', body: 'Start when you like and finish around work, on any device.' },
@@ -89,14 +89,14 @@ const whyCards: TopicCard[] = [
 
 const footerSources = [
   { label: 'CBOS Tasmania — Continuing Professional Development', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'Verified 10 Jul 2026' },
-  { label: 'CBOS Tasmania — CPD training providers (ABE listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources', verified: 'Verified 12 Jun 2026' },
+  { label: 'CBOS Tasmania — CPD training providers (ABE Education listed)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd/additional-training-resources', verified: 'Verified 12 Jun 2026' },
   { label: 'Building Commission NSW', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission', verified: 'Verified 10 Jul 2026' },
   { label: 'Consumer Protection WA — Mandatory CPD (real estate)', href: 'https://www.consumerprotection.wa.gov.au/mandatory-cpd-real-estate', verified: 'Verified 10 Jul 2026' },
   { label: 'Occupational Licensing Act 2005 (Tas) s.4 · CPD Determination 2018', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd', verified: 'via CBOS' },
   { label: 'Home Building Act 1989 (NSW)', href: 'https://www.nsw.gov.au/departments-and-agencies/building-commission', verified: 'builder CPD criteria' },
 ];
 
-const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisation.</b> These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification. In Tasmania, ABE is listed as a CPD training provider on the CBOS website; in New South Wales and Western Australia its CPD is built to meet the criteria set by the Building Commission NSW and Consumer Protection WA respectively. Government requirements verified 10 July 2026; CPD point tables and fees are reviewed by regulators (often around 1 July), so confirm the current figures with your regulator before you rely on them.';
+const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisation.</b> These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification. In Tasmania, ABE Education is listed as a CPD training provider on the CBOS website; in New South Wales and Western Australia its CPD is built to meet the criteria set by the Building Commission NSW and Consumer Protection WA respectively. Government requirements verified 10 July 2026; CPD point tables and fees are reviewed by regulators (often around 1 July), so confirm the current figures with your regulator before you rely on them.';
 
 // JSON-LD — hub page type: ItemList of Course + BreadcrumbList. No single Course.offers, no RTO claim.
 const schema = {
@@ -106,7 +106,7 @@ const schema = {
       itemListElement: [
         { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/cpd-tas',
           item: { '@type': 'Course', name: 'Tasmania CPD (Building, Plumbing, Electrical)',
-            description: 'Online CPD for Tasmanian building-industry licence holders. ABE is listed as a CPD training provider with CBOS Tasmania.',
+            description: 'Online CPD for Tasmanian building-industry licence holders. ABE Education is listed as a CPD training provider with CBOS Tasmania.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
         { '@type': 'ListItem', position: 2, url: 'https://www.abeeducation.edu.au/cpd-nsw',
           item: { '@type': 'Course', name: 'NSW Building CPD',
@@ -145,7 +145,7 @@ const schema = {
         </ul>
         <div class="hero-cta">
           <a class="btn-primary" href="#choose-state">Find your state’s CPD</a>
-          <a class="btn-secondary" href="#why">Why ABE</a>
+          <a class="btn-secondary" href="#why">Why ABE Education</a>
         </div>
         <div class="proof">
           <span class="stat"><span class="n num">3</span> states covered</span>
@@ -172,7 +172,7 @@ const schema = {
   </Section>
 
   <Section id="choose-state" bg="bg-alt" eyebrow="Choose your state" h2="Find the CPD that applies to your licence">
-    <AnswerCapsule>ABE currently offers CPD in three states. Pick yours to see the courses and points that apply, and the fees for each.</AnswerCapsule>
+    <AnswerCapsule>ABE Education currently offers CPD in three states. Pick yours to see the courses and points that apply, and the fees for each.</AnswerCapsule>
     <div class="hub-grid">{stateCards.map((c) => <HubCard {...c} />)}</div>
     <Note><b>Fees:</b> course fees are shown on each state page, alongside the points each course carries. Need several points at once? The <a href="/cpd-tas#bundles">Tasmanian trade bundles</a> cover a full year in one purchase, from $449.</Note>
     <VerifiedSources date="10 July 2026" facts="Regulator and CPD requirement fact-checked per state" sources={[
@@ -182,17 +182,17 @@ const schema = {
     ]} />
   </Section>
 
-  <Section id="why" eyebrow="Why ABE" h2="Why choose ABE Education for CPD">
-    <AnswerCapsule>Professionals choose ABE for CPD because it is recognised where it counts, fully online, written for the job, kept current, and backed by a certificate you can put straight into your CPD log.</AnswerCapsule>
+  <Section id="why" eyebrow="Why ABE Education" h2="Why choose ABE Education for CPD">
+    <AnswerCapsule>Professionals choose ABE Education for CPD because it is recognised where it counts, fully online, written for the job, kept current, and backed by a certificate you can put straight into your CPD log.</AnswerCapsule>
     <TopicGrid items={whyCards} />
     <p class="howline" style="margin-top:var(--s-lg)"><b>100% online</b> · Listed with CBOS Tasmania · Trusted by Australian tradespeople</p>
     <Note maroon>ABE Education develops and delivers this CPD directly. These are non-accredited CPD courses, not nationally recognised training, so they carry CPD points rather than a qualification.</Note>
   </Section>
 
   <Section id="compare" bg="bg-alt" eyebrow="At a glance" h2="CPD by state and occupation">
-    <AnswerCapsule>How CPD is measured depends on your state and licence. Here is the picture at a glance, then your state page lists the points each ABE course carries.</AnswerCapsule>
+    <AnswerCapsule>How CPD is measured depends on your state and licence. Here is the picture at a glance, then your state page lists the points each ABE Education course carries.</AnswerCapsule>
     <ComparisonTable columns={cmpColumns} rows={cmpRows} ctaLabel="View CPD" />
-    <Note>Tasmanian points vary by licence class. As a guide, builders need 12 points a year (36 over a three-year licence), building surveyors 30 a year, and electricians, plumbers and gas-fitters 12 a year. Your state page lists the points each ABE course carries so you can plan the shortest path to your total.</Note>
+    <Note>Tasmanian points vary by licence class. As a guide, builders need 12 points a year (36 over a three-year licence), building surveyors 30 a year, and electricians, plumbers and gas-fitters 12 a year. Your state page lists the points each ABE Education course carries so you can plan the shortest path to your total.</Note>
     <VerifiedSources date="10 July 2026" facts="CPD points framework fact-checked per state" sources={[
       { label: 'CBOS Tasmania — CPD (Occupational Licensing Act 2005 s.4; CPD Determination 2018)', href: 'https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd' },
       { label: 'Consumer Protection WA — Mandatory CPD (real estate)', href: 'https://www.consumerprotection.wa.gov.au/mandatory-cpd-real-estate' },

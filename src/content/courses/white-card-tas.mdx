@@ -57,7 +57,7 @@ ctaBand:
   sub: "$59, online and self-paced, delivered with Blue Dog Training (RTO 31193). Start today and lodge for your card as soon as you pass."
   cta: { href: "#enrol", label: "Start the course · $59", microcopy: "Instant access after payment · Statement of Attainment issued by Blue Dog Training" }
 glance:
-  - { key: "Price", value: "$59", note: "Paid to ABE. The $13.72 government card fee is separate." }
+  - { key: "Price", value: "$59", note: "Paid to ABE Education. The $13.72 government card fee is separate." }
   - { key: "Delivery", value: "Online", note: "Self-paced, for Tasmanian residents. Study on any device." }
   - { key: "Assessment", value: "Video + questions", note: "A recorded safety demonstration plus online questions." }
   - { key: "Credential", value: "CPCWHS1001", note: "Nationally recognised Statement of Attainment, issued by Blue Dog Training." }
@@ -96,8 +96,8 @@ import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-tas';
 
-<Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
-  <AnswerCapsule>Two costs, one card. You pay ABE <b>$59</b> for the course, then a separate <b>$13.72</b> government fee to Service Tasmania when you lodge for your card. It is online and self-paced for Tasmanian residents, and the credential is nationally recognised.</AnswerCapsule>
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>The course and the card are separate payments. You pay ABE Education <b>$59</b> for the course, then <b>$13.72</b> to Service Tasmania when you lodge for your card. It is online and self-paced for Tasmanian residents, and the credential is nationally recognised.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -131,7 +131,7 @@ import { faqs } from '../../data/faqs-white-card-tas';
   id="your-card"
   marker="03"
   eyebrow="Getting your card"
-  h2="What you get, and how to get your card"
+  h2="What do you get, and how do you get your card?"
   imgDesc="A person handing a Statement of Attainment and identity documents across a Service Tasmania counter to lodge a construction induction card application in person."
   imgSpec="4:5 · warm tone · ~520×650"
   next={{ label: "What it costs", href: "#cost" }}
@@ -147,7 +147,7 @@ import { faqs } from '../../data/faqs-white-card-tas';
 </ZSection>
 
 <Section bg="bg-warm" id="cost" marker="04" eyebrow="What it costs" h2="What does a Tasmanian White Card cost in total?">
-  <AnswerCapsule>The course is <b>$59</b>, paid to ABE. The only other cost is the government card fee of <b>$13.72</b>, paid at Service Tasmania when you lodge for your card. That is <b>$72.72</b> in total, and there is nothing else to pay. We do not receive the $13.72; it goes to the regulator.</AnswerCapsule>
+  <AnswerCapsule>The course is <b>$59</b>, paid to ABE Education. The only other cost is the government card fee of <b>$13.72</b>, paid at Service Tasmania when you lodge for your card. That is <b>$72.72</b> in total, and there is nothing else to pay. We do not receive the $13.72; it goes to the regulator.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $13.72 Service Tasmania card fee is the same for a new card or a replacement, and is reviewed each 1 July, so check the current amount before you lodge. There is no membership, renewal or annual charge." />
   <VerifiedSources date="22 Jul 2026" facts="The $13.72 Service Tasmania card fee checked against the current fees page (last updated 1 July 2026)" sources={[{ label: 'Service Tasmania — Apply for a white card', href: 'https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card' }]} />
   <SectionWayfinder label="How the course works" href="#how-it-works" />
@@ -165,7 +165,7 @@ import { faqs } from '../../data/faqs-white-card-tas';
   <AnswerCapsule>You complete the course online, at your own pace, on any device. Assessment is a short video in which you demonstrate the safety steps, plus a set of online questions. Before you start you need a Unique Student Identifier and basic personal protective equipment to hand for the video.</AnswerCapsule>
   <div class="measure">
     <p>The assessment is the part people wonder about with any online course, and it is also the reason self-paced online is allowed at all. Since 2016 the White Card assessment has included a supervised demonstration: you put on and correctly wear common site protective equipment on camera. That video, with the online questions, is what makes an online White Card a real one rather than a box-ticking exercise.</p>
-    <p>Have a hard hat, eye protection, hearing protection and a high-visibility top ready for the video, and create your Unique Student Identifier before you begin, since nationally recognised training cannot be issued without one. Blue Dog conducts and marks the assessment; ABE provides the platform and support.</p>
+    <p>Have a hard hat, eye protection, hearing protection and a high-visibility top ready for the video, and create your Unique Student Identifier before you begin, since nationally recognised training cannot be issued without one. Blue Dog conducts and marks the assessment; ABE Education provides the platform and support.</p>
   </div>
   <VerifiedSources date="26 May 2026" facts="The supervised PPE demonstration requirement, which underpins self-paced online delivery, checked against the current delivery policy" sources={[{ label: 'WorkSafe Tasmania — White cards (construction induction)', href: 'https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction' }]} />
   <SectionWayfinder label="Who developed and checked this" href="#content-review" />
@@ -177,7 +177,7 @@ import { faqs } from '../../data/faqs-white-card-tas';
   <SectionWayfinder label="Common questions" href="#faq" />
 </Section>
 
-<Section id="faq" marker="07" eyebrow="FAQ" h2="White Card Tasmania FAQ">
+<Section id="faq" marker="07" eyebrow="FAQ" h2="Common questions">
   <Faq items={faqs} />
   <VerifiedSources date="23 Jul 2026" facts="Answers checked against the national register, Service Tasmania and WorkSafe Tasmania" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/organisation/details/31193' }, { label: 'Service Tasmania — Apply for a white card', href: 'https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card' }]} />
   <SectionWayfinder label="Start the course" href="#enrol" ready />

@@ -34,7 +34,7 @@ export const liabilityCards: TopicCard[] = [
 ];
 
 /**
- * Why ABE, in checkable terms rather than adjectives (must-have section 9). No puffery, no
+ * Why ABE Education, in checkable terms rather than adjectives (must-have section 9). No puffery, no
  * "comprehensive". Every claim here is verifiable on the page or its sources.
  */
 export const whyAbeCards: TopicCard[] = [
@@ -60,7 +60,7 @@ export const whyAbeCards: TopicCard[] = [
  * sale, licensed work), the accredited-vs-approved question competitors weaponise, and the
  * TAFE query that Stage 2 found NOBODY answering. Every new answer is sourced from the
  * 21 Jul 2026 ledger. Recognition answer keeps v1's wording: names the RTO and number, states
- * ABE is not the RTO. (Demo note: the RTO's scope claim is unverified — see the -w frontmatter.)
+ * ABE Education is not the RTO. (Demo note: the RTO's scope claim is unverified — see the -w frontmatter.)
  */
 export const faqsW: FAQItem[] = [
   {

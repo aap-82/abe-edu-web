@@ -106,7 +106,7 @@ import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroupsWa, moduleOutcomeWa, obligationCardsWa } from '../../data/modules-wa';
 import { faqsWa } from '../../data/faqs-wa';
 
-<Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
   <AnswerCapsule>WA runs a knowledge-requirement model, so this WA-specific course plus a White Card is the evidence the Building Services Board accepts for your Form 75 approval. It is <b>$179</b>, 100% online, the quiz needs <b>80%</b> to pass, and your certificate is issued the <b>same day</b>.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
@@ -119,7 +119,7 @@ import { faqsWa } from '../../data/faqs-wa';
   imgDesc="Owner builder crouched at the timber wall frame on a Western Australian residential site." imgSpec="4:5 · warm tone · ~1000×1250" imgSrc="/images/wa-owner-builder-course-site.avif" imgAlt="A Western Australian owner builder crouched at the timber wall frame of their home on a sandy residential site."
   next={{ label: "Licence, permit or approval?", href: "#licence" }}
 >
-    <AnswerCapsule><b>Yes.</b> Western Australia does not prescribe a specific owner-builder course. The Building Services Board accepts a WA-specific course completed within the last two years, together with a White Card, as evidence that you understand an owner-builder’s duties. ABE’s certificate is that evidence, and you attach it to your Form 75.</AnswerCapsule>
+    <AnswerCapsule><b>Yes.</b> Western Australia does not prescribe a specific owner-builder course. The Building Services Board accepts a WA-specific course completed within the last two years, together with a White Card, as evidence that you understand an owner-builder’s duties. ABE Education’s certificate is that evidence, and you attach it to your Form 75.</AnswerCapsule>
     <div class="measure">
       <p>WA runs what is called a knowledge-requirement model. Rather than approving particular courses or providers, the Building Services Board sets out the knowledge an owner-builder must have and lists the ways you can show it.</p>
       <p>The most common pathway, and the one this course is built for, is a course with WA-specific content completed within the last two years, paired with a white or blue card for the unit <em>Prepare to work safely in the construction industry</em> (CPCWHS1001).</p>
@@ -163,7 +163,7 @@ import { faqsWa } from '../../data/faqs-wa';
   <SectionWayfinder label="Your responsibilities" href="#responsibilities" />
 </Section>
 
-<Section bg="bg-alt" id="responsibilities" marker="04" eyebrow="The role" h2="Your responsibilities as a WA owner-builder">
+<Section bg="bg-alt" id="responsibilities" marker="04" eyebrow="The role" h2="What are your responsibilities as a WA owner-builder?">
   <AnswerCapsule>As an owner-builder you become the person responsible for the build. That means holding the building permit and working to it, engaging licensed trades for electrical and plumbing work, meeting your work health and safety duties, supervising quality, carrying the right insurance, and fixing defects. These responsibilities are yours by law and cannot be handed off.</AnswerCapsule>
   <div class="measure">
     <p>Taking owner-builder approval means stepping into the builder’s shoes. You hold and comply with the building permit and its inspection stages.</p>
@@ -175,7 +175,7 @@ import { faqsWa } from '../../data/faqs-wa';
   <VerifiedSources date="7 Jul 2026" facts="Owner-builder duties fact-checked against the current Act" sources={[{ label: 'WA — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }, { label: 'Work Health and Safety Act 2020', href: 'https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_a147087.html' }]} />
 </Section>
 
-<Section id="learn" marker="05" eyebrow="What you'll learn" h2="Introduction plus 12 modules, written for WA">
+<Section id="learn" marker="05" eyebrow="What you'll learn" h2="What do the WA modules cover?">
   <AnswerCapsule>An <b>Introduction and twelve modules</b>, written for Western Australia and updated in June 2026. It runs from deciding whether owner-building suits you, through WA legislation, the National Construction Code, bushfire and site-hazard requirements, contracts and insurance, to running the build and completing it.</AnswerCapsule>
   <ModuleRows items={moduleGroupsWa} />
   <Note><b>By the end</b> {moduleOutcomeWa.replace(/^By the end you will be able to /, 'you will be able to ')}</Note>
@@ -188,7 +188,7 @@ import { faqsWa } from '../../data/faqs-wa';
   bg="bg-alt"
   marker="06"
   eyebrow="How it works"
-  h2="Three steps to your certificate"
+  h2="How does the course work?"
   rev imgDesc="A closed laptop, notebook and glasses on a home desk by a window, self-paced study." imgSpec="4:5 · warm tone · ~1000×1250" imgSrc="/images/wa-owner-builder-course-online.avif" imgAlt="A closed laptop, notebook and reading glasses on a home desk by a window, self-paced study for the WA owner builder course."
   next={{ label: "What it costs", href: "#cost" }}
 >
@@ -205,8 +205,8 @@ import { faqsWa } from '../../data/faqs-wa';
   <AnswerCapsule onDark>A WA-specific course, <b>Introduction plus 12 modules</b>, independently reviewed for currency on 20 June 2026, from a provider that has trained more than <b>31,000</b> students since 2007.</AnswerCapsule>
 </TrustBand>
 
-<Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="Three costs, three payees, nothing hidden">
-  <AnswerCapsule>The course is <b>$179</b> to ABE. The government owner-builder approval fee is a separate <b>$212</b> for residential (or $467 for industrial-commercial), paid to Building and Energy. Your local council then charges value-based building-permit fees. Only one of the three is the course.</AnswerCapsule>
+<Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="What will you pay in total?">
+  <AnswerCapsule>The course is <b>$179</b> to ABE Education. The government owner-builder approval fee is a separate <b>$212</b> for residential (or $467 for industrial-commercial), paid to Building and Energy. Your local council then charges value-based building-permit fees. Only one of the three is the course.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $179 course fee can be split into four with Afterpay. The government approval fee is set by Building and Energy and reviewed each 1 July, so confirm the current amount before you lodge. Your local council charges separate, value-based building-permit fees." />
   <BundleOffer
     eyebrow="Bundle"
@@ -223,14 +223,14 @@ import { faqsWa } from '../../data/faqs-wa';
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 
-<Section id="obligations" marker="08" eyebrow="Wider obligations" h2="What else your WA project needs">
+<Section id="obligations" marker="08" eyebrow="Wider obligations" h2="What else does your WA project need?">
   <AnswerCapsule>Beyond the course and approval, a few obligations apply: home indemnity insurance if you sell within seven years, workers’ compensation if you employ anyone, the timing rules on your approval, licensed trades, and the separate council building permit.</AnswerCapsule>
   <TopicGrid items={obligationCardsWa} />
   <InsurancePartner
     heading="Cover for your build, through our partner"
     paras={[
       "As an owner-builder you carry the risk on your own site, so arrange the right cover before work starts. Most owner-builders need public liability and contract works cover, and if you sell within seven years of the building permit you must have home indemnity insurance in place.",
-      "ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE students for close to 20 years. We can introduce you for a quote and advice tailored to your project.",
+      "ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE Education students for close to 20 years. We can introduce you for a quote and advice tailored to your project.",
     ]}
     cta={{ href: "#enrol", label: "Get an owner-builder insurance quote" }}
     imgRatio="r54"
@@ -252,7 +252,7 @@ import { faqsWa } from '../../data/faqs-wa';
   <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
 </Section>
 
-<Section bg="bg-warm" id="content-review" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+<Section bg="bg-warm" id="content-review" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course?">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed builder with more than forty years in Australian construction, and <b>independently reviewed by Warwick Smith</b> for compliance and currency. Warwick’s review, dated 20 June 2026, checks that the WA legislation and requirements on this page are current.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} />
 </Section>

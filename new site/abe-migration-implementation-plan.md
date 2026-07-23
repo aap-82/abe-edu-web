@@ -130,7 +130,7 @@ Heaviest compliance load; all five pages ASQA. Build **WA first** (36.7k impress
 |---|---|---|---|---|---|
 | W3-1 | [CC] | **White Card WA** `/white-card-wa`. Blue Dog 31193; unit `CPCWHS1001` (single C). | A | W0-1 | 301 from `/white-card-wa-online`. Delivery mode per state is a hard accuracy point. |
 | W3-2 | [CC] | **White Card NSW** `/white-card-nsw`. Upskill 45708. Trainer-led, never self-paced online. | A | W0-1 | Regulator: SafeWork NSW. |
-| W3-3 | [CC] | **White Card QLD** `/white-card-qld`. Blue Dog 31193; `CPCCWHS1001`. | A | W0-1 | Regulator: WHSQ. |
+| W3-3 | [CC] | **White Card QLD** `/white-card-qld`. Blue Dog 31193; `CPCWHS1001`. | A | W0-1 | Regulator: WHSQ. |
 | W3-4 | [CC] | **White Card TAS** `/white-card-tas`. Blue Dog 31193. | A | W0-1 | 301 from `/tas-online-white-card`. Regulator: WorkSafe Tasmania. |
 | W3-5 | [CC] | **White Card ACT** `/white-card-act`. AlertForce 91826. | A | W0-1 | Regulator: WorkSafe ACT. |
 | W3-6 | [CC] | **White Card hub** `/white-card` (10.8k impr already on the slug). | B | W3-1..W3-5 | Five state cards + `ItemList`; cross-links to `/faq`, `/accreditation`, `/experts`. |
@@ -219,9 +219,9 @@ Tick as each ticket closes. `[AP]` rows are the ones that need you.
 
 **Wave 0** — ☑ W0-1 ☑ W0-2 ☑ W0-3 ☑ W0-4 ☑ W0-5 ☑ W0-6 ☑ W0-7 ☑ W0-8 ☑ W0-9 ☑ W0-10 *(complete: IA signed off 19 Jul, and both remaining redirect CONFIRM flags — `/tas-cpd-architects-courses`, `/tas-cpd-building-designers-courses` — resolved to retire into `/cpd-tas` the same day)*
 **Wave 1** — ☑ W1-1 ☑ W1-2 ☑ W1-3 ☑ W1-4 ☑ W1-5 ☑ W1-6 *(complete: all six shipped 19 Jul on `feat/experts-collection`, PRs #11 and #12. The three footer links that 404'd sitewide now resolve, and Wave 2's E-E-A-T cross-link target exists. W1-5 shipped with real quotes, not score-only. **W1-6 finalised the map ahead of six of its targets — see the redirect-target gate in the cutover runbook.**)*
-**Wave 2** — ☐ W2-1 ☐ W2-2 ☐ W2-3 ☐ W2-4 ☐ W2-5 ☐ W2-6 ☐ W2-7
-**Wave 3** — ☐ W3-1 ☐ W3-2 ☐ W3-3 ☐ W3-4 ☐ W3-5 ☐ W3-6
-**Wave 4** — ☐ W4-1 ☐ W4-2 ☐ W4-3 ☐ W4-4 ☐ W4-5 ☐ W4-6 ☐ W4-7 ☐ W4-8 ☐ **W4-9 [AP]** ☐ W4-10
+**Wave 2** — ☑ W2-1 ☑ W2-2 ⛔ W2-3 ☑ W2-4 ☑ W2-5 ☐ W2-6 ☐ W2-7 *(re-ticked 24 Jul 2026 against `dist/`, not against memory: the tracker read all-unstarted while five tickets were built and indexable. W2-1 QLD $493.59 re-verified 21 Jul and WA re-verified 22 Jul, both FY26-27; WA has since been through a full pipeline run. W2-2 TAS, W2-4 ACT and W2-5 the `/owner-builder-courses` hub all render and pass guardrails. **W2-3 NSW OB is ⛔ not done and not doable** — the page exists and is noindexed, but the partnership is unsigned and the five units are not on RTO 45708's scope, so it must not ship in its current form; see the pre-launch page decision in ROADMAP.md. W2-6 insurance and W2-7 Project Advisory are genuinely unstarted, and the OB hub cross-links to both.)*
+**Wave 3** — ☐ W3-1 ☐ W3-2 ☐ W3-3 ◪ W3-4 ☐ W3-5 ☐ W3-6 *(W3-4 `/white-card-tas` was built 23 Jul as evidence run 2 — the first exercise of the asqa-accredited authority model — and is **noindexed pending `buyUrl`, two photos and the three AlertForce/Blue Dog contacts [AP]**. It also forced the ASQA authorship correction now enforced in `guardrails.ts`: on an accredited course the RTO is the developer, never an ABE person. The other four state pages inherit that shape.)*
+**Wave 4** — ☐ W4-1 ◪ W4-2 ☐ W4-3 ☐ W4-4 ☐ W4-5 ☐ W4-6 ☐ W4-7 ☐ W4-8 ☐ **W4-9 [AP]** ☐ W4-10 *(W4-2 `/cpd-building-tas` was built 23 Jul as the Phase 2 evidence run and is **noindexed**: `buyUrl` unverified, and the coverage claim needs either the WHS classification imported or the headline capped. It also carries a standing `check-pipeline` FAIL — the page changed 191 minutes after its Stage 7, so it must be re-verified before it ships.)*
 **Wave 5** — ☐ W5-1 ☐ W5-2 ☐ W5-3 ☐ W5-4 ☐ W5-5 ☐ W5-6 ☐ W5-7
 **Wave 6** — ☐ pre-launch gates ☐ **cutover [AP]** ☐ post-launch watch
 

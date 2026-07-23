@@ -84,7 +84,7 @@ footerSources:
   - { label: "Workplace Health and Safety Queensland", href: "https://www.worksafe.qld.gov.au/", verified: "WHS · asbestos · White Card" }
   - { label: "QLeave — long service leave levy", href: "https://www.qleave.qld.gov.au/", verified: "Verified 24 Jun 2026" }
   - { label: "NCC 2022 (ABCB) — 7-star energy", href: "https://ncc.abcb.gov.au/", verified: "QLD to 1 May 2027" }
-disclaimersHtml: '<b>ABE Education is not a Registered Training Organisation.</b> The NONACCABE QBCC Owner Builder Course has been approved by the QBCC (interim approval); the approval applies to the approved course material only and is not an endorsement of ABE Education or any other ABE product or service. <b>Insurance:</b> ABE Education is not a licensed insurance provider; insurance is arranged by InsuranceTek Pty Ltd. Government figures verified 24 Jun 2026; the QBCC permit fee ($493.59) was re-verified 14 July 2026 after the 1 July indexation, and the QBCC indexes fees each 1 July, so confirm the current amount before you lodge.'
+disclaimersHtml: '<b>ABE Education is not a Registered Training Organisation.</b> The NONACCABE QBCC Owner Builder Course has been approved by the QBCC (interim approval); the approval applies to the approved course material only and is not an endorsement of ABE Education or any other ABE Education product or service. <b>Insurance:</b> ABE Education is not a licensed insurance provider; insurance is arranged by InsuranceTek Pty Ltd. Government figures verified 24 Jun 2026; the QBCC permit fee ($493.59) was re-verified 14 July 2026 after the 1 July indexation, and the QBCC indexes fees each 1 July, so confirm the current amount before you lodge.'
 ---
 
 import Section from '../../components/Section.astro';
@@ -109,8 +109,8 @@ import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroups, obligationCards } from '../../data/modules';
 import { faqs } from '../../data/faqs';
 
-<Section bg="bg-alt" eyebrow="At a glance" h2="The facts before you enrol">
-  <AnswerCapsule>Two costs, one course. You pay ABE <b>$179</b> for the course, then a separate <b>$493.59</b> permit fee to the QBCC. The course is online, the quiz needs <b>80%</b> to pass, and your certificate is valid <b>five years</b>.</AnswerCapsule>
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>The course and the permit are separate payments. You pay ABE Education <b>$179</b> for the course, then <b>$493.59</b> to the QBCC. The course is online, the quiz needs <b>80%</b> to pass, and your certificate is valid <b>five years</b>.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -122,7 +122,7 @@ import { faqs } from '../../data/faqs';
   imgDesc="Owner builder on site reviewing plans, Queensland residential context." imgSpec="4:5 · warm tone · ~520×650" imgSrc="/images/qld-owner-builder-course-site.avif" imgAlt="A hi-vis worker in a hard hat looks up at their timber-framed home under construction on a Queensland site."
   next={{ label: "Is it accredited?", href: "#accredited" }}
 >
-    <AnswerCapsule><b>Yes, this is the course the QBCC requires</b> before you apply for an owner builder permit in Queensland. You need a permit to manage residential building work valued at more than <b>$11,000</b> on your own property.</AnswerCapsule>
+    <AnswerCapsule>The Queensland owner builder course is the training <b>the QBCC requires</b> before you can apply for an owner builder permit. You need that permit to manage residential building work valued at more than <b>$11,000</b> on your own property.</AnswerCapsule>
     <div class="measure">
       <p>ABE Education delivers the course 100% online, approved by the QBCC as the <strong>NONACCABE QBCC Owner Builder Course</strong>.</p>
       <p>Finish it and you receive a Certificate of Completion, which is what the QBCC looks for when it assesses your permit application.</p>
@@ -133,7 +133,7 @@ import { faqs } from '../../data/faqs';
 </ZSection>
 
 <Section bg="bg-alt" id="accredited" marker="02" eyebrow="Approved vs accredited" h2="Is this course accredited?">
-  <AnswerCapsule><b>Yes, for your permit.</b> The NONACCABE QBCC Owner Builder Course is QBCC-approved, which is exactly what Queensland requires. It is not a nationally recognised or RTO-accredited qualification, and it does not need to be. You need an approved course, and this is one.</AnswerCapsule>
+  <AnswerCapsule><b>Yes, for your permit.</b> The NONACCABE QBCC Owner Builder Course is QBCC-approved, which is exactly what Queensland requires. It is not a nationally recognised or RTO-accredited qualification, and it does not need to be. Queensland asks for an approved course, not an accredited one, and the two are different things.</AnswerCapsule>
   <CanCant
     canTitle="What this course is"
     can={['QBCC-approved course material (the NONACCABE QBCC Owner Builder Course).', 'Issues a Certificate of Completion the QBCC accepts for your permit.', 'Valid for five years from the day you complete it.']}
@@ -148,7 +148,7 @@ import { faqs } from '../../data/faqs';
   id="how"
   marker="03"
   eyebrow="How it works"
-  h2="Three steps to your certificate"
+  h2="How does the course work?"
   rev imgDesc="The online course interface on a laptop, clean and self-paced." imgSpec="4:5 · warm tone · ~520×650" imgSrc="/images/qld-owner-builder-course-online.avif" imgAlt="The QLD owner builder course open on a laptop at a building site, showing a self-paced online lesson."
   next={{ label: "What you'll learn", href: "#learn" }}
 >
@@ -157,7 +157,7 @@ import { faqs } from '../../data/faqs';
     <VerifiedSources date="24 Jun 2026" facts="Certificate and permit-application steps fact-checked against the current guidance" sources={[{ label: 'QBCC — Apply for an owner builder permit', href: 'https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/apply-owner-builder-permit' }]} />
 </ZSection>
 
-<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="18 modules, grouped by the stage of your build">
+<Section bg="bg-alt" id="learn" marker="04" eyebrow="What you'll learn" h2="What do the 18 modules cover?">
   <AnswerCapsule><b>18 modules</b> covering everything you need to run a compliant Queensland build, from permits and safety to costing, trades and move-in. It teaches you to manage the project, not to lay bricks.</AnswerCapsule>
   <ModuleRows items={moduleGroups} />
   {/* The aggregate `moduleOutcome` note that sat here has been removed. Every clause of it
@@ -175,7 +175,7 @@ import { faqs } from '../../data/faqs';
     canTitle="What a permit lets you do"
     can={['Manage and supervise your own residential build as head contractor.', 'Engage licensed trades to carry out the work.', 'Take on work above $11,000, and up to $27,500 for a genuine farm building.']}
     cantTitle="What it doesn't cover"
-    cant={['Plumbing, drainage, gasfitting or chemical termite work unless you are licensed.', 'Access to the Queensland Home Warranty Scheme for your own work.', 'A second owner builder permit within six years, unless an exemption applies.']}
+    cant={['Plumbing, drainage, gasfitting or chemical termite work yourself. Each needs the relevant trade licence.', 'Access to the Queensland Home Warranty Scheme for your own work.', 'A second owner builder permit within six years, unless an exemption applies.']}
   />
   <Note><b>Keep in mind:</b> your Certificate of Completion must be no more than five years old on the day you apply. Only one person on a jointly owned title completes the course and becomes the nominated permit holder. Get building approval before any work begins, including earthworks, and you cannot start until the permit is issued. Average QBCC processing is about 30 working days.</Note>
   <Note variant="caution" label="Exemptions"><b>Exemptions:</b> current QBCC licence holders are automatically exempt, as are some qualifying licences and named professionals such as a building surveyor or civil engineer. The QBCC cannot grant an exemption for building experience alone, and any exemption must be approved before you apply.</Note>
@@ -191,8 +191,8 @@ import { faqs } from '../../data/faqs';
   <AnswerCapsule onDark>QBCC-approved course material (the <b>NONACCABE QBCC Owner Builder Course</b>), <b>18 modules</b>, and more than <b>31,000</b> students trained since 2007.</AnswerCapsule>
 </TrustBand>
 
-<Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="Two separate costs, nothing hidden">
-  <AnswerCapsule>The course is <b>$179</b> to ABE. The QBCC permit fee is a separate <b>$493.59</b>. Together that is <b>$672.59</b> to be ready to build. Only one of them is the course.</AnswerCapsule>
+<Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="What will you pay in total?">
+  <AnswerCapsule>The course is <b>$179</b> to ABE Education. The QBCC permit fee is a separate <b>$493.59</b>. Together that is <b>$672.59</b> to be ready to build. Only one of them is the course.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The $179 course fee can be split into four with Afterpay. The $493.59 QBCC fee is set by the regulator, reviewed each year around 1 July, so check the current amount before you lodge." />
   <BundleOffer
     eyebrow="Bundle"
@@ -200,7 +200,7 @@ import { faqs } from '../../data/faqs';
     lede="Most owner builders who will be on site also need a White Card. Do both together and you are site-ready, with the QBCC-required course and your White Card in one enrolment."
     items={[
       { label: 'QLD owner builder course', price: '$179' },
-      { label: 'White Card', sub: 'Unit CPCCWHS1001', price: '$124' }
+      { label: 'White Card', sub: 'Unit CPCWHS1001', price: '$124' }
     ]}
     totalLabel="Both together"
     total="$303"
@@ -210,14 +210,14 @@ import { faqs } from '../../data/faqs';
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 
-<Section id="obligations" marker="07" eyebrow="Wider obligations" h2="What else your project needs">
+<Section id="obligations" marker="07" eyebrow="Wider obligations" h2="What else does your project need?">
   <AnswerCapsule>Beyond the course and permit, a handful of obligations apply: safety training, capped trade deposits, the QLeave levy, the 7-star energy rule, dispute paths, and your own insurance.</AnswerCapsule>
   <TopicGrid items={obligationCards} />
   <InsurancePartner
     heading="Cover for your build, through our partner"
     paras={[
       "As an owner builder you carry the risk on your own site, so arrange owner builder construction insurance before work starts. At a minimum most owner builders need public liability and contract works or material damage cover, and depending on the project, cover for the existing structure and voluntary workers.",
-      "ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE students for close to 20 years. We can introduce you for a quote and advice tailored to your project.",
+      "ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE Education students for close to 20 years. We can introduce you for a quote and advice tailored to your project.",
     ]}
     cta={{ href: "#enrol", label: "Get an owner builder insurance quote" }}
     imgRatio="r54"
@@ -239,7 +239,7 @@ import { faqs } from '../../data/faqs';
   <SectionWayfinder label="Who develops and reviews it" href="#content-review" />
 </Section>
 
-<Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course">
+<Section bg="bg-warm" id="content-review" marker="09" eyebrow="Developed and reviewed by" h2="Who develops and reviews this course?">
   <AnswerCapsule>This course is <b>developed by Dominic Ogburn</b>, a licensed NSW builder, and <b>independently reviewed by Warwick Smith</b> for compliance and currency before it reaches you.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} />
   <SectionWayfinder label="FAQ" href="#faq" />
