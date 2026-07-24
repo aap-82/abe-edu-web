@@ -161,8 +161,7 @@ const schema = {
     from the CBOS register. Price and hours are authored, because neither can be counted.
   */}
   <div class="hero-bundle">
-    <Hero {...bundle.hero} proof={proof} />
-    <p class="wrap bundle-for"><b>For</b> {bundle.licences}</p>
+    <Hero {...bundle.hero} proof={proof} audience={bundle.licences} />
   </div>
 
   {bundle.nav && <WayfinderNav items={bundle.nav} cta={bundle.sticky.cta} />}
@@ -254,12 +253,10 @@ const schema = {
      styles do not cross a component boundary in any case, so keeping them would have left dead
      rules that look load-bearing. */
 
-  /* Credit line under the hero. This markup belongs to this layout, so a scoped rule reaches it. */
-  .bundle-for{ font-size:15px; color:var(--slate); margin-top:var(--s-md); padding-top:var(--s-sm); border-top:1px solid var(--rule); }
-  .bundle-for b{
-    font-family:var(--font-mono); font-size:10px; font-weight:500;
-    letter-spacing:.12em; text-transform:uppercase; margin-right:6px;
-  }
+  /* The audience line used to live here as .bundle-for: a full-width strip BELOW the whole hero,
+     with a hairline above it and a mono FOR label, which read as an appendix and put the "is this
+     me?" answer 357px below the CTA. It now renders inside the hero (Hero's `audience` prop),
+     between the ticks and the button. */
   .member-table{ width:100%; border-collapse:collapse; margin-top:var(--s-md); font-size:15px; }
   .member-table caption{ text-align:left; color:var(--slate); font-size:13.5px; margin-bottom:8px; }
   .member-table th, .member-table td{ text-align:left; padding:9px 0; border-bottom:1px solid var(--rule); }

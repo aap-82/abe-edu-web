@@ -10,6 +10,7 @@ interface Props {
   subhead: string;
   ticks: string[];         // 3-4
   cta: CTA;                // href, label, microcopy
+  audience?: string;       // who the product is for. Optional: only the CPD bundle sets it.
   proof: Proof[];          // <=3, text only
   howItWorks: string;      // flow text after "How it works:"
   artefactDesc: string;
@@ -18,7 +19,7 @@ interface Props {
   artefactAlt?: string;
   artefactRatio?: 'r54' | 'r45';   // 5:4 landscape (default) or 4:5 portrait, per the image
 }
-const { eyebrow, h1Html, updated, subhead, ticks, cta, proof, howItWorks, artefactDesc, artefactSpec, artefactImg, artefactAlt, artefactRatio = 'r54' } = Astro.props;
+const { eyebrow, h1Html, updated, subhead, ticks, cta, audience, proof, howItWorks, artefactDesc, artefactSpec, artefactImg, artefactAlt, artefactRatio = 'r54' } = Astro.props;
 
 // Ticks carry inline markup: the lead phrase is bolded, the qualifier follows a comma.
 // Emitted via set:html so <b> renders rather than printing as text.
@@ -44,6 +45,12 @@ const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with A
       <h1 class="h1" set:html={h1Html} />
       <p class="lede">{subhead}</p>
       <ul class="hero-ticks" set:html={ticksHtml}></ul>
+      {/* Qualification sits immediately before the ask, so the reader answers "is this me?"
+          before they answer "do I buy?". "Built for" states relevance, deliberately NOT
+          "Counts for": the bundle's twelve courses do not all carry every building licence
+          (see kb/register/cpd — a builder gets 12 points, other licences 10 or 11), so a
+          points claim across all seven would be false. */}
+      {audience && <p class="hero-audience"><b>Built for</b> {audience}</p>}
       <div class="hero-cta">
         <a class="btn-primary" href={cta.href} id="enrol">{cta.label}</a>
       </div>
