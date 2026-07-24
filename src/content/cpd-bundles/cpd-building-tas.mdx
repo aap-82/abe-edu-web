@@ -11,13 +11,25 @@
 # capped at 12. A typed figure is the thing that goes stale: the Electrical bundle advertised 12
 # points for three months after one of its courses expired.
 #
-# PRE-PUBLISH BLOCKER: `buyUrl` carries a 2025 date and this bundle family has five LearnWorlds
-# listings across re-approvals. Andrey to confirm it resolves before this ships (Stage 1 gate).
+# buyUrl BLOCKER RESOLVED 24 Jul 2026. It read `/program/tas-builder-cpd-bundle-01092025` and the
+# open question was whether that 2025 slug still resolved, given five LearnWorlds listings across
+# re-approvals. Andrey confirmed the product id is current and supplied the checkout form:
+# /payment?product_id=…&type=learning_program. The id is unchanged; only the path was wrong.
 #
-# NOINDEX UNTIL THAT IS RESOLVED (set 23 Jul 2026, at deploy). The page is finished and deploys with
-# everything else, but it must not be findable while its only purchase path may 404. noindex also
-# drops it from the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
-# Remove this single line once buyUrl is confirmed; nothing else needs to change.
+# Stored as a PATH, not the absolute URL Andrey supplied. `guardrails.ts` hard-blocks any <a>
+# pointing at https://www.abeeducation.edu.au — a preview build must never send a buyer to the
+# live domain — and same-origin, the path is equivalent. OPEN QUESTION IT INHERITS: /payment is
+# served by LearnWorlds on the apex today, and this build replaces the apex at cutover, so
+# whether /payment survives there depends on the LearnWorlds `learn.` subdomain decision that
+# is still the standing external blocker. If checkout moves to learn.abeeducation.edu.au this
+# path must change with it. Not guessed here.
+#
+# NOINDEX STAYS FOR NOW — a second gate, not the same one. The page has been edited twice since its
+# Stage 7 (651cdbd removed a false CBOS claim and the whole section built on it; 1c4bc4a was the
+# house-style pass), so `check-pipeline` §4 reports its verification as stale. Publishing a page
+# whose verification certifies content that no longer exists is exactly what that gate exists to
+# stop. Re-run Stage 7, commit the new 07, THEN remove this line. noindex also drops the page from
+# the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
 noindex: true
 title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
 description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Meets a builder's twelve-point year in full, online and self-paced, about ten hours."
@@ -30,7 +42,7 @@ regulator:
 price: "$499"
 priceNumber: "499"
 rrp: "$1,188"
-buyUrl: "/program/tas-builder-cpd-bundle-01092025"
+buyUrl: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program"
 licences: "builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities"
 # Measured from LearnWorlds study time per starter across the ten members that carry metrics.
 # Two members are unmeasured, so this under-states rather than over-claims. See 01-source-map.md.
@@ -87,11 +99,11 @@ sticky:
   label: "TAS Building CPD"
   sub: "12 CBOS-approved points"
   price: "$499"
-  cta: { href: "/program/tas-builder-cpd-bundle-01092025", label: "Get the bundle" }
+  cta: { href: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program", label: "Get the bundle" }
 ctaBand:
   headingHtml: "Ready to complete your CPD year?"
   sub: "Twelve CBOS-approved courses, online and self-paced, about ten hours."
-  cta: { href: "/program/tas-builder-cpd-bundle-01092025", label: "Get the bundle" }
+  cta: { href: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program", label: "Get the bundle" }
 experts:
   - dominic-ogburn
   - warwick-smith

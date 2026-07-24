@@ -158,15 +158,18 @@ if (cpd.registerExists()) {
   }
 
   const softBasis = reg.courses.filter((c) => c.status === 'live' && c.expiryBasis === 'submission').length;
-  const unclassified = reg.courses.filter((c) => c.status === 'live' && c.studyArea == null).length;
 
   console.log('');
   for (const w of warn) console.log(`  ${w}`);
+  // NOTE: a NO-WHS line stood here reporting how many live courses lacked a studyArea, "so the
+  // CBOS 4-point WHS cap cannot be checked". REMOVED 24 Jul 2026: there is no 4-point cap and
+  // there never was (settled 23 Jul against the Occupational Licensing (CPD) Determination 2018;
+  // see kb/register/cbos-tas-reference.md A3). The check itself went then, but this line survived
+  // and kept asserting the cap existed. `studyArea` is still carried in the register and in
+  // src/types/cpd.ts but now has NO reader anywhere - flagged here per ROADMAP's rule that data
+  // with no reader quietly stops being true.
   if (softBasis) {
     console.log(`  SOFT-DATE ${softBasis} live course(s) date their expiry from submission, not a recorded approval — an estimate, not a confirmation.`);
-  }
-  if (unclassified) {
-    console.log(`  NO-WHS    ${unclassified} live course(s) have no studyArea, so the CBOS 4-point WHS cap cannot be checked.`);
   }
 
   const live = reg.courses.filter((c) => c.status === 'live').length;
