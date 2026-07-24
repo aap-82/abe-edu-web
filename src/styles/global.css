@@ -15,10 +15,25 @@
      and the dropdown chevron all moved to --slate. See the VerifiedSources note further down, which
      is where this rule was first established and then not applied anywhere else for a month. */
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
-  --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
-  /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
-     breadcrumb and wayfinder read as one continuous chrome surface. */
-  --paper-chrome:var(--paper);
+  /* GROUND vs PAPER. --paper is the FILL OF AN ELEVATED SURFACE: cards (.glance, .topic,
+     .hub-card, .can-col, .price-card, .faq, .partner, .rq), the megamenu and the mobile nav
+     panel. --ground is the PAGE ITSELF and the full-width chrome that reads as its top and
+     bottom edge. They were one token, which is why the site shipped on pure white against
+     CLAUDE.md's "cool cream ground": creaming the single token would also have creamed every
+     card, and a card fill warm enough to read as cream is warm enough to vanish into a
+     .bg-warm band (measured lift 1.043 -> 1.000). Splitting them delivers the briefed ground
+     and leaves card separation untouched. Body ink #4a4a4a on --ground measures 8.43:1. */
+  --ground:#fbf9f5;
+  /* the three bands are one warm ramp: --ground -> --paper-alt -> --paper-warm, each about a
+     1.02 step. --paper-alt was #fafafa, a COOL near-white that worked against a white ground
+     but not a cream one: against --ground it measured a 1.0075 step (invisible) while being
+     BLUER, so the alternation read as a temperature wobble instead of a band. Warming it
+     restores the step and gives cards more lift on alt sections (1.0706, up from 1.0438). */
+  --paper:#ffffff; --paper-alt:#f9f7f2; --paper-warm:#f7f4ef;
+  /* the breadcrumb bar shares the header's ground so the two read as one continuous chrome
+     surface. (.waynav is deliberately NOT on this token: it keeps its own cool #f2f3f4 so the
+     wayfinder reads as a separate stratum from the header above it.) */
+  --paper-chrome:var(--ground);
   --rule:#e5e7eb; --rule-strong:#d4d6da;
   --gold:#d4a843;
   --font-display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
@@ -34,7 +49,7 @@
 @media(max-width:900px){ :root{ --waynav-h:46px; } }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);font-size:17px;line-height:1.65;color:var(--ink-3);background:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+body{font-family:var(--font-body);font-size:17px;line-height:1.65;color:var(--ink-3);background:var(--ground);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);font-weight:600;}
 a{color:var(--ink);}
 ::selection{background:var(--maroon);color:#fff;}
@@ -100,7 +115,7 @@ p strong{color:var(--ink);font-weight:600;}
 @media(prefers-reduced-motion:reduce){
   .btn-link:hover .arr,.waynext a:hover .arr{animation:none;}
 }
-.site-head{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(8px);z-index:30;}
+.site-head{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(251,249,245,.92);backdrop-filter:saturate(140%) blur(8px);z-index:30;}
 .site-head .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;gap:18px;}
 .brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);}
 .brand .mk{width:30px;height:30px;background:var(--maroon);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:500;border-radius:5px;}
@@ -500,7 +515,7 @@ footer .srclist a:hover{color:#fff;}
 footer .srclist .vd{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.62);}
 footer .f-auth{margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:13px;line-height:1.6;color:rgba(255,255,255,.62);max-width:66ch;}
 footer .f-auth b{color:rgba(255,255,255,.7);}
-.ctastrip{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.97);backdrop-filter:saturate(140%) blur(8px);border-top:1px solid var(--rule-strong);transform:translateY(110%);transition:transform .25s ease;}
+.ctastrip{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(251,249,245,.97);backdrop-filter:saturate(140%) blur(8px);border-top:1px solid var(--rule-strong);transform:translateY(110%);transition:transform .25s ease;}
 .ctastrip.show{transform:translateY(0);}
 .ctastrip .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 28px;}
 .ctastrip .lbl{font-family:var(--font-mono);font-size:13px;color:var(--ink-3);letter-spacing:.02em;}
