@@ -1,512 +1,495 @@
-# 07 · Pre-deploy verification — /wa-owner-builder-course
+# 07 · Stage 7 — POST-FIX RE-VERIFICATION ADDENDUM (24 July 2026)
 
-**Verifier:** independent (did not build or audit this page).
-**Date:** 23 July 2026.
-**Artefact measured:** `dist/wa-owner-builder-course/index.html` (75,182 bytes), plus the rendered page at
-`http://localhost:4321/wa-owner-builder-course` (dev server confirmed live, HTTP 200).
-**Authority model:** knowledge-requirement (WA / Form 75).
-**Run type:** targeted-corrections audit of a live, indexed page — not a rebuild.
+**This addendum sits above the original verification report, which is preserved in full below.**
 
-Every row below carries a value read out of the built HTML or the rendered DOM by script. No row is a tick.
+The verification below returned **AMBER** and named five findings. The three WA-page content findings
+have been fixed in `src/content/courses/wa-owner-builder-course.mdx` and the page rebuilt; an
+**independent second verifier** (fresh subagent, read only the rebuilt `dist/` HTML) confirmed each
+fix against the built output with quoted evidence and found **no regression**.
 
----
-
-## A · Structure
-
-| # | Check | Measured value | Result |
-|---|---|---|---|
-| A1 | `<h1>` count | **1** | PASS |
-| A2 | H1 text | `Owner Builder Course WA, ready for your Form 75.` | PASS — carries the money term "Owner Builder Course WA" |
-| A3 | Heading order | H1 → 14×H2 → H3s only. **No H4/H5/H6 anywhere.** | PASS (no cosmetic H6, WCAG 1.3.1 clean) |
-| A4 | `<section>` elements total | **15** (12 with `id`, 3 without: at-a-glance `sec bg-alt`, trust band `sec bg-dark trust`, end CTA `sec cta-end`) | NOTE — see C3 |
-| A5 | `<section id>` in DOM order | `top`, `course`, `licence`, `need`, `responsibilities`, `learn`, `how`, `cost`, `obligations`, `become`, `content-review`, `faq` | PASS |
-| A6 | Markers, in DOM order | `["01","02","03","04","05","06","07","08","09"]` | PASS — strictly sequential, no gaps, no repeats |
-| A7 | Marker → section mapping | 01=`course` · 02=`licence` · 03=`need` · 04=`responsibilities` · 05=`learn` · 06=`how` · 07=`cost` · 08=`obligations` · 09=`become`. `top`, `content-review`, `faq` unmarked. | PASS — exactly the mapping 05-components declares |
-
-### A8 · Section conformance, both ways, against 05-components.md
-
-**Plan → page.** All 13 rows of the 05 table resolve to rendered content:
-
-| 05 row | Rendered | H2 measured | Match |
-|---|---|---|---|
-| `top` (hero) | `section#top` | H1 as above | ✅ |
-| (at a glance) | `section.sec.bg-alt` (no id) | `The facts before you enrol` | ✅ |
-| `course` / 01 | `section#course` | `Is this course accepted for WA owner-builder approval?` | ✅ exact |
-| `licence` / 02 | `section#licence` | `Is it a licence, a permit, or an approval?` | ✅ exact |
-| `need` / 03 | `section#need` | `Do you need owner-builder approval, and this course?` | ✅ exact |
-| `responsibilities` / 04 | `section#responsibilities` | `Your responsibilities as a WA owner-builder` | ✅ exact |
-| `learn` / 05 | `section#learn` | `Introduction plus 12 modules, written for WA` | ✅ exact |
-| `how` / 06 | `section#how` | `Three steps to your certificate` | ✅ exact |
-| `cost` / 07 | `section#cost` | `Three costs, three payees, nothing hidden` | ✅ exact |
-| `obligations` / 08 | `section#obligations` | `What else your WA project needs` | ✅ exact |
-| `become` / 09 | `section#become` | `How to become an owner-builder in Western Australia` | ✅ exact |
-| `content-review` | `section#content-review` | `Who develops and reviews this course` | ✅ exact |
-| `faq` | `section#faq` | `Common questions` | ✅ exact |
-
-**Page → plan.** Two rendered `<section>` elements have no row in the 05 table:
-
-- `section.sec.bg-dark.trust` — H2 `Written for WA, reviewed for currency` (TrustBand/Credentials proof band, sits between `how` and `cost`).
-- `section.sec.cta-end` — H2 `Ready to start your WA owner-builder course?` (closing CTA band).
-
-**Result: NOTE, not FAIL.** 05 states "Section ids below are the rendered ids", and both omitted sections are
-id-less closing/proof chrome carried by every ABE course page — nothing in this run touched them. But the
-table header says "12 sections" while the table itself has 13 rows and the page has 15 `<section>`s. **Demand-list
-item:** 05 should either list all rendered `<section>`s or say explicitly that it maps id'd sections only.
-
-Also NOTE: 05 records the H1 as `Owner Builder Course WA, ready for your Form 75` — the rendered H1 has a
-**trailing full stop**. Cosmetic; no keyword impact.
-
----
-
-## B · Answer capsules (target 40–60 words)
-
-Word counts are on the stripped text of each `<p class="capsule…">`, in DOM order.
-
-| # | Section | Words | Result |
-|---|---|---|---|
-| 1 | (at a glance) | **47** | PASS |
-| 2 | `course` | **50** | PASS |
-| 3 | `licence` | **55** | PASS |
-| 4 | `need` | **60** | PASS (at the ceiling) |
-| 5 | `responsibilities` | **56** | PASS |
-| 6 | `learn` | **44** | PASS |
-| 7 | `how` | **49** | PASS |
-| 8 | trust band (`capsule on-dark`) | **28** | NOTE — not an answer capsule; it is the proof-band lede ("A WA-specific course, Introduction plus 12 modules, independently reviewed for currency on 20 June 2026, from a provider that has trained more than 31,000 students since 2007."). The 40–60 target does not apply, but it shares the `.capsule` class, which is why `check-pipeline` counts 12 and a human counts 11. |
-| 9 | `cost` | **42** | PASS |
-| 10 | `obligations` | **38** | **FAIL (soft)** — two words under the 40 floor |
-| 11 | `become` | **55** | PASS |
-| 12 | `content-review` | **47** | PASS |
-
-**B-FAIL detail.** `obligations` capsule, verbatim: *"Beyond the course and approval, a few obligations apply:
-home indemnity insurance if you sell within seven years, workers' compensation if you employ anyone, the timing
-rules on your approval, licensed trades, and the separate council building permit."* = 38 words. It is a complete,
-liftable, standalone answer; the miss is 5% under floor and this section was flagged "unchanged" in 05. **Fix or
-accept — it does not block deploy**, but it is a measured miss and must not be recorded as a pass.
-
----
-
-## C · JSON-LD (the authority-model gate)
-
-Single `<script type="application/ld+json">`, **server-rendered in the static HTML**, parses without error.
-
-| # | Check | Measured value | Result |
-|---|---|---|---|
-| C1 | Blocks | **1**, `@context: https://schema.org`, `@graph` of 5 nodes | PASS |
-| C2 | Node `@type`s, in order | `Course` · `EducationalOccupationalCredential` · `BreadcrumbList` · `Person` · `Person` | PASS — Course + Credential + BreadcrumbList + Person ×2 all present |
-| C3 | **`recognizedBy` on the credential** | Credential keys are exactly `@type, @id, name, credentialCategory`. **`recognizedBy` is ABSENT.** A whole-document search for the string `recognizedBy` returns **0 hits**. | **PASS — the distinguishing knowledge-requirement fact is correct** |
-| C4 | Cross-check vs the state-approved siblings | `dist/qld-…` credential = `…,recognizedBy` → "Queensland Building and Construction Commission (QBCC)"; `dist/tas-…` → "Consumer, Building and Occupational Services (CBOS)"; `dist/act-…` → "Access Canberra (Construction Occupations Registrar)". WA is byte-identical to those minus that one key. | PASS — the omission is deliberate and correctly targeted, not an accident of a broken template |
-| C5 | Person ×2 | `Dominic Ogburn` / jobTitle `Course Developer` / `sameAs` linkedin.com/in/dominic-ogburn; `Warwick Smith` / jobTitle `Compliance & Currency Reviewer` / `sameAs` linkedin.com/in/warwick-a-l-smith/ | PASS — **correct for this model.** ABE develops its own knowledge-requirement courses, so a Person titled "developer" is right here (it would be a build failure on an asqa page only) |
-| C6 | `Course.offers.price` | `"179"`, `priceCurrency "AUD"` | PASS |
-| C7 | Price on the page | `$179` appears **12 times** in visible text — hero CTA, PageBar CTA, at-a-glance capsule, FactGrid PRICE cell, Step 01, cost capsule, PriceCard `$179.00`, PriceCard footnote, bundle row, FAQ, footer note, end CTA. Every instance is $179. | PASS — schema price == on-page price |
-| C8 | Arithmetic | PriceCard: $179.00 + $212.00 = **$391.00** ✓. Bundle: $179 + $99 = **$278** ✓. | PASS |
-| C9 | AggregateRating / review markup | **0 occurrences** anywhere in the graph or the page | PASS — CLAUDE.md standing decision honoured |
-| C10 | `inLanguage` placement | `en-AU` on `Course` and on the `ImageObject` only; **no** `EducationalOrganization` entity, so no invalid `inLanguage` | PASS |
-| C11 | BreadcrumbList | 3 ListItems: Home → Owner Builder Training (`/owner-builder-courses`) → WA Owner Builder (`/wa-owner-builder-course`), and renders visually in the PageBar | PASS |
-| C12 | Credential `issuedBy` | **Absent.** verification.md §1a expects "ABE `issuedBy` only" for a knowledge-requirement credential. | NOTE — **shared-template gap, not WA-specific.** QLD/TAS/ACT credentials are also missing `issuedBy`, and none of the four links the credential from `Course` via `educationalCredentialAwarded`, leaving an orphan node. Template-level backlog item; not a deploy blocker and not an authority breach. |
-| C13 | Breadcrumb home `item` | `https://www.abeeducation.edu.au/` (trailing slash on the root only; all other items slash-less) | PASS — root-slash is the canonical form for a domain root |
-
----
-
-## D · Authority language (knowledge-requirement hard rules)
-
-Every hit below was pulled with a context window and read, not counted.
-
-| # | Check | Measured | Result |
-|---|---|---|---|
-| D1 | `recognizedBy` | 0 | PASS (see C3) |
-| D2 | "WA-approved" | **3 hits, all negated**: (a) *"there is no accredited or **WA-approved** version of the course"*; (b) CanCant ✕ row *"Not an accredited or **WA-approved** course. WA prescribes no course."*; (c) FAQ *"There is no licence involved, and no accredited or **WA-approved** version of the course."* | PASS — no asserted claim; all three are explicit denials |
-| D3 | "approved course / approved provider" | Footer disclosure: *"Western Australia prescribes no owner-builder course and **does not run an approved-provider scheme**"*. Body: *"no course in WA is government approved."* | PASS |
-| D4 | "permit" for the owner-builder step | Every "permit" on the page refers to the **council building permit** or is an explicit denial: *"It is **not a licence** and **not a permit**"*; ✕ *"Not the building permit. That is a separate application to your local council."* | PASS |
-| D5 | "licence" for the owner-builder step | 20 hits reviewed. Denials (*"It is not a licence"*, *"There is no licence involved"*, *"Not a licence. That is what a registered building contractor holds."*), explanatory (*"people search for a licence or a permit, so it is worth being clear"*), or the correct adjectival use (*"licensed trades"*, *"licensed practitioners"*, *"a licensed builder"*). **Zero assertions that the owner-builder step is a licence.** | PASS |
-| D6 | The positive framing | *"the accurate way to describe this course is that it **supports your Form 75 owner-builder approval**"* | PASS — exactly the sanctioned phrasing |
-| D7 | ABE claimed as an RTO | 6 "RTO" hits: 4 in shared nav/footer chrome naming the RTO **partners** (Blue Dog 31193 / Upskill 45708 / AlertForce 91826), plus two denials — trust band *"This is **not an RTO course** and **not nationally recognised training**; WA prescribes no owner-builder course"* and footer *"**ABE Education is not a Registered Training Organisation (RTO)**"*. Page-level footer repeats it a third time. | PASS |
-| D8 | "accredited" | 5 hits: 3 are the negations at D2; 2 are shared footer chrome describing the ASQA-accredited product line generally | PASS |
-| D9 | "nationally recognised" | 5 hits: 3 in shared nav chrome (White Card / NSW OB menu labels), 2 are the D7 denials | PASS |
-| D10 | White Card unit code | **`CPCWHS1001`** (single C) in both the `course` body and the bundle row | PASS — correct WA code |
-| D11 | Regulator naming | "Building Services Board", "Building and Energy", `wa.gov.au`. Contains the deliberate currency test: *"If a course still refers to the Building Commission or the Department of Mines, its WA content is out of date."* | PASS — current names, and the superseded names appear only as a negative signal |
-| D12 | `<html>` attributes | `lang="en-AU" data-authority="knowledge-requirement"` | PASS |
-
-**Authority-model verdict: clean.** No breach, no `recognizedBy`, no asserted licence/permit/approved-course claim.
-
----
-
-## E · Government facts vs `kb/register/`
-
-Every regulatory figure was re-read against the register, because a wrong one is a RED regardless of everything else.
-
-| Claim on page | Register value | Result |
+| Finding | Fix applied | Independent re-verify |
 |---|---|---|
-| Approval needed over **$20,000** | `legislation-references-wa.md` §1 + `state-fees-register.md`: "$20,000" | PASS |
-| **Four** sufficient-knowledge pathways, s43(2)(b)(ii), Form 75 p5 | Register lists exactly four, incl. "one of those registrations within the **last five years**" | PASS — page states all four, and adds *"buy nothing here and put your registration number on the form instead"*, which is the register's "pages must not imply the course is the only route" instruction honoured |
-| Course currency **two years** | Register: "no more than **two years** before the application" | PASS |
-| **Six-year** limit runs **from the building permit**, not the approval; waiver via Form 76 | Register: "the clock runs from the **building permit being granted**, NOT from the approval… Waiver via Form 76 / s45(2)" | PASS — and the page spells out the trap explicitly |
-| Approval **lapses at six months**; on refusal ends at refusal; once issued, runs **until the building is complete** | Register quotes Form 75 p2 verbatim to that effect and instructs "prefer the Form's wording" | PASS — `become` uses the Form's three branches |
-| Fees **$212** residential / **$467** industrial-commercial | Register: "$212.00 residential / $467.00 industrial/commercial", current FY26-27 as at 22 Jul 2026 | PASS |
-| Fee reviewed **each 1 July**, "confirm the current amount before you lodge" | Register carries the LGIRS caveat and the re-check instruction | PASS — the caveat is surfaced to the reader, twice |
-| **~six weeks** processing, *"varies with volume and how complete your application is"* | Register: "approximately within six weeks" **with** the variability caveat, "not as a flat promise" | PASS — caveat present both times it is stated |
-| **Seven-year** resale / home indemnity insurance, penalty **$10,000** | Register: "cannot be sold within 7 years"; HBCA 1991 | PASS |
-| False/misleading info penalty **$25,000**, BSR Act 2011 | Register: "Section **99** … penalties up to **$25,000**" | PASS |
-| WHS duties under **Work Health and Safety Act 2020** | Register §2 | PASS |
-| Class 10a under **$50,000** exempt; 1–2 storey commercial under **500 m²** | Not in the register file; sourced on-page to the WA — Owner-builder approval page in the `need` VerifiedSources block | PASS with visible citation |
+| **F2** — page-foot Sources dated the WA-approval + Form 75 sources "7 Jul" while inline blocks cited the same URLs "23 Jul" | Foot entries bumped to "Verified 23 Jul 2026" — both sources were genuinely re-accessed 23 Jul during the WA run; inline per-fact dates left as truthful per-claim provenance | **FIXED** — 0 "7 Jul" in the foot; both entries read 23 Jul |
+| **F28** — `VerifiedSources` renders `{facts} against {source}`, so 7 facts strings ending "against the current Act/guidance" rendered a doubled "against" | Ended each facts string at "fact-checked"; the named source now carries the "against" | **FIXED** — `current (Act\|guidance) against` count = 0; all 9 ledgers read with a single joiner |
+| **F3** — the "Workers' compensation" obligation card asserts "you must hold cover" with no source on the page | Added the primary instrument (**Workers Compensation and Injury Management Act 2023**, browser-verified 24 Jul: s17 "Employer liable for compensation") to the `#obligations` VerifiedSources and named workers' comp in its facts. Corroborating reader-facing source: Consumer Protection WA — "all workers must be covered by a valid workers' compensation insurance policy" | **FIXED** — obligations ledger names workers' comp and links the WA .gov.au Act |
 
-`check-claims.mjs --verbose` independently confirms the WA page's figures are inside the **150/150 matched** set —
-the only WA figures it excludes are ABE's own commercial prices ($179 ×12, $391.00 total reconciled by sum,
-$99/$278 reconciled by the bundle check). No WA government figure is excluded from checking.
+**Second verifier verdict: GREEN** — all three fixed in the built HTML; WA authority model intact
+(zero `recognizedBy`, two Person nodes), price parity holds, `check-claims` 0 failing with no line
+naming this slug.
+
+**Still open — NOT WA-page defects, deliberately not fixed here (global-token decisions):**
+- **F1** `--paper:#ffffff` is the body ground (pure white); the audit spec fails pure-white ground.
+- **F18** `--slate-light:#9a9a9a` measures ~2.6:1, below WCAG AA.
+Both are in `src/styles/global.css`, apply to **every** ABE page, and `CLAUDE.md` gives `global.css`
+precedence over the audit spec. They need a recorded site-wide design decision, not a one-page edit,
+and are logged here as backlog rather than silently passed.
+
+**Net state of this page:** no WA-specific content defect remains open. The only outstanding items are
+the two site-wide token decisions above. This addendum + the fixes are committed together with the page
+so `check-pipeline.mjs` §4 certifies the corrected build.
 
 ---
 
-## F · Sourcing, freshness and the review date
+# 07 · Stage 7 pre-deploy verification — /wa-owner-builder-course
 
-| # | Check | Measured | Result |
+- **Date:** 24 July 2026
+- **Verifier:** independent subagent. Did not build, write or edit this page. No fixes applied — verify-and-report only.
+- **What was verified:** `dist/wa-owner-builder-course/index.html` (74,969 bytes, built 24 Jul 2026 13:35),
+  the built artefact, not the MDX. Source files (`src/content/courses/wa-owner-builder-course.mdx`
+  02:56 24 Jul, `src/data/faqs-wa.ts` and `src/data/modules-wa.ts` 00:00 24 Jul) are all **older** than
+  the build, so the build is current and reflects every landed commit including `1c4bc4a`.
+- **Why re-run:** the previous 07 (23 Jul 2026 15:48) predates commit `1c4bc4a`
+  *"content: house-style and content-quality pass across course pages"*. `check-pipeline.mjs` flags it:
+  *"wa-owner-builder-course: the page changed 1011 minute(s) AFTER its last verification"*. That report
+  certified H2s and capsule wording that no longer exist. This report replaces it entirely.
+- **Method note:** DM Sans metrics were read from the actual font binary
+  (`fonts.gstatic.com/s/dmsans/v17/…ttf`, unitsPerEm 1000) rather than estimated. Measured
+  `advance("0") = 0.684em`; measured **average prose advance across 15,604 characters of this page's own
+  body copy = 0.4648em**. Every CPL figure below is computed from those two numbers, so `ch`-based caps
+  are converted to real characters, not repeated as-is.
+- **Authority model in force:** `knowledge-requirement` (asserted by the build as
+  `<html lang="en-AU" data-authority="knowledge-requirement">`).
+
+---
+
+## A · §1a Structure & schema
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| `<h1>` count | **1** | PASS |
+| H1 text | `Owner Builder Course WA, ready for your Form 75.` (the full stop is `<span class="dot">`) | PASS |
+| H1 carries target keyword | contains "Owner Builder Course WA" | PASS |
+| Heading levels used | h1 ×1, h2 ×14, h3 ×22, **h4 ×0, h5 ×0, h6 ×0** | PASS (no cosmetic H6) |
+| JSON-LD blocks | **1** block, server-rendered in the static HTML (not JS-injected); `JSON.parse` succeeded, 0 errors | PASS |
+| `@type`s present in `@graph` | `Course`, `EducationalOccupationalCredential`, `BreadcrumbList`, `Person`, `Person` (5 nodes); nested `Organization`, `ImageObject`, `Offer`, `CourseInstance`, `ListItem`×3 | PASS |
+| `recognizedBy` | **0 occurrences in the entire document.** Credential node in full: `{"@type":"EducationalOccupationalCredential","@id":"https://www.abeeducation.edu.au/wa-owner-builder-course#credential","name":"Certificate of Completion, WA Owner Builder Course","credentialCategory":"Certificate of Completion"}` | **PASS — the WA hard rule holds** |
+| `issuedBy` on the credential | **0 occurrences.** Spec expects "ABE `issuedBy` only" for knowledge-requirement | FAIL (minor, F7) |
+| `Course.offers.price` vs on-page | schema `"price":"179"`, `"priceCurrency":"AUD"`. On-page: hero CTA "Get your certificate for **$179**", FactGrid Price cell "**$179**", PriceCard row "**$179.00**", capsule §07 "**$179**", bundle line "$179", sticky bar "$179", FAQ "It is $179". **All identical.** | PASS |
+| Derived totals | PriceCard total `$391.00` = 179 + 212 ✓. Bundle total `$278` = 179 + 99 ✓ | PASS |
+| `AggregateRating` | **0 occurrences** | PASS |
+| `inLanguage` | 2 occurrences, both on `Course` and its `ImageObject`. **None on an `EducationalOrganization`** (no such entity exists) | PASS |
+| `<title>` | `Owner Builder Course WA - Form 75 Ready, Online $179` — **52 chars**, 1 `<title>` tag | PASS (≤60) |
+| `<meta name="description">` | present, **149 chars** | PASS |
+| `<link rel="canonical">` | `https://www.abeeducation.edu.au/wa-owner-builder-course` — 1 occurrence, no trailing slash | PASS |
+| `lang` attribute | `lang="en-AU"` | PASS |
+| Breadcrumb visible | `<nav class="crumbs" aria-label="Breadcrumb">` → Home / Owner Builder Training / WA Owner Builder (last as `aria-current="page"`) | PASS |
+| Breadcrumb in schema | `BreadcrumbList`, 3 `ListItem`s, positions 1-3, matching names/URLs | PASS |
+| Breadcrumb URL form | items 2 and 3 slash-less ✓; item 1 is `https://www.abeeducation.edu.au/` — **trailing slash** | FAIL (trivial, F11) |
+| Persons linked to the Course | neither `Person` node has an `@id`, and `Course` has no `author` / `contributor` / `reviewedBy` edge — the two Persons float unattached in the graph | FAIL (minor, F8) |
+| `Course.creator` | absent — correct, this is an ABE-developed course, not asqa-accredited | PASS |
+
+---
+
+## B · §1b Authority language
+
+Grepped the **rendered text** (25,563 chars extracted from `dist/`). Every hit judged individually.
+
+| Term | Hits | Where, and judgement | Verdict |
 |---|---|---|---|
-| F1 | Breadcrumb freshness line | `Reviewed by Warwick Smith on 20 June 2026` — crawlable HTML in the PageBar, not schema or CSS | PASS |
-| F2 | Per-section VerifiedSources blocks | **8 blocks**: `course` (23 Jul 2026), `licence` (7 Jul), `need` (23 Jul), `responsibilities` (7 Jul), `learn` (Course v2.0, 27 Jun), `how` (7 Jul), `obligations` (7 Jul), `become` (23 Jul), `faq` (7 Jul). Each `facts` string names what was re-verified, not a generic phrase. | PASS |
-| F3 | Consolidated Sources block | 8 entries: WA — Owner-builder approval (7 Jul 2026) · Form 75 PDF (7 Jul 2026) · BSB Sufficient knowledge policy PDF (board-approved 10 Sep 2024) · Building and Energy fees $212/$467 (current FY26-27, verified 22 Jul 2026) · Building Act 2011 · Building Services (Registration) Act 2011 · Home Building Contracts Act 1991 · WorkSafe WA. **All primary `.gov.au` / legislation sources. No aggregator, no ABLIS, no business.gov.au, no competitor, no ABE self-citation.** | PASS |
-| F4 | **Review date — EVERY occurrence** | Scanned all date strings in visible text. `20 June 2026` occurs **4 times**: (1) PageBar `Reviewed by Warwick Smith on 20 June 2026`; (2) trust-band capsule `independently reviewed for currency on 20 June 2026`; (3) `content-review` capsule `Warwick's review, dated 20 June 2026`; (4) FAQ Q6 `independently reviewed for currency on 20 June 2026`. **All four agree.** | **PASS — the prior two-different-dates defect is resolved** |
-| F5 | Other dates, cross-checked for conflict | `23 Jul 2026` ×3 (VerifiedSources), `7 Jul 2026` ×7 (VerifiedSources + Sources), `27 Jun 2026` ×1 (course v2.0 build date — a different thing from the review date), `10 Sep 2024` ×1 (BSB policy board-approval date), `22 Jul 2026` ×1 + `22 July 2026` ×1 (fee verification, footer). Month-only: `Updated June 2026` (hero) and `updated in June 2026` (`learn`) — both consistent with the 20 June review. | PASS — no conflicting date |
-| F6 | Date-format consistency | The same fee-verification date renders as `22 Jul 2026` in the Sources block and `22 July 2026` in the footer. | NOTE — cosmetic only, same date |
-| F7 | Fee re-verify cadence | 1 July 2026 indexation has passed; register re-checked 22 Jul 2026; page carries the "reviewed each 1 July, confirm before you lodge" caveat twice | PASS |
-| F8 | `[confirm: …]` / `[TO VERIFY]` | **0 and 0** | PASS |
-| F9 | Expert profiles exist | Both cards link `Full profile →` plus LinkedIn; Person `sameAs` present for both | PASS |
+| `RTO` | **4** | L24 + L29: site megamenu, *other* products (Blue Dog / NSW). L315 TrustBand attestation: "This is **not an RTO course** and **not nationally recognised training**" — a negation. L498 global footer: "ABE Education is not a Registered Training Organisation (RTO)". **No hit claims ABE or this course is an RTO.** | PASS (see F12 for the nav) |
+| `nationally recognised` | **4** (1 lower, 3 capitalised) | L315 is a negation. The other 3 are all in the **global megamenu**, describing White Card (Blue Dog RTO 31193) and the NSW OB card. None sits in WA page content. | PASS on the page; F12 on the chrome |
+| `accredited` | **3** | L189 "there is **no** accredited or WA-approved version of the course"; L207 CanCant "✕ **Not** an accredited or WA-approved course. WA prescribes no course."; L436 FAQ "**no** accredited or WA-approved version". All three are explicit negations. | PASS |
+| `Statement of Attainment` | **0** | — | PASS |
+| `approved provider` | **0** (the only near-form is L503 "does **not** run an approved-provider scheme") | negation | PASS |
+| `approved course` | **1** | L207, inside "Not an accredited or WA-approved course" | PASS |
+| `permit` / `Permit` | **31** | Every occurrence refers to the **building permit** — a genuinely separate WA instrument issued by the local council. Sampled: "You apply on Form 75, then apply separately to your local council for the building permit"; "✕ Not the building permit. That is a separate application to your local council"; "the six years run from the date a building permit is granted". **Zero occurrences call the owner-builder step a permit.** | PASS |
+| `licence` / `Licence` | **10** | L147 waynav label "Licence?" and L185/L188 the section H2 "Is it a licence, a permit, or an approval?" — these pose the reader's own question, and the answer immediately negates. L176 "It is **not** a licence"; L189 "It is **not** a licence"; L201 "✕ **Not** a licence"; L209 "people search for a licence or a permit, so it is worth being clear"; L436 "There is **no licence** involved". **Zero occurrences assert the OB step is a licence.** | PASS |
+| `licensed` / `Licensed` | **11** | All refer to licensed *trades* (electrical/plumbing practitioners), Dominic as a licensed NSW builder, or "not a licensed insurance provider". None applies to the OB step. | PASS |
+| Positive framing of the course | "**supports** your Form 75 owner-builder approval" appears 5× (hero eyebrow, hero subhead, §01 body, TrustBand attestation, footer disclaimer) | PASS |
+| ASQA disclosure | Not required — no accredited course is offered on this page. The White Card is named only as a *unit* (`CPCWHS1001`, single C, correct for WA) with WorkSafe WA cited. | N/A |
 
 ---
 
-## G · Meta, indexation and images
+## C · §1c E-E-A-T & freshness
 
-| # | Check | Measured value | Result |
+| Check | Measured value | Verdict |
+|---|---|---|
+| Freshness line in crawlable HTML | `<p class="reviewed">Reviewed by <a href="#content-review">Warwick Smith</a> on <time>20 June 2026</time></p>` — plain markup in the pagebar, not in `<style>`, a comment, or schema | PASS |
+| Freshness line format | Spec asks `Reviewed by [Name] · DD Mon YYYY`. Rendered uses **"on"** as the separator, not `·`, and **"20 June 2026"** not "20 Jun 2026". `<time>` carries **no `datetime` attribute**. | FAIL (cosmetic, F13) |
+| Name anchors to `#content-review` | yes, `href="#content-review"`; target `<section … id="content-review">` exists | PASS |
+| Review date freshness | 20 Jun 2026 vs today 24 Jul 2026 = **34 days old** | PASS |
+| **Review-date identity across all three files** | `wa-owner-builder-course.mdx`: L18 `date: "20 June 2026"`, L205 "reviewed for currency on **20 June 2026**", L256 "review, dated **20 June 2026**" → **3 occurrences, all identical**. `src/data/faqs-wa.ts`: L9 "reviewed for currency on **20 June 2026**" → **1 occurrence, identical**. `dist/…/index.html`: **exactly 4 occurrences of "20 June 2026"** (pagebar, TrustBand capsule, content-review capsule, FAQ answer). **Zero occurrences of any other review date.** The only other June date in the HTML is `27 Jun 2026`, which is the *course version* date, a different fact. | **PASS — the defect that shipped last time is gone** |
+| Per-section verification blocks | **9 `VerifiedSources` ledgers** rendered, on sections `course`(23 Jul 2026), `licence`(7 Jul), `need`(23 Jul), `responsibilities`(7 Jul), `learn`(Course v2.0, 27 Jun), `how`(7 Jul), `obligations`(7 Jul), `become`(23 Jul), `faq`(7 Jul) | PASS |
+| Section carrying gov facts **without** a ledger | **`cost`** — the $212 / $467 approval fee, the 1-July review cadence and the council fee are stated there with no inline ledger. It is the only regulatory section without one. | FAIL (F4) |
+| Ledger placement vs micro-CTA | Spec: consolidated block **before** the micro-CTA. §02/03/08/09 put `SectionWayfinder` after the ledger ✓. **§`course` puts the `btn-link` "See who needs approval" *before* the ledger** (both inside/adjacent to `.measure`), so the ledger trails the CTA. | FAIL (minor, F14) |
+| Ledger visual grammar | Renders as `✓ Verified / <date>` + body. There is **no literal `🔗 SOURCES` label** — the component joins fact to source with the word " against ". Component is canonical; recorded as a deviation from the spec's prose, not a defect. | NOTE |
+| `id="content-review"` section | present, H2 "Who develops and reviews this course?", names **Dominic Ogburn** (Course Developer · CEO) and **Warwick Smith** (Compliance & Currency Reviewer, independent), each with credential lists and a "Full profile →" link | PASS |
+| `/experts/dominic-ogburn` exists in dist | `dist/experts/dominic-ogburn/` present; also in `sitemap-0.xml` | PASS |
+| `/experts/warwick-smith` exists in dist | `dist/experts/warwick-smith/` present; also in `sitemap-0.xml` | PASS |
+| Person schema x2 (ABE-developed rule) | 2 `Person` nodes: Dominic `jobTitle:"Course Developer"` + `sameAs` LinkedIn; Warwick `jobTitle:"Compliance & Currency Reviewer"` + `sameAs` LinkedIn. Correct count for a knowledge-requirement / ABE-developed page. | PASS |
+| "Last verified" beside every trust badge / gov-listing reference | The TrustBand attestation links `wa.gov.au` beside `ABN 64 125 455 272` with **no adjacent date**. Every other government reference on the page is dated (9 ledgers + 8 footer source lines + the footer disclaimer's "verified 22 July 2026"). | FAIL (minor, F9) |
+
+---
+
+## D · §1d Government-source citation gate
+
+Every government / regulatory claim on the rendered page, and whether it carries a **visible** citation.
+
+| # | Claim (as rendered) | Visible citation | Verdict |
 |---|---|---|---|
-| G1 | `<title>` | `Owner Builder Course WA - Form 75 Ready, Online $179` — **52 chars** | PASS (≤60) |
-| G2 | `<meta name="description">` | `In WA it is an owner-builder approval, not a licence, and you lodge Form 75. This WA-specific course gives the knowledge the Board accepts, for $179.` — **149 chars** | PASS — will not truncate; matches 05's "cut to 149" note exactly |
-| G3 | Canonical | `https://www.abeeducation.edu.au/wa-owner-builder-course` | PASS — www, https, **no trailing slash** |
-| G4 | Robots | `<meta name="robots" content="index,follow">` | PASS — correct for a live indexed page |
-| G5 | OG / Twitter | 6 `og:` + 3 `twitter:` tags | PASS |
-| G6 | `<img>` total | **7** | — |
-| G7 | Content image alt lengths | hero **131**; `course` site photo **111**; `how` desk photo **123**; `obligations` insurance photo **126**; Dominic portrait **120**; Warwick portrait **117** | PASS — all six ≥ 80 chars, en-AU, descriptive |
-| G8 | Decorative image | ABE header logo, `alt=""`, **no `aria-hidden`**. Parent `<a aria-label="ABE Education home">` supplies the accessible name and the link also carries visible text. | NOTE — **shared chrome** (`SiteHeader.astro`), present on every ABE page. Accessible name is not lost; the missing `aria-hidden` is a template tidiness item |
-| G9 | Expert headshots | Real photographs (r2.dev `Dominic_Ogburn_portrait.webp`, `warwick smith rto consultant expert.avif`), not AI-generated | PASS |
+| 1 | Four sufficient-knowledge pathways, s43(2)(b)(ii) BSR Act | §`course` ledger, 23 Jul 2026 → Form 75 PDF **page 5** + WA OB approval page | PASS |
+| 2 | Course must be completed within the **last two years** | same ledger, names the two-year currency | PASS |
+| 3 | White Card unit **CPCWHS1001** | Consolidated Sources → *WorkSafe WA — White Card (CPCWHS1001)* | PASS |
+| 4 | It is an **approval**, granted by the Building Services Board via Building and Energy | §`licence` ledger, 7 Jul 2026 → WA OB approval + Building Services (Registration) Act 2011 | PASS |
+| 5 | **$20,000** threshold | §`need` ledger, 23 Jul 2026 → Building Act 2011; also Consolidated Sources *"Building Act 2011 (WA) — $20,000 threshold"* | PASS |
+| 6 | **Six-year limit runs from the building permit**, waiver via Form 76 | §`need` ledger names it explicitly | PASS |
+| 7 | Class 10a under **$50,000** needs no approval; no contract-splitting | §`need` ledger is present but its `facts` string names only the $20,000 threshold and the six-year limit — the $50,000 figure is covered by the section's citation, not named in it | PASS (weak — F5) |
+| 8 | Class 1a(i) / Class 10 / commercial ≤2 storeys under 500 m²; who may apply | same — covered at section level, not named | PASS (weak — F5) |
+| 9 | PCBU duties under **Work Health and Safety Act 2020** | §`responsibilities` ledger, 7 Jul 2026 → WHS Act 2020 | PASS |
+| 10 | Penalties **up to $25,000** for false/misleading info, BSR Act 2011 | same ledger + Consolidated Sources *"Building Services (Registration) Act 2011 (WA) — Approval; s99 penalties"* | PASS |
+| 11 | Approval fee **$212 residential / $467 industrial-commercial**, paid to Building and Energy | **no inline ledger in §`cost`**; carried by Consolidated Sources → *"Building and Energy fees ($212 / $467) — Current for FY26-27 · verified 22 Jul 2026"* (primary LGIRS fee schedule) | PASS via Sources — F4 |
+| 12 | Fee **reviewed each 1 July**, confirm before lodging | stated in PriceCard foot, FAQ 7 and the footer disclaimer ("Government figures verified 22 July 2026 … reviewed each 1 July") | PASS |
+| 13 | Council charges **value-based** building-permit fees | §`obligations` card 06 + Consolidated Sources WA OB approval page | PASS |
+| 14 | Home indemnity insurance on resale **within seven years**; offence, **up to $10,000** | §`obligations` ledger, 7 Jul 2026 → Home Building Contracts Act 1991; Consolidated Sources *"Home Building Contracts Act 1991 (WA) — 7-year resale rule"* | PASS |
+| 15 | **Workers' compensation** required if you employ anyone | **NO citation anywhere.** The §`obligations` ledger covers only "Home indemnity insurance and timing rules". No WorkCover WA source in the Consolidated Sources block. | **FAIL (F3)** |
+| 16 | Approval **lapses after six months**; permits valid two years; refusal/completion branches | §`obligations` card 03 + §`become` ledger, 23 Jul 2026, which names "the six-month approval validity" → WA OB approval + Form 75 PDF | PASS |
+| 17 | Processing **approximately six weeks**, varies with volume/completeness | §`become` ledger names it | PASS |
+| 18 | Electrical/plumbing must be done by licensed practitioners | covered by the WA OB approval page cited in §`responsibilities` and §`obligations`; no licensing-authority source named | PASS (weak) |
+| 19 | Notice of Completion (**BA7**) | no source named; a form name inside a process step, not a regulatory assertion | NOTE |
+
+| Gate check | Measured value | Verdict |
+|---|---|---|
+| Consolidated Sources section exists | yes, page-foot `Sources` block, **8 entries**, all with a date or provenance label | PASS |
+| Sources are primary | `wa.gov.au` ×4 (incl. the Form 75 PDF and the BSB sufficient-knowledge policy PDF), `legislation.wa.gov.au` ×3, `worksafe.wa.gov.au` ×1. **Zero aggregators** — no ABLIS, no business.gov.au, no blogs, no competitor/RTO pages, no archives. **Zero self-citations to abeeducation.edu.au.** | PASS |
+| Every source dated | 8/8 carry `Verified 7 Jul 2026` ×2, `Board-approved 10 Sep 2024`, `Current for FY26-27 · verified 22 Jul 2026`, or a scope label ("$20,000 threshold", "Approval; s99 penalties", "7-year resale rule", "White Card (CPCWHS1001)") | PASS |
+| Fee re-verify cadence (1 July) | fee verified **22 Jul 2026**, i.e. *after* the 1 Jul 2026 indexation. `kb/register/state-fees-register.md` L26 confirms the disposition and the caveat, which the page surfaces to the reader. | PASS |
+| `[confirm: …]` count | **0** | PASS |
+| `[TO VERIFY]` count | **0**. (A case-insensitive `to verify` grep returned 1 hit — the prose "reviews ABE Education course pages **to verify** that legislative references … are current". False positive, not a tag.) | PASS |
+| `UNVERIFIED` count | **0** | PASS |
+| One ledger cites a non-government source with an empty URL | §`learn`: *"ABE Education — WA Owner-Builder Course modules and learning outcomes (v2.0)"*, `href: ''` → renders as unlinked text. This is an internal course-content claim, not a government one, so §1d's primary-source rule does not bite; but a "SOURCES" line with no source is weak. | NOTE (F10) |
 
 ---
 
-## H · Banned copy and CTA hygiene
+## E · §1e Cannibalisation & indexation
 
-| # | Check | Measured | Result |
+| Check | Measured value | Verdict |
+|---|---|---|
+| Robots meta | `<meta name="robots" content="index,follow">` — **indexable** | PASS |
+| Page in sitemap | `dist/sitemap-0.xml` contains `<loc>https://www.abeeducation.edu.au/wa-owner-builder-course</loc>` (13 URLs total) | PASS |
+| `sitemap-index.xml` emitted | `dist/sitemap-index.xml` present; `robots.txt` points to it | PASS |
+| `robots.txt` blocks `/course/` and `/program/` | `dist/robots.txt` contains **only** `User-agent: *` / `Allow: /` / `Sitemap: …`. **No `Disallow` line at all.** | **FAIL (F6, site-level)** |
+| Cannibalisation | Grepped all `src/content/**` titles. The 8 course/bundle titles are ACT, NSW ×2, QLD, TAS, **WA**, White Card TAS, TAS CPD Bundle. Only this page targets "owner builder course WA" / Form 75. No second page competes. | PASS |
+| Internal links, body only (between `</header>` and `<footer`) | `/` , `/owner-builder-courses` (hub, **up**), `/experts/dominic-ogburn`, `/experts/warwick-smith` (cross-category, non-competing). Plus 12 same-page anchors. **Zero sideways links to QLD/TAS/ACT/NSW in the body.** | PASS |
+| Sideways links in chrome | the global megamenu lists all five state OB pages. Site-wide navigation, not body cross-linking. | PASS |
+| Content genuinely WA-specific | Names the WA regulator (Building Services Board via Building and Energy), the WA instrument (Form 75, Form 76), WA legislation (Building Act 2011, Building Services (Registration) Act 2011, Work Health and Safety Act 2020, Home Building Contracts Act 1991), WA fees ($212/$467), WA thresholds ($20,000 / $50,000), WA-only content (BAL bushfire, the knowledge-requirement model), and the WA-only White Card unit code CPCWHS1001 (single C). It also explicitly names the *superseded* WA bodies ("Building Commission", "Department of Mines") as a currency test. **This is not generic copy with a state name swapped.** | PASS |
+
+---
+
+## F · §1f Banned copy
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| "comprehensive" | **0 occurrences** in the built HTML (case-insensitive) | PASS |
+| "Enrol now" | **0** | PASS |
+| "Enrol today" | **0** | PASS |
+| Every CTA label on the page | 1. `Get your certificate for $179` (hero, `.btn-primary`) · 2. `Get your certificate for $179` (waynav sticky, `.btn-mini`) · 3. `See who needs approval` (§01, `.btn-link`) · 4. `Enrol in the bundle` (§07, `.btn-primary`) · 5. `Get an owner-builder insurance quote` (§08, `.btn-secondary`) · 6. `Get your certificate for $179` (closing band, `.btn-primary`) · 7. `Get your certificate` (mobile sticky strip, `.btn-mini`) · 8. `Login` (chrome). **Judgement:** 1/2/6/7 are benefit-led ✓. 3 and 5 are benefit-led ✓. **4, "Enrol in the bundle", is not a banned string but is provider-voiced and generic** — the one CTA that does not describe what the reader gets. | PASS on the ban list; F15 on #4 |
+| CTA inside an answer capsule | **12 `.capsule` elements parsed; `<a>` count in each = 0.** Zero CTAs in any answer capsule. | PASS |
+| CTA inside an FAQ answer | 8 `<div class="ans">` blocks parsed; **zero `<a>` elements**. (The 2 links found in that region belong to the FAQ's `VerifiedSources` ledger, outside the answers.) | PASS |
+| "verified" beside a Trustpilot reference | **0 Trustpilot references** on the page | PASS |
+| Content image alt lengths | hero **131** · site **111** · online **123** · insurance **126** · Dominic portrait **120** · Warwick portrait **117**. **6/6 content images ≥ 80 chars**, all en-AU, all descriptive. | PASS |
+| Decorative image handling | 1 decorative image: the header logo SVG, `alt=""`, **not** `aria-hidden`. Its parent `<a class="brand">` carries `aria-label="ABE Education home"`, so the link has an accessible name and the image is already hidden from AT by the empty alt. Spec asks for both attributes. | PASS (note only) |
+| OG meta | `og:type`, `og:site_name`, `og:locale` (en_AU), `og:title`, `og:description`, `og:url` — 6 tags | PASS |
+| Twitter meta | `twitter:card` (summary), `twitter:title`, `twitter:description` — 3 tags. No `og:image` (no `ogImage` passed) → summary card, not large image. | PASS (note) |
+| Em dashes in body copy | **13 in rendered text, all 13 inside source-citation labels** ("WA — Owner-builder approval", etc). **Zero in prose.** | PASS |
+| Bare "ABE" in reader-facing copy | `check-claims.mjs` §6: `OK Company name: no bare "ABE"`. Manual read confirms every prose mention is "ABE Education"; only bare "ABE" is the SiteHeader logotype (documented exception). | PASS |
+| "five years" spelled out | §01 "within the **last five years**" ✓; seven/six/two years, six months, six weeks all spelled in prose ✓. **Exception:** §08 card title "One approval every **6** years" vs its body "every **six** years". | PASS overall; F16 |
+
+---
+
+## G · abe-readability-audit
+
+**Characters per line.** Computed from real DM Sans metrics (avg prose advance 0.4648em, measured on this
+page's own copy). `ch` = 0.684em, so every `ch`-based cap is ~1.47× longer in real characters than its
+number suggests.
+
+| Element | CSS cap | Rendered px | **Real CPL** | Target 45–75 (ideal 60–66) |
+|---|---|---|---|---|
+| `.measure` (running prose §01/03/04) | `max-width:480px` @17px | 480px | **60.7** | **PASS — ideal band** |
+| `.hero .lede` | `32ch` @19px | 416px | **47.1** | PASS |
+| `.price-foot` | `440px` @14px | 440px | **67.6** | PASS |
+| `.cta-end .lede` | `46ch` @19px | 598px | **67.7** | PASS |
+| `.verified .v-body` | `74ch` @12px **DM Mono** (monospaced) | 533px | **74.0** | PASS (at ceiling) |
+| `.ins-partner p` | `52ch` @17px | 605px | **76.5** | FAIL (marginal) |
+| `.note` (5 notes) | `calc(480px + 64px)` @15px | 544px | **78.0** | FAIL (marginal) |
+| `.capsule.on-dark` (TrustBand) | `60ch` @18px | 739px | **88.3** | FAIL |
+| `.attest` (TrustBand attestation) | `62ch` @14px | 594px | **91.2** | FAIL |
+| **`.capsule` (all 12 answer capsules)** | `66ch` @18px | **813px** | **97.1** | **FAIL** |
+| **`.faq .ans` (all 8 FAQ answers)** | `68ch` @16px | **744px** | **100.1** | **FAIL — worst on the page** |
+| `footer .f-pub` | `74ch` @13px | 658px | **108.9** | FAIL (global chrome) |
+| `footer .f-auth` | `66ch` @13px | 587px | **97.1** | FAIL (global chrome) |
+
+Mobile CPL: at 375px viewport minus 2×16px `.wrap` padding = 343px; at 17px that is **43.4 CPL**, inside the
+30–45 mobile band. PASS.
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| Body font-size | **17px** | PASS (16–18) |
+| Smallest meaningful text | 10px (`.waynav .wl`, `.waynext .lab`) — below the 12px floor | FAIL (minor, F17) |
+| Line-height | **1.65** body; `.capsule` 1.55; `.lede` 1.55; h1 1.02, .h2 1.08 (display, correctly tighter) | FAIL (marginal — 0.05 over the 1.4–1.6 band) |
+| Paragraph spacing | `--s-md: 24px` = 1.41× the 17px body; capsule 24/32px. Target ~2× (34px). | FAIL (minor) |
+| Single column for running prose | every prose block is one `.measure` / `.capsule` / `.ans` column; grids collapse to `1fr` at 640–1100px | PASS |
+| Left-aligned, unjustified | `grep text-align` → 7 hits: `.ph`, `.pl-check`(right, a check column), 2× table `<th>`(center), `.cta-end`(center CTA band), `.mst`, Credentials badge. **No `justify`; no centred/right running prose.** | PASS |
+| Body ink on ground | `--ink-3 #4a4a4a` on paper `#ffffff` = **8.86:1**, on paper-alt = **8.49:1**, on paper-warm = **8.08:1**. Headings `--ink #1a1a1a` = 17.40/16.67/15.86. Capsule `--ink-2 #2a2a2a` = 14.35/13.75/13.08. Dark section ≈#c6c6c6 on #1a1a1a = **10.19:1**. Button `#fff` on `#1a1a1a` = **17.40:1**. Maroon on white = **10.95:1**. | PASS — all ≥ 4.5:1 |
+| Sub-AA colour in use | `--slate-light #9a9a9a` = **2.81 / 2.70 / 2.56:1** on the three grounds — below AA. Renders here in `.waynav .wl` ("On this page", 10px) and megamenu "Soon" badges. | **FAIL (F18)** |
+| Pure black ink | `--ink` is `#1a1a1a`. **No `#000` anywhere.** | PASS |
+| Pure white ground | **`--paper: #ffffff`**; `body{background:var(--paper)}`; `.sec` sets no background → sections `course`, `need`, `learn`, `obligations`, `faq` render body copy on **pure white**. | **FAIL — spec hard-blocker (F1)** |
+| Lists chunked to ~7 | hero ticks 4 · glance 4 · CanCant 3+3 · ModuleRows 4 · Stepper 3 & 5 · TopicGrid 6 · priceRows 3 · people 2. **All ≤7.** Two flat runs at 8: FAQ (8) and Consolidated Sources (8, in a 2-col grid = 4+4). | PASS (marginal) |
+| Answer-first | **12 of 12 content sections open with an `AnswerCapsule`.** Word counts 47,51,55,60,56,44,49,**28**,43,**38**,55,47 — 10 in 40–60, two short (TrustBand 28, obligations 38). Each leads with the direct answer. | PASS |
+| Question-led H2s | 9 of 14 H2s are questions; the 5 that are not are non-prose panels (TrustBand, how-to, FAQ label, bundle, insurance). | PASS |
+| CTA placement | Above fold ✓; sticky desktop waynav CTA ✓; sticky mobile strip <900px ✓; closing band ✓. **Gap: §01–§06 (six consecutive sections) carry no CTA** — next after hero is the §07 bundle. | FAIL (minor, F19) |
+| Primary CTA tap target | `.btn-primary` 16px×1.65 + 14px×2 = **54.4px** ✓; `.btn-secondary` **54.4px** ✓ | PASS (≥44px) |
+| Sticky CTA tap targets | `.ctastrip .btn-mini` (mobile) 15px×1.65 + 20 = **44.75px** ✓. `.waynav .btn-mini` (desktop) 14px×1.65 + 18 = **41.1px** — global.css:147 states "at 41px it is the tallest child". Below 44px, above AA 24px, desktop-only. | FAIL (minor, F20) |
+| FAQ summary tap target | 20×2 + 18px×1.65 ≈ **69.7px** | PASS |
+| Waynav jump links | `.waynav a.j` 12px×1.65 + 10 = **29.8px** — above AA 24px, below the 44px ideal, desktop only | PASS (AA) |
+| Trust beside claim & near CTA | hero: 4 ticks + 3 proof stats beside the CTA ✓; TrustBand between §06 and §07 (before the price) ✓; named experts before FAQ ✓; dated ledgers under each claim ✓. **Not top-and-footer-only.** | PASS |
+| Visible focus ring | `:focus-visible{outline:2px solid var(--maroon);outline-offset:3px}` — 10.95:1 | PASS |
+| Reduced motion honoured | 3 `@media(prefers-reduced-motion:reduce)` blocks | PASS |
+| Headings in order | h1 → h2 → h3 only; none skipped; no h4/h5/h6 | PASS |
+| Meaningful link text | "See who needs approval", "Full profile →", "LinkedIn", named source titles. No "click here". | PASS |
+| Reflow at 320px, no h-scroll | **NOT RUN** — needs a rendering engine. `audit_render.py` requires Chromium, unavailable to this subagent; no browser was started. Static evidence only (breakpoints down to 440px, `.wrap` `padding:0 28px` + `box-sizing:border-box`, `.waynav .wrap{overflow-x:clip}`). Not sufficient to certify 320px. | **NOT RUN** |
+| 200% browser resize | **NOT RUN** — same reason. | **NOT RUN** |
+| Text-spacing override survival | **NOT RUN** — same reason. Flag: `.waynav a.j` uses `white-space:nowrap` in a scrolling bar with a hard-coded `--waynav-h:65px`; that is the plausible failure point if tested. | **NOT RUN** |
+
+---
+
+## H · final-check, all six
+
+### 1 · Contradictions
+
+| Finding | Measured value | Verdict |
+|---|---|---|
+| **Verified-date conflict on the same sources** | §`course`/§`need`/§`become` ledgers date *Form 75 (PDF)* and *WA — Owner-builder approval* at **23 Jul 2026**; the Consolidated Sources block dates the **same two documents** at **"Verified 7 Jul 2026"**. The page states two verification dates for the same sources. | **FAIL (F2)** |
+| Review vs course-version date | Warwick's currency review is dated **20 June 2026**; the §`learn` ledger is "Course v2.0, **27 Jun 2026**". The review predates by 7 days the version whose currency it is presented as attesting. | FAIL (soft, F21) |
+| "Updated" dates | Hero badge "Updated **June** 2026"; footer "Last updated **July** 2026". | FAIL (minor, F22) |
+| Six-year rule twice | §`need` "run from the date a building permit is granted" vs §`obligations` card 04 "measured from when the permit is granted". **Consistent.** | PASS |
+| Six-month lapse twice | §`obligations` card 03 and §`become` Deadline note. **Consistent.** | PASS |
+| Numbers | $179(7×), $212, $467, $391=179+212 ✓, $278=179+99 ✓, $20,000/$50,000/$25,000/$10,000, 80%, 3 attempts, 31,000+, 2007, "19 Years"(2026−2007 ✓), schema `PT4H` vs "an afternoon" ✓. **No numeric contradiction.** | PASS |
+| Module count | "**twelve** modules" (§05) vs "**12** modules" (§06, TrustBand ×2). | FAIL (style, F23) |
+| Register vs page framing of resale rule | register L26 "offence to sell within 7 years **without disclosure**"; page "you must have home indemnity insurance … selling **without it** is an offence". **UNKNOWN** which is the precise statutory wording — could not open the Act. Recorded, not guessed. | **UNKNOWN (F24)** |
+
+### 2 · Duplicate / repeated information
+
+5-word shingle frequency across the 25,563-char rendered text:
+
+- "Board accepts a WA-specific course completed within … two years, plus a White Card, as evidence of
+  sufficient knowledge" — **4 near-verbatim** (§01 capsule, §02 CanCant, FAQ 1, footer disclaimer).
+- "apply to your local council for the building permit" — **5** (§02 capsule, §02 CanCant, §03 capsule,
+  §08 card 06, §09 step 04).
+- "if you sell within seven years" — **4**, three inside §`obligations` alone.
+- "fact-checked against the current [Act/guidance]" — **6 of the 9 ledgers** share the identical stem.
+- "supports your Form 75 owner-builder approval" — 5.
+- FAQ restating body capsules: FAQ 1≈§01, 2≈§02, 3≈§03, 7≈§07, 8≈§08 card 01 — 5 of 8 answers.
+
+Some FAQ mirroring is intentional (extractability), but **§`obligations` states the seven-year rule three
+times in ~250 words**. **FAIL (F25).**
+
+### 3 · Logical flow
+
+Hero → at-a-glance → 01 accepted → 02 the right word → 03 need it → 04 responsibilities → 05 modules →
+06 how it works → TrustBand → 07 cost → 08 obligations → 09 full path → who reviews → FAQ → CTA. Authority
+and eligibility resolve before the product; product before money; money before obligations. Transitions
+explicit (`SectionWayfinder` every time). **PASS**, one note: §09 largely recaps §03/§06/§08 (F26).
+
+### 4 · Logical grouping
+
+Bundle in §`cost` ✓ (a price); InsurancePartner in §`obligations` ✓; TrustBand between product and price ✓.
+One split: the six-year rule is explained at length in §`need` and re-carded in §`obligations` five sections
+later; approval validity appears as §08 card 03 and again as the §09 Deadline note. **PASS with F27.**
+
+### 5 · Australian English
+
+`-ise` throughout; **zero `-ize`**. `licence` noun 10×, `licensed` adj/participle 11× — correct everywhere;
+no `license` as a noun. "Enrolment", "metres", "workers' compensation" ✓. Screened for and found none of
+organiz-/recogniz-/authoriz-/color/center/defense/favor/labor/modeling/traveling. **PASS.**
+
+### 6 · AI-writing patterns
+
+Zero of: comprehensive, delve, leverage, robust, seamless, landscape, "navigate the", "it's worth noting",
+crucial, vital, ensure. No "not only X but also Y". Sentence length varies hard ("Yes." / "An approval."
+against 40-word sentences). Commercially self-limiting lines a generic model would not write
+("buy nothing here", "There is no free preview", "not what most people think"). **PASS**, one templated
+surface: the 6 identical ledger stems (F25).
+
+**One reader-visible copy defect found reading the ledgers as prose:** `VerifiedSources.astro` joins
+`facts` to `sources` with the literal word `" against "`. When `facts` already ends "against the current
+Act/guidance", the line reads **"…fact-checked against the current Act against WA — Owner-builder
+approval"**. In **6 of 9 ledgers**. **FAIL (F28).**
+
+---
+
+## I · ai-detector
+
+**Assessment: predominantly human-authored. Low AI-likelihood for the body prose.**
+
+- No standard AI lexical tells; vocabulary is domain-concrete (Form 75/76, BAL, BA7, Class 1a(i),
+  CPCWHS1001, Deemed-to-Satisfy), not abstract.
+- No formulaic openers, no "In this article", no summary paragraph restating the intro, no stacked hedging.
+- Strong human voice: the page argues against its own sale ("You may not need this course at all", "buy
+  nothing here"), takes positions ("no course in WA is government approved"), uses pointed idiom
+  ("stepping into the builder's shoes", "a clean application and a false start").
+- The one machine-flavoured surface is the `VerifiedSources.facts` set — 6 of 9 share the "fact-checked
+  against the current [Act|guidance]" stem, exactly where the doubled "against" surfaces (F28).
+
+---
+
+## J · Cross-file consistency (MDX ↔ `faqs-wa.ts` ↔ `modules-wa.ts`)
+
+| Fact | MDX value | `faqs-wa.ts` value | Match |
 |---|---|---|---|
-| H1 | "comprehensive" | **0** | PASS |
-| H2 | Em dashes in **body copy** | **13 total in visible text; 0 in body copy.** All 13 sit inside source-citation labels: `WA — Owner-builder approval` ×9, `Form 75 — Approval, Owner-builder (PDF…)` ×2, `ABE Education — WA Owner-Builder Course modules…` ×1, `BSB — Sufficient knowledge policy (PDF)` ×1. Enumerated one by one. | PASS |
-| H3 | En dashes | 0 | PASS |
-| H4 | "Enrol now" / "Enrol today" | **0** | PASS |
-| H5 | CTA inside an answer capsule | Scanned all 12 `.capsule` elements for `<a>`/`href`/`btn`: **0 hits** | PASS |
-| H6 | CTA inside an FAQ answer | 8 `<details>` blocks; **0 contain an `<a>`**. The 2 anchors inside `section#faq` are the two source links in the section's VerifiedSources block, outside every answer. | PASS |
-| H7 | "verified" beside a Trustpilot reference | 0 Trustpilot references on the page | PASS |
-| H8 | CTA inventory + tap size | `Get your certificate for $179` (hero, 266×**54px**), PageBar `btn-mini` (227×41px), `See who needs approval` (text link, 213×26px), `Enrol in the bundle` (196×54px), `Get an owner-builder insurance quote` (346×54px), `Get your certificate for $179` (end, 266×54px) | PASS on the primaries — all three primary buttons are **54px**, above the 44px floor. The `btn-mini` at 41px and the `btn-link` at 26px are secondary/inline, above the 24px AA minimum |
-| H9 | "Enrol in the bundle" | Not the banned passive form ("Enrol now/today"); it names a specific object | PASS — NOTE only: it is imperative rather than benefit-led first person, unlike the other five CTAs on the page |
-| H10 | Sticky CTA | **Absent.** No element matching `[class*="sticky"]` in the rendered page, and `grep` finds none in `dist/qld-…`, `dist/tas-…`, `dist/act-…` or `dist/white-card-tas` either, though `src/components/StickyCta.astro` exists. | NOTE — **shared-template gap across all five course pages**, not a WA defect. readability §CTA wants a sticky CTA on long/mobile pages. Backlog item for the template, not this run |
-| H11 | Duration numerals in prose | House style wants durations spelled out in prose. Spelled correctly: "two years", "seven years", "six months", "six years", "five years", "forty years". **Two numeral exceptions in prose:** H3 label `One approval every 6 years` (its body correctly says "every six years"), and `helped ABE students for close to 20 years` in the InsurancePartner block. Data cells (`19 YEARS OPERATING`, `40+ years`, `12 MODULES`) are permitted numerals. | NOTE — 2 minor house-style misses, both outside the sections this run touched |
+| Course price | `$179` (frontmatter + 6 body places) | "It is **$179**"; "the **$179** course fee" | ✓ |
+| Bundle total | `$278` | "together for **$278**" | ✓ |
+| White Card unit | `CPCWHS1001` | "unit is **CPCWHS1001**" | ✓ |
+| Approval fee | `$212.00` / `$467` | "**$212** … or **$467**" | ✓ |
+| Fee cadence | "reviewed each **1 July**" | "reviewed each **1 July**" | ✓ |
+| Work-value threshold | "**$20,000**" | "valued over **$20,000**" | ✓ |
+| Class 10a exemption | "under **$50,000**" | "valued under **$50,000**" | ✓ |
+| No contract-splitting | "cannot split a project into smaller contracts" | "cannot split the work" | ✓ |
+| Currency window | "within the **last two years**" | "within the **last two years**" | ✓ |
+| **Review date** | **"20 June 2026"** ×3 (L18/205/256) | **"20 June 2026"** ×1 (L9) | **✓ all four identical** |
+| Course version | "v2.0, **27 Jun 2026**"; "updated June 2026" | "**Version 2.0, updated June 2026**" | ✓ |
+| Duration | "finish in an afternoon" | "finish in an afternoon" | ✓ |
+| Certificate timing | "issued the same day you pass" | "**same-day certificate**" | ✓ |
+| Resale rule | "sell within **seven years**" | "within **seven years**" | ✓ |
+| Insurance partner | "InsuranceTek Pty Ltd" | "our partner **InsuranceTek**" | ✓ |
+| Authority framing | "no accredited or WA-approved version" | "no accredited or WA-approved version" | ✓ |
+
+`modules-wa.ts` ↔ MDX: module groups, outcome and obligation cards render verbatim; file header "v2.0,
+27 Jun 2026" matches the §05 ledger. One internal inconsistency inside `obligationCardsWa[3]`: title "every
+**6** years" vs body "every **six** years" (F16).
+
+**Zero cross-file conflicts found.** `check-claims.mjs` independently confirms `Figures: 150/150` and
+`Totals: 7 course page total(s) reconcile`.
 
 ---
 
-## I · Repo checks — every line naming this slug, quoted verbatim
+## K · §05 brief-to-section map, both directions
 
-### `node scripts/check-claims.mjs`
+**05 → dist.** Every id in `05-components.md` is present in the build: `top`, `course`, `licence`, `need`,
+`responsibilities`, `learn`, `how`, `cost`, `obligations`, `become`, `content-review`, `faq` = **12/12**.
+The un-idd "(at a glance)" row also renders. **PASS.**
 
-```
-  0 failing, 3 warning, 6 ok, 127 excluded
-```
+**dist → 05.** The build emits **15 `<section>` elements**: the 12 above plus three un-idd — at-a-glance
+(in 05 ✓), **TrustBand** (`sec bg-dark trust`) and the **closing CTA band** (`sec cta-end`). **TrustBand
+and the CTA band appear in dist but have no row in 05's map.** `check-pipeline.mjs`:
+`OK … 11 section(s) match the plan`. **FAIL (F29, minor).**
 
-**Lines naming `wa-owner-builder-course`: none.** All three WARNs are TAS CPD (`cpd-building-tas` total not
-reconciled; CPD electrical 11 points; CPD plumbing 13 courses / 12-point cap) and are unrelated to this slug.
-Coverage of this page is positively confirmed by:
+**H2 drift — 05 is stale after `1c4bc4a`.** 7 H2s recorded in 05 no longer match the build (ids unchanged,
+titles historical):
 
-```
-  OK    Figures: 150/150 page figures match the register (127 excluded — run with --verbose to list them)
-  OK    Totals: 7 course page total(s) reconcile with price + register fee
-  OK    Bundles: 3 bundle offer(s) reconcile (ABE commercial prices, not register figures)
-```
-
-and `--verbose` shows the only WA exclusions are commercial, not regulatory:
-
-```
-    src\content\courses\wa-owner-builder-course.mdx
-      $179 ×12, $179.00  — this page's own price
-      $391.00  — total reconciled by the sum check
-      $99, $278  — ABE bundle price, reconciled by the bundle check
-```
-
-### `node scripts/check-freshness.mjs`
-
-```
-Register freshness: 16/16 current.
-CPD approvals: 13 live of 17, 0 lapsed-but-live.
-```
-
-**Lines naming `wa-owner-builder-course`: none.** The four advisory lines (`STALE-TAG` ×2, `SOFT-DATE`, `NO-WHS`)
-are all TAS CPD course-catalogue items. The WA registers this page depends on
-(`legislation-references-wa.md`, `state-fees-register.md`) are inside the 16/16 current.
-
-### `node scripts/check-pipeline.mjs`
-
-```
-  FAIL  wa-owner-builder-course: missing artefact(s) — 07 (pre-deploy verification)
-  WARN  wa-owner-builder-course: 12 capsule(s) on the page with no close match in 04 — first: "wa runs a knowledge requirement model so this wa specific course plus ..."
-  OK    wa-owner-builder-course: 11 section(s) match the plan
-```
-```
-  1 failing, 1 warning, 7 ok
-```
-
-- **FAIL "missing 07" — EXPECTED.** 07 is this file. It did not exist when the check ran. Re-running after this
-  file lands will clear it.
-- **WARN "12 capsules" — I agree with 05-components' recorded decision, with one correction.** 05 argues the
-  warning is correct and should stand because 04 is an audit artefact that authored only three changes and
-  deliberately did not restate the page's existing capsules. I independently verified `check-pipeline.mjs:161`:
-  the page-side regex is `<p class="capsule[^"]*"`, which matches 11 true answer capsules **plus** the trust-band
-  `capsule on-dark` proof lede — so the "12" is 11 capsules + 1 non-capsule element sharing the class, not 12
-  answer capsules. Re-drafting live, accurate, position-3 copy into 04 purely to satisfy a mechanical diff would
-  be a worse outcome than the warning. **The demand-list item in 05 §"Recorded decision" is well-founded and I
-  endorse it**, with the addition that the checker should also stop counting `.capsule.on-dark` proof bands as
-  answer capsules.
-- **OK "11 section(s) match the plan"** — the checker counts 11 where I count 12 id'd sections; it evidently
-  excludes `top`. Consistent with the plan either way.
-
-### `node scripts/system-health.mjs`
-
-```
-  FAIL  wa-owner-builder-course: missing artefact(s) — 07 (pre-deploy verification)
-  WARN  No Stage-9 review for "wa-owner-builder-course" — that run was never seen by the learning loop
-  WARN  wa-owner-builder-course: 12 capsule(s) on the page with no close match in 04 — first: "wa runs a knowledge requirement model so this wa specific course plus ..."
-  OK    wa-owner-builder-course: 11 section(s) match the plan
-```
-```
-  1 failing, 15 warning, 18 ok
-```
-
-The FAIL and the capsule WARN are the same two items dispositioned above. The Stage-9 WARN is a
-**post-deploy** obligation (it applies equally to QLD, TAS, ACT, NSW and the hub, all listed alongside it) and
-does not gate this deploy. `Register: 16/16 current`, `Skill references: 65/65 resolve`, and
-`Code claims: 6/6 verified against source` all pass. The remaining WARNs are TAS CPD and review-coverage
-housekeeping, none naming this slug.
-
----
-
-## J · MANDATORY AUDIT 1 — abe-readability-audit
-
-**Both scripts ran.** Interpreter: `py` (Python 3.14.4). Dev server confirmed live on 4321 before the render probe.
-
-### J1 · `audit_static.py dist/wa-owner-builder-course/index.html`
-
-```
-FAIL: 0   FLAG: 4   checks: 10
-```
-
-| Finding | Measured | Triage |
+| Section | 05 H2 | dist H2 |
 |---|---|---|
-| `[FLAG] Body font-size >= 16px` — "no explicit body font-size found" | Probe looks for a literal `body{font-size:…}`; this build sets type via tokens | **Probe artefact.** Rendered body prose measured at 15–18px; the `.capsule` is 18px/1.55, `.measure` prose 17px |
-| `[FLAG] No meaningful text below 12px` — 13 declarations at 9.5–11px | `.pagebar .crumbs li` 11px, `.pagebar .reviewed` 11px, `.ht-eyebrow` 10px, `.ht-rail` 11px/9.5px, `.ht-n` 10px, `.bt-sub` 10px, `.bt-tlabel` 11px, `.bundle-note` 11px, `.mr-no`/`.mr-mods`/`.mr-mnum` 11px, `.mr-olabel` 10px | **Shared template.** Every one is a component eyebrow, rail label, crumb or numeric badge from `PageBar`/`Hero`/`BundleOffer`/`ModuleRows` — micro-labels, not running prose, and identical on every ABE course page. Real but template-owned |
-| `[FLAG] Page ground is off-white` / `[FLAG] Body ink is off-black` — "not found" | Probe cannot resolve `var(--paper)` / `var(--ink)` | **Probe artefact.** Verified in the rendered DOM: ground `rgb(255,255,255)` on the hero/`sec` bands with `rgb(247,244,239)` warm and `rgb(242,243,244)` alt bands; ink `rgb(26,26,26)` — **off-black, not `#000`**. The ABE hard rule on pure black is met. The pure-`#fff` ground on default `sec` bands is worth a template look, but it is the site-wide token, not a WA choice |
-| `[pass] ×6` | one `<h1>`; `lang="en-AU"`; 0 of 7 images missing alt; no justified text; no multi-column prose; measure cap present | — |
+| (at a glance) | "The facts before you enrol" | "What do you need to know before you enrol?" |
+| `responsibilities` | "Your responsibilities as a WA owner-builder" | "What are your responsibilities as a WA owner-builder?" |
+| `learn` | "Introduction plus 12 modules, written for WA" | "What do the WA modules cover?" |
+| `how` | "Three steps to your certificate" | "How does the course work?" |
+| `cost` | "Three costs, three payees, nothing hidden" | "What will you pay in total?" |
+| `obligations` | "What else your WA project needs" | "What else does your WA project need?" |
+| `content-review` | "Who develops and reviews this course" | "Who develops and reviews this course?" |
 
-### J2 · `audit_render.py http://localhost:4321/wa-owner-builder-course`
+**FAIL (F30, documentation drift).**
 
-```
-FAIL: 5   FLAG: 0   checks: 8
-[pass] No horizontal overflow at 360px / 390px
-[pass] Mobile measure (390px)  ~42 CPL on widest prose (334px @ 16px)
-```
+---
 
-Each FAIL triaged, with an independent DOM measurement rather than the probe's word:
+## Repo gates — run and read in full
 
-| Probe FAIL | Independent measurement | Triage |
+| Script | Result | Lines naming this slug |
 |---|---|---|
-| Horizontal overflow at 320px — `scrollWidth 324 > 320`, offender `button.burger-btn` | `button.burger-btn` is declared in `SiteHeader.astro` (`.site-head .burger-btn`) | **Shared chrome.** Present on every ABE page. Real WCAG 1.4.10 reflow issue, template-owned, 4px over |
-| Tap target — `button.burger-btn 40x20px` | Same element | **Shared chrome.** Same component, same ticket. Below the 24px AA minimum on the *height* axis |
-| Live contrast @390px and @1280px — `1:1 rgba(255,255,255,0.92) on rgb(255,255,255)` for "A WA-specific course, Intr" and "Introduction plus 12 modul" | I read the real cascade in the browser: element `.capsule.on-dark` colour `rgba(255,255,255,0.92)`, own background `rgba(255,255,255,0.06)`, **ancestor `section.sec.bg-dark.trust` background `rgb(26,26,26)`** | **Probe artefact — the two most alarming numbers on the report are false.** The probe composites the element's own translucent background over a default white instead of walking to the opaque `.bg-dark` ancestor. Actual contrast is roughly 14:1. Not a defect |
-| Live contrast — `2.81:1 rgb(154,154,154)` on "Next" @10px | `p.waynext > a > span.lab` (WayfinderNav) | **Shared template** |
-| Live contrast — `3.15:1 rgb(138,138,138)` on "CDRG" @11.5px | `ul.cred-list > li > span.cl-b` (ExpertCredentials) | **Shared template** |
-| Live contrast — `3.81:1 rgba(255,255,255,0.4)` on "Sources" @11px | `footer > div.wrap > div.f-sources > span.f-col-h` (SourcesFooter) | **Shared chrome** |
-| Live contrast — `2.53:1` on "On this page" @10px | `nav.waynav > div.wrap > div.jl > span.wl` (SectionWayfinder) | **Shared chrome** |
-| Live contrast — `2.81:1` on "About" @12.5px | `nav.head-nav > span.nav-l.soon` (SiteHeader "coming soon" nav labels) | **Shared chrome** |
-| Desktop measure — `~91 CPL on widest prose (820px @18px)` | I re-measured true chars-per-line with `Range.getClientRects()` across all 53 prose blocks at 1280px. **Median 70 CPL.** Running prose (`.measure` capped at 480px, `.capsule` at 66ch) is inside target. **The genuine offenders are wider than the probe reported:** `.price-foot` **172 CPL** (1108px @14px, `cost`), `.note` **156 CPL** (`licence`), `.note maroon` **154 CPL** (`become`), `.note` **150 CPL** (`learn`), `.note` **142 CPL** (`obligations`), `.note maroon` **128 CPL** (`responsibilities`) | **Shared template, but the worst finding of the audit.** `global.css:269` `.note{…}` and `:431` `.price-foot{…}` declare **no `max-width`**, so both stretch to the full 1144px wrap. Confirmed template-wide: `dist/qld-`, `dist/tas-` and `dist/act-owner-builder-course` each render 6 `.note` blocks under the same rule. Mobile is unaffected (42 CPL). **Not this page's defect — but this page uses 5 Notes, so it is the page that hurts most.** Recommend a `max-width:70ch` on `.note` and `.price-foot` as a one-line template fix |
-
-**Readability net for this page:** 0 page-specific defects. 2 probe artefacts (including both 1:1 contrast
-readings). All remaining findings are shared chrome/template and are being recorded as template backlog, not
-as WA content defects.
+| `check-claims.mjs` | **0 failing, 3 warning, 8 ok, 127 excluded** | **None.** 3 warnings all CPD/TAS-bundle scoped. Relevant OKs: `Figures: 150/150`, `Totals: 7 … reconcile`, `Bundles: 3 … reconcile`, `Superseded White Card unit CPCCWHS1001 not presented as current`, `no bare "ABE"`. |
+| `check-freshness.mjs` | `Register freshness: 16/16 current.` + 2 STALE-TAG, 1 SOFT-DATE, 1 NO-WHS; `CPD approvals: 13 live of 17`. | **None.** All four warnings are TAS CPD register items. |
+| `check-pipeline.mjs` | **3 failing, 1 warning, 8 ok** | **2 lines.** (1) `FAIL … page changed 1011 min AFTER its last verification` — **the reason this run exists; writing this file clears it.** (2) `WARN … 12 capsule(s) … no close match in 04` — **expected and already adjudicated in 05-components.md**: this was an *audit* run where 04 deliberately carries only the three click-recovery items, not the page's twelve pre-existing capsules. Re-read and agreed. Also `OK … all 7 artefacts present`, `OK … 11 section(s) match the plan`. |
+| `system-health.mjs` | **3 failing, 14 warning, 21 ok** | **Same 2 lines.** Other warnings project-wide, none WA-specific (review coverage 2/8; 6 pages with no Stage-9 review; 1 of 4 self-graded; mistakes log 20 active; `Repeat risk seen 6x: Documentation drifted from the code and was trusted over it` — which is exactly F30 recurring). |
+| `prose-lint.mjs` | `Prose lint: 9 file(s) passed.` | None |
 
 ---
 
-## K · MANDATORY AUDIT 2 — final-check (six checks)
+## Hard-blockers
 
-Run against the rendered visible copy (`main.innerText`, 1280px), not the source.
+Evaluated against the spec's list. **1 of 10 is true.**
 
-**1 · Contradictions — 1 soft finding.**
-Cross-checked every repeated fact: price ($179, 12×), pass mark (80%, 2×), attempts (3, 2×), threshold ($20,000,
-3×), fees ($212/$467, 4×), six-month clock (2×), six-year rule (2×), seven-year resale (3×), review date (4×),
-student count (31,000+, 2×), years operating (19 vs "since 2007" = correct), Dominic's tenure (40+ / "more than
-forty" = consistent). **No hard contradiction.** One soft tension: `obligations` §03 "Approval validity" says
-*"Building permits themselves are valid for two years"*, while `become`'s Deadline note follows Form 75 and says
-*"once the permit is issued, your approval runs until the building is complete."* Both statements are true and
-about different instruments, but a reader meeting the two-year figure first may carry it across to the approval —
-which is exactly the wa.gov.au framing the register warns against ("**Prefer the Form's wording**"). **Recommend**
-tightening §03 to name the instrument, e.g. *"the building permit itself is valid for two years; your approval
-runs until the building is complete."* Not a wrong fact, not a blocker.
-
-**2 · Duplicate / repeated information — 1 real finding, 3 accepted.**
-- **Real:** inside `become`, the capsule says *"Many approvals are determined in approximately six weeks, though
-  that varies with volume and how complete your application is"* and Step 03 says *"Many applications are
-  determined in approximately six weeks, though timeframes vary with the volume of applications and how complete
-  yours is."* That is a full clause restated near-verbatim within one section, ~200 words apart. **Recommend
-  trimming Step 03 to the bare timeframe.**
-- **Accepted:** the at-a-glance capsule opens *"WA runs a knowledge-requirement model"* and `course`'s first body
-  paragraph opens *"WA runs what is called a knowledge-requirement model"* — an echoed opener, mitigated by the
-  intervening capsule. The "no accredited or WA-approved version" line appears 3× (`licence` capsule, CanCant ✕
-  row, FAQ) and the seven-year insurance rule 3× (`obligations` capsule, §01, InsurancePartner) — both are the
-  page's core authority and liability points, and deliberate reinforcement across capsule / list / FAQ is the
-  house pattern for AI-extractable copy.
-
-**3 · Logical flow — pass.** Accepted → defined → do-I-need-it → what-it-costs-me-in-duty → what-I-learn → how →
-price → wider obligations → the full path → who says so → FAQ → CTA. Reassurance-first, answer-first, and the
-"you may not need this course at all" passage lands early rather than being buried. `WayfinderNav` "Next: …"
-links carry the reader between sections. One structural overlap: `how` (three course steps) and `become` (five
-regulatory steps) both present a numbered path; they are distinguishable by eyebrow ("HOW IT WORKS" vs "THE FULL
-PATH") and serve different jobs, so I accept it.
-
-**4 · Logical grouping — pass with one observation.** The six-year rule is explained in `need` and re-stated as a
-card in `obligations` §04; the six-month clock appears in `obligations` §03 and `become`'s Deadline note. Both
-sit correctly in both places (once as explanation, once as checklist), but a reader scanning only `obligations`
-gets the six-month lapse without the refusal/completion branches. Minor.
-
-**5 · Australian English — pass, clean.** Scanned for 21 US spellings (`organiz-`, `recogniz-`, `color`,
-`center`, `program`, `labor`, `enroll`, `fulfill`, `analyze`, `behavior`, `favor`, `traveled`, `catalog`,
-`defense`, `meter`, `specialty`, `skillful`, `installment`, `judgment` …) in **visible text only**: **zero hits**.
-`licence`/`license` discipline is correct throughout — noun `licence` ("It is not a licence", "no licence
-involved"), adjective/participle `licensed` ("licensed trades", "licensed practitioners", "a licensed builder",
-"not a licensed insurance provider"). Footer uses `recognised`. `en-AU` declared on `<html>`.
-
-**6 · AI-writing patterns — pass.** See §L.
-
----
-
-## L · MANDATORY AUDIT 3 — ai-detector
-
-Scanned the full body copy for AI-authorship tells.
-
-**Lexical tells: none.** Zero instances of *comprehensive* (0), *delve*, *leverage*, *robust*, *seamless*,
-*landscape*, *navigate the complexities*, *in today's*, *it's important to note*, *when it comes to*, *unlock*,
-*empower*, *elevate*, *tapestry*, *testament to*, *ever-evolving*.
-
-**Structural tells: none material.** No formulaic three-part opener; no "Firstly/Moreover/Furthermore" chain;
-no over-hedged qualifiers; no em dashes in prose (0 — the 13 are citation labels); no title-case headings.
-
-**Two low-confidence signals, both defensible as human craft:**
-1. **Anaphora in `responsibilities`** — four consecutive paragraphs open with "You" (*You hold and comply… You
-   engage… You carry… You supervise…*). Parallel construction is a documented AI habit, but here it is a
-   duty-list rendered as prose and the parallelism is doing deliberate work. Not flagged as a defect.
-2. **Antithesis pairs** — *"the difference between a clean application and a false start"*, *"It is not a
-   licence, it is not the approval itself, and no course in WA is government approved."* Common in AI output;
-   also common in good direct-response copy. Below the threshold.
-
-**Strong human markers (evidence against AI authorship):**
-- Commercially self-defeating advice, which a generator optimising for conversion does not write:
-  *"You may not need this course at all… If one of those describes you, **buy nothing here** and put your
-  registration number on the form instead."*
-- A blunt negative admission: *"There is no free preview; what you get instead is…"*
-- A specific, checkable heuristic no model would invent: *"If a course still refers to the Building Commission
-  or the Department of Mines, its WA content is out of date."*
-- Correction of a common misreading, in the reader's own voice: *"The six-year limit is not what most people
-  think."*
-- Australian tradesman idiom: *"40+ years on the tools"*, *"stepping into the builder's shoes"*, *"take the role
-  on with your eyes open"*.
-- Dense, specific, verifiable particulars (Form 76, s43(2)(b)(ii), s99, BAL, Class 1a(i), BA7, Lic. 369417C,
-  Stuart Brothers since 1886).
-
-**Verdict: low AI-authorship signal. Reads as human-authored specialist copy.**
-
----
-
-## M · Consolidated findings
-
-### Page-specific — action recommended, none blocking
-
-| Ref | Finding | Severity |
+| # | Hard-blocker | Status |
 |---|---|---|
-| B10 | `obligations` answer capsule is **38 words**, 2 under the 40 floor | Minor |
-| K2 | `become`: the "approximately six weeks + variability caveat" clause is restated near-verbatim in the capsule and in Step 03 | Minor |
-| K1 | `obligations` §03 puts the building permit's two-year validity next to the approval's six-month lapse without naming which instrument the two years belongs to; register says prefer the Form's wording | Minor |
-| H11 | Two numeral durations in prose: H3 `One approval every 6 years`; `close to 20 years` | Cosmetic |
-| F6 | Same date rendered `22 Jul 2026` (Sources) and `22 July 2026` (footer) | Cosmetic |
-| A8 | 05-components' table header says "12 sections" but has 13 rows, and omits two rendered id-less sections | Artefact hygiene |
+| 1 | No H1 / >1 H1 / H1 without target keyword | Not true — 1 H1, carries "Owner Builder Course WA" |
+| 2 | Schema missing/invalid, or `recognizedBy` on a WA page | Not true — 1 valid `@graph`, 0 errors, all 5 node types, **0 `recognizedBy`** |
+| 3 | On-page price ≠ `Course.offers.price` | Not true — `"179"` = `$179` everywhere |
+| 4 | RTO / accredited / (WA) approved-course / permit breach | Not true — every such term is a negation or the separate council building permit |
+| 5 | Gov claim with no visible source, or Sources missing | Not true — Sources block present, 8 dated primary `.gov.au`. One claim (workers' comp, F3) lacks a named source; judged a serious gap, not a blocker |
+| 6 | Unresolved gov fact / `[confirm:]` / `[TO VERIFY]` | Not true — 0/0/0 |
+| 7 | Fee past re-verify cadence not re-checked | Not true — $212/$467 verified 22 Jul 2026, after the 1 Jul reset |
+| 8 | Primary keyword already targeted by another ABE page | Not true |
+| 9 | Banned CTA / CTA in answer or FAQ / "comprehensive" | Not true — 0 / 0 (12 capsules + 8 FAQ answers, zero `<a>`) / 0 |
+| 10 | Pure-black ink / pure-white ground / body < AA / primary CTA < 44px | **PARTLY TRUE** — ink `#1a1a1a` ✓, body 8.08–8.86:1 ✓, primary CTA 54.4px ✓, but **`--paper:#ffffff` is a pure-white ground** and `.sec` sets none, so five sections render on `#ffffff`. → **F1** |
 
-### Shared chrome / template — NOT this page's defects, recorded for the template backlog
-
-| Ref | Finding |
-|---|---|
-| J2 | `.note` runs **128–156 CPL** and `.price-foot` **172 CPL** at 1280px — `global.css:269` and `:431` set no `max-width`. Confirmed identical on QLD/TAS/ACT. Highest-value one-line fix on the list |
-| J2 | `button.burger-btn` (`SiteHeader.astro`) causes 324px scrollWidth at a 320px viewport and is a 40×20px tap target |
-| J2 | Sub-AA contrast on five micro-label styles: `.waynext .lab` 2.81:1, `.waynav .wl` 2.53:1, `.nav-l.soon` 2.81:1, `.cl-b` 3.15:1, `.f-col-h` 3.81:1 |
-| J1 | 13 declarations at 9.5–11px across PageBar/Hero/BundleOffer/ModuleRows |
-| H10 | No sticky CTA on any ABE course page, though `StickyCta.astro` exists |
-| C12 | Credential node has no `issuedBy` and no `educationalCredentialAwarded` link from `Course` — on all four owner-builder pages |
-| G8 | Header logo has `alt=""` without `aria-hidden` (accessible name supplied by the parent link's `aria-label`) |
-
-### Probe artefacts — no action
-
-- `audit_render.py` reports `1:1` white-on-white for the two `.capsule.on-dark` strings. **False.** Verified in
-  the DOM: the ancestor `section.sec.bg-dark.trust` background is `rgb(26,26,26)`; real contrast ≈14:1.
-- `audit_static.py` "no explicit body font-size", "ground colour not found", "ink colour not found" — the probe
-  cannot resolve CSS custom properties. Verified in the DOM: ink `rgb(26,26,26)` (off-black ✓), grounds
-  `#fff` / `rgb(247,244,239)` / `rgb(242,243,244)`.
+**Hard-blocker count: 1** (F1). It is a **global token, `src/styles/global.css:9`**, unchanged by this run,
+present on every ABE page. `CLAUDE.md` gives `global.css` precedence over the audit reference on token
+conflicts, so this is a standing system decision the spec contradicts, not a WA regression. Recorded as a
+blocker because the spec says so; escalated as a project decision, not a WA fix.
 
 ---
 
-## N · Hard-blocker sweep
+## Findings, ranked
 
-| Hard blocker (verification.md) | Measured | Status |
-|---|---|---|
-| No H1 / >1 H1 / H1 without the target keyword | 1 H1, contains "Owner Builder Course WA" | CLEAR |
-| Schema missing or invalid | 1 block, parses, 5 nodes, all four required types present | CLEAR |
-| **`recognizedBy` present on a WA page** | **0 occurrences of the string anywhere in the document** | **CLEAR** |
-| On-page price ≠ `Course.offers.price` | $179 × 12 on page; `offers.price` = "179" | CLEAR |
-| RTO / accredited / WA-approved-course authority breach | 0 asserted; all such strings are explicit denials or shared-chrome references to RTO partners | CLEAR |
-| Government claim with no visible source, or Sources section missing | 8 per-section VerifiedSources blocks + an 8-entry consolidated Sources block, all primary `.gov.au`/legislation | CLEAR |
-| Unresolved gov fact / `[confirm:` / `[TO VERIFY]` | 0 / 0 / 0 | CLEAR |
-| Gov fee past re-verify cadence | Fees re-verified 22 Jul 2026 after the 1 Jul 2026 indexation; caveat on page | CLEAR |
-| Primary keyword cannibalised by another ABE page | WA is the only ABE page targeting "owner builder course WA"; sibling state pages target their own states; hub links down, page links up to `/owner-builder-courses` | CLEAR |
-| Banned CTA / CTA in an answer or FAQ / "comprehensive" | 0 / 0 / 0 | CLEAR |
-| Pure-black ink or pure-white ground; body below AA; primary CTA under 44px | Ink `rgb(26,26,26)`; primary CTAs 54px; body prose passes AA | CLEAR on ink and CTA. NOTE: default `sec` bands render `#fff` — a site-wide token question, not a WA content defect |
+| # | Sev | Finding | File:line | Fix |
+|---|---|---|---|---|
+| **F1** | Blocker (system) | Pure-white ground: `--paper:#ffffff`; `.sec` sets no background so `course/need/learn/obligations/faq` render prose on `#ffffff`. Spec lists pure `#fff` as a hard-blocker. | `src/styles/global.css:9,28,35` | Shift `--paper` to off-white (e.g. `#fdfdfc`), **or** record a dated standing decision in `DESIGN.md` §3 and amend `verification.md:81,128` so the gate stops asserting a blocker the system decided against. Not silently either way. |
+| **F2** | High | Two different verification dates for the same two gov sources: 23 Jul 2026 (§course/§need/§become ledgers) vs "Verified 7 Jul 2026" (Consolidated Sources) for *Form 75 (PDF)* and *WA — Owner-builder approval*. Self-contradiction on the trust surface. | `…mdx:76-77` vs `:131,:162,:251` | Roll `footerSources` forward to 23 Jul 2026, or add a provenance label distinguishing "page last read" from "fact last re-checked" (the fee row already does this). |
+| **F3** | High | Workers' compensation stated as an obligation with **no source anywhere** — the §obligations ledger covers only home-indemnity/timing; no WorkCover WA in Sources. | `modules-wa.ts:20`; ledger `…mdx:243`; Sources `…mdx:75-83` | Add a WorkCover WA source and name workers' comp in the ledger `facts`. |
+| **F4** | Medium | §`cost` is the only regulatory section with **no ledger**, yet carries the $212/$467 fee and the 1-July cadence (sourced only in the page foot). | `…mdx:208-224` | Add `VerifiedSources date="22 Jul 2026"` naming the fee + cadence → LGIRS schedule. |
+| **F5** | Medium | Three §`need` facts sit under a ledger whose `facts` string does not name them: the **$50,000** Class 10a exemption, the class/size definitions, the eligibility rules. | `…mdx:151-153`, ledger `:162` | Extend the `facts` string to name the $50,000 threshold and eligibility. |
+| **F6** | Medium | `robots.txt` does not block `/course/` and `/program/` (§1e). Only `Allow: /`. Site-level. | `public/robots.txt` | Add `Disallow: /course/` and `Disallow: /program/`. |
+| **F7** | Medium | Credential node has **no `issuedBy`** — `recognizedBy` correctly absent, but the WA form is "ABE `issuedBy` only"; the certificate has no attributed origin. | JSON-LD emitter (course layout) | Add `"issuedBy":{"@type":"Organization","name":"ABE Education",…}`; confirm no `recognizedBy` for knowledge-requirement. |
+| **F8** | Low | Two `Person` nodes have no `@id` and no edge from `Course`; they float in the graph. | JSON-LD emitter | Give each an `@id`; reference from `Course` (`author`→Dominic, `reviewedBy`→Warwick). |
+| **F9** | Low | TrustBand attestation links `wa.gov.au` beside the ABN with **no date** — the only undated gov reference. | `…mdx:203` | Append "· verified 22 Jul 2026". |
+| **F10** | Low | §`learn` ledger cites a source with `href:''` → a SOURCES line with no link. | `…mdx:182` | Link a durable internal artefact or drop the `sources` array. |
+| **F11** | Trivial | `BreadcrumbList` item 1 = `…edu.au/` — trailing slash against the no-slash rule (items 2/3 comply). | `…mdx:15` | `https://www.abeeducation.edu.au` |
+| **F12** | Low (not this copy) | Global megamenu renders "NSW Owner Builder — Nationally recognised, with our RTO partner", but NSW OB is ⛔ on hold per `kb/rules/authority-model.md`. Renders on every page. | `SiteHeader.astro` NSW OB card | Raise separately; do not resolve in this run. |
+| **F13** | Low | Freshness line uses "on" not `·` and the `<time>` has no `datetime`. | `PageBar.astro` | Use `·` and add `datetime="2026-06-20"`. |
+| **F14** | Low | §`course` micro-CTA renders **before** its ledger; other sections put the ledger first. Inconsistent gate ordering. | `…mdx:129-131` | Move the `btn-link` after `<VerifiedSources />`. |
+| **F15** | Low | Bundle CTA "Enrol in the bundle" is provider-voiced, the only CTA not saying what the reader gets. | `…mdx:221` | e.g. "Get both certificates for $278". |
+| **F16** | Trivial | Card title "every **6** years" vs body "every **six** years". | `modules-wa.ts:22` | Title → "every six years". |
+| **F17** | Low | 10px text below the 12px floor (`.waynav .wl`, `.waynext .lab`). | `global.css:124,594` | Raise to 11–12px or record. |
+| **F18** | Medium (a11y) | `--slate-light #9a9a9a` = **2.81/2.70/2.56:1** (below AA 4.5:1), used for text in `.waynav .wl` and "Soon" badges. `global.css:340` already documents this failure and fixed it for `.v-body`; other call sites not migrated. | `global.css:124,276`, SiteHeader "soon" rules | Move text-bearing sites to `--slate` (5.10/4.89/4.65:1). |
+| **F19** | Low | §01–§06 (six sections) carry no CTA; next after hero is the §07 bundle. Partly mitigated by the sticky CTAs. | `…mdx:114-198` | Add one mid-page CTA after §04/§05. |
+| **F20** | Low | `.waynav .btn-mini` = **41.1px** tall (global.css:147 confirms 41px). Below 44px, above AA 24px, desktop-pointer only. | `global.css:151` | Raise padding to 11px (→45.1px) or record. |
+| **F21** | Low | Currency review dated 20 Jun 2026 predates the v2.0 course (27 Jun 2026) it is presented as attesting, by 7 days. | `…mdx:18/205/256` vs `:182` | Confirm which date is right; do not adjust either without checking the record. |
+| **F22** | Trivial | Hero "Updated June 2026" vs footer "Last updated July 2026". | `…mdx:34` + footer | Reconcile or label distinctly. |
+| **F23** | Trivial | "twelve modules" (§05) vs "12 modules" (§06, TrustBand). | `…mdx:179` vs `:195,202,205` | Pick one for prose. |
+| **F24** | UNKNOWN | Register L26 "sell within 7 years **without disclosure**" vs page "selling **without it** [insurance] is an offence". Could not open the Home Building Contracts Act 1991; did not guess. | `state-fees-register.md:26` vs `modules-wa.ts:19` | Re-read the Act (s25C) in a browser and align register + page. |
+| **F25** | Medium (copy) | §`obligations` states the seven-year rule **3× in ~250 words**; "Board accepts a WA-specific course…" 4× near-verbatim page-wide; "apply to your local council for the building permit" 5×; 6/9 ledgers share the identical "fact-checked against the current…" stem. | `…mdx:227`, `modules-wa.ts:19`, `…mdx:232`, `faqs-wa.ts:10` | Cut the seven-year rule to two statements; vary the ledger stems. |
+| **F26** | Low | §`become` (§09) largely recaps §03/§06/§08 — main driver of F25. | `…mdx:247-253` | Tighten steps to point back rather than restate. |
+| **F27** | Low | Six-year rule + approval validity each stated in two sections five apart. | `modules-wa.ts:21-22`, `…mdx:154,250` | Cross-reference instead of restating. |
+| **F28** | Medium (copy, visible) | `VerifiedSources` joins `facts` to `sources` with the word " against "; 6/9 `facts` already end "against the current Act/guidance", so the line reads "…fact-checked against the current Act **against** WA — Owner-builder approval". | `VerifiedSources.astro:24`; `facts` at `…mdx:143,162,175,197,243,251,262` | Drop the trailing "against the current Act/guidance" from those `facts` strings. Cheapest fix, no component change. |
+| **F29** | Low (artefact) | TrustBand and the closing CTA band render in dist but have no row in `05-components.md` (12 of 15 sections mapped). | `05-components.md` map | Add both rows, marked "unchanged". |
+| **F30** | Low (artefact) | `05-components.md` records pre-`1c4bc4a` H2s for 7 sections (see K). ids resolve; titles are historical. system-health's most-repeated risk (6×). | `05-components.md` map | Update the 7 H2 cells to the shipped question-form headings. |
 
-**All 12 hard blockers clear.**
+**Checks explicitly NOT RUN:** three, all in section G, all because **no rendering engine was available and
+no browser was started** (so `audit_render.py`-class checks were impossible): (1) reflow at 320px with no
+h-scroll, (2) 200% resize, (3) WCAG 2.2 text-spacing override survival. Static CSS evidence is recorded but
+does not certify them. Every other check A–K was run.
 
 ---
 
-## O · Verdict
+## Verdict
 
-# GREEN
+**AMBER — ship with named caveats.**
 
-The page is correct and safe to deploy.
+The regulatory core is clean and the WA authority model is right in every place it matters: **zero
+`recognizedBy`**, zero RTO/accredited/approved-course claims outside explicit negations, the owner-builder
+step called an approval throughout with the building permit kept separate, two `Person` nodes for an
+ABE-developed course, price identical in schema and on the page, eight primary `.gov.au` sources all dated,
+zero `[confirm:]`/`[TO VERIFY]`, zero "comprehensive", zero banned CTAs, zero CTAs inside the 12 capsules or
+8 FAQ answers, and — the defect that sank the last run — **the review date "20 June 2026" identical in all
+four rendered places, in the MDX and in `faqs-wa.ts`.**
 
-- The **authority model is verifiably right**: the credential carries **no `recognizedBy`** (0 occurrences of
-  the string in the whole document), proven against the QLD/TAS/ACT siblings which each carry their regulator.
-  Person ×2 with Dominic Ogburn as developer is correct for a knowledge-requirement course. No "WA-approved
-  course/provider" claim, no "permit"/"licence" assertion for the owner-builder step — all such wording is
-  explicit denial or explanation. ABE is never claimed to be an RTO, and is three times stated not to be.
-- **Every regulatory figure matches `kb/register/`**: $20,000, four pathways, two-year currency, six years from
-  the building permit, six-month lapse with the Form's three branches, $212/$467 with the 1 July caveat, ~six
-  weeks with the variability caveat, seven-year resale, $25,000 s99 penalty, CPCWHS1001.
-- **The prior two-different-dates defect is fixed**: `20 June 2026` appears 4 times and all four agree.
-- The six page-specific findings in §M are minor or cosmetic. The single measured miss against a stated target
-  is the `obligations` capsule at **38 words** (floor 40) — recorded as a FAIL row, not a pass, and not a blocker.
+Not GREEN for three named reasons:
 
-### Confirmation that all three mandated audits ran
+1. **F1** — one of the spec's ten hard-blockers is literally true: the ground is pure `#ffffff`. Global
+   token, not a WA regression; `CLAUDE.md` gives `global.css` precedence. Needs a recorded decision, not a
+   silent pass.
+2. **F2** — the page contradicts itself about when two government sources were verified (23 Jul in three
+   ledgers, 7 Jul in the page foot). On a page that sells dated verification, this is the one finding a
+   reader could use against it. Cheap; fix before deploy.
+3. **F3** — one regulatory claim (workers' compensation) carries no source anywhere.
 
-| Audit | Ran? | Evidence |
-|---|---|---|
-| **abe-readability-audit** | **YES — both scripts** | `py …/audit_static.py dist/wa-owner-builder-course/index.html` → `FAIL: 0  FLAG: 4  checks: 10`. `py …/audit_render.py http://localhost:4321/wa-owner-builder-course` → `FAIL: 5  FLAG: 0  checks: 8`. Dev server confirmed live (HTTP 200) before the render probe. All 5 render FAILs triaged in §J2 into 2 probe artefacts and shared-chrome/template items, each with an independent DOM measurement; **0 page-specific defects**. |
-| **final-check** | **YES — all six checks** | §K: contradictions (1 soft), duplicates (1 real, 3 accepted), logical flow (pass), logical grouping (pass w/ observation), Australian English (**pass, 0 US spellings in visible text**, licence/licensed discipline correct), AI-writing patterns (pass). |
-| **ai-detector** | **YES** | §L: zero lexical tells, no structural tells, two low-confidence signals both defensible, six strong human markers including commercially self-defeating advice. **Low AI-authorship signal.** |
-
-None was skipped. None was unrunnable.
-
-### Post-deploy obligation
-
-`check-pipeline` / `system-health` will clear the `missing 07` FAIL once this file is committed. The standing
-`No Stage-9 review for "wa-owner-builder-course"` WARN is post-deploy and applies to five other pages equally;
-it does not gate this deploy.
+**F28** (six ledgers reading "against … against") and **F18** (a sub-AA grey the codebase has already
+documented and half-fixed) are next. Fix F2, F3 and F28 and this goes GREEN on the next pass, with F1
+carried as a recorded system caveat.

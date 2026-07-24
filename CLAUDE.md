@@ -38,7 +38,11 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   (`workers_dev: true`, `assets.directory: ./dist`). **No SSR adapter, no `output: 'server'`.**
 - **@astrojs/sitemap** (emits sitemap-index.xml + sitemap-0.xml; `site` is set in astro.config.mjs).
 - **Token CSS in `src/styles/global.css`** (CSS custom properties). **Not Tailwind.** Fonts:
-  Archivo (display), DM Sans (body), DM Mono (mono). Accent maroon `#800000` on cool cream ground.
+  Archivo (display), DM Sans (body), DM Mono (mono). Accent maroon `#800000` on a warm cream
+  ground. **`--ground` (#fbf9f5) is the page and its full-width chrome; `--paper` (#ffffff) is the
+  fill of an ELEVATED surface** (cards, megamenu, mobile nav). They were one token until 24 Jul 2026,
+  which is why the site ran on pure white against this line: creaming the shared token would also
+  have creamed every card and sunk it into the `.bg-warm` bands. Do not re-merge them.
 - **Content model target: MDX + Astro Content Collections** (Zod-typed frontmatter, one `CourseLayout`
   renders all states). QLD/WA are still per-page `.astro` + `data/*.ts` and are being migrated — see
   HANDOVER backlog. New course pages should be MDX once the collection is wired.

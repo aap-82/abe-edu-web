@@ -103,6 +103,107 @@ Output: high resolution, sharp, web-ready, no border.
 
 ---
 
+## 3b · Hero, version B — weighted for search (added 24 July 2026)
+
+Version A above stays on record. This is an alternative for the same slot, not a correction.
+
+### What actually moves the needle, in order
+
+Worth being blunt, because "SEO image" usually gets spent on the wrong thing. Ranked by real effect
+on this page:
+
+1. **`Course.image` is missing from the JSON-LD.** Measured on the built page 24 Jul: the two `Person`
+   nodes carry `image`, `Course` does not. `image` is a recommended property on `Course` and is what a
+   rich result draws from. **This is the biggest win here and it is a code change, not a prompt** —
+   see the note at the end.
+2. **Alt text.** The strongest on-page signal an image has, and already a build gate (>= 80 chars).
+   Version A's alt is accurate but never says what the page is trying to rank for.
+3. **The subject being legible as its topic.** Image search and multimodal retrieval match what is
+   visibly depicted. An abstract sheet-on-a-desk is credible but reads as "a document", not as
+   "building CPD in Tasmania".
+4. **LCP.** Already handled: `.avif`, eager via `artefactImg`.
+5. **Filename.** Weak signal, and **no change recommended** — the slug is already
+   `cpd-building-tas`, so `cpd-building-tas-hero.avif` carries the terms. Renaming to chase a
+   marginal gain would break the `{slug}-hero` convention that makes these files findable. Chasing
+   it would be SEO theatre.
+
+### The tension, stated rather than fudged
+
+Version A deliberately ruled out lifestyle photography, and that call is right for conversion: a
+hard-hat stock shot says nothing about a CPD bundle and reads as filler to a practitioner discharging
+an obligation. But the artefact shot it chose instead is *visually* generic, which is what costs it in
+image search.
+
+Version B does not reverse the decision. It keeps the artefact as the subject and puts it in the
+practitioner's working context, so the frame is legible as "a Tasmanian building practitioner's CPD
+record" to a person scanning results and to a classifier, without becoming a lifestyle scene.
+
+**Alt text** (163 chars, en-AU, leads with the target term, names the company in full):
+> Builder CPD in Tasmania: a building practitioner's completed annual CPD record on a desk beside
+> rolled plans and a tablet, the evidence kept for a CBOS licence renewal with ABE Education.
+
+### Certificate guardrails — unchanged, and they still bind
+
+Every constraint in section 3 applies verbatim: no CBOS crest, no government or ASQA logo, no state
+emblem, nothing resembling a Statement of Attainment or nationally recognised qualification, and all
+body text blurred and illegible. Version B adds recognisable *trade* context, never *credential*
+context.
+
+### ChatGPT (GPT-image / DALL-E) — render at 1536x1024, crop to 5:4
+
+```
+A photorealistic editorial photograph of a Tasmanian building practitioner's completed annual
+continuing-professional-development record: a single printed sheet on a plain timber desk, a tablet
+beside it showing a course-completion screen, and at the edge of frame the tools of the trade that
+place the scene - a tightly rolled set of building plans, a folding rule, a hard hat resting upside
+down and clearly set aside for the day, not worn.
+Shot flat overhead, directly from above.
+Setting: the home office of a working builder in Tasmania. Through a window at the top of frame,
+softly out of focus, the frame of a timber-framed Australian residential build. Candid and lived-in,
+never styled or staged.
+Composition: 5:4 landscape aspect ratio; the sheet and tablet grouped to the right, the trade objects
+entering from the lower left corner, generous empty desk surface on the left for text overlay; soft
+cool daylight from the window, gentle shadows.
+Mood and palette: calm, institutional, credible; cool neutral tones, muted greys and pale timber. No
+warm marketing glow, no lens flare, no shallow-focus product-shot look.
+Do NOT include: any text, words, letters, numbers, logos, watermarks, signage, seals, crests or
+identifiable faces or people. Nothing resembling a government crest, an ASQA logo, a university seal,
+or a nationally recognised certificate. Any writing on the sheet or the screen must be blurred and
+completely illegible.
+Output: high resolution, render at 1536x1024, sharp, web-ready, no border.
+```
+
+### Gemini (Imagen / 2.5 Flash image) — aspect ratio 4:3, crop to 5:4
+
+```
+A photorealistic editorial photograph of a Tasmanian building practitioner's completed annual
+continuing-professional-development record: a printed sheet on a plain timber desk, a tablet beside it
+showing a course-completion screen, with a rolled set of building plans, a folding rule and a hard hat
+set aside at the lower left edge of frame.
+Flat overhead camera angle, directly from above.
+Setting: the home office of a working builder in Tasmania; through a window at the top of frame, well
+out of focus, a timber-framed Australian house under construction. Candid, unstyled.
+Composition: aspect ratio 4:3; sheet and tablet grouped right, trade objects entering lower left,
+generous empty desk surface on the left for text overlay; soft cool daylight from the window.
+Mood and palette: calm, institutional, credible; cool neutral tones, muted grey and pale timber.
+Do NOT include: any text, words, letters, numbers, logos, watermarks, signage, seals, crests, or
+identifiable faces or people. Nothing resembling a government crest, an ASQA logo, or a nationally
+recognised certificate. All writing must be blurred and unreadable.
+Grounding description: a Tasmanian builder's completed CPD record for the year on a desk with rolled
+plans and a tablet, in a working builder's home office.
+Output: high resolution, sharp, web-ready, no border.
+```
+
+### The code change this depends on
+
+The prompt above is worth little on its own if `Course.image` stays absent. Adding it means emitting
+`image` on the `Course` node from the hero artefact URL, absolute not relative, in the layout that
+renders CPD bundles. **That touches every page on that layout, so it needs its own change and its own
+Stage 7 re-verification, and is deliberately NOT bundled into an image-prompt artefact.** Logged here
+so the dependency is visible rather than assumed.
+
+---
+
 ## 4 · Dropping it back in
 
 1. Generate, crop to 5:4, convert to `.avif`, save as `public/images/cpd-building-tas-hero.avif`.

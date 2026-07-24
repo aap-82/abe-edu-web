@@ -301,7 +301,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   /* Nav interaction states share one restrained light grey (--active-bg) on the white
      header: hover, open megamenu, and the current-page trigger all read as the same
      grey pill. --nav-hover aliases it so a single value drives every hover state. */
-  header.site-head{ --active-bg:#f1f0f0; --nav-hover:var(--active-bg); position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--rule); }
+  header.site-head{ --active-bg:#f1f0f0; --nav-hover:var(--active-bg); position:sticky; top:0; z-index:50; background:var(--ground); border-bottom:1px solid var(--rule); }
 
   /* the one row: 66px, matching --head-h in global.css */
   .site-head .main .wrap{ height:66px; padding:0 28px; display:flex; align-items:center; gap:18px; }
@@ -349,7 +349,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .nav-l.active{ color:var(--maroon); background:var(--active-bg); }
   /* chevron is an svg: sized in px, coloured via currentColor on the path.
      Box is 13x8 to match the cropped viewBox's 8:5 ratio, so there is no dead space. */
-  .site-head .cv{ width:13px; height:8px; flex:none; color:var(--slate-light); transition:transform .18s, color .15s; }
+  .site-head .cv{ width:13px; height:8px; flex:none; color:var(--slate); transition:transform .18s, color .15s; }
   .site-head .nav-trigger:hover .cv, .site-head .ni.open .cv{ color:var(--maroon); }
   .site-head .ni.open .cv{ transform:rotate(180deg); }
   .site-head .nav-trigger:focus-visible,
@@ -412,7 +412,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .burger-btn[aria-expanded="true"] .bars{ background:transparent; }
   .site-head .burger-btn[aria-expanded="true"] .bars::before{ transform:translateY(7px) rotate(45deg); }
   .site-head .burger-btn[aria-expanded="true"] .bars::after{ transform:translateY(-7px) rotate(-45deg); }
-  .site-head .mnav{ display:none; position:absolute; top:100%; right:16px; margin-top:8px; width:min(88vw,340px); background:#fff; border:1px solid var(--rule-strong); border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,.16); padding:14px 16px; max-height:78vh; overflow:auto; z-index:60; }
+  .site-head .mnav{ display:none; position:absolute; top:100%; right:16px; margin-top:8px; width:min(88vw,340px); background:var(--paper); border:1px solid var(--rule-strong); border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,.16); padding:14px 16px; max-height:78vh; overflow:auto; z-index:60; }
   .site-head .mnav.open{ display:block; }
   .site-head .mnav .bg{ padding:9px 0; border-bottom:1px solid var(--rule); }
   .site-head .mnav .bg:last-child{ border-bottom:0; }
@@ -420,7 +420,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mnav a{ display:block; padding:8px 6px; font-size:15px; color:var(--ink-2); text-decoration:none; border-radius:6px; }
   .site-head .mnav a:hover{ background:#f6f3ee; color:var(--maroon); }
   .site-head .mnav a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
-  .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate-light); margin:12px 0 3px; }
+  .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate); margin:12px 0 3px; }
   .site-head .mnav .bg-h + .bg-sub{ margin-top:2px; }
   .site-head .mnav .bg-hub{ color:var(--maroon); font-weight:600; }
   .site-head .mnav .bg-hub.soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--slate-light); font-weight:500; cursor:default; }
