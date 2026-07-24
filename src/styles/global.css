@@ -5,6 +5,15 @@
      heavier of the two without introducing a second colour family. 10.2:1 on the lightest
      ground, well clear of AA at the 12px this type is set in. */
   --verify:#2f5d8c; --verify-deep:#1e3d5c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
+  /* --slate-light measures 2.81:1 on --paper, 2.70 on --paper-alt, 2.56 on --paper-warm, against
+     AA's 4.5:1 for text and 3:1 for meaningful non-text. It is therefore RESTRICTED, not general
+     purpose: it may only carry text of an INACTIVE component ("Soon" states in the nav, megamenu
+     and hub cards), which WCAG 1.4.3 exempts, or pure decoration (the breadcrumb "/" separator).
+     Anything a reader has to read, and any indicator that carries meaning, uses --slate (5.10 /
+     4.89 / 4.65 on the three grounds). Swept 24 Jul 2026: nav and next labels, the CanCant ✕, the
+     CPD/comparison dashes, the struck-through RRP, the bundle sublabel, the mobile nav sublabel
+     and the dropdown chevron all moved to --slate. See the VerifiedSources note further down, which
+     is where this rule was first established and then not applied anywhere else for a month. */
   --ink:#1a1a1a; --ink-2:#2a2a2a; --ink-3:#4a4a4a; --slate:#6e6e6e; --slate-light:#9a9a9a;
   --paper:#ffffff; --paper-alt:#fafafa; --paper-warm:#f7f4ef;
   /* the sticky bars (breadcrumb + wayfinder) share the header's white ground, so header,
@@ -121,7 +130,7 @@ p strong{color:var(--ink);font-weight:600;}
 .waynav .jl{display:flex;align-items:center;gap:var(--s-md);flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-width:0;}
 .waynav .jl::-webkit-scrollbar{display:none;}
 /* the label is a group heading, not an eighth link: 32px away from the list, 24px within */
-.waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-light);flex:none;margin-right:var(--s-2xs);}
+.waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);flex:none;margin-right:var(--s-2xs);}
 /* Jump links are chips now, not underlined text: each carries its own background in the hover
    and active states, which is what makes the current section unmistakable. Padding is
    symmetric and modest so the pill stays well under the 41px CTA and --waynav-h is unchanged.
@@ -283,7 +292,7 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .can-col li{display:flex;gap:12px;align-items:flex-start;padding:13px 22px;font-size:16px;color:var(--ink-3);}
 .can-col li+li{border-top:1px solid var(--rule);}
 .can-col .gl{flex:none;font-weight:700;line-height:1.4;}
-.can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate-light);}
+.can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate);}
 /* Leading clause takes the darker ink so the point of each line lands first and the list is
    scannable without reading it. Same values as Credentials' .cl-k, and the same split rule
    (src/lib/lead-clause.ts). Lines with no clause break carry no emphasis. */
@@ -419,7 +428,7 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .cpd tbody tr:last-child th,.cpd tbody tr:last-child td{border-bottom:0;}
 .cpd tbody a{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule-strong);transition:color .15s,border-color .15s;}
 .cpd tbody a:hover{color:var(--maroon);border-color:var(--maroon);}
-.cpd .cpd-dash{color:var(--slate-light);}
+.cpd .cpd-dash{color:var(--slate);}
 
 /* Comparison table: products/states across the top, compared facts down the side, a
    trailing action row. Same bordered/scrolling idiom as .cpd, but compares named things
@@ -433,7 +442,7 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .cmp tbody td{text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);font-size:15px;font-weight:500;color:var(--ink-2);}
 .cmp tfoot td{text-align:center;padding:16px 14px;border-left:1px solid var(--rule);}
 .cmp tfoot th{border:0;}
-.cmp .cmp-dash{color:var(--slate-light);}
+.cmp .cmp-dash{color:var(--slate);}
 .cmp .cmp-soon{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate-light);}
 
 .trust .h2{color:#fff;max-width:18ch;margin-bottom:var(--s-xl);}
@@ -591,7 +600,7 @@ footer .f-auth b{color:rgba(255,255,255,.7);}
 .waynext a{display:inline-flex;flex-direction:column;align-items:flex-start;gap:5px;text-decoration:none;color:var(--ink);}
 .waynext .ln{display:inline-flex;align-items:center;gap:8px;line-height:1.25;}
 /* "NEXT" mono kicker: micro-label voice, uppercase */
-.waynext .lab{flex:none;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate-light);}
+.waynext .lab{flex:none;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);}
 /* the next section's title in the display face, so it reads as a headline, not a label */
 .waynext .ttl{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink);transition:color .15s;}
 /* the ArrowRight icon: maroon, centred against the title; clip + fly animation are the
