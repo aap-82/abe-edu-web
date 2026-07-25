@@ -14,8 +14,8 @@ colors:
   slate: "#6e6e6e"
   slate-light: "#9a9a9a"
   paper: "#ffffff"
-  paper-alt: "#fafafa"
-  paper-warm: "#f7f4ef"
+  paper-alt: "#f7f4ec"
+  paper-warm: "#f5f1e8"
   paper-chrome: "#ffffff"
   rule: "#e5e7eb"
   rule-strong: "#d4d6da"
@@ -152,7 +152,7 @@ A warm, near-monochrome paper system with one authoritative maroon and a small s
 - **Ink** (`#1a1a1a`): primary text and the dark section / footer ground. Stands in for black; true black is never used.
 - **Ink 2 / Ink 3** (`#2a2a2a` / `#4a4a4a`): emphasis text and standard body text on paper.
 - **Slate / Slate Light** (`#6e6e6e` / `#9a9a9a`): captions, meta, muted keys, and the VERIFIED label itself.
-- **Paper / Paper Alt / Paper Warm** (`#ffffff` / `#fafafa` / `#f7f4ef`): the three-step ground ramp used to separate sections tonally instead of with borders or shadows.
+- **Paper / Paper Alt / Paper Warm** (`#ffffff` / `#f7f4ec` / `#f5f1e8`): the three-step ground ramp used to separate sections tonally instead of with borders or shadows.
 - **Paper Chrome** (`= paper`): the ground shared by the site header, breadcrumb bar and wayfinder nav, so the page chrome reads as one continuous surface.
 - **Rule / Rule Strong** (`#e5e7eb` / `#d4d6da`): the hairline dividers and card borders that carry all structure.
 
@@ -243,7 +243,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 ## 6. Do's and Don'ts
 
 ### Do:
-- **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#fafafa` to `#f7f4ef` to `#1a1a1a`).
+- **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#f7f4ec` to `#f5f1e8` to `#1a1a1a`).
 - **Do** set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.
 - **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile. Never a large fill.
 - **Do** reserve Verify Deep (`#1e3d5c`) and Verify Blue (`#2f5d8c`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.
@@ -324,5 +324,5 @@ Do not import its concrete design system, which describes a different (partly re
 - its fonts, Public Sans (body) and Source Serif 4 (prose): this build is Archivo, DM Sans, and DM Mono, and the answer capsule is `AnswerCapsule` (DM Sans, warm-cream inset), not a serif.
 - its `.t-display` / `.t-headline` / `.t-body` / `.t-prose` / `.t-label` classes: use the components above and the `--font-*` tokens.
 - `abe-tokens.css` and its oklch values: tokens live in `global.css` as hex.
-- its "cool only, no warm surfaces" rule: this build deliberately uses the warm ramp (`paper-warm #f7f4ef`) on the header and the answer capsule.
+- its "cool only, no warm surfaces" rule: this build deliberately uses the warm ramp (`paper-warm #f5f1e8`) on the header and the answer capsule.
 - `audit_static.py` and `audit_render.py`: not in this repo. The build itself (component discipline) is the enforcement backstop.

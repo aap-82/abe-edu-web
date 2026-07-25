@@ -5,12 +5,12 @@
      heavier of the two without introducing a second colour family. 10.2:1 on the lightest
      ground, well clear of AA at the 12px this type is set in. */
   --verify:#2f5d8c; --verify-deep:#1e3d5c; --verify-soft:rgba(47,93,140,.3); --ok:#2e7d5b;
-  /* --slate-light measures 2.81:1 on --paper, 2.70 on --paper-alt, 2.56 on --paper-warm, against
+  /* --slate-light measures 2.81:1 on --paper, 2.56 on --paper-alt, 2.50 on --paper-warm, against
      AA's 4.5:1 for text and 3:1 for meaningful non-text. It is therefore RESTRICTED, not general
      purpose: it may only carry text of an INACTIVE component ("Soon" states in the nav, megamenu
      and hub cards), which WCAG 1.4.3 exempts, or pure decoration (the breadcrumb "/" separator).
      Anything a reader has to read, and any indicator that carries meaning, uses --slate (5.10 /
-     4.89 / 4.65 on the three grounds). Swept 24 Jul 2026: nav and next labels, the CanCant ✕, the
+     4.64 / 4.52 on the three grounds). Swept 24 Jul 2026: nav and next labels, the CanCant ✕, the
      CPD/comparison dashes, the struck-through RRP, the bundle sublabel, the mobile nav sublabel
      and the dropdown chevron all moved to --slate. See the VerifiedSources note further down, which
      is where this rule was first established and then not applied anywhere else for a month. */
@@ -24,12 +24,16 @@
      .bg-warm band (measured lift 1.043 -> 1.000). Splitting them delivers the briefed ground
      and leaves card separation untouched. Body ink #4a4a4a on --ground measures 8.43:1. */
   --ground:#fbf9f5;
-  /* the three bands are one warm ramp: --ground -> --paper-alt -> --paper-warm, each about a
-     1.02 step. --paper-alt was #fafafa, a COOL near-white that worked against a white ground
-     but not a cream one: against --ground it measured a 1.0075 step (invisible) while being
-     BLUER, so the alternation read as a temperature wobble instead of a band. Warming it
-     restores the step and gives cards more lift on alt sections (1.0706, up from 1.0438). */
-  --paper:#ffffff; --paper-alt:#f9f7f2; --paper-warm:#f7f4ef;
+  /* the three bands are one warm ramp: --ground -> --paper-alt -> --paper-warm. History: --paper-alt
+     was #fafafa (a COOL near-white, invisible AND bluer against cream), warmed to #f9f7f2, then
+     WIDENED (Jul 2026) because the ground->alt flip still measured only 1.018 - below the ~1.03 a
+     large adjacent field needs to read as a band, so on a phone in daylight the section alternation
+     was imperceptible. Now ground->alt is 1.045 and alt->warm 1.026 (a section flip reads without
+     becoming a hard SaaS stripe), and cards lift more on alt sections (1.099, up from 1.071).
+     What caps how dark the ramp can go: --slate (#6e6e6e) label text on the DARKEST ground holds
+     4.52:1 on --paper-warm (AA small-text floor 4.50), which is why --paper-warm stops at #f5f1e8.
+     --slate-light stays its usual deliberately-sub-AA muted token (2.50 on warm). */
+  --paper:#ffffff; --paper-alt:#f7f4ec; --paper-warm:#f5f1e8;
   /* the breadcrumb bar shares the header's ground so the two read as one continuous chrome
      surface. (.waynav is deliberately NOT on this token: it keeps its own cool #f2f3f4 so the
      wayfinder reads as a separate stratum from the header above it.) */
@@ -450,11 +454,11 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .verified .v-day{color:var(--verify);font-weight:400;}
 .verified .check{width:12px;height:12px;flex:none;color:var(--verify-deep);}
 /* --slate-light, not --slate, was a WCAG AA failure and the source of the "washed out
-   middle" look: at 12px it measured 2.81:1 on paper, 2.70:1 on paper-alt and 2.56:1 on
+   middle" look: at 12px it measured 2.81:1 on paper, 2.56:1 on paper-alt and 2.50:1 on
    paper-warm against a required 4.5:1, while the VERIFIED label (5.10:1), the date (6.85:1)
    and the links (5.10:1) around it all passed. The least readable text in the component was
    the part that says what was actually checked. --slate passes on all three grounds
-   (5.10 / 4.89 / 4.65). PRODUCT.md targets WCAG 2.1 AA. */
+   (5.10 / 4.64 / 4.52). PRODUCT.md targets WCAG 2.1 AA. */
 /* The measure lives here, on the text, which is what a measure is for. 74ch of 12px mono is
    the sentence's own line length; the date column and gap now sit outside it instead of
    eating into it. */
