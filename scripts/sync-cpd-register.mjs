@@ -186,8 +186,9 @@ for (const cat of BUNDLE_CATEGORIES) {
   const live = tagged.filter((c) => c.status === 'live');
   console.log(`    ${cat.padEnd(11)} ${String(live.length).padStart(2)} live of ${String(tagged.length).padStart(2)} tagged`);
 }
-const unclassified = courses.filter((c) => c.status === 'live' && c.studyArea == null).length;
-if (unclassified) console.log(`\n    ${unclassified} live course(s) have no studyArea — the WHS cap cannot be checked until these are set.`);
+// A line here reported how many live courses lacked a studyArea "until the WHS cap can be
+// checked". REMOVED 24 Jul 2026: there is no WHS cap and there never was. Full note in
+// scripts/check-freshness.mjs.
 
 if (DRY_RUN) {
   console.log('\n  --dry-run: nothing written.\n');

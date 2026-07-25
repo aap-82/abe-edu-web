@@ -11,13 +11,25 @@
 # capped at 12. A typed figure is the thing that goes stale: the Electrical bundle advertised 12
 # points for three months after one of its courses expired.
 #
-# PRE-PUBLISH BLOCKER: `buyUrl` carries a 2025 date and this bundle family has five LearnWorlds
-# listings across re-approvals. Andrey to confirm it resolves before this ships (Stage 1 gate).
+# buyUrl BLOCKER RESOLVED 24 Jul 2026. It read `/program/tas-builder-cpd-bundle-01092025` and the
+# open question was whether that 2025 slug still resolved, given five LearnWorlds listings across
+# re-approvals. Andrey confirmed the product id is current and supplied the checkout form:
+# /payment?product_id=…&type=learning_program. The id is unchanged; only the path was wrong.
 #
-# NOINDEX UNTIL THAT IS RESOLVED (set 23 Jul 2026, at deploy). The page is finished and deploys with
-# everything else, but it must not be findable while its only purchase path may 404. noindex also
-# drops it from the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
-# Remove this single line once buyUrl is confirmed; nothing else needs to change.
+# Stored as a PATH, not the absolute URL Andrey supplied. `guardrails.ts` hard-blocks any <a>
+# pointing at https://www.abeeducation.edu.au — a preview build must never send a buyer to the
+# live domain — and same-origin, the path is equivalent. OPEN QUESTION IT INHERITS: /payment is
+# served by LearnWorlds on the apex today, and this build replaces the apex at cutover, so
+# whether /payment survives there depends on the LearnWorlds `learn.` subdomain decision that
+# is still the standing external blocker. If checkout moves to learn.abeeducation.edu.au this
+# path must change with it. Not guessed here.
+#
+# NOINDEX STAYS FOR NOW — a second gate, not the same one. The page has been edited twice since its
+# Stage 7 (651cdbd removed a false CBOS claim and the whole section built on it; 1c4bc4a was the
+# house-style pass), so `check-pipeline` §4 reports its verification as stale. Publishing a page
+# whose verification certifies content that no longer exists is exactly what that gate exists to
+# stop. Re-run Stage 7, commit the new 07, THEN remove this line. noindex also drops the page from
+# the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
 noindex: true
 title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
 description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Meets a builder's twelve-point year in full, online and self-paced, about ten hours."
@@ -30,11 +42,32 @@ regulator:
 price: "$499"
 priceNumber: "499"
 rrp: "$1,188"
-buyUrl: "/program/tas-builder-cpd-bundle-01092025"
+buyUrl: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program"
 licences: "builders, architects, building surveyors, building designers, building services designers, engineers and permit authorities"
 # Measured from LearnWorlds study time per starter across the ten members that carry metrics.
 # Two members are unmeasured, so this under-states rather than over-claims. See 01-source-map.md.
 hours: "About ten hours"
+# Per-course info, keyed by each course's display name (cbosName, or name where the register has
+# no cbosName). Two fields:
+#   blurb   - AUTHORED one-line description. The CBOS register has no description field, so these
+#             are DRAFTS pending a content check against the real course material.
+#   minutes - the MEASURED "avg time to finish" from the LearnWorlds July 2026 snapshot
+#             (data/Courses Info/tas-cpd-course-metrics-jul-2026.md). Omitted where the snapshot
+#             has no figure: "Solar Energy" and the wiring-rules course are newer than the snapshot,
+#             so they carry a blurb but no time rather than a guessed one.
+memberInfo:
+  "Workplace Asbestos Basics": { blurb: "Identifying and working safely around asbestos on residential sites.", minutes: 36 }
+  "Solar Energy": { blurb: "How rooftop solar and battery systems affect a residential build." }
+  "Site and Personal Safety for Climate-Exposed Trades": { blurb: "Managing heat, UV and weather risk for outdoor trades.", minutes: 37 }
+  "Effective Email Management and Digital Communication": { blurb: "Keeping clear, defensible written records with clients and trades.", minutes: 41 }
+  "The Role of Drones In Building, Plumbing & Electrical Work": { blurb: "Where drones help with inspection, survey and site documentation.", minutes: 46 }
+  "Effective Communication and Documentation": { blurb: "Documenting decisions so nothing is lost between trades.", minutes: 37 }
+  "AS/NZS 3000:2018 Wiring Rules": { blurb: "What the current wiring standard means for coordinating electrical work." }
+  "Fire Risk Awareness For All Trades": { blurb: "Recognising and reducing fire hazards during construction.", minutes: 55 }
+  "TAS CPD: Cyber Risks and Workplace Safety (1 pt)": { blurb: "Protecting client data and site systems from common threats.", minutes: 47 }
+  "Safe Work Method Statement (SWMS)": { blurb: "Writing and using a SWMS for high-risk construction work.", minutes: 35 }
+  "WHS Compliance and Legislation": { blurb: "The work health and safety duties that apply on your site.", minutes: 37 }
+  "Understanding Water Efficiency Labelling WELS": { blurb: "Meeting WELS requirements for fixtures and fittings.", minutes: 45 }
 intro: "Twelve CBOS-approved courses, one point each, against a Tasmanian builder's twelve-point year, in one purchase."
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
@@ -69,7 +102,7 @@ hero:
   cta:
     href: "#cost"
     label: "Get the bundle — $499"
-    microcopy: "One payment. Certificates issued as you finish each course."
+    microcopy: "No hidden fees. Pay by card. Afterpay available."
   ticks:
     - "<b>Twelve CBOS-approved courses</b>, each approved in its own right"
     # Restored 23 Jul: capped on 23 Jul because of a WHS cap that turns out not to exist. Twelve
@@ -77,21 +110,27 @@ hero:
     - "<b>A builder’s full annual requirement</b>, in one purchase"
     - "<b>Online and self-paced</b>, with no fixed schedule"
     - "<b>Every point counts</b>, with no annual cap on approved online courses"
-  howItWorks: "Enrol once → work through in any order → assessment on each course → certificate as you finish"
-  # No artefactImg yet, so Placeholder renders the FPO slot rather than a broken or invented image.
-  # ABE Education's imagery is real or commissioned, never stock cliché, and the two existing hero artefacts
-  # are QLD and WA owner builder. This one has to be produced before the page ships.
+  howItWorks: "Enrol once → Work through in any order → Assessment on each course → Certificate as you finish"
+  # Hero artefact placed 25 Jul 2026: public/images/cpd-building-tas-hero.avif, 640x512 = 5:4, so
+  # the default r54 ratio is correct and no artefactRatio is set. artefactImg makes it the
+  # eager-loaded LCP image (Hero passes eager={!!artefactImg}); artefactDesc/artefactSpec stay as
+  # the FPO fallback if it is ever pulled. Alt written from the RENDERED image, not the prompt:
+  # verified in-browser it shows ABE Education's own completion record and a tablet completion
+  # screen, rolled plans, and a timber frame through the window - no government crest, no ASQA mark,
+  # so no authority-model breach for a CBOS certificate of completion.
+  artefactImg: "/images/cpd-building-tas-hero.avif"
+  artefactAlt: "Builder CPD in Tasmania: a completed CPD record beside a tablet showing the ABE Education course-completion screen on a builder's timber desk, with rolled plans and a timber-framed home under construction seen through the window."
   artefactDesc: "A Tasmanian builder's CPD record for the year, laid out as a single sheet"
   artefactSpec: "5:4 landscape · document-on-desk, flat overhead, cool daylight"
 sticky:
   label: "TAS Building CPD"
   sub: "12 CBOS-approved points"
   price: "$499"
-  cta: { href: "/program/tas-builder-cpd-bundle-01092025", label: "Get the bundle" }
+  cta: { href: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program", label: "Get the bundle" }
 ctaBand:
   headingHtml: "Ready to complete your CPD year?"
   sub: "Twelve CBOS-approved courses, online and self-paced, about ten hours."
-  cta: { href: "/program/tas-builder-cpd-bundle-01092025", label: "Get the bundle" }
+  cta: { href: "/payment?product_id=tas-builder-cpd-bundle-01092025&type=learning_program", label: "Get the bundle" }
 experts:
   - dominic-ogburn
   - warwick-smith
