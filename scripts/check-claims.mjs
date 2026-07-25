@@ -336,21 +336,23 @@ else {
 
     for (const cat of cpd.BUNDLE_CATEGORIES) {
       const tagged = cpd.taggedMembers(reg, cat).length;
-      const live = cpd.liveTotal(reg, cat);
-      const published = cpd.bundlePoints(reg, cat);
+      const pool = cpd.liveTotal(reg, cat);         // the sold set's real points — any size is a valid bundle
+      const published = cpd.bundlePoints(reg, cat); // what the page publishes for this bundle
 
-      if (live > cpd.POINTS_CAP) {
-        warns.push(
-          `CPD ${cat}: ${live} live courses against a ${cpd.POINTS_CAP}-point cap, so ${live - cpd.POINTS_CAP} is surplus and the sold set is ambiguous. ` +
-          `Prune it in the source doc so the sold set is unambiguous.`
-        );
-      } else if (live < cpd.POINTS_CAP) {
-        warns.push(
-          `CPD ${cat}: ${published} points, short of the ${cpd.POINTS_CAP} a 12-point licence needs. ` +
-          `The page must disclose the shortfall rather than imply full coverage.`
+      // The only invariant a bundle must satisfy is that it never publishes more points than its
+      // live pool actually delivers. Pool size itself is never a defect: CBOS approves each course
+      // on its own and ABE bundles whatever selection it chooses, so 12 points is a common builder's
+      // year, not a required bundle size. A pool above 12 is not "surplus to prune" and a pool below
+      // 12 is not a "shortfall" — the earlier pool-must-equal-12 check encoded a bundle model ABE
+      // does not use, and flagged legitimate bundles as broken.
+      if (published > pool) {
+        fails.push(
+          `CPD ${cat}: the page would publish ${published} points but the live pool holds only ${pool}. ` +
+          `A bundle may be any size, but it must never claim more points than its pool delivers — ` +
+          `fix the source doc or the derivation, never the claim.`
         );
       } else {
-        oks.push(`CPD ${cat}: ${published} points from ${live} live course(s) of ${tagged} tagged`);
+        oks.push(`CPD ${cat}: publishes ${published} pts within a live pool of ${pool} (of ${tagged} tagged) — claim <= pool`);
       }
 
       // The WHS-cap check that stood here has been REMOVED, 23 July 2026. It warned when a
