@@ -173,14 +173,14 @@ to the approval. 07 recommended naming the instrument and the fix was not made.
 ## Demand list
 What was painful, as evidence for structural decisions.
 
-1. **Stage 7 must run before the deploy commit, and the pipeline must be able to say so.** Evidence:
+1. [skills] **Stage 7 must run before the deploy commit, and the pipeline must be able to say so.** Evidence:
    `17f89e3` and `d66a4a7` both changed live page content; `05`/`06`/`07` were authored afterwards and
    remain untracked; the one defect that reached production (the split review date) is precisely what a
    pre-deploy gate catches, and instead Stage 4 caught it after it was live. Concretely: `check-pipeline`
    should FAIL a slug whose page files are newer in `main` than its `07`, and the skill should forbid a
    content commit on a live page until 07 exists. On a greenfield page a late gate costs nothing; on a
    page with 35,358 monthly impressions it is the whole risk.
-2. **An absence finding needs a mechanical procedure, not a written lesson.** Evidence: the lesson was
+2. [skills] **An absence finding needs a mechanical procedure, not a written lesson.** Evidence: the lesson was
    written in §H and the same error was made in §I ninety minutes later, then twice more (S5, S4) the
    same day — four instances, one run. Prose did not change behaviour. Make it a required artefact shape:
    any "fact X is missing / unsupported" finding must record (i) the whole-artefact read with accordions
@@ -188,26 +188,26 @@ What was painful, as evidence for structural decisions.
    confirmation from the section that *would* contain the fact, named. And any absence finding that would
    remove or contradict **live published content** requires a second check at the primary instrument
    before it is proposed, not before it is merged.
-3. **Stage 1 must enumerate and read the primary instruments before the guidance pages.** Evidence: Form
+3. [skills] **Stage 1 must enumerate and read the primary instruments before the guidance pages.** Evidence: Form
    75 sat in `new site/reference/` throughout; reading it settled finding #6, corrected the run's own
    branch-3 wording, and produced finding #7 (the four pathways) which no secondary source gave. Three of
    the run's errors came from reading *about* the requirement instead of reading the instrument. Stage 1
    should open with an inventory of forms, Acts and PDFs available for the jurisdiction, and record for
    each whether it was read — the same "report the value, not the tick" discipline Stage 7 now has.
-4. **Any edit to a dated or repeated claim must be a repo-wide grep, and the checker should enforce it.**
+4. [skills] **Any edit to a dated or repeated claim must be a repo-wide grep, and the checker should enforce it.**
    Evidence: the review date lives in `wa-owner-builder-course.mdx` (×3) and `src/data/faqs-wa.ts` (×1);
    a per-file edit shipped a self-contradiction to production. `05-components.md` now records this as a
    prop contract, which is right but only helps the reader who opens 05. A cheap gate: fail the build
    when the same page's rendered `reviewedBy` date and its FAQ review date disagree.
-5. **`check-pipeline` has no notion of an audit run, and its capsule regex over-counts.** Evidence: it
+5. [skills] **`check-pipeline` has no notion of an audit run, and its capsule regex over-counts.** Evidence: it
    WARNs "12 capsule(s) on the page with no close match in 04" — correct as a statement and wrong as a
    signal, because on an audit 04 authors three changes and deliberately does not restate live copy. It
    also counts `.capsule.on-dark` proof bands as answer capsules (page-side regex `<p class="capsule[^"]*"`),
    so the 12 is 11 capsules plus one non-capsule. Both 05 and 07 reached this conclusion independently.
    Give it a run-type flag, and exclude `.on-dark`.
-6. **`.note` and `.price-foot` need a `max-width`.** Verified in `global.css`: neither rule declares one,
+6. [design] **`.note` and `.price-foot` need a `max-width`.** Verified in `global.css`: neither rule declares one,
    producing 128-172 CPL on four live pages. One line, four pages, the largest readability win available.
-7. **Every sub-skill invoked files its own review the same session.** mistakes-log #17 was written on
+7. [skills] **Every sub-skill invoked files its own review the same session.** mistakes-log #17 was written on
    2026-07-23 and broken on 2026-07-23: the readability audit ran and no review was filed. If the
    requirement is real it belongs in `system-health` as a WARN naming the parent run.
 

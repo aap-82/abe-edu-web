@@ -47,7 +47,7 @@ const F = (m) => findings.fail.push(m), W = (m) => findings.warn.push(m), OK = (
 const rec = {
   ts: null, fail: null, warn: null, ok: null,
   register: null, skillRefs: null, claims: null, figures: null,
-  totals: null, bundles: null, reviews: null, mistakes: null,
+  totals: null, bundles: null, reviews: null, mistakes: null, unrouted: null,
 };
 const countOf = (out, label) => (out.match(new RegExp(`^\\s+${label}\\b`, 'gm')) ?? []).length;
 
@@ -180,6 +180,33 @@ if (existsSync('kb/mistakes-log.md')) {
   (hot.length ? W : OK)(`Mistakes log: ${rows.length} active risk(s)${hot.length ? `, ${hot.length} seen 3+ times` : ''}`);
   rec.mistakes = { active: rows.length, hot: hot.length };
   for (const c of hot) W(`Repeat risk seen ${c[3]}x: ${c[2]}`);
+}
+
+// 5b - unrouted demand items. A demand-list item with no valid [destination] tag reaches no handover
+// note (scripts/demand-split.mjs), which is the same failure class as a page shipped without a review:
+// something the learning loop never sees. WARN, never FAIL. null (not 0) when there are no reviews yet.
+const DEST = new Set(['skills', 'design', 'facts']);
+if (existsSync('skill-reviews')) {
+  const reviewFiles = readdirSync('skill-reviews').filter((x) => x.endsWith('.md') && !x.startsWith('_'));
+  let unrouted = 0, tagged = 0;
+  for (const f of reviewFiles) {
+    const lines = readFileSync(join('skill-reviews', f), 'utf8').split('\n');
+    const start = lines.findIndex((l) => /^#{1,6}\s*demand list\b/i.test(l));
+    if (start === -1) continue;
+    for (const line of lines.slice(start + 1)) {
+      if (/^#{1,6}\s/.test(line)) break;                          // next heading ends the section
+      const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*\[([^\]]*)\]\s*\S/);   // a tagged demand item
+      if (!m) continue;
+      tagged++;
+      if (!DEST.has(m[1].trim().toLowerCase())) unrouted++;
+    }
+  }
+  // null, never 0, when no reviews exist — same convention as the JSONL log's undetermined fields.
+  rec.unrouted = reviewFiles.length ? unrouted : null;
+  if (reviewFiles.length)
+    (unrouted ? W : OK)(`Unrouted demand items: ${unrouted}${unrouted
+      ? ' — add a valid [skills|design|facts] tag; run scripts/demand-split.mjs'
+      : ` (${tagged} tagged item(s) all route)`}`);
 }
 
 // 6 - build + typecheck are the existing per-page gates; report whether they were run

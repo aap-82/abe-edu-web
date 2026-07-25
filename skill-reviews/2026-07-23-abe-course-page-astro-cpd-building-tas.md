@@ -138,20 +138,20 @@ failing is not zero findings.
 What was painful, as evidence for structural decisions: files too large to hold, context flooded by
 verbose output, steps that wanted isolation, checks that failed silently.
 
-- **Stage 7 wants to be a subagent that reads only `dist/`.** Every one of the five late gate-fails is
+- [skills] **Stage 7 wants to be a subagent that reads only `dist/`.** Every one of the five late gate-fails is
   a check the author ticked from intent rather than measuring: counting words in six capsules, reading
   the rendered eyebrow sequence, following the sticky CTA to its anchor. The author of the copy cannot
   see the copy. This is the same argument Stage 9 already won for grading.
-- **Checks that warn are being read as checks that pass.** `check-claims`, `check-freshness` and
+- [skills] **Checks that warn are being read as checks that pass.** `check-claims`, `check-freshness` and
   `system-health` all raised page-relevant WARNs on this exact slug and none reached the verification
   table. A per-slug filter — "show me every warning naming this page" — would have surfaced the
   SOFT-DATE and WHS findings before publish, not at grading.
-- **The layout owns a numbered section, so per-file marker numbering silently double-counts.** Any MDX
+- [design] **The layout owns a numbered section, so per-file marker numbering silently double-counts.** Any MDX
   rendered by `CpdBundleLayout` will collide on `01` and disagree on `total`. It needs one owner.
-- **Component prop contracts live only in component header comments.** `VerifiedSources` documents its
+- [skills] **Component prop contracts live only in component header comments.** `VerifiedSources` documents its
   " against " join in a comment nobody read three times in one page. Stage 5's artefact is where that
   belongs, and Stage 5 produced no artefact.
-- **`data/LearnWorlds/*` measures products by name, and the sold set changes underneath it.** Reading
+- [skills] **`data/LearnWorlds/*` measures products by name, and the sold set changes underneath it.** Reading
   it required a programmatic cross-check against the register to discover it described a different
   bundle. That cross-check should be a script, not a per-run act of diligence.
 

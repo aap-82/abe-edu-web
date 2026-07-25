@@ -39,8 +39,11 @@ outcome:                           # omit the whole block for a run that did not
 ## What didn't
 
 ## Demand list
+Tag every item: [skills] | [design] | [facts]. Anything else is reported UNROUTED by
+`scripts/demand-split.mjs` rather than dropped, so the handover notes can be derived.
 What was painful, as evidence for structural decisions: files too large to hold, context flooded by
 verbose output, steps that wanted isolation, checks that failed silently.
+- [skills] ...
 
 ## Output — every Amber or Red needs at least one
 - [ ] Fix applied

@@ -239,6 +239,63 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
 - **Subagents cannot ask** — `AskUserQuestion` is unavailable to them. A subagent that hits an unknown
   stops and reports it upward. It never guesses.
 
+## Session types
+One session does one kind of work. The type is declared at the start and does not change mid-session.
+If the work changes type, end the session and open the right one. This section loads into every session
+and every subagent.
+
+| Type | Purpose | May write | Must not touch |
+|---|---|---|---|
+| **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/styles/**`, `src/content.config.ts` |
+| **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `kb/mistakes-log.md`, `ROADMAP.md`, `src/content.config.ts` | `kb/register/**`, `src/styles/**`, any live run's artefacts |
+| **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
+| **facts** | Verify and record regulatory figures | `kb/register/**` | everything else |
+
+`src/content.config.ts` (the content schema) is owned by **skills** — it is cross-cutting model
+infrastructure, not one page's build, so a build session treats it as fixed. (Assigned 25 Jul 2026, when
+a demand item asked to make a schema field optional; the original session-types table left it
+unassigned.) Paths reconciled to the live layout: the mistakes log is `kb/mistakes-log.md`, and design
+owns all of `src/styles/**` (tokens live in `global.css`, there is no `tokens*` file).
+
+Subagents inherit the session type of the session that launched them and cannot widen it. A subagent
+that needs to write outside the type stops and reports upward. It never guesses.
+
+### Rules
+1. **Pre-flight.** Run `node scripts/system-health.mjs` at the start of every session. On FAIL — or on a
+   WARN you would want to fix — close the session and open the type that owns the fix. Never repair and
+   continue.
+2. **Friction is recorded, not fixed.** Inside a run, friction goes on the Stage 9 demand list. Outside a
+   run, it goes to `kb/mistakes-log.md` (increment "times seen", do not duplicate). A build session that
+   quietly fixes the process destroys the evidence the run exists to produce.
+3. **Second occurrence is the trigger.** One demand-list occurrence records a problem. Two authorise
+   restructuring. Phase 3 candidates in `ROADMAP.md` each carry their own trigger — do not build ahead of it.
+4. **No figure enters `kb/register/` without a source read in that session.** A figure carried in from
+   another session, a prior chat, or a page is not verified. Mark UNVERIFIED rather than carry it silently.
+5. **Build sessions stop at Stage 8.** Production deploy is human-triggered, always.
+6. **Stage 9 is graded by a fresh subagent** given only the pipeline artefacts, built HTML, audit output
+   and the review template. Self-grading is permitted only with `graded_by: self` and a stated reason.
+7. **Token and design-register changes are exclusive.** A session that edits tokens or the design register
+   does nothing else. The locked system (radius 0, flat surfaces, 1px borders, Heritage Maroon for actions
+   only) opens when it cannot express what is needed — not when a page would look better.
+8. **A readability audit measures; it does not authorise.** Audit findings become demand-list items routed
+   to `design`. `references/usability-map.md` decides.
+
+### Demand-list format
+Every demand-list item in a Stage 9 review carries a destination, so the handover notes can be derived
+rather than written. Valid destinations: `skills`, `design`, `facts`. Anything else is reported UNROUTED
+by `scripts/demand-split.mjs` rather than dropped.
+
+```
+## Demand list
+Tag every item: [skills] | [design] | [facts]
+- [skills] Stage 4 asks for keyword data the brief already supplies
+- [design] FAQ block spacing collapses below 768px — component fix, not a page fix
+- [facts] TAS White Card figure on the page has no register entry
+```
+
+Handover notes are a derived view (recording policy layer 3): regenerate them with
+`node scripts/demand-split.mjs --write`, never edit them, and never treat one as a source.
+
 ## Human gates
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys to production
   without an explicit go in that session.

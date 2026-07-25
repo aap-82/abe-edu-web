@@ -85,6 +85,9 @@ const CLAIMS = [
   { claim: 'every component needs a styleguide specimen or an exemption',
     source: 'guardrails.ts',
     must: [/SG_EXEMPT/, /styleguide specimen/] },
+  { claim: 'skill-review template carries the [skills]|[design]|[facts] demand-list destination legend',
+    source: 'skill-reviews/_TEMPLATE.md',
+    must: [/\[skills\]/, /\[design\]/, /\[facts\]/] },
 ];
 const findSource = (name) => ['.', 'src', 'src/integrations', 'integrations', 'src/lib']
   .map((d) => join(d, name)).find((p) => existsSync(p));
