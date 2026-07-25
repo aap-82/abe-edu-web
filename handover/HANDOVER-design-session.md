@@ -82,6 +82,29 @@ build, not component creation.
 
 ---
 
+## Part C — from the CPD any-size-bundle fix (added 25 July 2026)
+
+Two copy/behaviour items surfaced by the skills-session fix that made the CPD check validate
+*published points ≤ pool* instead of *pool == 12* (a bundle may be any size; a pool above or below 12
+is legitimate, not a defect — `scripts/check-claims.mjs`, `scripts/lib/cpd-derive.mjs`). Both are
+design-lane and neither is urgent: the only live bundle page (building, pool 12) is unaffected, and a
+design session has since run once already (see `skill-reviews/design/2026-07-25-text-presentation-and-grounds.md`).
+
+1. **`CpdBundleLayout` still frames a >12 pool as "surplus against a cap".** Its `live > POINTS_CAP`
+   note renders *"the register holds N live approved courses for this category against a 12-point cap"*.
+   Under the corrected model a pool above 12 is a valid bundle, not a surplus, so when the **plumbing**
+   bundle page is built (pool 13) that copy should present the extra courses as included, not as an
+   overflow against a ceiling. Harmless today (no >12 page exists), so it is a build-time copy fix for
+   whoever builds the plumbing page rather than a standalone task.
+2. **Optional product call: advertise the full pool for a >12 bundle.** `bundlePoints` still caps the
+   *displayed* figure at 12 (`min(pool, 12)`), so a 13-point plumbing bundle would publish "12". That
+   is honest (12 ≤ 13) and deliberate, but if ABE would rather sell the full 13, uncapping
+   `bundlePoints` to `liveTotal` is a one-line change in `scripts/lib/cpd-derive.mjs` — a product/design
+   decision, because the layout copy frames coverage against the 12-point year. Settle it before the
+   plumbing page ships; recommend, do not change unilaterally.
+
+---
+
 ## Token-exclusivity caveat (session-types Rule 7)
 
 Consuming existing tokens is fine. But if any Part-A or Part-B change needs a **new** design token (a
