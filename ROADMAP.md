@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 24 July 2026.
+Last updated: 25 July 2026.
 
 ---
 
@@ -25,7 +25,9 @@ Last updated: 24 July 2026.
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done. Three evidence runs have closed the
 authority-model set. Phase 3 is unblocked, three of its candidates have fired and none is built yet.
 On the content side the migration tracker was **stale**: Wave 2 read as unstarted while five of its
-seven tickets were built and live. Re-ticked 24 Jul against `dist/`.
+seven tickets were built and live. Re-ticked 24 Jul against `dist/`. The **session-types model** (one
+session, one kind of work) and the **demand-list splitter** are now installed — see CLAUDE.md →
+Session types, and `scripts/demand-split.mjs`.
 
 - **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, and the `/owner-builder-courses`
   hub (59.9k impressions, the biggest single equity-protect page), plus `/accreditation`,
@@ -36,15 +38,18 @@ seven tickets were built and live. Re-ticked 24 Jul against `dist/`.
 - **Not started:** W2-6 insurance, W2-7 Project Advisory, four of five White Card state pages and
   the hub, eight of ten CPD tickets, and all of Waves 5 and 6.
 
-**Three things need Andrey, in the order they bite:**
-1. **The LearnWorlds `learn.` subdomain ticket** — longest lead time, the one external blocker on
-   cutover. Outstanding since 19 July.
-2. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
+**Two things need Andrey, in the order they bite:**
+1. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
    five signed-off redirect rules.
-3. **White Card TAS launch inputs** — `buyUrl`, two photos, three RTO contacts.
+2. **White Card TAS launch inputs** — `buyUrl`, two photos, three RTO contacts.
 
-**One standing FAIL:** `cpd-building-tas` changed 191 minutes after its Stage 7 and has never been
-re-verified. `system-health` reports it every run; it is a true positive, not noise.
+_Resolved 25 Jul: the LearnWorlds `learn.` subdomain ticket — the one external cutover blocker,
+outstanding since 19 July — is done._
+
+**No standing FAILs (25 Jul).** `cpd-building-tas` and `white-card-tas` were both re-verified — Stage 7
+re-run after their post-verification edits — and `system-health` now reports 0 FAIL. The session-types
+pre-flight rule governs this going forward: a red pre-flight ends the session rather than being
+repaired mid-run.
 
 ### Where this stood on 22 July (kept — the phase-1 close-out)
 
