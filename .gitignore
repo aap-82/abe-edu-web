@@ -6,6 +6,11 @@ dist/
 *.log
 .DS_Store
 
+# Derived handover notes from scripts/demand-split.mjs. A recording-policy layer-3 view: computed
+# from the skill-reviews (layer 2) on demand, regenerable, never a source. Committing them recreates
+# the duplication the four-layer policy exists to prevent - regenerate with `demand-split.mjs --write`.
+reports/
+
 # Search Console exports. Deliberately never committed: this repo is public, and these
 # files are ABE's commercial search data - traffic, query demand and ranking positions
 # across ~1,000 queries. Git history is permanent, so a single accidental commit publishes
