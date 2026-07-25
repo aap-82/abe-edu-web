@@ -1,0 +1,12 @@
+---
+// The distilled end-of-section point: the one thing to remember, in the section's own words.
+// NOT one per section (that dilutes every one of them), and never new information — it distils
+// what the section already established.
+//
+// Deliberately DISTINCT from Note / Callout: a takeaway DISTILS, a callout is ACT-ON. So it is
+// not boxed (that is Note's and AnswerCapsule's shape); a top hairline, a mono kicker and
+// slightly raised type carry it instead.
+interface Props { text: string; }
+const { text } = Astro.props;
+---
+<p class="takeaway"><span class="takeaway-k">In short</span>{text}</p>

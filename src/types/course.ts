@@ -4,6 +4,7 @@ export interface Img { src: string; alt: string; }        // content images: alt
 export interface Source { label: string; href: string; verified?: string; }
 export interface Fact { key: string; value: string; note?: string; }
 export interface Step { title: string; body: string; }
+export interface DefinitionItem { term: string; def: string; }  // one glossary pair for DefinitionList
 export interface TopicCard { tag: string; title: string; body: string; } // body may contain <b>
 
 /**

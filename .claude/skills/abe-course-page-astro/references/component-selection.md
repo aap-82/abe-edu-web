@@ -28,6 +28,18 @@ don't flatten every section into the same card. That contrast is what reads as e
 | Repeating or closing the action | `CTABand` — lead line, one support line, the same primary CTA | A second, different primary action here |
 | The sources footer | `SourcesFooter` — descriptive links, regulator contact, "last verified" date | Naked URLs, "click here", or a source you didn't verify |
 
+## Text-presentation shapes (archetype-independent)
+
+Four small text shapes that any archetype reaches for. They sit under the section components, not
+beside them: pick by what the sentence is doing.
+
+| The content is doing this | Use | Avoid (the wrong instinct) |
+|---|---|---|
+| Opening a section **outside** a `Section`/`ZSection` wrapper | `SectionHeading` — eyebrow + title + optional lead; `as` h2 or h3 | An `h1` (the Hero owns the only one); a second accent per heading; accent on the title fighting the eyebrow; reaching for it *inside* a `Section`, which already owns its header |
+| Defining terms one meaning each (Statement of Attainment, Class 1a, one CPD point) | `DefinitionList` — a semantic `<dl>` of term → meaning pairs | Using it to **compare** values across items — that is `ComparisonTable`; padding each pair into its own card |
+| Standing one arresting figure on its own (since 2007, a completion time) | `StatBlock` — a single display-face figure with a quiet label | Stacking several — that is `FactGrid`/`TrustStats`; setting the figure in maroon (blows the accent budget); inventing a figure to fill the shape |
+| Distilling the one thing to remember at a section's end | `KeyTakeaway` — the section's point in its own words | One on every section (dilutes them all); introducing new information; boxing it or confusing it with a `Callout` — a takeaway **distils**, a callout is **act-on** |
+
 ## Choosing the element by the reader's job
 
 When the treatment isn't obvious, pick by what the reader is trying to do in that moment (maps to
@@ -50,10 +62,15 @@ NN/g, GOV.UK, NHS guidance):
   fines, deadlines); **Info/Note** for a helpful condition or clarification; **Tip** for an optional
   pointer; **Legal** for a regulatory caveat (fees may change). A second boxed point in one section is
   almost always body text or a bullet instead.
-- **Lists: lead-in, parallel, capped.** Introduce every list with a stem line ending in a colon; keep
-  items parallel and roughly equal length; cap around seven. Bullets for unordered sets; numbers only
-  for a true sequence. Never number choices/options — readers assume a numbered list must be completed
-  in full.
+- **Lists: lead-in, parallel, bounded.** Introduce every list with a stem line ending in a colon; keep
+  items parallel and roughly equal length; **at least three items, at most seven** (fewer than three is
+  a sentence, not a list; more than seven stops being scannable and wants splitting or a table). Bullets
+  for unordered sets; numbers only for a true sequence. Never number choices/options — readers assume a
+  numbered list must be completed in full.
+- **Paragraphs: one idea each.** Group sentences by the point they make, and start a new paragraph when
+  the point changes. A long block that runs several ideas together is split into a paragraph per idea, so
+  the reader can find and re-find each one; a paragraph is a unit of thought, not a container for
+  everything a section has to say.
 - **Tables vs cards.** Tables for comparing or looking up values (few columns on mobile, no horizontal
   scroll); cards for browsing heterogeneous entry points. Never put a comparison in cards — the eye has
   to reorient for each item, which makes comparison slow.

@@ -1,0 +1,22 @@
+---
+// Term -> meaning pairs (a glossary shape): "Statement of Attainment", "Class 1a",
+// "one CPD point". For DEFINING terms, one meaning each — not for COMPARING values across
+// items, which is ComparisonTable. Renders a semantic <dl>: each row is one <dt>/<dd> pair.
+import type { DefinitionItem } from '../types/course';
+interface Props {
+  items: DefinitionItem[];
+  leadIn?: string;   // optional stem line above the list
+}
+const { items, leadIn } = Astro.props;
+---
+<div class="deflist">
+  {leadIn && <p class="deflist-lead">{leadIn}</p>}
+  <dl>
+    {items.map((it) => (
+      <div class="deflist-row">
+        <dt>{it.term}</dt>
+        <dd>{it.def}</dd>
+      </div>
+    ))}
+  </dl>
+</div>

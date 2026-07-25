@@ -46,7 +46,7 @@ const { items } = Astro.props;
         {m.outcome && (
           <p class="mr-outcome">
             <span class="mr-olabel">You will be able to</span>
-            <span set:html={m.outcome} />
+            <span class="mr-otext" set:html={m.outcome} />
           </p>
         )}
       </div>
@@ -112,6 +112,12 @@ const { items } = Astro.props;
     font-family:var(--font-mono); font-size:10px; font-weight:500;
     letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
   }
+  /* The outcome sits under a block kicker, so it reads as its own statement and starts with a
+     capital. Fixed at the presentation layer (::first-letter) so every state's authored outcome
+     is capitalised on the page without editing each source string. Needs display:block for
+     ::first-letter to resolve against the outcome rather than the kicker above it. */
+  .mr-otext{ display:block; }
+  .mr-otext::first-letter{ text-transform:uppercase; }
 
   /* Stack the rail above the content on narrow screens. A 150px rail beside a ~170px text
      column is not a list any more, it is two cramped columns. */

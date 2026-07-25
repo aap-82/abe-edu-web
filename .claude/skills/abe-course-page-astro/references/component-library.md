@@ -30,6 +30,10 @@ Prop contracts for the components in `qld-owner-builder-designer-handover.md`. T
 | `<SourcesFooter>` | `sources, disclaimers` |
 | `<WayfinderNav>` | `items, cta` |
 | `<StickyCTA>` | `label, price, cta` |
+| `<SectionHeading>` | `title` |
+| `<DefinitionList>` | `items` |
+| `<StatBlock>` | `value, label` |
+| `<KeyTakeaway>` | `text` |
 
 ---
 
@@ -62,6 +66,11 @@ export interface Fact {
 export interface Step {
   title: string;
   body: string;
+}
+
+export interface DefinitionItem {
+  term: string;      // the term being defined
+  def: string;       // its one meaning (not a comparison against other terms)
 }
 
 export interface Module {
@@ -131,6 +140,42 @@ export interface Props {
 ```
 
 ```ts
+// <SectionHeading>  — standalone section opener (OUTSIDE a Section/ZSection, which own their own)
+export interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;                   // optional standfirst, capped at the prose measure
+  as?: 'h2' | 'h3';                // default 'h2'; never h1 (the Hero owns the only one)
+  align?: 'left' | 'center';       // default 'left'
+  tone?: 'default' | 'accent';     // 'accent' puts the accent on the eyebrow, title stays ink
+}
+```
+
+```ts
+// <DefinitionList>  — term → meaning pairs (a <dl>); defines, does not compare
+export interface Props {
+  items: DefinitionItem[];         // { term, def }; use ComparisonTable to compare, not this
+  leadIn?: string;                 // optional stem line above the list
+}
+```
+
+```ts
+// <StatBlock>  — one arresting figure standing alone (several stacked = FactGrid/TrustStats)
+export interface Props {
+  value: string;                   // the figure; a fact-about-the-world value traces to a source
+  label: string;
+  sub?: string;                    // optional qualifier line
+}
+```
+
+```ts
+// <KeyTakeaway>  — the distilled end-of-section point (distils; a Callout is act-on)
+export interface Props {
+  text: string;                    // not one per section, and never new information
+}
+```
+
+```ts
 // <Prose>  — measure-capped body copy (content via <slot/>)
 export interface Props {
   measureCap?: boolean;            // default true (~60–66 CPL)
@@ -140,9 +185,9 @@ export interface Props {
 ```ts
 // <BulletList>  — lead-in + parallel items
 export interface Props {
-  items: string[];                 // parallel, capped ~7
+  items: string[];                 // parallel; at least 3, at most 7
   leadIn?: string;                 // stem line ending in a colon
-  ordered?: boolean;               // false = bullets; true only for a true sequence
+  ordered?: boolean;               // false = bullets; true only for a ranked list — a process is a Stepper
 }
 ```
 

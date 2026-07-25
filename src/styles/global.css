@@ -291,7 +291,7 @@ p strong{color:var(--ink);font-weight:600;}
 .ph .ph-s{font-family:var(--font-mono);font-size:11px;color:var(--slate);display:block;margin-top:12px;letter-spacing:.02em;}
 .glance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
 .glance{border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);}
-.glance .g-k{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:12px;}
+.glance .g-k{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:12px;}
 .glance .g-v{font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-.02em;color:var(--ink);display:block;margin-bottom:6px;}
 .glance .g-n{font-size:14px;color:var(--ink-3);}
 /* CPD points-by-licence block: the FactGrid above carries the figures; this is the
@@ -365,6 +365,56 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .capsule b,.capsule strong{color:var(--ink);font-weight:700;}
 .capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
+/* ===== text-presentation components (SectionHeading / DefinitionList / StatBlock / KeyTakeaway) =====
+   Archetype-independent text shapes. Tokens only; no hardcoded colour. Widths are px measures in
+   the same category as the .note / .price-foot caps above (not new named tokens) so the reading
+   measure stays inside the 75-CPL ceiling. */
+
+/* SectionHeading: a standalone section opener (eyebrow + title + optional lead), for use outside
+   a Section / ZSection wrapper. It reuses .eyebrow, .h2/.h3 and .lede, so only the layout and the
+   accent variant live here. The title stays ink in both tones; tone="accent" flips the eyebrow. */
+.sheading{margin-bottom:var(--s-lg);}
+.sheading-lead{margin-top:var(--s-sm);max-width:480px;}   /* the site prose measure, matching .measure */
+.sheading--center{text-align:center;}
+.sheading--center .sheading-lead{margin-left:auto;margin-right:auto;}
+.sheading--accent .eyebrow{color:var(--maroon);}          /* dual-tone: accent on the eyebrow, ink title */
+
+/* DefinitionList: term -> meaning pairs in a <dl>. A hairline per row, term in the body face,
+   meaning in body ink. Two columns collapse to one on narrow screens. */
+.deflist{margin:var(--s-md) 0;max-width:620px;}
+.deflist-lead{color:var(--ink-3);margin-bottom:var(--s-sm);}
+.deflist dl{border-top:1px solid var(--rule);}
+.deflist-row{display:grid;grid-template-columns:minmax(140px,34%) 1fr;gap:var(--s-2xs) var(--s-lg);padding:var(--s-sm) 0;border-bottom:1px solid var(--rule);}
+.deflist dt{font-family:var(--font-body);font-weight:600;color:var(--ink);}
+.deflist dd{color:var(--ink-3);}
+@media(max-width:560px){.deflist-row{grid-template-columns:1fr;gap:var(--s-3xs);}}
+
+/* StatBlock: one arresting figure standing alone. Display face for the value, a quiet mono label
+   under it. Ink, never maroon — a figure this large in maroon would blow the 10% accent budget. */
+.statblock{margin:var(--s-lg) 0;}
+.statblock-v{font-family:var(--font-display);font-weight:700;font-size:clamp(48px,7vw,84px);letter-spacing:-.03em;line-height:1;color:var(--ink);}
+.statblock-l{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin-top:var(--s-sm);}
+.statblock-s{font-size:15px;color:var(--ink-3);margin-top:var(--s-2xs);max-width:360px;}
+
+/* KeyTakeaway: the distilled end-of-section point. Deliberately NOT boxed — that shape belongs to
+   Note and AnswerCapsule — so a takeaway is never mistaken for an act-on callout. A top hairline,
+   a maroon mono kicker and slightly raised type carry "the one thing to remember". */
+.takeaway{margin:var(--s-lg) 0 0;padding-top:var(--s-md);border-top:1px solid var(--rule-strong);font-size:19px;line-height:1.5;color:var(--ink-2);font-weight:500;max-width:calc(480px + 2*var(--s-lg));}
+.takeaway-k{display:block;margin-bottom:var(--s-2xs);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);}
+
+/* BulletList: lead-in + parallel items. A quiet marker, never a tick-badge: a short maroon dash
+   (a smaller echo of the eyebrow bar) for bullets, quiet mono numerals for the ordered variant.
+   A true PROCESS is a Stepper, not the ordered variant. */
+.blist{margin:var(--s-md) 0;max-width:620px;}
+.blist-lead{color:var(--ink-3);margin-bottom:var(--s-2xs);}
+.blist-items{list-style:none;}
+.blist-items li{position:relative;padding-left:var(--s-md);margin-bottom:var(--s-2xs);color:var(--ink-3);}
+.blist-items li:last-child{margin-bottom:0;}
+.blist-items li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--maroon);}
+.blist-items li b,.blist-items li strong{color:var(--ink);font-weight:600;}
+.blist-items--num{counter-reset:blist;}
+.blist-items--num li{padding-left:var(--s-lg);}
+.blist-items--num li::before{content:counter(blist) ".";counter-increment:blist;left:0;top:0;width:auto;height:auto;background:none;font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--maroon);font-variant-numeric:tabular-nums;}
 /* ===== verified-with-sources line ===== */
 /* ===== verification ledger (two columns) =====
    No top rule: the block sits directly under the section it verifies. Left column is the
@@ -520,7 +570,9 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .faq summary:hover{background:var(--paper-alt);}
 .faq summary .pm{flex:none;color:var(--maroon);font-size:20px;transition:transform .2s;line-height:1;}
 .faq details[open] summary .pm{transform:rotate(45deg);}
-.faq .ans{padding:0 24px 22px;color:var(--ink-3);font-size:16px;max-width:68ch;}
+/* Top padding is load-bearing, not cosmetic: the summary takes a paper-alt background on hover,
+   and with a 0 top the open answer sat flush against that coloured band. --s-sm lifts it clear. */
+.faq .ans{padding:var(--s-sm) 24px 22px;color:var(--ink-3);font-size:16px;max-width:68ch;}
 .cta-end{text-align:center;}
 .cta-end .h2{margin:0 auto var(--s-md);max-width:18ch;}
 .cta-end .lede{max-width:46ch;margin:0 auto var(--s-lg);}

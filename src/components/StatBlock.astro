@@ -1,0 +1,19 @@
+---
+// One arresting figure standing alone: "since 2007", a completion time, a single count. For
+// exactly ONE figure — several stacked is FactGrid or TrustStats, not repeated StatBlocks.
+// The value is display-face and large; the label names it; sub is an optional qualifier.
+//
+// A fact-about-the-world value (a year, a count, a duration) obeys the single-owner rule and
+// traces to a source. Never invent a figure to fill the shape.
+interface Props {
+  value: string;
+  label: string;
+  sub?: string;
+}
+const { value, label, sub } = Astro.props;
+---
+<div class="statblock">
+  <div class="statblock-v num">{value}</div>
+  <div class="statblock-l">{label}</div>
+  {sub && <p class="statblock-s">{sub}</p>}
+</div>

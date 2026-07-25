@@ -1,0 +1,28 @@
+---
+// Structured section opener: eyebrow, title, optional lead standfirst. STANDALONE — for a
+// section opener OUTSIDE a Section / ZSection wrapper, which already own their in-section
+// eyebrow + h2. Reuses .eyebrow, .h2/.h3 and .lede so a standalone opener reads identically
+// to an in-section one.
+//
+// The Hero owns the page's only h1, so `as` is h2 or h3 and never h1.
+// tone="accent" is the dual-tone case: the brand accent moves onto the EYEBROW, the title
+// stays ink. One accent per heading, always from tokens — never a hardcoded colour.
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  as?: 'h2' | 'h3';
+  align?: 'left' | 'center';
+  tone?: 'default' | 'accent';
+}
+const { title, eyebrow, lead, as = 'h2', align = 'left', tone = 'default' } = Astro.props;
+const Tag = as;
+const cls = ['sheading', align === 'center' && 'sheading--center', tone === 'accent' && 'sheading--accent']
+  .filter(Boolean)
+  .join(' ');
+---
+<div class={cls}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <Tag class={as}>{title}</Tag>
+  {lead && <p class="lede sheading-lead">{lead}</p>}
+</div>

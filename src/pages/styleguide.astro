@@ -41,6 +41,11 @@ import TrustStats from '../components/TrustStats.astro';
 import InsurancePartner from '../components/InsurancePartner.astro';
 import SectionWayfinder from '../components/SectionWayfinder.astro';
 import ArrowRight from '../components/ArrowRight.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import DefinitionList from '../components/DefinitionList.astro';
+import StatBlock from '../components/StatBlock.astro';
+import KeyTakeaway from '../components/KeyTakeaway.astro';
+import BulletList from '../components/BulletList.astro';
 
 const ctaEx = { href: '#', label: 'Get your certificate — $179', microcopy: 'Instant access after payment' };
 
@@ -174,6 +179,11 @@ const heroEx = {
   artefactRatio: 'r45' as const,
 };
 
+const defItems = [
+  { term: 'Certificate of Completion', def: 'What an approved course issues. Evidence you completed the course, accepted by the regulator for your application.' },
+  { term: 'Statement of Attainment', def: 'What a nationally recognised (ASQA) unit issues, through an RTO. A different credential from a Certificate of Completion.' },
+  { term: 'One CPD point', def: 'One approved hour of continuing professional development, counted toward your annual licence-renewal requirement.' },
+];
 // Design tokens, mirrored from src/styles/global.css :root.
 const colorTokens = [
   { group: 'Accent', items: [
@@ -405,6 +415,14 @@ const groups = [
     </div>
 
     <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">SectionHeading</span><span class="sg-desc">Standalone section opener (eyebrow + title + optional lead), for use OUTSIDE a Section/ZSection wrapper — which already own their in-section header. `as` is h2 or h3, never h1. `tone="accent"` moves the accent to the eyebrow, keeping the title ink.</span><span class="sg-props">title · eyebrow? · lead? · as? (h2/h3) · align? (left/center) · tone? (default/accent)</span></div>
+      <div class="sg-demo sg-stack">
+        <SectionHeading eyebrow="What you get" title="A standalone section opener" lead="The optional lead sits under the title at the site prose measure, so it never outruns the reading line." />
+        <SectionHeading eyebrow="Why it matters" title="The dual-tone accent variant" as="h3" tone="accent" align="center" lead="Centered, an h3, and accent on the eyebrow, so the title stays ink and the hierarchy holds." />
+      </div>
+    </div>
+
+    <div class="sg-item">
       <div class="sg-meta"><span class="sg-name">ZSplit</span><span class="sg-desc">Image + body split. `rev` flips the image right.</span><span class="sg-props">rev? · imgRatio? · imgSrc? · imgAlt? · slot</span></div>
       <div class="sg-demo">
         <ZSplit imgDesc="Example split image." imgSpec="4:5 · warm tone">
@@ -453,6 +471,32 @@ const groups = [
         <Note><b>Note:</b> the default informational callout.</Note>
         <Note variant="caution" label="Important"><b>Caution:</b> used for serious or legal consequences.</Note>
         <Note maroon><b>Maroon:</b> the accented emphasis variant.</Note>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">DefinitionList</span><span class="sg-desc">Term → meaning pairs in a semantic &lt;dl&gt;. For DEFINING terms, one meaning each — never for comparing values across items (that is ComparisonTable).</span><span class="sg-props">items[] (term · def) · leadIn?</span></div>
+      <div class="sg-demo"><DefinitionList leadIn="The three credentials, told apart:" items={defItems} /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">StatBlock</span><span class="sg-desc">One arresting figure standing alone. For exactly one figure — several stacked is FactGrid or TrustStats. Ink, never maroon (accent budget).</span><span class="sg-props">value · label · sub?</span></div>
+      <div class="sg-demo sg-two">
+        <StatBlock value="2007" label="Training owner builders since" />
+        <StatBlock value="31,000+" label="Students trained" sub="Across every state we deliver in." />
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">KeyTakeaway</span><span class="sg-desc">The distilled end-of-section point. Not one per section, never new information, and distinct from Note — a takeaway distils, a callout is act-on — so it is not boxed.</span><span class="sg-props">text</span></div>
+      <div class="sg-demo"><KeyTakeaway text="The approved course gives you the certificate the regulator needs; the permit itself is a separate application you lodge afterwards." /></div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">BulletList</span><span class="sg-desc">Lead-in + parallel items, quiet marker (never a tick-badge). Bullets for an unordered set; `ordered` gives quiet numerals for a ranked list — a true process is a Stepper, not this.</span><span class="sg-props">items[] · leadIn? · ordered?</span></div>
+      <div class="sg-demo sg-two">
+        <BulletList leadIn="You are eligible if you:" items={['<b>Own or co-own the land</b>, or are buying it.', 'Will <b>live in the home</b> once it is built.', 'Have not held an owner builder permit in the last <b>five years</b>.']} />
+        <BulletList ordered leadIn="Ranked by how often we are asked:" items={['Is the course actually accepted?', 'How long does it take?', 'What does it cost all up?']} />
       </div>
     </div>
 
