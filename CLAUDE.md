@@ -12,6 +12,8 @@ per-ticket DoD, the cutover runbook, and the progress tracker) before starting W
 `../MIGRATION.md` still covers the original Claude Code / repo setup.
 **Read `ROADMAP.md` before starting phase work** — it says what phase the system is in, what is gated,
 and what must not be built yet. If it disagrees with `node scripts/system-health.mjs`, the script wins.
+**`SYSTEM.md`** is the standing design reference — how the system is meant to behave and the six ideas
+it follows from (including one session, one kind of work). Read it for the why behind any rule here.
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 

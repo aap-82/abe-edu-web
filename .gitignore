@@ -49,3 +49,11 @@ reports/
 *.pdf
 *.docx
 new site/reference/*.doc
+
+# Local business data drops. THIS REPO IS PUBLIC. These folders hold commercial/
+# operational material (course exports, business records) that has no place in
+# version control - same policy as the /data/ tree and the regulator paperwork
+# above. Ignore the folders, keep the working copies local. Verify with
+# `git check-ignore -v "business data/anything"` after touching this.
+business data/
+Courses Info/
