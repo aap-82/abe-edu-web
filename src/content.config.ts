@@ -380,6 +380,12 @@ const cpdBundles = defineCollection({
     // derived: it comes from LearnWorlds study-time data, which the register does not hold.
     // Optional so a bundle without a measured figure states nothing rather than guessing.
     hours: z.string().optional(),
+    // Per-course info keyed by display name (cbosName, or name where the register has none).
+    // blurb: AUTHORED description (the register has no description field), a draft pending a
+    // content check. minutes: the MEASURED LearnWorlds "avg time to finish", optional because
+    // two members are newer than the July 2026 metrics snapshot and carry no figure. A missing
+    // key renders name-only rather than a guess.
+    memberInfo: z.record(z.string(), z.object({ blurb: z.string(), minutes: z.number().optional() })).optional(),
     intro: z.string(),
     breadcrumb: z.array(z.object({ name: z.string(), item: z.string() })),
     reviewedBy: z.object({ name: z.string(), href: z.string().optional(), date: z.string() }).optional(),

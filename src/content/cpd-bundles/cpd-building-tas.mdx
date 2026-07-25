@@ -47,6 +47,27 @@ licences: "builders, architects, building surveyors, building designers, buildin
 # Measured from LearnWorlds study time per starter across the ten members that carry metrics.
 # Two members are unmeasured, so this under-states rather than over-claims. See 01-source-map.md.
 hours: "About ten hours"
+# Per-course info, keyed by each course's display name (cbosName, or name where the register has
+# no cbosName). Two fields:
+#   blurb   - AUTHORED one-line description. The CBOS register has no description field, so these
+#             are DRAFTS pending a content check against the real course material.
+#   minutes - the MEASURED "avg time to finish" from the LearnWorlds July 2026 snapshot
+#             (data/Courses Info/tas-cpd-course-metrics-jul-2026.md). Omitted where the snapshot
+#             has no figure: "Solar Energy" and the wiring-rules course are newer than the snapshot,
+#             so they carry a blurb but no time rather than a guessed one.
+memberInfo:
+  "Workplace Asbestos Basics": { blurb: "Identifying and working safely around asbestos on residential sites.", minutes: 36 }
+  "Solar Energy": { blurb: "How rooftop solar and battery systems affect a residential build." }
+  "Site and Personal Safety for Climate-Exposed Trades": { blurb: "Managing heat, UV and weather risk for outdoor trades.", minutes: 37 }
+  "Effective Email Management and Digital Communication": { blurb: "Keeping clear, defensible written records with clients and trades.", minutes: 41 }
+  "The Role of Drones In Building, Plumbing & Electrical Work": { blurb: "Where drones help with inspection, survey and site documentation.", minutes: 46 }
+  "Effective Communication and Documentation": { blurb: "Documenting decisions so nothing is lost between trades.", minutes: 37 }
+  "AS/NZS 3000:2018 Wiring Rules": { blurb: "What the current wiring standard means for coordinating electrical work." }
+  "Fire Risk Awareness For All Trades": { blurb: "Recognising and reducing fire hazards during construction.", minutes: 55 }
+  "TAS CPD: Cyber Risks and Workplace Safety (1 pt)": { blurb: "Protecting client data and site systems from common threats.", minutes: 47 }
+  "Safe Work Method Statement (SWMS)": { blurb: "Writing and using a SWMS for high-risk construction work.", minutes: 35 }
+  "WHS Compliance and Legislation": { blurb: "The work health and safety duties that apply on your site.", minutes: 37 }
+  "Understanding Water Efficiency Labelling WELS": { blurb: "Meeting WELS requirements for fixtures and fittings.", minutes: 45 }
 intro: "Twelve CBOS-approved courses, one point each, against a Tasmanian builder's twelve-point year, in one purchase."
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }

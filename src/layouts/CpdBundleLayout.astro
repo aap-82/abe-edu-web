@@ -50,10 +50,15 @@ const live = liveTotal(register, bundle.category);
 // leaving the reader to subtract.
 const shortfall = POINTS_CAP - points;
 
-// How many member expiry dates are estimates rather than recorded approvals. check-freshness
-// already reports this as SOFT-DATE; the page has to carry the same qualifier or it presents an
-// estimate as a confirmation.
-const estimatedCount = members.filter((m) => m.expiresAt && m.expiryBasis === 'submission').length;
+// The member list's data, decoupled from how it is displayed. Both the table and the card variants
+// consume this same array, so they can never disagree on names, blurbs or time. `minutes` is the
+// MEASURED LearnWorlds "avg time to finish" from memberInfo; undefined where the snapshot has no
+// figure, and the display shows nothing rather than a guess (see memberInfo in the MDX).
+const memberData = members.map((m) => {
+  const info = bundle.memberInfo?.[m.cbosName ?? m.name];
+  return { name: m.cbosName ?? m.name, blurb: info?.blurb ?? '', minutes: info?.minutes, points: m.points };
+});
+const timedCount = memberData.filter((m) => m.minutes != null).length;
 
 // The bought-separately comparison is authored (it lives in priceRows, in the MDX body, which the
 // layout cannot inject into) but it is DERIVABLE: members x single-course price. An authored
@@ -207,37 +212,34 @@ const schema = {
       </Note>
     )}
 
-    <table class="member-table">
-      <caption>
-        Courses in this bundle, counted from ABE's CBOS approval register.
-        {estimatedCount > 0 && (
-          <> An asterisk marks a date calculated from the submission date because no approval date
-          is recorded, so treat {estimatedCount} of these {members.length} as estimates rather than
-          confirmed dates.</>
-        )}
-      </caption>
-      <thead>
-        <tr><th scope="col">Course</th><th scope="col">Points</th><th scope="col">Counts until</th></tr>
-      </thead>
-      <tbody>
-        {members.map((m) => (
-          <tr>
-            <td>{m.cbosName ?? m.name}</td>
-            <td class="num">{m.points}</td>
-            {/* An expiry dated from the submission date rather than a recorded approval is an
-                estimate, and the register says so via expiryBasis. Presenting all twelve as
-                confirmed approvals was the "never default a regulatory fact" rule failing at the
-                presentation layer: the register carried the qualifier and the page dropped it.
-                Marked inline, with the marker explained in the caption rather than left as a
-                bare symbol. */}
-            <td class="num">
-              {m.expiresAt ?? '—'}
-              {m.expiresAt && m.expiryBasis === 'submission' && <span class="est" title="Estimated">*</span>}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <p class="member-lead">
+      Each course carries one CPD point. Times are the measured average from LearnWorlds.
+      {timedCount < memberData.length && <> Two newer courses do not have a figure yet.</>}
+    </p>
+
+    {/* Mini-cards: each course as a product tile, name + one-line blurb + a two-stat footer
+        (CPD points and the measured LearnWorlds average time). Chosen 25 Jul 2026 over a compact
+        table. The table variant and its CSS were removed rather than parked behind a flag: a
+        second layout nobody renders is dead code, and a schema field nobody reads is exactly the
+        thing this repo deletes on sight. */}
+    <ul class="member-cards" role="list">
+      {memberData.map((m) => (
+        <li class="bcard">
+          <p class="bcard-name">{m.name}</p>
+          {m.blurb && <p class="bcard-desc">{m.blurb}</p>}
+          <div class="bcard-foot">
+            <span class="bcard-stat">
+              <span class="bcard-num num">{m.points}</span>
+              <span class="bcard-unit">CPD point{m.points === 1 ? '' : 's'}</span>
+            </span>
+            <span class="bcard-stat">
+              <span class="bcard-num num">{m.minutes != null ? m.minutes : '—'}</span>
+              <span class="bcard-unit">{m.minutes != null ? 'min average' : 'not measured'}</span>
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
   </Section>
 
   <slot />
@@ -257,16 +259,20 @@ const schema = {
      with a hairline above it and a mono FOR label, which read as an appendix and put the "is this
      me?" answer 357px below the CTA. It now renders inside the hero (Hero's `audience` prop),
      between the ticks and the button. */
-  .member-table{ width:100%; border-collapse:collapse; margin-top:var(--s-md); font-size:15px; }
-  .member-table caption{ text-align:left; color:var(--slate); font-size:13.5px; margin-bottom:8px; }
-  .member-table th, .member-table td{ text-align:left; padding:9px 0; border-bottom:1px solid var(--rule); }
-  .member-table th{
-    font-family:var(--font-mono); font-size:10px; font-weight:500;
-    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
-  }
-  .member-table .num{ font-family:var(--font-mono); text-align:right; white-space:nowrap; }
-  /* Estimate marker. Colour is not the only signal: the caption says what the asterisk means. */
-  .member-table .est{ color:var(--slate); margin-left:2px; }
+  .member-lead{ max-width:60ch; font-size:15.5px; color:var(--ink-3); margin-top:var(--s-md); }
+
+  /* --- Mini-cards. White fill lifts off the cream --ground; the split earned this.
+     Each card ends in a two-stat footer (points, measured minutes) with a real number/label
+     hierarchy, so a card reads as a product tile rather than a bullet with a box drawn round it. --- */
+  .member-cards{ list-style:none; margin:var(--s-md) 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(244px,1fr)); gap:14px; }
+  .bcard{ background:var(--paper); border:1px solid var(--rule); border-radius:10px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:8px; transition:border-color .18s; }
+  .bcard:hover{ border-color:var(--rule-strong); }
+  .bcard-name{ font-weight:600; color:var(--ink); font-size:15.5px; line-height:1.28; margin:0; letter-spacing:-.005em; }
+  .bcard-desc{ color:var(--ink-3); font-size:13.5px; line-height:1.5; margin:0; }
+  .bcard-foot{ margin-top:auto; padding-top:13px; border-top:1px solid var(--rule); display:flex; gap:20px; }
+  .bcard-stat{ display:flex; flex-direction:column; gap:1px; }
+  .bcard-stat .bcard-num{ font-family:var(--font-display); font-size:19px; font-weight:600; color:var(--ink); line-height:1; }
+  .bcard-stat .bcard-unit{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
 </style>
 
 <!--
