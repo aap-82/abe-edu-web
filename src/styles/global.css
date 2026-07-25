@@ -209,7 +209,7 @@ p strong{color:var(--ink);font-weight:600;}
    on the CPD bundle's landscape artefact. Top-aligned, the image top meets the eyebrow, which is a
    real relationship, and the surplus height falls to the bottom of the shorter column where it
    reads as the column simply ending rather than the image being stranded. */
-.hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:var(--s-2xl);align-items:start;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
+.hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;column-gap:var(--s-2xl);align-items:start;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
 /* The CPD bundle's hero artefact is LANDSCAPE (5:4); every course page uses a PORTRAIT 4:5 image.
    Landscape is far shorter than the text column, so top-aligned it left a ~600px void below it.
    Only on the bundle, and only where the two-column hero exists, the image cell stretches to the
@@ -217,6 +217,9 @@ p strong{color:var(--ink);font-weight:600;}
    so stretching the cell is all that is needed). object-position:center keeps the document and
    tablet, which carry the message. Portrait course images are tall enough that align-items:start
    reads fine, so they are left alone. */
+/* ProcessTrack, moved out of the text column, spans both columns as its own full-width row.
+   container-type so its @container rail query fires against the full width, not the old column. */
+.hero .wrap > .howtrack{grid-column:1 / -1;container-type:inline-size;}
 @media(min-width:1101px){
   .hero-bundle .hero .wrap{align-items:stretch;}
   .hero-bundle .hero .z-img{display:flex;}

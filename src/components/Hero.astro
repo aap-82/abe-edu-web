@@ -61,10 +61,15 @@ const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with A
           <span class="stat"><span class="n num">{p.n}</span><span class="l">{p.text}</span></span>
         ))}
       </div>
-      <ProcessTrack steps={howItWorks} />
     </div>
     <div class="z-img">
       <Placeholder ratio={artefactRatio} desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
     </div>
+    {/* ProcessTrack is a FULL-WIDTH row under both columns, not the last item in the text column.
+        In the column it made the column taller than any hero image and, on the bundle where the
+        image cover-fills, the image overran and clipped the last step. Full-width it also stops
+        being cramped: the 4-step rail finally has room. It carries its own container-type so its
+        @container rail query still fires now that it is outside the text column's container. */}
+    <ProcessTrack steps={howItWorks} />
   </div>
 </section>
