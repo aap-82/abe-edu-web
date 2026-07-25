@@ -16,6 +16,7 @@ colors:
   paper: "#ffffff"
   paper-alt: "#f7f4ec"
   paper-warm: "#f5f1e8"
+  paper-inset: "#f0e9db"
   paper-chrome: "#ffffff"
   rule: "#e5e7eb"
   rule-strong: "#d4d6da"

@@ -34,6 +34,12 @@
      4.52:1 on --paper-warm (AA small-text floor 4.50), which is why --paper-warm stops at #f5f1e8.
      --slate-light stays its usual deliberately-sub-AA muted token (2.50 on warm). */
   --paper:#ffffff; --paper-alt:#f7f4ec; --paper-warm:#f5f1e8;
+  /* the answer capsule's ground, deliberately OFF the section ramp (deeper than every section
+     band) so the capsule reads as an inset panel on ANY section. On --paper-warm it used to
+     vanish (1.000) and on --paper-alt it separated by only 1.026 after the ramp widened. At
+     #f0e9db it holds 1.07-1.15 against the three grounds while staying a warm cream, not a white
+     card (--paper), which would read as an elevated surface rather than a recessed inset. */
+  --paper-inset:#f0e9db;
   /* the breadcrumb bar shares the header's ground so the two read as one continuous chrome
      surface. (.waynav is deliberately NOT on this token: it keeps its own cool #f2f3f4 so the
      wayfinder reads as a separate stratum from the header above it.) */
@@ -362,10 +368,12 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    print-like edge. Maroon stays well under its 10% budget. */
 .note.maroon{border-top:2px solid var(--maroon);border-radius:3px;}
 .note .note-k{display:block;margin-bottom:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);}
-/* Answer capsule: the 40-60 word answer opening each section. A neutral warm-cream inset
-   with a full 1px hairline, squared to 3px. No side-stripe (the banned pattern it replaces),
-   and distinct from the caution note's maroon top rule. */
-.capsule{background:var(--paper-warm);border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.55;color:var(--ink-2);max-width:66ch;font-weight:500;}
+/* Answer capsule: the 40-60 word answer opening each section. A warm-cream inset with a full 1px
+   hairline, squared to 3px. No side-stripe (the banned pattern it replaces), and distinct from the
+   caution note's maroon top rule. Fills with --paper-inset, NOT --paper-warm: the capsule opens
+   sections of every ground, and reusing a section-ramp value made it vanish on a warm section and
+   near-vanish (1.026) on an alt one. --paper-inset sits off the ramp so the inset always reads. */
+.capsule{background:var(--paper-inset);border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.55;color:var(--ink-2);max-width:66ch;font-weight:500;}
 .capsule b,.capsule strong{color:var(--ink);font-weight:700;}
 .capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
