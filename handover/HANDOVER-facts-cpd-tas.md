@@ -135,6 +135,10 @@ Non-live, correctly excluded: *Smart Home Integration* (expired, electrical), *W
 
 ## Outcome — facts session, 25 Jul 2026
 
+> ⚠️ **The plumbing "prune to 12" framing in this section rests on a wrong model and is SUPERSEDED** —
+> see **"Model correction"** at the foot of this file. The prune was never needed; the real defect is in
+> the check logic (a skills fix), not the register data.
+
 **Done at source** (Coda "TAS CPD Courses", the register's actual owner, read + edited authed as Andrey):
 
 - **Plumbing pruned to 12.** Removed the plumbing-bundle tag from *AS/NZS 3000:2018 Wiring Rules*
@@ -169,6 +173,52 @@ external gov source, which is inherent to how CBOS operates, not a gap this sess
   Renaming them in Coda breaks `BUNDLE_MAP` in `scripts/sync-cpd-register.mjs` (the sync joins on the
   exact names), which is **skills-owned**. Routed to skills: rename both options AND update `BUNDLE_MAP`
   in one change. Flagged as a background task.
+
+  **Update (later on 25 Jul 2026) — the skills/background session is mid-flight and now OWNS the register
+  landing.** It has already renamed the plumbing option in the shared Coda doc to
+  **"TAS Plumber CPD 12 Points (2026)"**, so a `sync:cpd` run from any session with a stale `BUNDLE_MAP`
+  now dies `Unmapped bundle "TAS Plumber CPD 12 Points (2026)"` (confirmed from this facts session). That
+  is expected and correct — a facts session must not edit `BUNDLE_MAP`, so it cannot and must not complete
+  the sync. **Coordination for the skills session:**
+  1. The facts-session **plumbing prune is already applied in the Coda source** (Wiring Rules row
+     `i-yfT1kEKZxE` no longer tagged to the plumbing bundle). Your `sync:cpd` will carry it through
+     automatically — **expect plumbing = 12 live, not 13.** Do not re-add the plumbing tag to Wiring Rules.
+  2. Update `BUNDLE_MAP` to the new plumbing name (and the electrician name if you rename that too), then
+     run `CODA_API_TOKEN=… npm run sync:cpd`, review the diff, and commit. The regenerated register should
+     show plumbing 12 / electrical 11 / building 12 and `check-claims` should pass.
+  3. **Only one session should run the sync** — this facts session deliberately did not land it, to keep
+     the Coda names and `BUNDLE_MAP` in lockstep.
+
+---
+
+## Model correction (25 Jul 2026, later — supersedes the "prune to 12" framing above)
+
+Andrey corrected the premise the whole prune rested on. **CBOS approves CPD courses individually (1 point
+each); ABE bundles and sells any selection of approved courses it likes.** Having MORE approved courses in
+a trade's pool than the bundle's point target is normal inventory, not a surplus to delete — ABE just
+picks any 12 of the 13 plumbing courses for the 12-point plumbing bundle.
+
+Consequences:
+
+- **No register data change was ever needed.** `bundlePoints = min(pool, 12)`, so plumbing was already 12
+  (`min(13, 12)`) before any edit. The published points figure was never wrong.
+- **The actual defect is the check logic, not the data.** `scripts/lib/cpd-derive.mjs`'s comment ("a
+  bundle holding more live courses than the cap is a source-doc pruning job") and `check-claims.mjs`'s
+  `live > cap` → "surplus / ambiguous / prune it" WARN both encode the wrong model. `live > cap` is fine.
+  **Routed to skills** (flagged as a background task). Open sub-question for that fix: if a bundle PAGE
+  enumerates its specific courses, the register needs a way to pin WHICH 12 are sold; if the page only
+  states "12 points across approved courses", the selection needs no pinning and the WARN is purely
+  spurious. Product/design call.
+- **`live < cap` is a sizing/disclosure matter, not a defect.** ABE can sell a bundle of ANY size from
+  approved courses; **12 points is merely the most desirable** because it meets the yearly CPD requirement
+  in a single purchase. So electrical's 11 approved courses make a perfectly sellable **11-point bundle** —
+  it just doesn't alone cover the annual 12, which the build page should disclose. Neither `live > cap` nor
+  `live < cap` is a hard error; both are product-sizing signals. The right check is: a bundle page's
+  claimed points must be `<= pool size` (enough approved courses to back the claim), not `pool == cap`.
+- **The Coda prune of Wiring Rules is LEFT IN PLACE for now** (Andrey's call: "leave as-is" — he'll decide
+  pool composition separately). So the Coda plumbing pool currently shows 12, not the full 13. That is
+  incidental, not the fix; do not treat it as the resolution. The on-disk register JSON is still 13
+  (the rename-blocked sync never ran).
 
 **Hand back to build** (`HANDOVER-cpd-bundles.md` Task 2) once Andrey has synced + committed and
 `system-health.mjs` shows plumbing green. The electrical bundle page must state 11 points and disclose
