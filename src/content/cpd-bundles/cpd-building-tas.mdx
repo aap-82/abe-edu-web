@@ -111,9 +111,15 @@ hero:
     - "<b>Online and self-paced</b>, with no fixed schedule"
     - "<b>Every point counts</b>, with no annual cap on approved online courses"
   howItWorks: "Enrol once → work through in any order → assessment on each course → certificate as you finish"
-  # No artefactImg yet, so Placeholder renders the FPO slot rather than a broken or invented image.
-  # ABE Education's imagery is real or commissioned, never stock cliché, and the two existing hero artefacts
-  # are QLD and WA owner builder. This one has to be produced before the page ships.
+  # Hero artefact placed 25 Jul 2026: public/images/cpd-building-tas-hero.avif, 640x512 = 5:4, so
+  # the default r54 ratio is correct and no artefactRatio is set. artefactImg makes it the
+  # eager-loaded LCP image (Hero passes eager={!!artefactImg}); artefactDesc/artefactSpec stay as
+  # the FPO fallback if it is ever pulled. Alt written from the RENDERED image, not the prompt:
+  # verified in-browser it shows ABE Education's own completion record and a tablet completion
+  # screen, rolled plans, and a timber frame through the window - no government crest, no ASQA mark,
+  # so no authority-model breach for a CBOS certificate of completion.
+  artefactImg: "/images/cpd-building-tas-hero.avif"
+  artefactAlt: "Builder CPD in Tasmania: a completed CPD record beside a tablet showing the ABE Education course-completion screen on a builder's timber desk, with rolled plans and a timber-framed home under construction seen through the window."
   artefactDesc: "A Tasmanian builder's CPD record for the year, laid out as a single sheet"
   artefactSpec: "5:4 landscape · document-on-desk, flat overhead, cool daylight"
 sticky:
