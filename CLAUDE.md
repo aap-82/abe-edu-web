@@ -81,6 +81,14 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   CPD is retired, not a current product — its legacy pages 301 away, never rebuilt. White Card is
   confirmed for all five states (NSW/QLD/WA/TAS/ACT). SA and VIC have no products. `/saaustralia` is
   the Solar Association Australia partner page (not South Australia) and stays.
+  **Amended 25 Jul 2026 (Andrey):** two new CPD products are **in scope** — **NSW Building CPD** and
+  **WA Real Estate CPD** — points, price, authority model and RTO all **TBC**; neither is built or
+  recorded, and neither ships until those land. Two cautions carried from the day: NSW Building CPD is a
+  distinct product from the ⛔ on-hold NSW **owner builder** course — do not conflate them; and "Real
+  Estate CPD" is the exact category *retired for NSW* on 23 Jul, so the WA-in-scope call is a
+  deliberate, state-specific extension, not a reversal of that NSW retirement. The live CPD bundle
+  line-up alongside these: TAS Building (12 pts, $499, live), TAS Electrical (11 pts, $449) and TAS
+  Plumbing (12 pts, $499) — the two TAS bundles are being built; see `handover/HANDOVER-cpd-bundles.md`.
 - **Asbestos and silica (amended 23 Jul 2026 — the earlier "no asbestos/silica" line was wrong).**
   ABE has **two different products** here and conflating them is an authority-model error:
   1. **AlertForce (RTO 91826) Asbestos Awareness and Silica Awareness**, resold by ABE **in every
