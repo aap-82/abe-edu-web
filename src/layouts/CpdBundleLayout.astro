@@ -81,7 +81,7 @@ if (singlePrice && rrpTyped && rrpTyped !== points * singlePrice) {
 // `hours` is optional, so a bundle without a measured completion time shows two stats rather
 // than inventing a third.
 const proof = [
-  { n: String(points), text: 'CBOS-approved points' },
+  { n: `${points} points`, text: 'CBOS-approved' },
   { n: bundle.price, text: 'one payment' },
   ...(bundle.hours ? [{ n: bundle.hours.replace(/^About\s+/i, ''), text: 'to complete' }] : []),
 ];
