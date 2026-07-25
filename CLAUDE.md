@@ -258,7 +258,7 @@ and every subagent.
 |---|---|---|---|
 | **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/styles/**`, `src/content.config.ts` |
 | **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `kb/mistakes-log.md`, `ROADMAP.md`, `src/content.config.ts` | `kb/register/**`, `src/styles/**`, any live run's artefacts |
-| **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
+| **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
 | **facts** | Verify and record regulatory figures | `kb/register/**` | everything else |
 
 `src/content.config.ts` (the content schema) is owned by **skills** — it is cross-cutting model
@@ -289,6 +289,13 @@ that needs to write outside the type stops and reports upward. It never guesses.
    only) opens when it cannot express what is needed — not when a page would look better.
 8. **A readability audit measures; it does not authorise.** Audit findings become demand-list items routed
    to `design`. `references/usability-map.md` decides.
+9. **Design sessions close with a review.** A design session that ships component, token/design-register or
+   styleguide changes writes one review to `skill-reviews/design/YYYY-MM-DD-<topic>.md` before merge — the
+   build Stage-9 format applied to design: what shipped with **measured** before/after values (not ticks,
+   per the self-certification lesson), each design-register change flagged, and a demand list tagged
+   `[skills]`/`[design]`/`[facts]`. The `design/` subdirectory keeps it out of the build-run trend and
+   coverage scans, which read `skill-reviews/*.md` flat (a subdir is not a `.md` file). Self-grading is
+   allowed with `graded_by: self` and a stated reason — there is no fresh-subagent design grader yet.
 
 ### Demand-list format
 Every demand-list item in a Stage 9 review carries a destination, so the handover notes can be derived
