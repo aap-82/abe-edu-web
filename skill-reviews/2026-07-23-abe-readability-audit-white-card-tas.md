@@ -22,11 +22,9 @@ metrics:
 <!-- manual_fix_passes is 0, NOT 1, on purpose: the one fix this audit surfaced (the ASQA Note,
 135 -> 64 CPL) is the SAME physical fix already counted in the parent abe-course-page-astro run for
 white-card-tas. Counting it here too would double-count it in review-trends. This sub-audit found the
-defect; the parent run owns the fix count. DEMAND-LIST: review-trends aggregates all skill-reviews
-regardless of `skill:`, so a readability sub-audit's metrics land in the same trend as course-page
-runs; it should group by skill. And manual_fix_passes as a "lower is better" trend penalises catching
--and-fixing a defect BEFORE handoff, which is exactly what the pipeline should do — gate_fails_after
-_handoff (shipped broken) is the metric that should dominate. -->
+defect; the parent run owns the fix count. (The two tooling demands this comment used to carry —
+review-trends grouping by skill, and the fix-count metric penalising catch-and-fix-before-handoff — are
+now in the ## Demand list section below, tagged [skills] for demand-split.) -->
 
 
 # Readability audit review — white-card-tas, 2026-07-23
@@ -74,10 +72,15 @@ The review was not filed at the time (this file is the late correction). The sta
 mostly noise against this token-based register — the skill already warns about this, but it still needs
 a human read to separate real sub-12px body text from shared chrome.
 
+## Demand list
+Tag every item: [skills] | [design] | [facts]. These are tooling/metrics findings (the render probe,
+`review-trends` and the fix-count metric), not page-design findings, so they route to skills, not design.
+- [skills] the readability render probe conflates shared-chrome failures with page failures; a per-page filter would make its output actionable without a manual triage each run.
+- [skills] review-trends aggregates all skill-reviews regardless of `skill:`, so a readability sub-audit's metrics land in the same trend as course-page runs; it should group by skill.
+- [skills] manual_fix_passes as a "lower is better" trend penalises catching-and-fixing a defect before handoff; gate_fails_after_handoff (shipped broken) is the metric that should dominate.
+
 ## Output
 - Fix applied: ASQA Note width 135 → 64 CPL.
 - mistakes-log: the shared-chrome contrast/overflow issues are a standing site-wide item (burger button,
   low-contrast small labels, component line-lengths) — logged for a deliberate token pass, not per-page.
-- Demand list: the readability render probe conflates shared-chrome failures with page failures; a
-  per-page filter (like the one proposed for the check-script warnings) would make its output actionable
-  without a manual triage each run.
+- Demand list: see the `## Demand list` section above — three `[skills]` items, tagged for demand-split.

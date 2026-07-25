@@ -114,25 +114,25 @@ required field that every non-owner-builder page must stub empty is schema debt.
 ## Demand list
 What was painful, as evidence for structural decisions.
 
-- **Stage 7 must enumerate the three skill-audits as required rows and fail GREEN if any is absent.** The
+- [skills] **Stage 7 must enumerate the three skill-audits as required rows and fail GREEN if any is absent.** The
   first subagent skipped readability, final-check and ai-detector and still certified. The audits are not
   optional colour; one of them found the only page-specific defect in the build. The checklist should
   make their omission a hard FAIL, not something a human notices afterwards.
-- **The archetype-2 ASQA branch needs a real core-section path, or the skill must prescribe the split.**
+- [skills] **The archetype-2 ASQA branch needs a real core-section path, or the skill must prescribe the split.**
   The layout's `rto-partner` card cannot carry an H2/capsule/sources, so archetype 2's most important
   section is only rendered if the author knows to hand-build a second `#real` section. This branch was
   unexercised until now; it should either render the trust section properly or the skill should document
   the split as the required pattern rather than leaving it to be rediscovered.
-- **`CPCCWHS1001` lives in three repo docs while only the register is right — grep for it and fail the
+- [skills] **`CPCCWHS1001` lives in three repo docs while only the register is right — grep for it and fail the
   build.** `abe-new-site-sitemap.md:36`, the `content.config.ts:37` comment and the archetype worked copy
   all carry the superseded code. This run dodged the landmine by trusting the register; the next run that
   trusts any of those three docs ships a superseded unit code on a nationally-recognised page. A repo-wide
   check for `CPCCWHS1001` outside `Archive` would convert a per-run act of vigilance into a gate.
-- **The check-pipeline capsule format contract is undocumented and load-bearing.** Stage 4 had to write
+- [skills] **The check-pipeline capsule format contract is undocumented and load-bearing.** Stage 4 had to write
   capsules in the exact `**Answer capsule**` + blockquote shape that `check-pipeline.mjs` diffs against
   the built page, and that contract lives only in the script. Put it in the skill or 05, the same argument
   that put component prop contracts into 05 after run 1.
-- **`becomeSteps` should be optional in the course schema.** Every archetype-2 page must stub it `[]`; a
+- [skills] **`becomeSteps` should be optional in the course schema.** Every archetype-2 page must stub it `[]`; a
   required field with no meaning outside owner builder is schema debt that each run pays again.
 
 ## Compare to run 1 (cpd-building-tas, Amber)
