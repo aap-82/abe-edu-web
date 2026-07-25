@@ -61,8 +61,16 @@ export function liveTotal(reg, category) {
 }
 
 /**
- * The published points figure. `min(live members, cap)` — a bundle holding more live courses
- * than the cap is a source-doc pruning job, not a page that sells the surplus.
+ * The published points figure: `min(live pool, cap)`. The cap is a DISPLAY ceiling — a standard
+ * builder's 12-point year — never a limit on how large the bundle may be. CBOS approves each
+ * course on its own and ABE bundles whatever selection it chooses, so a live pool above 12 is a
+ * valid bundle kept whole in the register (NOT pruned to fit 12); the page presents it as a full
+ * 12-point year rather than advertising the surplus. Below 12 it publishes the true smaller
+ * figure. Either way the published figure stays <= the pool, which is the one invariant
+ * `check-claims` enforces — pool size itself is never a defect.
+ *
+ * (To advertise the full pool for a >12 bundle instead of capping the display, uncap this to
+ * `liveTotal` — a deliberate product/design change, since the layout copy frames against the cap.)
  */
 export function bundlePoints(reg, category) {
   return Math.min(liveTotal(reg, category), POINTS_CAP);
