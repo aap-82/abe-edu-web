@@ -113,6 +113,7 @@ handle carefully, because it is the phased total, not an annual one.
 - CPD points are only recognised where the course is **approved by the Administrator of Occupational Licensing**. "Approved" is course-specific — a provider being listed somewhere does not make every one of its courses approved (CBOS states this explicitly about Pointsbuild: only the specifically listed courses count).
 - CBOS requires **all proposed CPD training/activities to be submitted for approval and/or notification** — including internal training and toolbox meetings.
 - On a page: claim CBOS approval only for courses ABE has actual approval for, and mark the specific point value `[confirm: LW]` until verified against ABE's records. Never assert a point value from memory.
+- **CBOS publishes NO public per-course approved-course register.** Verified 25 Jul 2026 by reading the CBOS site in a browser: the "CPD Determination List" page is legislative instruments (the Determinations themselves), and CBOS runs a *submit-for-approval* model that lists approved **providers** only (Pointsbuild, TasTAFE, industry academies) — never a searchable list of individual approved courses. A specific ABE course's approval is evidenced only by CBOS's approval correspondence to ABE, recorded in the operational Coda doc "TAS CPD Courses" (`superhuman://docs/wXRzQ7oMrm`). **Do not expect to verify an individual ABE course's approval / points / date against a public CBOS page — there is none.** In that doc the two attachment columns are "Course Submission" and "Course Material" (course content), not CBOS approval letters, so the only in-doc approval evidence is the Approval Date field, which is populated for a minority of live courses; the rest are submission-basis (`expiryBasis: submission`) and cannot be upgraded to a real approval date from any source available.
 
 ### A6. Asbestos — a CBOS CPD course, NOT an asbestos awareness card
 
@@ -206,7 +207,7 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 
 - CBOS — CPD: `cbos.tas.gov.au/topics/licensing-and-registration/cpd`
 - CBOS — Achieving your CPD requirements (points tables, Determinations): `cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements`
-- CBOS — CPD Determination list: `cbos.tas.gov.au/topics/resources-tools/occupational-licensing-determinations/cpd-determination-list`
+- CBOS — CPD Determination list: `cbos.tas.gov.au/topics/resources-tools/occupational-licensing-determinations/cpd-determination-list` — NB: legislative instruments, **not** a per-course approved-course list (see A4).
 - CBOS — Owner builder permit + restrictions: `cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/restrictions`
 - CBOS — Owner builder training courses: `cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/training-courses`
 - CBOS — Fact Sheet: Owner Builder Work (PDF)
