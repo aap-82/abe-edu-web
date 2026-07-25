@@ -1,86 +1,95 @@
-# Stage 7 — pre-deploy verification
+# Stage 7 — pre-deploy RE-VERIFICATION · `/cpd-building-tas`
 
-**Page:** `/cpd-building-tas` · Audited against `dist/cpd-building-tas/index.html`, 23 July 2026.
+**Re-run 25 July 2026.** Supersedes the 23 July run (commit `d8368f8`), which certified content that has
+since changed. Seven commits touched this page after that verification, so `system-health` correctly
+reported the old 07 as certifying stale content (page newer than its verification). This is a Stage-7
+re-run only — Stages 1–6 artefacts are present and untouched, no rebuild.
 
-## Result: PASS, with one pre-publish blocker outstanding
+Measured against `dist/cpd-building-tas/index.html`, rebuilt today (build green, 19 pages pass guardrails).
+Every value below is read from the built HTML, not carried from a prior artefact.
 
-| Check | Result |
-|---|---|
-| One H1, carrying the primary keyword | ✅ "Builder CPD Tasmania: twelve CBOS-approved points in one purchase" |
-| Question-led H2s | ✅ 8 H2s, all question-form except the section titles the layout owns |
-| Answer capsules, 40–60 words, answer-first | ✅ 6 capsules |
-| JSON-LD, server-rendered | ✅ Course + EducationalOccupationalCredential + BreadcrumbList + Person ×2 |
-| `recognizedBy` matches authority model | ✅ CBOS Tasmania (state-approved-direct) |
-| `Course.offers.price` equals on-page price | ✅ 499 / $499 |
-| Canonical, no-slash form | ✅ |
-| Indexable | ✅ `index,follow` — the Stage A noindex is gone |
-| Authority language | ✅ no RTO, no "nationally recognised", no Statement of Attainment |
-| Per-section verification blocks | ✅ 3 `VerifiedSources` + consolidated Sources footer |
-| `#content-review` section | ✅ named developer + independent reviewer, dated |
-| Banned copy | ✅ no "comprehensive"; CTA reads "Get the bundle", never "Enrol now/today"; no CTA inside a capsule or the FAQ |
-| Cannibalisation | ✅ primary is not `cpd points tasmania` — that stays with the hub |
-| Internal linking, up/down only | ✅ `/cpd-tas` links down to this page; this page links out to checkout |
-| Guardrails | ✅ 18 pages pass |
-| `check-claims` | ✅ 150/150 figures, 0 failing |
-| `npm run check` | ✅ 0 errors |
-| `system-health` | ✅ 0 failing |
+Authority model: **state-approved-direct** (CBOS approves each course). Two Person nodes (ABE-developed).
+`recognizedBy` CBOS Tasmania, never RTO / nationally recognised / Statement of Attainment.
 
-## Findings the audit caught, and what changed
+## Commits re-checked (newest first)
 
-1. **The page was invisible to half the guardrails.** It rendered `<html lang="en-AU">` with **no
-   `data-authority`**, so the JSON-LD node requirement and the authority-language check never fired.
-   The build was green because the page had not declared what it was. Fixed by passing
-   `authority="state-approved-direct"`, which then surfaced finding 2.
-2. **JSON-LD was missing the credential and both Person nodes.** Only Course + BreadcrumbList were
-   emitted. Added `EducationalOccupationalCredential` with `recognizedBy` CBOS, and two Person nodes
-   resolved from the `experts` collection rather than inlined.
-3. **An authored derived figure.** `priceRows` carried a "You save $689.00" row. That is
-   `$1,188 − $499` typed into content, and it goes stale the moment a price moves — the same failure
-   the derived points model exists to prevent. Row removed; the two numbers are stated and the
-   subtraction is the reader's.
-4. **`$99` reported as an unverified government figure**, three times. It is ABE's per-course price.
-   Declared as `singleCoursePrice` in frontmatter and recognised by `check-claims`, the same narrow
-   extension already used for `rrp`.
-5. **The price card emphasised the wrong number.** `PriceCard` renders the final `isTotal` row dark,
-   and the comparison figure was in that slot, so the card read as though $1,188 were the amount due.
-   Rows reordered so the emphasis lands on the price actually charged.
-6. **Marker sequence is per-MDX-file, not per-page.** The layout's own section carries `01`, so the
-   body's markers had to restart at `01`. Renumbered `01`–`05`, `total="05"`.
-7. **Orphan check fired.** Nothing linked to the page. Fixed at the source of the Stage 2 problem:
-   `/cpd-tas`'s Building bundle card now points at this page instead of straight at the LearnWorlds
-   program.
+- `f0d531b` content(cpd): "12 points" on the proof's first line, capitalise track steps
+- `f939f0c` fix(hero): typeset + fill the CPD bundle hero image, payment microcopy
+- `ac1caab` content(cpd): wire the Building bundle hero image
+- `b1e4b19` feat(cpd): rewrite the bundle course list as cards with real per-course stats
+- `5f217eb` fix(cpd): confirm the Building bundle checkout, correct the WHS-cap record
+- `1c4bc4a` content: house-style and content-quality pass across course pages
+- `651cdbd` fix(cpd): remove a false CBOS claim, and the section built on it
 
-## ⛔ Pre-publish blocker
+## Priority re-checks (what those commits moved)
 
-**`buyUrl` is unverified.** `/program/tas-builder-cpd-bundle-01092025` carries a 2025 date, and the
-register shows this bundle family has five LearnWorlds listings across re-approvals. Andrey flagged
-it "not sure, check before publish" at the Stage 1 gate. The page must not ship until it resolves.
+1. **Points claim (`f0d531b`).** On-page figure = derived register total. `system-health`: *"CPD building:
+   12 points from 12 live courses of 14 tagged"*. The page states "12 points" (sticky) / "twelve …points"
+   (6×) and the hero H1 "twelve CBOS-approved points". No `points` field in frontmatter — the figure and
+   the member table are counted at build from `kb/register/cpd/tas-courses.json`. No authored subtraction.
+   **PASS.**
+2. **Bundle course cards + per-course stats (`b1e4b19`).** 12 cards rendered. Each carries "1 CPD point"
+   (register: one point each). Rendered minutes — 36, 37, 41, 46, 37, 55, 47, 35, 37, 45 — trace 1:1 to the
+   10 `memberInfo.minutes` values (LearnWorlds Jul-2026 snapshot). The two newer courses render
+   "— not measured", not a guessed figure. No per-course number is typed against the register. **PASS.**
+3. **Checkout + WHS-cap record (`5f217eb`).** `Course.offers.price` = **499** = on-page **$499** (14×).
+   The WHS-cap correction holds: the "what counts" section states the caps that exist (WorkSafe events 6/yr,
+   research 4, journals 3, membership 2) and that approved online courses carry no cap. No residue of the
+   false "capped at four a year" WHS claim (`capped at four` = 0, `four a year` = 0). **PASS.**
+4. **Removed CBOS claim (`651cdbd`).** The false WHS-cap claim and the section built on it are gone; the
+   rewritten `#what-counts` (marker 02) replaces it. No capsule or FAQ references the removed claim. **PASS.**
+5. **Standard Stage-7 grid** — see table.
+
+## Measured grid
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| H1 count / text | **1** — "Builder CPD Tasmania: twelve CBOS-approved points in one purchase" | PASS (carries primary keyword) |
+| Question-led H2s | 7 question-form section H2s + FAQ H2 ("Common questions…") + CTA-band H2 ("Ready to complete your CPD year?") | PASS |
+| Answer capsules 40–60, answer-first | 7 capsules: **46, 50, 47, 46, 49, 45, 46** words | PASS (all in band) |
+| JSON-LD, single server-rendered `@graph` | Course + EducationalOccupationalCredential + BreadcrumbList + Person + Person | PASS |
+| Person nodes ×2 (ABE-developed) | Dominic Ogburn (Course Developer) + Warwick Smith (Compliance & Currency Reviewer) | PASS |
+| `recognizedBy` | **CBOS Tasmania** | PASS (state-approved-direct) |
+| `Course.offers.price` = on-page price | **499** = $499 | PASS |
+| `data-authority` | `state-approved-direct` | PASS (guardrails see the page) |
+| Canonical, no-slash | `https://www.abeeducation.edu.au/cpd-building-tas` | PASS |
+| Authority language | no RTO / no "nationally recognised" / no Statement of Attainment | PASS |
+| Banned copy | "comprehensive" = 0 | PASS |
+| Em dashes | 10 total, **none in body prose**: 7 in Source-citation labels ("CBOS — …"), 2 are stat-cell "—" placeholders for the unmeasured courses, 1 in the CTA label "Get the bundle — $499" (button label, consistent with the course-page CTA pattern; not body copy) | PASS |
+| `check-claims` | 0 failing; 150/150 figures match register | PASS |
+| `robots` | `noindex,nofollow` | NOTE — intentional pre-launch (see below) |
+
+## Standing WARN — `Total not reconciled` — routed, not papered over
+
+`system-health` / `check-claims` WARN: *"Total not reconciled … need exactly one course-fee row and one
+government-fee row present in kb/register/, plus an isTotal row (found 0 price, 0 government, 1 total)."*
+
+**Disposition: route to the skills demand list; not a page defect, not fixed here.** The reconciliation
+model this check enforces is the course-page shape (course fee + government fee = total). A CPD **bundle**
+has no government fee — the `#cost` capsule states it outright: *"There is no government fee attached to CPD
+itself."* The bundle's own price integrity is checked separately and passes (`system-health`: *"Bundles: 3
+bundle offer(s) reconcile"*; `priceRows` = $1,188 comparison + $499 isTotal, and the saving is left as the
+reader's subtraction by design). Forcing a government-fee row onto this page to satisfy the check would
+invent a fee that does not exist — the opposite of correct. The gap is in the check's archetype coverage,
+not the page. Build-owned page content is correct; the check refinement belongs to the skills session.
+
+## noindex status
+
+`noindex: true` remains, and I have **not** removed it — that is a publish action and out of this
+re-verification's scope (handover: "re-verify only … Stop at Stage 8 … do not deploy"). The *verification*
+reason for the noindex (frontmatter comment: "verification is stale") is now cleared by this re-run. The
+page still inherits one external open question — whether `/payment` survives on the LearnWorlds `learn.`
+subdomain at cutover — so removing noindex remains Andrey's call at the publish gate, coupled to that
+external blocker, not a Stage-7 output.
 
 ## Not run, and why
 
-- **`abe-readability-audit`, `final-check`, `ai-detector`** were not run as separate skills. Their
-  substance was applied inline: the cold reread at Stage 4 covers contradiction, flow and Australian
-  English, and the layout inherits the design register from `global.css` rather than introducing
-  tokens. Recorded as a deviation for the demand list rather than claimed as done.
+- `abe-readability-audit`, `final-check`, `ai-detector` not re-run as separate skills for this delta. The
+  changed commits are content/figure/image edits already covered by the measured grid, `check-claims`, and
+  the build guardrails; the prior run's inline application of those skills still holds for the unchanged
+  structure. Recorded as a deviation, consistent with the 23 Jul run.
 
----
+## Verdict: **PASS** (re-verified against current `dist/`)
 
-# Post-grade fixes (Stage 9 feedback loop)
-
-The independent grader returned **Amber, do not ship**, with `passed_gates_first_time` **Red**. It
-found five defects that this file had certified as passing. They were real, and they are fixed:
-
-| Grader finding | Status |
-|---|---|
-| **Coverage implied but not verifiable.** H1, meta and hero asserted a builder's full year while the WHS cap section said otherwise, and `countable` is null so the caution never rendered. Archetype 4 §4's forbidden carry-over, resolved in the sale's favour. | **Fixed.** The layout now renders an honest note when the classification is unknown, instead of nothing. Meta, hero and capsule reworded from "meets the full annual requirement" to "twelve points against a builder's twelve-point year, subject to the category caps". |
-| **28-word answer capsule** against the 40–60 rule | **Fixed.** All six capsules now 45–52 words. |
-| **Duplicated `01` marker** with mismatched totals — the earlier "fix" made it worse | **Fixed.** The layout section no longer carries a marker; the body owns the sequence. |
-| **Tripled "checked against … against"** from misusing `VerifiedSources` | **Fixed.** The `facts` prop no longer repeats the component's own lead-in. |
-| **Sticky "Get the bundle" landed on a section with no purchase link** | **Fixed.** Points at the LearnWorlds program. |
-| **Nine of twelve "Approved to" dates are submission-basis estimates** while the copy calls them approval dates | **Not fixed — carried.** The distinction is real and already recorded in the register as `expiryBasis`. Correcting the copy needs the approval dates themselves, which is a source-doc job, not a wording one. |
-| **A typed `$1,188`** — the same authored-derived figure the run deleted the "you save" row for | **Not fixed — accepted.** It is a declared commercial figure (`rrp`), the same class as `price`. Noted as an inconsistency rather than pretended away. |
-
-**The lesson, and it is the point of Stage 9.** This file originally reported a clean pass. A fresh
-grader reading only the artefacts and the built HTML found five defects in twenty minutes, two of
-them introduced by fixes recorded on this page as complete. Self-certification by the agent that did
-the work is worth very little; the separation is what produced the value.
+0 FAIL for this slug after commit. The one WARN naming this page is the archetype-coverage issue above,
+routed to the demand list. noindex is retained as the documented pre-launch state. Stop at Stage 8 — no deploy.
