@@ -69,7 +69,7 @@ a{color:var(--ink);}
 .eyebrow .e-dot{color:#a00000;}
 .eyebrow-i{color:var(--maroon);font-weight:500;font-variant-numeric:tabular-nums;}
 .eyebrow.on-dark .eyebrow-i{color:var(--gold);}
-h1.h1{font-size:clamp(40px,6.2vw,72px);letter-spacing:-.03em;line-height:1.02;}
+h1.h1{font-size:clamp(34px,4.6vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.04;}
 .h2{font-size:clamp(30px,3.6vw,42px);letter-spacing:-.025em;line-height:1.08;}
 .h3{font-size:22px;letter-spacing:-.01em;}
 .h4{font-size:18px;}
@@ -210,6 +210,18 @@ p strong{color:var(--ink);font-weight:600;}
    real relationship, and the surplus height falls to the bottom of the shorter column where it
    reads as the column simply ending rather than the image being stranded. */
 .hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:var(--s-2xl);align-items:start;padding-top:var(--s-3xl);padding-bottom:var(--s-3xl);}
+/* The CPD bundle's hero artefact is LANDSCAPE (5:4); every course page uses a PORTRAIT 4:5 image.
+   Landscape is far shorter than the text column, so top-aligned it left a ~600px void below it.
+   Only on the bundle, and only where the two-column hero exists, the image cell stretches to the
+   column height and the image cover-fills it (.ph-img already has object-fit:cover + height:100%,
+   so stretching the cell is all that is needed). object-position:center keeps the document and
+   tablet, which carry the message. Portrait course images are tall enough that align-items:start
+   reads fine, so they are left alone. */
+@media(min-width:1101px){
+  .hero-bundle .hero .wrap{align-items:stretch;}
+  .hero-bundle .hero .z-img{display:flex;}
+  .hero-bundle .hero .z-img .ph-img{aspect-ratio:auto;object-position:center;}
+}
 /* Hero vertical rhythm, grouped into clusters rather than an even ramp: the eyebrow row,
    headline and lede sit tight as one unit; the ticks open up; the CTA gets the widest gap
    above it as the action moment; its reassurance line hugs it; proof + track close as the
@@ -241,7 +253,7 @@ p strong{color:var(--ink);font-weight:600;}
    2 lines would need ~600px against a 573px hero column. So 44 CPL is the floor here, one
    under the 45 target, and it is a copy constraint rather than a layout defect. Do not chase
    it by shrinking the type. */
-.hero-audience{font-size:14.5px;line-height:1.55;color:var(--slate);max-width:420px;margin-bottom:var(--s-xl);}
+.hero-audience{font-size:15px;line-height:1.55;color:var(--slate);max-width:420px;margin-bottom:var(--s-xl);}
 .hero-audience b{color:var(--ink-2);font-weight:600;}
 .hero-cta{display:flex;align-items:center;gap:var(--s-sm);flex-wrap:wrap;margin-bottom:var(--s-2xs);}
 /* reassurance line, hugging the CTA (8px above), then a full gap down to the proof row */
