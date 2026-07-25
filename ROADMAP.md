@@ -365,6 +365,8 @@ three to answer one layout question, record it. On the **second** occurrence, me
 - **Ask, don't assume.** Material forks and unknown internal facts go to the person: closed questions
   via the interactive tool, open ones in prose. Subagents cannot ask — they stop and report upward.
 - **ABE is not an RTO.** Australian English. No em dashes in body copy. Never "comprehensive".
+- **One session, one type.** Declared at the start, fixed for the session; each type has its own
+  may-write scope and pre-flight. See `CLAUDE.md` → Session types.
 
 ---
 
