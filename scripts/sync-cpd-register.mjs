@@ -47,11 +47,23 @@ const COL = {
 
 /** Source `Bundle` select values → the category keys the site uses. Explicit so a renamed
  *  bundle in the source doc fails here, visibly, instead of quietly emptying a bundle page. */
-const BUNDLE_MAP = {
-  'TAS Builder CPD — 12 Points (2026)': 'building',
-  'TAS Plumber CPD 11 pt Bundle': 'plumbing',
-  'TAS Electrician CPD - 12 Points (2026)': 'electrical',
-};
+// Match a bundle by the STABLE trade word its name always contains, not the exact string. The
+// Bundle option names are hand-edited in the source doc — the points count changes ("11 pt" ->
+// "12 Points"), as do spacing and dash style — and the REST API (valueFormat=rich) returns select
+// values as plain labels with no stable row-ID to key on. Each of the three bundle names contains
+// exactly one of these trade words, which none of that editing touches.
+const BUNDLE_TRADES = [
+  { match: /\bbuilder\b/i, slug: 'building' },
+  { match: /\bplumber\b/i, slug: 'plumbing' },
+  { match: /\belectrician\b/i, slug: 'electrical' },
+];
+
+/** Resolve a bundle display name to its category slug by trade word. Returns null when zero or
+ *  more than one trade word matches, so the caller can fail loudly rather than mis-tag. */
+function bundleSlug(label) {
+  const hits = BUNDLE_TRADES.filter((t) => t.match.test(label));
+  return hits.length === 1 ? hits[0].slug : null;
+}
 
 const STATUS_MAP = {
   Live: 'live',
@@ -74,12 +86,21 @@ async function fetchRows(token) {
   return body.items ?? [];
 }
 
+/** Strip Markdown code-fence wrapping from a rich value. valueFormat=rich returns every cell
+ *  wrapped in backticks (```Live```, ```28/07/2025```, ```TAS Plumber CPD 12 Points (2026)```);
+ *  left unstripped this silently breaks bundle mapping, status lookup and date parsing. Added
+ *  25 Jul 2026 when the source doc began returning code-fenced rich values. */
+function unfence(s) {
+  return String(s).replace(/^`+/, '').replace(/`+$/, '').replace(/\s+/g, ' ').trim();
+}
+
 /** Coda rich values arrive as scalars, {name}, or arrays of those. Flatten to plain names. */
 function names(v) {
   if (v == null || v === '') return [];
   const arr = Array.isArray(v) ? v : [v];
-  return arr.map((x) => (typeof x === 'object' ? x.name : x)).filter(Boolean).map(String);
+  return arr.map((x) => (typeof x === 'object' ? x.name : x)).filter(Boolean).map(unfence).filter(Boolean);
 }
+
 
 function one(v) {
   return names(v)[0] ?? null;
@@ -104,8 +125,8 @@ function mapRow(row) {
   const status = STATUS_MAP[one(v[COL.status])] ?? 'unknown';
 
   const bundles = names(v[COL.bundle]).map((label) => {
-    const key = BUNDLE_MAP[label];
-    if (!key) die(`Unmapped bundle "${label}" on row "${one(v[COL.course])}". Add it to BUNDLE_MAP, or rename it back.`);
+    const key = bundleSlug(label);
+    if (!key) die(`Unmapped bundle "${label}" on row "${one(v[COL.course])}". Expected exactly one of Builder/Plumber/Electrician in the name.`);
     return key;
   });
 
@@ -154,6 +175,16 @@ if (!rows.length) die('Source table returned zero rows. Refusing to overwrite th
 
 const courses = rows.map(mapRow);
 
+// A readable {display name -> slug} map for the register, built from the live option names seen in
+// the data (matching itself is by trade word, above).
+const readableBundleMap = {};
+for (const row of rows) {
+  for (const label of names((row.values ?? {})[COL.bundle])) {
+    const slug = bundleSlug(label);
+    if (slug) readableBundleMap[label] = slug;
+  }
+}
+
 // Carry forward any studyArea that was backfilled by hand, keyed on row id.
 if (existsSync(REGISTER_PATH)) {
   const prev = JSON.parse(readFileSync(REGISTER_PATH, 'utf8'));
@@ -173,7 +204,7 @@ const reg = {
     rowCount: courses.length,
     checksum: 'sha256:PENDING',
   },
-  bundleMap: BUNDLE_MAP,
+  bundleMap: readableBundleMap,
   courses,
 };
 reg.generated.checksum = payloadChecksum(reg);
