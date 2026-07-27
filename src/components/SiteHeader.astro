@@ -384,7 +384,11 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mcard.soon{ cursor:default; }
   .site-head .mcard.soon .mst, .site-head .mcard.soon .mname{ color:var(--slate-light); }
   .site-head .mcard.soon .mst{ border-color:var(--rule); }
-  .site-head .mcard em, .site-head .dd-soon em, .site-head .mextra-l em, .site-head .mlink.soon em, .site-head .bg-hub.soon em{ font-family:var(--font-mono); font-style:normal; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate-light); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
+  /* Was 9px / --slate-light, which measured 2.81:1 against the megamenu ground - below the 4.5:1
+     AA floor, and smaller than any other label on the site. 11px matches the house mono label size
+     (.eyebrow, .pl-frow dt) and --slate computes to ~5.1:1 on white. Still visibly secondary to an
+     available item, which is the point of the badge, but now actually readable. */
+  .site-head .mcard em, .site-head .dd-soon em, .site-head .mextra-l em, .site-head .mlink.soon em, .site-head .bg-hub.soon em{ font-family:var(--font-mono); font-style:normal; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate); border:1px solid var(--rule-strong); border-radius:4px; padding:2px 5px; }
   /* Extra row (Owner Builder's Project Advisory + Insurance): plain links below a
      hairline, inside the same main column as the state grid. */
   .site-head .mextra{ margin-top:18px; padding-top:16px; border-top:1px solid var(--rule); display:flex; gap:22px; flex-wrap:wrap; }
@@ -432,6 +436,16 @@ const mnavHtml = navGroups.map(mGroup).join('')
   }
   /* too tight beside the brand and burger; it is in the burger's More group anyway */
   @media (max-width:600px){ .site-head .portal-btn{ display:none; } }
+  /* At 320px the header row did not fit: .wrap gives a 264px content box (320 minus 2x28 padding),
+     while the brand measures 220px and the burger 40px with an 18px gap between - 278px, so the
+     burger sat 4px past the viewport and every page scrolled sideways by exactly that. Trimming the
+     HEADER's side padding at very small widths gives 288px and it fits with room to spare. Scoped to
+     .site-head so body copy keeps its 28px gutter, and to 360px so nothing changes on a normal
+     phone. The alternative - letting the brand lockup shrink or truncate - is a brand decision, not
+     a spacing one, so it is not taken here.
+     The selector must match `.site-head .main .wrap` above (0,3,0); a plainer `.site-head .wrap`
+     (0,2,0) loses to it and the padding silently stays at 28px. */
+  @media (max-width:360px){ .site-head .main .wrap{ padding-left:16px; padding-right:16px; } }
   @media (prefers-reduced-motion:reduce){
     .site-head .mega, .site-head .cv, .site-head .wm-fold, .site-head.is-scrolled .wm-fold,
     .site-head .bars, .site-head .bars::before, .site-head .bars::after{ transition:none; }

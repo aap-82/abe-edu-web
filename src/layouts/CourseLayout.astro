@@ -148,7 +148,9 @@ const schema = {
 
   {asqa && rtoPlacement === 'after-hero' && (
     <Section id="rto-partner" bg="bg-alt" eyebrow={asqa.eyebrow}>
-      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} />
+      {/* h2, not h3: after-hero this is the FIRST heading below the h1, so an h3 skips a level
+          (WCAG 1.3.1). class="h3" still carries the visual, so nothing moves. */}
+      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} headingLevel={2} />
     </Section>
   )}
 
@@ -175,7 +177,9 @@ const schema = {
 
   {asqa && rtoPlacement === 'after-body' && (
     <Section id="rto-partner" bg="bg-alt" eyebrow={asqa.eyebrow}>
-      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} />
+      {/* h2 for the same reason as the after-hero branch: this card is a top-level section, a peer
+          of the page sections around it, not a subsection of the one above it. */}
+      <PartnerDisclosure partner={asqa.name} rto={asqa.rtoNumber} units={asqa.units} credential={asqaCredential} headingLevel={2} />
     </Section>
   )}
   <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />

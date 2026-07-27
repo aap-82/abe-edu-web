@@ -15,8 +15,14 @@ import type { PartnerInfo } from '../types/course';
 // facts | plain-language description + contact); the formal ASQA disclosure as fine print at the foot.
 // CSS class names avoid the substring "rto" on purpose: the authority-language guardrail scans the
 // bundled CSS on state-approved pages and matches it as a forbidden claim.
-type Props = PartnerInfo;
-const { partner, rto, units = [], credential = 'Statement of Attainment' } = Astro.props;
+// headingLevel exists because this card's heading level depends on WHERE the layout puts it, which
+// the card cannot know. At `after-body` it follows the page's h2 sections and h3 is right. At
+// `after-hero` it is the FIRST heading after the h1, and a hardcoded h3 skipped a level (WCAG 1.3.1)
+// - measured on /white-card-wa as the page's only heading-order violation. The visual is unchanged
+// either way: `class="h3"` carries the look, the tag carries only the semantics.
+type Props = PartnerInfo & { headingLevel?: 2 | 3 };
+const { partner, rto, units = [], credential = 'Statement of Attainment', headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
 const rec = (await getCollection('partners')).find((p) => p.data.rtoNumber === rto)?.data;
 const legal = rec?.legalName ?? partner;
@@ -24,7 +30,7 @@ const legal = rec?.legalName ?? partner;
 <div class="partner partner-land">
   <div class="pl-head">
     <div class="pl-id">
-      <h3 class="h3">{legal}</h3>
+      <Heading class="h3">{legal}</Heading>
       <p class="pl-role">{rec?.role ?? 'Registered training organisation'}</p>
     </div>
     <div class="pl-check">
@@ -66,8 +72,12 @@ const legal = rec?.legalName ?? partner;
           {rec?.email && (
             <div class="pl-frow"><dt>Email</dt><dd><a href={`mailto:${rec.email}`}>{rec.email}</a></dd></div>
           )}
+          {/* Phone href is E.164, not the displayed string. Stripping whitespace alone left
+              tel:(07)33316000 - a local number with no country code, which many mobile dialers will
+              not complete. Every partner here is an Australian RTO, so a leading 0 becomes +61; a
+              1300 or 1800 number has no leading 0 and passes through unchanged. */}
           {rec?.phone && (
-            <div class="pl-frow"><dt>Phone</dt><dd><a href={`tel:${rec.phone.replace(/\s+/g, '')}`}>{rec.phone}</a></dd></div>
+            <div class="pl-frow"><dt>Phone</dt><dd><a href={`tel:${rec.phone.replace(/\D/g, '').replace(/^0/, '+61')}`}>{rec.phone}</a></dd></div>
           )}
         </dl>
       )}
