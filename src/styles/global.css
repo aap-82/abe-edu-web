@@ -349,7 +349,13 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
 .cancan{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md);margin-top:var(--s-lg);}
 .can-col{border:1px solid var(--rule);border-radius:6px;background:var(--paper);overflow:hidden;}
-.can-h{padding:14px 22px;border-bottom:1px solid var(--rule);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:var(--paper-alt);}
+/* Header shares the card's own --paper fill. It was --paper-alt, which is exactly the .bg-alt
+   section band (and within ~1.02-1.05 of the other grounds), so the one tinted strip on an
+   otherwise white card matched the field BEHIND the card: it blurred into the section and read
+   as detached from the white rows below it. On --paper the header is the labelled top of the
+   same surface, sealed to the rows by a crisp --rule-strong seam - depth from the hairline, per
+   the DESIGN.md rule, not from a competing fill. */
+.can-h{padding:14px 22px;border-bottom:1px solid var(--rule-strong);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:var(--paper);}
 .can-col.can .can-h{color:var(--maroon);} .can-col.cant .can-h{color:var(--slate);}
 .can-col ul{list-style:none;}
 .can-col li{display:flex;gap:12px;align-items:flex-start;padding:13px 22px;font-size:16px;color:var(--ink-3);}
