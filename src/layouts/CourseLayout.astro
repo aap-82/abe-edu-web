@@ -11,7 +11,7 @@ import BundleOffer from '../components/BundleOffer.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
 import { getEntries } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { imageUrl } from '../lib/images';
+import { imageUrlAbs } from '../lib/images';
 
 interface Props { course: CollectionEntry<'courses'>['data']; }
 const { course } = Astro.props;
@@ -64,13 +64,10 @@ const asqaDisclaimer = asqa
   ? `<p>This website is operated by ABE Education (ABN 64 125 455 272) as an authorised third-party enrolment partner. This course is delivered and assessed by ${asqa.name}, a nationally recognised Registered Training Organisation (RTO ${asqa.rtoNumber}) accredited by the Australian Skills Quality Authority (ASQA), which issues the ${asqaCredential} on completion.</p>`
   : '';
 
-// Absolute URL for the hero image, for the Course ImageObject (multimodal SEO). Resolve through the
-// image registry first, so a hero migrated into src/assets/images contributes its hashed same-origin
-// URL, absolutised against the canonical; an un-migrated path/URL passes through unchanged.
-const artefactUrl = imageUrl(hero.artefactImg);
-const heroImg = artefactUrl
-  ? (artefactUrl.startsWith('http') ? artefactUrl : new URL(artefactUrl, canonical).href)
-  : null;
+// Absolute URL for the hero image, for the Course ImageObject (multimodal SEO). imageUrlAbs resolves a
+// migrated local hero to its hashed same-origin URL and absolutises it against the canonical; an
+// un-migrated path/URL passes through unchanged.
+const heroImg = imageUrlAbs(hero.artefactImg, canonical) ?? null;
 
 // Single server-rendered JSON-LD @graph, built from typed frontmatter.
 // recognizedBy is conditional on the authority model (state-approved only).
@@ -107,7 +104,7 @@ const schema = {
     // byte-identical to the pre-refactor output. Do not reorder.
     ...expertData.map((e) => ({
       '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
-      ...(e.portrait ? { image: e.portrait.src } : {}),
+      ...(e.portrait ? { image: imageUrlAbs(e.portrait.src, canonical) } : {}),
       sameAs: e.linkedin,
     })),
   ],

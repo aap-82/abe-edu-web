@@ -35,7 +35,7 @@ linkedin: "https://www.linkedin.com/in/dominic-ogburn"
 # (lwfiles.mycourse.app). That platform is being migrated away at cutover, so the
 # stable Cloudflare R2 copy already used across the course pages is canonical here.
 portrait:
-  src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/Dominic_Ogburn_portrait.webp"
+  src: "dominic-ogburn-portrait.avif"
   alt: "Dominic Ogburn, ABE Education course developer and CEO, a licensed builder with 40-plus years in Australian construction"
 
 title: "Dominic Ogburn — Course Developer | ABE Education"

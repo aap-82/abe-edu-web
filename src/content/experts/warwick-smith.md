@@ -16,7 +16,7 @@ bio:
   - "His is a compliance and currency check, not a review of the course content."
 linkedin: "https://www.linkedin.com/in/warwick-a-l-smith/"
 portrait:
-  src: "https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/warwick%20smith%20rto%20consultant%20expert.avif"
+  src: "warwick-smith-portrait.avif"
   alt: "Warwick Smith, independent compliance and currency reviewer for ABE Education courses and a veteran of the VET sector"
 
 title: "Warwick Smith — Compliance & Currency Reviewer | ABE Education"

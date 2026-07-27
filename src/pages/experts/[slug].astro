@@ -8,6 +8,7 @@
 // course and cannot satisfy it.
 import { getCollection, getEntries } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { imageUrlAbs } from '../../lib/images';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
 import AnswerCapsule from '../../components/AnswerCapsule.astro';
@@ -65,7 +66,7 @@ const schema = {
       name: e.name,
       jobTitle: e.jobTitle,
       description: e.summary,
-      image: e.portrait.src,
+      image: imageUrlAbs(e.portrait.src, e.canonical),
       url: e.canonical,
       sameAs: e.sameAs,
       worksFor: { '@type': 'Organization', name: e.org, ...(e.orgUrl ? { url: e.orgUrl } : {}) },

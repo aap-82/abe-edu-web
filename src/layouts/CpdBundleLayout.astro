@@ -20,6 +20,7 @@ import Note from '../components/Note.astro';
 import CtaBand from '../components/CtaBand.astro';
 import SourcesFooter from '../components/SourcesFooter.astro';
 import WayfinderNav from '../components/WayfinderNav.astro';
+import { imageUrlAbs } from '../lib/images';
 
 // Imported from scripts/ on purpose — see the header of cpd-derive.mjs. The check scripts and
 // this page must share one implementation of the counting rules, or a page could disagree with
@@ -138,7 +139,7 @@ const schema = {
     // guardrails' node check only fires on a page that declares its authority model.
     ...expertData.map((e) => ({
       '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
-      ...(e.portrait ? { image: e.portrait.src } : {}),
+      ...(e.portrait ? { image: imageUrlAbs(e.portrait.src, bundle.canonical) } : {}),
       sameAs: e.linkedin,
     })),
   ],

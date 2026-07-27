@@ -37,3 +37,14 @@ export function imageUrl(src?: string): string | undefined {
   const resolved = resolveImage(src);
   return typeof resolved === 'string' || resolved === undefined ? resolved : resolved.src;
 }
+
+/**
+ * An ABSOLUTE image URL, for JSON-LD (structured data wants a full URL, not a relative hashed path).
+ * Resolves via imageUrl(), then absolutises a local/relative result against `base` (the page's
+ * canonical); an already-absolute URL (e.g. a not-yet-migrated remote) is returned as-is.
+ */
+export function imageUrlAbs(src: string | undefined, base: string | URL): string | undefined {
+  const url = imageUrl(src);
+  if (!url) return undefined;
+  return url.startsWith('http') ? url : new URL(url, base).href;
+}
