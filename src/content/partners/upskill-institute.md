@@ -6,7 +6,7 @@ legalName: "Upskill Institute Pty Ltd"
 rtoNumber: "45708"
 role: "Registered training organisation"
 blurb: "Develops, delivers and assesses the nationally recognised NSW courses and issues the Statement of Attainment. ABE Education publishes the course and enrols students; Upskill Institute is the RTO responsible for the training, the assessment and the qualification."
-# Contact pulled from upskillinstitute.com.au/contact 23 Jul 2026 — TO CONFIRM with the partner.
+# Contact pulled from upskillinstitute.com.au/contact 23 Jul 2026, confirmed by Andrey 27 Jul 2026.
 email: "training@upskillinstitute.com.au"
 phone: "02 8580 2250"
 url: "https://upskillinstitute.com.au/"

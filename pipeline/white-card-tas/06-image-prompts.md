@@ -121,12 +121,84 @@ just earned, on a residential build site.
 Output: high resolution, sharp, web-ready, no border.
 ```
 
-### The code change this depends on
+### The code change this depends on — done, note corrected 27 Jul 2026
 
-As with the CPD page, the prompt is worth little on its own if `Course.image` stays absent. Emitting
-`image` on the `Course` node from the hero artefact URL, absolute not relative, touches every page on
-that layout, so it needs its own change and its own Stage 7 re-verification. Deliberately NOT bundled
-into an image-prompt artefact; logged so the dependency is visible.
+This originally flagged `Course.image` as absent and blocked on a code change. Checked directly against
+`CourseLayout.astro` (27 Jul): the emission already exists — `heroImg = imageUrlAbs(hero.artefactImg,
+canonical)`, and the `Course` node conditionally carries `image: { '@type': 'ImageObject', contentUrl:
+heroImg, caption: hero.artefactAlt, inLanguage: 'en-AU' }` whenever `heroImg` is truthy. Verified against
+built `dist/white-card-tas/index.html`: the `Course` node has no `image` key today, confirming the gate is
+purely `hero.artefactImg` being unset in the MDX frontmatter, not missing code. No further code change is
+needed — dropping `artefactImg`/`artefactAlt` into the hero frontmatter (once a photo from Slot 1
+version A/B/C is generated) is sufficient on its own.
+
+---
+
+## Slot 1, version C — the self-paced/online angle (alternative, added 27 Jul 2026)
+
+Versions A and B both stay on record. This is a genuine alternative, not a refinement of B: a different
+subject, chosen because A and B are both "hi-vis worker on a building site," which is the generic White
+Card image every state page will end up sharing. TAS's actual differentiator — stated in the hero
+subhead and the ticks ("100% online and self-paced," "video assessment... on any device") — is delivery
+mode, not the trade. Version C photographs that instead.
+
+**Subject:** a person completing the self-paced online course at home, mid video-assessment, not on a
+building site at all. This also visually distinguishes the hero from Slot 2 (the in-person Service
+Tasmania counter), so the page tells a clearer before/after story: study online (hero) -> lodge in
+person (Slot 2).
+
+**Filename:** `white-card-tas-hero-online.avif` · **Ratio/size:** 4:5 · ~1000x1250 · warm tone
+
+**Alt text** (en-AU, >= 80 chars, leads with the term, company named in full):
+> White Card Tasmania: a Tasmanian resident completing the self-paced online course and video
+> assessment for their construction induction card on a laptop at home.
+
+**Guardrails, same family as version B, adjusted for this scene:**
+- No visible screen content that reads as a real assessment, form, or credential (implies ABE content
+  without showing anything fabricated as fact). Screen softly out of focus or angled away.
+- No logos: no ABE Education, Blue Dog Training, WorkSafe Tasmania or training.gov.au marks anywhere.
+- No card, certificate or Statement of Attainment visible in this frame — this scene is deliberately
+  *before* the card exists; showing one here would contradict the page's own "Statement of Attainment
+  first, card comes later" sequencing (`#your-card` section).
+- Person should read as a tradesperson (subtle cues: hi-vis jacket on a hook nearby, work boots by the
+  door) without being in full site PPE indoors, which would look staged.
+
+**ChatGPT (GPT-image / DALL-E) — render at 1024x1280, crop to 4:5:**
+```
+A photorealistic documentary photograph, 4:5 portrait orientation. A tradesperson sitting at a kitchen
+table or home desk in Tasmania, engaged in an online video assessment on a laptop, webcam light visible,
+early morning or evening light through a nearby window. A hi-vis work jacket hangs on a chair back or
+hook in the softly blurred background, hinting at their trade without full site gear.
+Focus: the person and laptop are sharp in the frame; the laptop screen is angled away from camera or
+softly out of focus, showing no readable text, forms or documents.
+Lighting and palette: warm natural light, cream and pale timber domestic interior tones, calm and
+focused mood, not glossy or staged.
+Do NOT include: any text, words, numbers, logos, watermarks, crests, seals or emblems anywhere in the
+frame, including on the laptop screen. No visible card, certificate, or document face. No company
+branding on clothing.
+Output: high resolution, render at 1024x1280, sharp, web-ready, no border.
+```
+
+**Gemini (Imagen / 2.5 Flash image) — aspect ratio 4:5:**
+```
+A photorealistic documentary photograph, 4:5 portrait. A tradesperson at a home kitchen table or desk
+in Tasmania, completing an online video assessment on a laptop, webcam light visible, warm early-morning
+or evening light through a window. A hi-vis jacket hangs softly out of focus in the background.
+Focus: person and laptop sharp; laptop screen angled away or out of focus, no readable content.
+Lighting and palette: warm natural domestic light, cream and pale timber tones, calm and focused, not
+glossy or staged.
+Do NOT include: any text, words, numbers, logos, watermarks, crests, seals or emblems, including on the
+screen. No visible card, certificate or document face. No branding on clothing.
+Grounding description: a Tasmanian tradesperson completing the self-paced online White Card course from
+home, ahead of lodging for their physical card in person.
+Output: high resolution, sharp, web-ready, no border.
+```
+
+**Trade-off, stated rather than fudged:** this version is a weaker visual match for "white card tasmania"
+image-search intent than A/B (no card, no site, no hi-vis-forward framing) but a stronger match for the
+page's actual differentiated value prop. If image search demand matters more than differentiation, keep
+A or B; if telling a distinct TAS story matters more, use C. Not a call this artefact should make alone
+-- flag to Andrey alongside the other two before generating.
 
 ---
 
