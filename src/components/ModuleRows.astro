@@ -119,6 +119,19 @@ const { items } = Astro.props;
   .mr-otext{ display:block; }
   .mr-otext::first-letter{ text-transform:uppercase; }
 
+  /* Learning outcomes as a list. DORMANT until the outcome data becomes an array: a build
+     session changes ModuleGroup.outcome from string to string[] and renders
+       <div class="mr-outcome"><span class="mr-olabel">…</span><ul class="mr-olist">…</ul></div>
+     - a <div>, not the current <p>, because a <p> cannot legally contain a <ul>. These are
+     scoped styles, so the <ul class="mr-olist"> must live in THIS component to pick up the
+     scope hash (it will - the markup change lands here). Markers are --slate discs, not
+     maroon: maroon is for actions only, and "you will be able to" outcomes inform rather than
+     claim a box ticked, so a plain bullet reads truer than a check. Items inherit the
+     .mr-outcome size/colour/measure. */
+  .mr-olist{ list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .mr-olist li{ position:relative; padding-left:18px; }
+  .mr-olist li::before{ content:"\2022"; position:absolute; left:4px; color:var(--slate); }
+
   /* Stack the rail above the content on narrow screens. A 150px rail beside a ~170px text
      column is not a list any more, it is two cramped columns. */
   @media (max-width:640px){
