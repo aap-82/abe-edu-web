@@ -31,7 +31,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'What if I am not in Western Australia when I sit the assessment?',
-    a: 'Then this is not the right course for you. WorkSafe WA supplies construction induction cards to training organisations on the condition that they only go to candidates who can show they were located in Western Australia at the time of assessment. Most other states and territories do not permit fully self-paced online White Card training, so check the rules where you are.',
+    a: 'Then this is not the right course for you, and the condition is a hard one: the card can only be issued to someone who was in Western Australia when they sat the assessment. Most other states and territories do not permit fully self-paced online White Card training at all, so check what applies where you are before you pay for anything.',
   },
   {
     q: 'Do I need a White Card for a Western Australian owner builder approval?',

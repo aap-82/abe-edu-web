@@ -123,6 +123,7 @@ import ZSection from '../../components/ZSection.astro';
 import AnswerCapsule from '../../components/AnswerCapsule.astro';
 import FactGrid from '../../components/FactGrid.astro';
 import CanCant from '../../components/CanCant.astro';
+import BundleOffer from '../../components/BundleOffer.astro';
 import TrustBand from '../../components/TrustBand.astro';
 import PriceCard from '../../components/PriceCard.astro';
 import ExpertCredentials from '../../components/ExpertCredentials.astro';
@@ -162,6 +163,19 @@ import { faqs } from '../../data/faqs-white-card-wa';
     <p>Where it is genuinely marginal, the regulations ask whoever controls the workplace to weigh how complex the tasks are, how closely the person is supervised, and whether the construction work is incidental to the main business. The regulator’s own example is a farmer building an access road on their own property.</p>
     <p>If you are applying for a Western Australian owner builder approval, a white or blue card is one part of the knowledge pathway on Form 75, alongside a <a href="/wa-owner-builder-course">Western Australian owner builder course</a> completed within the last two years.</p>
   </div>
+  <BundleOffer
+    eyebrow="Building your own home"
+    heading="The Form 75 knowledge pathway asks for both"
+    lede="Most owner builders show the Building Services Board they have sufficient knowledge with a Western Australian owner builder course completed within the last two years, together with a white or blue card. If that is why you are here, one on its own will not finish the application."
+    items={[
+      { label: 'White Card WA', sub: 'CPCWHS1001, the course on this page', price: '$99' },
+      { label: 'WA Owner Builder Course', sub: 'Completed within two years of applying', price: '$179' },
+    ]}
+    totalLabel="Both together"
+    total="$278"
+    cta={{ href: '/wa-owner-builder-course', label: 'See the WA owner builder course' }}
+    note="This is one of four pathways to sufficient knowledge under the Building Services (Registration) Act 2011, and it is the one most owner builders use. A registered Western Australian building practitioner does not need either course. The Building Services Board's own application fee is separate and is paid to the Board, not to ABE Education."
+  />
   <VerifiedSources date="28 Jul 2026" facts="The definition of construction work at regulation 289, and the judgement factors for marginal cases, read on the regulator’s guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
   <SectionWayfinder label="Can you do it online?" href="#online" />
 </Section>
@@ -225,7 +239,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
 <Section id="your-card" marker="06" eyebrow="Your card" h2="What do you get, and how long does it last?">
   <AnswerCapsule>A nationally recognised Statement of Attainment for CPCWHS1001, issued by Blue Dog Training, and a construction induction card posted to your Western Australian address. The card carries no expiry date and there is no refresher to sit. It only lapses if you leave the construction industry for two consecutive years or longer.</AnswerCapsule>
   <FactGrid items={[
-    { key: 'Credential', value: 'CPCWHS1001', note: 'Nationally recognised Statement of Attainment, issued by Blue Dog Training.' },
+    { key: 'Credential', value: 'CPCWHS1001', note: 'Issued by Blue Dog Training once you pass the live assessment.' },
     { key: 'Card', value: 'Posted to you', note: 'Issued by the training organisation and posted to a Western Australian address.' },
     { key: 'Expiry', value: 'None', note: 'No refresher is required while you stay in the construction industry.' },
     { key: 'Lapses', value: 'After two years out', note: 'Two consecutive years or longer away from construction work.' },
