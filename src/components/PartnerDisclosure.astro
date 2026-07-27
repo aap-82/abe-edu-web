@@ -65,7 +65,10 @@ const legal = rec?.legalName ?? partner;
           (content.config.ts is skills-owned), so the grouping is carried in the record as
           blank-line-separated paragraphs and split here. A record written as one block still
           renders as one paragraph, so this is backwards-compatible with every existing partner. */}
-      {rec?.blurb && rec.blurb.split(/\n{2,}/).map((para) => <p class="pl-blurb">{para.trim()}</p>)}
+      {/* \n\n+ not \n{2,}: see Credentials.astro. A brace quantifier inside a JSX expression closes
+          it as far as the TypeScript JSX parser is concerned - the Astro compiler builds it fine,
+          `npm run check` does not. Identical meaning, no braces. */}
+      {rec?.blurb && rec.blurb.split(/\n\n+/).map((para) => <p class="pl-blurb">{para.trim()}</p>)}
       {(rec?.email || rec?.phone) && <span class="pl-lbl">Training provider contact</span>}
       {(rec?.email || rec?.phone) && (
         <dl class="pl-facts">
