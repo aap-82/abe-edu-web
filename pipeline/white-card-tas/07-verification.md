@@ -1,5 +1,68 @@
 # Stage 7 — pre-deploy RE-VERIFICATION · `/white-card-tas`
 
+**Re-run 27 July 2026 (this entry).** Supersedes the entry directly below (also dated 27 July, for
+the image-only `645b4e7` placement), which now predates two further commits on this page:
+
+- `d17c5a4` content(white-card-tas): confirm RTO contacts, land hero photo
+- `b1cb223` content(white-card-tas): replace hero photo, soften CTA copy
+
+**What changed on the page**, per source + commit messages (not assumed):
+1. The hero image slot (`hero.artefactImg` / `hero.artefactAlt`), previously the FPO placeholder the
+   entry below flags as "genuinely unresolved," now renders a real photo
+   (`white-card-tas-hero-online.avif`; `b1cb223` swapped in an updated crop of the same asset). This
+   also populates `Course.image` in JSON-LD, previously empty.
+2. All four CTA labels/microcopy changed from "Start the course · $59" / "Instant access after
+   payment" to "See White Card options" (hero CTA, CTA-band CTA, `SectionWayfinder` CTA, plus the
+   sticky-strip CTA shortened to "See options"). Per `b1cb223`'s own commit message, the CTA target
+   `/white-card` (the White Card hub) does not exist yet — Wave 3 — so the old copy over-promised a
+   direct checkout the page cannot deliver.
+3. Blue Dog Training / AlertForce / Upskill Institute partner contact details were confirmed
+   (separate partner records; no change to this slug's own RTO contact block, which already carried
+   Blue Dog's email/phone).
+
+Measured fresh against `dist/white-card-tas/index.html` (build already green, guardrails 19/19, per
+the task brief — not rebuilt in this session).
+
+## Measured grid (27 July 2026, this entry)
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| H1 count / text | **1** — `<h1 class="h1">White Card Tasmania.</h1>` | PASS |
+| JSON-LD `@graph` top-level nodes | Course, EducationalOccupationalCredential, BreadcrumbList, **Person ×1** (`"@type":"Person"` occurs exactly once) | PASS (asqa model: 1 Person, not 2) |
+| `Course.creator` | Blue Dog Training, RTO 31193 (Organization) | PASS |
+| `EducationalOccupationalCredential.recognizedBy` | Blue Dog Training, RTO 31193 — never ABE | PASS |
+| `Course.offers.price` vs on-page price | JSON-LD `"price":"59"` vs **$59** (12 on-page occurrences of "$59") | PASS — reconciles |
+| **`Course.image.contentUrl`** (new since last verification) | `https://www.abeeducation.edu.au/_astro/white-card-tas-hero-online.CcaVu0cE.avif` — same-origin, hashed filename, non-empty | PASS — was empty before this change |
+| Unit code | `CPCWHS1001` = **25** occurrences; superseded `CPCCWHS1001` = **0** | PASS |
+| Em dashes | **13** total — 12 in visible Source-citation labels ("Authority — page name"), 1 inside the JSON-LD `credentialName`/`name` string only ("Statement of Attainment — CPCWHS1001…", not rendered in body prose) | PASS — 0 in visible body prose |
+| Banned copy | "comprehensive" = **0**; "Enrol now" / "Enrol today" = **0** anywhere on the page | PASS |
+| Reworded CTAs (the 4 flagged in the brief) | "See White Card options" ×4 (hero primary CTA, waynav sticky-mini, CTA-band button, FAQ `SectionWayfinder`) + "See options" ×1 (bottom `ctastrip`) — none reads "Enrol now/today"; none sits inside a `.capsule` or a FAQ `.ans` block | PASS |
+| Answer-capsule word counts (7 section capsules, re-measured word-by-word) | **41, 52, 51, 56, 52, 49, 58** — all in the 40–60 band | PASS |
+| TrustBand on-dark tagline | 19 words | NOTE — trust-band summary line, not a question-led section capsule (documented, unchanged) |
+| `robots` meta | `noindex,nofollow` | NOTE — intentional pre-launch (`noindex: true` in frontmatter), unchanged |
+| New hero image alt text | 161 characters, en-AU, matches `hero.artefactAlt` verbatim: *"White Card Tasmania: a Tasmanian resident completing the self-paced online course and video assessment for their construction induction card on a laptop at home."* | PASS — well over the 80-char floor |
+| `#your-card` image alt (carried from the entry below, re-confirmed) | 161 characters | PASS |
+| Canonical | `https://www.abeeducation.edu.au/white-card-tas`, no trailing slash | PASS |
+| CTA destination `/white-card` | Confirmed **absent from `dist/`** (no `dist/white-card/` directory). 4 links carry the literal `href="/white-card"` (breadcrumb crumb, hero primary CTA, waynav sticky-mini, footer nav link) — these would 404 if followed today. The CTA-band button, bottom `ctastrip`, and FAQ `SectionWayfinder` use `href="#enrol"`, an in-page anchor to the hero button, so they scroll rather than 404 | NOTE — a tracked pre-launch/Wave-3 gap, named in `b1cb223`'s own commit message as part of why the page stays `noindex`; not a defect introduced by this change, and the CTA-label softening is the correct interim response to it |
+| `<title>` length | 64 characters (guideline ~60) | NOTE — pre-existing, untouched by this change, not on the Hard-blockers list |
+
+## Verdict (27 July 2026, this entry): **GREEN**
+
+No hard-blocker from `verification.md`'s Hard-blockers section is present. Authority model intact
+(one Person, RTO credited via `Course.creator` + `recognizedBy`, no ABE-as-RTO claim anywhere). Price
+reconciles. Unit code clean (no superseded code). No banned copy, no banned CTA wording, no CTA
+inside a capsule or FAQ answer. The new hero photo is wired in with compliant, en-AU alt text and now
+populates the previously-empty `Course.image` JSON-LD property. The three NOTEs above (intentional
+`noindex`, the `/white-card` hub not existing yet, and the pre-existing 64-character title) are
+documented pre-launch/known state, not regressions from this change, and none appears on the
+Hard-blockers list. Stop at Stage 8 — no deploy.
+
+**This entry clears the `system-health` FAIL** ("the page changed AFTER its last verification"): this
+file's newest dated entry now postdates `src/content/courses/white-card-tas.mdx`'s last edit
+(`b1cb223`, 27 Jul 2026).
+
+## 27 July 2026 (earlier same day) — image-only placement (superseded above, kept for the record)
+
 **Re-run 27 July 2026.** Supersedes the 25 July run below, which now predates the page source. One
 commit touched this page after that verification:
 
