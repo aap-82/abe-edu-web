@@ -1,0 +1,252 @@
+---
+# White Card WA. Ticket W3-1. Archetype 2 (nationally recognised course), authority model
+# asqa-accredited. Artefacts: pipeline/white-card-wa/.
+#
+# WA IS NOT TASMANIA, and the differences are the page. In WA the RTO issues and posts the card,
+# there is NO government card fee, and there is no in-person lodgement. Tasmania's $13.72, its
+# 60-day Service Tasmania window and its published minimum age of 14 are all FALSE here and must
+# never be copied across. WA publishes no minimum age at all, which is why this page states none.
+#
+# The condition on online delivery is LOCATION AT THE TIME OF ASSESSMENT, not residency. WorkSafe WA
+# says so directly (verified 28 Jul 2026); the internal register's "WA residents" paraphrase is
+# looser than the source and has been flagged for correction. Do not soften this back.
+#
+# The unit is CPCWHS1001 (single C). WorkSafe WA's own card-replacement page still cites the
+# SUPERSEDED CPCCWHS1001 in one sentence; training.gov.au shows that code superseded to 02 Feb 2027.
+# The current code is used throughout, and system-health has a standing check that would fail a
+# build presenting the superseded one as current.
+title: "White Card WA Online - Blue Dog Training (RTO 31193)"
+description: "Get your nationally recognised White Card for WA online. Self-paced theory plus a live assessment with Blue Dog Training (RTO 31193). $99, no government fee."
+canonical: "https://www.abeeducation.edu.au/white-card-wa"
+state: "WA"
+authorityModel: "asqa-accredited"
+partnerRto:
+  name: "Blue Dog Training"
+  rtoNumber: "31193"
+  url: "https://training.gov.au/organisation/details/31193"
+  units:
+    - { code: "CPCWHS1001", name: "Prepare to work safely in the construction industry" }
+  credential: "Statement of Attainment"
+  # after-hero, unlike white-card-tas. Evidence, not preference: eight queries carrying the RTO
+  # partner's name draw 2,460 impressions and 2 clicks at average position 6.5, a 0.08% CTR. People
+  # search "blue dog white card", find this site in the top ten, and do not click. The schema's own
+  # comment says an ASQA page's RTO partner belongs after-hero for exactly this reason.
+  placement: "after-hero"
+  eyebrow: "About your training provider"
+courseName: "White Card WA (CPCWHS1001)"
+courseDescription: "Nationally recognised construction induction training for Western Australia, delivered and assessed by RTO partner Blue Dog Training (RTO 31193) and published by ABE Education. Complete the theory online and self-paced, then sit a live video assessment with a trainer to receive your Statement of Attainment for CPCWHS1001."
+price: "$99"
+priceNumber: "99"
+courseWorkload: "PT6H"
+credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
+credentialCategory: "Statement of Attainment"
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
+  - { name: "White Card WA", item: "https://www.abeeducation.edu.au/white-card-wa" }
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "28 July 2026" }
+nav:
+  - { label: "Is it real?", href: "#real", sectionId: "real" }
+  - { label: "Do you need one?", href: "#need-one", sectionId: "need-one" }
+  - { label: "Online in WA?", href: "#online", sectionId: "online" }
+  - { label: "Assessment", href: "#assessment", sectionId: "assessment" }
+  - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "Your card", href: "#your-card", sectionId: "your-card" }
+  - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+cta: { href: "/payment?product_id=white-card-wa-enrol&type=course", label: "Get your White Card for $99" }
+sticky:
+  label: "White Card WA"
+  sub: "Nationally recognised · CPCWHS1001"
+  price: "$99"
+  cta: { href: "/payment?product_id=white-card-wa-enrol&type=course", label: "Get your White Card" }
+hero:
+  eyebrow: "White Card · Western Australia · CPCWHS1001"
+  h1Html: 'White Card WA<span class="dot">.</span>'
+  updated: "Updated July 2026 · Government facts verified 28 Jul 2026"
+  subhead: "In Western Australia you can complete your White Card training fully online and self-paced. Work through the theory at your own pace, then meet a Blue Dog Training assessor on a short video call to finish. You receive a nationally recognised Statement of Attainment for CPCWHS1001."
+  ticks:
+    - "<b>Nationally recognised</b> Statement of Attainment for CPCWHS1001"
+    - "Training delivered by <b>Blue Dog Training (RTO 31193)</b> · Enrolled through ABE Education"
+    - "<b>Online and self-paced</b> for anyone located in Western Australia"
+    - "A <b>live assessment with a trainer</b>, not a self-marked quiz"
+  proof:
+    - { n: "$99", text: "one payment, no government fee" }
+    - { n: "2-6 hrs", text: "typical theory time" }
+    - { n: "31193", text: "RTO partner" }
+  howItWorks: "Enrol → Work through the theory online → Book your live assessment → Blue Dog issues your card"
+  # artefactImg deliberately omitted: the image does not exist in src/assets/images yet, and
+  # src/lib/images.ts returns an unmatched basename unchanged, which would ship a 404 <img>.
+  # Omitting keeps the designed FPO placeholder. Prompt + exact filename: 06-image-prompts.md.
+  artefactDesc: "A Western Australian construction worker in a high-visibility shirt and white hard hat on a Perth residential building site, holding their construction induction White Card."
+  artefactSpec: "4:5 · warm tone · ~1000×1250"
+ctaBand:
+  headingHtml: 'Get your Western Australian White Card<span class="dot">.</span>'
+  sub: "$99, online and self-paced, with a live assessment run by Blue Dog Training (RTO 31193). There is no government fee to pay afterwards."
+  cta: { href: "/payment?product_id=white-card-wa-enrol&type=course", label: "Get your White Card for $99", microcopy: "Statement of Attainment issued by Blue Dog Training" }
+glance:
+  - { key: "Price", value: "$99", note: "Paid to ABE Education. Western Australia charges no government card fee." }
+  - { key: "Delivery", value: "Online", note: "Self-paced theory, then a live video assessment. Study on any device." }
+  - { key: "Assessment", value: "Live, 15-30 min", note: "A video call with a Blue Dog Training assessor, including the safety demonstration." }
+  - { key: "Credential", value: "CPCWHS1001", note: "Nationally recognised Statement of Attainment, issued by Blue Dog Training." }
+# One cost, not two. The zero row is kept rather than dropped so "no second payment" is structural
+# rather than a claim made only in prose. WA charges no card fee (state-fees-register.md §2).
+priceRows:
+  - { label: "Course fee", sub: "Paid to ABE Education", amount: "$99.00" }
+  - { label: "Government card fee", sub: "None in Western Australia. Your training organisation issues and posts the card", amount: "$0.00" }
+  - { label: "Total to a card in hand", sub: "There is no second payment and no counter to visit", amount: "$99.00", isTotal: true }
+howItWorksSteps:
+  - { title: "Enrol and start straight away", body: "Enrol through ABE Education and get access to the course immediately. There is no scheduled start date and no class to wait for." }
+  - { title: "Work through the theory at your own pace", body: "Most Western Australian learners finish the theory in two to six hours. Stop and resume on any device." }
+  - { title: "Book your live assessment", body: "Choose a time that suits you and meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes to demonstrate the practical safety tasks." }
+  - { title: "Blue Dog issues your Statement and your card", body: "Blue Dog Training issues your nationally recognised Statement of Attainment for CPCWHS1001 and posts your construction induction card to your Western Australian address." }
+# Required by the courses schema, but "how to become an owner builder" has no archetype-2 meaning.
+# Set empty and unused. SECOND occurrence of this friction (white-card-tas was the first), which is
+# the trigger to make the field optional in content.config.ts. Routed [skills].
+becomeSteps: []
+# Exactly ONE Person. On an asqa-accredited page the RTO develops and owns the course, so no ABE
+# person may be credited as developer; Blue Dog is credited via Course.creator and the credential's
+# recognizedBy, and rendered as the developer card by ExpertCredentials developerRto. A Person
+# titled "developer" fails the build.
+experts: ["warwick-smith"]
+footerSources:
+  - { label: "training.gov.au — Blue Dog Training (RTO 31193), CPCWHS1001 on scope for WA", href: "https://training.gov.au/organisation/details/31193", verified: "Verified 28 Jul 2026" }
+  - { label: "WorkSafe WA — Construction induction training", href: "https://www.worksafe.wa.gov.au/construction-induction-training", verified: "Verified 28 Jul 2026" }
+  - { label: "WorkSafe WA — Candidates to provide evidence they are located in Western Australia", href: "https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia", verified: "Verified 28 Jul 2026" }
+  - { label: "WorkSafe WA — Construction induction training card database", href: "https://www.worksafe.wa.gov.au/construction-induction-training-card-database", verified: "Verified 28 Jul 2026" }
+  - { label: "Western Australian legislation — Work Health and Safety (General) Regulations 2022", href: "https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_s53267.html", verified: "legislation.wa.gov.au" }
+disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by Blue Dog Training</b> from card stock supplied by WorkSafe WA, not by ABE Education and not over a government counter. Western Australia charges no government fee for a construction induction card. <b>Online delivery:</b> WorkSafe WA requires evidence that you were located in Western Australia at the time of assessment, which is a different test from residency. Residents of other states must complete White Card training under their own state’s delivery rules, and most do not permit fully self-paced online training.'
+---
+
+import Section from '../../components/Section.astro';
+import ZSection from '../../components/ZSection.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import CanCant from '../../components/CanCant.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
+import Faq from '../../components/Faq.astro';
+import Note from '../../components/Note.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ArrowRight from '../../components/ArrowRight.astro';
+import { faqs } from '../../data/faqs-white-card-wa';
+
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>You pay ABE Education <b>$99</b> and that is the whole cost, because Western Australia charges no government fee for a construction induction card. The theory is online and self-paced, the assessment is a live video call with a trainer, and the credential is nationally recognised.</AnswerCapsule>
+  <FactGrid items={frontmatter.glance} />
+</Section>
+
+<Section id="real" marker="01" eyebrow="Is this real?" h2="Is this a real White Card?">
+  <AnswerCapsule>Yes. The training is delivered and assessed by Blue Dog Training, RTO 31193, and you receive a nationally recognised Statement of Attainment for CPCWHS1001, Prepare to work safely in the construction industry. Blue Dog Training issues that Statement, not ABE Education. You can check RTO 31193 on training.gov.au before you pay anything.</AnswerCapsule>
+  <div class="measure">
+    <p>That number is the thing worth checking, and we would rather you did. Blue Dog Training’s registration runs to 20 March 2030, and CPCWHS1001 sits on its scope for Western Australia with the right to both deliver and assess it. Both facts are on the national register, which is public and free to search.</p>
+    <p>ABE Education is not a registered training organisation. We publish the course, take your enrolment and support you through it. Blue Dog Training delivers the training, runs the assessment and issues the credential. If a provider selling you a White Card cannot tell you which registered training organisation stands behind it, that is your answer.</p>
+    <a class="btn-link" href="#online">Can you do it online in WA? <ArrowRight /></a>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="RTO 31193 registration status and the CPCWHS1001 scope entry for Western Australia read directly on the national register" sources={[{ label: 'training.gov.au — Blue Dog Training RTO 31193', href: 'https://training.gov.au/organisation/details/31193' }]} />
+  <SectionWayfinder label="Do you need one?" href="#need-one" />
+</Section>
+
+<Section bg="bg-alt" id="need-one" marker="02" eyebrow="Who needs one" h2="Do you actually need a White Card in Western Australia?">
+  <AnswerCapsule>Yes, if you do construction work in Western Australia. The catch is that the regulations define construction work far more broadly than most people expect: maintenance, fit-outs, repairs, excavation and even landscaping done as site preparation all count. If you hold a current interstate card, you do not need to do this again.</AnswerCapsule>
+  <CanCant
+    canTitle="This counts as construction work"
+    can={['Building, altering, converting or fitting out a structure.', 'Renovation, repair, maintenance and refurbishment.', 'Demolition, decommissioning and dismantling.', 'Excavation, and site preparation including landscaping.', 'Installing, testing or maintaining an essential service.']}
+    cantTitle="You may not need this course"
+    cant={['You already hold a current construction induction card from another state or territory. It is recognised here.', 'The construction work is incidental to your actual job and you are directly supervised throughout.', 'You will not be located in Western Australia when you sit the assessment. Online delivery here depends on that, so you would train under your own state’s rules instead.']}
+  />
+  <div class="measure">
+    <p>The definition sits at regulation 289 of the Work Health and Safety (General) Regulations 2022, and the breadth is deliberate. Landscaping is the one that catches people out: done as preparation for a build, it is construction work.</p>
+    <p>Where it is genuinely marginal, the regulations ask whoever controls the workplace to weigh how complex the tasks are, how closely the person is supervised, and whether the construction work is incidental to the main business. The regulator’s own example is a farmer building an access road on their own property.</p>
+    <p>If you are applying for a Western Australian owner builder approval, a white or blue card is one part of the knowledge pathway on Form 75, alongside a <a href="/wa-owner-builder-course">Western Australian owner builder course</a> completed within the last two years.</p>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="The definition of construction work at regulation 289, and the judgement factors for marginal cases, read on the regulator’s guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
+  <SectionWayfinder label="Can you do it online?" href="#online" />
+</Section>
+
+<Section id="online" marker="03" eyebrow="Online in WA" h2="Can you do your White Card online in Western Australia?">
+  <AnswerCapsule>Yes. Western Australia permits fully self-paced online White Card training, and the condition is specific: you must be able to show you were located in Western Australia at the time you sat the assessment. Being a Western Australian resident is not the test.</AnswerCapsule>
+  <div class="measure">
+    <p>WorkSafe WA supplies construction induction cards to training organisations on the condition that they are issued only to candidates who can prove that. Any one of these does it:</p>
+    <ul>
+      <li>a current Western Australian driver’s licence</li>
+      <li>a current Western Australian learner driver’s permit</li>
+      <li>current Western Australian student identification</li>
+      <li>a recent utilities invoice showing a Western Australian address in your name</li>
+      <li>Western Australian Construction Industry Training Fund payment eligibility</li>
+      <li>a Western Australian postal address for the card to be sent to</li>
+    </ul>
+    <p>The distinction between location and residency matters more than it sounds. Someone who lives in Perth but sits the assessment while away working interstate does not meet the condition. Someone working in Western Australia on a short contract does.</p>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="The evidence requirement and the accepted document list, from the regulator’s card-supply terms and conditions" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
+  <SectionWayfinder label="What the assessment involves" href="#assessment" />
+</Section>
+
+<ZSection
+  id="assessment"
+  marker="04"
+  eyebrow="The live assessment"
+  h2="What happens in the live assessment, and how do you pass it?"
+  imgDesc="A White Card learner demonstrating how to fit a hard hat and high-visibility vest to a training assessor during a live video assessment on a laptop at a kitchen table."
+  imgSpec="4:5 · warm tone · ~520×650"
+  next={{ label: "What it costs", href: "#cost" }}
+>
+  <AnswerCapsule>Two parts. You work through the theory online at your own pace, which most Western Australian learners finish in two to six hours. Then you meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes and demonstrate the practical safety tasks, including fitting and wearing the protective equipment.</AnswerCapsule>
+  <div class="measure">
+    <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration has been part of White Card assessment since December 2016, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
+    <p>It also means there is someone there when you are stuck. You book the call to suit yourself once the theory is done.</p>
+    <p>Cheaper self-paced courses are lawful in Western Australia and the cards they issue are real. The credential is the same nationally recognised unit either way. What you are paying the difference for is a person on the other end of the call.</p>
+  </div>
+  <Note variant="caution" label="Before the call">You will need a device with a working camera and microphone, and the safety equipment you are asked to have ready for the demonstration.</Note>
+  <VerifiedSources date="28 Jul 2026" facts="The supervised practical demonstration requirement that underpins online delivery, checked against the regulator’s construction induction guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
+</ZSection>
+
+<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What does a White Card cost in Western Australia?">
+  <AnswerCapsule>It is <b>$99</b>, and that is the whole cost. Western Australia does not charge a government fee for a construction induction card: your training organisation issues it and posts it to you. There is no second payment, no counter to visit and no lodgement form, which is not true in every state.</AnswerCapsule>
+  <PriceCard rows={frontmatter.priceRows} foot="There is no membership, renewal or annual charge. A replacement card is obtained from the training organisation that issued it, at that organisation’s own fee." />
+  <div class="measure">
+    <p>That is worth saying plainly, because several states do charge a fee and some require you to lodge the paperwork in person before a card is issued. In Western Australia the training organisation issues the card and posts it to a Western Australian address, so the price you pay at enrolment is the price of getting the card.</p>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="That Western Australia levies no government card fee, and that the training organisation issues and posts the card" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
+  <SectionWayfinder label="What you get" href="#your-card" />
+</Section>
+
+<TrustBand
+  h2="Nationally recognised, delivered by an RTO"
+  stats={[{ value: '31193', label: 'Blue Dog Training RTO', numeric: true }, { value: 'CPCWHS1001', label: 'Nationally recognised unit' }, { value: '$99', label: 'One payment, no government fee', numeric: true }, { value: 'Live', label: 'Assessment with a trainer' }]}
+  attestHtml='Delivered and assessed by Blue Dog Training Pty Ltd (RTO 31193), regulated by the Australian Skills Quality Authority (ASQA). Published by ABE Education, which is not a registered training organisation. ABN 64 125 455 272 · <a href="https://training.gov.au/organisation/details/31193" rel="noopener">training.gov.au</a>'
+>
+  <AnswerCapsule onDark>A nationally recognised White Card, delivered and assessed by Blue Dog Training (RTO 31193) and published by ABE Education.</AnswerCapsule>
+</TrustBand>
+
+<Section id="your-card" marker="06" eyebrow="Your card" h2="What do you get, and how long does it last?">
+  <AnswerCapsule>A nationally recognised Statement of Attainment for CPCWHS1001, issued by Blue Dog Training, and a construction induction card posted to your Western Australian address. The card carries no expiry date and there is no refresher to sit. It only lapses if you leave the construction industry for two consecutive years or longer.</AnswerCapsule>
+  <FactGrid items={[
+    { key: 'Credential', value: 'CPCWHS1001', note: 'Nationally recognised Statement of Attainment, issued by Blue Dog Training.' },
+    { key: 'Card', value: 'Posted to you', note: 'Issued by the training organisation and posted to a Western Australian address.' },
+    { key: 'Expiry', value: 'None', note: 'No refresher is required while you stay in the construction industry.' },
+    { key: 'Lapses', value: 'After two years out', note: 'Two consecutive years or longer away from construction work.' },
+  ]} />
+  <div class="measure">
+    <p>If your card is blue rather than white, it is still valid. WorkSafe WA changed the design in 2009 when the training was harmonised across the country, and both colours are accepted everywhere in Australia as evidence that you have completed the induction.</p>
+    <p>If you have lost yours, WorkSafe WA runs a public database of cardholders. Look yourself up to find the training organisation that issued your card, then contact them for a replacement. If that organisation has since closed, another one may re-issue against your Statement of Attainment, at its own fee.</p>
+  </div>
+  <Note variant="caution" label="Two years out of the industry">Leaving construction work for two consecutive years or longer makes the card invalid, and the training has to be completed again.</Note>
+  <VerifiedSources date="28 Jul 2026" facts="Card validity and the two-year lapse rule, the 2009 blue to white change, interstate recognition, and the replacement process through the cardholder database" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }, { label: 'WorkSafe WA — Construction induction training card database', href: 'https://www.worksafe.wa.gov.au/construction-induction-training-card-database' }]} />
+  <SectionWayfinder label="Who developed and checked this" href="#content-review" />
+</Section>
+
+<Section bg="bg-alt" id="content-review" marker="07" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
+  <AnswerCapsule>Blue Dog Training <b>develops and owns the accredited course</b>, as the registered training organisation delivering CPCWHS1001. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for legislative currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
+  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
+  <SectionWayfinder label="Common questions" href="#faq" />
+</Section>
+
+<Section id="faq" marker="08" eyebrow="FAQ" h2="Common questions">
+  <Faq items={faqs} />
+  <VerifiedSources date="28 Jul 2026" facts="Answers checked against the national register and WorkSafe WA’s construction induction guidance" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/organisation/details/31193' }, { label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
+</Section>
+
+<Note label="Training and assessment">ABE Education recruits and markets training on behalf of Blue Dog Training Pty Ltd (RTO 31193). Blue Dog Training Pty Ltd is the Registered Training Organisation responsible for delivering this qualification and issuing certification. All training and assessment is conducted in accordance with the Standards for Registered Training Organisations 2025. Blue Dog Training Pty Ltd can be verified on the national register at training.gov.au using RTO Code 31193.</Note>
