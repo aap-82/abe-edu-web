@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 
 // Local page-image registry. Every file in src/assets/images is eager-imported so a data-driven
 // frontmatter string (a path or URL) can resolve to an astro:assets ImageMetadata — emitted,
@@ -47,4 +48,36 @@ export function imageUrlAbs(src: string | undefined, base: string | URL): string
   const url = imageUrl(src);
   if (!url) return undefined;
   return url.startsWith('http') ? url : new URL(url, base).href;
+}
+
+export interface Responsive { src: string; srcset?: string; sizes?: string; width?: number; height?: number; }
+
+/**
+ * Resolve `src` and, for a MIGRATED local image, run it through getImage() to produce a width-based
+ * `srcset` (+ intrinsic width/height) for a responsive raw <img>. A not-yet-migrated public path or
+ * remote URL comes back as a plain `{ src }` (no srcset), so callers render exactly as before.
+ *
+ * `sizes` describes the image's DISPLAY width per viewport and MUST accompany a width `srcset`; a
+ * generous default is safe (the browser only ever over-picks slightly, never under-serves). Pass a
+ * tighter `sizes` from a caller that knows its column width. Widths above the source are ignored by
+ * Astro (no upscaling); the intrinsic width is always included so full-res stays available.
+ */
+export async function responsiveImg(
+  src: string | undefined,
+  opts: { widths?: number[]; sizes?: string } = {},
+): Promise<Responsive | null> {
+  const resolved = resolveImage(src);
+  if (!resolved) return null;
+  if (typeof resolved === 'string') return { src: resolved }; // remote/unmigrated: plain <img>, no srcset
+  const widths = Array.from(
+    new Set([...(opts.widths ?? [400, 800, 1200]), resolved.width].filter((w) => w <= resolved.width)),
+  );
+  const img = await getImage({ src: resolved, format: 'avif', widths });
+  return {
+    src: img.src,
+    srcset: img.srcSet.attribute || undefined,
+    sizes: opts.sizes ?? '(max-width: 800px) 100vw, 640px',
+    width: Number(img.attributes.width) || undefined,
+    height: Number(img.attributes.height) || undefined,
+  };
 }
