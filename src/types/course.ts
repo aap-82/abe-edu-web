@@ -15,8 +15,9 @@ export interface TopicCard { tag: string; title: string; body: string; } // body
  * its copy is actually written, rather than being back-filled from a guess.
  */
 export interface ModuleGroup extends TopicCard {
-  modules?: string;   // e.g. "Modules 1-2" - pulled out of the prose so it can be scanned
-  outcome?: string;   // what the reader can DO after this group
+  modules?: string;     // e.g. "Modules 1-2" - pulled out of the prose so it can be scanned
+  outcome?: string[];   // what the reader can DO after this group, one discrete outcome per item,
+                        // rendered as a bullet list under a "You will be able to" kicker
   /**
    * The individual modules in this group, numbered. Optional, and where present it REPLACES
    * the prose body: "Course Introduction, and the Key Responsibilities of an Owner Builder"
