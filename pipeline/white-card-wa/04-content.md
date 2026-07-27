@@ -177,6 +177,18 @@ payment, no government fee) · Live (assessment with a trainer).
 > The distinction between location and residency matters more than it sounds. Someone who lives in
 > Perth but sits the assessment while away working interstate does not meet the condition. Someone
 > working in Western Australia on a short contract does.
+>
+> Where you are within the state makes no difference. The course runs the same from Perth as it does
+> from Bunbury, Geraldton or a camp in the Pilbara, and because the assessment is a video call there
+> is no classroom to drive to. That is the practical reason online delivery matters more in Western
+> Australia than almost anywhere else.
+
+**Added after Stage 9 grading.** The independent grader found that "Perth" appeared twice on the page,
+once inside the FPO placeholder's art-direction string and once as a *counter*-example, so the term
+`02-gap.md` §3 named as "the biggest single ranking upside on the page" (1,900/mo, position 29.36) had
+no positive coverage. This paragraph is not keyword filler: regional access is a genuine benefit of
+online delivery in a state that size, and it is the natural thing to say in this section. Re-measured
+after the fix: perth 3, bunbury 1.
 
 **Verified line**
 > ✓ VERIFIED · SOURCES — WorkSafe WA, candidates to provide evidence they are located in Western

@@ -235,6 +235,42 @@ every WA and QLD White Card page, since both are zero-fee states. Routed `[skill
 
 ---
 
+## Addendum · R4 parity gate, actually run (added after Stage 9 grading)
+
+**The independent Stage 9 grader found that this audit defined the R4 parity gate and never ran it.**
+`02-gap.md` §6 lists 26 clicked queries and says "confirm at ship (Stage 7)"; the first pass of this
+document did not. Correct finding, and it is recorded as a `gate_fails_after_handoff`.
+
+Run mechanically against `dist/`, counting occurrences in the stripped body text:
+
+| Term | Count | Verdict |
+|---|---|---|
+| white card wa | 6 | covered |
+| western australia | 50 | covered |
+| blue dog | 41 | covered |
+| online white card | 3 | covered |
+| wa white card | 2 | covered |
+| white card online | 1 | covered |
+| cost | 7 | covered |
+| **perth** | **2 → 3** | **was a real gap, now fixed** |
+| bunbury | 0 → 1 | added |
+
+**The Perth gap was real.** Of the two original occurrences, one was inside the FPO placeholder's
+art-direction string (which disappears the moment the image lands) and the other was a *counter*-example
+("someone who lives in Perth but sits the assessment while away interstate does **not** meet the
+condition"). So the term `02-gap.md` §3 called "the biggest single ranking upside on the page"
+(1,900/mo, position 29.36) had **no positive coverage at all**. A paragraph on regional access was
+added to `#online`. Re-measured: perth 3, bunbury 1, build green, all nine capsule word counts
+unchanged (45, 52, 53, 43, 53, 53, 19, 52, 55).
+
+**A methodology note worth carrying.** The first attempt at this measurement returned MISS for
+"western australia" and "blue dog" — terms that appear 50 and 41 times. The regex was being corrupted
+by shell escaping, not the page failing. Two prior runs recorded the lesson "greps prove presence,
+never absence" (mistakes-log #18); this is the same class of error in the opposite direction, a
+**false negative** rather than a false positive. The fix that worked was writing the script to a file
+instead of passing it through `node -e` in a shell string. **Any absence finding from a shell one-liner
+must be re-run from a file before it is believed.**
+
 ## What was measured that proves the passes
 
 Recorded so a later reader sees measurements, not assertions:
