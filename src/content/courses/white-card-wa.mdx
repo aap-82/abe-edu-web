@@ -54,7 +54,11 @@ nav:
   - { label: "Your card", href: "#your-card", sectionId: "your-card" }
   - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
-cta: { href: "/payment?product_id=white-card-wa-enrol&type=course", label: "Get your White Card for $99" }
+# microcopy overrides Hero.astro's default ("Pay by card or 4 interest-free payments with Afterpay").
+# Same wording cpd-building-tas already uses, so the two pages read alike. "No hidden fees" is
+# strictly true here and stronger than on most pages: WA levies no government card fee, so the $99
+# really is the whole cost (state-fees-register.md §2).
+cta: { href: "/payment?product_id=white-card-wa-enrol&type=course", label: "Get your White Card for $99", microcopy: "No hidden fees. Pay by card. Afterpay available." }
 sticky:
   label: "White Card WA"
   sub: "Nationally recognised · CPCWHS1001"
@@ -142,7 +146,9 @@ import { faqs } from '../../data/faqs-white-card-wa';
 <Section id="real" marker="01" eyebrow="Is this real?" h2="Is this a real White Card?">
   <AnswerCapsule>Yes. The training is delivered and assessed by Blue Dog Training, RTO 31193, and you receive a nationally recognised Statement of Attainment for CPCWHS1001, Prepare to work safely in the construction industry. Blue Dog Training issues that Statement, not ABE Education. You can check RTO 31193 on training.gov.au before you pay anything.</AnswerCapsule>
   <div class="measure">
+    <h3 class="h3">Check RTO 31193 for yourself</h3>
     <p>That number is the thing worth checking, and we would rather you did. Blue Dog Training’s registration runs to 20 March 2030, and CPCWHS1001 sits on its scope for Western Australia with the right to both deliver and assess it. Both facts are on the national register, which is public and free to search.</p>
+    <h3 class="h3">Who does what</h3>
     <p>ABE Education is not a registered training organisation. We publish the course, take your enrolment and support you through it. Blue Dog Training delivers the training, runs the assessment and issues the credential. If a provider selling you a White Card cannot tell you which registered training organisation stands behind it, that is your answer.</p>
     <a class="btn-link" href="#online">Can you do it online in WA? <ArrowRight /></a>
   </div>
@@ -159,8 +165,11 @@ import { faqs } from '../../data/faqs-white-card-wa';
     cant={['You already hold a current construction induction card from another state or territory. It is recognised here.', 'The construction work is incidental to your actual job and you are directly supervised throughout.', 'You will not be located in Western Australia when you sit the assessment. Online delivery here depends on that, so you would train under your own state’s rules instead.']}
   />
   <div class="measure">
+    <h3 class="h3">What counts as construction work</h3>
     <p>The definition sits at regulation 289 of the Work Health and Safety (General) Regulations 2022, and the breadth is deliberate. Landscaping is the one that catches people out: done as preparation for a build, it is construction work.</p>
+    <h3 class="h3">When it is a judgement call</h3>
     <p>Where it is genuinely marginal, the regulations ask whoever controls the workplace to weigh how complex the tasks are, how closely the person is supervised, and whether the construction work is incidental to the main business. The regulator’s own example is a farmer building an access road on their own property.</p>
+    <h3 class="h3">If you are an owner builder</h3>
     <p>If you are applying for a Western Australian owner builder approval, a white or blue card is one part of the knowledge pathway on Form 75, alongside a <a href="/wa-owner-builder-course">Western Australian owner builder course</a> completed within the last two years.</p>
   </div>
   <BundleOffer
@@ -183,6 +192,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
 <Section id="online" marker="03" eyebrow="Online in WA" h2="Can you do your White Card online in Western Australia?">
   <AnswerCapsule>Yes. Western Australia permits fully self-paced online White Card training, and the condition is specific: you must be able to show you were located in Western Australia at the time you sat the assessment. Being a Western Australian resident is not the test.</AnswerCapsule>
   <div class="measure">
+    <h3 class="h3">Proving you were in Western Australia</h3>
     <p>WorkSafe WA supplies construction induction cards to training organisations on the condition that they are issued only to candidates who can prove that. Any one of these does it:</p>
     <ul>
       <li>a current Western Australian driver’s licence</li>
@@ -192,7 +202,9 @@ import { faqs } from '../../data/faqs-white-card-wa';
       <li>Western Australian Construction Industry Training Fund payment eligibility</li>
       <li>a Western Australian postal address for the card to be sent to</li>
     </ul>
+    <h3 class="h3">Location, not residency</h3>
     <p>The distinction between location and residency matters more than it sounds. Someone who lives in Perth but sits the assessment while away working interstate does not meet the condition. Someone working in Western Australia on a short contract does.</p>
+    <h3 class="h3">Perth or the regions, it works the same</h3>
     <p>Where you are within the state makes no difference. The course runs the same from Perth as it does from Bunbury, Geraldton or a camp in the Pilbara, and because the assessment is a video call there is no classroom to drive to. That is the practical reason online delivery matters more in Western Australia than almost anywhere else.</p>
   </div>
   <VerifiedSources date="28 Jul 2026" facts="The evidence requirement and the accepted document list, from the regulator’s card-supply terms and conditions" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
@@ -210,8 +222,10 @@ import { faqs } from '../../data/faqs-white-card-wa';
 >
   <AnswerCapsule>Two parts. You work through the theory online at your own pace, which most Western Australian learners finish in two to six hours. Then you meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes and demonstrate the practical safety tasks, including fitting and wearing the protective equipment.</AnswerCapsule>
   <div class="measure">
+    <h3 class="h3">Why the assessment is live</h3>
     <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration has been part of White Card assessment since December 2016, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
     <p>It also means there is someone there when you are stuck. You book the call to suit yourself once the theory is done.</p>
+    <h3 class="h3">What you are paying the difference for</h3>
     <p>Cheaper self-paced courses are lawful in Western Australia and the cards they issue are real. The credential is the same nationally recognised unit either way. What you are paying the difference for is a person on the other end of the call.</p>
   </div>
   <Note variant="caution" label="Before the call">You will need a device with a working camera and microphone, and the safety equipment you are asked to have ready for the demonstration.</Note>
@@ -222,6 +236,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule>It is <b>$99</b>, and that is the whole cost. Western Australia does not charge a government fee for a construction induction card: your training organisation issues it and posts it to you. There is no second payment, no counter to visit and no lodgement form, which is not true in every state.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="There is no membership, renewal or annual charge. A replacement card is obtained from the training organisation that issued it, at that organisation’s own fee." />
   <div class="measure">
+    <h3 class="h3">Why there is no second payment</h3>
     <p>That is worth saying plainly, because several states do charge a fee and some require you to lodge the paperwork in person before a card is issued. In Western Australia the training organisation issues the card and posts it to a Western Australian address, so the price you pay at enrolment is the price of getting the card.</p>
   </div>
   <VerifiedSources date="28 Jul 2026" facts="That Western Australia levies no government card fee, and that the training organisation issues and posts the card" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
@@ -245,8 +260,10 @@ import { faqs } from '../../data/faqs-white-card-wa';
     { key: 'Lapses', value: 'After two years out', note: 'Two consecutive years or longer away from construction work.' },
   ]} />
   <div class="measure">
+    <h3 class="h3">Blue cards are still valid</h3>
     <p>If your card is blue rather than white, it is still valid. WorkSafe WA changed the design in 2009 when the training was harmonised across the country, and both colours are accepted everywhere in Australia as evidence that you have completed the induction.</p>
-    <p>If you have lost yours, WorkSafe WA runs a public database of cardholders. Look yourself up to find the training organisation that issued your card, then contact them for a replacement. If that organisation has since closed, another one may re-issue against your Statement of Attainment, at its own fee.</p>
+    <h3 class="h3">If you have lost your card</h3>
+    <p>If you have lost yours, WorkSafe WA runs a public database of cardholders. Look yourself up in the <a href="https://www.worksafe.wa.gov.au/construction-induction-training-card-database" rel="noopener">construction induction training card database</a> to find the training organisation that issued your card, then contact them for a replacement. If that organisation has since closed, another one may re-issue against your Statement of Attainment, at its own fee.</p>
   </div>
   <Note variant="caution" label="Two years out of the industry">Leaving construction work for two consecutive years or longer makes the card invalid, and the training has to be completed again.</Note>
   <VerifiedSources date="28 Jul 2026" facts="Card validity and the two-year lapse rule, the 2009 blue to white change, interstate recognition, and the replacement process through the cardholder database" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }, { label: 'WorkSafe WA — Construction induction training card database', href: 'https://www.worksafe.wa.gov.au/construction-induction-training-card-database' }]} />

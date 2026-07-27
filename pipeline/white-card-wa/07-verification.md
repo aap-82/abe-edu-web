@@ -235,6 +235,56 @@ every WA and QLD White Card page, since both are zero-fee states. Routed `[skill
 
 ---
 
+## Re-verification · 28 July 2026, after the post-audit content changes
+
+`check-pipeline` §4 fired correctly: *"the page changed 447 minutes AFTER its last verification …
+a verification that predates the content it certifies has certified nothing."* That is the run-3
+lesson working exactly as designed, and it is the reason this section exists rather than the earlier
+verdict being left to stand.
+
+**What changed after the first Stage 7 pass** (all at Andrey's direction, in-session):
+
+| Change | Scope |
+|---|---|
+| `BundleOffer` cross-sell added to `#need-one` (White Card $99 + WA owner builder $179 = $278) | page |
+| 13 `<h3 class="h3">` subheads added, one per distinct sub-topic inside `.measure` blocks | page |
+| Inline link to the WorkSafe WA cardholder database in `#your-card` | page |
+| Hero CTA microcopy set to "No hidden fees. Pay by card. Afterpay available." | page |
+| Partner blurb split into two logical paragraphs; label "About and contact" → "About the training provider" | component + partner record |
+| `Credentials.astro` org blurb given the same paragraph split, so both renders match | component |
+
+**Re-measured from `dist/white-card-wa/index.html` after the final build:**
+
+| Check | Measured | Verdict |
+|---|---|---|
+| `<h1>` count | **1** | PASS |
+| Capsule word counts | **45, 52, 53, 43, 53, 53, 19, 52, 55** — unchanged by the edits, all eight section capsules inside 40-60 | PASS |
+| `<h3 class="h3">` body subheads | **14** (13 authored + the partner card's legal name) | new |
+| Heading-level skips | **1**, and it is still only the known `H1 → H3` at `#rto-partner` (F1). The 13 new h3s all sit correctly under an h2. | unchanged |
+| `pl-blurb` paragraphs | **2** (was 1) | PASS |
+| Superseded `CPCCWHS1001` | **0** | PASS |
+| Banned CTA "Enrol now" | **0** | PASS |
+| Em dashes in body copy | **0.** One `—` exists in the page's `credentialName`, which renders only inside JSON-LD, not in body copy. Confirmed by locating it: it sits in `EducationalOccupationalCredential.name`. | PASS |
+| Bare "ABE" in reader-facing text | **0** | PASS |
+| Price agreement | `$99` across **16** surfaces; bundle total `$278` appears once and equals $99 + $179 | PASS |
+| Cardholder-database inline link | **1**, descriptive anchor text, `rel="noopener"` | new |
+| `guardrails` | **20 pages passed** | PASS |
+| `check-pipeline` | 7/7 artefacts · **9 sections match the plan** · **9 capsules match `04-content.md`** | PASS |
+
+**Verdict unchanged: PASS WITH FINDINGS.** No new defect introduced by the changes. The four open
+items are the same four: B4 (FPO images), F1 (the H1 → H3 skip), F16 (`/payment` absent from the
+build) and F5 (`/white-card` hub absent).
+
+**One item improved by the change.** F8 recorded that ASQA disclosure location 3 rendered paragraph 1
+of the framework template but not paragraph 2, and that the closing negation *"does not deliver
+training, conduct assessments, or issue qualifications"* appeared only in FAQ 1. The re-written
+partner blurb now carries that negation in its own paragraph, in both renders. F8 is narrower than it
+was, though the footer template itself is still abridged.
+
+**One item unchanged and worth restating.** F9 (the partner blurb rendering twice) survives: the
+blurb still appears in both `#rto-partner` and the `#content-review` org card. Splitting it into two
+paragraphs made both renders consistent but did not de-duplicate them. Still routed `[design]`.
+
 ## Addendum · R4 parity gate, actually run (added after Stage 9 grading)
 
 **The independent Stage 9 grader found that this audit defined the R4 parity gate and never ran it.**

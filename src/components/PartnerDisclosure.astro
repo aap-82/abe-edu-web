@@ -54,8 +54,12 @@ const legal = rec?.legalName ?? partner;
     </div>
 
     <div class="pl-col">
-      <span class="pl-lbl">About and contact</span>
-      {rec?.blurb && <p class="pl-blurb">{rec.blurb}</p>}
+      <span class="pl-lbl">About the training provider</span>
+      {/* One <p> per logical group. `blurb` stays a single string in the partners schema
+          (content.config.ts is skills-owned), so the grouping is carried in the record as
+          blank-line-separated paragraphs and split here. A record written as one block still
+          renders as one paragraph, so this is backwards-compatible with every existing partner. */}
+      {rec?.blurb && rec.blurb.split(/\n{2,}/).map((para) => <p class="pl-blurb">{para.trim()}</p>)}
       {(rec?.email || rec?.phone) && (
         <dl class="pl-facts">
           {rec?.email && (
