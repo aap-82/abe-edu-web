@@ -60,6 +60,7 @@ const legal = rec?.legalName ?? partner;
           blank-line-separated paragraphs and split here. A record written as one block still
           renders as one paragraph, so this is backwards-compatible with every existing partner. */}
       {rec?.blurb && rec.blurb.split(/\n{2,}/).map((para) => <p class="pl-blurb">{para.trim()}</p>)}
+      {(rec?.email || rec?.phone) && <span class="pl-lbl">Training provider contact</span>}
       {(rec?.email || rec?.phone) && (
         <dl class="pl-facts">
           {rec?.email && (

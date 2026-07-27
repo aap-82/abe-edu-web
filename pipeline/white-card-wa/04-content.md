@@ -50,6 +50,16 @@ Primary keyword verbatim, per `02-gap.md` §3.
 **How it works (hero strip)**
 > Enrol → Work through the theory online → Book your live assessment → Blue Dog issues your card
 
+**Hero CTA**
+> Label: Get your White Card for {price}
+> Microcopy: No hidden fees. Pay by card. Afterpay available.
+
+The label is benefit-led with the price, because `verification.md` §1f bans "Enrol now" / "Enrol
+today" by name. The microcopy overrides `Hero.astro`'s site default ("Pay by card or 4 interest-free
+payments with Afterpay") with the string `cpd-building-tas` already uses, so the two pages read
+alike. "No hidden fees" is strictly true here and stronger than on most pages: WA levies no
+government card fee, so {price} really is the whole cost.
+
 ---
 
 ## At a glance (unmarked section)
@@ -147,6 +157,37 @@ payment, no government fee) · Live (assessment with a trainer).
 > If you are applying for a Western Australian owner builder approval, a white or blue card is one
 > part of the knowledge pathway on Form 75, alongside a Western Australian owner builder course
 > completed within the last two years. [Link: /wa-owner-builder-course]
+
+**BundleOffer — owner builder cross-sell** (added 28 Jul on Andrey's direction)
+
+Carrier: `BundleOffer`, placed at the foot of this section because this is where the reader
+self-identifies as an owner builder. The component's own contract is "two course products presented
+as one deliberate bundle … the total is the sum of the parts (no discount), so the copy sells
+completeness, never a saving", which is exactly the Form 75 relationship.
+
+> **Eyebrow:** Building your own home
+> **Heading:** The Form 75 knowledge pathway asks for both
+> **Lede:** Most owner builders show the Building Services Board they have sufficient knowledge with
+> a Western Australian owner builder course completed within the last two years, together with a
+> white or blue card. If that is why you are here, one on its own will not finish the application.
+>
+> | Item | Sub | Price |
+> |---|---|---|
+> | White Card WA | CPCWHS1001, the course on this page | {price} |
+> | WA Owner Builder Course | Completed within two years of applying | $179 |
+> | **Both together** | | **$278** |
+>
+> **CTA:** See the WA owner builder course → `/wa-owner-builder-course`
+> **Note:** This is one of four pathways to sufficient knowledge under the Building Services
+> (Registration) Act 2011, and it is the one most owner builders use. A registered Western Australian
+> building practitioner does not need either course. The Building Services Board's own application
+> fee is separate and is paid to the Board, not to ABE Education.
+
+**Why the note is not optional.** `state-fees-register.md` §2 records four pathways to sufficient
+knowledge under s43(2)(b)(ii) and states plainly that **only pathway 1 needs ABE Education's course**,
+adding "pages must not imply the course is the only route". A bundle block is exactly where that
+implication would creep in, so the caveat and the practitioner exemption are part of the block, not
+an afterthought.
 
 **Verified line**
 > ✓ VERIFIED · SOURCES — WorkSafe WA, construction induction training; WHS (General) Regulations 2022
@@ -390,6 +431,60 @@ No government fee to pay afterwards.
 > verified on the national register at training.gov.au using RTO Code 31193.
 
 ---
+
+## Post-audit additions — h3 subheads, and the partner card
+
+Added 28 July on Andrey's direction, reading the rendered page. Recorded here because
+**`check-pipeline` cannot see any of it**: its conformance check compares section ids and answer
+capsules only, so an h3, a `BundleOffer`, an inline link or a CTA microcopy string can drift between
+the page and this artefact with every gate still green. That is the phase-2 defect class inverted —
+phase 2 lost briefed content on the way to the page; this run gained content the artefact never
+recorded. Routed `[skills]`.
+
+**Subhead map.** One `<h3 class="h3">` per distinct sub-topic inside a `.measure` block, using the
+pattern `global.css` has styled since `tas-owner-builder-course` (`.measure .h3`). Thirteen in total.
+
+| Section | h3 | Covers |
+|---|---|---|
+| `#real` | Check RTO 31193 for yourself | registration currency and scope on the national register |
+| `#real` | Who does what | the ABE Education / Blue Dog split |
+| `#need-one` | What counts as construction work | r. 289 breadth, landscaping |
+| `#need-one` | When it is a judgement call | the marginal-case factors |
+| `#need-one` | If you are an owner builder | the Form 75 pathway |
+| `#online` | Proving you were in Western Australia | the six-item evidence list |
+| `#online` | Location, not residency | the distinction, with the Perth example |
+| `#online` | Perth or the regions, it works the same | regional access |
+| `#assessment` | Why the assessment is live | the supervised PPE demonstration |
+| `#assessment` | What you are paying the difference for | the honest price argument |
+| `#cost` | Why there is no second payment | no government card fee |
+| `#your-card` | Blue cards are still valid | the 2009 blue-to-white change |
+| `#your-card` | If you have lost your card | the cardholder database and replacement |
+
+Measured after the change: **29 headings, exactly one level skip**, and it is still only the known
+`H1 → H3` at the after-hero partner card (07 F1). Every new h3 sits correctly under an h2.
+
+**Inline link added** in `#your-card`, "If you have lost your card": *"Look yourself up in the
+[construction induction training card database] to find the training organisation that issued your
+card."* Descriptive anchor text, `rel="noopener"`. This closes the Stage-2 gap that was ranked fifth
+and then never reached the page: "white card wa check" plus "white card check wa" is **341
+impressions at zero clicks**, and no competitor in the top 15 targets it.
+
+**Partner card copy** (`src/content/partners/blue-dog-training.md`, shared with `/white-card-tas`).
+The blurb is now two logical groups, one paragraph each, and the column label reads "About the
+training provider" to match ASQA disclosure location 6's own name. A second label, "Training provider
+contact", now heads the email and phone group.
+
+> Blue Dog Training develops, delivers and assesses the nationally recognised White Card unit
+> CPCWHS1001, and issues the Statement of Attainment on completion.
+>
+> ABE Education publishes the course, takes your enrolment and provides student support. It is not a
+> registered training organisation, and it does not deliver training, conduct assessment or issue
+> qualifications.
+
+Splitting the groups had a compliance benefit that was not the reason for the change: 07 F8 recorded
+that the framework's closing negation, *"does not deliver training, conduct assessments, or issue
+qualifications"*, appeared only in FAQ 1 and not in the footer disclosure. It now sits in the partner
+card as its own paragraph, in both places the blurb renders.
 
 ## Cold reread (Move 5, applied before Stage 5)
 

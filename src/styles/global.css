@@ -519,6 +519,11 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-lg);padding:var(--s-md) 0;}
 .pl-col{min-width:0;}
 .pl-lbl{display:block;margin-bottom:.6rem;font:600 11px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--slate);}
+/* A SECOND label in the same column (the contact group under the description) needs its own top
+   margin: .pl-lbl only ever carried margin-bottom because it had only ever been a first child, so
+   without this the contact label sits hard against the paragraph above it. Scoped to .pl-col so the
+   blast radius is this card, not every label on the site. */
+.pl-col > .pl-lbl:not(:first-child){margin-top:var(--s-md);}
 .pl-blurb{margin:0 0 var(--s-sm);font-size:15px;line-height:1.6;color:var(--ink-2);max-width:60ch;}
 .pl-facts{margin:0;}
 .pl-frow{display:grid;grid-template-columns:108px 1fr;gap:var(--s-sm);padding:8px 0;border-bottom:1px solid var(--rule);}
