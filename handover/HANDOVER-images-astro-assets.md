@@ -1,5 +1,29 @@
 # HANDOVER — migrate page imagery to local + `astro:assets` (via an image resolver)
 
+## Status: Tasks 1–3 done (27 Jul 2026)
+
+All three tasks below shipped to `main`. Nothing outstanding from this handover except the ordinary
+consequence of Task 2 touching content: `white-card-tas` needed a Stage-7 re-verify after its image
+placement (image-only change, no regulatory fact touched) — done the same session.
+
+- **Task 1** (`006da23`) — `src/lib/images.ts` resolver (`imageUrl`), wired into `Placeholder`,
+  `Credentials`, `CourseLayout`. No-op on landing (nothing had moved yet).
+- **Task 2** (`57c38d4`, `645b4e7`) — all 11 page images moved into `src/assets/images/`;
+  `public/images/` is now empty. Both expert portraits off `r2.dev`, renamed to convention
+  (`dominic-ogburn-portrait.avif`, `warwick-smith-portrait.avif`). Added `imageUrlAbs()` and wired the
+  hero/person JSON-LD image URLs (`CourseLayout`, `CpdBundleLayout`, `experts/[slug]`) to emit an
+  absolute hashed URL for a migrated image. The `white-card-tas-service-tasmania.avif` hero-adjacent
+  image was placed in the `#your-card` ZSection (Slot 2, the lodgement step) with a confirmed alt.
+- **Task 3** (`840e924`) — `responsiveImg()` via `getImage()`: every `Placeholder` image (hero,
+  z-split, insurance, profile-page portrait) now emits a width-based `srcset` + `sizes` +
+  intrinsic `width`/`height`, still rendered as a raw `<img>` so scoped styles (`.ph-img`,
+  `Credentials`' grayscale) keep applying. Course-page `Credentials` headshots stay on the plain
+  `imageUrl` path by design (fixed small size, marginal `srcset` benefit).
+
+Verified throughout: `npm run check` 0 errors, `npm run build` green (guardrails 19/19) at every step.
+
+---
+
 **Supersedes the first draft of this file.** The original plan (content-collection `image()` in the
 schema) was tried and **fails the build**: Astro's `image()` is greedy — in `z.union([image(), z.string()])`
 it still tries to resolve an existing public path like `/images/cpd-building-tas-hero.avif`, cannot, and

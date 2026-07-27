@@ -1,5 +1,39 @@
 # Stage 7 — pre-deploy RE-VERIFICATION · `/white-card-tas`
 
+**Re-run 27 July 2026.** Supersedes the 25 July run below, which now predates the page source. One
+commit touched this page after that verification:
+
+- `645b4e7` content(white-card): place the Service Tasmania lodgement image in `#your-card`
+
+An image-only placement (Task 2 of `handover/HANDOVER-images-astro-assets.md`): no prose, price,
+authority-model or structural change. Measured fresh against `dist/white-card-tas/index.html`
+(rebuilt today, guardrails 19/19 pass) rather than assumed from the diff, per the project's
+measure-don't-assume rule.
+
+**What changed on the page:** the `#your-card` ZSection's image slot, previously an FPO placeholder,
+now renders the real image (`white-card-tas-service-tasmania.avif`, migrated to
+`src/assets/images/`, served same-origin/hashed via the Task-1 resolver). `imgAlt` matches the
+existing `imgDesc` exactly: *"A person handing a Statement of Attainment and identity documents
+across a Service Tasmania counter to lodge a construction induction card application in person."*
+
+**Correction to this file's own prior verdict.** The 25 July run below states "two FPO image
+placeholders await real photos". **That is now one.** Measured in the built HTML: the `#your-card`
+slot is a real `<img>` (confirmed above); the **hero** slot (ratio r54, no `artefactImg` set) is
+still the FPO div, label "Image placeholder", desc *"A Tasmanian construction worker in hi-vis and a
+white hard hat on a residential build site, holding a construction induction White Card, natural
+daylight"* — genuinely unresolved, not in scope of this session's image migration. One placeholder
+remains, not two. [same repeat-risk class as the 25 July Person×2 correction: a page-foot claim
+outlived the change that invalidated it]
+
+**Every other measured invariant is unchanged** (re-measured, not assumed): H1 = 1; canonical =
+`https://www.abeeducation.edu.au/white-card-tas`; robots = `noindex,nofollow` (NOTE, intentional
+pre-launch, unchanged); em dashes = 13, all in Source-citation labels; JSON-LD `@graph` = Course +
+CourseInstance + EducationalOccupationalCredential + BreadcrumbList + **Person ×1** + Organization
+×3 (RTO + provider + creator, expected for asqa); `Course.offers.price` = **59**; CPCWHS1001 = 25,
+superseded CPCCWHS1001 = 0; `comprehensive` = 0. `check-claims` and guardrails both pass (19/19).
+
+## 25 July run (superseded above, kept for the record)
+
 **Re-run 25 July 2026.** Supersedes the 23 July run (commit `e3a0398`), which now predates the page source.
 One commit touched this page after that verification:
 
@@ -67,10 +101,16 @@ trusted over the code again. [repeat risk: docs drifted from code, trusted over 
   guardrails + `check-claims` cover the delta. The prior findings (one page-specific Note-width fix, the
   rest shared-chrome items logged for a site-wide pass) still stand.
 
-## Verdict: **GREEN** (re-verified against current `dist/`)
+## Verdict: **GREEN** (re-verified against current `dist/`, 25 July state — see the 27 July update above)
 
 Authority model correct (one Person, RTO credited, no ABE-as-RTO), no superseded code, price grid
 reconciles, structure clean. NOTES: intentional `noindex` + interim CTA targets are the documented
 pre-launch state (buyUrl swap + noindex removal are the coupled ship blocker, human-triggered); two FPO
-image placeholders await real photos; TrustBand on-dark tagline is 19 words by design. Stop at Stage 8 —
+image placeholders await real photos ([superseded 27 July](#) — one of the two, `#your-card`, is now a
+real image; the hero remains FPO); TrustBand on-dark tagline is 19 words by design. Stop at Stage 8 —
 no deploy.
+
+## Verdict (27 July): **GREEN**, current
+
+All invariants re-measured and unchanged; the image-only commit above is the only delta. **One** FPO
+placeholder remains (the hero — not in scope this session), not two. Stop at Stage 8 — no deploy.
