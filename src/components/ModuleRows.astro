@@ -43,11 +43,13 @@ const { items } = Astro.props;
           </ul>
         )}
         {m.body && <p class="mr-body" set:html={m.body} />}
-        {m.outcome && (
-          <p class="mr-outcome">
+        {m.outcome && m.outcome.length > 0 && (
+          <div class="mr-outcome">
             <span class="mr-olabel">You will be able to</span>
-            <span class="mr-otext" set:html={m.outcome} />
-          </p>
+            <ul class="mr-olist" role="list">
+              {m.outcome.map((o) => <li set:html={o} />)}
+            </ul>
+          </div>
         )}
       </div>
     </li>
@@ -112,21 +114,12 @@ const { items } = Astro.props;
     font-family:var(--font-mono); font-size:10px; font-weight:500;
     letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
   }
-  /* The outcome sits under a block kicker, so it reads as its own statement and starts with a
-     capital. Fixed at the presentation layer (::first-letter) so every state's authored outcome
-     is capitalised on the page without editing each source string. Needs display:block for
-     ::first-letter to resolve against the outcome rather than the kicker above it. */
-  .mr-otext{ display:block; }
-  .mr-otext::first-letter{ text-transform:uppercase; }
-
-  /* Learning outcomes as a list. DORMANT until the outcome data becomes an array: a build
-     session changes ModuleGroup.outcome from string to string[] and renders
-       <div class="mr-outcome"><span class="mr-olabel">…</span><ul class="mr-olist">…</ul></div>
-     - a <div>, not the current <p>, because a <p> cannot legally contain a <ul>. These are
-     scoped styles, so the <ul class="mr-olist"> must live in THIS component to pick up the
-     scope hash (it will - the markup change lands here). Markers are --slate discs, not
-     maroon: maroon is for actions only, and "you will be able to" outcomes inform rather than
-     claim a box ticked, so a plain bullet reads truer than a check. Items inherit the
+  /* Learning outcomes as a bullet list under the "You will be able to" kicker: outcome is an
+     array, one discrete statement per <li>. A <div class="mr-outcome"> wraps it, not a <p>,
+     because a <p> cannot legally contain a <ul>. Markers are --slate discs, not maroon: maroon
+     is for actions only, and "you will be able to" outcomes inform rather than claim a box
+     ticked, so a plain bullet reads truer than a check. Items are authored capitalised and
+     end-stopped in the source, so no ::first-letter fix-up is needed; they inherit the
      .mr-outcome size/colour/measure. */
   .mr-olist{ list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
   .mr-olist li{ position:relative; padding-left:18px; }

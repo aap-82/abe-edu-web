@@ -14,9 +14,11 @@ import type { ModuleGroup, TopicCard } from '../types/course';
 // stated learning outcomes in the source (a Course Introduction and an Appendix), which is
 // why they appear in the group contents but contribute nothing to the outcome lines.
 //
-// Outcomes are full sentences and start with a capital: the row renders a "You will be able
-// to" kicker on its own line above them, not inline, so a lowercase continuation would read
-// as a fragment.
+// Each `outcome` is a list of discrete learning outcomes, rendered as a bullet list under a
+// "You will be able to" kicker. Every item is a full sentence, capitalised and end-stopped, so
+// it reads as its own statement. Split from the course's stated outcomes by clause, never by
+// comma - a comma can sit inside a single clause (e.g. "document every decision, variation and
+// agreement in writing" is one outcome, not three).
 //
 // `contents` carries the module breakdown, one numbered module per line, and `body` is
 // therefore empty on every group here. It used to hold the same information as prose
@@ -35,7 +37,11 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '2', name: 'Key Responsibilities of an Owner Builder' },
     ],
     body: '',
-    outcome: 'Identify the roles you take on, document every decision, variation and agreement in writing, and coordinate trade contractors, site activities and your neighbours from day one.',
+    outcome: [
+      'Identify the roles you take on.',
+      'Document every decision, variation and agreement in writing.',
+      'Coordinate trade contractors, site activities and your neighbours from day one.',
+    ],
   },
   {
     tag: 'Group 02', title: 'Legal &amp; safety obligations',
@@ -45,7 +51,11 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '12', name: 'Approvals and Inspections' },
     ],
     body: '',
-    outcome: 'Apply your duties as a PCBU and principal contractor under the WHS Act, work within the permit conditions the QBCC Act sets, and book the compulsory building and plumbing inspections at the right stages.',
+    outcome: [
+      'Apply your duties as a PCBU and principal contractor under the WHS Act.',
+      'Work within the permit conditions the QBCC Act sets.',
+      'Book the compulsory building and plumbing inspections at the right stages.',
+    ],
   },
   {
     tag: 'Group 03', title: 'Design &amp; energy',
@@ -54,7 +64,11 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '5', name: 'Environment and Energy' },
     ],
     body: '',
-    outcome: 'Choose and brief a licensed designer, read a full set of working drawings, and meet the 7-star minimum energy rating that has applied to Queensland houses since 1 May 2024.',
+    outcome: [
+      'Choose and brief a licensed designer.',
+      'Read a full set of working drawings.',
+      'Meet the 7-star minimum energy rating that has applied to Queensland houses since 1 May 2024.',
+    ],
   },
   {
     tag: 'Group 04', title: 'Costing &amp; finance',
@@ -64,7 +78,12 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '10', name: 'Taxation and the QLeave levy' },
     ],
     body: '',
-    outcome: 'Estimate the build, carry a contingency, track actual costs against budget, align your draw-downs with your contracts, and handle GST, PAYG and the QLeave levy exemption.',
+    outcome: [
+      'Estimate the build and carry a contingency.',
+      'Track actual costs against budget.',
+      'Align your draw-downs with your contracts.',
+      'Handle GST, PAYG and the QLeave levy exemption.',
+    ],
   },
   {
     tag: 'Group 05', title: 'Planning &amp; running the build',
@@ -75,7 +94,11 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '14', name: 'Payments to Trade Contractors' },
     ],
     body: '',
-    outcome: 'Build a schedule, sequence the trades and inspections in the right order, engage QBCC-licensed contractors on written contracts, and run progress payments, variations and retention correctly.',
+    outcome: [
+      'Build a schedule and sequence the trades and inspections in the right order.',
+      'Engage QBCC-licensed contractors on written contracts.',
+      'Run progress payments, variations and retention correctly.',
+    ],
   },
   {
     tag: 'Group 06', title: 'Protecting yourself &amp; finishing',
@@ -86,7 +109,11 @@ export const moduleGroups: ModuleGroup[] = [
       { n: '18', name: 'Checklists and Appendix' },
     ],
     body: '',
-    outcome: 'Insure the build properly rather than assuming your home policy covers it, resolve disputes through the QBCC or QCAT, and work through the completion checklist, service connections and ongoing maintenance.',
+    outcome: [
+      'Insure the build properly rather than assuming your home policy covers it.',
+      'Resolve disputes through the QBCC or QCAT.',
+      'Work through the completion checklist, service connections and ongoing maintenance.',
+    ],
   },
 ];
 
