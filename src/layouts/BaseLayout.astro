@@ -83,6 +83,10 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>
+  {/* Skip link. A <main> landmark on its own only helps a screen-reader user who navigates by
+      landmark; a keyboard user without one still tabs through the whole header and megamenu on
+      every page. The two ship together or neither is much use. Visually hidden until focused. */}
+  <a class="skip-link" href="#main">Skip to content</a>
   <SiteHeader />
   {crumbs && <PageBar crumbs={crumbs} reviewed={reviewed} />}
   <slot />

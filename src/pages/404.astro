@@ -25,7 +25,11 @@ import SourcesFooter from '../components/SourcesFooter.astro';
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
 </head>
 <body>
+  {/* This page duplicates BaseLayout's shell rather than using it, so the skip link and the
+      <main> landmark have to be repeated here. Keep them in step with BaseLayout.astro. */}
+  <a class="skip-link" href="#main">Skip to content</a>
   <SiteHeader />
+  <main id="main">
   <section class="sec" id="top" style="text-align:center">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center">404</span>
@@ -36,6 +40,7 @@ import SourcesFooter from '../components/SourcesFooter.astro';
       <a class="btn-primary" href="/">Back to the homepage</a>
     </div>
   </section>
+  </main>
   <SourcesFooter sources={[]} disclaimersHtml="" />
 </body>
 </html>

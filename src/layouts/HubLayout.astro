@@ -64,6 +64,7 @@ const schema = {
   crumbs={breadcrumb}
   reviewed={reviewedBy}
 >
+<main id="main">
   <Hero
     eyebrow={hero.eyebrow}
     h1Html={hero.h1Html}
@@ -94,5 +95,6 @@ const schema = {
     <Faq items={faqs} />
   </Section>
   <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
+</main>
   {footerSources && <SourcesFooter sources={footerSources} disclaimersHtml={disclaimersHtml ?? ''} />}
 </BaseLayout>

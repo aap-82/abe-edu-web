@@ -71,6 +71,7 @@ const schema = {
   sticky={{ label: 'Our experts', sub: 'who writes and reviews ABE Education courses', price: '2 experts', cta: { href: '#people', label: 'Meet them' } }}
   crumbs={crumbs}
 >
+<main id="main">
   <Hero
     eyebrow="Trust · Named experts"
     h1Html={'The people behind ABE Education courses<span class="dot">.</span>'}
@@ -126,6 +127,7 @@ const schema = {
     sub="Owner builder courses for Queensland, Western Australia, Tasmania and the ACT."
     cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
   />
+</main>
   <SourcesFooter
     sources={entries.map((e) => ({ label: `${e.data.name} on LinkedIn`, href: e.data.linkedin, verified: `Verified ${e.data.lastVerified}` }))}
     disclaimersHtml="<b>ABE Education is not a Registered Training Organisation.</b> Credentials listed on this page are held by the named individuals, not by ABE Education."
