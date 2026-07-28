@@ -708,3 +708,40 @@ deploy exactly as the original audit said.
 **Method note.** This entry is written by the agent that applied the fixes, so the *fix descriptions*
 are self-reported. The *findings* they answer are not: they come from an independent auditor that
 never saw this file. The correct next step before any real-domain deploy is another independent pass.
+
+---
+
+## Re-verification · 28 July 2026 — Form 75 pathways restored
+
+A **facts session** read the primary instrument and reversed one of the four corrections applied
+earlier today. Recorded here because the page changed after its last verification, and because the
+reversal is the more interesting half of the story.
+
+**What was wrong, and it was on an indexable page.** The `#need-one` cross-sell note had been
+rewritten to say a white or blue card is required in all cases, plus one of three alternatives. That
+came from the wa.gov.au owner-builder approval page. **The current 10-page Form 75, page 5, lists
+four numbered pathways** under s43(2)(b)(ii) BSR Act, and **pathway 2 — current registration as a WA
+Building Practitioner — carries no card clause at all.** The web page also drops the five-year bound
+on pathway 4, and contradicts itself higher up by omitting the card entirely from its Eligibility
+bullet. Form 75 is the instrument the applicant signs; it wins.
+
+| Fix | Before | After |
+|---|---|---|
+| `BundleOffer` note | "at least one applicant must hold a white or blue card and, on top of that, either…" | "Form 75 sets out four ways… a currently registered Western Australian building practitioner needs neither the course nor the card" |
+| Section `VerifiedSources` | cited the wa.gov.au overview page | cites **Form 75 page 5** |
+| Consolidated Sources entry | label said "Form 75", href went to the web overview | label and href now both the Form |
+
+That last one is worth naming on its own: **a citation whose label and target disagree is one a reader
+cannot check.** It said Form 75 and linked something else.
+
+**Re-measured:** build green, guardrails 20/20; the "on top of that" phrasing is gone; Form 75 is
+linked twice (section provenance + Consolidated Sources); `system-health` 0 failing.
+
+**What this does not reverse.** The other three findings from the independent run stand and were
+correct: the section had cited **WorkSafe WA**, the wrong regulator entirely, for an owner-builder
+claim; a "since December 2016" date traced only to secondary industry guides; and the breadcrumb
+pointed at an unbuilt hub. Only the pathway restructure went the wrong way, and it went wrong by
+trusting a regulator's website summary over the regulator's own form.
+
+Standing rule now in `kb/register/state-fees-register.md` (WA row): **do not re-derive these pathways
+from the wa.gov.au page.**

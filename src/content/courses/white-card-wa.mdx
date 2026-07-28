@@ -132,7 +132,10 @@ footerSources:
   # did not cover them. Read at source 28 Jul 2026: the knowledge test is a white or blue card PLUS
   # one of three alternatives, and r.22 of the Building Services (Registration) Regulations 2011 is
   # what creates the approval requirement.
-  - { label: "Government of Western Australia — Owner-builder approval (Form 75)", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 28 Jul 2026" }
+  # Links the FORM, not the wa.gov.au overview page. The label already said "Form 75" while the href
+  # went to the web summary, whose account of the knowledge test is wrong (see the note at #need-one).
+  # A citation whose label and target disagree is the kind a reader cannot check.
+  - { label: "Building Services Board — Form 75, Approval: Owner-builder (page 5)", href: "https://www.wa.gov.au/media/50162/download", verified: "Verified 28 Jul 2026" }
 disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by Blue Dog Training</b> from card stock supplied by WorkSafe WA, not by ABE Education and not over a government counter. Western Australia charges no government fee for a construction induction card. <b>Online delivery:</b> WorkSafe WA requires evidence that you were located in Western Australia at the time of assessment, which is a different test from residency. Residents of other states must complete White Card training under their own state’s delivery rules, and most do not permit fully self-paced online training.'
 ---
 
@@ -207,13 +210,19 @@ import { faqs } from '../../data/faqs-white-card-wa';
     totalLabel="Both together"
     total="$278"
     cta={{ href: '/wa-owner-builder-course', label: 'See the WA owner builder course' }}
-    note="Owner-builder approval requires sufficient knowledge of the role. At least one applicant must hold a white or blue card and, on top of that, either hold current or previous Western Australian Building Practitioners registration, be registered here as an architect, building surveyor or building engineer, or have completed owner-builder training with Western Australian content in the previous 24 months. That last route is the one most owner builders use. The regulator's own application fee is separate and is not paid to ABE Education."
+    note="Form 75 sets out four ways to show the Building Services Board you have sufficient knowledge, and at least one applicant must satisfy one of them. The route most owner builders take is a Western Australian owner builder course completed within the last two years, together with a white or blue card. The other three run on building industry registration instead, and a currently registered Western Australian building practitioner needs neither the course nor the card. The Board's own application fee is separate and is not paid to ABE Education."
   />
   <VerifiedSources date="28 Jul 2026" facts="The definition of construction work at regulation 289, and the judgement factors for marginal cases, read on the regulator’s guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
   {/* Owner-builder approval is a DIFFERENT regulator from WorkSafe WA, so it needs its own
       provenance line. It previously had none, and the WorkSafe block above was the nearest source,
-      which cited the wrong body for the claim. */}
-  <VerifiedSources date="28 Jul 2026" facts="The owner-builder knowledge requirement: a white or blue card plus one of three alternatives, and the 24-month currency on Western Australian owner-builder training" sources={[{ label: 'Government of Western Australia — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }]} />
+      which cited the wrong body for the claim.
+      SOURCED TO FORM 75, NOT THE wa.gov.au PAGE. The web page's summary of the knowledge test is
+      wrong: it reads as "a card AND one of three", which collapses the Form's pathway 2, where a
+      currently registered WA building practitioner needs no card at all, and drops the five-year
+      bound on pathway 4. The same page contradicts itself higher up, omitting the card entirely.
+      Form 75 page 5 is the instrument the applicant signs and lists four numbered pathways; it
+      wins. Read at source 28 Jul 2026 - see kb/register/state-fees-register.md, WA row. */}
+  <VerifiedSources date="28 Jul 2026" facts="The four pathways to sufficient knowledge under s43(2)(b)(ii) of the Building Services (Registration) Act 2011, and the two-year currency on Western Australian owner builder training, read on Form 75 page 5" sources={[{ label: 'Building Services Board — Form 75, Approval: Owner-builder (page 5)', href: 'https://www.wa.gov.au/media/50162/download' }]} />
   <SectionWayfinder label="Can you do it online?" href="#online" />
 </Section>
 
