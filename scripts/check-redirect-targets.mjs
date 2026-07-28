@@ -30,7 +30,9 @@ const DIST = join(ROOT, 'dist');
 // Every entry must name the pass that builds it, so this reads as a work list rather than
 // a list of exceptions. Sourced from the migration plan's remaining passes.
 const PENDING = new Map([
-  ['/white-card-wa', 'B2 - White Card WA'],
+  // /white-card-wa removed 28 Jul 2026: the W3-1 build landed on main and the page now resolves,
+  // so the self-cleaning "exists + still pending -> FAIL" rule fired on the merge, exactly as
+  // intended. This is the mechanism working, not an exception being made.
   // BUILT, not unbuilt - this read "B2 - White Card TAS" (the pass that builds it) long after that
   // pass landed. It is pending because `resolves()` treats a noindexed page as unresolved, which is
   // the right call (a 301 into a noindexed page discards the equity it was meant to move) but makes
