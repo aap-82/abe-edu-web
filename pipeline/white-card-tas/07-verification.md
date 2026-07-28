@@ -230,3 +230,22 @@ this page is wrong. **Andrey's call, and it should be settled before cutover.**
 **Nothing in the repo can catch this.** `check-claims` reconciles `priceRows` internally and
 validates government figures against `kb/register/`, but an ABE commercial price has no register
 owner and no check compares it to the live product. Filed `[skills]`.
+
+### Addendum · breadcrumb crumb removed, same day
+
+Applied after merging `origin/main`, which brought commit `923a49b` — an independent Stage 7 run on
+`/white-card-wa` that returned **FAIL with four publish hard-blockers** and superseded that page's
+"merge-ready" verdict. One of its findings applies here identically and was not caught by this
+page's own audit:
+
+**The middle "White Card" crumb pointed at `/white-card`, which is not built.** It rendered as a
+visible link to a 404 *and* as a `BreadcrumbList` ListItem naming a URL that does not resolve, which
+Google treats as an invalid rich result. `check-links` does not catch it, because `/white-card` sits
+legitimately in its PLANNED list, so the link reads as "not built yet" rather than "broken".
+
+It mattered more here than it did on WA: this page became **indexable the same day**, and an invalid
+breadcrumb on a noindexed page costs nothing while on an indexable one it costs a rich result.
+
+**Re-measured:** visible crumb `Home / White Card Tasmania`; `BreadcrumbList` two items, both
+resolving; zero crumb or CTA links to `/white-card` (the one remaining is the footer's Courses
+column, sitewide chrome that every page carries). Restore the middle crumb when W3-6 ships.

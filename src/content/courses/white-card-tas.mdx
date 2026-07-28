@@ -27,9 +27,15 @@ price: "$59"
 priceNumber: "59"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
 credentialCategory: "Statement of Attainment"
+# The middle "White Card" crumb was REMOVED 28 Jul 2026 and must be restored when W3-6 ships.
+# Same fix and same reason as /white-card-wa (commit 923a49b): /white-card is not built, so the crumb
+# rendered as a visible link to a 404 and as a BreadcrumbList ListItem naming a URL that does not
+# resolve, which Google treats as an invalid rich result. `check-links` does not catch it because
+# /white-card is legitimately in its PLANNED list, so the link reads as "not built yet" rather than
+# "broken". Applied here because this page became INDEXABLE the same day, which is exactly when an
+# invalid breadcrumb starts costing something. Home > White Card Tasmania is valid on its own.
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
-  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
   - { name: "White Card Tasmania", item: "https://www.abeeducation.edu.au/white-card-tas" }
 reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "23 July 2026" }
 nav:
