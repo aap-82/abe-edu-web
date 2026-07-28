@@ -149,11 +149,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <div class="measure">
     <h3 class="h3">Check RTO 31193 for yourself</h3>
     <p>That number is the thing worth checking, and we would rather you did. Blue Dog Training’s registration runs to 20 March 2030, and CPCWHS1001 sits on its scope for Western Australia with the right to both deliver and assess it. Both facts are on the national register, which is public and free to search.</p>
+    {/* No `desc`. The paragraph directly above already states both facts the register carries, so a
+        descriptor here would say them a third time. `desc` is optional precisely for this case: the
+        component collapses to eyebrow, title, host and arrow. */}
     <ResourceLink
       href="https://training.gov.au/Organisation/Details/31193"
       kicker="National register"
       title="Blue Dog Training, RTO 31193"
-      desc="Registration status and the CPCWHS1001 scope entry for Western Australia."
     />
     <h3 class="h3">Who does what</h3>
     <p>ABE Education is not a registered training organisation. We publish the course, take your enrolment and support you through it. Blue Dog Training delivers the training, runs the assessment and issues the credential. If a provider selling you a White Card cannot tell you which registered training organisation stands behind it, that is your answer.</p>

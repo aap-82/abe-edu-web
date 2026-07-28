@@ -459,3 +459,32 @@ The dropped clause was redundant: the paragraph directly above already states th
 
 Everything else in `07b` is unchanged: the link target, rel, accessible name, schema, contrast and the
 citation gate are untouched by a copy trim.
+
+### 07b.2 · Descriptor removed entirely, 28 July 2026
+
+`desc` dropped from the usage. The paragraph directly above already states both facts the register
+carries, so a descriptor here said them a third time.
+
+**No new component variant was built, and none was needed.** `desc` is already optional, so omitting
+it collapses the component to eyebrow, title, host and arrow. Adding a `compact` variant for a prop
+that is already optional would have been a second way to express one thing, which is the
+over-abstraction the component protocol exists to prevent.
+
+Rendered children of `.rl-main`, read from the built HTML: `rl-k`, `rl-t`, `rl-host`. No `rl-d`.
+Arrow present and displayed.
+
+| Measure | Original | Trimmed (07b.1) | No descriptor |
+|---|---|---|---|
+| Panel height, desktop | 190px | 167px | **118px** |
+| Panel height, 375px | 196px | 174px | **102px** |
+| Panel width / column | 480 / 480px | 480 / 480px | 480 / 480px, no overflow |
+| Tap target, 375px | pass | pass | 102px, pass |
+| `guardrails` | 20 pages | 20 pages | 20 pages |
+
+Link target, rel, accessible name, schema, contrast and the citation gate are untouched: removing an
+optional descriptor changes no fact and no affordance.
+
+**Open, routed to design:** `/styleguide` has no specimen for this exact shape. Its three specimens
+cover kicker+title+desc, kicker+title+desc internal, and title+host alone. The
+eyebrow+title+host+arrow shape now shipping on `/white-card-wa` is undocumented in the library. A
+component library that does not show a shape in production is drifting from it.
