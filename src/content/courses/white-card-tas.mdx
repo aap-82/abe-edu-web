@@ -2,7 +2,14 @@
 title: "White Card Tasmania - Nationally Recognised, Online (CPCWHS1001)"
 description: "Get your White Card for Tasmania online, self-paced, for $59. Delivered by RTO partner Blue Dog Training (RTO 31193). Nationally recognised Statement of Attainment for CPCWHS1001."
 canonical: "https://www.abeeducation.edu.au/white-card-tas"
-noindex: true
+# PUBLISHED 28 Jul 2026 on Andrey's call, with enrolment still to come. `noindex` removed; the
+# buyUrl stays a PLACEHOLDER because TAS payment is not set up yet, so this page ships indexable
+# with NO PURCHASE PATH - every CTA is the in-page #enrol anchor. That is a warning carried
+# deliberately, not a blocker: the page holds real equity (/tas-online-white-card, 7,092
+# impressions, position 11.81) and answers the query, so it earns its place ahead of the checkout.
+# Wire the real buyUrl and give the CTAs a destination the moment payment is configured.
+# Removing `noindex` also drops this slug from astro.config.mjs's NOINDEX array - keep the two in
+# step, and note it re-enters the orphan check, which is why SiteHeader now links it.
 state: "TAS"
 authorityModel: "asqa-accredited"
 partnerRto:
@@ -33,7 +40,10 @@ nav:
   - { label: "How it works", href: "#how-it-works", sectionId: "how-it-works" }
   - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
-cta: { href: "/white-card", label: "See White Card options" }
+# Was href: "/white-card" - a hub that does not exist, so on an indexable page the primary CTA
+# would have been a 404. Pointed at the same #enrol placeholder the sticky bar and CTA band
+# already use until payment is configured.
+cta: { href: "#enrol", label: "See White Card options" }
 sticky: { label: "White Card Tasmania", sub: "Nationally recognised · CPCWHS1001", price: "$59", cta: { href: "#enrol", label: "See options" } }
 hero:
   eyebrow: "White Card · Tasmania · CPCWHS1001"
