@@ -434,3 +434,28 @@ Neither is caused by this change. Quoted because "zero failing is not zero findi
 sits beside was re-read at source today. The two cutover gates from the audit above (B4, F16) are
 **unchanged and still open** — this re-verification does not clear them and must not be read as
 doing so.
+
+### 07b.1 · Copy shortened, 28 July 2026
+
+The ResourceLink `desc` was trimmed. This note exists because `check-pipeline` §4 compares **git
+commit timestamps**, so any page edit makes the verification stale; the honest fix is a real
+re-measurement committed with the change, never touching the file to reset the clock.
+
+Before: *"Registration status and the CPCWHS1001 scope entry for Western Australia, including who may
+deliver and assess it."*
+After: *"Registration status and the CPCWHS1001 scope entry for Western Australia."*
+
+The dropped clause was redundant: the paragraph directly above already states the scope entry carries
+*"the right to both deliver and assess it"*. No fact was removed from the page.
+
+| Measure | Before | After |
+|---|---|---|
+| `desc` characters | 114 | **73** |
+| `desc` rendered lines | 3 | **2** |
+| Panel height, desktop | 190px | **167px** |
+| Panel width / column | 480 / 480px | 480 / 480px, no overflow |
+| Panel, 375px | 196px tall, 319px wide | **174px** tall, 319px wide, no overflow |
+| `guardrails` | 20 pages passed | 20 pages passed |
+
+Everything else in `07b` is unchanged: the link target, rel, accessible name, schema, contrast and the
+citation gate are untouched by a copy trim.
