@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 25 July 2026.
+Last updated: 28 July 2026.
 
 ---
 
@@ -20,36 +20,42 @@ Last updated: 25 July 2026.
 
 ---
 
-## Current state (24 July 2026)
+## Current state (28 July 2026)
 
-**The short version.** Phase 1, CPD Stage A and Phase 2 are done. Three evidence runs have closed the
-authority-model set. Phase 3 is unblocked, three of its candidates have fired and none is built yet.
-On the content side the migration tracker was **stale**: Wave 2 read as unstarted while five of its
-seven tickets were built and live. Re-ticked 24 Jul against `dist/`. The **session-types model** (one
-session, one kind of work) and the **demand-list splitter** are now installed — see CLAUDE.md →
-Session types, and `scripts/demand-split.mjs`.
+**The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
+closed. **Wave 3 has started: `/white-card-wa` (W3-1) is built and shipped to staging**, the first
+White Card state page to go out indexable. The **first design session** ran the same day and cleared a
+sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now fired (see the table).
 
-- **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, and the `/owner-builder-courses`
-  hub (59.9k impressions, the biggest single equity-protect page), plus `/accreditation`,
-  `/experts`, `/reviews`, `/cpd`, `/cpd-tas`.
+- **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, the `/owner-builder-courses` hub
+  (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
+  impressions, the biggest White Card asset), plus `/accreditation`, `/experts`, `/reviews`, `/cpd`,
+  `/cpd-tas`.
 - **Built but held back:** `/white-card-tas` and `/cpd-building-tas`, both noindexed pending
   Andrey-only inputs. `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and
   ⛔ must not ship in their current form.
-- **Not started:** W2-6 insurance, W2-7 Project Advisory, four of five White Card state pages and
-  the hub, eight of ten CPD tickets, and all of Waves 5 and 6.
+- **Not started:** W2-6 insurance, W2-7 Project Advisory, **three of five White Card state pages
+  (NSW, QLD, ACT) and the `/white-card` hub**, eight of ten CPD tickets, and all of Waves 5 and 6.
 
-**Two things need Andrey, in the order they bite:**
+**Everything that needs Andrey, in the order it bites:**
 1. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
    five signed-off redirect rules.
-2. **White Card TAS launch inputs** — `buyUrl`, two photos, three RTO contacts.
+2. **`/white-card-wa` cutover gates** — two generated images (prompts and exact filenames in
+   `pipeline/white-card-wa/06-image-prompts.md`; both slots currently render FPO placeholders that
+   print their own art direction as body text), and confirmation that **`/payment` is served at the
+   deploy origin** — it is live on the legacy origin but absent from the Worker's asset set, so all
+   four CTAs are dead on staging. Neither blocks staging; both block the real domain.
+3. **White Card TAS launch inputs** — `buyUrl` and two photos.
+   *(The "three RTO contacts" previously listed here were already done: AlertForce, Blue Dog and
+   Upskill all carry a verified email and phone in `src/content/partners/`, checked 28 Jul. Stale
+   line removed.)*
 
-_Resolved 25 Jul: the LearnWorlds `learn.` subdomain ticket — the one external cutover blocker,
-outstanding since 19 July — is done._
+**The `/white-card` hub is gated on its spokes.** W3-6 depends on W3-1..W3-5, and the `hubs` schema
+types `spokes[].course` as a `reference('courses')`, so a hub naming a page that does not exist fails
+Zod at build. One spoke of five exists. Build NSW, QLD and ACT before attempting the hub.
 
-**No standing FAILs (25 Jul).** `cpd-building-tas` and `white-card-tas` were both re-verified — Stage 7
-re-run after their post-verification edits — and `system-health` now reports 0 FAIL. The session-types
-pre-flight rule governs this going forward: a red pre-flight ends the session rather than being
-repaired mid-run.
+**No standing FAILs (28 Jul).** `system-health` reports 0 FAIL. The session-types pre-flight rule
+governs this: a red pre-flight ends the session rather than being repaired mid-run.
 
 ### Where this stood on 22 July (kept — the phase-1 close-out)
 
@@ -265,6 +271,14 @@ is now closed and there is no third thing to learn from a fourth run of the same
 Artefacts in `pipeline/{slug}/`, reviews in `skill-reviews/`. Both new runs graded **Amber**; run 3
 scored **red on `passed_gates_first_time`**.
 
+> **`/white-card-wa` (28 Jul) is not a fourth evidence run.** It is Wave 3 production work on an
+> authority model run 2 already closed, and it is graded like any other page —
+> `skill-reviews/2026-07-28-abe-course-page-astro-white-card-wa.md`, Amber, independent grader,
+> **red on `passed_gates_first_time`**. Read it for the demand list, not for evidence about the
+> archetype set. It did confirm one thing about the process: the independent Stage-7 auditor found
+> four ship blockers the author had not, which is now 4/4 for independent grading over
+> self-certification.
+
 **Run 2 found an authority-model breach the guardrails could not see.** The page credited an ABE
 person as developer of an RTO-developed accredited course — a real E-E-A-T and ASQA error — and every
 check passed, because the guardrails tested "ABE is not an RTO" *language* and never asked **who
@@ -310,20 +324,41 @@ roadmap was built to enforce.
 
 ---
 
-## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, three triggers have fired
+## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, four triggers have fired
 
 Phase 2's demand list now exists, so the gate is open for **the candidates it names and no others**.
-Three triggers fired, with evidence in
-`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`:
+Four triggers have fired. The first three have evidence in
+`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`; the fourth was earned on
+28 July and has already recurred.
 
 | Candidate | Trigger | Evidence |
 |---|---|---|
 | **`page-auditor` subagent** | "the audit wanted its own context, or graded inconsistently" | Stage 7 ticked five rows the built HTML fails. Runs as a fresh subagent given only `dist/{slug}/index.html`, and reports a **measured value per row**, never a tick. |
 | **Per-slug warning filter** | not on the original candidate list; earned by the run | Three scripts raised warnings naming the slug; none was read. A `--slug` filter turns existing signal into used signal, with no new checks. |
 | **Guardrail: fail on undeclared authority** | "a rule was violated that a hook would have caught" | A page in a course or bundle collection with no `authority` silently skips the checks that model triggers. |
+| **Headless width check over `dist/`** ⭐ **2 occurrences — build it** | not on the original list; earned 28 Jul, recorded twice the same day | **Nothing in the repo can see a horizontal scrollbar.** A 90px sideways scroll at 320px survived a green build, 20/20 guardrails, `check-claims` 0 failing and an independent Stage 7 audit, on every page rendering `PartnerDisclosure`. It had **three** independent causes (a `1fr` grid track that could not shrink, an `inline-flex` eyebrow that could not wrap, and a header row 14px too wide), so a one-off fix would not have held. Filed by both `2026-07-28-abe-readability-audit-white-card-wa.md` and `skill-reviews/design/2026-07-28-reflow-spacing-and-tap-targets.md`. |
 
 Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,
 `token-lint`, event-driven Stage 1 verification.
+
+### Ready to build now, authorised by a second occurrence (ROADMAP rule 3)
+
+- **Make `becomeSteps` optional in `content.config.ts`.** An owner-builder-shaped required field with
+  no archetype-2 meaning; every White Card page stubs it `[]`. Filed by the `white-card-tas` run and
+  again by `white-card-wa`. `content.config.ts` is skills-owned, so a build session cannot fix it.
+- **A `--slug` filter** (above) — three runs have now had page-relevant warnings that never reached
+  the page's own audit.
+
+### Also earned on 28 July, first occurrence only — record, do not build yet
+
+- **`check-pipeline` conformance is capsules and section ids only.** A `BundleOffer`, an `h3`
+  subhead, an inline link or a CTA microcopy string can differ between `04-content.md` and the page
+  with every gate green. This is the phase-2 defect class inverted: phase 2 *lost* briefed content on
+  the way to the page; `white-card-wa` *gained* content the artefact never recorded, and it was
+  Andrey who noticed, not a check.
+- **"Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and shipped anyway** on
+  four CTAs, and is still live on five other built pages. A rule enforced only by a Stage-7 audit is
+  a rule pages ship without.
 
 **Everything below remains a candidate list, not a plan.** These are candidates
 identified in design, not commitments. Each has a trigger.
@@ -483,6 +518,12 @@ Three changes address that, in order of leverage.
 
 **Still open, and worth doing:** make an undeclared authority model a build failure rather than a
 silent skip (mistakes-log #10). Absence is currently the quiet state, which is the dangerous one.
+
+**Two more members of the same class, found 28 July.** Both survived every gate:
+- **Nothing renders the page**, so no check can see a horizontal scrollbar, a 9px badge or a 26px tap
+  target. Now a Phase 3 candidate with two occurrences.
+- **`check-pipeline` compares capsules and section ids, and nothing else**, so a component block
+  added to a page after Stage 4 never has to appear in the artefact that supposedly records it.
 
 **The principle underneath all of it:** a green check proves consistency, never correctness. Where a
 check can only be satisfied by a human assertion, it is not a check.
