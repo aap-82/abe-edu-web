@@ -31,17 +31,30 @@ const DIST = join(ROOT, 'dist');
 // a list of exceptions. Sourced from the migration plan's remaining passes.
 const PENDING = new Map([
   ['/white-card-wa', 'B2 - White Card WA'],
-  ['/white-card-tas', 'B2 - White Card TAS'],
+  // BUILT, not unbuilt - this read "B2 - White Card TAS" (the pass that builds it) long after that
+  // pass landed. It is pending because `resolves()` treats a noindexed page as unresolved, which is
+  // the right call (a 301 into a noindexed page discards the equity it was meant to move) but makes
+  // "built" and "noindex" indistinguishable in this list unless the reason says which.
+  ['/white-card-tas', 'BUILT; noindex pre-launch pending the buyUrl / learn. subdomain decision'],
   ['/cpd-building-nsw', 'B3 - CPD building NSW'],
   ['/cpd-plumbing-tas', 'B3 - CPD plumbing TAS'],
   ['/cpd-electrical-tas', 'B3 - CPD electrical TAS'],
   ['/cpd-real-estate-wa', 'B3 - CPD real estate WA'],
   ['/cpd-nsw', 'B3 - CPD NSW state hub'],
-  ['/cpd-bundles-tas', 'B3 - TAS bundle hub'],
-  // Built and deployed, but noindex until buyUrl is verified, so it cannot yet inherit the
-  // ranking of /tas-builder-practitioners-cpd. Remove BOTH this line and the noindex flag
-  // together: a redirect into a noindexed page discards the equity it was meant to move.
-  ['/cpd-building-tas', 'noindex pending buyUrl verification'],
+  // /cpd-bundles-tas was REMOVED from this list on 28 Jul 2026, not built. It had been dropped
+  // from the IA (the bundle IS the product at /cpd-{category}-{state}; there is no TAS bundle
+  // hub - see references/archetypes/04-cpd-bundle.md and new site/abe-new-site-sitemap.md), so
+  // it could never resolve and PENDING could never empty, which would have left the "when PENDING
+  // is empty, make the gate absolute" cutover state permanently unreachable. The two legacy URLs
+  // that pointed at it (/special-tas-electrician-cpd-bundle, /special-tas-plumber-cpd-bundle) now
+  // 301 to /cpd-electrical-tas and /cpd-plumbing-tas, both already pending above.
+  // Built and deployed. Two of its three gates have since cleared: the buyUrl path was corrected
+  // 24 Jul 2026 (the product id was always current, only the path was wrong) and Stage 7 has been
+  // re-verified (`check-pipeline` reports 07 no older than the page source). What remains is the
+  // standing external blocker the buyUrl inherits - /payment is served by LearnWorlds on today's
+  // apex, and this build replaces that apex at cutover. Remove BOTH this line and the noindex flag
+  // together, and only once that decision lands.
+  ['/cpd-building-tas', 'BUILT; noindex pending the learn. subdomain decision (buyUrl + Stage 7 both cleared)'],
   ['/about', 'B4 - about page'],
   ['/guides', 'B5 - content hub index'],
 ]);

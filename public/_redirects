@@ -91,9 +91,9 @@
 /owner-builder-learning /owner-builder-courses 301
 /owner-builder-learning/ /owner-builder-courses 301
 
-# /special-tas-electrician-cpd-bundle -> /cpd-bundles-tas (redirect) - TAS bundle page. Wave 4.
-/special-tas-electrician-cpd-bundle /cpd-bundles-tas 301
-/special-tas-electrician-cpd-bundle/ /cpd-bundles-tas 301
+# /special-tas-electrician-cpd-bundle -> /cpd-electrical-tas (redirect) - Repointed 28 Jul 2026: /cpd-bundles-tas was dropped from the IA. The bundle IS the product at /cpd-{category}-{state}. Wave 4.
+/special-tas-electrician-cpd-bundle /cpd-electrical-tas 301
+/special-tas-electrician-cpd-bundle/ /cpd-electrical-tas 301
 
 # /nsw-building-industry -> /cpd-nsw (redirect) - Industry page folds into NSW CPD state hub. 4.7k impr.
 /nsw-building-industry /cpd-nsw 301
@@ -107,9 +107,9 @@
 /cpd-courses /cpd 301
 /cpd-courses/ /cpd 301
 
-# /special-tas-plumber-cpd-bundle -> /cpd-bundles-tas (redirect) - TAS bundle page. Wave 4.
-/special-tas-plumber-cpd-bundle /cpd-bundles-tas 301
-/special-tas-plumber-cpd-bundle/ /cpd-bundles-tas 301
+# /special-tas-plumber-cpd-bundle -> /cpd-plumbing-tas (redirect) - Repointed 28 Jul 2026: /cpd-bundles-tas was dropped from the IA. The bundle IS the product at /cpd-{category}-{state}. Wave 4.
+/special-tas-plumber-cpd-bundle /cpd-plumbing-tas 301
+/special-tas-plumber-cpd-bundle/ /cpd-plumbing-tas 301
 
 # /tas-builder-practitioners-cpd -> /cpd-building-tas (redirect) - Folds into TAS building CPD course page. Wave 4.
 /tas-builder-practitioners-cpd /cpd-building-tas 301

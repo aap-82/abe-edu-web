@@ -68,9 +68,18 @@ Lighter re-run — a single house-style/content pass, no structural change:
 
 1. Re-measure capsule word counts (the pass may have moved them out of 40–60).
 2. Confirm authority model intact: **asqa-accredited**, RTO **Blue Dog Training (RTO 31193)**,
-   unit **CPCWHS1001** (single C — superseded `CPCCWHS1001` must be absent), **one** Person
-   node is wrong for asqa — this page correctly carries Person ×2 as measured; keep it as the
-   23 Jul run recorded, and re-confirm `recognizedBy` = Blue Dog, not ABE.
+   unit **CPCWHS1001** (single C — superseded `CPCCWHS1001` must be absent), **exactly one** Person
+   node (the reviewer, Warwick Smith) — the RTO develops and owns an accredited course, so it is
+   credited as an Organization via `Course.creator`, never as an ABE person — and re-confirm
+   `recognizedBy` = Blue Dog, not ABE.
+
+   > **Corrected 28 July 2026 (skill audit).** This step previously read "one Person node is wrong
+   > for asqa — this page correctly carries Person ×2". That is backwards. `guardrails.ts` fails an
+   > asqa-accredited page that does not have exactly 1 Person, and the built page correctly renders
+   > 1. Both tasks in this handover are discharged, but the instruction was left standing as a trap:
+   > a session acting on it would have "fixed" a correct page into a guaranteed build failure. The
+   > same error had propagated into SKILL.md in three places and is fixed there too, and the rule is
+   > now asserted in `check-claims.mjs` so it cannot drift again unnoticed.
 3. Confirm the **noindex** pre-launch state is still intentional (buyUrl TBC) and recorded as
    NOTE, not a regression.
 4. Price grid: $59 / card fee $13.72 / total $72.72 still reconciles.
