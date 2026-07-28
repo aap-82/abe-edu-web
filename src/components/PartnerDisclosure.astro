@@ -35,7 +35,12 @@ const legal = rec?.legalName ?? partner;
     </div>
     <div class="pl-check">
       <span class="pl-reg"><span class="pl-reg-k">RTO</span><span class="pl-reg-n num">{rto}</span></span>
-      {rec?.tgaUrl && <a class="pl-verify" href={rec.tgaUrl} rel="noopener">Verify on training.gov.au →</a>}
+      {/* New tab, like every external link in this card and in ResourceLink: checking an RTO's
+          registration is a verify-then-return errand, and sending the reader off the page mid-decision
+          loses them. The .sr-only cue is required, not decorative - an unannounced tab change is a
+          WCAG 3.2.5 failure, and it is the only thing that makes the behaviour perceivable to a
+          screen-reader user. */}
+      {rec?.tgaUrl && <a class="pl-verify" href={rec.tgaUrl} rel="noopener" target="_blank">Verify on training.gov.au →<span class="sr-only">, opens in a new tab</span></a>}
       {rec?.verified && <span class="pl-verified">{rec.verified}</span>}
     </div>
   </div>

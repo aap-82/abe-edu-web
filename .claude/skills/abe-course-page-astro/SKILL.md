@@ -63,6 +63,12 @@ not on the page" is a fix.
   `content.config.ts` and `guardrails.ts`, plus every dollar figure on a page matched against
   `kb/register/`. A superseded figure is a FAIL.
 - **`node scripts/check-freshness.mjs`** — register staleness. Wired into `prebuild`.
+- **`node scripts/check-links.mjs`** — run after `npm run build`. Every same-origin link in `dist/`
+  resolves to a built route, an asset, or an explicitly named planned page. `guardrails.ts` checks
+  in-page anchors (6) and orphans (8) but never checked that a link points AT something, which is
+  how the footer came to link all 19 pages at ten URLs that do not exist. Unbuilt targets are
+  allowed only by being listed in `PLANNED` with the wave that builds them, and the list
+  self-cleans: a target that now exists but is still listed is a FAIL.
 - **`node scripts/review-trends.mjs`** — after filing a Stage-9 review.
 
 **When you change a claim about the build, add it to `CLAIMS` in `check-claims.mjs`.** Documentation
@@ -328,7 +334,10 @@ the component that owns the markup. A component with no styleguide specimen fail
 
 ### 6 · Astro build
 Work in the live repo. A course page is **one MDX file** in `src/content/courses/`; a hub is one MDX
-file in `src/content/hubs/` with a page stub calling `getEntry('hubs', '<id>')`; an expert is one
+file in `src/content/hubs/` with a page stub calling `getEntry('hubs', '<id>')`; a **CPD bundle** is
+one MDX file in `src/content/cpd-bundles/` with its own route stub rendering `CpdBundleLayout` (never
+added to `[slug]/index.astro` - two layouts behind one page file leak scoped styles across pages; see
+archetype 04); an expert is one
 **`.md`** file in `src/content/experts/` (the loader glob is `.md`, and an `.mdx` there is silently
 ignored). Course frontmatter carries
 the chrome and the JSON-LD inputs (title, canonical, `authorityModel`, price, nav, hero, sticky, experts,
@@ -346,7 +355,12 @@ head-validity (an injected `<img>`/`<iframe>` before a script tag silently voids
 
 `content.config.ts` validates the frontmatter with Zod at parse time; the `abe-guardrails` integration
 audits the built HTML at `astro:build:done` and **fails the build** on any of:
-- more than one H1, or a missing JSON-LD node (Course + Credential + BreadcrumbList + Person x2)
+- more than one H1, or a missing JSON-LD node (Course + Credential + BreadcrumbList + Person)
+- **the wrong number of Person nodes for the authority model.** Exactly **2** (developer + reviewer)
+  on state-approved-direct and knowledge-requirement pages; exactly **1** (the reviewer) on
+  **asqa-accredited** pages, where the course is developed and owned by the RTO and credited as an
+  Organization via `Course.creator`, never as an ABE person. A second Person on an asqa page fails
+  the build, as does a Person titled "developer"
 - `Course.offers.price` absent from the rendered page, or `priceNumber` not equal to `price`
 - an **asserted** claim forbidden by the page's authority model (the check excises the chrome and looks
   for a negator, so "ABE Education is not an RTO" passes while "delivered by an RTO" fails)
@@ -385,24 +399,33 @@ resolved target, the schema node list: read them out of `dist/`.
 1. **Section conformance.** Every section id in `05-components.md` appears in `dist/`, and every
    section in `dist/` appears in the table. A briefed section vanished between Stage 4 and the page
    and no gate noticed.
-2. **Quote every WARN naming this slug**, from `check-claims`, `check-freshness` and `system-health`
-   — not just the failing count. All three raised page-relevant warnings that never reached the
-   audit table. **Zero failing is not zero findings.**
+2. **Quote every WARN naming this slug**, from `check-claims`, `check-freshness`, `check-links` and
+   `system-health` — not just the failing count. All of them raised page-relevant warnings that
+   never reached the audit table. **Zero failing is not zero findings.**
 3. **Artefact completeness.** `pipeline/{slug}/` holds 01 through 07. A missing file is a stage that
    did not happen.
 
 Then run the checks on the built HTML and fix FAILs by correcting the content or data, never by
 watering down the components:
 - **pre-production audit (`references/seo/audit-workflow.md`)** — (a) *structure & schema*: one H1 with the target
-  keyword, valid server-rendered JSON-LD (Course + Credential + BreadcrumbList + Person x2, zero errors,
-  logged-out DOM), `recognizedBy` matching the authority model (regulator for state-approved-direct,
+  keyword, valid server-rendered JSON-LD (Course + Credential + BreadcrumbList + Person, zero errors,
+  logged-out DOM), the **Person count matching the authority model** (x2 developer + reviewer on
+  ABE-developed courses, **x1** reviewer-only on asqa-accredited, with the RTO as `Course.creator`),
+  `recognizedBy` matching the authority model (regulator for state-approved-direct,
   **none** for WA knowledge-requirement), `Course.offers.price` equal to the on-page price, meta
   title/description/canonical, alt text; (b) *authority language*: no RTO/accredited/"approved course"
   claim; (c) *E-E-A-T & freshness*: crawlable breadcrumb reviewer/updated line, per-section verification
   blocks, `#content-review` section, "Last verified" dates; (d) *citation gate*: every government/
   legislative claim visibly sourced + a Consolidated Sources list (primary or issuing-authority sources
-  only); (e) *cannibalisation & indexation*: primary keyword not already targeted, `/course/` + `/program/`
-  robots-blocked, links up/down not sideways, genuinely state-specific content; (f) *banned copy*: no
+  only); (e) *cannibalisation & indexation*: primary keyword not already targeted, links up/down not
+  sideways, genuinely state-specific content, and **no LearnWorlds path emitted as a same-origin link
+  or in JSON-LD**. `/course/*`, `/program/*` and `/payment` are served by LearnWorlds on today's apex
+  and are blocked in *its* robots.txt, not in this repo's `public/robots.txt` - so "robots-blocked" is
+  not something this build can assert or verify. What this build controls is whether it advertises
+  those URLs: a `/program/*` CTA or `ItemList` URL becomes a dead link the moment the Astro build owns
+  the apex. Treat any such path as an open blocker inherited from the `learn.` subdomain decision, and
+  record it rather than guessing (`/cpd-tas` and `cpd-building-tas`'s `buyUrl` both carry it today);
+  (f) *banned copy*: no
   "comprehensive", no "Enrol now/today", no CTA inside answer/FAQ blocks.
 - **`abe-readability-audit`** — measure ~60–66 CPL (45–75; mobile 30–45), body >= 16px, leading 1.4–1.6,
   single-column left-aligned prose, off-black-on-off-white, ~7-item list chunking, answer-first, one
@@ -495,8 +518,9 @@ Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
   build started refusing them. (The figure is deliberately not quoted here: this file is read before
   every run, and a price written into an anecdote gets picked up as though it were current.)
 - **SEO / E-E-A-T:** one H1, question-led H2s, 40-60 word answer capsules, price visible and equal to
-  `Course.offers.price`, two named Person profiles (developer + independent reviewer) with `sameAs`
-  LinkedIn, image alt >= 80 chars. Sitemap + robots + OG/Twitter shipped by the template.
+  `Course.offers.price`, named Person profiles with `sameAs` LinkedIn - **two** (developer +
+  independent reviewer) on ABE-developed courses, **one** (the reviewer) on asqa-accredited ones -
+  image alt >= 80 chars. Sitemap + robots + OG/Twitter shipped by the template.
 - **Voice:** Australian English; no em dashes in body copy; never "comprehensive".
 
 ## What the skill carries
@@ -510,12 +534,11 @@ Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
   to component, and the wrong instinct to avoid), `component-library.md` (stage 5 props),
   `kb/rules/authority-and-seo-rules.md` (the ship-blockers), `deploy-cloudflare.md` (stage 8 deploy),
   `verification.md` (stage 7 pre-deploy checks), `image-prompts.md` (page visuals).
-- **The Astro template is the repo, not this skill.** Work against the live project: four content
-  collections (`courses` .mdx, `experts` .md, `hubs` .mdx, `partners` .md), `CourseLayout` and
-  `HubLayout`, the `/styleguide` component library, and the `abe-guardrails` build integration. Read
-  `content.config.ts` and `guardrails.ts` for the current shape rather than trusting any description
-  of them, including this one. any description of the content model, this file included describes a superseded architecture and
-  should not be relied on until it is rewritten.
+- **The Astro template is the repo, not this skill.** Work against the live project: **five** content
+  collections (`courses` .mdx, `experts` .md, `hubs` .mdx, `partners` .md, `cpdBundles` .mdx),
+  `CourseLayout`, `HubLayout` and `CpdBundleLayout`, the `/styleguide` component library, and the
+  `abe-guardrails` build integration. Read `content.config.ts` and `guardrails.ts` for the current
+  shape rather than trusting any description of them, this one included.
 
 ## Where things live (repo-first)
 This skill is **self-contained plus the repo's `kb/` library**. Nothing is drawn from another skill.

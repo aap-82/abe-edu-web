@@ -25,11 +25,11 @@ legacy_path,action,target,notes
 /tas-online-white-card,redirect,/white-card-tas,Wave 3.
 /tas-plumber-practitioner-cpd,redirect,/cpd-plumbing-tas,Duplicate legacy page folds into the one TAS plumbing course page.
 /owner-builder-learning,redirect,/owner-builder-courses,Folds into OB hub.
-/special-tas-electrician-cpd-bundle,redirect,/cpd-bundles-tas,TAS bundle page. Wave 4.
+/special-tas-electrician-cpd-bundle,redirect,/cpd-electrical-tas,Repointed 28 Jul 2026: /cpd-bundles-tas was dropped from the IA. The bundle IS the product at /cpd-{category}-{state}. Wave 4.
 /nsw-building-industry,redirect,/cpd-nsw,Industry page folds into NSW CPD state hub. 4.7k impr.
 /about-us,redirect,/about,Two live about pages consolidate to one.
 /cpd-courses,redirect,/cpd,CPD main hub already exists in repo.
-/special-tas-plumber-cpd-bundle,redirect,/cpd-bundles-tas,TAS bundle page. Wave 4.
+/special-tas-plumber-cpd-bundle,redirect,/cpd-plumbing-tas,Repointed 28 Jul 2026: /cpd-bundles-tas was dropped from the IA. The bundle IS the product at /cpd-{category}-{state}. Wave 4.
 /tas-builder-practitioners-cpd,redirect,/cpd-building-tas,Folds into TAS building CPD course page. Wave 4.
 /tas-electrical-practitioners-cpd,redirect,/cpd-electrical-tas,Folds into TAS electrical CPD course page.
 /real-estate-agent-cpd-class-2,retire,/cpd-nsw,NSW RE CPD retired. 3.6k impr forfeited knowingly.

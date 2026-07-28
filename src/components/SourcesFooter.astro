@@ -21,11 +21,16 @@ interface Props { sources: Source[]; abn?: string; updated?: string; disclaimers
 const { sources, abn = '64 125 455 272', updated = 'July 2026', disclaimersHtml, asqa = false } = Astro.props;
 
 interface FLink { label: string; href: string; }
+// "CPD Bundles" -> /cpd-bundles was REMOVED 28 Jul 2026. It is not an unbuilt page waiting on a
+// wave: /cpd-bundles was dropped from the IA outright, because the bundle IS the product and lives
+// at /cpd-{category}-{state} (references/archetypes/04-cpd-bundle.md, new site/abe-new-site-sitemap.md
+// line 81). It therefore breached this file's own rule three lines up - no link here for a route with
+// no ticket - and shipped a dead link on all 19 pages. Bundles are reached through /cpd. Nothing
+// replaces the entry: a global footer column names categories, and a bundle is a product inside one.
 const coursesLinks: FLink[] = [
   { label: 'Owner Builder', href: '/owner-builder-courses' },
   { label: 'White Card', href: '/white-card' },
   { label: 'CPD Courses', href: '/cpd' },
-  { label: 'CPD Bundles', href: '/cpd-bundles' },
 ];
 const trustLinks: FLink[] = [
   { label: 'Accreditation', href: '/accreditation' },

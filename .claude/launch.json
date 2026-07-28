@@ -9,6 +9,7 @@
       "autoPort": true
     },
     {
+      "// why": "The Astro CLI is a singleton daemon: `npm run dev` from a worktree ignores --port and reuses the main checkout's :4321, so it serves the WRONG code and a verification against it is worse than none. Serving the built dist/ on its own port is how a worktree gets honest eyes on its own changes. Run `npm run build` first.",
       "name": "dist-static",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "dist", "-l", "4325"],

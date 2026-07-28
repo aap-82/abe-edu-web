@@ -17,6 +17,8 @@ import ZSection from '../components/ZSection.astro';
 import Placeholder from '../components/Placeholder.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
+import ResourceLink from '../components/ResourceLink.astro';
+import Footnote from '../components/Footnote.astro';
 import CanCant from '../components/CanCant.astro';
 import Stepper from '../components/Stepper.astro';
 import TopicGrid from '../components/TopicGrid.astro';
@@ -124,7 +126,11 @@ const people = [{
     'Placeholder biography copy showing how the card renders a mono credential line above body paragraphs.',
     'A second paragraph demonstrates a multi-paragraph bio.',
   ],
-  linkedin: '#',
+  // A real external URL, not the page's usual inert '#', because this link now carries
+  // target="_blank" and an "opens in a new tab" cue: with '#' the specimen would demonstrate the
+  // behaviour by opening a blank tab onto itself. The platform root rather than a person's
+  // profile, since this reviewer is fictional and must not be attached to a real identity.
+  linkedin: 'https://www.linkedin.com/',
 }];
 const vSources = [
   { label: 'Regulator — Owner builder permit', href: '#' },
@@ -134,10 +140,16 @@ const footerSources = [
   { label: 'Regulator — Owner builder permit', href: '#', verified: 'Verified 14 Jul 2026' },
   { label: 'Building Act (example)', href: '#', verified: 'legislation' },
 ];
+// Points at this page's own group ids, so the specimen actually scrolls when you click it. It
+// previously used #course / #cost / #faq — realistic course-page labels, but no element on the
+// styleguide carries those ids, so all three links were dead. A component library demonstrates a
+// component by making it work; an inert nav specimen shows the styling and hides the behaviour.
+// (WayfinderNav renders a <header>, which guardrails' pageBody() strips, so these three reported
+// as chrome warnings rather than failing check 6 — quiet enough to survive since W0.)
 const navItems = [
-  { label: 'The course', href: '#course', sectionId: 'course' },
-  { label: 'Cost', href: '#cost', sectionId: 'cost' },
-  { label: 'FAQ', href: '#faq', sectionId: 'faq' },
+  { label: 'Content', href: '#g-content', sectionId: 'g-content' },
+  { label: 'Navigation', href: '#g-nav', sectionId: 'g-nav' },
+  { label: 'Trust', href: '#g-trust', sectionId: 'g-trust' },
 ];
 const crumbs = [
   { name: 'Home', item: '#' },
@@ -472,6 +484,33 @@ const groups = [
         <Note><b>Note:</b> the default informational callout.</Note>
         <Note variant="caution" label="Important"><b>Caution:</b> used for serious or legal consequences.</Note>
         <Note maroon><b>Maroon:</b> the accented emphasis variant.</Note>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Footnote</span><span class="sg-desc">Fine print that must be on the page but must not compete with it: the fee reviewed each 1 July, the caveat on a price. Recedes by SIZE, not by fading, because --slate is the only AA-legal grey for readable text (5.10:1 on paper) and footnote copy is usually an instruction the reader must act on. Backs PriceCard's `foot`. Renders a div, so MDX multi-line content is safe.</span><span class="sg-props">rule?</span></div>
+      <div class="sg-demo sg-stack">
+        <Footnote>The $13.72 Service Tasmania card fee is the same for a new card or a replacement, and is reviewed each 1 July, so check the current amount before you lodge. There is no membership, renewal or annual charge.</Footnote>
+        <Footnote rule>With <code>rule</code>: a 1px top hairline, for a footnote that closes a block rather than trailing one. Fees are set by the regulator and <b>reviewed annually</b>, so confirm the current amount on the <a href="/accreditation">accreditation page</a> before you lodge.</Footnote>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ResourceLink</span><span class="sg-desc">A record the reader can open: a regulator's register entry, a .gov.au page, or another page here. Distinct from Note (inert prose in a box) and from VerifiedSources (a dated ledger attesting WE checked). This one is an invitation for the reader to go and look, so it takes the interactive-card lift. External links show the bare host and open in a new tab.</span><span class="sg-props">href · title · kicker? · desc? · external?</span></div>
+      <div class="sg-demo sg-stack">
+        <ResourceLink
+          href="https://training.gov.au/Organisation/Details/31193"
+          kicker="National register"
+          title="Blue Dog Training, RTO 31193"
+          desc="Registration period, scope, and the right to deliver and assess CPCWHS1001. Public and free to search."
+        />
+        <ResourceLink
+          href="/accreditation"
+          kicker="On this site"
+          title="How ABE Education's courses are accredited"
+          desc="Which authority stands behind each course, state by state."
+        />
+        <ResourceLink href="https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd" title="CBOS: continuing professional development" />
       </div>
     </div>
 
