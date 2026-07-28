@@ -18,6 +18,7 @@ import Placeholder from '../components/Placeholder.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
 import ResourceLink from '../components/ResourceLink.astro';
+import Footnote from '../components/Footnote.astro';
 import CanCant from '../components/CanCant.astro';
 import Stepper from '../components/Stepper.astro';
 import TopicGrid from '../components/TopicGrid.astro';
@@ -483,6 +484,14 @@ const groups = [
         <Note><b>Note:</b> the default informational callout.</Note>
         <Note variant="caution" label="Important"><b>Caution:</b> used for serious or legal consequences.</Note>
         <Note maroon><b>Maroon:</b> the accented emphasis variant.</Note>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">Footnote</span><span class="sg-desc">Fine print that must be on the page but must not compete with it: the fee reviewed each 1 July, the caveat on a price. Recedes by SIZE, not by fading, because --slate is the only AA-legal grey for readable text (5.10:1 on paper) and footnote copy is usually an instruction the reader must act on. Backs PriceCard's `foot`. Renders a div, so MDX multi-line content is safe.</span><span class="sg-props">rule?</span></div>
+      <div class="sg-demo sg-stack">
+        <Footnote>The $13.72 Service Tasmania card fee is the same for a new card or a replacement, and is reviewed each 1 July, so check the current amount before you lodge. There is no membership, renewal or annual charge.</Footnote>
+        <Footnote rule>With <code>rule</code>: a 1px top hairline, for a footnote that closes a block rather than trailing one. Fees are set by the regulator and <b>reviewed annually</b>, so confirm the current amount on the <a href="/accreditation">accreditation page</a> before you lodge.</Footnote>
       </div>
     </div>
 

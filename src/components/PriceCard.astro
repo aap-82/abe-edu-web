@@ -1,5 +1,9 @@
 ---
 import type { PriceRow } from '../types/course';
+import Footnote from './Footnote.astro';
+// `foot` renders through <Footnote>, which owns the fine-print treatment this card used to define
+// itself as .price-foot. The prop and every calling page are unchanged; only the markup behind it
+// moved, so the six pages passing a `foot` string render identically.
 interface Props { rows: PriceRow[]; foot?: string; }
 const { rows, foot } = Astro.props;
 ---
@@ -11,4 +15,4 @@ const { rows, foot } = Astro.props;
     </div>
   ))}
 </div>
-{foot && <p class="price-foot">{foot}</p>}
+{foot && <Footnote>{foot}</Footnote>}

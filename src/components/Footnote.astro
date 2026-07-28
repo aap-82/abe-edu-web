@@ -1,0 +1,36 @@
+---
+// Fine print: required information that must be on the page but must not compete with it. The
+// fee that is reviewed each 1 July, the caveat on a price, the "confirm before you lodge".
+//
+// WHY IT EXISTS. The treatment already existed three times and was reachable from none of them:
+//   .price-foot   14px --slate, 440px measure, locked inside PriceCard's `foot` prop (6+ pages)
+//   .pl-disc      12px --slate + top rule, hardcoded inside PartnerDisclosure's ASQA block
+//   footer .f-auth 13px white-62% + top rule, inside SourcesFooter, on the ink ground
+// Three occurrences of one shape, and no way to write a footnote in an MDX body. This component
+// is that shape promoted; PriceCard now renders it rather than keeping a second definition.
+// .f-auth is deliberately NOT folded in: it sits on an ink ground with white text, which is a
+// different contrast problem, not this one.
+//
+// IT RECEDES BY SIZE, NOT BY FADING. There is no quieter grey available and that is a hard
+// constraint, not a preference: --slate (#6e6e6e) is 5.10:1 on --paper, 4.64 on --ground and
+// 4.52 on --paper-warm, all clear of AA's 4.5 floor, while --slate-light (#9a9a9a) is 2.81:1 and
+// DESIGN.md restricts it to INACTIVE-component text and pure decoration, both WCAG-exempt.
+// Footnote copy is neither. The live example is "check the current amount before you lodge",
+// sitting beside a government fee: an instruction the reader is expected to act on. Fading it
+// would put actionable regulatory content below the readable floor to buy a visual effect.
+//
+// RENDERS A <div>, NOT A <p>, ON PURPOSE. MDX wraps multi-line JSX children in their own <p>,
+// and a <p> inside a <p> is invalid, so the browser hoists the text out and strands it below an
+// empty element with a green build. That is mistakes-log #12, and Note.astro carries a
+// "keep it on ONE line" contract precisely because it renders a <p> and cannot survive it. A
+// <div> makes the nested <p> valid, so the whole failure mode disappears instead of being
+// documented. `.footnote > p` is styled below so both forms render identically.
+interface Props {
+  /** Adds a 1px top hairline, for a footnote that closes a block rather than trailing one.
+   *  This is the `.pl-disc` shape. Off by default: most footnotes need no rule, and a rule on
+   *  every one of them would build a ladder of lines down the page. */
+  rule?: boolean;
+}
+const { rule = false } = Astro.props;
+---
+<div class:list={['footnote', rule && 'footnote-rule']}><slot /></div>

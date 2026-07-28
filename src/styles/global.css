@@ -618,7 +618,26 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .price-row .p-v{font-family:var(--font-display);font-weight:600;font-size:24px;letter-spacing:-.02em;color:var(--ink);white-space:nowrap;}
 .price-row.total{background:var(--ink);}
 .price-row.total .p-k,.price-row.total .p-v{color:#fff;}
-.price-foot{font-size:14px;color:var(--slate);margin-top:var(--s-md);max-width:440px;}
+/* Footnote: fine print that must be present and must not compete. Supersedes .price-foot, which
+   is kept as an alias below so nothing that still writes the old class silently loses its styling.
+   Values are .price-foot's, unchanged, because 6+ shipped pages render it: 14px, --slate, 440px
+   (~52 CPL measured). line-height is deliberately NOT set - it inherits 1.65, and small text wants
+   more leading than body, not less, so pinning it to the 1.6 band ceiling would be backwards. */
+.footnote,.price-foot{font-size:14px;color:var(--slate);margin-top:var(--s-md);max-width:440px;}
+/* The component renders a <div> so MDX's auto-wrapping <p> is valid inside it (see Footnote.astro).
+   Both forms therefore have to render identically: strip the inner paragraph's margins and let the
+   wrapper own the spacing. */
+.footnote > p{margin:0;}
+.footnote > p + p{margin-top:var(--s-2xs);}
+/* Optional closing rule, the .pl-disc shape. Off by default: a rule under every footnote builds a
+   ladder of hairlines down the page. */
+.footnote-rule{padding-top:var(--s-md);border-top:1px solid var(--rule);}
+/* Links inherit the grey rather than taking maroon: a footnote is fine print, and a maroon link in
+   it would be the loudest thing in a block whose whole job is to recede. Underlined so it is still
+   unmistakably a link without colour doing the work, and maroon on hover for the affordance. */
+.footnote a{color:inherit;text-decoration:underline;text-underline-offset:2px;}
+.footnote a:hover{color:var(--maroon);}
+.footnote b,.footnote strong{color:var(--ink-3);font-weight:600;}
 .faq{border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin-top:var(--s-lg);overflow:hidden;}
 .faq details+details{border-top:1px solid var(--rule);}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 24px;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);transition:background .15s;}
