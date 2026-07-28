@@ -52,7 +52,15 @@ and per-source verification method)
 
 ### 1e · Cannibalisation & indexation (quality-gates §1)
 - **No other ABE page targets the same primary keyword** (GSC / inventory check).
-- **`robots.txt` blocks `/course/` and `/program/`** system paths; `sitemap-index.xml` emitted.
+- **No LearnWorlds path emitted as a same-origin link or in JSON-LD**; `sitemap-index.xml` emitted.
+  `/course/*`, `/program/*` and `/payment` are served by LearnWorlds on today's apex and are blocked
+  in *its* robots.txt, not in this repo's `public/robots.txt` — so the old form of this row,
+  "`robots.txt` blocks `/course/` and `/program/`", asked for something this build cannot assert or
+  verify, and an independent audit correctly reported it as failing. What this build controls is
+  whether it *advertises* those URLs: a `/program/*` CTA or `ItemList` entry becomes a dead link the
+  moment the Astro build owns the apex. `node scripts/check-links.mjs` reports each one as a WARN.
+  Treat any such path as an open blocker inherited from the `learn.` subdomain decision, and record
+  it rather than guessing. Matches SKILL.md stage 7 (e); the two were out of step until 28 Jul 2026.
 - **Internal links point up (spoke→hub) and down (hub→spoke), never sideways** between competing
   same-level pages. Cross-category links to non-competing pages are fine.
 - **State content is genuinely state-specific** — regulator name + URL, fees, application process,
