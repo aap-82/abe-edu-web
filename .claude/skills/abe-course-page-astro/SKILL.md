@@ -181,7 +181,9 @@ Ground the target keywords in real demand, then find where ABE can win. Source o
 Then fetch the organic-ranking competitor pages, extract their H1/H2 (H3 where the content sits), build a
 coverage matrix (topic x competitor), and rank the gaps ABE can win (price transparency, eligibility,
 obligations, E-E-A-T, guide intent, doubts competitors seed). Method:
-`references/content-pipeline.md` section 2.
+`references/content-pipeline.md` section 2. Connector mechanics, rate limits and the AU city-locId
+workaround in full: `references/seo/keyword-research.md`. Read `references/seo/seo-strategy.md` for
+the overall tier roadmap this page's keywords should slot into.
 
 ### 3 · Archetype selection, then section briefs
 Two moves. The first decides everything after it, and skipping it is how every page ends up shaped
@@ -250,6 +252,16 @@ which is finished copy written from that archetype's own brief. Read the exempla
 seem sufficient: a worked example shapes output far more strongly than a rule does, which is precisely
 why ten worked examples of one archetype produced ten pages of one shape.
 
+**Then, before drafting, the people-first governance gates in `references/seo/helpful-content-standard.md`**
+— the four AI-content governance gates (incl. "shown experience, not asserted"), the ABE YMYL ruling, and
+the anti-patterns (date-freshening, state-swapped copy) a page must not carry. Writing meta title/description
+or any per-section verification line: `references/seo/meta-framework.md` has the primary-source corrections
+(no character limit on title/description; the obsolete-title and micro-boilerplate risks). Trust signals
+(badges, the TrustBand, expert credentials): `references/seo/trust-bar-guidelines.md` and
+`references/seo/badge-inventory.md`. General content-shape and formatting rules beyond content-craft.md's
+method: `references/seo/course-page-structure.md`, `references/seo/seo-content-reference.md` and
+`references/seo/content-formatting-guidelines.md`.
+
 Every section except the FAQ opens with a 40 to 60 word answer capsule, answer first. Keep roughly 120
 to 180 words between headings. Tag each heading with its level. A verified-with-sources line under
 every section stating a government fact, and a page-foot Sources block. Split prose into the shapes the
@@ -268,7 +280,8 @@ asked at Stage 1 and are answered before a word is written. Method:
 ### 5 · Section plan & component selection
 Turn the extended content into a **section plan**: an ordered list of sections, each with an id, a nav
 label, a marker, a question-led H2, and the **components** that carry its content. Choose each component
-by the **shape** of the content, not by what the last page happened to use.
+by the **shape** of the content, not by what the last page happened to use. Prop contracts for every
+component: `references/component-library.md`.
 
 **Write it to `05-components.md` as a table, one row per section, with a column naming the brief it
 comes from.** That column is the whole point of the artefact: it is the only thing that maps
@@ -331,6 +344,14 @@ the chrome and the JSON-LD inputs (title, canonical, `authorityModel`, price, na
 sources, disclaimers), and the body composes components. `src/pages/[slug]/index.astro` renders any entry
 in the collection through `CourseLayout`, which builds the JSON-LD graph and the chrome. There is no page
 file to write and no component to import into the router.
+
+**Building the JSON-LD graph and the URL:** `references/seo/schema-implementation-guide.md` is the
+canonical implementation reference (property requirements, the Course-info rich result, the
+`parentOrganization` authority-model trap); rich-result eligibility beyond Course itself:
+`references/seo/schema-org-opportunities.md`. Slug/URL structure rules: `references/seo/page-type-engine.md`.
+**Before troubleshooting a missing schema node, read `references/seo/crawl-index-controls.md` first** —
+head-validity (an injected `<img>`/`<iframe>` before a script tag silently voids everything after it in
+`<head>`) is named there as the highest-severity, hardest-to-spot cause.
 
 `content.config.ts` validates the frontmatter with Zod at parse time; the `abe-guardrails` integration
 audits the built HTML at `astro:build:done` and **fails the build** on any of:
@@ -529,8 +550,21 @@ This skill is **self-contained plus the repo's `kb/` library**. Nothing is drawn
 - **`kb/rules/`** — `authority-and-seo-rules.md` (the ship-blockers), `authority-model.md`,
   `asqa-disclosure-framework.md`. `guardrails.ts` enforces these at build time; the text lives here.
 - **`kb/mistakes-log.md`** — repeat risks with "times seen". Read at pre-flight, written at Stage 9.
-- **`references/seo/`** — the SEO method: page-type engine, course-page structure, meta, schema,
-  keywords, crawl/index controls, quality gates, audit workflow, freshness check.
+- **`references/seo/`** — the SEO method. Each file is now pointed to from the stage that needs it
+  (Stage 2 keyword-research.md and seo-strategy.md; Stage 4 helpful-content-standard.md,
+  meta-framework.md, trust-bar-guidelines.md, badge-inventory.md, course-page-structure.md,
+  seo-content-reference.md, content-formatting-guidelines.md; Stage 6 schema-implementation-guide.md,
+  schema-org-opportunities.md, page-type-engine.md, crawl-index-controls.md; Stage 7
+  audit-workflow.md, alt-text-guidelines.md, quality-gates.md, freshness-check.md) — do not add a new
+  file here without also anchoring it at the stage that will actually open it, or it is unreachable
+  from the pipeline even though it is "in the skill". `changelog.md` is the exception: a dated log of
+  corrections already applied elsewhere, read by a human auditing the skill's own history, not by a
+  page-building run.
+- **`references/seo/expert-fallback/`** — a static snapshot of the Notion Experts database, used only
+  if a live Notion query for expert data fails or is unreachable; read its own `README.md` for the
+  fallback procedure before using it. **Known gap:** the README's own step references ("Step 4, Step
+  6M, Step 7", a "Graceful degradation" section) describe a pre-Stage-numbering version of this skill
+  and no longer match — flag to a `skills` session, do not guess the mapping mid-run.
 - **`references/archetypes/`** — Stage 3's page shapes. **`references/content-craft.md`** — Stage 4.
 - **The site itself** — `src/`, `content.config.ts`, `guardrails.ts`. Read the code for the current
   shape rather than any description of it, this file included.
