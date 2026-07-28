@@ -28,7 +28,8 @@ project "Proof" step: a page does not ship until it passes.
   course/provider" and no "permit"/"licence" for the owner-builder step.
 - **ASQA disclosure** complete (all required locations) where an accredited course is referenced.
 
-### 1c · E-E-A-T & freshness signals (quality-gates §6)
+### 1c · E-E-A-T & freshness signals (quality-gates §6, `references/seo/freshness-check.md` for cadence
+and per-source verification method)
 - **Breadcrumb freshness line present and crawlable HTML** (not in a `<style>` block, comment, or
   schema): `Reviewed by [Name] · DD Mon YYYY` on pages with expert attribution (name anchors to
   `#content-review`), else `Last updated: Month YYYY`.
@@ -63,6 +64,8 @@ project "Proof" step: a page does not ship until it passes.
 - **No CTA inside an answer capsule or FAQ answer** (blocks AI extraction).
 - **No "verified" alongside a Trustpilot reference** (Blue Dog solicitation flag).
 - **Images:** content images have descriptive alt >= 80 chars; decorative images `aria-hidden` + empty alt.
+  Full alt-writing method (what to describe, what to omit, the en-AU + >=80-char rule in context):
+  `references/seo/alt-text-guidelines.md`.
 - **OG/Twitter meta** emitted (template default).
 
 ---
