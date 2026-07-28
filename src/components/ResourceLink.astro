@@ -1,0 +1,68 @@
+---
+import ArrowRight from './ArrowRight.astro';
+// A pointer to a resource the reader can open: a regulator's record, a register entry, a
+// government page, or another page on this site. Sits between prose and a CTA.
+//
+// WHY THIS EXISTS RATHER THAN A COMPONENT WE ALREADY HAD. Four near-neighbours, none of which
+// does this job:
+//   VerifiedSources  a dated ledger attesting that WE checked a fact. Passive proof, past tense.
+//                    This is the opposite: an invitation for the READER to go and look.
+//   Note             a caveat or legal consequence. Inert prose in a box, nothing to open.
+//   KeyTakeaway      distils what a section already said. Never new, never a destination.
+//   .btn-link        the right loudness, but inline and containerless, so it disappears in a
+//                    wall of body copy at exactly the moment a reader wants proof.
+// The shape had already been hand-built twice, as `.pl` in Credentials.astro and `.pl-verify`
+// in PartnerDisclosure.astro, both "Verify on training.gov.au →". Two occurrences is this
+// project's promote trigger, so it is a component rather than a third copy.
+//
+// AUTHORITY NOTE. This component links to evidence; it never characterises it. It carries no
+// "approved" / "accredited" / "recognised" wording of its own, so it cannot introduce an
+// authority-model breach on a page whose model forbids one. Whatever claim is being made stays
+// in the prose above it, where the build's authority checks can see it.
+//
+// NO SLOT, DELIBERATELY. `desc` is a prop, not a <slot>. MDX wraps multi-line JSX children in
+// their own <p>, and a <p> nested inside this component's inline markup is invalid, so the
+// browser hoists the text out and strands it below an empty panel with a green build. That is
+// mistakes-log #12, which cost this pipeline real time once already. A string prop cannot fail
+// that way.
+interface Props {
+  href: string;
+  title: string;
+  /** DM Mono kicker naming the KIND of source, e.g. "National register", "Regulator".
+   *  Optional on purpose: omit it rather than inventing a label, so the panel stays quiet. */
+  kicker?: string;
+  /** One line on what the reader will find. Keep it to a single sentence. */
+  desc?: string;
+  /** Overrides the inference below. Only needed for a same-origin URL that is really a
+   *  third party, which today means the LearnWorlds paths still served on the apex. */
+  external?: boolean;
+}
+const { href, title, kicker, desc, external } = Astro.props;
+
+// Root-relative is internal; anything with a scheme is external. Our own production origin is
+// never written into a visible link (guardrails 7b), so an absolute abeeducation.edu.au URL
+// would be a bug elsewhere rather than a case to handle here.
+const isExternal = external ?? /^https?:\/\//i.test(href);
+
+// The bare host is the destination tell: it tells the reader where they are about to land,
+// which an icon alone cannot. Falls back to nothing rather than throwing on a malformed URL.
+let host = '';
+if (isExternal) {
+  try { host = new URL(href).host.replace(/^www\./, ''); } catch { host = ''; }
+}
+---
+<a
+  class="reslink"
+  href={href}
+  {...isExternal ? { target: '_blank', rel: 'noopener' } : {}}
+>
+  <span class="rl-main">
+    {kicker && <span class="rl-k">{kicker}</span>}
+    <span class="rl-t">{title}</span>
+    {desc && <span class="rl-d">{desc}</span>}
+    {isExternal && host && (
+      <span class="rl-host">{host}<span class="sr-only">, opens in a new tab</span></span>
+    )}
+  </span>
+  <ArrowRight />
+</a>

@@ -17,6 +17,7 @@ import ZSection from '../components/ZSection.astro';
 import Placeholder from '../components/Placeholder.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import Note from '../components/Note.astro';
+import ResourceLink from '../components/ResourceLink.astro';
 import CanCant from '../components/CanCant.astro';
 import Stepper from '../components/Stepper.astro';
 import TopicGrid from '../components/TopicGrid.astro';
@@ -478,6 +479,25 @@ const groups = [
         <Note><b>Note:</b> the default informational callout.</Note>
         <Note variant="caution" label="Important"><b>Caution:</b> used for serious or legal consequences.</Note>
         <Note maroon><b>Maroon:</b> the accented emphasis variant.</Note>
+      </div>
+    </div>
+
+    <div class="sg-item">
+      <div class="sg-meta"><span class="sg-name">ResourceLink</span><span class="sg-desc">A record the reader can open: a regulator's register entry, a .gov.au page, or another page here. Distinct from Note (inert prose in a box) and from VerifiedSources (a dated ledger attesting WE checked). This one is an invitation for the reader to go and look, so it takes the interactive-card lift. External links show the bare host and open in a new tab.</span><span class="sg-props">href · title · kicker? · desc? · external?</span></div>
+      <div class="sg-demo sg-stack">
+        <ResourceLink
+          href="https://training.gov.au/Organisation/Details/31193"
+          kicker="National register"
+          title="Blue Dog Training, RTO 31193"
+          desc="Registration period, scope, and the right to deliver and assess CPCWHS1001. Public and free to search."
+        />
+        <ResourceLink
+          href="/accreditation"
+          kicker="On this site"
+          title="How ABE Education's courses are accredited"
+          desc="Which authority stands behind each course, state by state."
+        />
+        <ResourceLink href="https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd" title="CBOS: continuing professional development" />
       </div>
     </div>
 

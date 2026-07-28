@@ -112,9 +112,9 @@ p strong{color:var(--ink);font-weight:600;}
    times, so nothing reflows while the arrow is away.
    Out accelerates (ease-in) as if thrown; in decelerates (ease-out) as if caught. The
    last 40% of the cycle is rest: back to back, the flight reads as a stutter. */
-.btn-link .arr-clip,.waynext .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:none;overflow:hidden;}
-.btn-link .arr,.waynext .arr{width:18px;height:18px;flex:none;}
-.btn-link:hover .arr,.waynext a:hover .arr{animation:arr-fly .9s infinite;}
+.btn-link .arr-clip,.waynext .arr-clip,.reslink .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:none;overflow:hidden;}
+.btn-link .arr,.waynext .arr,.reslink .arr{width:18px;height:18px;flex:none;}
+.btn-link:hover .arr,.waynext a:hover .arr,.reslink:hover .arr{animation:arr-fly .9s infinite;}
 @keyframes arr-fly{
   0%{transform:translateX(0);animation-timing-function:cubic-bezier(.7,0,.84,0);}
   30%{transform:translateX(26px);}                                     /* gone */
@@ -123,7 +123,7 @@ p strong{color:var(--ink);font-weight:600;}
   100%{transform:translateX(0);}                                       /* rest */
 }
 @media(prefers-reduced-motion:reduce){
-  .btn-link:hover .arr,.waynext a:hover .arr{animation:none;}
+  .btn-link:hover .arr,.waynext a:hover .arr,.reslink:hover .arr{animation:none;}
 }
 .site-head{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(251,249,245,.92);backdrop-filter:saturate(140%) blur(8px);z-index:30;}
 .site-head .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;gap:18px;}
@@ -374,6 +374,44 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
    print-like edge. Maroon stays well under its 10% budget. */
 .note.maroon{border-top:2px solid var(--maroon);border-radius:3px;}
 .note .note-k{display:block;margin-bottom:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);}
+/* ResourceLink: a pointer to a record the reader can open (a regulator's register entry, a
+   .gov.au page, another page here). Louder than body prose, quieter than a CTA.
+   It is a DESTINATION, so it takes the interactive-card treatment (.topic's border-to-ink +
+   2px lift, the system's only elevation cue) rather than .note's inert paper-alt box. That is
+   the whole distinction in one line: .note is read, .reslink is opened.
+   --paper fill, because an elevated surface is what --paper is for, and it separates the panel
+   from every section band including the white one via its hairline.
+   Maroon appears ONLY on the title at hover, never as a fill or a border, so the accent still
+   means "action" and stays inside its budget. Width matches .note so the two callouts share an
+   optical edge when they sit in the same .measure column. */
+.reslink{display:flex;align-items:center;justify-content:space-between;gap:var(--s-md);margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper);border:1px solid var(--rule);border-radius:6px;text-decoration:none;color:var(--ink);max-width:calc(480px + 2*var(--s-lg));transition:border-color .18s,transform .18s;}
+.reslink:hover{border-color:var(--ink);transform:translateY(-2px);}
+/* Title and arrow move to maroon together, so the hover reads as one accent event rather than
+   two. The arrow's SVG is stroke="currentColor", so setting `color` on it is what drives it. */
+.reslink:hover .rl-t,.reslink:hover .arr{color:var(--maroon);}
+.reslink .arr{transition:color .15s;}
+.rl-main{display:flex;flex-direction:column;gap:var(--s-3xs);min-width:0;}
+.rl-k{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--slate);}
+.rl-t{font-family:var(--font-display);font-weight:600;font-size:17px;line-height:1.3;color:var(--ink);transition:color .15s;}
+.rl-d{font-size:15px;line-height:1.5;color:var(--ink-3);}
+/* The bare host is the destination tell: it says where the reader is about to land, which an
+   icon cannot. Mono, so it reads as data rather than as more prose. */
+.rl-host{font-family:var(--font-mono);font-size:12px;color:var(--slate);}
+/* MUST sit after the .reslink:hover rule above, not up in the arrow-motion reduced-motion block
+   at the top of this file. Both selectors are `.reslink:hover`, so specificity is a tie and
+   source order decides: authored earlier, `transform:none` loses to `translateY(-2px)` and the
+   lift survives for a reader who asked for no motion. Caught in the built stylesheet, where the
+   rule order is visible; it looked correct in the source. */
+@media(prefers-reduced-motion:reduce){
+  .reslink{transition:border-color .18s;}
+  .reslink:hover{transform:none;}
+}
+@media(max-width:600px){
+  /* The arrow is decoration on a panel that is already entirely tappable, and at 375px the
+     horizontal room it takes costs the title a line. Drop it, keep the panel. */
+  .reslink{padding:var(--s-sm) var(--s-md);}
+  .reslink .arr-clip{display:none;}
+}
 /* Answer capsule: the 40-60 word answer opening each section. A warm-cream inset with a full 1px
    hairline, squared to 3px. No side-stripe (the banned pattern it replaces), and distinct from the
    caution note's maroon top rule. Fills with --paper-inset, NOT --paper-warm: the capsule opens
