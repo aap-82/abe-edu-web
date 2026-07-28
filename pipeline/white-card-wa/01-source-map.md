@@ -130,3 +130,30 @@ regulatory fact). Neither is needed for the page to be correct; neither will be 
 `[confirm:]` markers are required.
 
 **Gate status: closed. Stage 2 may begin.**
+
+---
+
+## Added 28 July 2026
+
+### S9 · CPCWHS1001 unit record, national register
+
+- **URL:** https://training.gov.au/training/details/CPCWHS1001/unitdetails
+- **Read:** 28 July 2026, **in a browser** (the register is a client-rendered SPA; `WebFetch` returns
+  the shell, not the record, per `kb/rules/authority-model.md`).
+- **Class:** primary fact. This is the authoritative statement of what the unit contains.
+- **Status read on the day:** usage recommendation **Current**, **Release 2**.
+- **What it contains, and what was taken from it:** the unit's four elements and their performance
+  criteria, used verbatim-in-substance for the `#covered` section (brief 09):
+  1. Identify health and safety legislative requirements of construction work (duty of care; roles,
+     responsibilities and rights of duty holders; construction safe work practices).
+  2. Identify construction hazards and risk control measures (basic principles of risk management;
+     construction hazards; **purpose and use of PPE identified and demonstrated**; control measures).
+  3. Identify health and safety communication and reporting processes (safety documents; designated
+     safety personnel; safety signs and symbols; reporting hazards, incidents and injuries).
+  4. Identify incident and emergency response procedures (responding to incidents and emergencies;
+     accessing first aid; types and purpose of fire safety equipment).
+- **Why it matters beyond the section:** element 2 requires PPE to be **demonstrated**, not merely
+  described. That is the training-package reason ABE's assessment is a live video call, so this
+  source underwrites the `#assessment` claim as well as `#covered`.
+- **What it is NOT a source for:** ABE's own lesson or module structure. The course is developed and
+  owned by the RTO; no module list exists in this repo and none was invented.

@@ -49,6 +49,7 @@ nav:
   - { label: "Is it real?", href: "#real", sectionId: "real" }
   - { label: "Do you need one?", href: "#need-one", sectionId: "need-one" }
   - { label: "Online in WA?", href: "#online", sectionId: "online" }
+  - { label: "What you learn", href: "#covered", sectionId: "covered" }
   - { label: "Assessment", href: "#assessment", sectionId: "assessment" }
   - { label: "Cost", href: "#cost", sectionId: "cost" }
   - { label: "Your card", href: "#your-card", sectionId: "your-card" }
@@ -135,6 +136,7 @@ import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import ResourceLink from '../../components/ResourceLink.astro';
+import BulletList from '../../components/BulletList.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-wa';
@@ -217,12 +219,30 @@ import { faqs } from '../../data/faqs-white-card-wa';
     <p>Where you are within the state makes no difference. The course runs the same from Perth as it does from Bunbury, Geraldton or a camp in the Pilbara, and because the assessment is a video call there is no classroom to drive to. That is the practical reason online delivery matters more in Western Australia than almost anywhere else.</p>
   </div>
   <VerifiedSources date="28 Jul 2026" facts="The evidence requirement and the accepted document list, from the regulator’s card-supply terms and conditions" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
+  <SectionWayfinder label="What the course covers" href="#covered" />
+</Section>
+
+<Section id="covered" marker="04" eyebrow="What you learn" h2="What does the White Card course actually cover?">
+  <AnswerCapsule>Four things. The unit covers health and safety law on a construction site, how to spot hazards and control the risk, how safety information is communicated and reported, and what to do when something goes wrong. You also select and fit the protective equipment yourself, which is part of the assessment.</AnswerCapsule>
+  <div class="measure">
+    <BulletList
+      leadIn="CPCWHS1001 is built from four elements, and both the training and the assessment follow them:"
+      items={[
+        "<b>Health and safety law on site.</b> The duty of care you carry, the basic roles, responsibilities and rights of everyone else on the job, and the safe work practices expected of you.",
+        "<b>Hazards and risk control.</b> The common construction hazards, the basic principles of risk management, the measures used to control them, and the purpose and use of protective equipment.",
+        "<b>Communication and reporting.</b> Safety signs and symbols, the safety documents you will be handed, who the designated safety people are, and how to report a hazard, an incident or an injury.",
+        "<b>Incidents and emergencies.</b> What to do when something goes wrong, how to get first aid, and the types and purpose of fire safety equipment.",
+      ]}
+    />
+    <p>Selecting and fitting the protective equipment sits inside the second element, and it is the part you demonstrate rather than answer. That is why the assessment is a live video call instead of a multiple-choice page, and it is worth knowing before you book one.</p>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="The four elements of CPCWHS1001 and their performance criteria, read on the national register (unit Release 2, usage recommendation Current)" sources={[{ label: 'training.gov.au — CPCWHS1001 Prepare to work safely in the construction industry', href: 'https://training.gov.au/training/details/CPCWHS1001/unitdetails' }]} />
   <SectionWayfinder label="What the assessment involves" href="#assessment" />
 </Section>
 
 <ZSection
   id="assessment"
-  marker="04"
+  marker="05"
   eyebrow="The live assessment"
   h2="What happens in the live assessment, and how do you pass it?"
   imgDesc="A White Card learner demonstrating how to fit a hard hat and high-visibility vest to a training assessor during a live video assessment on a laptop at a kitchen table."
@@ -241,7 +261,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <VerifiedSources date="28 Jul 2026" facts="The supervised practical demonstration requirement that underpins online delivery, checked against the regulator’s construction induction guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
 </ZSection>
 
-<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What does a White Card cost in Western Australia?">
+<Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="What does a White Card cost in Western Australia?">
   <AnswerCapsule>It is <b>$99</b>, and that is the whole cost. Western Australia does not charge a government fee for a construction induction card: your training organisation issues it and posts it to you. There is no second payment, no counter to visit and no lodgement form, which is not true in every state.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="There is no membership, renewal or annual charge. A replacement card is obtained from the training organisation that issued it, at that organisation’s own fee." />
   <div class="measure">
@@ -260,7 +280,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule onDark>A nationally recognised White Card, delivered and assessed by Blue Dog Training (RTO 31193) and published by ABE Education.</AnswerCapsule>
 </TrustBand>
 
-<Section id="your-card" marker="06" eyebrow="Your card" h2="What do you get, and how long does it last?">
+<Section id="your-card" marker="07" eyebrow="Your card" h2="What do you get, and how long does it last?">
   <AnswerCapsule>A nationally recognised Statement of Attainment for CPCWHS1001, issued by Blue Dog Training, and a construction induction card posted to your Western Australian address. The card carries no expiry date and there is no refresher to sit. It only lapses if you leave the construction industry for two consecutive years or longer.</AnswerCapsule>
   <FactGrid items={[
     { key: 'Credential', value: 'CPCWHS1001', note: 'Issued by Blue Dog Training once you pass the live assessment.' },
@@ -279,13 +299,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <SectionWayfinder label="Who developed and checked this" href="#content-review" />
 </Section>
 
-<Section bg="bg-alt" id="content-review" marker="07" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
+<Section bg="bg-alt" id="content-review" marker="08" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
   <AnswerCapsule>Blue Dog Training <b>develops and owns the accredited course</b>, as the registered training organisation delivering CPCWHS1001. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for legislative currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
   <SectionWayfinder label="Common questions" href="#faq" />
 </Section>
 
-<Section id="faq" marker="08" eyebrow="FAQ" h2="Common questions">
+<Section id="faq" marker="09" eyebrow="FAQ" h2="Common questions">
   <Faq items={faqs} />
   <VerifiedSources date="28 Jul 2026" facts="Answers checked against the national register and WorkSafe WA’s construction induction guidance" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/organisation/details/31193' }, { label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
 </Section>

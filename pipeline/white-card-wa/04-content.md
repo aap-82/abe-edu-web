@@ -521,3 +521,55 @@ natural FAQ item. **It is an internal fact that was not asked at Stage 1** (resi
 resit costs anything, how soon), so it is not answered rather than invented. Recorded here so it is
 visible instead of quietly absent, and carried to Stage 9. Ask Andrey before the next White Card
 state page, since the answer will apply to all of them.
+
+---
+
+## Added 28 July 2026 — `#covered` (brief 09, page marker 04)
+
+Written from brief 09, not from the heading. Source for every fact: S9, the CPCWHS1001 unit record
+on the national register, read 28 July 2026.
+
+### H2 · What does the White Card course actually cover?
+
+**Answer capsule (51 words).**
+
+> Four things. The unit covers health and safety law on a construction site, how to spot hazards and
+> control the risk, how safety information is communicated and reported, and what to do when
+> something goes wrong. You also select and fit the protective equipment yourself, which is part of
+> the assessment.
+
+**Body.**
+
+> CPCWHS1001 is built from four elements, and both the training and the assessment follow them:
+>
+> - **Health and safety law on site.** The duty of care you carry, the basic roles, responsibilities
+>   and rights of everyone else on the job, and the safe work practices expected of you.
+> - **Hazards and risk control.** The common construction hazards, the basic principles of risk
+>   management, the measures used to control them, and the purpose and use of protective equipment.
+> - **Communication and reporting.** Safety signs and symbols, the safety documents you will be
+>   handed, who the designated safety people are, and how to report a hazard, an incident or an injury.
+> - **Incidents and emergencies.** What to do when something goes wrong, how to get first aid, and the
+>   types and purpose of fire safety equipment.
+>
+> Selecting and fitting the protective equipment sits inside the second element, and it is the part
+> you demonstrate rather than answer. That is why the assessment is a live video call instead of a
+> multiple-choice page, and it is worth knowing before you book one.
+
+**Verified line.** Verified 28 Jul 2026 — the four elements of CPCWHS1001 and their performance
+criteria, read on the national register (unit Release 2, usage recommendation Current) — against
+training.gov.au, CPCWHS1001.
+
+**Wayfinder.** "What the assessment involves" → `#assessment`.
+
+### Cold-reread notes
+
+- **Brief's fail condition:** does not invent an ABE module list; every bullet traces to a published
+  performance criterion, and the section describes the UNIT rather than "our course".
+- **Delete test:** the closing paragraph is the one thing here no competitor page says, because it
+  explains *why* the assessment is live. Removing it would leave four bullets and no argument.
+- **First-sentence test:** "Four things." answers the H2 before any set-up.
+- **Anywhere test:** fails deliberately in one direction — the four elements are national, not WA
+  specific. The WA specificity is carried by the sections around it, and duplicating it here would
+  be padding.
+- **Forbidden carry-overs:** no "our modules", no ABE-as-developer framing, no accredited-course
+  claim beyond the unit itself.

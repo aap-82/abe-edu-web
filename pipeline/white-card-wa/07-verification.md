@@ -513,3 +513,82 @@ arrived at. A later reader comparing the two will find this entry.
 
 No fact was removed. The register is still cited in this section twice: the ResourceLink and the
 dated `VerifiedSources` block.
+
+---
+
+# 07c · Stage 7 verification — new section `#covered` (brief 09, marker 04)
+
+**Added 28 July 2026** at Andrey's request. A new section, not an edit, so this is a fuller pass than
+07b: it re-checks section conformance, the marker sequence, the wayfinder chain and the citation gate.
+
+**SELF-VERIFIED**, for the same reason as 07b: subagents are unavailable in this session. On the
+record rather than hidden.
+
+## Why the gap existed
+
+Not a lost section. `05-components.md` mapped briefs 01-08 to eight shipped sections and
+`check-pipeline` reported 9/9 conformance throughout, so nothing vanished between Stage 4 and the
+page. **It was never briefed**, and three layers independently failed to surface it:
+
+- **Stage 2** ranks nine content gaps plus a list of gaps deliberately declined. Curriculum coverage
+  is in neither. The GSC demand for this page is dominated by transactional and anxiety intent
+  (assessment, online legality, cost, card check), so a "what does it cover" query never appeared.
+- **The archetype** (02, nationally recognised course) lists seven required sections. All seven were
+  already present. Course content is not among them.
+- **Stage 7's own checklist** verifies that briefed sections reached the page. It has no check for a
+  section that should have been briefed and never was.
+
+Routed to the demand list below rather than fixed here.
+
+## Sourcing decision
+
+ABE's own lesson or module list is an **internal fact nobody holds**: it is not in this repo, and the
+course is developed and owned by the RTO, not ABE. Inventing one would have been an authority-model
+breach as well as a fabricated fact.
+
+The sourceable answer is the **unit's own published elements** on the national register (S9, added to
+`01-source-map.md` this session, read in a browser 28 Jul 2026, Release 2, usage recommendation
+Current). The section therefore describes **CPCWHS1001**, never "our modules".
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| Section conformance | **10 sections match the plan** (was 9; `covered` added to `05`) |
+| Capsule conformance | **10 capsules match `04-content.md`** |
+| Answer capsule | **51 words** (band 40-60) |
+| Body | 170 words in the section, 4 bullets of 138-187 chars (parallel, BulletList's 3-7 rule) |
+| Marker sequence | 01-09 sequential; `assessment` 04→05, `cost` 05→06, `your-card` 06→07, `content-review` 07→08, `faq` 08→09 |
+| Wayfinder chain | unbroken: real → need-one → online → **covered** → assessment → cost → your-card → content-review → faq |
+| Nav | 9 entries, **0 dead** in-page targets |
+| H1 / Person / `[confirm:]` / "comprehensive" | 1 / **1** (correct for asqa) / 0 / 0 |
+| Measure | 480px at 17px; **52 CPL desktop** (band 45-75), **37 CPL at 375px** (band 30-45) |
+| Mobile 375px | no element in the section overflows |
+| `guardrails` | 20 pages passed |
+
+## Citation gate
+
+Every claim in the section traces to S9. The `VerifiedSources` block renders "Verified 28 Jul 2026 —
+the four elements of CPCWHS1001 and their performance criteria, read on the national register (unit
+Release 2, usage recommendation Current)" against the unit record.
+
+One correction to an inference made earlier in this session and recorded so it is not repeated:
+`#assessment` **does** carry a next-link. It is a `ZSection`, which renders `.waynext` from its
+`next` prop rather than from a `SectionWayfinder` child, so a grep for `SectionWayfinder` misses it.
+The chain was never broken.
+
+## Ship decision
+
+**Merge-ready.** The section is sourced, conformant and measured. The audit's two open cutover gates
+(B4, F16) are **unchanged** and are not cleared by this.
+
+## Demand list
+
+- [skills] **Stage 7 has no check for a section that should exist and was never briefed.** It verifies
+  that briefed sections reached the page, which is the opposite direction. This gap survived Stage 2,
+  the archetype's required-sections list and Stage 7, and was found by a human reading the page. A
+  "does the page answer what the product IS and what it contains" check belongs in the archetype's
+  required sections, in `verification.md`, or both.
+- [skills] **Archetype 02's required-section list has no course-content entry.** Every other course
+  archetype sells a thing whose contents a buyer would want before paying. Worth adding, or worth an
+  explicit note saying why a nationally recognised course deliberately omits it.

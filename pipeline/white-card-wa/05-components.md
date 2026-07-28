@@ -20,23 +20,24 @@ asqa-accredited`, **no `noindex`** (the buyUrl resolves — unlike `/white-card-
 | 01 | `real` | 01 | **01** | "Is this a real White Card?" | Section + AnswerCapsule + prose + VerifiedSources + SectionWayfinder | authored |
 | 02 | `need-one` | 02 | **02** | "Do you actually need a White Card in Western Australia?" | Section(bg-alt) + AnswerCapsule + CanCant + prose + VerifiedSources | authored |
 | 03 | `online` | 03 | **03** | "Can you do your White Card online in Western Australia?" | Section + AnswerCapsule + prose(list ×6) + VerifiedSources | authored |
-| 04 | `assessment` | 04 | **04** | "What happens in the live assessment, and how do you pass it?" | **ZSection** + AnswerCapsule + prose + Note(caution) + VerifiedSources | authored |
-| 05 | `cost` | 05 | **05** | "What does a White Card cost in Western Australia?" | Section(bg-warm) + AnswerCapsule + PriceCard(priceRows) + VerifiedSources | authored |
+| 04 | `covered` | 04 | **09** | "What does the White Card course actually cover?" | Section + AnswerCapsule + BulletList(4) + prose + VerifiedSources + SectionWayfinder | authored — **added 28 Jul 2026** |
+| 05 | `assessment` | 05 | **04** | "What happens in the live assessment, and how do you pass it?" | **ZSection** + AnswerCapsule + prose + Note(caution) + VerifiedSources | authored |
+| 06 | `cost` | 06 | **05** | "What does a White Card cost in Western Australia?" | Section(bg-warm) + AnswerCapsule + PriceCard(priceRows) + VerifiedSources | authored |
 | — | TrustBand | — | (proof) | "Nationally recognised, delivered by an RTO" | TrustBand + TrustStats + AnswerCapsule(**onDark**) | authored |
-| 06 | `your-card` | 06 | **06** | "What do you get, and how long does it last?" | Section + AnswerCapsule + FactGrid + prose + Note(caution) + VerifiedSources | authored |
-| 07 | `content-review` | 07 | **07** | "Who developed and checked this course?" | Section(bg-alt) + AnswerCapsule + ExpertCredentials(**developerRto**) | authored |
-| 08 | `faq` | 08 | **08** | "Common questions" | Section + Faq(items) — incl. **ASQA loc 5** (3 Qs) | authored ← data file |
+| 07 | `your-card` | 07 | **06** | "What do you get, and how long does it last?" | Section + AnswerCapsule + FactGrid + prose + Note(caution) + VerifiedSources | authored |
+| 08 | `content-review` | 08 | **07** | "Who developed and checked this course?" | Section(bg-alt) + AnswerCapsule + ExpertCredentials(**developerRto**) | authored |
+| 09 | `faq` | 09 | **08** | "Common questions" | Section + Faq(items) — incl. **ASQA loc 5** (3 Qs) | authored ← data file |
 | — | ASQA disclosure (loc 2) | — | CTA band | — | Note (full CTA template, single line) | authored (last body block) |
 | — | CtaBand | — | CTA band | "Get your Western Australian White Card" | CtaBand | layout ← `frontmatter.ctaBand` |
 | — | Footer | — | Sources / ASQA loc 3, 4, 7 | — | SourcesFooter | layout |
 
 **Every brief is placed.** Hero → frontmatter. 01 → `#real` (+ the formal `#rto-partner` card,
-layout). 02 → `#need-one`. 03 → `#online`. 04 → `#assessment`. 05 → `#cost`. 06 → `#your-card`.
-07 → `#content-review`. 08 → `#faq`. CTA band → frontmatter + the loc-2 Note. **No brief dropped, no
-section without a brief.**
+layout). 02 → `#need-one`. 03 → `#online`. **09 → `#covered`** (added 28 Jul 2026).
+04 → `#assessment`. 05 → `#cost`. 06 → `#your-card`. 07 → `#content-review`. 08 → `#faq`.
+CTA band → frontmatter + the loc-2 Note. **No brief dropped, no section without a brief.**
 
-**Markers run 01 to 08, sequential, one mechanism** (the `marker` prop). Background alternates
-bg-alt / default / bg-alt / ZSection / bg-warm / TrustBand / default / bg-alt / default.
+**Markers run 01 to 09, sequential, one mechanism** (the `marker` prop). Background alternates
+bg-alt / default / bg-alt / default / ZSection / bg-warm / TrustBand / default / bg-alt / default.
 
 ---
 
@@ -131,3 +132,20 @@ holds** — location 6 has moved, so at minimum that row is untested in this pos
 | ZSection image | `assessment` | 4:5 | The live video assessment: someone demonstrating PPE to a trainer on a laptop call |
 
 Two slots only. Expert headshots are real photographs and are never generated.
+
+## Deviation log — 28 July 2026
+
+**`covered` inserted at marker 04**, between `online` and `assessment`. Everything below it shifted
+down one marker (`assessment` 04→05, `cost` 05→06, `your-card` 06→07, `content-review` 07→08,
+`faq` 08→09). The **From brief** column is the thing to read here: it now runs 03, **09**, 04, 05,
+06, 07, 08. That is not a mistake. A brief number is an identity the other artefacts cite; a marker
+is a position on the page. The late brief kept its own number rather than renumbering 01-08 and
+destroying the record of what the original run briefed.
+
+Chain re-linked with it: `online`'s SectionWayfinder now points at `#covered` ("What the course
+covers") instead of `#assessment`, and `covered`'s points at `#assessment`. A `nav` entry
+("What you learn") was added between "Online in WA?" and "Assessment".
+
+**Carrier choice.** `BulletList`, not `TopicGrid`. The four unit elements are a parallel equal-weight
+set, which is BulletList's stated job, and it holds 3-7 items. `TopicGrid` renders a three-column
+grid, so four cards would strand the fourth on its own row.
