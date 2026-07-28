@@ -31,9 +31,15 @@ sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now f
   (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
   impressions, the biggest White Card asset), plus `/accreditation`, `/experts`, `/reviews`, `/cpd`,
   `/cpd-tas`.
-- **Built but held back:** `/white-card-tas` and `/cpd-building-tas`, both noindexed pending
-  Andrey-only inputs. `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and
-  ⛔ must not ship in their current form.
+- **Published with a standing warning:** **`/white-card-tas`** — indexable since 28 Jul on Andrey's
+  call, **with no purchase path**. TAS payment is not configured, so every CTA is the in-page
+  `#enrol` anchor. Deliberate: the legacy URL holds real equity (7,092 impressions, position 11.81)
+  and the page answers the query, so it earns its place ahead of the checkout. A **warning, not a
+  blocker** — but it is the only live page that cannot be bought from, so wire the buyUrl as soon as
+  payment exists.
+- **Built but held back:** `/cpd-building-tas`, noindexed pending Andrey-only inputs.
+  `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and ⛔ must not ship in
+  their current form.
 - **Not started:** W2-6 insurance, W2-7 Project Advisory, **three of five White Card state pages
   (NSW, QLD, ACT) and the `/white-card` hub**, eight of ten CPD tickets, and all of Waves 5 and 6.
 
@@ -45,10 +51,17 @@ sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now f
    print their own art direction as body text), and confirmation that **`/payment` is served at the
    deploy origin** — it is live on the legacy origin but absent from the Worker's asset set, so all
    four CTAs are dead on staging. Neither blocks staging; both block the real domain.
-3. **White Card TAS launch inputs** — `buyUrl` and two photos.
-   *(The "three RTO contacts" previously listed here were already done: AlertForce, Blue Dog and
-   Upskill all carry a verified email and phone in `src/content/partners/`, checked 28 Jul. Stale
-   line removed.)*
+3. **⚠️ `/white-card-tas` states $59; a live checkout charges $39.** Not resolved, and the page is
+   now indexable. `/payment?product_id=white-card-tas&type=course` renders a working order for
+   "White Card TAS" at **A$39**, and LearnWorlds corroborates it exactly — A$117 across 3 payments.
+   Checked against WA as a control, where A$5,155 over 60 payments averages A$85.92 against a $99
+   list, so discounting exists and an average alone would prove nothing; the TAS figure is the
+   **list price at checkout**, not an average. Either $39 is a legacy product that should be retired,
+   or the page's $59 is wrong — and the page's whole cost section depends on it ($59 + $13.72 =
+   $72.72 today, $52.72 at the real price). **Andrey's call.**
+   *(Two items previously listed here are done and were removed: the two photos landed in
+   `src/assets/images/` on 27 Jul, and all three RTO contacts carry a verified email and phone in
+   `src/content/partners/`, checked at source 28 Jul.)*
 
 **The `/white-card` hub is gated on its spokes.** W3-6 depends on W3-1..W3-5, and the `hubs` schema
 types `spokes[].course` as a `reference('courses')`, so a hub naming a page that does not exist fails
