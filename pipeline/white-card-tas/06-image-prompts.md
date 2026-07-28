@@ -212,3 +212,60 @@ A or B; if telling a distinct TAS story matters more, use C. Not a call this art
 - No image may imply ABE issues the card or is the RTO. Slot 2 shows a government counter, which is
   accurate: WorkSafe Tasmania issues the card via Service Tasmania.
 - Alt text is >= 80 characters and en-AU, per guardrail.
+
+---
+
+## Hero slot CLOSED, 29 July 2026 — and one guardrail departure to decide
+
+**Shipped asset:** `src/assets/images/white-card-tas-hero.avif`, replacing
+`white-card-tas-hero-online.avif`. Supplied, not generated.
+
+**Specs, measured, matching the QLD hero convention exactly:**
+
+| | white-card-tas-hero.avif | qld-owner-builder-course-hero.avif |
+|---|---|---|
+| Native size | **1000 x 1250** (4:5) | 1000 x 1250 (4:5) |
+| Source weight | 47,226 B | 58,663 B |
+| Variants | 400w 12.6 kB · 800w 30.7 kB · 1000w 41.3 kB | 400w 14 kB · 800w 36 kB · 1000w 52 kB |
+| `sizes` | `(max-width: 800px) 100vw, 640px` | identical |
+| Serving | `width=1000 height=1250 loading="eager" decoding="async"` | identical |
+
+No resize was needed: the asset is already at the spec, where the previous one was 1122x1402.
+
+**What is actually in the frame** (described from the image, not from the old brief): a man seated at
+a timber desk in front of a large window, watching a laptop; on the desk a white hard hat, safety
+glasses, work gloves, tan work boots, a folded high-visibility yellow vest and a mug; through the
+window, a city and river below hills at dusk, reading as Hobart and the Derwent.
+
+**Alt text** (120 chars, CR2 80-125, en-AU)
+> A man in Hobart watching the online White Card course on a laptop, hard hat, boots and high-visibility vest on the desk.
+
+The previous alt was **162 characters and breached CR2**, and it described a video assessment, which
+is not what this frame shows. `artefactDesc` was also rewritten: it had described a worker on a build
+site holding a card, a third scene again.
+
+### DEPARTURE FROM THIS SLOT'S OWN GUARDRAIL — for Andrey to decide
+
+The guardrail recorded above for this slot reads:
+
+> "No visible screen content that reads as a real assessment, form, or credential (implies ABE content
+> without showing anything fabricated as fact). Screen softly out of focus or angled away."
+
+**The shipped image does not meet it.** The laptop screen is in focus and carries legible text reading
+`TASMANIA CONSTRUCTION INDUCTION WHITE CARD`, beside a presenter holding a small green card up to
+camera. `references/image-prompts.md` separately bans text in images and anything that renders as a
+nationally-recognised credential.
+
+Two things follow, and only the second needs a decision:
+
+1. **The alt text deliberately does not describe the screen.** It names the person, the city, the
+   activity and the PPE. Describing an on-screen card in alt text would assert a credential in the
+   accessibility layer, where no reader can see the context that qualifies it.
+2. **Is that screen ABE's real course material?** If yes, this is a photograph of the product and the
+   guardrail can be relaxed for this slot with a dated note. If it is a mock-up, the image depicts
+   fabricated course content as real, which is what the guardrail exists to prevent, and the frame
+   should be recropped or the screen softened. **Unresolved: nobody in this session can tell from the
+   pixels.** Not guessed either way.
+
+The image ships regardless of the answer, because it was chosen deliberately; this entry exists so the
+question is on the record rather than discovered by the next auditor.
