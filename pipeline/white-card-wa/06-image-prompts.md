@@ -83,3 +83,166 @@ The archetype-2 reader comparison-shops and scrolls fast, so the page is short a
 rather than the four an owner builder page uses. Slot 1 answers "is this for someone like me" at the
 top. Slot 2 is the only image that shows the thing that distinguishes this course from a cheaper one,
 which is why `assessment` was made a ZSection at Stage 5 rather than `your-card`.
+
+---
+
+# Variants — added 28 July 2026
+
+Two further options per slot, so a slot can be closed without re-briefing if the first prompt does
+not land. **Pick one per slot; they are alternatives, not a set.**
+
+## Alt-text compliance, and a defect in the originals
+
+`references/seo/alt-text-guidelines.md` **CR2 sets alt text at 80-125 characters.** The two original
+alt texts above are **173** and **167** characters measured, so both breach it, and their stated
+counts (156 and 169) are themselves wrong. Neither has shipped — both slots are FPO and the props are
+omitted — so this is caught before it reaches a page rather than after.
+
+**Compliant rewrites of the originals**, same meaning, same slot, use whichever wording you prefer:
+
+- Slot 1 (**115**): `A construction worker in high-visibility gear holding a construction induction White Card on a Perth building site.`
+- Slot 2 (**106**): `A White Card learner fitting a hard hat and high-visibility vest to camera during a live video assessment.`
+
+Every alt below is 80-125 characters, ends in a full stop, avoids "Image of" / "Photo of" (CR4), is
+unique (CR7), and is Australian English (CR11). The build's own floor is 80 characters, so the usable
+window is exactly 80-125.
+
+**One deliberate departure from the guideline's example.** Its ABE sample reads *"…White Card training
+with ABE Education."* This page is **asqa-accredited**: Blue Dog Training (RTO 31193) delivers and
+assesses, ABE Education publishes and enrols. "Training with ABE Education" in alt text on this page
+would imply ABE delivers the training, which is the one claim the authority model forbids. The
+variants name the unit and the setting instead, and never name ABE as the trainer.
+
+---
+
+## Slot 1 · Hero artefact — variant B (artefact-led)
+
+`references/image-prompts.md` ranks **the artefact** as the strongest image that earns its place, and
+rules out generic construction stock. Variant A is a person on a site; this one is the thing being
+bought. It also solves the negative-space rule more easily than a portrait does.
+
+**Alt text** (122 chars, en-AU)
+> A construction induction White Card and a CPCWHS1001 Statement of Attainment laid on a workbench on a Perth building site.
+
+**ChatGPT / DALL-E prompt**
+> A photorealistic vertical 4:5 still-life photograph, shot from directly above, of a plain white
+> plastic identification card and a single sheet of certificate paper resting on a scuffed timber
+> workbench. Beside them, a folded pair of work gloves and the brim of a white hard hat entering the
+> frame. Warm mid-morning daylight from the left, soft shadows, warm neutral colour grade. The lower
+> right third of the frame is empty workbench, left clear for text overlay. Documentary product
+> photography, shallow depth of field. **All text on the card and the sheet is blurred and completely
+> unreadable.** No logos, no crests, no seals, no watermarks.
+
+**Gemini prompt**
+> Photorealistic 4:5 vertical overhead still life: a plain white ID card and a sheet of certificate
+> paper on a worn timber workbench, with work gloves and the edge of a white hard hat in frame. Warm
+> natural side light, warm neutral grade, shallow depth of field. Keep the lower right third empty for
+> text. All printed text blurred and unreadable. No logos, no seals, no watermarks.
+
+**Guardrails:** the card and the sheet must be **unreadable** — legible text would render a credential,
+which `image-prompts.md` forbids outright and which ABE Education does not issue. No seals or crests
+either: they read as accreditation marks. Keep the negative space, or the hero heading has nowhere to sit.
+
+---
+
+## Slot 1 · Hero artefact — variant C (schematic motif)
+
+The restrained on-brand line-art option. Lowest risk of the three: nothing photographic to misread as
+a credential, no person to look like stock, and negative space is trivial to control. Weakest on
+"is this for someone like me", which is the slot's job, so it is the fallback rather than the pick.
+
+**Alt text** (117 chars, en-AU)
+> Line drawing of a part-built Perth home marking the site zones where a construction induction White Card is required.
+
+**ChatGPT / DALL-E prompt**
+> A minimal single-weight line illustration, vertical 4:5, of a part-built single-storey Australian
+> suburban house seen in three-quarter elevation: timber frame, roof trusses, a concrete slab and a
+> temporary site fence. Thin uniform dark maroon lines on a warm off-white ground, no fill, no
+> shading, no gradients. Architectural drawing style, calm and technical. The upper left quarter is
+> empty ground for text. No text, no dimensions, no annotations, no logos.
+
+**Gemini prompt**
+> Minimal 4:5 vertical line illustration of a part-built Australian suburban house: timber frame, roof
+> trusses, slab, temporary site fence. Single-weight dark maroon lines on warm off-white, no fill, no
+> shading. Architectural drawing style. Leave the upper left quarter empty. No text, no dimensions, no
+> annotations, no logos.
+
+**Guardrails:** single weight, no fill, no shading — anything richer stops reading as the register's
+restrained line art and starts reading as an illustration style the site does not use. Maroon is the
+action accent, so this is the one place it appears decoratively; if that sits wrong, specify `--ink`
+instead and treat it as a design decision rather than a prompt tweak.
+
+---
+
+## Slot 2 · `assessment` ZSection — variant B (assessor's point of view)
+
+Variant A watches the learner from behind. This one inverts it: the frame is the assessor's screen,
+so the person watching is the subject rather than a detail. The section's entire argument for the
+$99 is that a human is watching, and this states it in one glance.
+
+**Alt text** (105 chars, en-AU)
+> A training assessor watching a learner fit a hard hat and vest during a live CPCWHS1001 video assessment.
+
+**ChatGPT / DALL-E prompt**
+> A photorealistic vertical 4:5 photograph over the shoulder of a training assessor seated at a desk,
+> looking at a laptop. On the laptop screen, a video call showing a person in an ordinary home holding
+> a white hard hat up towards their webcam, mid-demonstration, framed head and shoulders. The
+> assessor's desk carries a notepad and a pen. Natural daylight, warm neutral grade, shallow depth of
+> field. The screen image is softly focused: the person and the hard hat are clearly recognisable, but
+> **no interface text, labels or names are legible.** No logos, no brand marks, no watermarks.
+
+**Gemini prompt**
+> Photorealistic 4:5 vertical photo over the shoulder of an assessor at a desk facing a laptop. On
+> screen, a video call showing a person at home holding up a white hard hat to their webcam. Notepad
+> and pen on the desk. Natural light, warm neutral grade, shallow depth of field. The person and hard
+> hat are recognisable; no interface text legible. No logos, no watermarks.
+
+**Guardrails:** **both people must be visible** — the assessor in frame and the learner on screen. An
+image of a laptop alone loses the section's argument. No recognisable video-conferencing chrome:
+rendering a real product's interface is a brand mark.
+
+---
+
+## Slot 2 · `assessment` ZSection — variant C (the demonstration close-up)
+
+Tightest crop of the three. The PPE demonstration is the assessable moment, so this variant makes the
+hands and the vest the subject and keeps the assessor present but secondary, on the laptop at the edge
+of frame. Use when the page wants the *task* foregrounded rather than the supervision.
+
+**Alt text** (113 chars, en-AU)
+> A learner fitting a high-visibility vest to the camera while an assessor observes on the open laptop beside them.
+
+**ChatGPT / DALL-E prompt**
+> A photorealistic vertical 4:5 photograph, waist-up, of a person at a kitchen table pulling on a
+> high-visibility yellow vest over an ordinary shirt, hands mid-adjustment on the shoulder strap. They
+> face a laptop open at the right edge of frame; on its screen, softly focused, another person watches.
+> Warm Australian domestic interior, natural window light from the left, uncluttered table. Candid
+> documentary style, shallow depth of field on the laptop. **No legible screen content, no readable
+> text anywhere.** No logos, no brand marks, no watermarks.
+
+**Gemini prompt**
+> Photorealistic 4:5 vertical waist-up photo: a person at a kitchen table pulling on a high-visibility
+> yellow vest, hands adjusting the strap, facing a laptop at the right edge of frame where another
+> person watches on screen, softly focused. Warm Australian home interior, natural window light,
+> uncluttered. Documentary style. No legible screen text. No logos, no watermarks.
+
+**Guardrails:** the assessor must still be visible on the laptop even though secondary — drop them and
+this becomes a stock photo of someone putting on a vest, which is the "generic construction stock"
+`image-prompts.md` rules out. Vest and hard hat only: no harness, respirator or hearing protection,
+none of which CPCWHS1001 assesses.
+
+---
+
+## Choosing
+
+| Slot | If you want | Take |
+|---|---|---|
+| 1 | the thing being bought, and easy negative space | **B, artefact-led** |
+| 1 | lowest risk of a credential misread, on-brand restraint | **C, schematic** |
+| 1 | a human answer to "is this for me" | **A, the original** |
+| 2 | the supervision stated in one glance | **B, assessor POV** |
+| 2 | the assessable task foregrounded | **C, close-up** |
+| 2 | the learner's own point of view | **A, the original** |
+
+Whichever is chosen, closing a slot is unchanged: generate, save to `src/assets/images/` under the
+filename in that slot's section above, add the prop back, and use that variant's alt text verbatim.
