@@ -157,6 +157,7 @@ const schema = {
   crumbs={bundle.breadcrumb}
   reviewed={bundle.reviewedBy}
 >
+<main id="main">
   {/*
     The shared Hero, not a hand-rolled one. This layout used to build its own hero markup, which is
     why it had no image slot, no CTA and no proof row, and why four bare children auto-placed into
@@ -246,6 +247,7 @@ const schema = {
   <slot />
 
   <CtaBand headingHtml={bundle.ctaBand.headingHtml} sub={bundle.ctaBand.sub} cta={bundle.ctaBand.cta} />
+</main>
   <SourcesFooter sources={bundle.footerSources ?? []} disclaimersHtml={bundle.disclaimersHtml ?? ''} />
 </BaseLayout>
 

@@ -117,6 +117,7 @@ const credentialSources = e.hasCredential
   ogImage={e.ogImage}
   crumbs={crumbs}
 >
+<main id="main">
   <Hero
     eyebrow={`${e.role}`}
     h1Html={`${e.name}<span class="dot">.</span>`}
@@ -183,6 +184,7 @@ const credentialSources = e.hasCredential
     sub="Browse the owner builder courses developed and reviewed by the people on this page."
     cta={{ href: '/owner-builder-courses', label: 'See owner builder courses' }}
   />
+</main>
   <SourcesFooter
     sources={[{ label: `${e.name} on LinkedIn`, href: e.linkedin, verified: `Verified ${e.lastVerified}` }, ...credentialSources]}
     disclaimersHtml="<b>ABE Education is not a Registered Training Organisation.</b> Credentials on this page are held by the named individual, not by ABE Education, and are listed only where they can be checked against the issuing authority's own record."

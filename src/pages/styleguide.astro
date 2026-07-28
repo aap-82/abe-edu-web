@@ -272,6 +272,9 @@ const groups = [
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" /></noscript>
 </head>
 <body class="sg">
+  {/* Own shell, not BaseLayout, so the skip link and <main> are repeated here. The <SourcesFooter>
+      further down is a SPECIMEN, not this page's footer — the real one is .sg-foot at the end. */}
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="sg-head">
     <span class="sg-kicker">Internal · noindex</span>
     <h1>Component library</h1>
@@ -280,6 +283,8 @@ const groups = [
       {groups.map((g) => <a href={`#g-${g.id}`}>{g.label}</a>)}
     </nav>
   </header>
+
+  <main id="main">
 
   <!-- ===== FOUNDATIONS ===== -->
   <section class="sg-group" id="g-foundations">
@@ -664,12 +669,13 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">TrustBand</span><span class="sg-desc">Dark trust band: stat row plus the authority-model attestation. Owns its own section shell.</span><span class="sg-props">id? · eyebrow? · h2 · stats[] · attestHtml · slot</span></div>
+      <div class="sg-meta"><span class="sg-name">TrustBand</span><span class="sg-desc">Dark trust band: strapline, stat row, and the authority-model attestation. Owns its own section shell. Use <code>lede</code> for the strapline — NOT an AnswerCapsule, which carries a 40-60 word answer-first contract this band cannot honour: a 55-word version measured fourteen lines of reversed text at 375px. The slot is deprecated and kept only until existing pages migrate.</span><span class="sg-props">id? · eyebrow? · h2 · lede? · stats[] · attestHtml · slot (deprecated)</span></div>
       <div class="sg-demo"><TrustBand
         h2="Trusted by Australian owner builders since 2007"
         stats={[{ value: 'REG', label: 'Approved course material' }, { value: '31,000+', label: 'Students trained', numeric: true }, { value: '19', label: 'Years operating', numeric: true }, { value: '18', label: 'Modules in the course', numeric: true }]}
+        lede="A short strapline restating the trust position. No 40-60 word rule applies here."
         attestHtml="Example attestation line. States the authority model in plain words: what the credential is, and what it is not."
-      ><AnswerCapsule onDark>A representative on-dark capsule, sized for the trust band.</AnswerCapsule></TrustBand></div>
+      /></div>
     </div>
 
     <div class="sg-item">
@@ -712,6 +718,8 @@ const groups = [
       <div class="sg-demo"><a class="btn-link" href="#">See who needs a permit <ArrowRight /></a></div>
     </div>
   </section>
+
+  </main>
 
   <footer class="sg-foot">ABE component library · renders live from <code>src/components</code> · noindex, excluded from sitemap</footer>
 </body>

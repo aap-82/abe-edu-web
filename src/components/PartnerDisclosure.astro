@@ -41,7 +41,13 @@ const legal = rec?.legalName ?? partner;
           WCAG 3.2.5 failure, and it is the only thing that makes the behaviour perceivable to a
           screen-reader user. */}
       {rec?.tgaUrl && <a class="pl-verify" href={rec.tgaUrl} rel="noopener" target="_blank">Verify on training.gov.au →<span class="sr-only">, opens in a new tab</span></a>}
-      {rec?.verified && <span class="pl-verified">{rec.verified}</span>}
+      {/* SCOPED, because an unlabelled date here contradicts the page. This is when the PARTNER
+          RECORD was last checked (src/content/partners/*.md), not when the page's government facts
+          were verified — those carry their own dates in each VerifiedSources block and the hero
+          line. On /white-card-wa the two differ by nine days, and an independent audit read the
+          older one as the page's own, on the page's single most important trust artefact. The
+          date is not wrong; it was unlabelled. Saying what it covers costs four words. */}
+      {rec?.verified && <span class="pl-verified">Provider record · {rec.verified}</span>}
     </div>
   </div>
 

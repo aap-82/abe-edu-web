@@ -385,6 +385,18 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .can-col .cc-k{color:var(--ink);font-weight:600;}
 .note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
 .note b{color:var(--ink);}
+/* A .note authored as a DIRECT CHILD of the layout has no .wrap around it, so it renders flush to
+   the viewport edge while every other block sits in the content column. The ASQA location-2
+   disclosure is exactly this shape: the archetype places it as the last body block, outside any
+   section, so it escapes the gutter system entirely. Measured on /white-card-wa at 1265px wide:
+   note left 0px against a content edge of 61px, and the gap GROWS with the viewport because .wrap
+   centres at --max (at 1600px it is ~228px).
+   Aligned here rather than in the page, because the page is content and this is a layout defect.
+   The 28px mirrors .wrap's own padding; the two must move together (there is no token for it).
+   Both gutters, not just the left: with a left margin alone the box ran to the right viewport edge
+   on mobile (28px in, 0 out) where every section has 28px on both sides. The right margin never
+   binds on desktop, since .note is capped at 544px inside a 1200px column. */
+main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-right:28px;}
 /* Caution variant: attention without the banned side-stripe. A single 2px maroon rule
    across the top edge (a hairline, not a side-stripe) plus the DM Mono marker carry the
    signal; the paper-alt ground and 1px hairline come from .note. Squared to 3px for a
@@ -438,6 +450,13 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .capsule b,.capsule strong{color:var(--ink);font-weight:700;}
 .capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
+/* TrustBand strapline. Deliberately NOT a capsule: no inset panel, no border, no 40-60 word
+   contract. A capsule is an answer to a question; this restates the trust position and is read in
+   a glance, so it is set as plain reversed prose. Measure capped at 60ch, the same ceiling the
+   on-dark capsule uses, because reversed text is where a long line hurts most: at 375px this
+   column is ~319px wide and every extra sentence costs about three lines. */
+.trust-lede{max-width:60ch;margin:var(--s-sm) 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,.92);}
+.trust-lede b,.trust-lede strong{color:#fff;}
 /* ===== text-presentation components (SectionHeading / DefinitionList / StatBlock / KeyTakeaway) =====
    Archetype-independent text shapes. Tokens only; no hardcoded colour. Widths are px measures in
    the same category as the .note / .price-foot caps above (not new named tokens) so the reading
@@ -542,6 +561,11 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+/* Skip link: off-screen until focused, then a real target in the top-left. Not .sr-only, which
+   stays 1px even when focused and would give a keyboard user an invisible focus stop. Uses the
+   maroon action ground because it IS an action, and sits above the sticky header's z-index:30. */
+.skip-link{position:absolute;left:var(--s-sm);top:-100px;z-index:100;display:inline-block;padding:10px var(--s-sm);background:var(--maroon);color:#fff;font-family:var(--font-body);font-weight:600;font-size:15px;text-decoration:none;border-radius:6px;transition:top .15s;}
+.skip-link:focus{top:var(--s-sm);}
 
 /* Partner / RTO disclosure — ASQA-accredited courses (White Card and similar). ABE is the
    publisher, the partner is the RTO. Structural 8px container; mono keys; the RTO number
