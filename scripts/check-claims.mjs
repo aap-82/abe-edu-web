@@ -225,6 +225,25 @@ else {
      exclusion from quietly excusing the same number somewhere it was never reconciled. */
   const cents = (v) => Math.round(Number(v) * 100);
   const rowRe = /^\s*-\s*\{(.+)\}\s*$/;
+
+  /* States where the register itself says there is NO government card fee.
+     WHY THIS EXISTS. `govRows` matches a row's amount against dollar figures scraped from
+     kb/register/. Where a state charges nothing, the register says so in words ("there is no
+     separate government card fee"), never as "$0.00" — so a page carrying an honest $0.00 row
+     matched zero figures, the reconciliation was skipped, and the gate that exists to stop a
+     wrong total reaching a buyer was inert on exactly the pages whose total is easiest to get
+     wrong. Found by an independent Stage 7 audit of /white-card-wa, where it had been warning
+     harmlessly for the life of the page.
+     DERIVED, NOT COPIED. The state list is read out of the register text every run, so this
+     cannot become a second copy of a register fact: if the register stops saying it, the
+     exemption disappears with it. Clauses are split on ; as well as . because the register
+     states the fee-free and fee-charging states in one semicolon-separated sentence, and
+     splitting on full stops alone would sweep every state into the exemption. */
+  const noGovFeeStates = new Set();
+  for (const clause of registerText.split(/[.;]/)) {
+    if (!/no separate government card fee/i.test(clause)) continue;
+    for (const [, st] of clause.matchAll(/\b(ACT|NSW|QLD|TAS|WA)\b/g)) noGovFeeStates.add(st.toLowerCase());
+  }
   const validatedTotals = new Map();   // file -> totals proven on that file
   let reconciled = 0;
   for (const f of pageFiles) {
@@ -241,7 +260,42 @@ else {
 
     const totalRow = rows.find((r) => r.isTotal);
     const parts = rows.filter((r) => !r.isTotal);
-    const govRows = parts.filter((r) => registerFigures.has(norm(r.amount)));
+
+    /* CPD BUNDLES HAVE A DIFFERENT SHAPE and were being judged by the course model, which
+       permanently reported "0 price, 0 government" and skipped them. On a course page the total is
+       price + government fee. On a bundle there IS no government fee and the total IS the price;
+       the other row is an RRP contrast ("the same twelve bought individually"), not a component.
+       Left as a warning it excused the one page whose arithmetic is most worth checking, since the
+       whole pitch is a saving. Checked here rather than excluded: `<BundleOffer>` reconciliation
+       further down only reads the cross-sell COMPONENT, never a bundle page's own priceRows, so
+       skipping these files would have left $1,188.00 checked by nothing at all. */
+    if (f.replace(/\\/g, '/').includes('src/content/cpd-bundles/')) {
+      const rrp = (fm.match(/^rrp:\s*["']\$?([\d,]+(?:\.\d{2})?)["']/m) || [])[1];
+      const single = (fm.match(/^singleCoursePrice:\s*["']\$?([\d,]+(?:\.\d{2})?)["']/m) || [])[1];
+      if (!totalRow) { warns.push(`Bundle total not reconciled in ${f} — no isTotal row.`); continue; }
+      if (cents(norm(totalRow.amount)) !== cents(price)) {
+        fails.push(`WRONG BUNDLE TOTAL in ${f} — "${totalRow.label}" states $${totalRow.amount} but the bundle price is $${price}. A bundle's total IS its price.`);
+        continue;
+      }
+      if (rrp && !parts.some((r) => cents(norm(r.amount)) === cents(norm(rrp)))) {
+        fails.push(`RRP ROW MISMATCH in ${f} — frontmatter rrp is $${rrp} but no priceRow states it. The saving is the pitch; the two must agree.`);
+        continue;
+      }
+      // "N enrolments at $X each" is only true if the RRP divides exactly by the single price.
+      if (rrp && single && cents(norm(rrp)) % cents(norm(single)) !== 0) {
+        fails.push(`RRP IS NOT A WHOLE MULTIPLE in ${f} — $${rrp} does not divide by the single-course price $${single}, so the "N courses at $${single} each" claim cannot be true.`);
+        continue;
+      }
+      validatedTotals.set(f, new Set([norm(totalRow.amount), ...(rrp ? [norm(rrp)] : [])]));
+      reconciled++;
+      continue;
+    }
+    // A $0.00 row counts as the government row only where the register says that state charges
+    // nothing. Not accepted blanket: a page understating a real fee as $0.00 is a defect this
+    // check must still catch, so the exemption is tied to the state the register cleared.
+    const zeroIsGov = noGovFeeStates.has(stateOf(f));
+    const govRows = parts.filter((r) => registerFigures.has(norm(r.amount))
+      || (zeroIsGov && cents(norm(r.amount)) === 0));
     const priceRows = parts.filter((r) => norm(r.amount) === price);
 
     if (!totalRow || govRows.length !== 1 || priceRows.length !== 1) {

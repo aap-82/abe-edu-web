@@ -139,6 +139,42 @@ for (const f of html) {
   }
 }
 
+/* BREADCRUMBS ARE HELD STRICTER THAN `PLANNED`.
+   `PLANNED` exists so chrome can be built ahead of the pages it points at: a footer link to a
+   wave-5 page is sequencing, not a defect. A BREADCRUMB is not chrome. It is a visible link the
+   reader will click and a `BreadcrumbList` item Google resolves, so an unbuilt target there is a
+   404 in the page's own navigation and an invalid rich result in its schema.
+   This check exists because that distinction was missed. `/white-card-wa` shipped with a crumb
+   pointing at the unbuilt `/white-card`, in both the visible nav and the schema, and this script
+   passed it — the slug is legitimately in `PLANNED`, so it read as "not built yet" rather than
+   "broken". An independent Stage 7 audit caught it; the gate did not. Now the gate does. */
+const crumbDead = new Map();
+for (const f of html) {
+  const page = routeOf(f);
+  const src = readFileSync(f, 'utf8');
+  const targets = new Set();
+  const nav = src.match(/<nav[^>]*class="crumbs"[\s\S]*?<\/nav>/);
+  if (nav) for (const [, h] of nav[0].matchAll(/href="([^"#?]*)"/g)) targets.add(h);
+  const bl = src.match(/"BreadcrumbList"[\s\S]*?\]/);
+  if (bl) {
+    for (const [, u] of bl[0].matchAll(/"item":"([^"]+)"/g)) {
+      try {
+        const p = new URL(u);
+        if (/^(www\.)?abeeducation\.edu\.au$/.test(p.host)) targets.add(p.pathname);
+      } catch { /* a non-URL item is guardrails' problem, not this check's */ }
+    }
+  }
+  for (const raw of targets) {
+    const t = raw.replace(/\/$/, '') || '/';
+    if (!t.startsWith('/') || routes.has(t) || assets.has(t)) continue;
+    if (!crumbDead.has(t)) crumbDead.set(t, new Set());
+    crumbDead.get(t).add(page);
+  }
+}
+for (const [target, pages] of crumbDead) {
+  fails.push(`${target} — BREADCRUMB target does not resolve, on ${[...pages].sort().join(', ')}. Being in PLANNED does not excuse this: a crumb is a visible 404 and a BreadcrumbList item naming it is an invalid rich result. Drop the crumb until the page ships.`);
+}
+
 // One line per dead TARGET, with a source count. A footer link is one defect with one fix, not
 // nineteen defects, and the count is what tells a chrome-wide link apart from a one-off typo.
 for (const [target, pages] of dead) {
