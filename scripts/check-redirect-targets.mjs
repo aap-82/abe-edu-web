@@ -33,11 +33,10 @@ const PENDING = new Map([
   // /white-card-wa removed 28 Jul 2026: the W3-1 build landed on main and the page now resolves,
   // so the self-cleaning "exists + still pending -> FAIL" rule fired on the merge, exactly as
   // intended. This is the mechanism working, not an exception being made.
-  // BUILT, not unbuilt - this read "B2 - White Card TAS" (the pass that builds it) long after that
-  // pass landed. It is pending because `resolves()` treats a noindexed page as unresolved, which is
-  // the right call (a 301 into a noindexed page discards the equity it was meant to move) but makes
-  // "built" and "noindex" indistinguishable in this list unless the reason says which.
-  ['/white-card-tas', 'BUILT; noindex pre-launch pending the buyUrl / learn. subdomain decision'],
+  // /white-card-tas removed 28 Jul 2026: commit 8a53973 published the page and dropped its noindex,
+  // so `resolves()` now returns true and the "exists + still pending -> FAIL" rule fired. That is
+  // the self-cleaning mechanism doing its job, and the 301 from /tas-online-white-card can now
+  // carry equity into a page that is actually indexable, which is the whole point of the gate.
   ['/cpd-building-nsw', 'B3 - CPD building NSW'],
   ['/cpd-plumbing-tas', 'B3 - CPD plumbing TAS'],
   ['/cpd-electrical-tas', 'B3 - CPD electrical TAS'],
