@@ -177,3 +177,56 @@ no deploy.
 
 All invariants re-measured and unchanged; the image-only commit above is the only delta. **One** FPO
 placeholder remains (the hero — not in scope this session), not two. Stop at Stage 8 — no deploy.
+
+---
+
+## Re-verification · 28 July 2026 — published, buyUrl still a placeholder
+
+`check-pipeline` §4 fired correctly: the page changed 1,410 minutes after its last verification. This
+section is why that gate exists, and it is the second time in two days it has caught a real
+post-verification edit rather than a formality.
+
+**What changed** (Andrey's call, 28 Jul: publish the page, keep the buyUrl placeholder, carry the
+missing checkout as a warning rather than a blocker):
+
+| Change | Reason |
+|---|---|
+| `noindex: true` removed from frontmatter, and the slug dropped from `astro.config.mjs`'s `NOINDEX` array | The two are coupled by design; the config comment says keep them in step. |
+| Hero CTA repointed `/white-card` → `#enrol` | `/white-card` is the Wave 3 hub and **does not exist**. On a noindexed page a 404 CTA was survivable; on an indexable one it is not. The sticky bar and CTA band already used `#enrol`, so all three now agree. |
+| `White Card TAS` linked in `SiteHeader` | `noindex` had been exempting the page from the orphan guardrail. Without the link the build fails. |
+
+**Re-measured from `dist/white-card-tas/index.html`:**
+
+| Check | Measured | Verdict |
+|---|---|---|
+| robots meta | **`index,follow`** (was `noindex`) | published |
+| Present in `sitemap-0.xml` | **yes** (was excluded) | published |
+| `<h1>` count | **1** | PASS |
+| Capsule word counts | **41, 52, 51, 56, 54, 19, 49, 59** — seven section capsules inside 40-60, plus the TrustBand's deliberate 19 | PASS |
+| Distinct CTA hrefs | **`#enrol`, and nothing else** | see warning |
+| CTAs pointing at a 404 | **0** (was 1, the hero at `/white-card`) | FIXED |
+| Superseded `CPCCWHS1001` | **0** | PASS |
+| Bare "ABE" in reader-facing text | **0** | PASS |
+| ASQA Person rule | guardrails 20/20 pages passed, which enforces exactly one Person on an asqa page | PASS |
+| `system-health` | 0 failing after this file was written | PASS |
+
+## ⚠️ Two warnings this page now carries into production
+
+**1. It is indexable with no purchase path.** Every CTA is an in-page anchor. This is deliberate and
+Andrey's call: the legacy URL holds real equity (`/tas-online-white-card`, 7,092 impressions,
+position 11.81) and the page answers the query, so it earns its place ahead of the checkout. It is
+nonetheless **the only live page on the site that cannot be bought from**. Wire the real buyUrl and
+give the CTAs a destination the moment TAS payment is configured.
+
+**2. The page states $59; a live checkout charges A$39.** Unresolved, and now on an indexable page.
+`/payment?product_id=white-card-tas&type=course` renders a working order for "White Card TAS" at
+**A$39**, and LearnWorlds corroborates it exactly (A$117 across 3 payments). Checked against WA as a
+control, where A$5,155 over 60 payments averages A$85.92 against a $99 list — so discounting exists
+and an average alone proves nothing; the TAS figure is the **list price at checkout**, not an
+average. `$59` appears on **12 surfaces** here, and the cost section derives from it: $59 + $13.72 =
+$72.72 today, $52.72 at the real price. Either the $39 product is legacy and should be retired, or
+this page is wrong. **Andrey's call, and it should be settled before cutover.**
+
+**Nothing in the repo can catch this.** `check-claims` reconciles `priceRows` internally and
+validates government figures against `kb/register/`, but an ABE commercial price has no register
+owner and no check compares it to the live product. Filed `[skills]`.
