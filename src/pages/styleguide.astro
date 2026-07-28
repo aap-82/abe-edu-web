@@ -134,10 +134,16 @@ const footerSources = [
   { label: 'Regulator — Owner builder permit', href: '#', verified: 'Verified 14 Jul 2026' },
   { label: 'Building Act (example)', href: '#', verified: 'legislation' },
 ];
+// Points at this page's own group ids, so the specimen actually scrolls when you click it. It
+// previously used #course / #cost / #faq — realistic course-page labels, but no element on the
+// styleguide carries those ids, so all three links were dead. A component library demonstrates a
+// component by making it work; an inert nav specimen shows the styling and hides the behaviour.
+// (WayfinderNav renders a <header>, which guardrails' pageBody() strips, so these three reported
+// as chrome warnings rather than failing check 6 — quiet enough to survive since W0.)
 const navItems = [
-  { label: 'The course', href: '#course', sectionId: 'course' },
-  { label: 'Cost', href: '#cost', sectionId: 'cost' },
-  { label: 'FAQ', href: '#faq', sectionId: 'faq' },
+  { label: 'Content', href: '#g-content', sectionId: 'g-content' },
+  { label: 'Navigation', href: '#g-nav', sectionId: 'g-nav' },
+  { label: 'Trust', href: '#g-trust', sectionId: 'g-trust' },
 ];
 const crumbs = [
   { name: 'Home', item: '#' },
