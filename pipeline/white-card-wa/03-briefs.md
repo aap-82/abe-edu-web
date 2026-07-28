@@ -293,3 +293,48 @@ Recorded so a later reader can tell a decision from an oversight.
   the built HTML rather than assuming it still holds.
 - **`becomeSteps: []`** again — an owner-builder-shaped required field with no archetype-2 meaning.
   Already on the demand list once from the TAS run; this is **occurrence two**, which is the trigger.
+
+---
+
+## 3c · Added after the run — 28 July 2026
+
+Briefs below were written after the original Stage 3 pass, at Andrey's request. They keep new brief
+numbers rather than renumbering 01-08, because a brief number is an **identity** the later artefacts
+cite, while the page marker is a **position**. Rewriting the original numbering to make this look
+like it was always there would destroy the record of what the run actually briefed.
+
+### 09 · `covered` — "What does the White Card course actually cover?" (page marker 04)
+
+**Why it was missed, stated plainly.** Not a lost section: `05-components.md` maps briefs 01-08 to
+eight shipped sections and `check-pipeline` confirmed 9/9 conformance throughout. It was never
+briefed. Stage 2 ranks nine content gaps plus a list of gaps deliberately declined, and curriculum
+coverage appears in neither, because the GSC demand for this page is dominated by transactional and
+anxiety intent (assessment, online legality, cost, card check). The archetype does not require it
+either: its seven required sections were all present. So the gap is real and three layers missed it.
+
+```
+Claim: The unit covers four things, and you can see all four before you pay.
+Reader arrives: has been told the card is mandatory and has accepted that, but
+       has no idea what a day of "construction induction" actually contains,
+       and is about to spend $99 on it.
+Objection defused: "What am I actually paying $99 for? Is it a real course or
+       a form I click through?"
+Facts: the four elements of CPCWHS1001, verbatim from the unit's performance
+       criteria [S9, 28 Jul 2026]
+       PPE selection and fitting sits in element 2 and is DEMONSTRATED, which
+       is what forces the live assessment [S9, 28 Jul 2026]
+       unit Release 2, usage recommendation Current [S9, 28 Jul 2026]
+Distinctive material (Stage 2): none directly, because Stage 2 never surfaced
+       this. What it does carry is gap #1 (the live assessment, ABE's real
+       differentiator): the PPE demonstration is the REASON the assessment is
+       a video call, so this section sets up the section after it instead of
+       repeating it.
+Carrier: AnswerCapsule + BulletList (4 items) + prose + VerifiedSources
+       + SectionWayfinder
+Fails if: it invents ABE's own module or lesson list. That is an internal fact
+       nobody holds - it is not in the repo, and the course is developed and
+       owned by the RTO, not ABE. The unit's PUBLISHED elements are the only
+       sourceable answer, so the section describes the UNIT, never "our
+       modules". It also fails if it drifts into "what is a White Card",
+       which is /white-card hub content (W3-6) and would cannibalise it.
+```
