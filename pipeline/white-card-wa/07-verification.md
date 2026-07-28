@@ -346,3 +346,145 @@ Recorded so a later reader sees measurements, not assertions:
 **Do not deploy to the real domain until B4 is resolved and F16 is confirmed.** B4 ships internal art
 direction as visible body text on an indexable page's hero; F16 would publish four dead conversion
 paths. Both are decisions for Andrey, not defects to fix in copy.
+
+---
+
+# 07b · Stage 7 re-verification — ResourceLink added to `#real`
+
+**Why this exists.** The page source was edited after the audit above, which trips
+`check-pipeline` §4 (verification must be no older than the page source). Per session-types Rule 1
+and the precedent in `handover/HANDOVER-stage7-reverify.md`, the fix is a re-verification committed
+with the change, not a stale certificate left standing.
+
+**Re-verified:** 28 July 2026. **Scope:** targeted. One additive change, no section added, moved,
+merged or cut, so `05-components.md` is unaffected and the sections above are re-confirmed rather
+than re-audited.
+
+**Method, and its limit — stated, not hidden.** The audit above was written by a fresh subagent.
+**This re-verification was not: subagents are unavailable in this session, so it is SELF-VERIFIED.**
+The skill permits that only with the bias on the record, which is what this paragraph is. Every row
+below is still a measured value read out of the built HTML or the live register, never a tick.
+
+## The change
+
+One `<ResourceLink>` in `#real`, placed immediately after the paragraph ending *"Both facts are on
+the national register, which is public and free to search."* The prose invites the reader to go and
+check; the component puts the door at the invitation instead of only at the section foot.
+
+`desc` deliberately does **not** restate "20 March 2030". That date is already in the paragraph
+directly above, and a second copy is a figure that can go stale independently of the first. The
+descriptor says what the reader will find, not what we already told them.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| H1 count | 1 |
+| Person nodes | **1** — correct for `asqa-accredited`; `creator` is `Organization` "Blue Dog Training" |
+| `[confirm:]` markers | 0 |
+| "comprehensive" | 0 |
+| Banned CTA ("Enrol now/today") | 0 |
+| Link target / rel | `target="_blank"`, `rel="noopener"` |
+| Accessible name | ends *"training.gov.au, opens in a new tab"* (WCAG 3.2.5 cue present) |
+| Fit in `.measure` | column 480px, component 480px, **no overflow** |
+| Mobile 375px | 319px wide, 196px tall, no page overflow, arrow suppressed |
+| Ground behind | `--paper` `#ffffff`; `--slate` kicker/host at 5.10:1 |
+| `guardrails` | 20 pages passed |
+| `check-pipeline` | 7/7 artefacts, 9 sections match plan, 9 capsules match `04` |
+
+## Citation gate — the stated fact re-read at source
+
+The register was opened **in a browser** this session (`WebFetch` cannot: client-rendered SPA), per
+`kb/rules/authority-model.md`. Read from `training.gov.au` Organisation 31193 summary:
+
+- Status: **Current**; registration manager: **Australian Skills Quality Authority**
+- Initial registration 22/Mar/2005 · Start 22/Mar/2023 · **End date 20/Mar/2030**
+
+The page states *"Blue Dog Training's registration runs to 20 March 2030"*. **Confirmed exactly, at
+source, on 28 July 2026.**
+
+## Findings
+
+**N1 · Same destination linked twice in one section, in two casings.** `#real` now carries
+`/Organisation/Details/31193` (this ResourceLink, matching the `partners` record and the
+`content.config.ts` note) and `/organisation/details/31193` (the pre-existing `VerifiedSources`
+entry). **Both were opened and both resolve** to the same summary page, so this is cosmetic, not a
+broken link. Not "fixed" here: the lowercase URL sits inside a dated, verified sources block on a
+shipped page, and silently rewriting verified content to tidy casing is the wrong trade. Routed.
+
+**N2 · The duplication is intentional, and worth stating so a later reader does not "clean it up".**
+`VerifiedSources` attests *we checked this, on this date*; `ResourceLink` invites *you check it*.
+Different jobs, same URL. If one is ever removed it should be by decision, not by tidying.
+
+## Pre-existing warnings naming this slug, quoted in full
+
+Neither is caused by this change. Quoted because "zero failing is not zero findings".
+
+- `check-claims` / `system-health`: *"Total not reconciled in `src/content/courses/white-card-wa.mdx`
+  — need exactly one course-fee row and one government-fee row present in `kb/register/`, plus an
+  isTotal row (found 1 price, 0 government, 1 total)."* WA White Card has no government fee, so there
+  is no government row to find. The check's shape assumes a permit-style page.
+- `check-links`: *"LearnWorlds path linked same-origin: `/payment?product_id=white-card-wa-enrol&type=course`
+  — dead at cutover unless the `learn.` subdomain decision keeps it on the apex."* The standing
+  external blocker, unchanged.
+
+## Ship decision
+
+**Merge-ready.** The change is additive, every measured value holds, and the one regulatory fact it
+sits beside was re-read at source today. The two cutover gates from the audit above (B4, F16) are
+**unchanged and still open** — this re-verification does not clear them and must not be read as
+doing so.
+
+### 07b.1 · Copy shortened, 28 July 2026
+
+The ResourceLink `desc` was trimmed. This note exists because `check-pipeline` §4 compares **git
+commit timestamps**, so any page edit makes the verification stale; the honest fix is a real
+re-measurement committed with the change, never touching the file to reset the clock.
+
+Before: *"Registration status and the CPCWHS1001 scope entry for Western Australia, including who may
+deliver and assess it."*
+After: *"Registration status and the CPCWHS1001 scope entry for Western Australia."*
+
+The dropped clause was redundant: the paragraph directly above already states the scope entry carries
+*"the right to both deliver and assess it"*. No fact was removed from the page.
+
+| Measure | Before | After |
+|---|---|---|
+| `desc` characters | 114 | **73** |
+| `desc` rendered lines | 3 | **2** |
+| Panel height, desktop | 190px | **167px** |
+| Panel width / column | 480 / 480px | 480 / 480px, no overflow |
+| Panel, 375px | 196px tall, 319px wide | **174px** tall, 319px wide, no overflow |
+| `guardrails` | 20 pages passed | 20 pages passed |
+
+Everything else in `07b` is unchanged: the link target, rel, accessible name, schema, contrast and the
+citation gate are untouched by a copy trim.
+
+### 07b.2 · Descriptor removed entirely, 28 July 2026
+
+`desc` dropped from the usage. The paragraph directly above already states both facts the register
+carries, so a descriptor here said them a third time.
+
+**No new component variant was built, and none was needed.** `desc` is already optional, so omitting
+it collapses the component to eyebrow, title, host and arrow. Adding a `compact` variant for a prop
+that is already optional would have been a second way to express one thing, which is the
+over-abstraction the component protocol exists to prevent.
+
+Rendered children of `.rl-main`, read from the built HTML: `rl-k`, `rl-t`, `rl-host`. No `rl-d`.
+Arrow present and displayed.
+
+| Measure | Original | Trimmed (07b.1) | No descriptor |
+|---|---|---|---|
+| Panel height, desktop | 190px | 167px | **118px** |
+| Panel height, 375px | 196px | 174px | **102px** |
+| Panel width / column | 480 / 480px | 480 / 480px | 480 / 480px, no overflow |
+| Tap target, 375px | pass | pass | 102px, pass |
+| `guardrails` | 20 pages | 20 pages | 20 pages |
+
+Link target, rel, accessible name, schema, contrast and the citation gate are untouched: removing an
+optional descriptor changes no fact and no affordance.
+
+**Open, routed to design:** `/styleguide` has no specimen for this exact shape. Its three specimens
+cover kicker+title+desc, kicker+title+desc internal, and title+host alone. The
+eyebrow+title+host+arrow shape now shipping on `/white-card-wa` is undocumented in the library. A
+component library that does not show a shape in production is drifting from it.
