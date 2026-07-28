@@ -69,6 +69,11 @@ not on the page" is a fix.
   how the footer came to link all 19 pages at ten URLs that do not exist. Unbuilt targets are
   allowed only by being listed in `PLANNED` with the wave that builds them, and the list
   self-cleans: a target that now exists but is still listed is a FAIL.
+  **Breadcrumbs are held stricter than `PLANNED`.** A footer link to a wave-5 page is sequencing; a
+  breadcrumb link to one is a visible 404 plus a `BreadcrumbList` item Google resolves and rejects as
+  an invalid rich result. Both the visible `nav.crumbs` and the JSON-LD items must point at built
+  routes, and `PLANNED` does not excuse them. Added 28 Jul 2026 after a crumb pointing at the unbuilt
+  `/white-card` shipped on a course page and this script passed it.
 - **`node scripts/review-trends.mjs`** — after filing a Stage-9 review.
 
 **When you change a claim about the build, add it to `CLAIMS` in `check-claims.mjs`.** Documentation

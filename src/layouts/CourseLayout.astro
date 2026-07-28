@@ -122,6 +122,7 @@ const schema = {
   crumbs={breadcrumb}
   reviewed={reviewedBy}
 >
+<main id="main">
   <Hero {...hero} cta={cta} />
   {/* Jump nav sits below the hero: it only sticks once you scroll past it. */}
   <WayfinderNav items={nav} cta={cta} />
@@ -183,5 +184,6 @@ const schema = {
     </Section>
   )}
   <CtaBand headingHtml={ctaBand.headingHtml} sub={ctaBand.sub} cta={ctaBand.cta} />
+</main>
   <SourcesFooter sources={footerSources} disclaimersHtml={asqaDisclaimer + disclaimersHtml} asqa={!!asqa} />
 </BaseLayout>

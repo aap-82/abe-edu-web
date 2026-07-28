@@ -2,21 +2,39 @@
 import TrustStats from './TrustStats.astro';
 import type { TrustStat } from './TrustStats.astro';
 
-// The dark trust band: eyebrow, H2, an on-dark answer capsule (slot), the stat row,
-// and the attestation line that states the authority model in plain words.
+// The dark trust band: eyebrow, H2, a short strapline, the stat row, and the attestation line
+// that states the authority model in plain words.
 // Owns its own <section class="sec bg-dark trust"> shell so no page hand-rolls it.
+//
+// USE `lede`, NOT AN <AnswerCapsule> IN THE SLOT. Pages originally passed
+// `<AnswerCapsule onDark>` here, which borrows a component whose contract is a 40-60 word
+// answer-first block built for AI extraction. This band answers no question — it restates the
+// trust position between two sections — so that contract does not fit, and an independent Stage 7
+// audit correctly flagged the 19-word strapline on /white-card-wa as breaching it.
+//
+// Extending the copy to 55 words to satisfy the rule was tried and MEASURED: at 375px it produced
+// fourteen lines of reversed text against about five, on the ground these readers are actually on.
+// The Stage 4 note had predicted exactly that. So the copy was right and the carrier was wrong.
+// `lede` renders a plain paragraph with no word-count contract, which is what a strapline is.
+//
+// The slot is kept so existing pages render unchanged until they migrate; it is deprecated, and
+// new pages should pass `lede`.
 interface Props {
   id?: string;
   eyebrow?: string;
   h2: string;
+  /** Short strapline. No 40-60 rule: this is not an answer capsule. Keep it to a line or two,
+   *  because it sets reversed on a dark ground where long copy stops being readable. */
+  lede?: string;
   stats: TrustStat[];
   attestHtml: string;   // authority-model attestation; rendered with set:html for the regulator link
 }
-const { id, eyebrow = 'The numbers', h2, stats, attestHtml } = Astro.props;
+const { id, eyebrow = 'The numbers', h2, lede, stats, attestHtml } = Astro.props;
 ---
 <section class="sec bg-dark trust" id={id}><div class="wrap">
   <span class="eyebrow on-dark">{eyebrow}</span>
   <h2 class="h2" set:html={h2} />
+  {lede && <p class="trust-lede">{lede}</p>}
   <slot />
   <TrustStats items={stats} />
   <p class="attest" set:html={attestHtml} />

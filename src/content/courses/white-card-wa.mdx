@@ -40,15 +40,24 @@ priceNumber: "99"
 courseWorkload: "PT6H"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
 credentialCategory: "Statement of Attainment"
+# The middle "White Card" crumb was REMOVED 28 Jul 2026 and must be restored when W3-6 ships.
+# It pointed at /white-card, which is not built: the crumb rendered as a visible link to a 404 and,
+# worse, as a BreadcrumbList ListItem naming a URL that does not resolve, which Google treats as an
+# invalid rich result. `check-links` did not catch it because /white-card is legitimately in its
+# PLANNED list, so the link reads as "not built yet" rather than "broken".
+# Not left to wait for the hub: the implementation plan records that W3-6 cannot start until its
+# spokes exist (the `hubs` schema types spokes[].course as reference('courses'), so a hub naming an
+# absent page fails Zod), and there is one spoke of five. W3-2, W3-3 and W3-5 come first, so this
+# would have pointed at a 404 for several tickets. Home > White Card WA is valid on its own.
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
-  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
   - { name: "White Card WA", item: "https://www.abeeducation.edu.au/white-card-wa" }
 reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "28 July 2026" }
 nav:
   - { label: "Is it real?", href: "#real", sectionId: "real" }
   - { label: "Do you need one?", href: "#need-one", sectionId: "need-one" }
   - { label: "Online in WA?", href: "#online", sectionId: "online" }
+  - { label: "What you learn", href: "#covered", sectionId: "covered" }
   - { label: "Assessment", href: "#assessment", sectionId: "assessment" }
   - { label: "Cost", href: "#cost", sectionId: "cost" }
   - { label: "Your card", href: "#your-card", sectionId: "your-card" }
@@ -118,7 +127,12 @@ footerSources:
   - { label: "WorkSafe WA — Construction induction training", href: "https://www.worksafe.wa.gov.au/construction-induction-training", verified: "Verified 28 Jul 2026" }
   - { label: "WorkSafe WA — Candidates to provide evidence they are located in Western Australia", href: "https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia", verified: "Verified 28 Jul 2026" }
   - { label: "WorkSafe WA — Construction induction training card database", href: "https://www.worksafe.wa.gov.au/construction-induction-training-card-database", verified: "Verified 28 Jul 2026" }
-  - { label: "Western Australian legislation — Work Health and Safety (General) Regulations 2022", href: "https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_s53267.html", verified: "legislation.wa.gov.au" }
+  - { label: "Western Australian legislation — Work Health and Safety (General) Regulations 2022", href: "https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_s53267.html", verified: "Verified 26 May 2026" }
+  # The owner-builder claims in #need-one had no entry here at all, so the Consolidated Sources block
+  # did not cover them. Read at source 28 Jul 2026: the knowledge test is a white or blue card PLUS
+  # one of three alternatives, and r.22 of the Building Services (Registration) Regulations 2011 is
+  # what creates the approval requirement.
+  - { label: "Government of Western Australia — Owner-builder approval (Form 75)", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 28 Jul 2026" }
 disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by Blue Dog Training</b> from card stock supplied by WorkSafe WA, not by ABE Education and not over a government counter. Western Australia charges no government fee for a construction induction card. <b>Online delivery:</b> WorkSafe WA requires evidence that you were located in Western Australia at the time of assessment, which is a different test from residency. Residents of other states must complete White Card training under their own state’s delivery rules, and most do not permit fully self-paced online training.'
 ---
 
@@ -135,6 +149,7 @@ import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import ResourceLink from '../../components/ResourceLink.astro';
+import BulletList from '../../components/BulletList.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-wa';
@@ -148,7 +163,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule>Yes. The training is delivered and assessed by Blue Dog Training, RTO 31193, and you receive a nationally recognised Statement of Attainment for CPCWHS1001, Prepare to work safely in the construction industry. Blue Dog Training issues that Statement, not ABE Education. You can check RTO 31193 on training.gov.au before you pay anything.</AnswerCapsule>
   <div class="measure">
     <h3 class="h3">Check RTO 31193 for yourself</h3>
-    <p>That number is the thing worth checking, and we would rather you did. Blue Dog Training’s registration runs to 20 March 2030, and CPCWHS1001 sits on its scope for Western Australia with the right to both deliver and assess it. Both facts are on the national register, which is public and free to search.</p>
+    <p>That number is the thing worth checking, and we would rather you did. Blue Dog Training’s registration runs to 20 March 2030, and CPCWHS1001 sits on its scope for Western Australia with the right to both deliver and assess it.</p>
     {/* No `desc`. The paragraph directly above already states both facts the register carries, so a
         descriptor here would say them a third time. `desc` is optional precisely for this case: the
         component collapses to eyebrow, title, host and arrow. */}
@@ -192,9 +207,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
     totalLabel="Both together"
     total="$278"
     cta={{ href: '/wa-owner-builder-course', label: 'See the WA owner builder course' }}
-    note="This is one of four pathways to sufficient knowledge under the Building Services (Registration) Act 2011, and it is the one most owner builders use. A registered Western Australian building practitioner does not need either course. The Building Services Board's own application fee is separate and is paid to the Board, not to ABE Education."
+    note="Owner-builder approval requires sufficient knowledge of the role. At least one applicant must hold a white or blue card and, on top of that, either hold current or previous Western Australian Building Practitioners registration, be registered here as an architect, building surveyor or building engineer, or have completed owner-builder training with Western Australian content in the previous 24 months. That last route is the one most owner builders use. The regulator's own application fee is separate and is not paid to ABE Education."
   />
   <VerifiedSources date="28 Jul 2026" facts="The definition of construction work at regulation 289, and the judgement factors for marginal cases, read on the regulator’s guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
+  {/* Owner-builder approval is a DIFFERENT regulator from WorkSafe WA, so it needs its own
+      provenance line. It previously had none, and the WorkSafe block above was the nearest source,
+      which cited the wrong body for the claim. */}
+  <VerifiedSources date="28 Jul 2026" facts="The owner-builder knowledge requirement: a white or blue card plus one of three alternatives, and the 24-month currency on Western Australian owner-builder training" sources={[{ label: 'Government of Western Australia — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }]} />
   <SectionWayfinder label="Can you do it online?" href="#online" />
 </Section>
 
@@ -217,12 +236,30 @@ import { faqs } from '../../data/faqs-white-card-wa';
     <p>Where you are within the state makes no difference. The course runs the same from Perth as it does from Bunbury, Geraldton or a camp in the Pilbara, and because the assessment is a video call there is no classroom to drive to. That is the practical reason online delivery matters more in Western Australia than almost anywhere else.</p>
   </div>
   <VerifiedSources date="28 Jul 2026" facts="The evidence requirement and the accepted document list, from the regulator’s card-supply terms and conditions" sources={[{ label: 'WorkSafe WA — Candidates to provide evidence they are located in Western Australia', href: 'https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia' }]} />
+  <SectionWayfinder label="What the course covers" href="#covered" />
+</Section>
+
+<Section id="covered" marker="04" eyebrow="What you learn" h2="What does the White Card course actually cover?">
+  <AnswerCapsule>Four things. The unit covers health and safety law on a construction site, how to spot hazards and control the risk, how safety information is communicated and reported, and what to do when something goes wrong. You also select and fit the protective equipment yourself, which is part of the assessment.</AnswerCapsule>
+  <div class="measure">
+    <BulletList
+      leadIn="CPCWHS1001 is built from four elements, and both the training and the assessment follow them:"
+      items={[
+        "<b>Health and safety law on site.</b> The duty of care you carry, the basic roles, responsibilities and rights of everyone else on the job, and the safe work practices expected of you.",
+        "<b>Hazards and risk control.</b> The common construction hazards, the basic principles of risk management, the measures used to control them, and the purpose and use of protective equipment.",
+        "<b>Communication and reporting.</b> Safety signs and symbols, the safety documents you will be handed, who the designated safety people are, and how to report a hazard, an incident or an injury.",
+        "<b>Incidents and emergencies.</b> What to do when something goes wrong, how to get first aid, and the types and purpose of fire safety equipment.",
+      ]}
+    />
+    <p>Selecting and fitting the protective equipment sits inside the second element, and it is the part you demonstrate rather than answer. That is why the assessment is a live video call instead of a multiple-choice page, and it is worth knowing before you book one.</p>
+  </div>
+  <VerifiedSources date="28 Jul 2026" facts="The four elements of CPCWHS1001 and their performance criteria, read on the national register (unit Release 2, usage recommendation Current)" sources={[{ label: 'training.gov.au — CPCWHS1001 Prepare to work safely in the construction industry', href: 'https://training.gov.au/training/details/CPCWHS1001/unitdetails' }]} />
   <SectionWayfinder label="What the assessment involves" href="#assessment" />
 </Section>
 
 <ZSection
   id="assessment"
-  marker="04"
+  marker="05"
   eyebrow="The live assessment"
   h2="What happens in the live assessment, and how do you pass it?"
   imgDesc="A White Card learner demonstrating how to fit a hard hat and high-visibility vest to a training assessor during a live video assessment on a laptop at a kitchen table."
@@ -232,7 +269,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule>Two parts. You work through the theory online at your own pace, which most Western Australian learners finish in two to six hours. Then you meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes and demonstrate the practical safety tasks, including fitting and wearing the protective equipment.</AnswerCapsule>
   <div class="measure">
     <h3 class="h3">Why the assessment is live</h3>
-    <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration has been part of White Card assessment since December 2016, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
+    {/* The date this sentence used to carry ("since December 2016") was removed 28 Jul 2026. It
+        traced to kb/register/online-delivery-policy-by-state.md, whose own header records it as
+        verified against 2026 RTO and industry guides — a secondary source class the citation gate
+        excludes. The nearest primary date is CPCCWHS1001 being superseded on 09 Dec 2016, which is
+        a unit release, not a change to assessment policy; treating one as the other would be an
+        inference dressed as a fact. The sentence does not need the date to make its point. */}
+    <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration is part of White Card assessment, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
     <p>It also means there is someone there when you are stuck. You book the call to suit yourself once the theory is done.</p>
     <h3 class="h3">What you are paying the difference for</h3>
     <p>Cheaper self-paced courses are lawful in Western Australia and the cards they issue are real. The credential is the same nationally recognised unit either way. What you are paying the difference for is a person on the other end of the call.</p>
@@ -241,7 +284,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <VerifiedSources date="28 Jul 2026" facts="The supervised practical demonstration requirement that underpins online delivery, checked against the regulator’s construction induction guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
 </ZSection>
 
-<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What does a White Card cost in Western Australia?">
+<Section bg="bg-warm" id="cost" marker="06" eyebrow="What it costs" h2="What does a White Card cost in Western Australia?">
   <AnswerCapsule>It is <b>$99</b>, and that is the whole cost. Western Australia does not charge a government fee for a construction induction card: your training organisation issues it and posts it to you. There is no second payment, no counter to visit and no lodgement form, which is not true in every state.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="There is no membership, renewal or annual charge. A replacement card is obtained from the training organisation that issued it, at that organisation’s own fee." />
   <div class="measure">
@@ -260,7 +303,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule onDark>A nationally recognised White Card, delivered and assessed by Blue Dog Training (RTO 31193) and published by ABE Education.</AnswerCapsule>
 </TrustBand>
 
-<Section id="your-card" marker="06" eyebrow="Your card" h2="What do you get, and how long does it last?">
+<Section id="your-card" marker="07" eyebrow="Your card" h2="What do you get, and how long does it last?">
   <AnswerCapsule>A nationally recognised Statement of Attainment for CPCWHS1001, issued by Blue Dog Training, and a construction induction card posted to your Western Australian address. The card carries no expiry date and there is no refresher to sit. It only lapses if you leave the construction industry for two consecutive years or longer.</AnswerCapsule>
   <FactGrid items={[
     { key: 'Credential', value: 'CPCWHS1001', note: 'Issued by Blue Dog Training once you pass the live assessment.' },
@@ -279,13 +322,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <SectionWayfinder label="Who developed and checked this" href="#content-review" />
 </Section>
 
-<Section bg="bg-alt" id="content-review" marker="07" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
+<Section bg="bg-alt" id="content-review" marker="08" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
   <AnswerCapsule>Blue Dog Training <b>develops and owns the accredited course</b>, as the registered training organisation delivering CPCWHS1001. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for legislative currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
   <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
   <SectionWayfinder label="Common questions" href="#faq" />
 </Section>
 
-<Section id="faq" marker="08" eyebrow="FAQ" h2="Common questions">
+<Section id="faq" marker="09" eyebrow="FAQ" h2="Common questions">
   <Faq items={faqs} />
   <VerifiedSources date="28 Jul 2026" facts="Answers checked against the national register and WorkSafe WA’s construction induction guidance" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/organisation/details/31193' }, { label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
 </Section>
