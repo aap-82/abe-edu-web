@@ -135,6 +135,39 @@ The 360px sweep flagged `.hub-card` overflowing on `/styleguide`. Checked on the
 own container as designed. Styleguide specimen context only. Reported here rather than "fixed", per
 the rule against inventing defects to demonstrate iteration.
 
+## Follow-on: external-link behaviour made consistent
+
+`ResourceLink` opening external links in a new tab left the site with two behaviours, since the
+inline verify links opened in-tab. Resolved rather than left documented.
+
+All four external links in `Credentials.astro` and `PartnerDisclosure.astro` now carry
+`target="_blank" rel="noopener"` and an `.sr-only` ", opens in a new tab". **Scope was widened from
+the two verify links to all four deliberately:** `Website` sits beside `Verify on training.gov.au`
+in the same baseline row, and splitting behaviour between two identical-looking adjacent links is a
+worse defect than the one being fixed.
+
+Measured on the built `/white-card-tas`, reading every `.pl` / `.pl-verify` anchor:
+
+| Link | Target | Cue hidden |
+|---|---|---|
+| `Verify on training.gov.au` ×2 | `_blank` | yes |
+| `Website` | `_blank` | yes |
+| `LinkedIn` | `_blank` | yes |
+| `Full profile →` (internal) | same tab | n/a |
+| `mailto:` / `tel:` ×2 | same tab | n/a |
+
+The cue is required, not decorative: an unannounced tab change is a WCAG 3.2.5 failure. Confirmed the
+`.sr-only` span computes to `position:absolute; width:1px`, so it is announced and not seen, and that
+no `target="_blank"` landed on a non-`http` href anywhere in `dist/`.
+
+One specimen fix fell out of it: the styleguide's demo reviewer had `linkedin: '#'`, which with a new
+tab would have opened a blank tab onto the page itself. Pointed at the LinkedIn platform root, not a
+real profile, because that reviewer is fictional and must not be attached to a real identity.
+
+**Still inconsistent, deliberately out of scope:** source links in `VerifiedSources` and
+`SourcesFooter` remain same-tab. Changing those is a site-wide convention change across every page's
+citations, which is its own decision, not a rider on this one.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts]
@@ -154,6 +187,10 @@ Tag every item: [skills] | [design] | [facts]
 - [design] `.topic` and the other interactive cards have no `prefers-reduced-motion` guard on their
   2px lift. `ResourceLink` now has one. Either sweep them or drop mine for consistency; a sweep is
   its own change and should not ride along with a new component.
+- [design] Decide whether `VerifiedSources` and `SourcesFooter` citation links should also open in a
+  new tab. They are the last same-tab external links on the site. Arguably they *should* stay in-tab
+  (a citation is read, not an errand), but the call should be made and written down rather than left
+  as residue from this change.
 - [skills] Nothing in the build checks that a `prefers-reduced-motion` override actually wins. The
   bug above was a source-order tie, invisible in the source and obvious in `dist/`. If it recurs,
   that is the trigger for a check.

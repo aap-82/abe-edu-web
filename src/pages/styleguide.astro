@@ -125,7 +125,11 @@ const people = [{
     'Placeholder biography copy showing how the card renders a mono credential line above body paragraphs.',
     'A second paragraph demonstrates a multi-paragraph bio.',
   ],
-  linkedin: '#',
+  // A real external URL, not the page's usual inert '#', because this link now carries
+  // target="_blank" and an "opens in a new tab" cue: with '#' the specimen would demonstrate the
+  // behaviour by opening a blank tab onto itself. The platform root rather than a person's
+  // profile, since this reviewer is fictional and must not be attached to a real identity.
+  linkedin: 'https://www.linkedin.com/',
 }];
 const vSources = [
   { label: 'Regulator — Owner builder permit', href: '#' },
