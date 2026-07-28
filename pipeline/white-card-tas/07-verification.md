@@ -225,7 +225,9 @@ control, where A$5,155 over 60 payments averages A$85.92 against a $99 list — 
 and an average alone proves nothing; the TAS figure is the **list price at checkout**, not an
 average. `$59` appears on **12 surfaces** here, and the cost section derives from it: $59 + $13.72 =
 $72.72 today, $52.72 at the real price. Either the $39 product is legacy and should be retired, or
-this page is wrong. **Andrey's call, and it should be settled before cutover.**
+this page is wrong. **Andrey's call, and explicitly a WARNING rather than a blocker** — his decision,
+28 Jul. It does not hold up publication and it does not gate cutover. The evidence is kept here so it
+stays actionable whenever he wants to settle it, not to argue the page should have waited.
 
 **Nothing in the repo can catch this.** `check-claims` reconciles `priceRows` internally and
 validates government figures against `kb/register/`, but an ABE commercial price has no register
