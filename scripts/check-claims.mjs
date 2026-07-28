@@ -70,9 +70,25 @@ const CLAIMS = [
   { claim: 'authorityModel enum has exactly these three values',
     source: 'content.config.ts',
     must: [/state-approved-direct/, /knowledge-requirement/, /asqa-accredited/] },
-  { claim: 'four content collections are exported',
+  // Asserts the COUNT, not just that the named ones are present. The presence-only form of this
+  // claim read "four content collections" for as long as there were five: `cpdBundles` was added
+  // and every pattern still matched, so the checker certified a false claim as verified. A claim
+  // about a set has to constrain the whole set or it cannot detect an addition.
+  { claim: 'exactly five content collections are exported: courses, experts, partners, hubs, cpdBundles',
     source: 'content.config.ts',
-    must: [/collections\s*=\s*\{[^}]*courses/, /experts/, /partners/, /hubs/] },
+    // Order-insensitive, count-strict: exactly five members, each from the named set. A sixth
+    // collection or a removed one fails; reordering them does not, because a reorder is harmless
+    // and a claim that cries wolf on harmless edits stops being read (see the 93-warning lesson
+    // in ROADMAP's recording policy).
+    must: [/collections\s*=\s*\{(?:\s*(?:courses|experts|partners|hubs|cpdBundles)\s*,?){5}\s*\}/] },
+  // The Person-count rule is authority-model conditional and is the single most drift-prone claim
+  // in the skill: SKILL.md asserted an unconditional "Person x2" in three places while the build
+  // had required exactly 1 on asqa-accredited pages since the White Card run. Nothing checked it,
+  // so a builder following the skill produced a guaranteed build failure on every ASQA page, and
+  // the Stage 7 audit line would have certified a CORRECT page as wrong.
+  { claim: 'asqa-accredited pages require exactly 1 Person node; all other models require exactly 2',
+    source: 'guardrails.ts',
+    must: [/exactly 1 Person node/, /exactly 2 Person nodes/] },
   { claim: 'experts collection loads .md, not .mdx',
     source: 'content.config.ts',
     must: [/experts['"]?\s*,?[\s\S]{0,200}pattern:\s*['"]\*\*\/\*\.md['"]/] },
