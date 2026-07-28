@@ -488,3 +488,28 @@ optional descriptor changes no fact and no affordance.
 cover kicker+title+desc, kicker+title+desc internal, and title+host alone. The
 eyebrow+title+host+arrow shape now shipping on `/white-card-wa` is undocumented in the library. A
 component library that does not show a shape in production is drifting from it.
+
+### 07b.3 · Closing sentence removed from `#real`, 28 July 2026
+
+Removed: *"Both facts are on the national register, which is public and free to search."*
+
+It described the register in prose immediately above a component that **is** the register. With the
+ResourceLink in place the sentence tells the reader about a thing they can already see and click.
+
+| Measure | Before | After |
+|---|---|---|
+| Paragraph characters | 300 | **226** |
+| Paragraph rendered lines | 5 | **4** |
+| `.measure` child order | h3, p, reslink, h3, p, btn-link | unchanged |
+| `guardrails` | 20 pages | 20 pages |
+| `check-pipeline` | 9 sections, 9 capsules | 9 sections, 9 capsules |
+
+**ARTEFACT DIVERGENCE, DELIBERATE — recorded so it cannot be mistaken for a lost line.** The sentence
+is still in `04-content.md` (lines 108-111, wrapped across lines, which is why a naive grep for the
+full string returns nothing). Per the skill's rule that `04` is a draft and the built page is the
+source of truth for copy once shipped, this is an **editorial removal made after drafting**, not
+content the page lost on the way from Stage 4. `04` is left as the record of how the copy was
+arrived at. A later reader comparing the two will find this entry.
+
+No fact was removed. The register is still cited in this section twice: the ResourceLink and the
+dated `VerifiedSources` block.
