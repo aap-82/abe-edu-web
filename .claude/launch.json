@@ -2,9 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "// why-host": "--host is REQUIRED, not a convenience. Without it astro dev binds IPv6 loopback ONLY ([::1]:4321) - measured 28 Jul 2026: curl to 127.0.0.1:4321 got no listener at all while [::1]:4321 returned 200. Windows resolves localhost to 127.0.0.1 first in most browsers, so the server looks dead from a browser while curl and any IPv6-first client say it is fine. With --host it binds 0.0.0.0 and [::] and both answer.",
       "name": "astro-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": ["run", "dev", "--", "--host"],
       "port": 4321,
       "autoPort": true
     },
