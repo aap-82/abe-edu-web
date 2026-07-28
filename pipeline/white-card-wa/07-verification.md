@@ -592,3 +592,119 @@ The chain was never broken.
 - [skills] **Archetype 02's required-section list has no course-content entry.** Every other course
   archetype sells a thing whose contents a buyer would want before paying. Worth adding, or worth an
   explicit note saying why a nationally recognised course deliberately omits it.
+
+---
+
+# 07c · Independent Stage 7 audit, and the fixes it forced
+
+**28 July 2026.** A **fresh subagent** re-ran Stage 7 against `dist/white-card-wa/index.html`,
+`05-components.md` and the checklist. It was given no account of the run and was explicitly denied
+this file, so it could not read any earlier verdict. **It returned FAIL with four publish
+hard-blockers.**
+
+**This supersedes the "merge-ready" verdicts in `07b`, `07b.1` and `07b.2`.** Those were
+self-verified, said so, and were still wrong. A self-audit cannot see this class of defect: the
+author knows what they meant, which is exactly the knowledge that hides an unsourced claim. Third
+time this project has recorded that lesson.
+
+Five of the auditor's most severe claims were independently spot-checked before any fix. All five
+held: `/white-card` absent from `dist/`; two FPO placeholders on this page against zero on every
+other course page; the TrustBand capsule at exactly 19 words; a reader-visible doubled "against";
+and no source link on the page naming Form 75 or the Building Services Act.
+
+## F1 — the finding was worse than reported: the page stated a WRONG regulatory fact
+
+The auditor reported the owner-builder claims as **unsourced**. Verifying them at source showed they
+were also **incorrect**.
+
+Read in a browser 28 Jul 2026 at
+`https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval`:
+
+> "To satisfy this requirement, at least one of the applicants must have a general construction
+> induction training card (white card or blue card) and, either: hold a current, or previous,
+> Building Practitioners registration in Western Australia; be registered as an architect, building
+> surveyor or building engineer in Western Australia; or have completed owner-builder training with
+> Western Australian specific content within the previous 24 months."
+
+| Claim as published | Status |
+|---|---|
+| "one of **four pathways** to sufficient knowledge" | **WRONG.** A card is a mandatory prerequisite, plus **one of three** alternatives. |
+| "under the Building Services (Registration) **Act** 2011" | **Imprecise.** The source cites **r.22 of the Regulations 2011** for the approval requirement. |
+| "The **Building Services Board's** own application fee" | **Unverifiable as written.** The source says "the board" in lower case and is published by a department whose name appears two different ways on the same page. Rewritten to "the regulator's own application fee", which is true without naming a body the source does not. |
+| "within the last two years" | **Correct** — source says "previous 24 months". |
+| white or blue card is part of the pathway | **Correct.** |
+
+`kb/register/eligibility-by-state.md:41` had recorded this correctly since 22 Jul. The page
+contradicted the register and no gate compares the two, because these are non-numeric claims and
+`check-claims` only reconciles dollar figures.
+
+**Fixed:** the `note` now states the real structure; a second `VerifiedSources` block was added to
+`#need-one` (owner-builder approval is a *different regulator* from WorkSafe WA, so it needs its own
+provenance line); and a dated footer source was added.
+
+## F2 — dated claim removed rather than defended
+
+"The practical demonstration has been part of White Card assessment **since December 2016**" traced
+to `kb/register/online-delivery-policy-by-state.md`, whose own header records it as verified against
+**2026 RTO and industry guides** — a source class section 1d excludes. The nearest primary date is
+CPCCWHS1001 being superseded 09 Dec 2016, which is a *unit release*, not a change to assessment
+policy. Treating one as the other is an inference dressed as a fact, so the date was **removed**.
+The sentence keeps its point without it.
+
+## F3 — breadcrumb pointed at a 404, in both the link and the schema
+
+`/white-card` is not built. The crumb rendered as a visible link to a 404 and as a `BreadcrumbList`
+ListItem naming a non-resolving URL, which Google treats as an invalid rich result. `check-links`
+passed it because `/white-card` is legitimately in its `PLANNED` list, so it read as "not built yet"
+rather than "broken" — a real limit of that check worth knowing.
+
+**Not deferred to the hub.** The implementation plan (line 223) records that **W3-6 cannot start
+until its spokes exist** — `hubs` types `spokes[].course` as `reference('courses')`, so a hub naming
+an absent page fails Zod — and there is **one spoke of five**. W3-2, W3-3 and W3-5 come first. The
+middle crumb was removed, with a comment tying its restoration to W3-6.
+
+## F6 — consolidated sources: undated entry
+
+The WHS (General) Regulations 2022 entry rendered its `verified` field as the bare string
+`legislation.wa.gov.au`, so the one legislative source underwriting regulation 289 showed no date.
+Set to **Verified 26 May 2026**, the date `01-source-map.md` S7 actually records.
+
+## Measured after the fixes
+
+| Check | Measured |
+|---|---|
+| "four pathways" in `dist` | **0** |
+| "December 2016" in `dist` | **0** |
+| Undated footer source | **0** — 6 entries, 5 x "Verified 28 Jul 2026", 1 x "Verified 26 May 2026" |
+| `BreadcrumbList` names | `Home`, `White Card WA` — no non-resolving item |
+| `href="/white-card"` on this page | **1**, and it is the **sitewide footer**, present on every page and tracked in `check-links` `PLANNED`. Not this page's defect. |
+| `guardrails` | 20 pages passed |
+| `check-claims` / `check-links` / `check-pipeline` | 0 failing each |
+| `npm run check` | 0 errors, 0 warnings |
+| `prose-lint` | 10 files passed |
+
+## Still open — NOT fixed here, and none of them is closed by this pass
+
+- **F4 (= the audit's open B4).** Two FPO placeholders still ship, exposing the raw image prompt and
+  spec string to readers. This page is the only built course page with any. Needs the two assets in
+  `06-image-prompts.md` generated. **Deploy gate.**
+- **F7.** TrustBand capsule is 19 words against the component's own 40-60 contract.
+- **F14.** Reader-visible doubled "against" in two `VerifiedSources` blocks: the authored `facts`
+  string ends in "against" and the component appends its own. Needs either the copy or the component
+  changed, so it is `[design]` as much as content.
+- **F5, F8, F9, F10, F11, F12, F13** as recorded by the auditor. F11 (`check-claims` silently skips
+  total reconciliation when the register says "None" rather than "$0.00") and F12 (`robots.txt` does
+  not block `/course/` and `/program/`) are `[skills]`.
+- **The `/payment` origin gate.** Implementation plan line 223: `/payment` is live on the legacy
+  origin but absent from the Worker's asset set, so **all four CTAs are dead on staging**.
+
+## Verdict
+
+**PASS WITH FINDINGS, on the three items this pass took.** The two regulatory defects are corrected
+and sourced, and the invalid breadcrumb is gone. **This is not a clean Stage 7** — the auditor's
+remaining findings above are untouched, and F4 plus the `/payment` gate still block a real-domain
+deploy exactly as the original audit said.
+
+**Method note.** This entry is written by the agent that applied the fixes, so the *fix descriptions*
+are self-reported. The *findings* they answer are not: they come from an independent auditor that
+never saw this file. The correct next step before any real-domain deploy is another independent pass.
