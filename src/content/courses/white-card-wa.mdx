@@ -40,9 +40,17 @@ priceNumber: "99"
 courseWorkload: "PT6H"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
 credentialCategory: "Statement of Attainment"
+# The middle "White Card" crumb was REMOVED 28 Jul 2026 and must be restored when W3-6 ships.
+# It pointed at /white-card, which is not built: the crumb rendered as a visible link to a 404 and,
+# worse, as a BreadcrumbList ListItem naming a URL that does not resolve, which Google treats as an
+# invalid rich result. `check-links` did not catch it because /white-card is legitimately in its
+# PLANNED list, so the link reads as "not built yet" rather than "broken".
+# Not left to wait for the hub: the implementation plan records that W3-6 cannot start until its
+# spokes exist (the `hubs` schema types spokes[].course as reference('courses'), so a hub naming an
+# absent page fails Zod), and there is one spoke of five. W3-2, W3-3 and W3-5 come first, so this
+# would have pointed at a 404 for several tickets. Home > White Card WA is valid on its own.
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
-  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
   - { name: "White Card WA", item: "https://www.abeeducation.edu.au/white-card-wa" }
 reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "28 July 2026" }
 nav:
@@ -119,7 +127,12 @@ footerSources:
   - { label: "WorkSafe WA — Construction induction training", href: "https://www.worksafe.wa.gov.au/construction-induction-training", verified: "Verified 28 Jul 2026" }
   - { label: "WorkSafe WA — Candidates to provide evidence they are located in Western Australia", href: "https://www.worksafe.wa.gov.au/candidates-provide-evidence-they-are-located-western-australia", verified: "Verified 28 Jul 2026" }
   - { label: "WorkSafe WA — Construction induction training card database", href: "https://www.worksafe.wa.gov.au/construction-induction-training-card-database", verified: "Verified 28 Jul 2026" }
-  - { label: "Western Australian legislation — Work Health and Safety (General) Regulations 2022", href: "https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_s53267.html", verified: "legislation.wa.gov.au" }
+  - { label: "Western Australian legislation — Work Health and Safety (General) Regulations 2022", href: "https://www.legislation.wa.gov.au/legislation/statutes.nsf/law_s53267.html", verified: "Verified 26 May 2026" }
+  # The owner-builder claims in #need-one had no entry here at all, so the Consolidated Sources block
+  # did not cover them. Read at source 28 Jul 2026: the knowledge test is a white or blue card PLUS
+  # one of three alternatives, and r.22 of the Building Services (Registration) Regulations 2011 is
+  # what creates the approval requirement.
+  - { label: "Government of Western Australia — Owner-builder approval (Form 75)", href: "https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval", verified: "Verified 28 Jul 2026" }
 disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by Blue Dog Training</b> from card stock supplied by WorkSafe WA, not by ABE Education and not over a government counter. Western Australia charges no government fee for a construction induction card. <b>Online delivery:</b> WorkSafe WA requires evidence that you were located in Western Australia at the time of assessment, which is a different test from residency. Residents of other states must complete White Card training under their own state’s delivery rules, and most do not permit fully self-paced online training.'
 ---
 
@@ -194,9 +207,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
     totalLabel="Both together"
     total="$278"
     cta={{ href: '/wa-owner-builder-course', label: 'See the WA owner builder course' }}
-    note="This is one of four pathways to sufficient knowledge under the Building Services (Registration) Act 2011, and it is the one most owner builders use. A registered Western Australian building practitioner does not need either course. The Building Services Board's own application fee is separate and is paid to the Board, not to ABE Education."
+    note="Owner-builder approval requires sufficient knowledge of the role. At least one applicant must hold a white or blue card and, on top of that, either hold current or previous Western Australian Building Practitioners registration, be registered here as an architect, building surveyor or building engineer, or have completed owner-builder training with Western Australian content in the previous 24 months. That last route is the one most owner builders use. The regulator's own application fee is separate and is not paid to ABE Education."
   />
   <VerifiedSources date="28 Jul 2026" facts="The definition of construction work at regulation 289, and the judgement factors for marginal cases, read on the regulator’s guidance" sources={[{ label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
+  {/* Owner-builder approval is a DIFFERENT regulator from WorkSafe WA, so it needs its own
+      provenance line. It previously had none, and the WorkSafe block above was the nearest source,
+      which cited the wrong body for the claim. */}
+  <VerifiedSources date="28 Jul 2026" facts="The owner-builder knowledge requirement: a white or blue card plus one of three alternatives, and the 24-month currency on Western Australian owner-builder training" sources={[{ label: 'Government of Western Australia — Owner-builder approval', href: 'https://www.wa.gov.au/organisation/service-delivery/owner-builder-approval' }]} />
   <SectionWayfinder label="Can you do it online?" href="#online" />
 </Section>
 
@@ -252,7 +269,13 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <AnswerCapsule>Two parts. You work through the theory online at your own pace, which most Western Australian learners finish in two to six hours. Then you meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes and demonstrate the practical safety tasks, including fitting and wearing the protective equipment.</AnswerCapsule>
   <div class="measure">
     <h3 class="h3">Why the assessment is live</h3>
-    <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration has been part of White Card assessment since December 2016, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
+    {/* The date this sentence used to carry ("since December 2016") was removed 28 Jul 2026. It
+        traced to kb/register/online-delivery-policy-by-state.md, whose own header records it as
+        verified against 2026 RTO and industry guides — a secondary source class the citation gate
+        excludes. The nearest primary date is CPCCWHS1001 being superseded on 09 Dec 2016, which is
+        a unit release, not a change to assessment policy; treating one as the other would be an
+        inference dressed as a fact. The sentence does not need the date to make its point. */}
+    <p>The video call is what separates this from a cheaper course, and it is worth understanding why it is there. The practical demonstration is part of White Card assessment, and regulators want it watched in real time rather than self-marked. An assessor sees you fit the equipment, corrects you if you have it wrong, and signs it off.</p>
     <p>It also means there is someone there when you are stuck. You book the call to suit yourself once the theory is done.</p>
     <h3 class="h3">What you are paying the difference for</h3>
     <p>Cheaper self-paced courses are lawful in Western Australia and the cards they issue are real. The credential is the same nationally recognised unit either way. What you are paying the difference for is a person on the other end of the call.</p>
