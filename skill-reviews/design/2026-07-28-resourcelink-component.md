@@ -139,10 +139,18 @@ the rule against inventing defects to demonstrate iteration.
 
 Tag every item: [skills] | [design] | [facts]
 
-- [design] Migrate `Credentials.astro` (`.pl`) and `PartnerDisclosure.astro` (`.pl-verify`) onto
-  `ResourceLink`. They are the two prior hand-built copies this component was promoted from, and
-  leaving them is how a third copy gets written. Deferred here only because both have their own
-  layout around the link.
+- ~~[design] Migrate `Credentials.astro` (`.pl`) and `PartnerDisclosure.astro` (`.pl-verify`) onto
+  `ResourceLink`.~~ **WITHDRAWN 28 Jul 2026, same day, on inspection. The item was wrong.** What
+  repeated across those two files is the *string and the intent* ("Verify on training.gov.au →"),
+  never the *shape*. Both are inline micro-links inside dense cards; this is a block-level panel
+  sized to the prose column. Measured: `.pl-verify` is 14px inside `.pl-check`, a right-aligned
+  column stack under a 24px maroon RTO number, and `.partner` is itself `--paper` + 1px
+  `--rule-strong` + 8px radius, so a bordered panel inside it is a **nested card**, which DESIGN.md
+  bans outright. `.pl` is a 12px mono link in `.p-links`, a baseline-aligned row pairing it with a
+  peer link, which a 544px block would break. Migrating would have degraded two shipped components
+  to satisfy a note. Recorded in `ResourceLink.astro`'s header as a DO NOT MIGRATE so it is not
+  retried. **Lesson: "the same intent twice" is not "the same shape twice", and only the second one
+  is the promote trigger.** The promote rule should be read as being about shape.
 - [design] `.topic` and the other interactive cards have no `prefers-reduced-motion` guard on their
   2px lift. `ResourceLink` now has one. Either sweep them or drop mine for consistency; a sweep is
   its own change and should not ride along with a new component.

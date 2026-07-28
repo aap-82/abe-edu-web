@@ -11,9 +11,25 @@ import ArrowRight from './ArrowRight.astro';
 //   KeyTakeaway      distils what a section already said. Never new, never a destination.
 //   .btn-link        the right loudness, but inline and containerless, so it disappears in a
 //                    wall of body copy at exactly the moment a reader wants proof.
-// The shape had already been hand-built twice, as `.pl` in Credentials.astro and `.pl-verify`
-// in PartnerDisclosure.astro, both "Verify on training.gov.au →". Two occurrences is this
-// project's promote trigger, so it is a component rather than a third copy.
+// The INTENT had been hand-built twice, as `.pl` in Credentials.astro and `.pl-verify` in
+// PartnerDisclosure.astro, both "Verify on training.gov.au →", which is what justified building
+// this rather than writing a third one inline.
+//
+// DO NOT MIGRATE THOSE TWO ONTO THIS COMPONENT. Checked properly on 28 Jul 2026 and the answer
+// is no, in both places. What repeated across them is the string and the intent, never the
+// SHAPE: both are inline micro-links inside dense cards, and this is a block-level panel sized
+// to the prose column.
+//   PartnerDisclosure  `.pl-verify` is a 14px link inside `.pl-check`, a right-aligned column
+//                      stack under a 24px maroon RTO number. More importantly `.partner` is
+//                      itself `--paper` + 1px border + 8px radius, so a bordered panel inside it
+//                      is a NESTED CARD, which DESIGN.md bans outright ("cards are never stacked
+//                      or nested").
+//   Credentials        `.pl` is a 12px mono link in `.p-links`, a baseline-aligned flex row that
+//                      pairs it with a peer ("Website", "LinkedIn"). A 544px block would break
+//                      the row and orphan its partner.
+// Use this component in BODY PROSE, where a reader is mid-argument and needs the evidence. The
+// inline treatments stay inline. If those two ever need de-duplicating, the shared thing is a
+// small inline verify link, which is a different promotion from this one.
 //
 // AUTHORITY NOTE. This component links to evidence; it never characterises it. It carries no
 // "approved" / "accredited" / "recognised" wording of its own, so it cannot introduce an
