@@ -518,6 +518,9 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 .blist-items li:last-child{margin-bottom:0;}
 .blist-items li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--maroon);}
 .blist-items li b,.blist-items li strong{color:var(--ink);font-weight:600;}
+/* marker="dot": round, hairline-coloured. Same treatment as the .vlist utility above, for reference
+   sets rather than argument - see the note in BulletList.astro for when to choose it over the dash. */
+.blist-items--dot li::before{width:5px;height:5px;border-radius:50%;background:var(--rule-strong);top:.58em;}
 .blist-items--num{counter-reset:blist;}
 .blist-items--num li{padding-left:var(--s-lg);}
 .blist-items--num li::before{content:counter(blist) ".";counter-increment:blist;left:0;top:0;width:auto;height:auto;background:none;font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--maroon);font-variant-numeric:tabular-nums;}
@@ -575,6 +578,16 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 
 /* screen-reader-only utility: off-canvas, but present in the a11y tree */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+/* Bulleted list of short items. THE ONLY list-style marker in this stylesheet: every other list here
+   is `list-style:none` with a custom marker, so this is a deliberate exception rather than a slip.
+   Filled `disc`, not hollow `circle`, which was tried first and read as an empty checkbox at
+   11-15px. The restraint comes from the marker COLOUR, not the shape: --rule-strong is the same
+   weight as a hairline rule, so the bullets sit with the surrounding structure instead of competing
+   with it. Lives here rather than in one component's scoped block because two components now render
+   it (Credentials' fact values, BundleOffer's note). Inherits type from its container on purpose. */
+.vlist{list-style:disc;margin:0;padding-left:1.1em;}
+.vlist li{padding:1px 0;}
+.vlist li::marker{color:var(--rule-strong);}
 /* Skip link: off-screen until focused, then a real target in the top-left. Not .sr-only, which
    stays 1px even when focused and would give a keyboard user an invisible focus stop. Uses the
    maroon action ground because it IS an action, and sits above the sticky header's z-index:30. */

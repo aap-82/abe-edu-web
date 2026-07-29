@@ -541,10 +541,11 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">BulletList</span><span class="sg-desc">Lead-in + parallel items, quiet marker (never a tick-badge). Bullets for an unordered set; `ordered` gives quiet numerals for a ranked list — a true process is a Stepper, not this.</span><span class="sg-props">items[] · leadIn? · ordered?</span></div>
+      <div class="sg-meta"><span class="sg-name">BulletList</span><span class="sg-desc">Lead-in + parallel items, quiet marker (never a tick-badge). `marker="dot"` swaps the maroon dash for a round hairline dot, for reference sets. Bullets for an unordered set; `ordered` gives quiet numerals for a ranked list — a true process is a Stepper, not this.</span><span class="sg-props">items[] · leadIn? · ordered?</span></div>
       <div class="sg-demo sg-two">
         <BulletList leadIn="You are eligible if you:" items={['<b>Own or co-own the land</b>, or are buying it.', 'Will <b>live in the home</b> once it is built.', 'Have not held an owner builder permit in the last <b>five years</b>.']} />
         <BulletList ordered leadIn="Ranked by how often we are asked:" items={['Is the course actually accepted?', 'How long does it take?', 'What does it cost all up?']} />
+        <BulletList marker="dot" leadIn="marker=&quot;dot&quot; - round, hairline colour, for a REFERENCE set rather than an argument:" items={['A disclosure broken into its separate statements.', 'A note listing conditions that each stand alone.', 'Anything where a maroon dash would read as emphasis the items do not want.']} />
       </div>
     </div>
 
