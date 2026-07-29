@@ -101,11 +101,22 @@ if (!ahead.length) {
    that file reappears here. That is a genuine ambiguity - this check cannot tell "never landed" from
    "landed then edited" - so it is reported as work to look at, with the filenames, and not silently
    swallowed. */
+/* MACHINE-APPENDED RECORDS ARE NOT AUTHORED CONTENT, and comparing them makes this check useless.
+   `data/health-log.jsonl` gains a line every time anyone runs `system-health`, and a CI job commits
+   its own lines straight to main. So the log on any branch and the log on main diverge CONSTANTLY,
+   by design, without anyone having stranded anything. Left in, the residue documented above stops
+   being a rare edge case and fires on essentially every completed branch — which is the same
+   cry-wolf failure this check has now had twice, arriving by a third route.
+
+   The rule: compare what a person wrote. Keep this list to append-only machine records; if it ever
+   grows to include something a person edits, the exclusion is hiding a real answer, not noise. */
+const MACHINE_RECORDS = new Set(['data/health-log.jsonl']);
+
 let stranded;
 try {
   const touched = new Set(sh('git diff --name-only origin/main...HEAD').split('\n').filter(Boolean));
   const differNow = new Set(sh('git diff --name-only origin/main HEAD').split('\n').filter(Boolean));
-  stranded = [...touched].filter((f) => differNow.has(f));
+  stranded = [...touched].filter((f) => differNow.has(f) && !MACHINE_RECORDS.has(f));
 } catch {
   stranded = null; // cannot tell; fall through to the commit-level report rather than guess
 }
