@@ -14,3 +14,24 @@
 *.woff binary
 *.woff2 binary
 *.pdf binary
+
+# data/health-log.jsonl is an APPEND-ONLY event log (ROADMAP recording policy, layer 2): one JSON
+# object per line, one line per system-health run, read by scripts and never by hand.
+#
+# `merge=union` tells git to keep BOTH sides' lines instead of raising a conflict. That is the
+# correct resolution for this file and the only one ever wanted - it is what was applied by hand
+# three separate times on 28-29 Jul 2026 (two merges and one stash-pop).
+#
+# It is here for a sharper reason than convenience. When this file DOES conflict, git writes
+# <<<<<<< / ======= / >>>>>>> markers into it, and those lines are not valid JSON. A conflicted
+# health log is a log that every consuming script chokes on, and on 29 Jul one sat unnoticed in the
+# working tree with three invalid lines in it. Union removes that failure mode entirely.
+#
+# Union can leave records slightly out of timestamp order, and can keep a duplicate. Both are
+# harmless here and deliberately preferred: scripts/health-log-dedupe.mjs says it plainly - "losing
+# history is much worse than keeping a duplicate".
+#
+# NOTE this does not stop `git switch` refusing while the file is dirty - merge drivers apply to
+# merges, not checkouts. `system-health` appends on every run, so if a branch switch aborts, commit
+# or `git checkout -- data/health-log.jsonl` first. The line is regenerated on the next run.
+data/health-log.jsonl merge=union
