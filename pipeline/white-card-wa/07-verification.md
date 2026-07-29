@@ -1145,3 +1145,26 @@ it mixes lowercase route words with an uppercase unit code, which is an identifi
 the page source became newer than its verification, which is exactly the invariant that check
 protects, and it fired correctly. Recording the delta rather than re-running Stage 7 wholesale is the
 same treatment the hero-asset and aspect-ratio deltas above received.
+
+## Re-verification — two regulated notes set as bullets, 30 July 2026
+
+**Delta:** the ASQA "Training and assessment" disclosure (location 2) and the Form 75 bundle note each
+went from one paragraph to four bullets. **No word changed in either.** Both are now rendered by
+`BulletList marker="dot"` / `BundleOffer`'s `;`-split rather than as raw markup.
+
+**Why no claim needs re-verifying.** Word preservation was asserted programmatically, not eyeballed:
+each split was compared against the original with markup and punctuation stripped, and both returned
+identical. Presentation changed; the prescribed wording did not. The ASQA framework prescribes
+wording, not layout, and location 2's template is intact and complete.
+
+**Two defects the guardrails caught in this change, both worth knowing about:**
+1. A naive `/[^.]+\./` sentence split broke the disclosure **mid-URL** — `training.gov` /
+   `au using RTO Code 31193` — and produced six bullets from four sentences. The build stopped on a
+   publish hard-blocker. The split now requires a period followed by whitespace and a capital, so a
+   dotted host cannot break it. **A regex that splits on every period will break every URL in
+   regulated copy;** this is the one place that must never be approximate.
+2. A raw `<ul class="vlist">` in the MDX body failed the class-ownership check. Replaced with the
+   existing `BulletList` component plus a new `marker="dot"` variant and its styleguide specimen.
+
+**Measured after:** 4 bullets each, markers 5x5px at 50% radius in `--rule-strong`, no sideways scroll
+at 375px, build green at 20 pages, `check-claims` 0 failing.

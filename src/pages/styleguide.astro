@@ -121,7 +121,10 @@ const faqExamples = [
 const people = [{
   name: 'Example Reviewer',
   role: 'Compliance & Currency Reviewer (demo)',
-  creds: 'Demonstration credential line · shown to illustrate the Credentials component',
+  // Labelled, because that is the pattern the card renders: `Label: value`, and `;` inside a value
+  // splits it into a bulleted list. The last entry is deliberately UNLABELLED so the specimen also
+  // shows the fallback, which is how a record written before labels existed still renders.
+  creds: 'Experience: 12 years, demonstration sector · Formerly: Demo Lead, Example Co; Demo Analyst, Sample Group · shown to illustrate the unlabelled fallback',
   bio: [
     'Placeholder biography copy showing how the card renders a mono credential line above body paragraphs.',
     'A second paragraph demonstrates a multi-paragraph bio.',
@@ -538,10 +541,11 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">BulletList</span><span class="sg-desc">Lead-in + parallel items, quiet marker (never a tick-badge). Bullets for an unordered set; `ordered` gives quiet numerals for a ranked list — a true process is a Stepper, not this.</span><span class="sg-props">items[] · leadIn? · ordered?</span></div>
+      <div class="sg-meta"><span class="sg-name">BulletList</span><span class="sg-desc">Lead-in + parallel items, quiet marker (never a tick-badge). `marker="dot"` swaps the maroon dash for a round hairline dot, for reference sets. Bullets for an unordered set; `ordered` gives quiet numerals for a ranked list — a true process is a Stepper, not this.</span><span class="sg-props">items[] · leadIn? · ordered?</span></div>
       <div class="sg-demo sg-two">
         <BulletList leadIn="You are eligible if you:" items={['<b>Own or co-own the land</b>, or are buying it.', 'Will <b>live in the home</b> once it is built.', 'Have not held an owner builder permit in the last <b>five years</b>.']} />
         <BulletList ordered leadIn="Ranked by how often we are asked:" items={['Is the course actually accepted?', 'How long does it take?', 'What does it cost all up?']} />
+        <BulletList marker="dot" leadIn="marker=&quot;dot&quot; - round, hairline colour, for a REFERENCE set rather than an argument:" items={['A disclosure broken into its separate statements.', 'A note listing conditions that each stand alone.', 'Anything where a maroon dash would read as emphasis the items do not want.']} />
       </div>
     </div>
 
@@ -644,8 +648,8 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">Credentials + org (asqa developer)</span><span class="sg-desc">On an asqa-accredited page the developer is the RTO, not an ABE person. `org` fills the developer slot with an organisation card (monogram badge, RTO number, ASQA line, training.gov.au verify link), rendered before the reviewer.</span><span class="sg-props">people[] · org (name · rtoNumber · role · scopeNote? · tgaUrl? · verified?)</span></div>
-      <div class="sg-demo"><Credentials people={[people[1] ?? people[0]]} org={{ name: 'Blue Dog Training', legalName: 'Blue Dog Training Pty Ltd', rtoNumber: '31193', role: 'Registered training organisation', blurb: 'Develops, delivers and assesses the nationally recognised White Card unit and issues the Statement of Attainment. ABE Education publishes the course and enrols students; Blue Dog Training is the RTO responsible for the training and the qualification.', scopeNote: 'White Card (unit CPCWHS1001) for QLD, WA and TAS.', tgaUrl: 'https://training.gov.au/Organisation/Details/31193', verified: 'Verified 23 Jul 2026' }} /></div>
+      <div class="sg-meta"><span class="sg-name">Credentials + org (asqa developer)</span><span class="sg-desc">On an asqa-accredited page the developer is the RTO, not an ABE person. `org` fills the developer slot with an organisation card, rendered before the reviewer. Same anatomy as a person card: visual, name, role, facts table, prose, links, dated check. The visual is the partner's supplied logo; no partner record carries one yet, so it shows a labelled placeholder.</span><span class="sg-props">people[] · org (name · legalName? · rtoNumber? · role · blurb? · scopeNote? · deliversIn? · logo? · email? · phone? · url? · tgaUrl? · verified?)</span></div>
+      <div class="sg-demo"><Credentials people={[people[1] ?? people[0]]} org={{ name: 'Blue Dog Training', legalName: 'Blue Dog Training Pty Ltd', rtoNumber: '31193', role: 'Registered training organisation', blurb: 'Develops, delivers and assesses the nationally recognised White Card unit and issues the Statement of Attainment. ABE Education publishes the course and enrols students; Blue Dog Training is the RTO responsible for the training and the qualification.', scopeNote: 'White Card (CPCWHS1001 Prepare to work safely in the construction industry)', deliversIn: 'QLD; WA; TAS', email: 'admin@bluedogtraining.com.au', phone: '(07) 3331 6000', url: 'https://www.bluedogtraining.com.au/', tgaUrl: 'https://training.gov.au/Organisation/Details/31193', verified: 'Verified 23 Jul 2026' }} /></div>
     </div>
 
     <div class="sg-item">

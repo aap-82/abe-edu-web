@@ -12,5 +12,6 @@ phone: "02 8580 2250"
 url: "https://upskillinstitute.com.au/"
 tgaUrl: "https://training.gov.au/Organisation/Details/45708"
 scopeNote: "NSW owner builder and NSW White Card (unit CPCWHS1001)."
+deliversIn: "NSW"
 verified: "Verified 19 Jul 2026"
 ---

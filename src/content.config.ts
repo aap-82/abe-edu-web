@@ -302,6 +302,18 @@ const partners = defineCollection({
     // Note the capitalised path: training.gov.au serves /Organisation/Details/{code}.
     tgaUrl: z.string().url().optional(),
     scopeNote: z.string().optional(),
+    // Added 30 Jul 2026 for the reworked Credentials card.
+    //   deliversIn  the states this partner delivers in, as a `;`-separated string so the card can
+    //               render it as a list. NOT a split of scopeNote: two of three records read
+    //               "... for QLD, WA and TAS" but Upskill's has no `for` clause at all, so a parse
+    //               would have been right twice and wrong once.
+    //   logo        the partner's own supplied brand asset, resolved by src/lib/images.ts like any
+    //               other image. Optional and currently unset everywhere, so every RTO card renders
+    //               a visible labelled placeholder - deliberate per PRODUCT.md, an artefact that
+    //               does not exist stays visible as unfinished. These are third-party trademarks:
+    //               the partner supplies the file, it is never scraped from their site.
+    deliversIn: z.string().optional(),
+    logo: z.string().optional(),
     verified: z.string().optional(),       // dated check against the TGA record
   }),
 });

@@ -39,7 +39,14 @@ const { eyebrow = 'Bundle', heading, lede, items, totalLabel = 'Both together', 
     </dl>
     <a class="btn-primary bundle-cta" href={cta.href}>{cta.label}</a>
   </div>
-  {note && <p class="bundle-note">{note}</p>}
+  {/* A `;`-separated note becomes a bulleted list, the same convention Credentials uses for a
+      multi-item fact value. This note carries four separate regulatory statements about the Form 75
+      knowledge test, and as one mono paragraph at 11px they ran together into a wall the eye slid
+      off. One clause per bullet, no word changed. A note without a `;` still renders as a
+      paragraph, so no other page that uses this component is affected. */}
+  {note && (note.includes(';')
+    ? <ul class="bundle-note vlist" role="list">{note.split(';').map((s) => s.trim()).filter(Boolean).map((s) => <li>{s}</li>)}</ul>
+    : <p class="bundle-note">{note}</p>)}
 </div>
 <style>
   .bundle{

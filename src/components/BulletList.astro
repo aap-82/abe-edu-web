@@ -7,17 +7,27 @@
 // Bullets are for an UNORDERED set. `ordered` switches to quiet mono numerals, but only for a
 // genuinely ranked or numbered reference list — a process the reader follows in ORDER is a
 // Stepper, not this, and choices/options are never numbered (a reader reads a number as "do all").
+// `marker` picks the bullet, and the default is unchanged so no existing call site moves:
+//   dash  8x1px maroon rule, the original and still the default for body-copy lists.
+//   dot   round, in the hairline colour. For a set that is REFERENCE rather than argument: a
+//         disclosure broken into its statements, a note listing separate conditions. A maroon dash
+//         reads as emphasis, and emphasis on four equal-weight compliance sentences flattens them
+//         while spending the accent colour DESIGN.md reserves for actions. The dot is quieter and
+//         lets the rows sit as data. Same shape and colour as the `.vlist` utility in global.css,
+//         which is that treatment for lists nested INSIDE a component (a fact value in Credentials);
+//         this component is the way to get it in an MDX body, where raw classes are not allowed.
 interface Props {
   items: string[];
   leadIn?: string;
   ordered?: boolean;
+  marker?: 'dash' | 'dot';
 }
-const { items, leadIn, ordered = false } = Astro.props;
+const { items, leadIn, ordered = false, marker = 'dash' } = Astro.props;
 const Tag = ordered ? 'ol' : 'ul';
 ---
 <div class="blist">
   {leadIn && <p class="blist-lead">{leadIn}</p>}
-  <Tag class:list={['blist-items', ordered && 'blist-items--num']}>
+  <Tag class:list={['blist-items', ordered && 'blist-items--num', marker === 'dot' && !ordered && 'blist-items--dot']}>
     {items.map((it) => <li set:html={it} />)}
   </Tag>
 </div>

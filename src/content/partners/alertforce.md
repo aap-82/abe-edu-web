@@ -11,6 +11,7 @@ email: "info@alertforce.com.au"
 phone: "1800 900 222"
 url: "https://alertforce.com.au/"
 tgaUrl: "https://training.gov.au/Organisation/Details/91826"
-scopeNote: "White Card (unit CPCWHS1001) for the ACT."
+scopeNote: "White Card (CPCWHS1001 Prepare to work safely in the construction industry)"
+deliversIn: "ACT"
 verified: "Verified 19 Jul 2026"
 ---

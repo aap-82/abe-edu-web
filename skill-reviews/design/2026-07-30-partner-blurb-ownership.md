@@ -81,7 +81,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
 
 - ~~[design] Contact details (email and phone) still render in **both** `PartnerDisclosure` and
   `Credentials` on every ASQA page. Less egregious than two identical paragraphs and arguably useful
-  in both places, but it is the same shape and nobody has decided it. First filing.~~ fixed 30 Jul 2026: PartnerDisclosure owns contact; Credentials no longer renders it
+  in both places, but it is the same shape and nobody has decided it. First filing.~~ decided 30 Jul 2026, then REVERSED the same day: both cards carry contact deliberately. Andrey reworked the Credentials card and restored it; at ~8 screens apart the second copy is reinforcement, not repetition. Closed as decided, not as removed
 - [skills] The `demand-split` group that prompted this session held two different complaints under one
   heading, exactly as its own caveat warns. That is the design working, but the caveat is only in the
   generated note — worth a line in CLAUDE.md's demand-list format so a reader meets it before the note.
