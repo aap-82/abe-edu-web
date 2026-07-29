@@ -51,8 +51,11 @@ if (branch === 'main' || branch === 'HEAD') {
    cherry-picked onto another branch and merged still counts as "ahead" and the check cries wolf at
    exactly the person who already did the right thing. `git cherry` compares PATCH IDS: it prefixes
    a commit with `-` when an equivalent change is already upstream and `+` when it genuinely is not.
-   Only `+` commits can strand. This distinction is the difference between a check that gets read
-   and one that gets muted, which is the 93-warning lesson in ROADMAP's recording policy. */
+   Only `+` commits can strand.
+
+   THAT IS STILL NOT ENOUGH, and this check shipped believing it was. See the CONTENT test below:
+   patch ids cannot survive a squash merge, and this repo squash-merges every PR. `ahead` is now
+   treated as a first pass that narrows what to look at, never as the verdict. */
 let ahead = [];
 try {
   ahead = sh('git cherry origin/main HEAD')
@@ -70,6 +73,46 @@ try {
 
 if (!ahead.length) {
   say('OK', `${branch} has nothing origin/main does not already have.`);
+  console.log('\n  0 failing\n');
+  process.exit(0);
+}
+
+/* THE CONTENT TEST — the one this check was missing, found by running it on the first branch that
+   used it. `git cherry` reported one stranded commit on a branch whose work was already merged and
+   already live. The commit had not stranded at all.
+
+   A SQUASH MERGE collapses every commit on the branch into ONE new commit on main, whose patch is
+   the union of theirs plus any conflict resolution. That union matches no individual branch commit's
+   patch id, so `git cherry` marks all of them `+`. This repo squash-merges every PR, which means the
+   check as first written would FAIL on every branch the moment its work landed — the exact
+   cry-wolf behaviour that choosing `git cherry` over `rev-list` was supposed to prevent. Picking the
+   more careful of two commit-identity tests did not help, because commit identity was the wrong
+   question.
+
+   The right question is about CONTENT: is every file this branch touched now identical on main? If
+   it is, the work arrived, and it does not matter by what route — squash, rebase, cherry-pick or
+   someone re-typing it. If it is not, name the files, because a file is what the author can act on.
+
+   Two-dot `git diff origin/main HEAD` alone will not do: it also reports files main changed and the
+   branch never touched, so a branch that is merely BEHIND would fail. Intersecting with the
+   three-dot list (what the branch itself changed, measured from the merge base) removes those.
+
+   Known residue, stated rather than hidden: if main modifies a branch-touched file AFTER merging it,
+   that file reappears here. That is a genuine ambiguity - this check cannot tell "never landed" from
+   "landed then edited" - so it is reported as work to look at, with the filenames, and not silently
+   swallowed. */
+let stranded;
+try {
+  const touched = new Set(sh('git diff --name-only origin/main...HEAD').split('\n').filter(Boolean));
+  const differNow = new Set(sh('git diff --name-only origin/main HEAD').split('\n').filter(Boolean));
+  stranded = [...touched].filter((f) => differNow.has(f));
+} catch {
+  stranded = null; // cannot tell; fall through to the commit-level report rather than guess
+}
+
+if (stranded && !stranded.length) {
+  say('OK', `${branch} is ${ahead.length} commit(s) ahead, but every file it touched is already identical on main.`);
+  say('', 'That is what a squash merge looks like from the branch: the work landed, the commits did not.');
   console.log('\n  0 failing\n');
   process.exit(0);
 }
@@ -102,12 +145,22 @@ if (!prs.length) {
   process.exit(0);
 }
 
-// Ahead of main, and every PR for this branch is already merged or closed. Stranded.
+// Ahead of main in CONTENT, and every PR for this branch is already merged or closed. Stranded.
 const p = closed[0];
-say('FAIL', `${ahead.length} commit(s) on ${branch} can no longer reach main.`);
+say('FAIL', `${branch} has content that can no longer reach main.`);
 say('', `PR #${p.number} is ${p.state}${p.mergedAt ? ` (merged ${p.mergedAt})` : ''}, and a merged PR does not pick up later pushes.`);
-say('', 'These commits are stranded:');
-for (const line of ahead) say('', `  ${line}`);
+
+if (stranded) {
+  say('', `${stranded.length} file(s) differ from main and this branch is the side that changed them:`);
+  for (const f of stranded.slice(0, 20)) say('', `  ${f}`);
+  if (stranded.length > 20) say('', `  ...and ${stranded.length - 20} more`);
+  say('', 'If any of these were merged and then edited on main, that is the other reading — check');
+  say('', 'the file before re-applying it, rather than assuming the branch version is the newer one.');
+} else {
+  say('', `${ahead.length} commit(s) are ahead (the file-level comparison could not run):`);
+  for (const line of ahead) say('', `  ${line}`);
+}
+
 say('', 'Fix: open a NEW pull request from this branch, or cherry-pick onto a fresh one.');
 console.log('\n  1 failing\n');
 process.exit(1);
