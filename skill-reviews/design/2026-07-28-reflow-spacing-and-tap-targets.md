@@ -148,7 +148,7 @@ Tag every item: [skills] | [design] | [facts]
 - [design] The partner blurb renders twice per ASQA page (`PartnerDisclosure` + `Credentials` org
   card). Both renders now match, but neither is suppressed. Needs a decision on which card owns the
   description. **Third occurrence** — filed by the Stage 7 audit and the readability audit before this.
-- [design] `<a href="#">Login</a>` in the site header is a dead anchor. Needs a destination.
+- ~~[design] `<a href="#">Login</a>` in the site header is a dead anchor. Needs a destination.~~ fixed in #89
 - [design] `.eyebrow` was the second reflow cause and is a shared component; any eyebrow longer than
   `/white-card-wa`'s would have broken other pages the same way. Worth a max-length note in the
   content guidance rather than only a CSS guard.

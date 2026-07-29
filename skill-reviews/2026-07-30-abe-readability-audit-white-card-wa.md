@@ -83,13 +83,13 @@ the comment in the MDX prevented the wrong call.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] `.pl-disc` (ASQA partner disclosure) renders at **180 CPL** with `max-width: none`. Worst
-  measure on the page and a recurrence of the defect the first post-skip audit found at ~135 CPL.
+- ~~[design] `.pl-disc` (ASQA partner disclosure) renders at **180 CPL** with `max-width: none`. Worst
+  measure on the page and a recurrence of the defect the first post-skip audit found at ~135 CPL.~~ fixed in #89
 - [design] The unclassed ABN and authorised-publisher paragraph renders at **135 CPL** with no cap.
 - [design] Footer "About" link measures **2.68:1** against the cream ground, below the 4.5:1 AA floor.
-- [design] The "Sources" label measures **3.81:1** on `rgb(26,26,26)`, below the 4.5:1 AA floor.
-- [design] `button.burger-btn` is **40x20px** at 390px, under both the 44px primary target and the
-  24px minimum.
+- ~~[design] The "Sources" label measures **3.81:1** on `rgb(26,26,26)`, below the 4.5:1 AA floor.~~ fixed in #89
+- ~~[design] `button.burger-btn` is **40x20px** at 390px, under both the 44px primary target and the
+  24px minimum.~~ fixed in #89
 - [design] Nine type declarations sit below the 12px floor, smallest 9.5px (`.ht-rail`).
 - [design] The partner blurb renders verbatim twice on every ASQA page, from `PartnerDisclosure` and
   again from `Credentials`. Third filing, and the first caught by a copy check rather than a design read.

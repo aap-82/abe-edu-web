@@ -122,9 +122,9 @@ since the whole claim is "nothing moved".
 
 Tag every item: [skills] | [design] | [facts]
 
-- [design] `Note.astro` still renders a `<p>` and still carries the one-line MDX contract that caused
+- ~~[design] `Note.astro` still renders a `<p>` and still carries the one-line MDX contract that caused
   mistakes-log #12. `Footnote` shows the fix is a one-character change to the wrapper element. Apply
-  the same treatment to `Note`, and to any future slot-taking component.
+  the same treatment to `Note`, and to any future slot-taking component.~~ fixed in #89
 - [design] `.pl-disc` in `PartnerDisclosure` was left on its own 12px definition rather than folded
   onto `Footnote`'s `rule` variant, because it is regulated ASQA disclosure copy where the layout is
   part of the compliance record. Worth doing, worth doing deliberately.
