@@ -20,7 +20,7 @@ asqa-accredited`, **no `noindex`** (the buyUrl resolves — unlike `/white-card-
 | 01 | `real` | 01 | **01** | "Is this a real White Card?" | Section + AnswerCapsule + prose + VerifiedSources + SectionWayfinder | authored |
 | 02 | `need-one` | 02 | **02** | "Do you actually need a White Card in Western Australia?" | Section(bg-alt) + AnswerCapsule + CanCant + prose + VerifiedSources | authored |
 | 03 | `online` | 03 | **03** | "Can you do your White Card online in Western Australia?" | Section + AnswerCapsule + prose(list ×6) + VerifiedSources | authored |
-| 04 | `covered` | 04 | **09** | "What does the White Card course actually cover?" | Section + AnswerCapsule + BulletList(4) + prose + VerifiedSources + SectionWayfinder | authored — **added 28 Jul 2026** |
+| 04 | `covered` | 04 | **09** | "What does the White Card course actually cover?" | Section(**bg-alt**) + AnswerCapsule + BulletList(4) + prose + VerifiedSources + SectionWayfinder | authored — **added 28 Jul 2026** |
 | 05 | `assessment` | 05 | **04** | "What happens in the live assessment, and how do you pass it?" | **ZSection** + AnswerCapsule + prose + Note(caution) + VerifiedSources | authored |
 | 06 | `cost` | 06 | **05** | "What does a White Card cost in Western Australia?" | Section(bg-warm) + AnswerCapsule + PriceCard(priceRows) + VerifiedSources | authored |
 | — | TrustBand | — | (proof) | "Nationally recognised, delivered by an RTO" | TrustBand + TrustStats + AnswerCapsule(**onDark**) | authored |
@@ -149,3 +149,30 @@ covers") instead of `#assessment`, and `covered`'s points at `#assessment`. A `n
 **Carrier choice.** `BulletList`, not `TopicGrid`. The four unit elements are a parallel equal-weight
 set, which is BulletList's stated job, and it holds 3-7 items. `TopicGrid` renders a three-column
 grid, so four cards would strand the fourth on its own row.
+
+### Band correction, 29 July 2026
+
+`#covered` was added at the default band, between `#online` and `#assessment` which are both default
+too. That left **three adjacent default bands** and flattened the page's vertical rhythm.
+
+No sibling page has even two adjacent defaults. Measured from `dist/`:
+
+| Page | Band sequence |
+|---|---|
+| white-card-tas | d, alt, d, warm, d, alt, d, alt |
+| qld-owner-builder-course | d, alt, d, alt, d, warm, d, alt, warm, d |
+| tas-owner-builder-course | d, alt, d, alt, d, alt, warm, d, alt, d, warm, d |
+| white-card-wa **before** | alt, d, alt, d, **d, d**, warm, d, alt, d |
+| white-card-wa **after** | alt, d, alt, d, alt, d, warm, d, alt, d |
+
+The covered section is now bg-alt. **Zero adjacent default pairs**, verified against the built HTML.
+
+The independent Stage 7 audit flagged the two-in-a-row when this section landed, under section A
+deviations. It was recorded and not acted on, and the third default made it worse. Noted because a
+finding that is filed and not fixed reads the same as one that was never found.
+
+**Note on the table above:** the page names in it are deliberately NOT in backticks.
+`check-pipeline` reads every backticked lowercase token inside a table row in this file as a planned
+**section id**, so backticking page names here made them phantom sections and failed section
+conformance. This file is machine-parsed, not just read: keep backticks in tables for section ids
+only.

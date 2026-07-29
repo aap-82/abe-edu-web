@@ -246,3 +246,161 @@ none of which CPCWHS1001 assesses.
 
 Whichever is chosen, closing a slot is unchanged: generate, save to `src/assets/images/` under the
 filename in that slot's section above, add the prop back, and use that variant's alt text verbatim.
+
+---
+
+## Slot 1 CLOSED, 29 July 2026 — variant C shipped
+
+**Asset:** `src/assets/images/white-card-wa-hero.avif`, supplied. **Variant C, the schematic line-art
+option**, not the photographic variant A the original brief described.
+
+**Specs, measured:** 1000 x 1250 native, 4:5, 61,894 B. Matches `artefactSpec` exactly, no resize.
+Variants 12.6 / 40.5 / 56.6 kB. Rendered `width=1000 height=1250 loading="eager" decoding="async"`,
+`sizes="(max-width: 800px) 100vw, 640px"`, box 499 x 623 at ratio 0.800 against a decoded 0.800, so
+distortion-free and identical in geometry to the QLD and TAS heroes.
+
+**What is in the frame:** a single-weight maroon line drawing of a part-built single-storey Australian
+home in three-quarter view: exposed roof trusses, framed walls, brick base, porch posts, a slab and
+temporary site fencing, with a tree and a neighbouring roofline behind, on a warm off-white ground.
+The upper left is empty ground, which is the negative space the hero heading needs, and is why
+variant C was written that way.
+
+**Alt text** (117 chars, CR2 80-125, en-AU)
+> Line drawing of a part-built single-storey home with exposed roof trusses behind temporary construction site fencing.
+
+Deliberately descriptive only. It does not claim this particular site requires a White Card: that is
+a judgement the hero copy already makes, and CR8 says alt must not restate surrounding text.
+`artefactDesc` was rewritten too, because the old one described the photographic variant A.
+
+**Guardrails it satisfies that variant A could not:** no text anywhere in the frame, nothing that
+renders as a credential, no person who could read as stock photography, and controllable negative
+space. On a page whose authority model forbids ABE Education appearing to deliver the training, an
+illustration carries less risk than a staged photograph of a trainer.
+
+### One open design question, raised when variant C was written and now live
+
+The line work is **maroon**, and DESIGN.md reserves maroon for actions, spent sparingly. This is the
+one place it appears decoratively, at hero scale. Variant C flagged that in advance:
+
+> "Maroon is the action accent, so this is the one place it appears decoratively; if that sits wrong,
+> specify `--ink` instead and treat it as a design decision rather than a prompt tweak."
+
+It is shipped as supplied and it reads well. Recording it as a **`[design]`** question rather than a
+defect: whether hero illustration may use the accent colour, or whether it should be `--ink`, is a
+register decision, and it will recur the moment a second page takes the schematic option.
+
+### Still open on this page
+
+**Slot 2, the `#assessment` ZSection, is still FPO.** One placeholder remains in `dist/`, exposing
+its prompt and spec string to readers. B4 is half closed, not closed.
+
+---
+
+## Slot 2 · variants D and E — written for the line-art hero, 29 July 2026
+
+**Why the earlier variants no longer fit.** A, B and C are all photographic, written when Slot 1 was
+expected to be photographic too. Slot 1 shipped as **variant C, the schematic line drawing**, so a
+photograph in the next scroll-length puts two registers on one page and makes the hero read as the
+odd one out. These two are line art in the hero's exact register.
+
+**What both keep.** The slot's guardrail is unchanged and non-negotiable: **the assessor must be
+visible.** A live call with a real person is what the $99 buys over a self-marked quiz, and an image
+of a laptop alone throws that away. Both variants show two figures.
+
+**Shared render spec:** 4:5 portrait, ~520x650, AVIF, warm off-white ground, single-weight maroon
+line, no fill, no shading, no gradients. Same pen as the hero.
+
+**Shared guardrails:** no text anywhere; no readable interface chrome, menus or buttons; no
+recognisable video-conferencing product; nothing resembling a card or certificate; no logos. The two
+figures are simplified and non-identifiable, which also keeps this clear of the real-people rule.
+
+### Google requirements these are built to meet
+
+| Requirement | How |
+|---|---|
+| **T1** descriptive filename | named per variant below, not `IMG_0023` |
+| **T2** AVIF | AVIF, as the slot spec already sets |
+| **T3** under 100 kB | line art on a flat ground compresses far below it; the hero is 62 kB at four times the pixel count |
+| **T5** explicit width/height | `Placeholder.astro` emits both, so CLS stays at 0 |
+| **T6** below-fold lazy | automatic: `Placeholder` sets `loading="lazy"` unless `eager` is passed, and only the hero passes it |
+| **CR2** alt 80-125 chars | measured per variant below |
+| **CR7** unique alt | the two differ in subject, not just wording |
+| **CR8** no restating body copy | neither alt repeats the section's prose about the call |
+| Relevance | both depict the section's actual subject, which is what earns image relevance rather than decoration |
+
+---
+
+### Variant D · the relationship (recommended)
+
+The wider of the two. Shows the arrangement a buyer is trying to picture: me here, a real trainer
+there, watching.
+
+**Filename:** `src/assets/images/white-card-wa-live-assessment.avif` (the slot's existing target)
+
+**Alt text** (109 chars)
+> Line drawing of a learner at a laptop showing their trainer a hard hat during the live White Card assessment.
+
+**ChatGPT / DALL-E prompt**
+> A minimal single-weight line illustration, vertical 4:5, of a person seated at a desk seen from
+> behind and slightly to one side, facing an open laptop. They hold a hard hat up towards the laptop
+> at shoulder height. On the laptop screen, drawn in the same line weight, a second person from the
+> chest up, facing out, watching. On the desk beside the laptop, a folded high-visibility vest and a
+> pair of gloves. Thin uniform dark maroon lines on a warm off-white ground, no fill, no shading, no
+> gradients, architectural drawing style. Faces are suggested with a few lines only, not detailed. No
+> text, no screen interface, no buttons, no logos, no annotations.
+
+**Gemini prompt**
+> Minimal 4:5 vertical line illustration: a person seen from behind at a desk, holding a hard hat up
+> toward an open laptop. On the laptop screen, a second person from the chest up, watching, drawn in
+> the same line weight. A folded high-visibility vest and gloves on the desk. Single-weight dark
+> maroon lines on warm off-white, no fill, no shading. Architectural drawing style. Faces suggested
+> with a few lines. No text, no interface, no logos.
+
+**Why this one is the pick.** It carries the section's argument in one read, and it pairs with the
+hero as a narrative rather than a repeat: the hero is the site you are getting a card for, this is
+the assessment that gets you there. Both are drawings of the same world in the same pen.
+
+---
+
+### Variant E · the moment (the tighter alternative)
+
+A closer crop on the assessable act itself. Use it if the section should foreground the task rather
+than the arrangement.
+
+**Filename:** `src/assets/images/white-card-wa-ppe-demonstration.avif`
+Renamed deliberately: T1 treats the filename as a content clue, and this frame is about the PPE
+demonstration rather than the call. If this variant is chosen, update `imgSrc` to match, or the
+resolver falls back to returning the string unchanged and ships a dead `<img>`.
+
+**Alt text** (114 chars)
+> Line drawing of hands fitting a hard hat and high-visibility vest, the trainer watching on the laptop beside them.
+
+**ChatGPT / DALL-E prompt**
+> A minimal single-weight line illustration, vertical 4:5, cropped close on a person's upper body and
+> hands as they settle a hard hat onto their head, a high-visibility vest already on over an ordinary
+> shirt. At the right edge of the frame, partly cut off, an open laptop with a second person drawn on
+> its screen in the same line weight, watching. Thin uniform dark maroon lines on a warm off-white
+> ground, no fill, no shading, no gradients, architectural drawing style. The head is turned away and
+> features are suggested with a few lines only. No text, no screen interface, no logos.
+
+**Gemini prompt**
+> Minimal 4:5 vertical line illustration, close crop: a person's upper body and hands settling a hard
+> hat onto their head, wearing a high-visibility vest. At the right edge, partly cropped, an open
+> laptop showing a second person watching, same line weight. Single-weight dark maroon lines on warm
+> off-white, no fill, no shading. Architectural drawing style. Features suggested, head turned away.
+> No text, no interface, no logos.
+
+**Trade-off, stated.** Tighter crops read better on a phone, where this section is mostly seen, and
+the action is more legible at 320 px than a wide desk scene. The cost is that the assessor becomes a
+secondary element at the frame edge, so the "someone is watching" argument is quieter. If that
+argument is the section's job, take D.
+
+---
+
+### The maroon question applies here too
+
+Both variants specify maroon line work, matching the hero. DESIGN.md reserves maroon for actions, so
+the hero already carries an open `[design]` question about using the accent decoratively. **Whatever
+is decided there must apply to both images**, or the page ends up with a maroon hero and an ink
+diagram. If the answer is `--ink`, swap the colour word in whichever prompt is used and treat it as
+one decision covering both slots, not two.

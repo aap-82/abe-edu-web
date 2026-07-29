@@ -786,3 +786,37 @@ real-domain deploy gate and is untouched here. Four prompt variants per slot are
 `06-image-prompts.md` if that helps close it.
 
 The `/payment` origin gate is likewise unchanged.
+
+### 07c · Hero slot closed, 29 July 2026
+
+`artefactImg`, `artefactAlt` and `artefactDesc` set on the hero, so the page source changed and this
+verification is refreshed with it.
+
+| Check | Measured |
+|---|---|
+| Asset | `white-card-wa-hero.avif`, 1000 x 1250, 4:5, 61,894 B, tracked in git |
+| Matches `artefactSpec` | yes, exactly. No resize |
+| Rendered | box **499 x 623** ratio **0.800**, decoded **640 x 800** ratio **0.800**, distortion-free |
+| Serving | `loading="eager"` (LCP candidate), `decoding="async"`, `sizes` identical to QLD and TAS |
+| Variants | 12.6 / 40.5 / 56.6 kB |
+| Alt | **117 chars**, inside CR2 80-125, describes the frame, does not restate hero copy |
+| FPO placeholders | **2 to 1** |
+| `check-assets` | 0 failing |
+
+**B4 is half closed.** The `#assessment` slot still ships an FPO placeholder exposing its prompt and
+spec string, so the real-domain deploy gate stands. A `[design]` question is recorded at the foot of
+`06-image-prompts.md`: the illustration uses maroon, which DESIGN.md reserves for actions.
+
+### 07d · Section band rhythm corrected, 29 July 2026
+
+`#covered` moved from the default band to `bg-alt`.
+
+| | Band sequence |
+|---|---|
+| Before | alt, d, alt, d, **d, d**, warm, d, alt, d — three adjacent defaults |
+| After | alt, d, alt, d, alt, d, warm, d, alt, d — **zero adjacent default pairs** |
+
+Measured from the built HTML, and checked against all three sibling course pages, none of which has
+even two adjacent defaults. This was caused by inserting `#covered` between two default sections
+without giving it a band; the independent audit flagged the two-in-a-row at the time and it was not
+acted on. Section conformance is unchanged: same id, same marker, same position.
