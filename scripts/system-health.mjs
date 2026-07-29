@@ -140,6 +140,20 @@ if (existsSync('scripts/review-trends.mjs')) {
 } else W('scripts/review-trends.mjs missing — trends are unchecked');
 
 // 4b - claim drift and figure contradiction (the two checks paths-exist cannot make)
+/* Can the last session's work still reach main? This is a pre-flight question, not a build one:
+   twice on 29 Jul 2026 correct, verified, green work never shipped because it was pushed to a branch
+   whose PR had already merged. Every other check reads the branch, where the work is present and
+   passing, so none of them can see it. SKIP lines are dropped: this check cannot always know (no
+   gh, no network, no remote) and saying so on every clean run would be noise. */
+if (existsSync('scripts/check-shipped.mjs')) {
+  for (const l of run('check-shipped.mjs').split('\n')) {
+    const t = l.trim();
+    if (t.startsWith('FAIL')) F(t.replace(/^FAIL\s+/, ''));
+    else if (t.startsWith('WARN')) W(t.replace(/^WARN\s+/, ''));
+    else if (t.startsWith('OK')) OK(t.replace(/^OK\s+/, ''));
+  }
+} else W('scripts/check-shipped.mjs missing — stranded work is unchecked');
+
 if (existsSync('scripts/check-claims.mjs')) {
   const out = run('check-claims.mjs');
   for (const l of out.split('\n')) {

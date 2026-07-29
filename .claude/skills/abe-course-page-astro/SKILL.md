@@ -82,6 +82,14 @@ not on the page" is a fix.
   an invalid rich result. Both the visible `nav.crumbs` and the JSON-LD items must point at built
   routes, and `PLANNED` does not excuse them. Added 28 Jul 2026 after a crumb pointing at the unbuilt
   `/white-card` shipped on a course page and this script passed it.
+- **`node scripts/check-shipped.mjs`** — can this branch's work still reach `main`? Runs inside
+  `system-health`, so the pre-flight answers it before you start. **A merged PR does not pick up
+  later pushes**, so anything committed to that branch afterwards is stranded: green, correct, and
+  invisible to production. It happened twice on 29 Jul 2026, once shipping a pointer without its
+  asset (a live 404) and once shipping nothing at all. No other check can see it, because they all
+  read the branch, where the work is present and passing. Uses `git cherry`, not `rev-list`, so a
+  commit already cherry-picked upstream does not cry wolf. Skips rather than guesses when `gh` or
+  the network is unavailable.
 - **`node scripts/review-trends.mjs`** — after filing a Stage-9 review.
 
 **When you change a claim about the build, add it to `CLAIMS` in `check-claims.mjs`.** Documentation
