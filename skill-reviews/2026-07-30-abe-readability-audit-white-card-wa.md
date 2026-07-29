@@ -92,7 +92,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   24px minimum.~~ fixed in #89
 - [design] Nine type declarations sit below the 12px floor, smallest 9.5px (`.ht-rail`).
 - ~~[design] The partner blurb renders verbatim twice on every ASQA page, from `PartnerDisclosure` and
-  again from `Credentials`. Third filing, and the first caught by a copy check rather than a design read.~~ fixed in #93
+  again from `Credentials`. Third filing, and the first caught by a copy check rather than a design read.~~ fixed in #92
 - [facts] `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
   regulator's web summary, which the page demonstrated is self-contradictory. Re-verify against
   **Form 75 page 5** and record the four numbered pathways, including the five-year bound on pathway 4.

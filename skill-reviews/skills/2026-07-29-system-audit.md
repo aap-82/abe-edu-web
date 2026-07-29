@@ -216,7 +216,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `design/2026-07-28-reflow-spacing-and-tap-targets.md`. Needs a destination or removal.~~ fixed in #89
 - ~~[design] The partner blurb renders twice on every ASQA page (`PartnerDisclosure` + the `Credentials`
   org card). **Three occurrences**, no decision recorded. Decide which component owns the description
-  and suppress the other.~~ fixed in #93
+  and suppress the other.~~ fixed in #92
 - [design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Two occurrences**,
   carried forward unchanged both times. This is a decision, not work — make it.
 - ~~[design] `prefers-reduced-motion` does not defeat the card lift. `global.css:774` kills the

@@ -98,7 +98,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   under the same lens before changing it.
 - ~~[design] The partner blurb still renders verbatim twice per ASQA page. **Fourth filing.** Not fixed
   here because it is a content-ownership decision — which of `PartnerDisclosure` or `Credentials` owns
-  the description — and the losing one needs its copy re-cut, not just suppressed.~~ fixed in #93
+  the description — and the losing one needs its copy re-cut, not just suppressed.~~ fixed in #92
 - [design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Third filing, still
   undecided.** This is a decision, not work; someone needs to make it.
 - [design] The 28px gutter is still hardcoded 11 times with no token. Token change, exclusive session.
