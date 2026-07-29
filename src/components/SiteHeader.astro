@@ -237,7 +237,13 @@ const mnavHtml = navGroups.map(mGroup).join('')
   <div class="main">
     <div class="wrap">
       <a class="brand" href="/" aria-label="ABE Education home">
-        <img class="mark" src={logo} alt="" width="32" height="32" />
+        {/* aria-hidden as well as alt="": the accessible name for this link comes from the
+            aria-label on the <a> above and from the visible .wordmark text, never from the mark.
+            alt="" already keeps it out of the a11y tree; aria-hidden closes the case where the
+            attribute is stripped or lost, and makes the intent explicit rather than inferred.
+            It never tripped a gate because guardrails' alt-length check reads the page body only,
+            with chrome excluded. */}
+        <img class="mark" src={logo} alt="" aria-hidden="true" width="32" height="32" />
         <span class="wordmark">ABE<span class="wm-fold">&nbsp;Education<span class="wm-suffix">&nbsp;Pty Ltd</span></span></span>
       </a>
       <span class="spacer"></span>

@@ -81,8 +81,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] Closure is not verified. `~~…~~ fixed in #89` is a claim, and nothing checks that #89 exists
   or touched anything relevant. A cheap first version: require a closure note and warn when it names no
   PR or commit.
-- [design] The remaining composite chrome item still holds two live defects: the logo `<img alt="">`
-  lacks `aria-hidden`, and one page emits the same `training.gov.au` URL in two casings.
+- ~~[design] The remaining composite chrome item still holds two live defects: the logo `<img alt="">`
+  lacks `aria-hidden`, and one page emits the same `training.gov.au` URL in two casings.~~ both fixed in #93
 
 ## Output
 - [x] **Fix applied** — closure parsed and counted, malformed lines reported, `--strict` covers them,

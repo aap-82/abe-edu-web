@@ -16,7 +16,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'How do I verify the RTO?',
-    a: 'Go to <a href="https://training.gov.au/organisation/details/31193">training.gov.au</a>, the national register, and search RTO code 31193. You will find Blue Dog Training listed as current, with CPCWHS1001 on its scope. Checking before you enrol is sensible, and we encourage it.',
+    a: 'Go to <a href="https://training.gov.au/Organisation/Details/31193">training.gov.au</a>, the national register, and search RTO code 31193. You will find Blue Dog Training listed as current, with CPCWHS1001 on its scope. Checking before you enrol is sensible, and we encourage it.',
   },
   {
     q: 'How long does the course take?',

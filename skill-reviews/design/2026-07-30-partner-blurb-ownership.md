@@ -85,9 +85,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] The `demand-split` group that prompted this session held two different complaints under one
   heading, exactly as its own caveat warns. That is the design working, but the caveat is only in the
   generated note — worth a line in CLAUDE.md's demand-list format so a reader meets it before the note.
-- [design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Fourth filing, still
+- ~~[design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Fourth filing, still
   undecided.** This session decided the blurb question after four filings; this one is now in the same
-  position and should be decided next rather than refiled.
+  position and should be decided next rather than refiled.~~ decided in #93: citations stay same-tab; rule now in DESIGN.md §7
 
 ## Output
 - [x] **Fix applied** — `Credentials` no longer renders the blurb or a redundant org role line;

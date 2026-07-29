@@ -281,6 +281,38 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 
 Sections 1 to 6 are the visual system (tokens, type, colour, components). This section sits above them: which treatment a section gets, and which element serves the reader's job. It is reconciled from `outputs/md/abe-page-design-rules.md`, the fuller content-design reference. Where that source doc conflicts with this build, this file wins (see Reconciliation at the end). The authority model and copy rules live in `CLAUDE.md`.
 
+### Link targets — decided by the reader's job, not by the destination
+
+**An external link that invites the reader to ACT opens in a new tab. An external link that is
+PROVENANCE stays in the same tab.**
+
+| The link is | Examples | Behaviour |
+|---|---|---|
+| An **invitation to act** — go and verify, go and look | `ResourceLink`, `PartnerDisclosure`'s "Verify on training.gov.au", `Credentials`' Website and LinkedIn | `target="_blank"` + `rel="noopener"` + a **mandatory** `.sr-only ", opens in a new tab"` |
+| **Provenance** — proof a claim was checked | the citation ledger in `VerifiedSources`, the page-foot list in `SourcesFooter` | same tab, no `target`, no cue |
+
+Why the split. Checking an RTO's registration is a verify-then-return errand, and sending the reader
+off the page mid-decision loses them. A citation is not an errand: it is there so the claim is
+checkable and crawlable, most readers never click it, and the browser already offers ctrl-click for
+those who want a tab. `ResourceLink.astro` draws the same line from the other side, calling
+`VerifiedSources` *"passive proof, past tense"* against its own *"invitation for the READER to go and
+look."*
+
+**The cue is not optional where a new tab is used.** An unannounced change of context fails WCAG 3.2.5.
+Every `target="_blank"` on the site carries the `.sr-only` span; the one that did not (`PageBar`'s
+reviewer link) was fixed on 30 July 2026 when this rule was written.
+
+**Adjacent look-alikes must agree.** Two links sitting in the same baseline row do not split their
+behaviour — that is a worse defect than the inconsistency it would fix. Where destinations genuinely
+differ in kind (an internal profile beside an external one), the split is correct and should be
+commented at the call site.
+
+*Written 30 July 2026, after this question was filed five times and never decided. It kept recurring
+because no rule existed to point at, so each session re-argued it from scratch. Two other files
+predate this and prescribe `target="_blank"` for government citation links —
+`kb/register/government-listings.md` and the skill's `references/seo/trust-bar-guidelines.md`. **This
+section is the authority**; both are routed for correction and neither may be cited against it.*
+
 ### Match the treatment to the content
 
 Do not flatten every section into one repeated block. Match the grammar to what the content is doing, and build each from the real components in Section 5.
