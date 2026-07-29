@@ -184,9 +184,9 @@ Tag every item: [skills] | [design] | [facts]
   to satisfy a note. Recorded in `ResourceLink.astro`'s header as a DO NOT MIGRATE so it is not
   retried. **Lesson: "the same intent twice" is not "the same shape twice", and only the second one
   is the promote trigger.** The promote rule should be read as being about shape.
-- [design] `.topic` and the other interactive cards have no `prefers-reduced-motion` guard on their
+- ~~[design] `.topic` and the other interactive cards have no `prefers-reduced-motion` guard on their
   2px lift. `ResourceLink` now has one. Either sweep them or drop mine for consistency; a sweep is
-  its own change and should not ride along with a new component.
+  its own change and should not ride along with a new component.~~ fixed in #89
 - [design] Decide whether `VerifiedSources` and `SourcesFooter` citation links should also open in a
   new tab. They are the last same-tab external links on the site. Arguably they *should* stay in-tab
   (a citation is read, not an errand), but the call should be made and written down rather than left

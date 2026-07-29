@@ -83,15 +83,39 @@ function demandSection(body) {
  * putting every discriminating word — anchor, site, chrome, page — on a line nothing read, which is
  * why it never paired with the same complaint filed a day earlier.
  */
+const ITEM_LINE = /^\s*(?:[-*]|\d+[.)])\s+/;
+
 function parseItem(line) {
-  const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*\[([^\]]*)\]\s*(.+?)\s*$/);
-  if (!m) return null;
-  const tag = m[1].trim().toLowerCase();
-  const text = m[2].trim();
-  if (!text) return null;
-  if (isPlaceholder(text)) return null;
-  return { destination: DESTINATIONS.includes(tag) ? tag : null, rawTag: tag, text };
+  if (!ITEM_LINE.test(line)) return null;              // prose, not a list item: not our business
+  const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*(~~)?\s*\[([^\]]*)\]\s*(.+?)\s*$/);
+  if (!m) return { kind: 'malformed', text: line.trim() };
+  const closed = Boolean(m[1]);
+  const tag = m[2].trim().toLowerCase();
+  // `- ~~[design] text~~ (fixed in #89)` - drop the closing marker and any note after it.
+  const text = (closed ? m[3].replace(/~~.*$/, '') : m[3]).trim();
+  if (!text) return { kind: 'malformed', text: line.trim() };
+  if (isPlaceholder(text)) return { kind: 'placeholder' };
+  return { kind: 'item', closed, destination: DESTINATIONS.includes(tag) ? tag : null, rawTag: tag, text };
 }
+
+/**
+ * CLOSING AN ITEM. Strike it through in the SOURCE review — `- ~~[design] the thing~~` — optionally
+ * followed by a note (`~~ fixed in #89`). It then leaves every future handover note.
+ *
+ * This convention already existed: one design review had struck a completed item. It "worked" only
+ * because the old regex expected `[tag]` immediately after the list marker, so a struck line failed
+ * to match and was DISCARDED SILENTLY — the right outcome reached by an accident that would equally
+ * have swallowed a live item with a typo in its tag, reporting nothing. Same invisible-loss class as
+ * the non-recursive traversal in row 24.
+ *
+ * So closure is now deliberate and counted, and a line that looks like an item but parses as neither
+ * is reported rather than dropped. Without that, "fixed" and "malformed" are the same event to this
+ * tool: an item that stops appearing.
+ *
+ * Every item this session shipped a fix for was still listed as outstanding before this existed:
+ * `Note.astro` in three places, the `Login` anchor in four, `prefers-reduced-motion` in four. A list
+ * that only grows stops being read, and this one also feeds the repeat counts ROADMAP rule 3 uses.
+ */
 
 /**
  * `- [skills] none.` is the ABSENCE of an item, not an item. Reviews write it so a reader can tell
@@ -218,13 +242,15 @@ async function loadReviews() {
   for (const file of files) {
     const raw = await readFile(path.join(REVIEW_DIR, file), 'utf8');
     const { meta, body } = splitFrontmatter(raw);
-    const items = joinWrapped(demandSection(body)).map(parseItem).filter(Boolean);
+    const parsed = joinWrapped(demandSection(body)).map(parseItem).filter(Boolean);
     reviews.push({
       file,
       date: meta.date || file.slice(0, 10),
       verdict: meta.verdict || 'unrecorded',
       gradedBy: meta.graded_by || 'unrecorded',
-      items,
+      items: parsed.filter((p) => p.kind === 'item' && !p.closed),
+      closed: parsed.filter((p) => p.kind === 'item' && p.closed),
+      malformed: parsed.filter((p) => p.kind === 'malformed'),
     });
   }
   return reviews;
@@ -243,7 +269,7 @@ async function loadMistakes() {
   return seen;
 }
 
-function render(destination, entries, reviews, mistakes) {
+function render(destination, entries, reviews, mistakes, closedCount = 0) {
   const now = new Date().toISOString().slice(0, 10);
   const lines = [];
   lines.push(`# Handover — ${destination}`);
@@ -252,10 +278,13 @@ function render(destination, entries, reviews, mistakes) {
   lines.push(`Owner: ${OWNER[destination]}`);
   lines.push('');
   lines.push(`Sources: ${reviews.length} review${reviews.length === 1 ? '' : 's'} in \`${REVIEW_DIR}/\`.`);
+  const openCount = entries.length;
+  lines.push(`**${openCount} open · ${closedCount} closed.** Close an item by striking it through in the`);
+  lines.push('source review — `- ~~[' + destination + '] the thing~~` — and it leaves this note for good.');
   lines.push('');
 
   if (!entries.length) {
-    lines.push('No items routed to this destination. Nothing to do.');
+    lines.push('No open items routed to this destination. Nothing to do.');
     lines.push('');
     return lines.join('\n');
   }
@@ -495,7 +524,9 @@ async function main() {
     const entries = [...new Set(buckets.get(destination).values())].sort(
       (a, b) => b.count - a.count || a.text.localeCompare(b.text),
     );
-    const note = render(destination, entries, reviews, mistakes);
+    const closedCount = reviews.reduce(
+      (n, r) => n + r.closed.filter((c) => c.destination === destination).length, 0);
+    const note = render(destination, entries, reviews, mistakes, closedCount);
     if (WRITE) {
       const out = path.join(OUT_DIR, `handover-${destination}.md`);
       await writeFile(out, note, 'utf8');
@@ -509,8 +540,22 @@ async function main() {
   if (unrouted.length) {
     console.log(`\ndemand-split: ${unrouted.length} UNROUTED item${unrouted.length === 1 ? '' : 's'} — add a valid [destination] tag:`);
     for (const u of unrouted) console.log(`  - [${u.rawTag}] ${u.text}  (${u.run})`);
-    if (STRICT) return 1;
   }
+
+  /* A line inside a demand list that starts like an item and parses as neither an item nor a
+     deliberate closure. Reported, never dropped: silence is how a live item disappears through a
+     typo in its tag, and the tool cannot tell that from a fix. Zero on this corpus, which is the
+     point - it fires only when something is actually wrong. */
+  const malformed = reviews.flatMap((r) => r.malformed.map((m) => ({ ...m, run: `${r.date} ${r.file}` })));
+  if (malformed.length) {
+    console.log(`\ndemand-split: ${malformed.length} MALFORMED line${malformed.length === 1 ? '' : 's'} in a demand list — looks like an item, parses as neither an item nor a closure:`);
+    for (const m of malformed) console.log(`  ${m.text.slice(0, 100)}  (${m.run})`);
+  }
+
+  const closedTotal = reviews.reduce((n, r) => n + r.closed.length, 0);
+  if (closedTotal) console.log(`\ndemand-split: ${closedTotal} item(s) closed by strikethrough and excluded.`);
+
+  if (STRICT && (unrouted.length || malformed.length)) return 1;
 
   const selfGraded = reviews.filter((r) => r.gradedBy === 'self');
   if (selfGraded.length) {

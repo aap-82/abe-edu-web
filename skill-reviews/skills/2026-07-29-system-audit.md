@@ -211,21 +211,21 @@ corpus, not a rule**, so both numbers are printed with the output for the next r
 Tag every item: [skills] | [design] | [facts] | [build]
 
 **Triggered — two or more occurrences, and now visible to `demand-split` for the first time:**
-- [design] `SiteHeader.astro:139` — `const studentPortal = { label: 'Login', href: '#' }` is a dead
+- ~~[design] `SiteHeader.astro:139` — `const studentPortal = { label: 'Login', href: '#' }` is a dead
   anchor in site chrome, on every page. Filed by the `white-card-wa` Stage 7 and again by
-  `design/2026-07-28-reflow-spacing-and-tap-targets.md`. Needs a destination or removal.
+  `design/2026-07-28-reflow-spacing-and-tap-targets.md`. Needs a destination or removal.~~ fixed in #89
 - [design] The partner blurb renders twice on every ASQA page (`PartnerDisclosure` + the `Credentials`
   org card). **Three occurrences**, no decision recorded. Decide which component owns the description
   and suppress the other.
 - [design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Two occurrences**,
   carried forward unchanged both times. This is a decision, not work — make it.
-- [design] `prefers-reduced-motion` does not defeat the card lift. `global.css:774` kills the
+- ~~[design] `prefers-reduced-motion` does not defeat the card lift. `global.css:774` kills the
   *transition* globally, so a `translateY(-2px)` still happens, instantly. Only `.reslink` has a real
-  `transform:none` guard. **Two occurrences.**
+  `transform:none` guard. **Two occurrences.**~~ fixed in #89
 
 **Recorded once — do not build yet:**
-- [design] `Note.astro:11-22` still renders a bare `<p>` with its MDX contract in a header comment.
-  This is mistakes-log **#12's exact shape, still live**, and the fix is stated to be one character.
+- ~~[design] `Note.astro:11-22` still renders a bare `<p>` with its MDX contract in a header comment.
+  This is mistakes-log **#12's exact shape, still live**, and the fix is stated to be one character.~~ fixed in #89
 - [design] The 28px gutter has no token and is hardcoded **11 times** in `global.css` (`global.css:395`
   says outright "there is no token for it"). The review that filed it counted two, so the real figure
   is five times worse than recorded.

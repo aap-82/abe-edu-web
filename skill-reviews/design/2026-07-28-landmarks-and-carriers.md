@@ -134,8 +134,8 @@ Tag every item: [skills] | [design] | [facts]
   `<AnswerCapsule onDark>` to the `lede` prop, then the deprecated slot can go. Content-owned.
 - [build] `/white-card-tas` still carries a breadcrumb to the unbuilt `/white-card`, in both the
   visible crumb and the schema. Found by the new `check-links` breadcrumb rule (PR #58).
-- [design] `.topic` and the other interactive cards still have no `prefers-reduced-motion` guard on
-  their 2px lift. `ResourceLink` has one. Sweep them or drop mine, but make it consistent.
+- ~~[design] `.topic` and the other interactive cards still have no `prefers-reduced-motion` guard on
+  their 2px lift. `ResourceLink` has one. Sweep them or drop mine, but make it consistent.~~ fixed in #89
 - [design] `.wrap`'s 28px gutter has no token, and is now written in two places. Give it one.
 - [skills] My landmark checker counts any `<footer>` inside `<main>` as a defect, which is a false
   positive on a component library where a footer is a specimen. Narrow it if it is ever promoted

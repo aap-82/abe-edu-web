@@ -137,6 +137,13 @@ const CLAIMS = [
   { claim: 'demand-split labels groups as related items, never as a filing count',
     source: 'scripts/demand-split.mjs',
     must: [/related items — /, /A group is not a filing count/] },
+  // Closure is deliberate and counted, and a line that parses as neither an item nor a closure is
+  // REPORTED. Before 30 Jul a struck line merely failed the item regex and vanished, which is the
+  // right outcome by the wrong route: a typo in a tag vanished identically, and the tool could not
+  // tell "fixed" from "lost". Both halves are asserted together because either alone restores that.
+  { claim: 'demand-split treats strikethrough as a counted closure and reports malformed item lines',
+    source: 'scripts/demand-split.mjs',
+    must: [/kind: 'malformed'/, /closed by strikethrough and excluded/, /MALFORMED line/] },
   // CLAUDE.md states check-freshness "warns without blocking" on register staleness. That is true of
   // register staleness and false in general: a live, expired, still-sold CPD course exits 1 without
   // --strict. The doc asserted the general form until 29 Jul 2026.

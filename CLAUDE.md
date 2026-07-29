@@ -352,6 +352,29 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [build] The breadcrumb on this page points at a hub that is not built yet
 ```
 
+### Closing a demand item
+An item stays on the handover list until it is **struck through in the review that filed it**:
+
+```
+- ~~[design] `Note.astro` renders a bare `<p>`~~ fixed in #89
+```
+
+It then leaves every future note, and the note's header counts it (`50 open · 1 closed`). Strikethrough
+rather than deletion, so the run's record of what it found stays readable.
+
+**Any session may close an item it has just fixed, in whichever review filed it.** Closing states a
+fact about the item's status; it does not rewrite that run's findings, which stay visible under the
+strike. Waiting for the filing session to come back would mean nothing is ever closed, because sessions
+do not come back. **Close them in the same session as the fix** — every item this repo fixed before
+30 Jul 2026 was still listed as outstanding, `Note.astro` in three places and the `Login` anchor in
+four, because there was no mechanism and no rule.
+
+The mechanism used to work by accident: a struck line failed the item regex and was discarded
+silently, which is the right outcome by the wrong route — a typo in a tag was discarded just as
+quietly. Closure is now deliberate and counted, and a line that looks like an item but parses as
+neither is **reported**, not dropped (`--strict` exits 1). "Fixed" and "malformed" must never be the
+same event to a tool whose output decides what gets built.
+
 **Two different things are called handover notes. Do not confuse them.**
 - **`reports/handover-{skills,design,facts}.md`** — the *derived* view (recording policy layer 3),
   written by `node scripts/demand-split.mjs --write` from the demand lists. Regenerate it, never edit
