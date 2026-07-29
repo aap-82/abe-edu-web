@@ -7,27 +7,33 @@
 // Bullets are for an UNORDERED set. `ordered` switches to quiet mono numerals, but only for a
 // genuinely ranked or numbered reference list — a process the reader follows in ORDER is a
 // Stepper, not this, and choices/options are never numbered (a reader reads a number as "do all").
-// `marker` picks the bullet, and the default is unchanged so no existing call site moves:
-//   dash  8x1px maroon rule, the original and still the default for body-copy lists.
-//   dot   round, in the hairline colour. For a set that is REFERENCE rather than argument: a
-//         disclosure broken into its statements, a note listing separate conditions. A maroon dash
-//         reads as emphasis, and emphasis on four equal-weight compliance sentences flattens them
-//         while spending the accent colour DESIGN.md reserves for actions. The dot is quieter and
-//         lets the rows sit as data. Same shape and colour as the `.vlist` utility in global.css,
-//         which is that treatment for lists nested INSIDE a component (a fact value in Credentials);
-//         this component is the way to get it in an MDX body, where raw classes are not allowed.
+// `marker` picks the bullet:
+//   dot     round, hairline colour. THE DEFAULT. Most lists on this site are reference sets - what
+//           is included, what you need, conditions that each stand alone - and a quiet marker lets
+//           the items read as equals.
+//   accent  round, Heritage Maroon. For a set that genuinely needs lifting off the page. Reach for
+//           it deliberately: DESIGN.md reserves maroon for actions, so a maroon list is spending
+//           the accent colour and should be earning it.
+//
+// The original 8x1px maroon DASH was removed on 30 Jul 2026 and is not a variant. It applied the
+// accent to every list by default, which meant no list could be emphasised relative to another -
+// everything was lifted, so nothing was. Only five call sites existed, all reviewed in that change.
+//
+// Same shape and colour as the `.vlist` utility in global.css, which is this treatment for a list
+// nested INSIDE a component (a fact value in Credentials). This component is how you get it in an
+// MDX body, where raw classes are not allowed.
 interface Props {
   items: string[];
   leadIn?: string;
   ordered?: boolean;
-  marker?: 'dash' | 'dot';
+  marker?: 'dot' | 'accent';
 }
-const { items, leadIn, ordered = false, marker = 'dash' } = Astro.props;
+const { items, leadIn, ordered = false, marker = 'dot' } = Astro.props;
 const Tag = ordered ? 'ol' : 'ul';
 ---
 <div class="blist">
   {leadIn && <p class="blist-lead">{leadIn}</p>}
-  <Tag class:list={['blist-items', ordered && 'blist-items--num', marker === 'dot' && !ordered && 'blist-items--dot']}>
+  <Tag class:list={['blist-items', ordered && 'blist-items--num', marker === 'accent' && !ordered && 'blist-items--accent']}>
     {items.map((it) => <li set:html={it} />)}
   </Tag>
 </div>

@@ -122,9 +122,11 @@ not triggered.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] The two `PartnerDisclosure` / `Credentials` duplications are now **deliberate**, which means
+- ~~[design] The two `PartnerDisclosure` / `Credentials` duplications are now **deliberate**, which means
   the pair should be reviewed together the next time either changes. They read the same partner record
-  and nothing compares their output; three duplications were each found by eye on three separate days.
+  and nothing compares their output; three duplications were each found by eye on three separate days.~~
+  discharged in `2026-07-30-eyebrow-rows-and-markers.md` — both components changed together, the blurb
+  duplication was removed, and the standing comparator requirement was re-filed there.
 - [skills] A check that flagged the same partner-record field rendering twice on one page would have
   found all three at once. **Second filing** of this shape.
 - [skills] `mistakes-log` rows #7 and #8 are about control tokens in *prose*. This session hit the same
