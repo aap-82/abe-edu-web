@@ -287,10 +287,10 @@ Tag every item: [skills] | [design] | [facts]
   `CourseLayout`'s `rto-partner` PartnerDisclosure carries no H2, capsule or sources, so archetype 2's
   defining trust section must be hand-built as a separate `#real`. Filed by `white-card-tas`, repeated
   verbatim here (`05` deviation 1). Either render it properly or make the split a prescribed pattern.
-- [design] **SECOND OCCURRENCE (new shape) — `PartnerDisclosure` needs a heading-level prop.** At
+- ~~[design] **SECOND OCCURRENCE (new shape) — `PartnerDisclosure` needs a heading-level prop.** At
   `after-hero` it emits an H3 as the first heading after the H1 (measured: `h1 → h3 → h2`), skipping a
   level. The `after-hero` placement is evidence-led and should stay; the heading level should follow
-  the position.
+  the position.~~ fixed: headingLevel prop shipped; verified H1->H2 in dist
 - [skills] **Image slots left as FPO in a build declared ready (second sighting).** `cpd-building-tas`
   shipped three placeholders with no Stage-6 prompts; this run has prompts and filenames ready but
   still built an indexable page whose hero prints "Image placeholder · 4:5 · warm tone · ~1000×1250".
