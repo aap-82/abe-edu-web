@@ -90,17 +90,20 @@ Carried from the TAS run, all still live:
 - **CSS classes must not contain the substring "rto".** The authority-language guardrail scans bundled
   CSS and matches "rto" as a forbidden RTO claim. The developer card's classes are `org-badge` /
   `org-verified` for exactly this reason.
-- **`VerifiedSources`** takes `date`, `facts`, `sources=[{label, href}]`, not free prose. **The
-  `facts` string must not end in "against ..."**, because the component supplies that joiner itself
-  and the page renders a doubled "against". Write a noun phrase, optionally closing with
-  "fact-checked", which is the pattern `wa-owner-builder-course` uses across all nine of its blocks
-  and the reason it has none of this defect.
-  - *Amended 29 Jul 2026.* This bullet previously read "No literal em dashes", which was checked and
-    withdrawn: **all nine built pages use an em dash in their source labels, 146 of them, including
-    the most recently built page.** The rule described an aspiration no page implemented, and
-    applying it here alone would have made this the only page in the site with a different separator
-    in its sources. The doubled "against" above is the real defect this bullet should have named,
-    and it is the one that was rendering.
+- **`VerifiedSources`** takes `date`, `facts`, `sources=[{label, href}]`, not free prose. **Write
+  `facts` however it reads best.** The component chooses its own joiner: a `facts` string containing
+  "against" is joined to its sources with the house middot, anything else with the word "against".
+  There is nothing here for an author to get wrong.
+  - *This bullet has been wrong twice in two days, and the history is the useful part.* It first read
+    "No literal em dashes", which was **withdrawn 29 Jul**: all nine built pages use an em dash in
+    their source labels, 146 of them, including the most recently built page, so the rule described
+    an aspiration no page implemented and applying it here alone would have made this the only page
+    with a different separator. It was then rewritten as "`facts` must not end in against ...", which
+    named the **real** defect — a doubled "against" rendering on 39 blocks across 7 pages — but put
+    the fix in the wrong place. **A rule that lives in one page's artefact protects one page.** The
+    joiner belongs to the component, and once it moved there the rule became unnecessary rather than
+    merely unenforced. See `skill-reviews/design/2026-07-29-verifiedsources-joiner.md` for the
+    measured before and after, and the reasoning for a separator rather than a deletion.
 - **In-page nav `sectionId`s must match a rendered section id**, or guardrail 7 fails.
 - **Image alt >= 80 characters**, or the build fails.
 
