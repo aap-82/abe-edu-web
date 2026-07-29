@@ -274,8 +274,11 @@ if (existsSync('skill-reviews')) {
     if (start === -1) continue;
     for (const line of lines.slice(start + 1)) {
       if (/^#{1,6}\s/.test(line)) break;                          // next heading ends the section
-      const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*\[([^\]]*)\]\s*\S/);   // a tagged demand item
+      const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*\[([^\]]*)\]\s*(\S.*)$/);   // a tagged demand item
       if (!m) continue;
+      // `- [skills] none.` is the absence of an item. Counting it inflated this figure by 6 and,
+      // in demand-split, promoted "none." to a twice-seen actionable item. Keep the two in step.
+      if (/^(none|n\/?a|nil|nothing)\b[\s.—-]*$/i.test(m[2].replace(/\*+/g, '').trim())) continue;
       tagged++;
       if (!DEST.has(m[1].trim().toLowerCase())) unrouted++;
     }

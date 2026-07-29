@@ -164,6 +164,49 @@ entitlement. It is recorded in `CLAUDE.md` beside the session-types table rather
 discovered. `SYSTEM.md` and `handover/**` were genuinely unassigned and are now assigned to skills, by
 the same precedent that assigned `content.config.ts` on 25 Jul.
 
+## Post-grading changes (29 Jul 2026, after PR #86 merged)
+
+Scores above are unchanged; this is appended per the standing rule that a run's record closes after
+the last change, not at grading. **A re-grade is warranted** — the Amber below is arguably generous.
+
+Running `demand-split --write` on the merged code showed the output was **wrong in both directions**,
+and I had shipped the traversal fix without checking what happened downstream of it. Four defects in
+the repeat counter that ROADMAP rule 3 depends on:
+
+1. **`- [skills] none.` was parsed as a demand item.** Six reviews write it, so "none." repeated
+   across runs and was promoted to *"Trigger met — these have earned action"* in two destination
+   notes. The tool was reporting the absence of work as the most-repeated work.
+2. **Only the LEAD LINE of a wrapped item was read**, and the old comment called that "correct". A
+   demand item wrapped at 100 columns lost everything after line one, so notes rendered half a
+   sentence and the repeat key was a fragment. The dead-`Login`-anchor item truncated at *"is a
+   dead"* — every discriminating word was on a line nothing read.
+3. **`normalise()` stripped code spans before keying.** `SiteHeader.astro`, `Note.astro`,
+   `--paper-alt` are the most identifying tokens an item has, and they were the part being thrown
+   away; the varying prose was the part being kept.
+4. **Consequence:** `design` reported *"No item in this destination has recurred yet"* while five
+   items sat at two or three filings — the exact repeats this audit had found by hand-reading all
+   sixteen reviews.
+
+| | Before | After |
+|---|---|---|
+| Placeholder items counted as work | 4 | 0 |
+| Known repeats detected mechanically | 0 of 5 | **5 of 5** |
+| Near-miss pairs surfaced | n/a | 11, **11 genuine on inspection** |
+| `system-health` tagged items | 101 (4 placeholders) | 97 |
+| `check-claims` CLAIMS | 11 | **12** |
+
+Fixed by: skipping placeholders (anchored narrowly — *"none outstanding; the bullet treatment is now
+live"* carries a reason and is correctly **kept**), coalescing wrapped items, keying on identifiers
+first, merging on either the new or the old key so a rekeying can only add pairings, and a
+confirm-by-hand near-miss pass for items that name the same thing without keying identically.
+
+**The near-miss threshold had to be retuned twice, and that is the lesson.** An absolute
+shared-word count gave 4 pairs; coalescing wrapped items doubled the average item length and the
+same threshold gave 26, without a single new repeat existing. A fixed count does not survive a
+change in item length. It is now a ratio against the shorter item (35%, floor of 3 words), which
+does — 11 pairs, all genuine. **A threshold tuned against one corpus is a measurement of that
+corpus, not a rule**, so both numbers are printed with the output for the next reader to judge.
+
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
