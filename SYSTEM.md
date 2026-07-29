@@ -103,21 +103,63 @@ unknown internal facts go to the person; a regulatory fact is never defaulted).
 
 ## 5. How the system knows it is working
 
-Checks run at three ranges, from narrow to whole-system:
+Checks run at five moments, and the moment is part of what each one is for. A check that runs at
+prebuild stops a bad page from being built; the same check run by hand stops nothing.
 
-- **`guardrails.ts`** — one page, at build. Correctness: H1, JSON-LD, price parity, MDX hygiene,
-  specimens, hub bijection, orphans.
-- **`check-freshness`** — the register's facts, at prebuild. In date, lapsed, partial, or undated.
-- **`check-claims`** — two things nothing else sees: whether what the docs *say* about the build
-  still matches the source, and whether every dollar figure on a page exists in the register, with a
-  superseded figure failing.
+**At prebuild**, before Astro starts:
+- **`check-assets`** — every image a page points at is tracked in git, not merely present on disk.
+  An untracked hero passed every other check and shipped a 404.
+- **`check-freshness`** — the register's verified dates. In date, lapsed, partial, or undated.
+
+**At build** — **`guardrails.ts`**, one page at a time, and the only check that reads the rendered
+HTML. Correctness: exactly one H1, answer capsules that answer the question their heading asks, the
+JSON-LD node set with Person counts and `recognizedBy` conditional on authority model, claims
+forbidden per model, price parity between schema and page, alt-text length, in-page anchors,
+unresolved `[confirm:]` markers, MDX hygiene and class ownership, styleguide specimens, hub
+bijection, orphans, and superseded course codes. Never weakened to make a page pass.
+
+**At postbuild** — **`check-redirect-targets`**, asserting every internal redirect target resolves
+to a real page in `dist/`. A rule can redirect in one hop and still land the reader on a 404; those
+are two different assertions over two different columns of the same CSV.
+
+**In CI, on every pull request** — `astro check` for types in `.astro` frontmatter and inline
+scripts, Lighthouse CI against the performance budget, **`prose-lint`** for an em dash or
+"comprehensive" in `src/content` prose, and a diff gate proving the generated `public/_redirects`
+matches the CSV it comes from.
+
+**At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
+command. Run it before planning work. It adds dangling-reference detection and review coverage of
+its own, and runs four checks beyond `check-freshness`:
+- **`check-claims`** — three things nothing else sees: whether what the docs *say* about the build
+  still matches the source, whether every dollar figure on a page exists in the register with a
+  superseded figure failing, and whether this section still names every check that exists.
+- **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at
+  Stage 4 still exists as its own section on the page, rather than dissolving into a neighbour.
+- **`check-shipped`** — work on this branch can still reach `main`. A merged PR does not pick up
+  later pushes, so correct work can sit on a branch, green and invisible.
 - **`review-trends`** — the run history. Whether things are improving, which runs were self-graded,
   which outcome reviews have come due.
-- **`system-health`** — the whole system, one command. Aggregates the above and adds dangling-
-  reference detection and review coverage. Run it before planning work.
+
+The health workflow reports and never blocks: it has no `pull_request` trigger and cannot gate a
+merge even in principle.
+
+**By hand only** — **`check-links`**, every same-origin link in `dist/` resolving to something that
+exists. Run it after `npm run build`; the skill's Stage 7 pre-deploy audit instructs it, and names
+it among the checks whose WARNs must be quoted rather than counted. No *automation* invokes it,
+which was decided rather than overlooked on 28 July 2026: wiring it into `system-health` as a FAIL
+would halt build sessions over a chrome defect, and `system-health` is the pre-flight, so it runs
+when `dist/` may be absent or stale. Postbuild is where it would belong. Revisit if a dead link
+ships again.
+
+Four scripts in `scripts/` are not checks and are exempt from the list above: `generate-redirects`
+(the only writer of `public/_redirects`, at prebuild), `demand-split` (derives handover notes),
+`health-log-dedupe` (collapses identical health records) and `sync-cpd-register` (manual by design,
+kept out of `prebuild` so the build stays hermetic).
 
 A check exists to be read. When one produces more noise than signal — as the figure check did at 93
-warnings — that is a defect in the check, because a check nobody reads confers false confidence.
+warnings — that is a defect in the check, because a check nobody reads confers false confidence. A
+check that only a person remembers to run fails the same way more quietly, which is why
+`check-links`' standing is written down here rather than left to be discovered.
 
 ## 6. How the system evaluates and improves itself
 
