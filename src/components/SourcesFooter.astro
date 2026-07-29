@@ -99,6 +99,13 @@ const legalLinks: FLink[] = [
       <span class="f-meta">ABN {abn} · Training Australians since 2007</span>
       <span class="f-meta">Last updated {updated}</span>
     </div>
-    <p class="f-auth" set:html={disclaimersHtml} />
+    {/* A <div>, not a <p>, since 30 Jul 2026. `disclaimersHtml` is multi-paragraph HTML:
+        CourseLayout composes it as `<p>…</p>` + the page's own disclaimers. Inside a <p> that is
+        invalid, so the browser closed .f-auth at the first inner <p> and hoisted the content out,
+        leaving .f-auth empty and its `max-width` applying to nothing. The disclosure then ran
+        uncapped at 135 CPL, measured on /white-card-wa. Third live instance of kb/mistakes-log.md
+        #12 (Note.astro and Footnote.astro were the others), and the rule it teaches: a container
+        that takes authored HTML or an MDX slot is never a <p>. */}
+    <div class="f-auth" set:html={disclaimersHtml} />
   </div>
 </footer>
