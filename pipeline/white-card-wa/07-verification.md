@@ -928,3 +928,28 @@ is the defect that was actually rendering. Decided with Andrey, 29 Jul.
 The wider question - whether reader-visible source labels should use the house `·` everywhere, given
 CLAUDE.md bans em dashes in body copy - is a site-wide style decision affecting every course page,
 and is not this page's to make.
+
+### 07g · Reconciling the "Still open" list, 29 July 2026
+
+The **"Still open — NOT fixed here"** list above is a point-in-time record from 28 July and is left
+untouched, because rewriting it would destroy the evidence of what was open when the page shipped.
+This entry states where each item now stands. Three of them are closed.
+
+| Item | Status | Where |
+|---|---|---|
+| **F4 / B4** two FPO placeholders | **CLOSED** | Hero in `07c`, `#assessment` in `07e`. No placeholder ships on this page. The real-domain deploy gate B4 held is released |
+| **F7** TrustBand capsule 19 words vs a 40-60 contract | **CLOSED** | `skill-reviews/design/2026-07-28-landmarks-and-carriers.md`. Raised, "fixed" by extending to 55 words, then **reverted after measuring**: fourteen lines of reversed text at 375px against about five. The finding was right and the fix was wrong. `TrustBand` now takes its own `lede` prop with no word-count contract, because the trust band answers no question and `AnswerCapsule`'s contract does not fit |
+| **F14** doubled "against" | **CLOSED for this page** | `07f`. Also found to be site-wide: 39 across 7 pages, 37 remaining, routed `[design]` as a `VerifiedSources.astro` change |
+| **F5, F8-F13** | open, as recorded | F11 and F12 are `[skills]` |
+| **`/payment` origin gate** | open | Blocked on the `learn.` subdomain decision. Still a real-domain deploy gate |
+
+**Why this needed writing at all.** F7 and F14 were both fixed on 28 July, in `650a3a4`, which never
+reached main (mistakes-log #22, third occurrence). The F7 work was redone independently in a design
+session and recorded there, so only its `07` line was stale. F14 was not redone, and stayed live on
+the page for a day. **A finding recorded as open in one file and closed in another is indistinguishable
+from a finding nobody acted on**, which is the same failure as #17: the record drifting from what
+happened.
+
+`ClaudeCode/white-card-wa-citation-fixes` was deleted after this reconciliation. Everything on it is
+either applied, superseded, or deliberately withdrawn - the em-dash relabelling is withdrawn per
+`05-components.md`, and its own `07d` section is duplicative of the design review and of `07f`.
