@@ -73,6 +73,29 @@ section, which *is* ASQA disclosure location 6 — on every asqa page, measured 
 both pages. The sitewide footer's "is not a Registered Training Organisation" is present once on each
 page too. So the removal dropped a duplicate, never the last copy.
 
+### 4. The logo frame was overflowing its column (found by Andrey, mid-session)
+
+`.org-mark`'s implicit grid track was sized `auto`, which resolves to the **larger** of the container
+width and its content's min-content width. `Placeholder`'s caption has a min-content of ~197px, so:
+
+| `.org-mark` child | Before | After |
+|---|---|---|
+| Logo frame width | **197px in a 140px column** (+57px) | **140px** |
+| Matches the reviewer's portrait width | no | **yes**, exactly |
+| Overlaps the text column | **yes** | **no** |
+
+Fixed with `grid-template-columns: minmax(0, 1fr)`. This is the same `min-width: auto` trap that
+`global.css` already documents on `.pl-frow dd` — hit here on a **track** rather than a cell, which is
+why the existing note did not stop me writing it. Two sightings, one stylesheet.
+
+Shipped in the same PR because it is the component this session was already changing, and it was a
+visible defect on `/styleguide` and on both asqa pages.
+
+**Not changed:** the logo keeps the portrait `r45` frame. A logo wants a landscape frame, but `r54` is
+the only other ratio and it carries `max-width:520px; margin:0 auto` at ≤720px, so switching would need
+three further global rules to stop a 132px box centring itself on mobile. No logo asset exists yet, so
+that is risk taken for something no reader can see. Filed as the decision to make when the asset lands.
+
 ## Why reversing this morning's decision is not a defect
 
 The credentials-rework review recorded a real finding from the variant sheet: **identical borders alone
@@ -136,6 +159,16 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] `mistakes-log` #7/#8 hit a **code comment** today and a **CSS class name** yesterday. Third
   sighting on a non-prose surface. The rows should say plainly that the rule covers everything in the
   repo a scanner reads, not just reader-facing copy.
+- [design] **Decide the logo frame's aspect ratio when the first real asset lands.** `r45` (portrait) is
+  what ships now; a logo usually wants landscape, and `r54` needs three extra global rules to behave
+  inside the 140px column. Note also that the *placeholder* renders 247px tall against the portrait's
+  201px, because its caption forces more height than 4:5 allows, so the two visual columns are currently
+  unequal for placeholder reasons that a real image removes.
+- [skills] The `min-width: auto` grid trap has now been hit **twice** in this stylesheet's territory —
+  once on a cell (`.pl-frow dd`, already documented) and once on a track (`.org-mark`, this session).
+  The existing note is written as a cell-level fix, so it did not generalise to tracks. **Second
+  filing**, and the general form is worth stating once: any `auto`/`1fr` grid track holding text needs
+  `minmax(0, …)` or the content sets the floor.
 - [design] The org card is now visibly taller than the reviewer card, and this change widened the gap
   (the org card gained three eyebrow rows' worth of height while the reviewer gained one). Carried
   forward from the credentials-rework list, still nobody's decision.
