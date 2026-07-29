@@ -385,6 +385,11 @@ a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .can-col .cc-k{color:var(--ink);font-weight:600;}
 .note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
 .note b{color:var(--ink);}
+/* Note renders a <div> (see Note.astro), so an MDX slot may wrap its content in a <p>. Both the
+   one-line and multi-line forms have to render identically: strip the inner paragraph's margins
+   and let the wrapper keep owning the spacing. Same pattern as `.footnote > p` below. */
+.note > p{margin:0;}
+.note > p + p{margin-top:var(--s-2xs);}
 /* A .note authored as a DIRECT CHILD of the layout has no .wrap around it, so it renders flush to
    the viewport edge while every other block sits in the content column. The ASQA location-2
    disclosure is exactly this shape: the archetype places it as the last body block, outside any
@@ -434,6 +439,15 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 @media(prefers-reduced-motion:reduce){
   .reslink{transition:border-color .18s;}
   .reslink:hover{transform:none;}
+  /* SWEPT 30 Jul 2026. `.reslink` was the only card carrying this guard, which made it the
+     exception rather than the rule: `.topic` (:349) and `a.hub-card` (:358) lift by the same
+     translateY(-2px) and had nothing suppressing it. The global reduced-motion block at the foot
+     of this file kills `transition`, which removes the ANIMATION but not the DISPLACEMENT - the
+     card still jumps 2px, it just jumps instantly, which is the one outcome a reader asking for
+     reduced motion is least served by. Filed twice, by the ResourceLink and landmarks reviews.
+     Same source-order reasoning as the note above: these must sit after their :hover rules. */
+  .topic:hover,
+  a.hub-card:hover{transform:none;}
 }
 @media(max-width:600px){
   /* The arrow is decoration on a panel that is already entirely tappable, and at 375px the
@@ -617,7 +631,21 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
    sat at exactly 375. overflow-wrap then lets the address break rather than just clip. */
 .pl-frow dd{margin:0;min-width:0;overflow-wrap:anywhere;font-size:15px;font-weight:500;color:var(--ink-2);}
 
-.pl-disc{margin:0;padding-top:var(--s-md);border-top:1px solid var(--rule);font-size:12px;line-height:1.6;color:var(--slate);}
+/* max-width added 30 Jul 2026. Measured at 180 CPL on /white-card-wa at 1280px - more than twice
+   the 85 CPL hard rule and the worst measure on the page. It had `max-width:none`, so the ASQA
+   disclosure ran the full width of its landscape container while every prose element around it was
+   capped. This is the same defect the first post-skip readability audit found on cpd-building-tas
+   at ~135 CPL: same component class, recurred wider, which is the argument for not skipping those
+   audits.
+
+   440px, NOT the 74ch the footer disclosures use. `74ch` was tried first and measured 101 CPL,
+   because `ch` is the advance of the "0" glyph - 0.684em in DM Sans - and NOT the average prose
+   character, which measures 0.465em. So 74ch buys roughly 109 characters, not 74, and every 74ch
+   cap on this site is landing near 101 CPL while looking capped. 440px measures 79 CPL here and
+   matches `.footnote, .price-foot`, the convention that already works. The general form of this
+   is a DESIGN.md problem, not a per-rule one, and is routed rather than fixed here: a design
+   register change is an exclusive session. */
+.pl-disc{margin:0;padding-top:var(--s-md);border-top:1px solid var(--rule);font-size:12px;line-height:1.6;color:var(--slate);max-width:440px;}
 
 @media (max-width:640px){
   .pl-head{flex-direction:column;}
@@ -710,14 +738,22 @@ footer{background:var(--ink);color:rgba(255,255,255,.6);padding:var(--s-xl) 0;}
    block, separated by a hairline; same ink ground, gold reserved for nothing here (the
    footer needs no accent colour - it is the quietest, most legible part of the page). */
 footer .f-links{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-lg);padding-bottom:var(--s-xl);margin-bottom:var(--s-xl);border-bottom:1px solid rgba(255,255,255,.14);}
-footer .f-col-h{display:block;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:var(--s-sm);}
+/* Alpha .4 -> .62 on 30 Jul 2026. Measured 3.81:1 against the #1a1a1a footer at 11px, below the
+   4.5:1 AA floor, on real text: these are the footer column headings ("Sources", "Courses"), not
+   an inactive control, so the WCAG exemption that covers the muted `.soon` labels does not apply
+   here. White over #1a1a1a needs alpha >= ~.45 to clear 4.5:1; .62 matches `footer .f-pub` below,
+   so the heading and its body now sit on the same value rather than two arbitrary ones. */
+footer .f-col-h{display:block;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:var(--s-sm);}
 footer .f-col-h.f-col-sub{margin-top:var(--s-md);}
 footer .f-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
 footer .f-col li{font-size:14px;}
-footer .f-pub{max-width:74ch;font-size:13px;line-height:1.65;color:rgba(255,255,255,.62);}
+/* 74ch -> 440px, 30 Jul 2026. Measured 101 CPL, over the 85 hard rule, despite carrying a cap:
+   `ch` is the "0" advance (0.684em in DM Sans), not the average prose character (0.465em), so
+   74ch buys ~109 characters. 440px measures 73 CPL here. Same change on .f-asqa below. */
+footer .f-pub{max-width:440px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.62);}
 footer .f-pub p{margin:0 0 6px;}
 footer .f-pub b{color:rgba(255,255,255,.75);}
-footer .f-asqa{margin:var(--s-md) 0 0;padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:12px;line-height:1.6;color:rgba(255,255,255,.5);max-width:74ch;}
+footer .f-asqa{margin:var(--s-md) 0 0;padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:12px;line-height:1.6;color:rgba(255,255,255,.5);max-width:440px;}
 footer .f-top{margin-top:var(--s-xl);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;font-size:14px;}
 footer .brand .wm{color:#fff;} footer .brand .mk{background:#fff;color:var(--maroon);}
 footer a{color:rgba(255,255,255,.6);text-decoration:none;} footer a:hover{color:#fff;}
@@ -733,6 +769,10 @@ footer .srclist a:hover{color:#fff;}
 footer .srclist .vd{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.62);}
 footer .f-auth{margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:13px;line-height:1.6;color:rgba(255,255,255,.62);max-width:66ch;}
 footer .f-auth b{color:rgba(255,255,255,.7);}
+/* .f-auth renders a <div> and receives multi-paragraph HTML, so the wrapper owns the spacing and
+   the inner paragraphs own none. Same pattern as `.note > p` and `.footnote > p`. */
+footer .f-auth > p{margin:0;}
+footer .f-auth > p + p{margin-top:var(--s-2xs);}
 .ctastrip{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(251,249,245,.97);backdrop-filter:saturate(140%) blur(8px);border-top:1px solid var(--rule-strong);transform:translateY(110%);transition:transform .25s ease;}
 .ctastrip.show{transform:translateY(0);}
 .ctastrip .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 28px;}
