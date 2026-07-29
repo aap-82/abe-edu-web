@@ -93,6 +93,9 @@ hero:
   # Omitting keeps the designed FPO placeholder. Prompt + exact filename: 06-image-prompts.md.
   artefactDesc: "A Western Australian construction worker in a high-visibility shirt and white hard hat on a Perth residential building site, holding their construction induction White Card."
   artefactSpec: "4:5 · warm tone · ~1000×1250"
+  # r45 = 4:5 portrait, matching the spec above and both owner builder heroes. WITHOUT this the Hero
+  # defaults to r54 (5:4 LANDSCAPE, Hero.astro:22), so a 4:5 image renders inside a landscape box.
+  artefactRatio: "r45"
 ctaBand:
   headingHtml: 'Get your Western Australian White Card<span class="dot">.</span>'
   sub: "$99, online and self-paced, with a live assessment run by Blue Dog Training (RTO 31193). There is no government fee to pay afterwards."
