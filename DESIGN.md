@@ -128,7 +128,7 @@ It explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient
 
 **Key Characteristics:**
 - Flat by default: 1px hairline rules and tonal grounds carry structure, never shadow.
-- One maroon accent, spent at 10% or less, so it always signifies.
+- One maroon accent, spent at 10% or less, so it always signifies. Line art may use it; fills never may.
 - Two verify blues, deep and mid, that appear only on sourced, dated facts.
 - Monospace uppercase for all micro-type: eyebrows, keys, captions, source lines.
 - Generous vertical rhythm (up to 112px section padding) and tabular figures on every number.
@@ -138,7 +138,7 @@ It explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient
 A warm, near-monochrome paper system with one authoritative maroon and a small set of functional signal colours. Neutrals do most of the work; accents are rationed.
 
 ### Primary
-- **Regulator Maroon** (`#800000`): the sole brand accent. It marks the eyebrow dash, hero tick glyphs, active nav underlines, link and button hover states, section keys, and the small brand tile. Deployed on 10% or less of any screen. Its scarcity is the point.
+- **Regulator Maroon** (`#800000`): the sole brand accent. It marks the eyebrow dash, hero tick glyphs, active nav underlines, link and button hover states, section keys, the small brand tile, and the strokes of a line-art illustration. Deployed on 10% or less of any screen. Its scarcity is the point.
 - **Maroon Dark** (`#5a0000`): pressed and hover-on-dark states of the maroon only. Never a fill.
 
 ### Secondary (functional signals, never decorative)
@@ -158,7 +158,19 @@ A warm, near-monochrome paper system with one authoritative maroon and a small s
 - **Rule / Rule Strong** (`#e5e7eb` / `#d4d6da`): the hairline dividers and card borders that carry all structure.
 
 ### Named Rules
-**The One Maroon Rule.** Maroon is the only brand accent and never covers more than roughly 10% of a screen. It is for marks, ticks, hovers, and active states, never for large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.
+**The One Maroon Rule.** Maroon is the only brand accent and never covers more than roughly 10% of a screen. It is for marks, ticks, hovers, active states, and the strokes of a line-art illustration, never for large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.
+
+**Maroon in illustration** (added 29 Jul 2026). A line-art illustration may draw its strokes in maroon. Three conditions, and they are what keep this from being a hole in the rule above:
+
+1. **Strokes only.** Single-weight line on a warm ground: no fills, no shading, no gradients, no tinted areas. The moment an illustration fills a shape with maroon it is a large fill and the rule bans it.
+2. **The 10% ceiling still applies, to the screen and not to the drawing.** Measure it rather than assume it.
+3. **One visual language per page.** If a page uses maroon line art, every illustration on that page does. A maroon hero above an ink diagram is worse than either consistent choice.
+
+This was decided on measurement, not preference. Both illustrations on `/white-card-wa` render at 319x399 on a 375px viewport, which is **41.8% of the screen each**. Within the image, pixels clearly darker than the ground are **5.2%** (hero) and **4.8%** (the assessment drawing). Counting the soft antialias band as well — 9.0% of the hero, 1.1% of the assessment drawing, since AVIF leaves the hero's finer strokes much softer — the honest upper bound is **about 4% of the screen for the hero and about 2% for the other**. Both are inside the ceiling with room to spare, and the hero is the number to quote, not the flattering one.
+
+What made this a question at all was the role list, not the quantity: an illustration is not a mark, tick, hover or active state. It is admitted as **its own role** rather than smuggled in under an existing one, because the alternative was reading the rule as "anything under 10% is fine", which would empty it.
+
+Ink is the alternative and is deliberately not the default: at `--ink` a line drawing sits at the same value as body text on the same warm ground and reads as a generic technical diagram, with nothing tying it to the site.
 
 **The Signal-Colour Rule.** Both verify blues are reserved exclusively for sourced-and-dated facts. They are forbidden as decorative or interface colours. Blue on this site is a promise that a claim is backed. It never carries meaning alone: it always sits beside the word VERIFIED and a date, so the signal survives greyscale and colour blindness. Both pass WCAG AA at the 12px this type is set in (Verify Deep 10.2:1, Verify Blue 6.24:1 on the warm ground).
 
@@ -246,7 +258,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 ### Do:
 - **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#f7f4ec` to `#f5f1e8` to `#1a1a1a`).
 - **Do** set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.
-- **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile. Never a large fill.
+- **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile, and line-art illustration strokes. Never a large fill.
 - **Do** reserve Verify Deep (`#1e3d5c`) and Verify Blue (`#2f5d8c`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.
 - **Do** put `tabular-nums` on every price and statistic (the `.num` class).
 - **Do** give sections room: up to 112px (`--s-3xl`) vertical padding, easing to 64px on mobile.
@@ -259,7 +271,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 - **Don't** hand-roll structural markup in a page body. An inline `style=` or a structural class means **a component is missing**, and the build will stop you. Compose, promote, or build it properly.
 - **Don't** use the maroon left-stripe answer capsule (`border-left: 3px solid var(--maroon)`). A coloured side-stripe over 1px is a banned anti-pattern; rework it as a full 1px border, a background tint alone, or a leading mono marker.
 - **Don't** set eyebrows or labels in Archivo or DM Sans. Micro-type is DM Mono only; DM Mono is never used for reading copy.
-- **Don't** spend maroon on large surfaces or section backgrounds. Dark sections are Ink-grounded with Gold accents.
+- **Don't** spend maroon on large surfaces or section backgrounds, and don't let an illustration FILL a shape with it. Strokes are permitted, areas are not. Dark sections are Ink-grounded with Gold accents.
 - **Don't** introduce pure `#000` or `#fff` for text or borders; use the Ink and Rule tokens.
 - **Don't** use em dashes, or the word "comprehensive", in any copy (house style).
 - **Don't** nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card.
