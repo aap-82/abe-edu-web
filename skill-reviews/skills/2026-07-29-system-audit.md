@@ -218,7 +218,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   org card). **Three occurrences**, no decision recorded. Decide which component owns the description
   and suppress the other.~~ fixed in #92
 - ~~[design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Two occurrences**,
-  carried forward unchanged both times. This is a decision, not work — make it.~~ decided in #94: citations stay same-tab; rule now in DESIGN.md §7
+  carried forward unchanged both times. This is a decision, not work — make it.~~ decided in #93: citations stay same-tab; rule now in DESIGN.md §7
 - ~~[design] `prefers-reduced-motion` does not defeat the card lift. `global.css:774` kills the
   *transition* globally, so a `translateY(-2px)` still happens, instantly. Only `.reslink` has a real
   `transform:none` guard. **Two occurrences.**~~ fixed in #89

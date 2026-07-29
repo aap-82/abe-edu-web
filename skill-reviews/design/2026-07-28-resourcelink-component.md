@@ -190,7 +190,7 @@ Tag every item: [skills] | [design] | [facts]
 - ~~[design] Decide whether `VerifiedSources` and `SourcesFooter` citation links should also open in a
   new tab. They are the last same-tab external links on the site. Arguably they *should* stay in-tab
   (a citation is read, not an errand), but the call should be made and written down rather than left
-  as residue from this change.~~ decided in #94: citations stay same-tab; rule now in DESIGN.md §7
+  as residue from this change.~~ decided in #93: citations stay same-tab; rule now in DESIGN.md §7
 - [skills] Nothing in the build checks that a `prefers-reduced-motion` override actually wins. The
   bug above was a source-order tie, invisible in the source and obvious in `dist/`. If it recurs,
   that is the trigger for a check.

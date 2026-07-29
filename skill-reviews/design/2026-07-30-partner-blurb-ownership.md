@@ -87,7 +87,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   generated note — worth a line in CLAUDE.md's demand-list format so a reader meets it before the note.
 - ~~[design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Fourth filing, still
   undecided.** This session decided the blurb question after four filings; this one is now in the same
-  position and should be decided next rather than refiled.~~ decided in #94: citations stay same-tab; rule now in DESIGN.md §7
+  position and should be decided next rather than refiled.~~ decided in #93: citations stay same-tab; rule now in DESIGN.md §7
 
 ## Output
 - [x] **Fix applied** — `Credentials` no longer renders the blurb or a redundant org role line;
