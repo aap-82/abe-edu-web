@@ -63,6 +63,14 @@ not on the page" is a fix.
   `content.config.ts` and `guardrails.ts`, plus every dollar figure on a page matched against
   `kb/register/`. A superseded figure is a FAIL.
 - **`node scripts/check-freshness.mjs`** — register staleness. Wired into `prebuild`.
+- **`node scripts/check-assets.mjs`** — every image a page names is **tracked in git**, not merely
+  present on disk. Wired into `prebuild`, and it FAILS the build. Exists because a hero was
+  repointed at an asset that was never committed: the pointer shipped, the file did not, and every
+  other gate passed because they all read `dist/` or the working tree, where the file was there.
+  `src/lib/images.ts` returns an unmatched basename unchanged rather than erroring, so the page
+  emitted a live `<img>` at a 404 on an indexable page. Checks both reference forms, the
+  `/images/x.avif` path and the bare `x.avif` basename, because `resolveImage()` keys on basename
+  and does not care which you used.
 - **`node scripts/check-links.mjs`** — run after `npm run build`. Every same-origin link in `dist/`
   resolves to a built route, an asset, or an explicitly named planned page. `guardrails.ts` checks
   in-page anchors (6) and orphans (8) but never checked that a link points AT something, which is
