@@ -280,13 +280,27 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <SectionWayfinder label="What the assessment involves" href="#assessment" />
 </Section>
 
+{/* SLOT 2 CLOSED 29 Jul 2026, which closes B4: both image slots on this page now carry a real
+    asset. Shipped as variant E from 06-image-prompts.md, the tight crop on the PPE demonstration,
+    not the wider variant D. imgDesc is rewritten to describe what actually shipped rather than what
+    was first briefed: the earlier text said "at a kitchen table", which is not in the frame.
+    Line art in the hero's exact register (same pen, same maroon, same warm ground), so the page
+    holds one visual language rather than a drawing above a photograph.
+    The filename is variant E's own, not the slot's original white-card-wa-live-assessment: T1 treats
+    the filename as a content clue and this frame is the demonstration, not the call.
+    imgAlt is 121 chars, inside alt-text-guidelines CR2 (80-125). It describes the frame only: it
+    does not say the trainer is assessing, because that is the argument the section's own copy makes
+    and CR8 says not to restate surrounding text in alt. Unique against the hero alt per CR7.
+    No imgRatio: ZSection already defaults to r45 (4:5), which the 928x1152 source matches. */}
 <ZSection
   id="assessment"
   marker="05"
   eyebrow="The live assessment"
   h2="What happens in the live assessment, and how do you pass it?"
-  imgDesc="A White Card learner demonstrating how to fit a hard hat and high-visibility vest to a training assessor during a live video assessment on a laptop at a kitchen table."
-  imgSpec="4:5 · warm tone · ~520×650"
+  imgDesc="A maroon line drawing of a learner in a high-visibility vest fitting a hard hat, watched by a trainer on an open laptop beside them, on a warm off-white ground."
+  imgSpec="4:5 · warm tone · 928×1152"
+  imgSrc="/images/white-card-wa-ppe-demonstration.avif"
+  imgAlt="Line drawing of a learner in a high-visibility vest fitting a hard hat, a trainer watching on an open laptop beside them."
   next={{ label: "What it costs", href: "#cost" }}
 >
   <AnswerCapsule>Two parts. You work through the theory online at your own pace, which most Western Australian learners finish in two to six hours. Then you meet a Blue Dog Training assessor on a video call for fifteen to thirty minutes and demonstrate the practical safety tasks, including fitting and wearing the protective equipment.</AnswerCapsule>

@@ -404,3 +404,58 @@ the hero already carries an open `[design]` question about using the accent deco
 is decided there must apply to both images**, or the page ends up with a maroon hero and an ink
 diagram. If the answer is `--ink`, swap the colour word in whichever prompt is used and treat it as
 one decision covering both slots, not two.
+
+---
+
+## Slot 2 CLOSED, 29 July 2026 — variant E shipped. B4 is now closed.
+
+**Asset:** `src/assets/images/white-card-wa-ppe-demonstration.avif`, supplied. **Variant E, the tight
+crop on the demonstration**, not the wider variant D that was recommended. Both slots on this page now
+carry a real asset, so no FPO placeholder remains in `dist/` for `/white-card-wa` and B4 is closed.
+
+**Specs, measured:** 928 x 1152 native, ratio 0.806, 22,591 B. Variants emitted at 400w (10,883 B),
+800w (24,008 B) and 928w (26,710 B), so the largest thing a reader can be served is 26 kB against
+the 100 kB ceiling in T3. Rendered `width="928" height="1152" loading="lazy" decoding="async"`,
+`sizes="(max-width: 800px) 100vw, 640px"`.
+
+The native ratio is 0.806 against a `.r45` box of exactly 0.800, and `object-fit: cover` takes the
+0.7% difference off the edge. Measured in the browser rather than assumed: desktop box 519 x 649 at
+ratio 0.800, `decode()` resolved true, `currentSrc` the 800w candidate. `naturalWidth` reads 374 on
+mobile and 640 on desktop rather than 800, which is correct and not a defect — for a `w`-descriptor
+srcset the DOM divides intrinsic width by the selected candidate's density, and 800/640 = 1.25 is
+that density. Reading it as a wrong-sized image would have been a false alarm.
+
+`imgSpec` was updated from the briefed `~520x650` to the delivered `928x1152`. The spec string is
+read by nobody once a real asset ships, but leaving it wrong makes the next person distrust the file.
+
+**What is in the frame:** a single-weight maroon line drawing on a warm off-white ground. A learner
+seen from behind and slightly to one side, both hands settling a hard hat onto their head, wearing a
+high-visibility vest over an ordinary shirt. At the right edge, partly cropped, an open laptop with a
+second figure from the chest up, watching. No text, no interface chrome, no logos, no card.
+
+**Alt text** (121 chars, CR2 80-125, en-AU)
+> Line drawing of a learner in a high-visibility vest fitting a hard hat, a trainer watching on an open laptop beside them.
+
+Describes the frame and stops there. It does not say the trainer is assessing, because that is the
+argument the section's own copy makes and CR8 forbids restating surrounding text in alt. Unique
+against the hero's 117-character alt per CR7: different subject, not a reworded twin.
+
+`imgDesc` was rewritten as well. The briefed text said "at a kitchen table", which is not in the
+frame — the FPO description had described a photograph nobody ever supplied.
+
+**Why the filename is not the slot's original.** The slot targeted `white-card-wa-live-assessment`.
+Variant E was named `white-card-wa-ppe-demonstration` on purpose: T1 treats the filename as a content
+clue, and this frame is the demonstration rather than the call. `src/lib/images.ts` matches on
+basename, so `imgSrc` had to move with it, and did.
+
+**The gate did its job.** The first build of this change failed on `check-assets`: the pointer was in
+the MDX and the file was on disk but untracked, which is the exact condition that shipped a 404 hero
+on `/white-card-tas` four days earlier. It named the file and the fix. `git add`, rebuild, green.
+
+### The maroon question is now doubled, not resolved
+
+Both images on this page are maroon line work, and DESIGN.md reserves maroon for actions. The open
+`[design]` question raised at Slot 1 now has two instances on one page rather than one, which is this
+project's own threshold for deciding rather than noting. **Decide it once, for both.** If the answer
+is `--ink`, both assets are regenerated together; a maroon hero above an ink diagram is the one
+outcome that would be worse than either choice.
