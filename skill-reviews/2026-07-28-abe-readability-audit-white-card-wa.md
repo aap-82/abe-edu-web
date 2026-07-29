@@ -147,9 +147,9 @@ Tag every item: [skills] | [design] | [facts]
   Control: `/qld-owner-builder-course` has no partner card and does not overflow.
 - [design] Nav "Soon" badges render at **9px** and **2.81:1** contrast, failing both the 12px floor
   and WCAG AA. Sitewide chrome.
-- [design] `PartnerDisclosure` at `placement: after-hero` emits an H3 as the first heading after the
+- ~~[design] `PartnerDisclosure` at `placement: after-hero` emits an H3 as the first heading after the
   H1, skipping H2 (WCAG 1.3.1). Needs a heading-level prop. **Second occurrence — also filed by the
-  Stage 7 audit on this same page (F1).**
+  Stage 7 audit on this same page (F1).**~~ fixed: headingLevel prop shipped; verified H1->H2 in dist
 - [design] `.btn-link` micro-CTA renders a 26px tap target, below the 44px minimum.
 - [skills] The readability audit is specified as part of Stage 7 but is not enforced by anything, and
   has now been skipped on **three consecutive runs**. A green build, green guardrails and a passing
