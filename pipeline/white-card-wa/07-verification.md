@@ -871,3 +871,60 @@ after the deploy rather than before it.
 
 Routed `[skills]`: `check-pipeline` should compare the **working tree** against 07 when the page file
 is dirty, so the failure surfaces inside the run that causes it rather than at the next session start.
+
+### 07f · The doubled "against" cleared, 29 July 2026
+
+Two `VerifiedSources` blocks rendered a doubled "against" on a live indexable page. The component
+appends its own ` against ` between the facts and the sources, and both `facts` strings already ended
+in "checked against ...".
+
+| | Rendered |
+|---|---|
+| Before | "...that underpins online delivery, checked against the regulator's construction induction guidance **against** WorkSafe WA - Construction induction training" |
+| After | "...that underpins online delivery, fact-checked **against** WorkSafe WA - Construction induction training" |
+| Before | "Answers checked against the national register and WorkSafe WA's construction induction guidance **against** training.gov.au - RTO 31193, ..." |
+| After | "Every regulatory answer in this list, fact-checked **against** training.gov.au - RTO 31193, ..." |
+
+Measured in the built HTML: `facts` strings containing "against" **2 to 0**. Both rewrites follow the
+noun-phrase-plus-"fact-checked" pattern `wa-owner-builder-course` already uses across all nine of its
+blocks, which is why that page has never had this defect.
+
+**This was stranded work, not a new finding.** `650a3a4` fixed it on 28 July, on a branch whose PR
+#57 had merged ten hours earlier, and never reached main. It sat rendering on the live page for a
+day. It was found by `check-shipped` on its first shakedown across every branch in the repo, which is
+the first time that check has caught something a human had not already noticed. See mistakes-log #22,
+now at three occurrences.
+
+### Two findings from the same look, both larger than this page
+
+**1. The doubled "against" is site-wide: 39 instances across 7 pages, of which this page had 2.**
+
+| Page | Doubled | of blocks |
+|---|---|---|
+| tas-owner-builder-course | 8 | 8 |
+| qld-owner-builder-course | 7 | 8 |
+| owner-builder-nsw-course-w | 7 | 8 |
+| owner-builder-nsw-course | 6 | 7 |
+| act-owner-builder-course | 5 | 6 |
+| white-card-tas | 4 | 6 |
+| white-card-wa | **2 to 0** | 9 |
+| wa-owner-builder-course | 0 | 9 |
+| cpd-building-tas | 0 | 3 |
+
+Routed **`[design]`**, and deliberately not fixed page by page: `VerifiedSources.astro` should skip
+its joiner when the `facts` string already ends in "against ...". One component change clears all 37
+remaining at once, and 37 hand edits across six pages would leave the next page free to reintroduce
+it. Decided with Andrey, 29 Jul.
+
+**2. The "No literal em dashes" rule in `05-components.md` was withdrawn, not applied.**
+
+The stranded commit also replaced this page's em-dash source labels with the house separator. Checked
+before repeating it: **all nine built pages use an em dash in their source labels, 146 in total,
+including the most recently built page.** Applying the rule here alone would have made this the only
+page in the site with a different separator in its sources - creating the inconsistency rather than
+removing it. The bullet is amended in `05-components.md` to name the doubled "against" instead, which
+is the defect that was actually rendering. Decided with Andrey, 29 Jul.
+
+The wider question - whether reader-visible source labels should use the house `·` everywhere, given
+CLAUDE.md bans em dashes in body copy - is a site-wide style decision affecting every course page,
+and is not this page's to make.
