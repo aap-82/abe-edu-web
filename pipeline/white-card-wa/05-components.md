@@ -90,8 +90,17 @@ Carried from the TAS run, all still live:
 - **CSS classes must not contain the substring "rto".** The authority-language guardrail scans bundled
   CSS and matches "rto" as a forbidden RTO claim. The developer card's classes are `org-badge` /
   `org-verified` for exactly this reason.
-- **`VerifiedSources`** takes `date`, `facts`, `sources=[{label, href}]` — not free prose. No literal
-  em dashes.
+- **`VerifiedSources`** takes `date`, `facts`, `sources=[{label, href}]`, not free prose. **The
+  `facts` string must not end in "against ..."**, because the component supplies that joiner itself
+  and the page renders a doubled "against". Write a noun phrase, optionally closing with
+  "fact-checked", which is the pattern `wa-owner-builder-course` uses across all nine of its blocks
+  and the reason it has none of this defect.
+  - *Amended 29 Jul 2026.* This bullet previously read "No literal em dashes", which was checked and
+    withdrawn: **all nine built pages use an em dash in their source labels, 146 of them, including
+    the most recently built page.** The rule described an aspiration no page implemented, and
+    applying it here alone would have made this the only page in the site with a different separator
+    in its sources. The doubled "against" above is the real defect this bullet should have named,
+    and it is the one that was rendering.
 - **In-page nav `sectionId`s must match a rendered section id**, or guardrail 7 fails.
 - **Image alt >= 80 characters**, or the build fails.
 
