@@ -126,6 +126,33 @@ the `abe-readability-audit` skill, which is a plugin skill and is not in this re
 them in `scripts/` — that directory is `.mjs` only and has never held a `.py` file. (Written here as
 bare, repo-shaped paths until 29 Jul 2026, which sent runs hunting for files this repo does not have.)
 
+**Run them with `py`, not `python`.** On this machine `python` and `python3` resolve to the Microsoft
+Store shim and fail; `py` is Python 3.14 with playwright installed. An earlier run recorded "no Python
+on the machine" and skipped both scripts on that basis, which was wrong.
+
+**`audit_render.py` produces confident false FAILs in two specific ways. Both bit on 30 July 2026 and
+both look entirely plausible, so check for them before believing any of its findings.**
+
+1. **Serve `dist/` over HTTP and pass it a URL.** The script defaults a bare path to `file://`, and this
+   site's stylesheet is a **root-absolute** `/_astro/…` href, which over `file://` resolves to the
+   filesystem root and never loads. It then measures a completely **unstyled** page and reports
+   nonsense that reads as real: 158 CPL, white-on-white text, `a.btn-primary` at 185×17px. Every one an
+   artefact. It already accepts a URL (`if "://" not in target`), so:
+   ```
+   npm run build
+   py -m http.server 8899 --bind 127.0.0.1     # from inside dist/
+   py <skill>/scripts/audit_render.py http://127.0.0.1:8899/{slug}/
+   ```
+2. **It resolves a background colour from the immediate parent only.** Any text on a `bg-dark` section
+   therefore reports **1:1**, because the immediate parent is a transparent `.wrap` and the dark
+   background sits one level further up. On `/white-card-wa` it reported `p.capsule.on-dark` at 1:1 when
+   the real ratio against `section.sec.bg-dark` (`rgb(26,26,26)`) is about **15:1**.
+   **Verify every contrast FAIL by walking the computed-style ancestor chain** before reporting it — a
+   1:1 on visible, legible text is the signature of this bug, not of a defect.
+
+The general rule both cases teach: this script measures a *render*, so confirm the render is the one you
+meant before trusting a number from it.
+
 **Register caveat:** they were written for the design-rules HTML register (`.t-*` tokens,
 Archivo/Public Sans/Source Serif). This template uses the homepage-style component register, so they
 will flag register/token differences that are **not** defects here. Read them at the **principles**

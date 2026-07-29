@@ -43,6 +43,38 @@ and keep the page tight; depth belongs in a linked info guide.
 | Who developed and reviewed it | The **RTO develops and owns** the accredited course — credit the RTO (an Organization), never an ABE person. ABE names an independent **reviewer** only. `experts:` holds the reviewer alone; the build fails an asqa page with two Person nodes or a Person titled "developer". See `kb/rules/asqa-disclosure-framework.md`. |
 | Sources | Every regulatory claim. |
 
+### The RTO trust section is TWO things, and the layout only gives you one
+
+**This is the archetype's most-missed requirement.** It has been filed as a defect twice, by
+`white-card-tas` and again verbatim by `white-card-wa`, because nothing said so until now.
+
+`CourseLayout` renders `#rto-partner` automatically from `partnerRto` frontmatter, positioned by
+`placement` (`after-hero` or `after-body`). That block is a **`PartnerDisclosure` card**: partner name,
+RTO number, unit, credential, the role-separation blurb and contact. It carries **no H2, no answer
+capsule and no sources**, because it is a *disclosure*, not a section.
+
+So archetype 2's defining question — *is this qualification real, and who stands behind it* — is not
+answered by any section unless **you author one**. Both live pages do, and this is the prescribed
+pattern:
+
+```mdx
+<Section id="real" marker="01" eyebrow="Is this real?" h2="Is this a real White Card?">
+  <AnswerCapsule>Yes. The training is delivered and assessed by [RTO], RTO [number], and you
+  receive a nationally recognised Statement of Attainment for [unit]. …</AnswerCapsule>
+  …body, a ResourceLink to the register…
+  <VerifiedSources date="…" facts="…" sources={[…]} />
+</Section>
+```
+
+**Both are required, and they are not redundant.** The disclosure satisfies the ASQA framework; the
+section answers the reader's question with a capsule the guardrails check and sources the audit checks.
+A page with only the disclosure has no section on its own core claim, and `check-pipeline` will not
+catch it because the brief and the page agree — the section was never briefed.
+
+Do not try to make `#rto-partner` carry the H2 and capsule instead. It renders in two placements, on
+pages whose heading order differs, and the split is what lets the disclosure sit high (compliance) while
+the section sits where the reader asks the question (`#real`, usually marker 01).
+
 ## 4 · Forbidden carry-overs
 
 - **Claiming ABE issues the credential.** Name the partner. ABE is never an RTO.

@@ -279,14 +279,14 @@ Tag every item: [skills] | [design] | [facts]
   meta-lesson as #18: **a lesson recorded as prose is not a method change.** Make it mechanical —
   `check-pipeline.mjs` FAILs a slug whose `07` does not contain a row for each of the three named
   audits with an explicit run/not-run disposition.
-- [skills] **SECOND OCCURRENCE — `becomeSteps` is required by `content.config.ts` and meaningless
+- ~~[skills] **SECOND OCCURRENCE — `becomeSteps` is required by `content.config.ts` and meaningless
   outside owner builder.** Filed by `white-card-tas`; stubbed `[]` again here (`05` deviation 6 marks
   it as the trigger itself). Make the field optional. Owned by `skills`, per the 25 Jul assignment of
-  `src/content.config.ts`.
-- [skills] **SECOND OCCURRENCE — the archetype-2 ASQA branch under-renders its own core section.**
+  `src/content.config.ts`.~~ fixed 30 Jul 2026: becomeSteps is .optional() in content.config.ts
+- ~~[skills] **SECOND OCCURRENCE — the archetype-2 ASQA branch under-renders its own core section.**
   `CourseLayout`'s `rto-partner` PartnerDisclosure carries no H2, capsule or sources, so archetype 2's
   defining trust section must be hand-built as a separate `#real`. Filed by `white-card-tas`, repeated
-  verbatim here (`05` deviation 1). Either render it properly or make the split a prescribed pattern.
+  verbatim here (`05` deviation 1). Either render it properly or make the split a prescribed pattern.~~ fixed 30 Jul 2026: the split is now prescribed in references/archetypes/02-nationally-recognised-course.md
 - ~~[design] **SECOND OCCURRENCE (new shape) — `PartnerDisclosure` needs a heading-level prop.** At
   `after-hero` it emits an H3 as the first heading after the H1 (measured: `h1 → h3 → h2`), skipping a
   level. The `after-hero` placement is evidence-led and should stay; the heading level should follow

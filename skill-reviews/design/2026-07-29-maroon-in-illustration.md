@@ -102,9 +102,9 @@ Tag every item: [skills] | [design] | [facts]
   been tested against a sample of two images on one page. Re-read it the first time a second page
   takes the schematic option, which is when the "one visual language per page" condition will get its
   first real test.
-- [skills] `06-image-prompts.md` for `white-card-wa` carries the open `[design]` question this review
+- ~~[skills] `06-image-prompts.md` for `white-card-wa` carries the open `[design]` question this review
   closes, in two places. A build session should reduce both to a pointer here, the same treatment
-  `05-components.md` got in `#83`.
+  `05-components.md` got in `#83`.~~ fixed 30 Jul 2026: dated pointer added at the head of the artefact; text kept as the run record
 - [design] Nothing measures maroon coverage automatically. The 10% ceiling has always been a prose
   rule checked by eye, and this clause adds a case where eye-checking is hardest, since a drawing
   looks like more ink than it is. Not built: one occurrence, and a coverage checker is a large piece

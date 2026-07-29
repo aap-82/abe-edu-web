@@ -1,5 +1,12 @@
 # 06 · Image prompts — /white-card-wa
 
+> **⚠ CLOSED, 30 July 2026 — the `[design]` question this file raises in three places is answered.**
+> Slots 1 and 2 ask whether maroon line work may be used decoratively in an illustration, given
+> DESIGN.md reserves the accent for actions. **It may.** `skill-reviews/design/2026-07-29-maroon-in-illustration.md`
+> decided it and added the clause to DESIGN.md: line-art illustration is an admitted maroon role.
+> The passages below are left as written because they are this run's record of the question being
+> raised — do not act on them as open. Nothing here needs a decision.
+
 Two generated slots. Expert headshots are **real photographs** and are never generated (CLAUDE.md).
 
 > **Build state: both slots ship as FPO placeholders.** `artefactImg` and `imgSrc` are deliberately

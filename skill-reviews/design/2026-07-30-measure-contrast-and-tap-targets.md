@@ -102,8 +102,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - ~~[design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Third filing, still
   undecided.** This is a decision, not work; someone needs to make it.~~ decided in #93: citations stay same-tab; rule now in DESIGN.md §7
 - [design] The 28px gutter is still hardcoded 11 times with no token. Token change, exclusive session.
-- [skills] `audit_render.py` must be given an HTTP URL, and resolves background from the immediate
-  parent only. Both produce confident wrong numbers. Belongs in `references/verification.md`.
+- ~~[skills] `audit_render.py` must be given an HTTP URL, and resolves background from the immediate
+  parent only. Both produce confident wrong numbers. Belongs in `references/verification.md`.~~ fixed 30 Jul 2026: both traps documented in references/verification.md, with the py/HTTP-URL fix
 - [build] The footer links to `/about` while the header marks About as unbuilt. One of the two is
   wrong, and the footer link is one of the nine already tracked as pointing at unbuilt pages.
 

@@ -155,7 +155,7 @@ Tag every item: [skills] | [design] | [facts]
   has now been skipped on **three consecutive runs**. A green build, green guardrails and a passing
   Stage 7 audit cannot see a horizontal scrollbar. Either make it a required Stage 7 row that FAILs
   when absent, or add a headless render probe to the build.
-- [skills] The skill's `audit_static.py` / `audit_render.py` cannot run here: no Python on the
+- ~~[skills] The skill's `audit_static.py` / `audit_render.py` cannot run here: no Python on the
   machine, and they target the `.t-*` register this build does not use. Either port the checks to
   node against the real token set, or state plainly in the skill that they are unusable on this repo
-  so a run does not waste a turn discovering it.
+  so a run does not waste a turn discovering it.~~ corrected 30 Jul 2026: py works (Python 3.14 + playwright); see references/verification.md
