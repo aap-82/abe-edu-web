@@ -274,7 +274,14 @@ function render(destination, entries, reviews, mistakes) {
       if (e.mistakeCount) lines.push(`  - mistakes-log: times seen ${e.mistakeCount}`);
     }
   } else {
-    lines.push('None. No item in this destination has recurred yet.');
+    /* "None" here means none by EXACT KEY, which is not the same as "nothing has recurred" and must
+       not be written as if it were. On this corpus the exact-key count was 0 for every destination
+       while the partner blurb had been filed four times and the VerifiedSources decision four times.
+       Saying "no item has recurred yet" over the top of that is the counter failing at its job in
+       the most confident possible voice. Clusters below carry the real answer. */
+    lines.push('None **by exact match**. Two sessions describing one defect rarely word it the same,');
+    lines.push('so on this corpus that is the normal case rather than good news — read "Related items"');
+    lines.push('below, which is where recurrence actually shows up.');
   }
   lines.push('');
 
@@ -309,38 +316,105 @@ function render(destination, entries, reviews, mistakes) {
      coincidence. Both numbers are printed with the output. */
   const MIN_SHARED_WORDS = 3;
   const MIN_OVERLAP = 0.35;
-  const nearMisses = [];
+  const related = (a, b) => {
+    const shared = [...idsOf(a.text)].filter((x) => idsOf(b.text).has(x));
+    if (!shared.length) return null;
+    const wa = wordsOf(a.text), wb = wordsOf(b.text);
+    const words = [...wa].filter((w) => wb.has(w));
+    if (words.length < MIN_SHARED_WORDS) return null;
+    if (words.length / Math.min(wa.size, wb.size) < MIN_OVERLAP) return null;
+    return { shared, words };
+  };
+
+  /* CLUSTERS, not pairs. Emitting every related pair is O(n^2) in the filings of one complaint: the
+     partner blurb reached four filings and rendered as SIX identical-looking pair lines, and the
+     VerifiedSources decision another three, so eighteen "possible repeats" were really about six
+     distinct items. Correct and unreadable, which for a derived view is the same as wrong - the
+     reader has to deduplicate by eye, and the number that actually decides anything (how many times
+     has this been filed?) never appears.
+     GROUPS ARE RELATED ITEMS, NOT A FILING COUNT, and that distinction is the whole design.
+
+     Three partition heuristics were tried against a corpus whose true answer was known by hand
+     (partner blurb 4, VerifiedSources 4, Login 2, Note.astro 2). Transitive closure reported 6 for
+     the blurb, because one false edge welds two clusters and `PartnerDisclosure` names both the
+     duplicate-blurb complaint and a separate heading-level one. Requiring a joiner to match half the
+     cluster reported 3, then requiring two matches reported 3 again and split VerifiedSources in
+     half. Each attempt was confidently wrong in a new way, and each was tuned against this one
+     corpus - which is precisely what the previous review warned makes a threshold a measurement of
+     its corpus rather than a rule.
+
+     So the tool stops asserting a number it cannot derive. It groups items that name the same thing
+     and says so; whether four items are one complaint or two is a reading a person does in seconds
+     and a heuristic keeps getting wrong. Over-grouping with an honest label beats under-splitting
+     with a confident count, because the first is a question and the second is a wrong answer that
+     ROADMAP rule 3 would act on. */
+  const rel = single.map(() => new Map());
   for (let i = 0; i < single.length; i++) {
     for (let j = i + 1; j < single.length; j++) {
-      const shared = [...idsOf(single[i].text)].filter((x) => idsOf(single[j].text).has(x));
-      if (!shared.length) continue;
-      const wi = wordsOf(single[i].text), wj = wordsOf(single[j].text);
-      const words = [...wi].filter((w) => wj.has(w));
-      if (words.length < MIN_SHARED_WORDS) continue;
-      if (words.length / Math.min(wi.size, wj.size) < MIN_OVERLAP) continue;
-      nearMisses.push({ a: single[i], b: single[j], shared, words });
+      const r = related(single[i], single[j]);
+      if (!r) continue;
+      rel[i].set(j, r); rel[j].set(i, r);
     }
   }
-  if (nearMisses.length) {
-    lines.push('## Possible repeats — confirm by hand');
-    lines.push('');
-    lines.push(`Each pair is two single-occurrence items that name the same thing AND share at least`);
-    lines.push(`${MIN_SHARED_WORDS} content words, being >= ${Math.round(MIN_OVERLAP * 100)}% of the shorter item. If they are the same complaint,`);
-    lines.push('that is a second occurrence and the trigger has fired — merge them in the source reviews,');
-    lines.push('not here; this file is derived.');
-    lines.push('');
-    for (const { a, b, shared, words } of nearMisses) {
-      lines.push(`- shared: ${shared.map((s) => `\`${s}\``).join(', ')} · ${words.slice(0, 6).join(', ')}`);
-      lines.push(`  - ${a.text.slice(0, 110)} _(${a.runs[0]})_`);
-      lines.push(`  - ${b.text.slice(0, 110)} _(${b.runs[0]})_`);
+  // Connected components. Deliberately generous: see the note above for why grouping too widely and
+  // labelling it honestly beats splitting too finely and labelling it a count.
+  const seen = new Set();
+  const clusters = [];
+  for (let s = 0; s < single.length; s++) {
+    if (seen.has(s) || rel[s].size === 0) continue;
+    const members = [], queue = [s];
+    seen.add(s);
+    while (queue.length) {
+      const cur = queue.shift();
+      members.push(cur);
+      for (const nb of rel[cur].keys()) if (!seen.has(nb)) { seen.add(nb); queue.push(nb); }
     }
-    lines.push('');
+    if (members.length < 2) continue;
+    const shared = new Set(), words = new Set();
+    for (const a of members) for (const b of members) {
+      const r = rel[a].get(b); if (!r) continue;
+      r.shared.forEach((x) => shared.add(x)); r.words.forEach((w) => words.add(w));
+    }
+    clusters.push({ items: members.sort((a, b) => a - b).map((i) => single[i]), shared, words });
   }
+  clusters.sort((a, b) => b.items.length - a.items.length);
+
+  if (clusters.length) {
+    lines.push('## Related items — read each group and count it yourself');
+    lines.push('');
+    lines.push('Items that never merged by key because they were worded differently, grouped where they');
+    lines.push(`name the same thing AND share >= ${MIN_SHARED_WORDS} content words being >= ${Math.round(MIN_OVERLAP * 100)}% of the shorter item.`);
+    lines.push('');
+    lines.push('**A group is not a filing count.** Grouping is deliberately generous, so a group may hold');
+    lines.push('two different complaints that happen to name one component — the `PartnerDisclosure`');
+    lines.push('group has done exactly that. Three partition heuristics were tried against a corpus whose');
+    lines.push('true answer was known by hand, and each returned a confidently wrong number, so the tool');
+    lines.push('no longer asserts one. Read the group; deciding whether four items are one complaint or');
+    lines.push('two takes seconds and is the part a heuristic keeps getting wrong.');
+    lines.push('');
+    lines.push('**If they are one complaint, the trigger has fired** (ROADMAP rule 3). Re-word them to');
+    lines.push('match in the SOURCE reviews so the count becomes mechanical next time — not here; this');
+    lines.push('file is derived.');
+    lines.push('');
+    for (const c of clusters) {
+      const ids = [...c.shared].sort().map((s) => `\`${s}\``).join(', ');
+      lines.push(`### ${c.items.length} related items — ${ids}`);
+      lines.push(`shared wording: ${[...c.words].slice(0, 8).join(', ')}`);
+      lines.push('');
+      for (const it of c.items) lines.push(`- ${it.text.slice(0, 120)} _(${it.runs[0]})_`);
+      lines.push('');
+    }
+  }
+
+  // Anything in a cluster is already listed above with its filing count. Listing it here as well
+  // would restore the double-reading the clustering was built to remove.
+  const clustered = new Set(clusters.flatMap((c) => c.items));
+  const trulySingle = single.filter((e) => !clustered.has(e));
 
   lines.push('## Recorded once (no action yet)');
   lines.push('');
-  if (single.length) {
-    for (const e of single) lines.push(`- ${e.text} _(${e.runs[0]})_`);
+  if (trulySingle.length) {
+    for (const e of trulySingle) lines.push(`- ${e.text} _(${e.runs[0]})_`);
   } else {
     lines.push('None.');
   }
