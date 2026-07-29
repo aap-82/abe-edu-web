@@ -1,0 +1,214 @@
+---
+/**
+ * The syllabus of a NATIONALLY RECOGNISED UNIT OF COMPETENCY, for an asqa-accredited course page.
+ * A plate carrying the unit's identity, then its elements as a real table.
+ *
+ * WHY NOT `ModuleRows`, which is also a syllabus. ModuleRows models ABE Education's OWN courses: a
+ * rail of module numbers, contiguous or not, and a "You will be able to" outcome kicker. A unit of
+ * competency has neither. It has a fixed national code, a release, and elements whose wording belongs
+ * to the training package, not to ABE Education - so putting them behind an ABE outcome claim is an
+ * authority-model error (kb/rules/authority-model.md section 6: on an asqa page the RTO partner is the
+ * developer). ModuleRows stays the right component for the six owner-builder pages and is untouched.
+ *
+ * WHY NOT `BulletList`, which is what the asqa pages used before this. Four bullets carry the element
+ * copy perfectly well but lose the unit's IDENTITY: the code, and whether it is still current. On an
+ * accredited page that is the reader's first question, not their last - they are asking "is this the
+ * real thing my employer will accept", and a bulleted list cannot answer it.
+ *
+ * THE PLATE ANSWERS "is this real and current?"; THE TABLE ANSWERS "what is in it?", in that order.
+ *
+ * A `<table>` rather than styled rows, deliberately. The page is quoting a government register, so it
+ * reads as an extract from one, and `scope="col"` / `scope="row"` tell a screen reader the four rows
+ * are the same kind of thing without relying on visual rhythm. DESIGN.md section 7 assigns tables to
+ * "compare values across items" and a syllabus to rows; this is the documented exception, chosen
+ * because the authority signal outranks the taxonomy here.
+ *
+ * NO RELEASE OR CURRENCY LINE. An earlier draft printed "Release 2, usage recommendation Current" on
+ * the plate. Both are government facts with a shelf life, so stating them undated puts the page on a
+ * re-verification cadence and makes a stale page an inaccurate one. `verifyUrl` answers the same
+ * question and cannot decay. Where the release and status ARE stated, it is in the section's
+ * `VerifiedSources` ledger, which carries a date beside them - that is the only place a decaying
+ * figure belongs.
+ *
+ * `eyebrow` defaults to "Nationally recognised unit", which is true ONLY of an asqa-accredited course.
+ * That is safe rather than risky: the guardrails fail a state-approved-direct or knowledge-requirement
+ * page that renders the phrase, so a misuse of this component stops the build rather than shipping a
+ * false claim. Do not "fix" such a failure by overriding the eyebrow - it means the component is on
+ * the wrong page.
+ */
+interface UnitElement {
+  /** The element's short name. Sentence case, no trailing full stop. */
+  title: string;
+  /** What it covers, one sentence. Allows inline markup. */
+  body: string;
+}
+interface Props {
+  /** National unit code, e.g. CPCWHS1001. */
+  code: string;
+  /** The unit's full title as the register states it. */
+  title: string;
+  /** The unit's page on training.gov.au. An invitation to act, so it opens in a new tab. */
+  verifyUrl: string;
+  elements: UnitElement[];
+  eyebrow?: string;
+  /** Header for the second column. Override when "what it covers" is not the right frame. */
+  colLabel?: string;
+}
+const {
+  code,
+  title,
+  verifyUrl,
+  elements,
+  eyebrow = 'Nationally recognised unit',
+  colLabel = 'What it covers',
+} = Astro.props;
+
+/* Zero-padded so the row heads form an even column: "01" against "10" rather than "1" against "10".
+   Every unit in scope has fewer than ten elements, and a unit with more would still pad correctly. */
+const no = (i: number) => String(i + 1).padStart(2, '0');
+---
+<div class="unit">
+  <div class="unit-plate">
+    <div class="unit-id">
+      <span class="unit-k">{eyebrow}</span>
+      <span class="unit-code num">{code}</span>
+      <span class="unit-title">{title}</span>
+    </div>
+    {/* The one action. External and an invitation to verify, so it takes the new tab plus the
+        mandatory announced cue DESIGN.md section 7 requires of that link type. */}
+    <a class="unit-verify" href={verifyUrl} rel="noopener" target="_blank"
+      >Check this unit on training.gov.au &rarr;<span class="sr-only">, opens in a new tab</span></a>
+  </div>
+  <div class="unit-tw">
+    <table class="unit-t">
+      <thead>
+        <tr>
+          <th scope="col">Element</th>
+          <th scope="col">{colLabel}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {elements.map((el, i) => (
+          <tr>
+            <th scope="row" class="num">{no(i)}</th>
+            <td><span class="unit-et" set:html={el.title} /><span class="unit-eb" set:html={el.body} /></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+<style>
+  /* Capped, because a table left to fill the section stretched its prose to a measured 138 characters
+     per line at 1352px - against this project's 85 CPL hard rule and its 480px `.measure` for body
+     copy (~62 CPL). 780px is the width at which the plate can still carry the code and the register
+     link side by side, which is the approved composition; the prose inside the cells is then held to
+     70ch separately by .unit-eb, because capping the block alone still left the cells too wide. */
+  .unit { margin: var(--s-lg) 0 0; max-width: 780px; }
+
+  /* The plate is the one ELEVATED surface here, so it takes --paper against the section ground and the
+     stronger hairline. Radius 0 per the design register. The code reads as a figure, the same move the
+     RTO number makes on the Credentials card, so the two accredited-course blocks on a page rhyme. */
+  .unit-plate {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    padding: var(--s-md) var(--s-lg);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-md);
+  }
+  /* Side by side once there is room for the link not to crowd the title. Below that it stacks, which
+     keeps the link a full-width target rather than a stub beside a wrapped unit name.
+     minmax(0, 1fr) on the text track, not 1fr: an `auto`/`1fr` track takes the LARGER of the space
+     available and its content's min-content width, so a long unit title would push the link off the
+     plate. Same trap documented on .pl-frow dd in global.css and hit again on .org-mark. */
+  @media (min-width: 760px) {
+    .unit-plate {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: var(--s-2xl);
+    }
+  }
+  .unit-id { display: grid; gap: 2px; min-width: 0; }
+  .unit-k {
+    font: 500 10.5px/1.2 var(--font-mono, monospace);
+    letter-spacing: .14em; text-transform: uppercase; color: var(--slate);
+  }
+  .unit-code {
+    font: 600 23px/1.1 var(--font-display, sans-serif);
+    letter-spacing: .01em; color: var(--ink);
+  }
+  .unit-title { font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--ink-2); }
+  .unit-verify {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+    color: var(--maroon); text-decoration: none;
+    border-bottom: 1px solid rgba(128, 0, 0, .3); padding-bottom: 2px;
+    justify-self: start;
+  }
+  .unit-verify:hover { border-bottom-color: var(--maroon); }
+
+  /* A safety net, not the layout. Two columns with a ~34px row-head fit 375px without scrolling
+     (measured), so this only catches a future unit whose element titles are far longer. */
+  .unit-tw { overflow-x: auto; }
+  .unit-t { width: 100%; border-collapse: collapse; margin-top: var(--s-lg); }
+
+  /* The header row is the eyebrow treatment, same metrics as .unit-k above and as the fact rows on
+     the Credentials and PartnerDisclosure cards. One label style across the accredited-course blocks. */
+  .unit-t thead th {
+    text-align: left;
+    font: 500 10.5px/1.2 var(--font-mono, monospace);
+    letter-spacing: .14em; text-transform: uppercase; color: var(--slate);
+    padding: 0 var(--s-md) 8px 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .unit-t thead th:last-child { padding-right: 0; }
+
+  /* Row heads are the element numbers: mono, maroon, tabular via .num, and vertical-align top so a
+     number sits on the first line of its element rather than centring against a three-line cell. */
+  .unit-t tbody th {
+    text-align: left; vertical-align: top; white-space: nowrap;
+    font: 500 13px/1.5 var(--font-mono, monospace);
+    letter-spacing: .1em; color: var(--maroon);
+    padding: var(--s-md) var(--s-md) var(--s-md) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .unit-t tbody td {
+    vertical-align: top;
+    padding: var(--s-md) 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px; line-height: 1.6; color: var(--ink-3);
+  }
+  /* The element name leads its cell as a block, so the title and its sentence do not run together
+     into one paragraph the eye cannot enter. Display face, to step up from the body beneath it. */
+  .unit-et {
+    display: block; margin-bottom: 4px;
+    font: 600 16px/1.3 var(--font-display, sans-serif);
+    color: var(--ink);
+  }
+  /* The element's sentence, held to a readable measure independently of how wide the column is. Same
+     approach ModuleRows takes with `.mr-body` rather than trusting the container: a table column sizes
+     itself from the layout, so the only reliable place to cap the line is on the text. A block span,
+     so max-width applies at all.
+
+     58ch, NOT 70ch. `ch` is the advance of the "0" glyph, which in DM Sans measures ~10.03px against
+     an average character advance of 7.72px at 15px - so `70ch` is 702px and renders about 91 actual
+     characters per line, over this project's 85 CPL rule rather than inside the 65-75 band. 58ch
+     measures 582px and 75 characters. Both figures were measured in-browser, not estimated.
+     ModuleRows' `.mr-body { max-width: 70ch }` has the same gap between the unit and the outcome; it
+     is not changed here because it ships on six pages and is not this component's to move. */
+  .unit-eb { display: block; max-width: 58ch; }
+  /* Close the table with the stronger rule: the last row's hairline would otherwise read as another
+     divider inside the list rather than as its foot. */
+  .unit-t tbody tr:last-child th,
+  .unit-t tbody tr:last-child td { border-bottom: 1px solid var(--rule-strong); }
+
+  /* At 375px the first column is sized by the word "Element" in the header, not by "01" - it took 78px
+     of a 319px block and left the sentence column 241px (~31 CPL, measured). Tightening the header's
+     tracking and the row-head padding gives that width back to the prose. The column cannot be
+     narrowed further without shortening the header text, and "Element" is the register's own word. */
+  @media (max-width: 560px) {
+    .unit-plate { padding: var(--s-md); }
+    .unit-t thead th { letter-spacing: .06em; padding-right: 10px; }
+    .unit-t tbody th { letter-spacing: .04em; padding-right: 10px; }
+  }
+</style>

@@ -1168,3 +1168,35 @@ wording, not layout, and location 2's template is intact and complete.
 
 **Measured after:** 4 bullets each, markers 5x5px at 50% radius in `--rule-strong`, no sideways scroll
 at 375px, build green at 20 pages, `check-claims` 0 failing.
+
+## Re-verification — section 04 moved from BulletList to UnitOutline, 30 July 2026
+
+**Delta:** the four elements of CPCWHS1001 moved from a `BulletList` to the new `UnitOutline`
+component: an identity plate carrying the unit code and a register link, then the elements as a real
+`<table>`. **No element wording changed.** The only copy edit is the lead-in, which read
+"CPCWHS1001 is built from four elements, and both the training and the assessment follow them:" and
+is now "Both the training and the assessment follow the unit's four elements." — it lost its colon
+because it no longer introduces a list, and it lost the code because the plate above it now carries
+the code as a figure. The training-and-assessment point it made is preserved verbatim in substance.
+
+**Word preservation asserted programmatically, not eyeballed.** Each of the four element sentences was
+grepped in `dist/white-card-wa/index.html` and returned **exactly one match each**. The bolded element
+titles lost their trailing full stops, which were structural punctuation inside `<b>` tags, not part
+of the claim.
+
+**One claim was REMOVED from the page body, deliberately.** The plate does not state
+"Release 2 · usage recommendation Current". A release number and a currency status are government
+facts with a shelf life, so asserting them undated puts this page on a re-verification cadence and
+makes a stale page an inaccurate one. Both remain stated **with their date** in this section's
+`VerifiedSources` ledger, which is the only place a decaying figure belongs, and the plate's
+`training.gov.au` link lets a reader confirm currency for themselves at the moment they read.
+Measured: `Release 2` appears once in the built page, in the ledger.
+
+**Nothing new was verified and nothing needed to be.** No performance criteria were added; the four
+element statements are the copy verified on the national register 28 Jul 2026 and already certified by
+this file. This change is presentation plus the removal of one undated assertion.
+
+**Measured after:** 4 `<th scope="row">` rows and 2 `<th scope="col">` headers, prose at **77 CPL** at
+1352px (was 138 CPL when the table filled the section, against the 85 CPL rule) and 34 CPL at 375px,
+no page overflow at 375px, table does not scroll inside its wrapper, build green at 20 pages,
+`check-claims` 0 failing, `prose-lint` 10 files passed.
