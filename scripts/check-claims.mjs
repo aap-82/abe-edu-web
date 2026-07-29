@@ -129,6 +129,14 @@ const CLAIMS = [
   { claim: 'demand-split ignores none/n-a placeholders, coalesces wrapped items, and keeps code spans in the repeat key',
     source: 'scripts/demand-split.mjs',
     must: [/isPlaceholder/, /function joinWrapped/, /joinWrapped\(demandSection\(body\)\)/, /const ids = \[\.\.\.new Set\(/] },
+  // The grouping must never call a group a count. Three partition heuristics were tried against a
+  // corpus whose true answer was known by hand and each returned a different wrong number, so the
+  // output says "related items" and tells the reader to count. A future edit that reinstates a
+  // filing count would be re-asserting the thing that was measured wrong three times, which is
+  // exactly the drift a CLAIM exists to catch.
+  { claim: 'demand-split labels groups as related items, never as a filing count',
+    source: 'scripts/demand-split.mjs',
+    must: [/related items — /, /A group is not a filing count/] },
   // CLAUDE.md states check-freshness "warns without blocking" on register staleness. That is true of
   // register staleness and false in general: a live, expired, still-sold CPD course exits 1 without
   // --strict. The doc asserted the general form until 29 Jul 2026.
