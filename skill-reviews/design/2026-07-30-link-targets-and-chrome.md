@@ -92,6 +92,34 @@ that they never happen. Nothing else in the session left design's scope.
 **Not exclusive under rule 7:** the DESIGN.md addition is behaviour guidance. No token, colour or
 spacing value changed.
 
+## Post-merge: the boundary crossing cost exactly what the rule predicts
+
+Appended after #93 merged. Scores unchanged; this is the consequence, recorded rather than left for
+the next session's pre-flight to discover.
+
+**Editing build-owned page content tripped the build session's gate.** `check-pipeline` §4 (gate
+ordering, mistakes-log #19) FAILed both slugs: the page sources became newer than their
+`07-verification.md`, which is precisely the invariant it protects — *content must never outrun its
+verification*. It fired correctly, and it fired **because** a design session wrote to `src/content/**`.
+That is the one-session-one-type rule earning its keep, on the exact change I flagged when raising it.
+
+Resolved by recording a dated delta in each `07-verification.md` rather than re-running Stage 7
+wholesale — the same treatment the hero-asset and aspect-ratio deltas in those files received. The
+note states what changed, that no fact, figure, wording, source or authority statement moved, and that
+**both casings were opened in a browser**: each resolves, each preserves its casing, both serve the
+same RTO 31193 record, neither redirects. All four slugs back to "verification is current".
+
+Note it needed a **commit** to clear, not just an edit: §4 compares git commit times, not mtimes,
+deliberately, because a checkout rewrites mtimes and would make the check lie.
+
+**Then `check-shipped` fired** — "content that can no longer reach main" — because I had pushed the
+delta notes to a branch whose PR was already merged. **That is mistakes-log row 22 verbatim**, caught
+by the guard built for it, on the person who shipped that guard. Resolved with a second PR rather than
+by pushing at a merged branch and hoping.
+
+Two guards, two true positives, both on one session's tail. Neither is a defect in the work; both are
+the system doing what it was built to do to a session that stepped outside its lane on purpose.
+
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 

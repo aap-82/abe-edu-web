@@ -332,3 +332,28 @@ Education's real material or a mock-up — is **answered: it is real course mate
 guardrail is therefore relaxed for this page with a dated note; no change to the image, which remains
 the supplied 47,226 B original. Full reasoning, and the remediation that was built and reverted when
 the first answer was mistakenly "mock-up", at the foot of `06-image-prompts.md`.
+
+## Re-verification — training.gov.au URL casing, 30 July 2026
+
+**Delta:** the RTO 31193 register links on this page were emitted in two casings,
+`/Organisation/Details/` and `/organisation/details/`. The lowercase occurrences were normalised up
+to the capitalised form, which is the one every rule file in the repo uses
+(`kb/rules/authority-model.md`, `kb/content-source-map.md`, `CLAUDE.md`, `badge-inventory.md`) and the
+one a human is instructed to open in a browser. Shipped in #93.
+
+**Why this needs no re-verification of any fact.** Nothing about a claim changed — no figure, no
+wording, no source, no authority statement. The only change is the casing of a URL path already
+verified on this page. **Both casings were opened in a browser on 30 July 2026**: each resolves, each
+preserves its own casing, both serve the same National Training Register record for Blue Dog Training
+Pty Ltd (RTO 31193), and neither redirects to the other. So the destination is unchanged and the
+citation still points where it did.
+
+**Measured after the change** (`dist/white-card-tas/index.html`): `/Organisation/Details/31193` ×9,
+`/organisation/details/31193` ×0, total unchanged at 9. JSON-LD `Organization.url` now carries the
+capitalised form. The unit URL `training/details/CPCWHS1001/unitdetails` is deliberately untouched —
+it mixes lowercase route words with an uppercase unit code, which is an identifier.
+
+**This note exists because the edit tripped `check-pipeline` §4** (gate ordering, mistakes-log #19):
+the page source became newer than its verification, which is exactly the invariant that check
+protects, and it fired correctly. Recording the delta rather than re-running Stage 7 wholesale is the
+same treatment the hero-asset and aspect-ratio deltas above received.
