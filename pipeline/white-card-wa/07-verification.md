@@ -820,3 +820,54 @@ Measured from the built HTML, and checked against all three sibling course pages
 even two adjacent defaults. This was caused by inserting `#covered` between two default sections
 without giving it a band; the independent audit flagged the two-in-a-row at the time and it was not
 acted on. Section conformance is unchanged: same id, same marker, same position.
+
+### 07e · Slot 2 closed, B4 closed, 29 July 2026
+
+`imgSrc`, `imgAlt`, `imgDesc` and `imgSpec` set on the `#assessment` ZSection, so the page source
+changed again and this verification is refreshed with it.
+
+| Check | Measured |
+|---|---|
+| Asset | `white-card-wa-ppe-demonstration.avif`, 928 x 1152, ratio 0.806, 22,591 B, tracked in git |
+| Matches `imgSpec` | yes — `imgSpec` was updated from the briefed `~520x650` to the delivered size |
+| Rendered | box **519 x 649** ratio **0.800** against a 0.806 source, so `cover` takes 0.7% off the edge |
+| Serving | `width="928" height="1152"`, `loading="lazy"`, `decoding="async"`, no `fetchpriority` |
+| Variants | 10.9 / 24.0 / 26.7 kB — largest servable is **26 kB** against T3's 100 kB ceiling |
+| Alt | **121 chars**, inside CR2 80-125, unique against the hero's 117 per CR7 |
+| FPO placeholders | **1 to 0** |
+| `check-assets` | 0 failing, after failing the first build correctly (see below) |
+| Live | all three variants HTTP 200 on the workers.dev host after merge |
+
+**B4 is closed.** Both image slots carry a real asset and no placeholder exposes its prompt or spec
+string to a reader. The real-domain deploy gate that B4 held is released; the `/payment` origin gate
+is unchanged and still stands.
+
+**`naturalWidth` reads 640 on desktop and 374 on mobile, not 800. That is correct.** For a
+`w`-descriptor srcset the DOM divides intrinsic width by the selected candidate's density, and
+800/640 = 1.25 is that density. It is recorded because reading it as a wrong-sized image is a false
+alarm this run nearly filed, and the next person measuring an image this way will see the same number.
+
+**`check-assets` failed the first build of the change, correctly.** The pointer was in the MDX and
+the file was on disk but untracked, which is the exact condition that shipped a 404 hero on
+`/white-card-tas` on 25 July. The gate named the file and the fix. This is the first time that guard
+has caught the live condition it was written for.
+
+### The gate that could not fire, and the one that fired late
+
+This entry exists because `check-pipeline` §4 **FAILed at the next session's pre-flight**, not during
+the run that caused it: the page had changed 279 minutes after its last verification.
+
+That is not the gate being wrong. It reads `git log -1 --format=%ct` for both files, which is the
+right source — an mtime would be defeated by a checkout. But it means the gate is **blind to
+uncommitted work**: all through the build session the MDX edit was unstaged, so `git log` returned
+the *previous* commit's time, the comparison passed, and `check-pipeline` reported "verification is
+current" at every point where acting on it would have been cheap. It first told the truth after the
+commit, by which time the change was merged and deployed.
+
+So a run can pass its own gate suite, ship, and only then learn it skipped Stage 7. The author's
+habit has to carry it: **a page-source change is a Stage 7 change**, and 07 is appended in the same
+commit, as 07c and 07d both were. This run did not, and the record is the poorer for being written
+after the deploy rather than before it.
+
+Routed `[skills]`: `check-pipeline` should compare the **working tree** against 07 when the page file
+is dirty, so the failure surfaces inside the run that causes it rather than at the next session start.
