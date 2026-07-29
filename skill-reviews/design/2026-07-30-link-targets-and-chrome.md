@@ -133,8 +133,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
   the `PageBar` defect was found by hand. First filing; recorded, not built.
 - [skills] Nothing normalises external URL casing either, which is how one URL shipped in two casings
   across two pages for weeks. Same shape as the figure check: cheap to detect, invisible by eye.
-- [design] Contact details still render in both `PartnerDisclosure` and `Credentials` on every ASQA
-  page. Second filing — carried from the partner-blurb review, still undecided.
+- ~~[design] Contact details still render in both `PartnerDisclosure` and `Credentials` on every ASQA
+  page. Second filing — carried from the partner-blurb review, still undecided.~~ fixed 30 Jul 2026: PartnerDisclosure owns contact; Credentials no longer renders it
 
 ## Output
 - [x] **Fix applied** — DESIGN.md rule, `PageBar` cue, logo `aria-hidden`, 11 URLs normalised;
