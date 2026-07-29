@@ -664,8 +664,11 @@ const groups = [
     </div>
 
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">VerifiedSources</span><span class="sg-desc">Per-section verification ledger (date + facts + sources).</span><span class="sg-props">date · facts? · sources[]</span></div>
-      <div class="sg-demo"><VerifiedSources date="14 Jul 2026" facts="Course requirement fact-checked against the current guidance" sources={vSources} /></div>
+      <div class="sg-meta"><span class="sg-name">VerifiedSources</span><span class="sg-desc">Per-section verification ledger (date + facts + sources). <b>The joiner is conditional.</b> A plain noun phrase joins to its sources with the word "against", which is the reading the ledger was designed for. A <code>facts</code> string that already contains "against" — the house phrasing "fact-checked against the current guidance" — joins with the middot instead, because appending the word twice rendered a stutter on 39 blocks across 7 pages. Both branches are shown below; write either and the component picks.</span><span class="sg-props">date · facts? · sources[]</span></div>
+      <div class="sg-demo">
+        <VerifiedSources date="14 Jul 2026" facts="Deposit caps and the six-year permit limit, fact-checked" sources={vSources} />
+        <VerifiedSources date="14 Jul 2026" facts="Course requirement fact-checked against the current guidance" sources={vSources} />
+      </div>
     </div>
 
     <div class="sg-item">
