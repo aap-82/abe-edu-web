@@ -1,13 +1,46 @@
 ---
 import type { Source } from '../types/course';
 // Verification ledger for any section carrying a government fact. Two columns:
-//   Verified 24 Jun 2026 | Deposit caps fact-checked against the current Act
+//   Verified 24 Jun 2026 | Deposit caps fact-checked
 //                          against QBCC Act 1991, Schedule 1B
-// The date sits on the left; the fact and its linked source(s) on the right, joined by
-// "against". Always visible, source links crawlable for E-E-A-T. No JavaScript.
+// The date sits on the left; the fact and its linked source(s) on the right. Always visible,
+// source links crawlable for E-E-A-T. No JavaScript.
 interface Props { date: string; facts?: string; sources: Source[]; }
 const { date, facts, sources } = Astro.props;
 const hasSources = sources.length > 0;
+
+/* THE JOINER IS CONDITIONAL, and this is the whole point of the component's 29 Jul 2026 change.
+   It used to append " against " unconditionally. But `facts` is authored copy, and the house
+   phrasing for it is "... fact-checked against the current guidance" — so on 39 of the 69 blocks
+   across 7 built pages the page rendered a DOUBLED "against":
+
+     "...the $11,000 permit threshold fact-checked against the current guidance
+      against QBCC — Required courses for owner builders"
+
+   It read as a stutter to every reader of those pages, and it was live for as long as the pages
+   have been. This was first found by an independent Stage 7 audit of /white-card-wa as F14, fixed
+   there by rewriting the copy, and only then measured across the site.
+
+   Fixing it page by page was rejected deliberately: 37 hand edits would have left the next page
+   free to reintroduce it, because nothing would have stopped it. The component owns its own joiner,
+   so the component is where the rule belongs.
+
+   Why a SEPARATOR and not simply dropping the joiner. Dropping it yields "...the current guidance
+   QBCC — Required courses", two noun phrases collided with no boundary at all, which is worse than
+   the stutter. `·` is the house separator already doing this job in Hero eyebrows, Credentials,
+   PartnerDisclosure and the styleguide's own prop lists.
+
+   The test is `\bagainst\b` anywhere in `facts`, not just at the end. A string like "checked
+   against the register and the regulator's guidance" is equally doubled, and a word-boundary test
+   keeps it away from words that merely contain the letters. Blocks whose facts is a plain noun
+   phrase — 30 of the 69 — are untouched and still read "Deposit caps fact-checked against QBCC Act
+   1991", which is the reading the component was designed for. */
+/* The space before the middot is NON-BREAKING, and this was measured, not assumed. With an ordinary
+   space, one of the eight blocks on /qld-owner-builder-course wrapped so the middot began a visual
+   line at 375px, reading as a stray dot rather than a separator. A no-break space glues it to the
+   last word of `facts`; the space after it stays ordinary, so the line may still break between the
+   dot and the source. A bare word like "against" cannot orphan this way, so it is left alone. */
+const joiner = facts && /\bagainst\b/i.test(facts) ? ' · ' : ' against ';
 ---
 <div class="verified">
   <span class="v-date">
@@ -20,7 +53,7 @@ const hasSources = sources.length > 0;
     <span class="v-day">{date}</span>
   </span>
   <span class="v-body">
-    {facts}{facts && hasSources && <span class="v-against"> against </span>}
+    {facts}{facts && hasSources && <span class="v-join">{joiner}</span>}
     {sources.map((s, i) => (
       <>{i > 0 && ', '}{s.href ? <a href={s.href}>{s.label}</a> : s.label}</>
     ))}
