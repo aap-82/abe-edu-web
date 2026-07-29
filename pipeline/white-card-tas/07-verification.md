@@ -282,3 +282,53 @@ lazy. Intrinsic dimensions on the tag reserve the box, so the swap introduces no
 visible screen content. Recorded in full at the foot of `06-image-prompts.md`, including the one
 question nobody in this session could answer from the pixels: whether the legible on-screen course
 title is ABE's real material or a mock-up. That decision is Andrey's and does not block the swap.
+
+---
+
+## Re-verification — hero aspect ratio, 29 July 2026
+
+`a4a1237` added `artefactRatio: "r45"` to the hero. The page source therefore post-dated this
+verification and `check-pipeline` §4 reported it as certifying content that no longer exists.
+Re-measured and committed with the fix so the gate ordering is satisfied honestly rather than by
+touching the file.
+
+**Scope: the hero image box only.** `a4a1237` added three lines to this page and nothing else, so no
+section, capsule, fact or link changed and every row above stands.
+
+### What the change does
+
+`Hero.astro:22` defaults `artefactRatio` to **`r54`**, which is `aspect-ratio: 5/4` — LANDSCAPE.
+Every hero artefact on this site is authored 4:5 PORTRAIT (`artefactSpec: 4:5 · ~1000×1250`). Without
+the prop, a portrait image was being placed in a landscape box and cropped by `object-fit: cover`.
+The fix is one line per page.
+
+### Measured on the built page
+
+| Check | Measured |
+|---|---|
+| Wrapper class | `ph r45` |
+| CSS aspect | `4 / 5` (`.r45{aspect-ratio:4/5}`) |
+| Rendered box | **499 x 623**, ratio **0.800** |
+| Decoded image | **640 x 800**, ratio **0.800** |
+| Distortion | **none** — box ratio equals image ratio to 3 dp |
+| `object-fit` | `cover` |
+| `loading` | `eager`, correct for an above-the-fold LCP candidate |
+| Consistency | identical box (499 x 623) and class to `/qld-owner-builder-course` |
+
+### Measurement note, recorded because it nearly became a false finding
+
+A first pass read `naturalWidth = 0` and `complete = true` on the hero and looked like a broken
+image, which would have been alarming given this page shipped a genuinely missing asset the same day.
+It was a race: `complete` can be true while the decode is still pending, and the srcset candidate can
+still be swapping. Awaiting `img.decode()` returned 640 x 800. **`complete` is not "decoded"** — use
+`decode()` before reading intrinsic size, or the measurement lies.
+
+Nothing else on this page changed, and no other row above is re-opened.
+
+### 07b · Hero screen question CLOSED, 29 July 2026
+
+The open item carried above — whether the legible course title on the hero's laptop screen is ABE
+Education's real material or a mock-up — is **answered: it is real course material**. The slot's
+guardrail is therefore relaxed for this page with a dated note; no change to the image, which remains
+the supplied 47,226 B original. Full reasoning, and the remediation that was built and reverted when
+the first answer was mistakenly "mock-up", at the foot of `06-image-prompts.md`.

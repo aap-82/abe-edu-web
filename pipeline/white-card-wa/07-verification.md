@@ -745,3 +745,44 @@ trusting a regulator's website summary over the regulator's own form.
 
 Standing rule now in `kb/register/state-fees-register.md` (WA row): **do not re-derive these pathways
 from the wa.gov.au page.**
+
+---
+
+## Re-verification — hero aspect ratio, 29 July 2026
+
+`a4a1237` added `artefactRatio: "r45"` to the hero. The page source then post-dated this
+verification and `check-pipeline` §4 reported it as stale. Re-measured and committed with the fix.
+
+**Scope: the hero box only.** `a4a1237` added three lines to this page and nothing else. No section,
+capsule, fact, citation or link changed, so every row above stands, including the corrected Form 75
+pathways and their sources.
+
+### What the change does
+
+`Hero.astro:22` defaults `artefactRatio` to **`r54`** (`aspect-ratio: 5/4`, landscape), while every
+hero artefact here is authored 4:5 portrait. Without the prop the slot was a landscape box. On this
+page that shaped the **FPO placeholder**, since the hero image does not exist yet.
+
+### Measured on the built page
+
+| Check | Measured |
+|---|---|
+| Wrapper class | `ph r45` |
+| CSS aspect | `4 / 5` |
+| Rendered box | **499 x 623**, ratio **0.800** |
+| Contains an `<img>` | **no** — still the FPO placeholder |
+| FPO placeholders on the page | **2**, unchanged |
+| `artefactImg` | still absent; the only occurrence in the file is the comment explaining why |
+
+The box is now the shape the eventual image needs, which is the point: when the two assets in
+`06-image-prompts.md` are generated at 4:5, they will drop into a 4:5 slot instead of being cropped
+by a landscape one.
+
+### Not closed by this pass
+
+**B4 remains open.** Both hero and `#assessment` still ship FPO placeholders exposing the raw image
+prompt and spec string to readers, and this page is the only built course page with any. That is a
+real-domain deploy gate and is untouched here. Four prompt variants per slot are now recorded in
+`06-image-prompts.md` if that helps close it.
+
+The `/payment` origin gate is likewise unchanged.
