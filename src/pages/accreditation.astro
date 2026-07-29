@@ -45,7 +45,10 @@ const partners = (await getCollection('partners'))
 const partnerCards = partners.map((p, i) => ({
   tag: `RTO ${p.data.rtoNumber}`,
   title: p.data.name,
-  body: `${p.data.blurb ?? p.data.role} ${p.data.scopeNote ?? ''} <a href="${p.data.tgaUrl}" rel="noopener">Check RTO ${p.data.rtoNumber} on training.gov.au</a>`,
+  // `deliversIn` is appended because `scopeNote` used to carry the states and no longer does: it was
+  // trimmed to the course on 30 Jul 2026 so the Credentials card could show COURSE and DELIVERS IN as
+  // separate rows. Without this, that trim would have quietly removed the states from this page.
+  body: `${p.data.blurb ?? p.data.role} ${p.data.scopeNote ?? ''}${p.data.deliversIn ? ` Delivers in ${p.data.deliversIn.split(';').map((s) => s.trim()).join(', ')}.` : ''} <a href="${p.data.tgaUrl}" rel="noopener">Check RTO ${p.data.rtoNumber} on training.gov.au</a>`,
 }));
 
 const regulatorCards = [

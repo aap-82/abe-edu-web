@@ -134,7 +134,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] Nothing normalises external URL casing either, which is how one URL shipped in two casings
   across two pages for weeks. Same shape as the figure check: cheap to detect, invisible by eye.
 - ~~[design] Contact details still render in both `PartnerDisclosure` and `Credentials` on every ASQA
-  page. Second filing — carried from the partner-blurb review, still undecided.~~ fixed 30 Jul 2026: PartnerDisclosure owns contact; Credentials no longer renders it
+  page. Second filing — carried from the partner-blurb review, still undecided.~~ decided 30 Jul 2026, then REVERSED the same day: both cards carry contact deliberately. Andrey reworked the Credentials card and restored it; at ~8 screens apart the second copy is reinforcement, not repetition. Closed as decided, not as removed
 
 ## Output
 - [x] **Fix applied** — DESIGN.md rule, `PageBar` cue, logo `aria-hidden`, 11 URLs normalised;

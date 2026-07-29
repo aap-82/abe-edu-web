@@ -25,7 +25,7 @@
 name: "Dominic Ogburn"
 role: "Course Developer · CEO, ABE Education"
 jobTitle: "Course Developer"
-creds: "Licensed NSW builder (Lic. 369417C) · 40+ years in Australian construction · Standards Australia committee BD-038 (AS 3740-2010) · 2005 NSW Minister’s Award for Consumer Advocacy"
+creds: "Accreditations: Licensed NSW builder (Lic. 369417C) · Experience: 40+ years in Australian construction · Standards: Standards Australia committee BD-038 (AS 3740-2010) · Award: 2005 NSW Minister’s Award for Consumer Advocacy"
 bio:
   - 'Dominic began at Stuart Brothers, Sydney builders operating since 1886, rising to Senior Construction Manager.'
   - 'He is co-author of "Your Home: Buying, Selling, Renovating, Building" (Allen and Unwin, 2004) and has been cited as a construction authority across six Sydney Morning Herald articles.'

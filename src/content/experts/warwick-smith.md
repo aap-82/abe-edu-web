@@ -10,7 +10,7 @@
 name: "Warwick Smith"
 role: "Compliance & Currency Reviewer (independent)"
 jobTitle: "Compliance & Currency Reviewer"
-creds: "27+ years in the VET sector · Senior Consultant, Compliance and Operations, CDRG · Former CEO, Training Aid Australia · Former CEO, Australian Institute of Compliance Professionals"
+creds: "Experience: 27+ years in the VET sector · Current: Senior Consultant, Compliance and Operations, CDRG · Formerly: CEO, Training Aid Australia; CEO, Australian Institute of Compliance Professionals"
 bio:
   - "Warwick independently reviews ABE Education course pages to verify that legislative references, regulatory details and training requirements are current and accurately represented."
   - "His is a compliance and currency check, not a review of the course content."

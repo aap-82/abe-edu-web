@@ -19,6 +19,7 @@ email: "admin@bluedogtraining.com.au"
 phone: "(07) 3331 6000"
 url: "https://www.bluedogtraining.com.au/"
 tgaUrl: "https://training.gov.au/Organisation/Details/31193"
-scopeNote: "White Card (unit CPCWHS1001) for QLD, WA and TAS."
+scopeNote: "White Card (CPCWHS1001 Prepare to work safely in the construction industry)"
+deliversIn: "QLD; WA; TAS"
 verified: "Verified 19 Jul 2026"
 ---
