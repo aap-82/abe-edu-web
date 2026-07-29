@@ -324,3 +324,11 @@ still be swapping. Awaiting `img.decode()` returned 640 x 800. **`complete` is n
 `decode()` before reading intrinsic size, or the measurement lies.
 
 Nothing else on this page changed, and no other row above is re-opened.
+
+### 07b · Hero screen question CLOSED, 29 July 2026
+
+The open item carried above — whether the legible course title on the hero's laptop screen is ABE
+Education's real material or a mock-up — is **answered: it is real course material**. The slot's
+guardrail is therefore relaxed for this page with a dated note; no change to the image, which remains
+the supplied 47,226 B original. Full reasoning, and the remediation that was built and reverted when
+the first answer was mistakenly "mock-up", at the foot of `06-image-prompts.md`.

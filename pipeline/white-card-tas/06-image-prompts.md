@@ -269,3 +269,34 @@ Two things follow, and only the second needs a decision:
 
 The image ships regardless of the answer, because it was chosen deliberately; this entry exists so the
 question is on the record rather than discovered by the next auditor.
+
+### Open question CLOSED, 29 July 2026 — the screen is real course material
+
+Andrey confirms the laptop screen shows **ABE Education's actual course material**, not a mock-up.
+That answers the question left open when this slot was closed, and it answers it the way that needs
+no change to the image.
+
+**This slot's guardrail is relaxed, deliberately and with a date.** The guardrail reads:
+
+> "No visible screen content that reads as a real assessment, form, or credential (implies ABE
+> content without showing anything fabricated as fact). Screen softly out of focus or angled away."
+
+Read the clause in brackets: the thing it forbids is showing something **fabricated** as fact. A
+photograph of the genuine product is the opposite of that. The rule was written to stop an invented
+interface being passed off as the course; it was never meant to stop the course being photographed.
+The clause about softening the screen is the remedy for the fabricated case, not a rule in itself.
+
+**Applies to this slot only, on this page.** Any future hero showing a screen still has to answer the
+same question first, and the answer has to be "it is real" before this exception applies. A frame
+with an invented interface is still a defect and still gets softened or recropped.
+
+**A remediation was built and then reverted.** On a first, mistaken answer that the screen was a
+mock-up, two regions were blurred (the slide text and the held card). It measured well: unreadable at
+full size, indistinguishable at the 499 x 624 display size. It is **not shipped**, and the asset is
+byte-for-byte the supplied 47,226 B original. Recorded because the technique works and is the right
+remedy if a genuinely fabricated screen ever reaches a hero: blur the two small offending regions,
+not the whole screen. A whole-screen blur at sigma 14 was also tried and looked like censorship.
+
+**Note for whoever writes the next hero brief.** `white-card-tas-hero-online.avif` is the same shoot
+in a wider crop and shows the same genuine screen. It is now unreferenced and `check-assets` reports
+it as an orphan; delete it or keep it deliberately, but it is not a compliance problem.
