@@ -118,11 +118,11 @@ What was painful, as evidence for structural decisions.
   first subagent skipped readability, final-check and ai-detector and still certified. The audits are not
   optional colour; one of them found the only page-specific defect in the build. The checklist should
   make their omission a hard FAIL, not something a human notices afterwards.
-- [skills] **The archetype-2 ASQA branch needs a real core-section path, or the skill must prescribe the split.**
+- ~~[skills] **The archetype-2 ASQA branch needs a real core-section path, or the skill must prescribe the split.**
   The layout's `rto-partner` card cannot carry an H2/capsule/sources, so archetype 2's most important
   section is only rendered if the author knows to hand-build a second `#real` section. This branch was
   unexercised until now; it should either render the trust section properly or the skill should document
-  the split as the required pattern rather than leaving it to be rediscovered.
+  the split as the required pattern rather than leaving it to be rediscovered.~~ fixed 30 Jul 2026: the split is now prescribed in references/archetypes/02-nationally-recognised-course.md
 - [skills] **`CPCCWHS1001` lives in three repo docs while only the register is right — grep for it and fail the
   build.** `abe-new-site-sitemap.md:36`, the `content.config.ts:37` comment and the archetype worked copy
   all carry the superseded code. This run dodged the landmine by trusting the register; the next run that
@@ -132,8 +132,8 @@ What was painful, as evidence for structural decisions.
   capsules in the exact `**Answer capsule**` + blockquote shape that `check-pipeline.mjs` diffs against
   the built page, and that contract lives only in the script. Put it in the skill or 05, the same argument
   that put component prop contracts into 05 after run 1.
-- [skills] **`becomeSteps` should be optional in the course schema.** Every archetype-2 page must stub it `[]`; a
-  required field with no meaning outside owner builder is schema debt that each run pays again.
+- ~~[skills] **`becomeSteps` should be optional in the course schema.** Every archetype-2 page must stub it `[]`; a
+  required field with no meaning outside owner builder is schema debt that each run pays again.~~ fixed 30 Jul 2026: becomeSteps is .optional() in content.config.ts
 
 ## Compare to run 1 (cpd-building-tas, Amber)
 Run 1's four headline failures, each judged against this run:

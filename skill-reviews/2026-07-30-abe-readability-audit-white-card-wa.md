@@ -96,11 +96,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [facts] `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
   regulator's web summary, which the page demonstrated is self-contradictory. Re-verify against
   **Form 75 page 5** and record the four numbered pathways, including the five-year bound on pathway 4.
-- [skills] `audit_render.py` must be given an **HTTP URL**, not a file path, or it measures an unstyled
-  page and returns four false FAILs. Serve `dist/` first. Belongs in `references/verification.md`.
-- [skills] `audit_render.py` resolves a background colour from the immediate parent only, so any text
+- ~~[skills] `audit_render.py` must be given an **HTTP URL**, not a file path, or it measures an unstyled
+  page and returns four false FAILs. Serve `dist/` first. Belongs in `references/verification.md`.~~ fixed 30 Jul 2026: both traps documented in references/verification.md, with the py/HTTP-URL fix
+- ~~[skills] `audit_render.py` resolves a background colour from the immediate parent only, so any text
   on a `bg-dark` section reports 1:1. Verify a contrast FAIL by walking the ancestor chain before
-  believing it.
+  believing it.~~ fixed 30 Jul 2026: both traps documented in references/verification.md, with the py/HTTP-URL fix
 
 ## Output — every Amber or Red needs at least one
 - [x] **Fix applied** — the Stage-7 record is complete; `check-pipeline` FAIL cleared, `system-health`

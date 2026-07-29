@@ -121,9 +121,9 @@ Tag every item: [skills] | [design] | [facts]
   time. If a page ever wants the literal word "against" inside a fact for a non-source reason, the
   component will silently pick the wrong joiner. One occurrence would justify moving the choice to an
   explicit prop; zero so far, so this is recorded, not built. Second occurrence is the trigger.
-- [skills] `05-components.md` for `white-card-wa` now carries the "facts must not end in against ..."
+- ~~[skills] `05-components.md` for `white-card-wa` now carries the "facts must not end in against ..."
   rule that this component change makes unnecessary. It is a page artefact a design session may not
-  edit; a build or skills session should reduce it to a pointer at this review.
+  edit; a build or skills session should reduce it to a pointer at this review.~~ fixed 30 Jul 2026: dated pointer added at the head of the artefact; text kept as the run record
 - [design] Both images on `/white-card-wa` use maroon line work decoratively, which DESIGN.md
   reserves for actions. Carried forward unresolved from `06-image-prompts.md`; now two instances on
   one page, which is this project's threshold for deciding rather than noting.

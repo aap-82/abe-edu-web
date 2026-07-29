@@ -1,5 +1,12 @@
 # 05 · Section plan + component map — /white-card-wa
 
+> **⚠ The `VerifiedSources` joiner bullet below is history, not a rule (noted 30 July 2026).** It states
+> how `facts` is joined to its sources, a rule that has since moved **into the component**, where a
+> regex decides the joiner at render time and an author cannot get it wrong. It is recorded in
+> `skill-reviews/design/2026-07-29-verifiedsources-joiner.md`. The bullet is left in place with its own
+> correction history because that history is the useful part — it was wrong twice in two days — but it
+> is not something a future page needs to obey or copy.
+
 The brief-to-section map. Every briefed section in `03-briefs.md` maps to a page section here, and
 every page section traces back to a brief. `check-pipeline.mjs` checks both directions against this
 table, so the "From brief" column is the load-bearing part of the file.
