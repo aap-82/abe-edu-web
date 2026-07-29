@@ -820,3 +820,136 @@ Measured from the built HTML, and checked against all three sibling course pages
 even two adjacent defaults. This was caused by inserting `#covered` between two default sections
 without giving it a band; the independent audit flagged the two-in-a-row at the time and it was not
 acted on. Section conformance is unchanged: same id, same marker, same position.
+
+### 07e · Slot 2 closed, B4 closed, 29 July 2026
+
+`imgSrc`, `imgAlt`, `imgDesc` and `imgSpec` set on the `#assessment` ZSection, so the page source
+changed again and this verification is refreshed with it.
+
+| Check | Measured |
+|---|---|
+| Asset | `white-card-wa-ppe-demonstration.avif`, 928 x 1152, ratio 0.806, 22,591 B, tracked in git |
+| Matches `imgSpec` | yes — `imgSpec` was updated from the briefed `~520x650` to the delivered size |
+| Rendered | box **519 x 649** ratio **0.800** against a 0.806 source, so `cover` takes 0.7% off the edge |
+| Serving | `width="928" height="1152"`, `loading="lazy"`, `decoding="async"`, no `fetchpriority` |
+| Variants | 10.9 / 24.0 / 26.7 kB — largest servable is **26 kB** against T3's 100 kB ceiling |
+| Alt | **121 chars**, inside CR2 80-125, unique against the hero's 117 per CR7 |
+| FPO placeholders | **1 to 0** |
+| `check-assets` | 0 failing, after failing the first build correctly (see below) |
+| Live | all three variants HTTP 200 on the workers.dev host after merge |
+
+**B4 is closed.** Both image slots carry a real asset and no placeholder exposes its prompt or spec
+string to a reader. The real-domain deploy gate that B4 held is released; the `/payment` origin gate
+is unchanged and still stands.
+
+**`naturalWidth` reads 640 on desktop and 374 on mobile, not 800. That is correct.** For a
+`w`-descriptor srcset the DOM divides intrinsic width by the selected candidate's density, and
+800/640 = 1.25 is that density. It is recorded because reading it as a wrong-sized image is a false
+alarm this run nearly filed, and the next person measuring an image this way will see the same number.
+
+**`check-assets` failed the first build of the change, correctly.** The pointer was in the MDX and
+the file was on disk but untracked, which is the exact condition that shipped a 404 hero on
+`/white-card-tas` on 25 July. The gate named the file and the fix. This is the first time that guard
+has caught the live condition it was written for.
+
+### The gate that could not fire, and the one that fired late
+
+This entry exists because `check-pipeline` §4 **FAILed at the next session's pre-flight**, not during
+the run that caused it: the page had changed 279 minutes after its last verification.
+
+That is not the gate being wrong. It reads `git log -1 --format=%ct` for both files, which is the
+right source — an mtime would be defeated by a checkout. But it means the gate is **blind to
+uncommitted work**: all through the build session the MDX edit was unstaged, so `git log` returned
+the *previous* commit's time, the comparison passed, and `check-pipeline` reported "verification is
+current" at every point where acting on it would have been cheap. It first told the truth after the
+commit, by which time the change was merged and deployed.
+
+So a run can pass its own gate suite, ship, and only then learn it skipped Stage 7. The author's
+habit has to carry it: **a page-source change is a Stage 7 change**, and 07 is appended in the same
+commit, as 07c and 07d both were. This run did not, and the record is the poorer for being written
+after the deploy rather than before it.
+
+Routed `[skills]`: `check-pipeline` should compare the **working tree** against 07 when the page file
+is dirty, so the failure surfaces inside the run that causes it rather than at the next session start.
+
+### 07f · The doubled "against" cleared, 29 July 2026
+
+Two `VerifiedSources` blocks rendered a doubled "against" on a live indexable page. The component
+appends its own ` against ` between the facts and the sources, and both `facts` strings already ended
+in "checked against ...".
+
+| | Rendered |
+|---|---|
+| Before | "...that underpins online delivery, checked against the regulator's construction induction guidance **against** WorkSafe WA - Construction induction training" |
+| After | "...that underpins online delivery, fact-checked **against** WorkSafe WA - Construction induction training" |
+| Before | "Answers checked against the national register and WorkSafe WA's construction induction guidance **against** training.gov.au - RTO 31193, ..." |
+| After | "Every regulatory answer in this list, fact-checked **against** training.gov.au - RTO 31193, ..." |
+
+Measured in the built HTML: `facts` strings containing "against" **2 to 0**. Both rewrites follow the
+noun-phrase-plus-"fact-checked" pattern `wa-owner-builder-course` already uses across all nine of its
+blocks, which is why that page has never had this defect.
+
+**This was stranded work, not a new finding.** `650a3a4` fixed it on 28 July, on a branch whose PR
+#57 had merged ten hours earlier, and never reached main. It sat rendering on the live page for a
+day. It was found by `check-shipped` on its first shakedown across every branch in the repo, which is
+the first time that check has caught something a human had not already noticed. See mistakes-log #22,
+now at three occurrences.
+
+### Two findings from the same look, both larger than this page
+
+**1. The doubled "against" is site-wide: 39 instances across 7 pages, of which this page had 2.**
+
+| Page | Doubled | of blocks |
+|---|---|---|
+| tas-owner-builder-course | 8 | 8 |
+| qld-owner-builder-course | 7 | 8 |
+| owner-builder-nsw-course-w | 7 | 8 |
+| owner-builder-nsw-course | 6 | 7 |
+| act-owner-builder-course | 5 | 6 |
+| white-card-tas | 4 | 6 |
+| white-card-wa | **2 to 0** | 9 |
+| wa-owner-builder-course | 0 | 9 |
+| cpd-building-tas | 0 | 3 |
+
+Routed **`[design]`**, and deliberately not fixed page by page: `VerifiedSources.astro` should skip
+its joiner when the `facts` string already ends in "against ...". One component change clears all 37
+remaining at once, and 37 hand edits across six pages would leave the next page free to reintroduce
+it. Decided with Andrey, 29 Jul.
+
+**2. The "No literal em dashes" rule in `05-components.md` was withdrawn, not applied.**
+
+The stranded commit also replaced this page's em-dash source labels with the house separator. Checked
+before repeating it: **all nine built pages use an em dash in their source labels, 146 in total,
+including the most recently built page.** Applying the rule here alone would have made this the only
+page in the site with a different separator in its sources - creating the inconsistency rather than
+removing it. The bullet is amended in `05-components.md` to name the doubled "against" instead, which
+is the defect that was actually rendering. Decided with Andrey, 29 Jul.
+
+The wider question - whether reader-visible source labels should use the house `·` everywhere, given
+CLAUDE.md bans em dashes in body copy - is a site-wide style decision affecting every course page,
+and is not this page's to make.
+
+### 07g · Reconciling the "Still open" list, 29 July 2026
+
+The **"Still open — NOT fixed here"** list above is a point-in-time record from 28 July and is left
+untouched, because rewriting it would destroy the evidence of what was open when the page shipped.
+This entry states where each item now stands. Three of them are closed.
+
+| Item | Status | Where |
+|---|---|---|
+| **F4 / B4** two FPO placeholders | **CLOSED** | Hero in `07c`, `#assessment` in `07e`. No placeholder ships on this page. The real-domain deploy gate B4 held is released |
+| **F7** TrustBand capsule 19 words vs a 40-60 contract | **CLOSED** | `skill-reviews/design/2026-07-28-landmarks-and-carriers.md`. Raised, "fixed" by extending to 55 words, then **reverted after measuring**: fourteen lines of reversed text at 375px against about five. The finding was right and the fix was wrong. `TrustBand` now takes its own `lede` prop with no word-count contract, because the trust band answers no question and `AnswerCapsule`'s contract does not fit |
+| **F14** doubled "against" | **CLOSED for this page** | `07f`. Also found to be site-wide: 39 across 7 pages, 37 remaining, routed `[design]` as a `VerifiedSources.astro` change |
+| **F5, F8-F13** | open, as recorded | F11 and F12 are `[skills]` |
+| **`/payment` origin gate** | open | Blocked on the `learn.` subdomain decision. Still a real-domain deploy gate |
+
+**Why this needed writing at all.** F7 and F14 were both fixed on 28 July, in `650a3a4`, which never
+reached main (mistakes-log #22, third occurrence). The F7 work was redone independently in a design
+session and recorded there, so only its `07` line was stale. F14 was not redone, and stayed live on
+the page for a day. **A finding recorded as open in one file and closed in another is indistinguishable
+from a finding nobody acted on**, which is the same failure as #17: the record drifting from what
+happened.
+
+`ClaudeCode/white-card-wa-citation-fixes` was deleted after this reconciliation. Everything on it is
+either applied, superseded, or deliberately withdrawn - the em-dash relabelling is withdrawn per
+`05-components.md`, and its own `07d` section is duplicative of the design review and of `07f`.
