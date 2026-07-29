@@ -4,6 +4,27 @@ Run these on the **built HTML** (`dist/{slug}/index.html`) after Stage 6 and bef
 Fix FAILs by correcting the content or data, never by watering down the components. These mirror the
 project "Proof" step: a page does not ship until it passes.
 
+**Start by asking the toolchain what it already knows about this page.** `check-claims`,
+`check-pipeline` and `check-links` all take `--slug <slug>` and will show only the findings that name
+it, with the repo-wide totals still printed underneath so a filtered run can never be mistaken for a
+whole one:
+
+```
+node scripts/check-pipeline.mjs --slug {slug}
+node scripts/check-claims.mjs   --slug {slug}
+node scripts/check-links.mjs    --slug {slug}     # after npm run build
+```
+
+Three runs produced page-relevant warnings from these scripts that no page audit ever read, which is
+why the flag exists. **Quote the WARN text, never a count** — a warning summarised as a number is a
+warning nobody acted on.
+
+**Every audit below is reported run-or-not.** `check-pipeline` FAILs a slug whose `07-verification.md`
+does not name all three of `abe-readability-audit`, `final-check` and `ai-detector`. Skipping one
+deliberately is fine and passes — say so and why under a "Not run, and why" heading. Silently omitting
+one is not: it was done on four separate runs, each time under a GREEN, and the first time it happened
+the audits that were skipped would have caught a real defect.
+
 ---
 
 ## 1. Pre-production audit (`references/seo/audit-workflow.md`)  — applies to the built page
@@ -100,12 +121,16 @@ Score against these; where a token or layout differs, that is a finding, not a p
   spacing (line 1.5 / para 2× / letter 0.12em / word 0.16em); reflow at 320px with no horizontal scroll;
   200% resize; one H1, headings in order; visible focus ring; meaningful link text; reduced-motion honoured.
 
-**Register caveat:** the audit's `audit_static.py` / `audit_render.py` were written for the design-rules
-HTML register (`.t-*` tokens, Archivo/Public Sans/Source Serif). This template uses the homepage-style
-component register, so those scripts will flag register/token differences that are **not** defects here.
-Read them at the **principles** level (contrast, measure, hierarchy, placement), not as a token pass/fail.
-`audit_render.py` needs Chromium; if unavailable, do the static + manual review. Use
-`scripts/contrast_check.py` for AA ratios and the `--cpl` mode to convert a column width into CPL.
+**Where those scripts live.** `audit_static.py`, `audit_render.py` and `contrast_check.py` ship **with
+the `abe-readability-audit` skill, which is a plugin skill and is not in this repo.** Do not look for
+them in `scripts/` — that directory is `.mjs` only and has never held a `.py` file. (Written here as
+bare, repo-shaped paths until 29 Jul 2026, which sent runs hunting for files this repo does not have.)
+
+**Register caveat:** they were written for the design-rules HTML register (`.t-*` tokens,
+Archivo/Public Sans/Source Serif). This template uses the homepage-style component register, so they
+will flag register/token differences that are **not** defects here. Read them at the **principles**
+level (contrast, measure, hierarchy, placement), not as a token pass/fail. `audit_render.py` needs
+Chromium; if unavailable, do the static + manual review.
 
 ---
 

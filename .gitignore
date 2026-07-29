@@ -15,8 +15,10 @@ reports/
 # files are ABE's commercial search data - traffic, query demand and ranking positions
 # across ~1,000 queries. Git history is permanent, so a single accidental commit publishes
 # the competitive position for good. Keep the zips local; unzip to a scratchpad, never
-# into the repo tree. Real path is data/GSC (lowercase data, uppercase GSC - Windows hides
-# the difference, Linux does not).
+# into the repo tree. The real path is `business data/GSC/` (note the space), ignored by the
+# `business data/` rule further down. This comment said `data/GSC` until 29 Jul 2026, a path the
+# exports left around 28 Jul; the rule below is still right and still needed, because /data/* is
+# what stops a stray export landing in the old location.
 #
 # Leading slash is load-bearing: it anchors this to the repo root. Without it the pattern
 # matches ANY directory named `data` at any depth, which silently swallowed src/data/ - the

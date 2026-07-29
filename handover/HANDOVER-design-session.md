@@ -1,5 +1,20 @@
 # HANDOVER — design session
 
+## Status: closed (verified 29 Jul 2026 by the system audit)
+
+Measured, not asserted:
+- **Part A item 1 — `.note` / `.price-foot` max-width: DONE.** `src/styles/global.css:386`
+  (`max-width:calc(480px + 2*var(--s-lg))`) and `:679` (`.footnote,.price-foot{…max-width:440px}`),
+  each with a comment recording the measured CPL.
+- **Part A item 2 — `CpdBundleLayout` marker double-count: DONE.** `src/integrations/guardrails.ts:202-207`
+  now asserts markers are unique and sequential, on the stated basis that there is one marker mechanism.
+- **Part B — the four text-presentation components: SHIPPED.** Its review is
+  `skill-reviews/design/2026-07-25-text-presentation-and-grounds.md`.
+
+Nothing below is outstanding. Kept for the reasoning, not as a task list.
+
+---
+
 **Session type: `design`.** Own branch. May write `src/components/**`, `src/styles/**`, styleguide
 specimens. Must not touch `kb/register/**`, `.claude/skills/**`, `pipeline/**`. Drafted 25 July 2026 by
 a `skills` session; it routes design work but does none of it (a skills session cannot write components

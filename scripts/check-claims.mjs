@@ -50,9 +50,11 @@
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { slugArg, bySlug, slugNote } from './lib/slug-filter.mjs';
 
 const STRICT = process.argv.includes('--strict');
 const VERBOSE = process.argv.includes('--verbose');
+const SLUG = slugArg();
 const fails = [], warns = [], oks = [], skips = [];
 const walk = (d, ext, out = []) => {
   if (!existsSync(d)) return out;
@@ -101,9 +103,36 @@ const CLAIMS = [
   { claim: 'every component needs a styleguide specimen or an exemption',
     source: 'guardrails.ts',
     must: [/SG_EXEMPT/, /styleguide specimen/] },
-  { claim: 'skill-review template carries the [skills]|[design]|[facts] demand-list destination legend',
+  // One destination per session type, and the template must name all FOUR. The three-value form of
+  // this claim was true and useless: `build` was missing from the destination list entirely, so two
+  // correctly-tagged items in a design review reported UNROUTED with no valid tag available. Same
+  // lesson as the five-collections claim above — a claim about a set has to constrain the whole set.
+  { claim: 'skill-review template carries the [skills]|[design]|[facts]|[build] demand-list destination legend',
     source: 'skill-reviews/_TEMPLATE.md',
-    must: [/\[skills\]/, /\[design\]/, /\[facts\]/] },
+    must: [/\[skills\]/, /\[design\]/, /\[facts\]/, /\[build\]/] },
+  // CLAUDE.md tells the reader demand-split derives reports/handover-<dest>.md. It writes exactly
+  // that and not handover/, which are hand-written session notes. The two were conflated in CLAUDE.md
+  // until 29 Jul 2026, sending a reader to regenerate files nothing regenerates.
+  { claim: 'demand-split writes the derived view to reports/, not to handover/',
+    source: 'scripts/demand-split.mjs',
+    must: [/OUT_DIR\s*=\s*'reports'/, /handover-\$\{destination\}\.md/] },
+  // Routing descends into skill-reviews/design/; the trend and coverage scans deliberately do not.
+  // Ten design reviews were invisible to routing until this was fixed, so the repeat counts that
+  // decide what gets built were computed from a partial set.
+  { claim: 'demand routing is recursive over skill-reviews/, so design/ reviews are routed',
+    source: 'scripts/demand-split.mjs',
+    must: [/async function walkReviews/, /withFileTypes:\s*true/] },
+  // CLAUDE.md states check-freshness "warns without blocking" on register staleness. That is true of
+  // register staleness and false in general: a live, expired, still-sold CPD course exits 1 without
+  // --strict. The doc asserted the general form until 29 Jul 2026.
+  // The pattern must distinguish the TWO exits, or it cannot detect the drift it exists to catch:
+  // register staleness exits only `if (STRICT)`, the expired-course path exits unconditionally. A
+  // bare /process\.exit\(1\)/ matches both and would certify the claim even if the unconditional one
+  // were made conditional — the "certifies its own staleness" failure of row 1's eighth sighting.
+  // So: assert the STRICT-guarded exit exists AND that a bare exit follows the expiry FAIL message.
+  { claim: 'check-freshness blocks the build on an expired live CPD course, independently of --strict',
+    source: 'scripts/check-freshness.mjs',
+    must: [/if \(STRICT\) process\.exit\(1\)/, /approval that has expired[\s\S]{0,600}?\n\s*process\.exit\(1\);/] },
 ];
 const findSource = (name) => ['.', 'src', 'src/integrations', 'integrations', 'src/lib']
   .map((d) => join(d, name)).find((p) => existsSync(p));
@@ -571,7 +600,13 @@ if (!existsSync('SYSTEM.md')) {
 }
 
 
-for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) for (const m of xs) console.log(`  ${l.padEnd(5)} ${m}`);
+let slugShown = 0;
+for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) {
+  const keep = bySlug(xs, SLUG);
+  slugShown += keep.length;
+  for (const m of keep) console.log(`  ${l.padEnd(5)} ${m}`);
+}
+if (SLUG) console.log(slugNote(SLUG, slugShown, fails.length + warns.length + oks.length));
 
 // An exclusion nobody can see is a claim to be taken on trust. --verbose itemises every figure the
 // scan chose not to report, and why, so the exclusion rules can be audited rather than believed.

@@ -6,7 +6,8 @@
 // the header has to be added in the Worker itself.
 //
 // Remove this file (and the "main" / assets.binding lines in wrangler.jsonc) at
-// cutover, once workers_dev is set to false — see HANDOVER.md Phase E.
+// cutover, once workers_dev is set to false — see "new site/abe-migration-implementation-plan.md"
+// section 8.2, step 6, which is the live cutover runbook.
 export default {
   async fetch(request, env) {
     const response = await env.ASSETS.fetch(request);

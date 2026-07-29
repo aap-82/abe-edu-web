@@ -1,6 +1,11 @@
-# QLD Owner Builder — Astro Component Props
+# Astro component props — the prop contracts
 
-Prop contracts for the components in `qld-owner-builder-designer-handover.md`. TypeScript / Astro `Props` convention: no `?` = **required**, `?` = optional. Put shared types in `src/types/course.ts` and import.
+Prop contracts for the components in `src/components/`, which are the authority: this file describes
+them and never defines them, so on any disagreement read the component. (It was distilled from a
+designer handover document that is no longer in the repo. That provenance line was removed on 29 Jul
+2026 — a pointer at a file nobody can open is worse than no pointer, because it reads as a source you
+could go and check.) TypeScript / Astro `Props` convention: no `?` = **required**, `?` = optional. Put
+shared types in `src/types/course.ts` and import.
 
 > When authoring or altering a component, verify Astro syntax (props/`Astro.props`, slots, `set:html`,
 > `astro:assets`, client directives) against the connected **Astro docs MCP** rather than memory. These

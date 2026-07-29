@@ -129,7 +129,17 @@ matches the CSV it comes from.
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of
-its own, and runs four checks beyond `check-freshness`:
+its own, and runs four checks beyond `check-freshness`.
+
+Dangling-reference detection covers **two populations, counted separately**: the paths the skill
+points at, and the paths *this document and its peers* point at (`CLAUDE.md`, `ROADMAP.md`,
+`DESIGN.md`, `README.md`, `handover/**`). The second was added on 29 July 2026, after an audit found
+six dead pointers across the governance documents surviving clean runs — the documents stating §2's
+"every path resolves, or it does not exist" were the ones exempt from it. A reference that escapes the
+repo (`../anything`) fails on sight, resolvable or not, because §2's "One home" makes the repo the
+single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
+`business data/` and the superseded `data/GSC/` — the first two are correct paths that are
+deliberately never committed, the third is named only in historical records. The four checks:
 - **`check-claims`** — three things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
   superseded figure failing, and whether this section still names every check that exists.
@@ -178,17 +188,19 @@ reads is not kept.
 **Improvement is proposed, never imposed.** Trends turn recorded metrics into a direction. Outcome
 reviews measure whether a page actually ranked, not just whether the run went smoothly. Every fifth
 review, an improvement pass reads the accumulated reviews and the mistakes log and proposes skill
-edits as a diff — which a human merges. It may never edit `guardrails.ts`, the hooks, or the human
-gates. A loop that can rewrite the rules constraining it cannot be audited afterwards, so that
-boundary is absolute.
+edits as a diff — which a human merges. It may never edit `guardrails.ts`, the human gates, or any
+Claude Code hook. A loop that can rewrite the rules constraining it cannot be audited afterwards, so
+that boundary is absolute. (No hooks exist yet; the clause binds the day one is added. Stating it as
+though they were present is the drift this document's §2 warns about, and it was doing exactly that
+until 29 July 2026.)
 
 ## 7. Where the humans are, non-negotiably
 
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys production.
 - **Stage checkpoints survive automation.** The show-and-confirm discipline is not removed by making
   the pipeline more autonomous.
-- **The improvement pass proposes; a human merges** — and cannot touch the guardrails, the hooks, or
-  this section.
+- **The improvement pass proposes; a human merges** — and cannot touch the guardrails, this section, or
+  any hook that may later exist.
 - **Regulatory facts are verified by a human decision or an official source, never by a model's
   confidence.**
 

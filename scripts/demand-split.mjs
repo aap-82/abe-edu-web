@@ -9,6 +9,9 @@
  * The notes are a derived view (recording policy layer 3). They are regenerable,
  * never a source, and must never be hand-edited.
  *
+ * RECURSIVE over skill-reviews/ since 29 Jul 2026 — see walkReviews() for why, and for why
+ * review-trends.mjs and system-health's review coverage are right to stay flat.
+ *
  *   node scripts/demand-split.mjs             print to stdout
  *   node scripts/demand-split.mjs --write     write reports/handover-<dest>.md
  *   node scripts/demand-split.mjs --strict    exit 1 on UNROUTED items
@@ -23,12 +26,20 @@ import path from 'node:path';
 const REVIEW_DIR = 'skill-reviews';
 const MISTAKES_LOG = 'kb/mistakes-log.md';   // repointed to kb/ (Task 0, assumption 1)
 const OUT_DIR = 'reports';
-const DESTINATIONS = ['skills', 'design', 'facts'];
+/* One destination per session type. There are FOUR session types and this list carried THREE until
+   29 Jul 2026, so an item that was page work had nowhere to go: the `landmarks-and-carriers` design
+   review tagged two items `[build]` — correctly, they edit `src/content/courses/*.mdx` — and both
+   were reported UNROUTED with no valid tag they could have used instead. That is not a new mechanism
+   earned by a second occurrence; it is the same off-by-one as row 1's eighth sighting, where a claim
+   about a set ("four content collections") failed to constrain the whole set. A destination list
+   that omits one of the four types cannot route the work of that type. */
+const DESTINATIONS = ['skills', 'design', 'facts', 'build'];
 
 const OWNER = {
-  skills: 'skills session — .claude/skills/**, scripts/**, kb/rules/**, CLAUDE.md',
+  skills: 'skills session — .claude/skills/**, scripts/**, kb/rules/**, CLAUDE.md, SYSTEM.md, ROADMAP.md, handover/**',
   design: 'design session — src/components/**, src/styles/**, styleguide',
   facts: 'facts session — kb/register/** only, source read in that session',
+  build: 'build session — pipeline/{slug}/, src/content/**; read at Stage 0 for the page being built',
 };
 
 const args = new Set(process.argv.slice(2));
@@ -102,10 +113,32 @@ function normalise(text) {
     .join(' ');
 }
 
+/**
+ * RECURSIVE, deliberately — see the note at the top of this file.
+ *
+ * `readdir` without `withFileTypes` returns a subdirectory as a bare name, which `.endsWith('.md')`
+ * then silently drops. That is how `skill-reviews/design/` came to be invisible here: ten reviews
+ * and roughly thirty-five demand items reached no handover note and were counted in no repeat
+ * tally, so the second-occurrence rule that governs what gets built was being computed from a
+ * partial set. Several items sat at two and three occurrences without ever surfacing as triggers.
+ *
+ * The subdirectory itself is not the mistake — `review-trends.mjs` and `system-health`'s review
+ * coverage are right to stay flat, because a design review has no run metrics and grades no page.
+ * Routing is the exception: a demand item is a demand item wherever it was filed.
+ */
+async function walkReviews(dir) {
+  const out = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) out.push(...await walkReviews(path.join(dir, e.name)));
+    else if (e.name.endsWith('.md') && !e.name.startsWith('_')) out.push(path.join(dir, e.name));
+  }
+  return out;
+}
+
 async function loadReviews() {
   if (!existsSync(REVIEW_DIR)) return [];
-  const files = (await readdir(REVIEW_DIR))
-    .filter((f) => f.endsWith('.md') && !f.startsWith('_'))
+  const files = (await walkReviews(REVIEW_DIR))
+    .map((p) => path.relative(REVIEW_DIR, p))
     .sort();
 
   const reviews = [];

@@ -4,12 +4,12 @@ Astro 7 static marketing site for abeeducation.edu.au. Four owner-builder course
 Cloudflare Workers (QLD/WA/TAS/ACT); Wave 0 (platform close-out — templates, chrome, CI, redirects) is
 merged and live as of 18 Jul 2026. Waves 1-6 (real content build-out + cutover) are next.
 Read the current handover in `handover/` for state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
-(the live strategic plan — supersedes `../abe-rebuild-plan-review.md`), its
+(the live strategic plan), its
 `new site/abe-migration-plan-v2-risk-audit.md` (11 findings amended into the plan, incl. the no-slash
 canonical call below), `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5), and
 **`new site/abe-migration-implementation-plan.md`** (the ticket-by-ticket runbook — three build recipes,
 per-ticket DoD, the cutover runbook, and the progress tracker) before starting Wave 1+ work.
-`../MIGRATION.md` still covers the original Claude Code / repo setup.
+`abe-rebuild-plan.md` is the superseded first plan, kept for its Phase A-E shape only.
 **Read `ROADMAP.md` before starting phase work** — it says what phase the system is in, what is gated,
 and what must not be built yet. If it disagrees with `node scripts/system-health.mjs`, the script wins.
 **`SYSTEM.md`** is the standing design reference — how the system is meant to behave and the six ideas
@@ -166,11 +166,12 @@ adapter and does not change Astro's static output; remove the file and the `main
 ## Content design and element selection
 When building or auditing a page (including via `/abe-course-page-astro`),
 use the content-design and element-selection guidance in **`DESIGN.md` section 7**: which treatment per
-content type, which element for the reader's job, imagery, and reassurance-first. That section is
-reconciled from `outputs/md/abe-page-design-rules.md`, the fuller reference. **`DESIGN.md` and
-`global.css` are canonical for tokens, fonts, class names, components, and the warm palette, and win on
-any conflict.** Do not adopt the source doc's `.t-*` classes, Public Sans / Source Serif fonts,
-`abe-tokens.css`, cool-only palette, or `audit_*.py` scripts; none of them exist in this build.
+content type, which element for the reader's job, imagery, and reassurance-first. That section was
+reconciled in from an out-of-repo source document that is **not available here and is not needed** —
+§7 stands alone and is the whole of the rule. **`DESIGN.md` and `global.css` are canonical for tokens,
+fonts, class names, components, and the warm palette, and win on any conflict.** If that source doc
+ever resurfaces, do not adopt its `.t-*` classes, Public Sans / Source Serif fonts, `abe-tokens.css`,
+cool-only palette, or `audit_*.py` scripts; none of them exist in this build.
 
 ## Images
 - Served from the Cloudflare R2 public bucket, referenced by URL:
@@ -230,11 +231,25 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
 - `kb/rules/` holds the authority model, the authority/SEO rules and the ASQA disclosure framework, in
   full. This file carries only the short form.
 - Stage artefacts are files: `pipeline/{slug}/01-source-map.md`, `02-gap.md`, `03-briefs.md`, and so on.
-- GSC exports live in `data/GSC/` (lowercase `data`, uppercase `GSC` — the whole `/data/` tree is
-  gitignored because it is ABE's commercial search data).
-- `scripts/check-freshness.mjs` runs on every build via `prebuild` and warns without blocking.
-  `system-health.mjs` before planning work, `review-trends.mjs` after filing a Stage-9 review,
-  `check-claims.mjs` when docs or figures change.
+- **GSC exports live in `business data/GSC/` — note the space, so quote the path in every shell
+  command.** They sit at the repo root beside `business data/LearnWorlds/` and are gitignored
+  (`.gitignore` → `business data/`). **Corrected 29 Jul 2026:** this line said `data/GSC/` and had been
+  wrong since the folder moved on ~28 Jul. `/data/*` now holds only `health-log.jsonl`, so a run
+  following the old path finds nothing and wrongly concludes no export exists — which is exactly what
+  happened on the `white-card-wa` build until Andrey pointed at the new location. `data/gsc/`
+  lowercase, in older documents, is wronger still.
+  **The zips are deliberately never committed** (ABE's commercial search data; the repo is public and
+  git history is permanent). Unzip to a scratchpad, never into the repo tree, and **read `Filters.csv`
+  first** — the site-wide and per-page exports are not distinguishable by filename, and reading a
+  page-filtered export as site-wide will misstate demand.
+  The site-wide export cannot satisfy the R4 query-coverage gate: Queries and Pages are separate
+  dimensions and are not crossed, so there is no per-URL query list in it. **Ask Andrey for a per-page
+  export at Stage 2**, not partway through.
+- `scripts/check-freshness.mjs` runs on every build via `prebuild`. It **warns without blocking on
+  register staleness**, but it is not warn-only in general: a CPD course marked live, past its CBOS
+  expiry and still sold **fails the build without `--strict`** (`check-freshness.mjs:186`, and see
+  ROADMAP "Expiry is a build-blocker"). `system-health.mjs` before planning work, `review-trends.mjs`
+  after filing a Stage-9 review, `check-claims.mjs` when docs or figures change.
 - Before adding any new record, log or file, read the recording policy in ROADMAP.md. Name the
   decision the record informs; if you cannot, do not add it.
 
@@ -257,7 +272,7 @@ and every subagent.
 | Type | Purpose | May write | Must not touch |
 |---|---|---|---|
 | **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/styles/**`, `src/content.config.ts` |
-| **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `kb/mistakes-log.md`, `ROADMAP.md`, `src/content.config.ts` | `kb/register/**`, `src/styles/**`, any live run's artefacts |
+| **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `SYSTEM.md`, `ROADMAP.md`, `kb/mistakes-log.md`, `handover/**`, `src/content.config.ts` | `kb/register/**`, `src/styles/**`, `src/components/**`, any live run's artefacts |
 | **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
 | **facts** | Verify and record regulatory figures | `kb/register/**` | everything else |
 
@@ -266,6 +281,17 @@ infrastructure, not one page's build, so a build session treats it as fixed. (As
 a demand item asked to make a schema field optional; the original session-types table left it
 unassigned.) Paths reconciled to the live layout: the mistakes log is `kb/mistakes-log.md`, and design
 owns all of `src/styles/**` (tokens live in `global.css`, there is no `tokens*` file).
+
+**`SYSTEM.md` and `handover/**` are owned by skills too** (assigned 29 Jul 2026, by the system audit,
+for the same reason and by the same precedent as `content.config.ts` above — the table left them
+unassigned, and an unassigned path is one every session may take or none dares to, which is the worse
+of the two failure modes). `SYSTEM.md` is a standing rules document like `CLAUDE.md` and `ROADMAP.md`;
+`handover/**` is the hand-written note layer that a demand list routes work *out of*. **Still
+unassigned and deliberately so:** `worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**` and
+`package.json` are platform and deploy configuration, not any session type's work. Changing one is its
+own decision with a human in it — say so out loud rather than folding it into a session. (This audit
+edited one comment in `worker/entry.js`, a stale pointer at a file that had moved; that was a judgement
+call at the boundary, and it is recorded here rather than left to be discovered.)
 
 Subagents inherit the session type of the session that launched them and cannot widen it. A subagent
 that needs to write outside the type stops and reports upward. It never guesses.
@@ -288,37 +314,63 @@ that needs to write outside the type stops and reports upward. It never guesses.
    does nothing else. The locked system (radius 0, flat surfaces, 1px borders, Heritage Maroon for actions
    only) opens when it cannot express what is needed — not when a page would look better.
 8. **A readability audit measures; it does not authorise.** Audit findings become demand-list items routed
-   to `design`. `references/usability-map.md` decides.
+   to `design`. `.claude/skills/abe-course-page-astro/references/usability-map.md` decides.
 9. **Design sessions close with a review.** A design session that ships component, token/design-register or
    styleguide changes writes one review to `skill-reviews/design/YYYY-MM-DD-<topic>.md` before merge — the
    build Stage-9 format applied to design: what shipped with **measured** before/after values (not ticks,
    per the self-certification lesson), each design-register change flagged, and a demand list tagged
-   `[skills]`/`[design]`/`[facts]`. The `design/` subdirectory keeps it out of the build-run trend and
-   coverage scans, which read `skill-reviews/*.md` flat (a subdir is not a `.md` file). Self-grading is
-   allowed with `graded_by: self` and a stated reason — there is no fresh-subagent design grader yet.
+   `[skills]`/`[design]`/`[facts]`. The `design/` subdirectory keeps it out of the **build-run trend and
+   page-coverage scans** (`review-trends.mjs` and `system-health`'s review coverage read
+   `skill-reviews/*.md` flat, deliberately — a design review has no run metrics and grades no page).
+   **Demand routing is the exception and descends into it** (`demand-split.mjs` and `system-health`'s
+   unrouted count), because a demand item is a demand item wherever it was filed. That asymmetry is
+   deliberate; it was not, until 29 Jul 2026, when ten design reviews and their demand items turned out
+   to be invisible to routing as well. Self-grading is allowed with `graded_by: self` and a stated
+   reason — there is no fresh-subagent design grader yet.
+10. **Skills sessions close with a review too**, to `skill-reviews/skills/YYYY-MM-DD-<topic>.md`, on the
+   same terms as rule 9: measured before/after values rather than ticks, and a demand list tagged
+   `[skills]`/`[design]`/`[facts]`/`[build]`. Added 29 Jul 2026 — a skills session changes the rules and
+   the checks every other session runs under, which is the *most* consequential kind of change in the
+   repo and was the only kind closing with no record at all. Same subdirectory logic as design: routed
+   by `demand-split`, excluded from the build-run trend and page-coverage scans, because a skills
+   session grades no page.
 
 ### Demand-list format
 Every demand-list item in a Stage 9 review carries a destination, so the handover notes can be derived
-rather than written. Valid destinations: `skills`, `design`, `facts`. Anything else is reported UNROUTED
-by `scripts/demand-split.mjs` rather than dropped.
+rather than written. **Valid destinations are `skills`, `design`, `facts` and `build` — one per session
+type.** Anything else is reported UNROUTED by `scripts/demand-split.mjs` rather than dropped.
+(`build` was added 29 Jul 2026: the list carried three of the four types, so page work filed by a
+design session had no valid tag and two correctly-tagged items reported UNROUTED. A `build` item is
+read at Stage 0 by the session building that page.)
 
 ```
 ## Demand list
-Tag every item: [skills] | [design] | [facts]
+Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] Stage 4 asks for keyword data the brief already supplies
 - [design] FAQ block spacing collapses below 768px — component fix, not a page fix
 - [facts] TAS White Card figure on the page has no register entry
+- [build] The breadcrumb on this page points at a hub that is not built yet
 ```
 
-Handover notes are a derived view (recording policy layer 3): regenerate them with
-`node scripts/demand-split.mjs --write`, never edit them, and never treat one as a source.
+**Two different things are called handover notes. Do not confuse them.**
+- **`reports/handover-{skills,design,facts}.md`** — the *derived* view (recording policy layer 3),
+  written by `node scripts/demand-split.mjs --write` from the demand lists. Regenerate it, never edit
+  it, never treat it as a source. It is gitignored and absent until you generate it, which is correct:
+  a derived view that is committed is the duplication the four-layer policy exists to prevent.
+- **`handover/HANDOVER-*.md`** — *hand-written* session notes, in git, and a legitimate source. They
+  carry context a demand list cannot: what was attempted, what was ruled out, and why. **Close one
+  explicitly when its work lands** — a `## Status:` header with the date and the commit SHAs, as
+  `handover/HANDOVER-images-astro-assets.md` does. A handover with no closure record is
+  indistinguishable from an open one, and three currently are.
 
 ## Human gates
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys to production
   without an explicit go in that session.
 - Stage checkpoints stand: show the stage output and get a go-ahead before starting the next.
-- The improvement pass proposes diffs only. It must never edit `src/integrations/guardrails.ts`, the
-  hooks, or this file's Human gates section.
+- The improvement pass proposes diffs only. It must never edit `src/integrations/guardrails.ts`, this
+  file's Human gates section, or any Claude Code hook. **No hooks exist today** — `.claude/` holds
+  `commands/`, `skills/` and `settings*.json` only, and hooks are still an ungated Phase-3 candidate in
+  ROADMAP. The clause is written to bind the day one is added, not to describe something present.
 - Legal pages (`terms`, `privacy`, `refund`, `contact`) are placed, never drafted or reworded.
 
 ## Git workflow (once the repo exists)

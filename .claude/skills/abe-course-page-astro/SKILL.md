@@ -289,6 +289,12 @@ every section stating a government fact, and a page-foot Sources block. Split pr
 carriers need, using `references/component-selection.md` — and pick the carrier for what the content is
 doing, never to fill a component the last page used.
 
+**Any other layout question starts at `references/usability-map.md`, not here.** Layout knowledge is
+split across three sources on purpose — one decides (`component-selection.md`), one measures
+(`abe-readability-audit`), one styles (the design register in `src/styles/global.css` + `/styleguide`) —
+and the map routes a question to exactly one of them. Read it, go to the one source, stop. If a single
+layout question ever needs all three, that is the consolidation trigger: record it on the demand list.
+
 **Then the cold reread, before Stage 5 rather than after the build.** Run the seven checks at the foot
 of `content-craft.md`: the brief's fail condition, the delete test on the research finding, the
 first-sentence test, the anywhere test, fact-to-meaning, the archetype's forbidden carry-overs, and
@@ -451,9 +457,9 @@ watering down the components:
 - **`abe-readability-audit`** — measure ~60–66 CPL (45–75; mobile 30–45), body >= 16px, leading 1.4–1.6,
   single-column left-aligned prose, off-black-on-off-white, ~7-item list chunking, answer-first, one
   primary CTA per view repeated + sticky on long/mobile, trust beside the claim/CTA, tap targets
-  >= 44px, reflow at 320px, AA contrast. Its `audit_static.py`/`audit_render.py` scripts target the
-  design-rules `.t-*` register; this template uses the homepage-style register, so read them at the
-  principles level, not as a token pass/fail.
+  >= 44px, reflow at 320px, AA contrast. Its `audit_static.py`/`audit_render.py` scripts ship with that
+  plugin skill and are **not in this repo** (`scripts/` is `.mjs` only); they target the design-rules
+  `.t-*` register, so read them at the principles level, not as a token pass/fail.
 - **`final-check`** (contradictions, duplicates, logical flow, logical grouping, Australian English,
   AI-writing patterns) on the copy, and **`ai-detector`** where human-authored content is required.
 A missing/duplicate H1, a price mismatch, an invalid schema or authority-model breach, an unsourced
@@ -551,8 +557,9 @@ Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
   `_static-pages.md` (contact and legal pages: build-only, never drafted).
 - `references/content-craft.md` — **the Stage 4 method.** How a brief becomes prose: translate facts,
   spend the research, capsule as answer, name the objection, voice, and the cold-reread checks.
-- `references/` — `content-pipeline.md` (stages 1-4 method), `component-selection.md` (content shape
-  to component, and the wrong instinct to avoid), `component-library.md` (stage 5 props),
+- `references/` — `content-pipeline.md` (stages 1-4 method), `usability-map.md` (**the router for any
+  layout question** — which of the three usability sources answers it), `component-selection.md` (content
+  shape to component, and the wrong instinct to avoid), `component-library.md` (stage 5 props),
   `kb/rules/authority-and-seo-rules.md` (the ship-blockers), `deploy-cloudflare.md` (stage 8 deploy),
   `verification.md` (stage 7 pre-deploy checks), `image-prompts.md` (page visuals).
 - **The Astro template is the repo, not this skill.** Work against the live project: **five** content

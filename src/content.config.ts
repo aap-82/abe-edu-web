@@ -155,7 +155,15 @@ const courses = defineCollection({
     glance: z.array(fact),
     priceRows: z.array(priceRow),
     howItWorksSteps: z.array(step),
-    becomeSteps: z.array(step),
+    // OPTIONAL since 29 Jul 2026. "How you become an owner builder" is archetype-1 shape and has no
+    // archetype-2 meaning: a White Card page has no becoming-anything journey, so both White Card
+    // pages stubbed it `[]` purely to satisfy Zod. A required field that a whole archetype can only
+    // satisfy with a lie is worse than an absent one, because the stub reads as an answered question.
+    // Filed by the white-card-tas run and again by white-card-wa; the second occurrence authorised it
+    // (ROADMAP rule 3). The five owner-builder pages that supply it are unaffected, and the one
+    // consumer is `<Stepper steps={frontmatter.becomeSteps} />`, which each page renders explicitly -
+    // so a page that omits the field simply does not render the section.
+    becomeSteps: z.array(step).optional(),
     // People are typed references into the `experts` collection, not inline copies.
     // They used to be inlined per course and had already drifted three ways across the
     // four files (a dropped standards reference, stray punctuation in alt text, and a

@@ -6,6 +6,13 @@ Canonical sources for verifying that this skill's recommendations remain current
 
 **Skill last audited:** 2026-05-26 (Full audit completed — 27 sources verified; 4 registry entries added 26 May for image SEO, keyword strategy, badges and trust bars — 31 total)
 
+> ⚠️ **OVERDUE as at 29 July 2026 — 64 days.** Past this skill's own 60-day trigger, so **per-run
+> live-fetch mode applies**: do not produce a high-volatility output from the cached guidance below
+> without fetching its source. The 90-day full-audit recommendation falls due **24 August 2026**.
+> Noted by the system audit, which deliberately did not run the audit itself — it wants live source
+> fetches and is its own session. The `expert-fallback/` snapshot is the same vintage (26 May) and
+> the two expert files were last dated 20 April, so refresh them in the same pass.
+
 **Audit methodology (2026-05-26):** The 🔴 must-update claims — FAQ rich-result deprecation, the Course Info → Course List distinction, and the Practice Problem removal date — plus the new generative-AI optimisation guidance were verified directly against Google's primary documentation (developers.google.com) and the schema.org version page, not secondary reporting alone. The provenance restriction noted at install (Google developer docs could not be fetched directly) no longer applied. A full registry sweep was completed the same day: the remaining sources were cross-checked against Google's documentation-updates changelog (developers.google.com/search/updates, Jan–May 2026) and the Core Web Vitals thresholds (LCP ≤2.5s / INP ≤200ms / CLS ≤0.1) were confirmed current. No must-update drift was found — only minor additive guidance (spam policies now explicitly cover generative-AI responses; a new "back button hijacking" spam policy; "read more" snippet deep links; additional QA/Discussion-Forum properties), none material to ABE's page types.
 
 ---

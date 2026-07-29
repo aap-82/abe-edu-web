@@ -120,10 +120,13 @@ baseline line is in `data/health-log.jsonl`.
 
 Moved the pipeline into the repo and made facts single-owner.
 
-Delivered: `kb/register/` (15 files) and `kb/rules/` (3), `kb/content-source-map.md` as the index,
-`kb/mistakes-log.md`, `CLAUDE.md` constants, `data/gsc/`, the reworked skill with 12 archetypes and
-the craft method, `skill-reviews/_TEMPLATE.md`, and four scripts — `check-freshness`, `check-claims`,
-`review-trends`, `system-health`.
+Delivered: `kb/register/` and `kb/rules/`, `kb/content-source-map.md` as the index,
+`kb/mistakes-log.md`, `CLAUDE.md` constants, the GSC export folder (then `data/gsc/`, now
+`business data/GSC/`), the reworked skill with 12 archetypes and
+the craft method, `skill-reviews/_TEMPLATE.md`, and the first four scripts — `check-freshness`,
+`check-claims`, `review-trends`, `system-health`. (File and script counts were written in here as
+literals and both had gone stale by 29 Jul; counts belong in `system-health`'s output, which computes
+them, not in a phase record nothing reads against disk.)
 
 ---
 
@@ -356,13 +359,42 @@ Four triggers have fired. The first three have evidence in
 Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,
 `token-lint`, event-driven Stage 1 verification.
 
-### Ready to build now, authorised by a second occurrence (ROADMAP rule 3)
+**Still unbuilt after the 29 Jul system audit, deliberately** — re-checked against disk, not assumed:
+the **`page-auditor` subagent** and the **fail-on-undeclared-authority guardrail** (both triggered, both
+still candidates), and the **headless width check** — which is at two occurrences and authorised, but
+needs playwright or puppeteer in `package.json`, so it was raised with Andrey and held as a separate
+ask rather than folded into an audit session.
 
-- **Make `becomeSteps` optional in `content.config.ts`.** An owner-builder-shaped required field with
-  no archetype-2 meaning; every White Card page stubs it `[]`. Filed by the `white-card-tas` run and
-  again by `white-card-wa`. `content.config.ts` is skills-owned, so a build session cannot fix it.
-- **A `--slug` filter** (above) — three runs have now had page-relevant warnings that never reached
-  the page's own audit.
+### Ready to build now, authorised by a second occurrence (ROADMAP rule 3) — ✅ both built 29 Jul 2026
+
+- ✅ **`becomeSteps` is optional in `content.config.ts`.** An owner-builder-shaped required field with
+  no archetype-2 meaning; every White Card page stubbed it `[]`. Filed by the `white-card-tas` run and
+  again by `white-card-wa`. Built by the system audit (`content.config.ts` is skills-owned, so the
+  build session that filed it could not). The two `[]` stubs are still in the two MDX files — that half
+  is build-owned and is routed as a `[build]` item.
+- ✅ **The `--slug` filter** — on `check-claims`, `check-pipeline` and `check-links`, sharing
+  `scripts/lib/slug-filter.mjs`. Deliberately **not** on `check-freshness`: its unit is a register file,
+  shared across pages, so a filter there could hide a lapsed fee from the page depending on it. A
+  filtered run prints the repo-wide totals underneath, labelled, so it can never be mistaken for a
+  whole one. Stage 7 now opens by running all three (`references/verification.md`).
+
+### Also built 29 Jul 2026, by the full system audit
+
+Not on the candidate list; earned the same way the asqa Person rule and the superseded-unit check were.
+
+- **Governance-doc dangling-reference check** (`system-health`). The check that enforces "every path
+  resolves" read `.claude/skills/**` only, so the rule documents were the only files exempt from the
+  rule they state. Six dead pointers were surviving clean runs. Counted separately from `skillRefs` so
+  the existing health-log series keeps its meaning. See mistakes-log row 1, tenth sighting.
+- **Demand routing made recursive, and `build` added as the fourth destination.** Ten design reviews
+  and ~35 demand items were invisible to `demand-split` and to the unrouted counter, so the
+  second-occurrence rule was being computed from a partial set — several items sat at two and three
+  occurrences without surfacing. New mistakes-log **row 24** for the class.
+- **Stage-7 verification scope** (`check-pipeline` §5). The three mandated sub-skill audits must be
+  named in `07-verification.md`, run or not. Four occurrences on the demand list, guard prose-only
+  until now (mistakes-log #14). It FAILs `white-card-wa` on real data — a true positive and an open
+  `[build]` item, the same standing as the `cpd-building-tas` gate-ordering FAIL when §4 shipped.
+- **Three `CLAIMS` entries** in `check-claims` (8 → 11), giving the corrected doc claims a reader.
 
 ### Also earned on 28 July, first occurrence only — record, do not build yet
 
@@ -402,7 +434,8 @@ three to answer one layout question, record it. On the **second** occurrence, me
   block and filing the result.
 - **The improvement pass.** Every fifth skill review, read the accumulated reviews and
   `kb/mistakes-log.md`, and propose skill edits as a git diff. **Propose only — a human merges.** It
-  may never edit `guardrails.ts`, the hooks, or the human-gates section of `CLAUDE.md`.
+  may never edit `guardrails.ts`, the human-gates section of `CLAUDE.md`, or any Claude Code hook —
+  none of which exist yet, so that last limb binds forward rather than describing something present.
 - **`.skill` bundle packaging** from the repo for claude.ai, with register files carrying explicit
   expiry lines so a stale bundle cannot state a figure past its date.
 

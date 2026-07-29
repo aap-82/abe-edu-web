@@ -7,10 +7,14 @@
  * mistakes-log by hand. Nothing answered "is the system as a whole in good shape", so nothing did.
  *
  * Adds two checks nothing else performs:
- *   - DANGLING REFERENCES. Every path a skill points at must resolve. This is the drift the
- *     mistakes log has recorded three times: assets/ that never installed, a review template that
- *     did not exist, content-model.md describing a superseded architecture. Documentation that
- *     points at nothing is the failure mode of this system, so it gets a check of its own.
+ *   - DANGLING REFERENCES, in two populations counted separately. Every path a skill points at must
+ *     resolve; so must every path the GOVERNANCE DOCUMENTS point at (CLAUDE.md, SYSTEM.md,
+ *     ROADMAP.md, DESIGN.md, README.md, handover/**), which had no reader at all until 29 Jul 2026
+ *     and were carrying six dead pointers through clean runs. This is the drift the mistakes log has
+ *     now recorded ten times: assets/ that never installed, a review template that did not exist,
+ *     content-model.md describing a superseded architecture, and finally the rule documents
+ *     themselves. Documentation that points at nothing is the failure mode of this system, so it
+ *     gets a check of its own — and the document stating that rule is not exempt from it.
  *   - REVIEW COVERAGE. A page that shipped without a Stage-9 review is a run the learning loop
  *     never saw. Nothing else notices, because the missing artefact is the evidence.
  *
@@ -46,7 +50,7 @@ const F = (m) => findings.fail.push(m), W = (m) => findings.warn.push(m), OK = (
 // means "not determined on this run", which is a different fact from a zero.
 const rec = {
   ts: null, fail: null, warn: null, ok: null,
-  register: null, skillRefs: null, claims: null, figures: null,
+  register: null, skillRefs: null, docRefs: null, claims: null, figures: null,
   totals: null, bundles: null, reviews: null, mistakes: null, unrouted: null,
 };
 const countOf = (out, label) => (out.match(new RegExp(`^\\s+${label}\\b`, 'gm')) ?? []).length;
@@ -110,6 +114,59 @@ for (const f of skillFiles) {
 // No skill files at all means the check could not run, which is not the same as "zero references
 // and all of them fine".
 if (skillFiles.length) rec.skillRefs = { resolve: refs - dangling, total: refs };
+
+/* 2b - dangling references in the GOVERNANCE DOCUMENTS.
+ *
+ * WHY THIS EXISTS. Check 2 above reads `.claude/skills/**` and nothing else. That left CLAUDE.md,
+ * SYSTEM.md, ROADMAP.md, DESIGN.md and handover/ with no dangling-reference reader at all — the
+ * documents that STATE the rule "every path resolves, or it does not exist" (SYSTEM.md §2) were the
+ * ones exempt from it. On 29 July 2026 a full system audit found six dead pointers across them
+ * (`outputs/md/abe-page-design-rules.md`, `../MIGRATION.md`, `../abe-rebuild-plan-review.md`, a
+ * root `HANDOVER.md`, an unqualified `references/usability-map.md`, and `demand-split --write`
+ * described as regenerating `handover/` when it writes `reports/`), every one of them through a
+ * clean health run. This is mistakes-log row 1 — "documentation describing the build drifted from
+ * the code and was trusted over it" — landing on the documents that describe the rules, which is
+ * the tenth sighting of that row and the second in a row on a governance document.
+ *
+ * COUNTED SEPARATELY from skill references, deliberately. Folding these into `skillRefs` would
+ * change what a logged field counts, and every earlier line in data/health-log.jsonl would silently
+ * start meaning something different. Same discipline as "null, never 0": a reader must never be
+ * able to compare two numbers that were computed over different sets.
+ *
+ * TWO RULES, because the failures had two shapes:
+ *   in-repo   a prefixed path that does not resolve      the six above, minus the two `../` ones
+ *   escaping  any `../` path, resolvable or not          SYSTEM.md §2's "One home" — the repo is
+ *                                                        the single source, so a document that
+ *                                                        points outside it is a finding even when
+ *                                                        the file happens to exist on that machine
+ */
+const DOC_FILES = ['CLAUDE.md', 'SYSTEM.md', 'ROADMAP.md', 'DESIGN.md', 'README.md', ...walk('handover', '.md')];
+/* Paths that are correct AND deliberately absent from a clean checkout. Exempt by prefix, with the
+   reason stated, so the exception is visible rather than being a silent hole in the check. */
+const DOC_REF_EXEMPT = new Map([
+  ['reports/', 'derived view, gitignored — regenerated on demand by scripts/demand-split.mjs --write'],
+  ['business data/', 'ABE commercial search and LearnWorlds data, deliberately never committed (see .gitignore)'],
+  ['data/GSC/', 'the superseded GSC path — still named in historical records; exports moved to business data/GSC/ on ~28 Jul 2026'],
+]);
+let docRefs = 0, docDangling = 0;
+for (const f of DOC_FILES.filter((x) => existsSync(x))) {
+  const src = readFileSync(f, 'utf8');
+  for (const m of src.matchAll(/`((?:\.\.\/|(?:kb|scripts|src|data|skill-reviews|pipeline|handover|public|worker|new site|\.claude|\.github)\/)[A-Za-z0-9 ._\/-]+\.(?:md|ts|mjs|js|astro|json|jsonl|csv|txt))`/g)) {
+    const p = m[1];
+    if (p.includes('{') || p.includes('*')) continue;              // templated paths are not literal
+    if ([...DOC_REF_EXEMPT.keys()].some((k) => p.startsWith(k))) continue;
+    docRefs++;
+    if (p.startsWith('../')) {
+      docDangling++;
+      F(`Reference escaping the repo in ${f}: \`${p}\` — SYSTEM.md §2 "One home": the repo is the single source, so nothing may point outside it. Bring the file in, or drop the pointer.`);
+    } else if (!existsSync(p)) {
+      docDangling++;
+      F(`Dangling reference in ${f}: \`${p}\``);
+    }
+  }
+}
+(docDangling ? W : OK)(`Governance-doc references: ${docRefs - docDangling}/${docRefs} resolve`);
+if (docRefs) rec.docRefs = { resolve: docRefs - docDangling, total: docRefs };
 
 // 3 - review coverage: every built page should have a Stage-9 review
 const slugs = new Set();
@@ -199,12 +256,20 @@ if (existsSync('kb/mistakes-log.md')) {
 // 5b - unrouted demand items. A demand-list item with no valid [destination] tag reaches no handover
 // note (scripts/demand-split.mjs), which is the same failure class as a page shipped without a review:
 // something the learning loop never sees. WARN, never FAIL. null (not 0) when there are no reviews yet.
-const DEST = new Set(['skills', 'design', 'facts']);
+const DEST = new Set(['skills', 'design', 'facts', 'build']);   // one per session type — keep in step with demand-split.mjs
 if (existsSync('skill-reviews')) {
-  const reviewFiles = readdirSync('skill-reviews').filter((x) => x.endsWith('.md') && !x.startsWith('_'));
+  /* RECURSIVE, like demand-split's traversal and unlike the review-coverage scan above. This counter
+     must see exactly what demand-split routes, or it reports a clean number about a different set:
+     it read `skill-reviews/` flat until 29 Jul 2026 and logged `unrouted: 0` into every health record
+     while two `[build]`-tagged items sat unroutable in `skill-reviews/design/`. A subdirectory comes
+     back from readdirSync as a bare name, which `.endsWith('.md')` drops silently. See mistakes-log
+     row 24. Review COVERAGE above stays flat on purpose — it counts graded pages, and a design or
+     skills review grades none. */
+  const reviewFiles = walk('skill-reviews', '.md')
+    .filter((p) => !p.split(/[\\/]/).pop().startsWith('_'));
   let unrouted = 0, tagged = 0;
   for (const f of reviewFiles) {
-    const lines = readFileSync(join('skill-reviews', f), 'utf8').split('\n');
+    const lines = readFileSync(f, 'utf8').split('\n');
     const start = lines.findIndex((l) => /^#{1,6}\s*demand list\b/i.test(l));
     if (start === -1) continue;
     for (const line of lines.slice(start + 1)) {
@@ -219,7 +284,7 @@ if (existsSync('skill-reviews')) {
   rec.unrouted = reviewFiles.length ? unrouted : null;
   if (reviewFiles.length)
     (unrouted ? W : OK)(`Unrouted demand items: ${unrouted}${unrouted
-      ? ' — add a valid [skills|design|facts] tag; run scripts/demand-split.mjs'
+      ? ' — add a valid [skills|design|facts|build] tag; run scripts/demand-split.mjs'
       : ` (${tagged} tagged item(s) all route)`}`);
 }
 
