@@ -30,6 +30,7 @@
  */
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { slugArg, bySlug, slugNote } from './lib/slug-filter.mjs';
 
 const ROOT = join(import.meta.dirname, '..');
 const DIST = join(ROOT, 'dist');
@@ -197,8 +198,11 @@ for (const [p, pages] of learnworlds) {
 // one fix, and printing it 19 times is how a check stops being read (ROADMAP recording policy).
 const dedupe = (xs) => [...new Set(xs)].sort();
 console.log('\n=== Internal link resolution ===\n');
-for (const w of dedupe(warns)) console.log(`  WARN  ${w}`);
-for (const f of dedupe(fails)) console.log(`  FAIL  ${f}`);
+const SLUG = slugArg();
+const shownW = bySlug(dedupe(warns), SLUG), shownF = bySlug(dedupe(fails), SLUG);
+for (const w of shownW) console.log(`  WARN  ${w}`);
+for (const f of shownF) console.log(`  FAIL  ${f}`);
+if (SLUG) console.log(slugNote(SLUG, shownW.length + shownF.length, dedupe(warns).length + dedupe(fails).length));
 if (!fails.length) console.log(`  OK    ${checked} same-origin link(s) resolve (${plannedHits.size} to explicitly planned page(s))`);
 console.log(`\n  ${fails.length} failing, ${warns.length} warning\n`);
 process.exit(0);

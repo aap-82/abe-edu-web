@@ -31,10 +31,12 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
+import { slugArg, bySlug, slugNote } from './lib/slug-filter.mjs';
 
 const PIPELINE = 'pipeline';
 const DIST = 'dist';
 const STRICT = process.argv.includes('--strict');
+const SLUG = slugArg();
 
 /** The artefact set. Keyed by prefix so a renamed suffix still matches. */
 const REQUIRED = [
@@ -237,11 +239,51 @@ for (const slug of slugs) {
   }
 }
 
+// ---------------------------------------------------------------------------------------------
+// 5 . VERIFICATION SCOPE. A verification's scope is part of what it certifies.
+//
+// Stage 7 mandates three sub-skill audits by name. On the cpd-building-tas run the fresh subagent
+// did the structural, schema, authority and pipeline checks, silently omitted all three, and still
+// certified GREEN; the omission surfaced only because the person asked, and running them then found
+// a real page defect (an ASQA disclosure block at ~135 CPL). See kb/mistakes-log.md #14.
+//
+// It then recurred. The demand lists of cpd-building-tas, white-card-tas, white-card-wa and the WA
+// readability review each filed it — FOUR occurrences, the most-repeated item in the whole review
+// corpus — while #14's guard stayed prose, and prose is what row 18 of the same log says is not a
+// method change. This is that item finally getting a mechanism.
+//
+// WHAT IS ASSERTED, and what deliberately is not. Only that each audit is NAMED in 07. That is the
+// difference between an audit considered and an audit forgotten, and it is the whole of the failure:
+// every 07 that names them dispositions them honestly, either with a section of measured findings or
+// under a "Not run, and why" heading with a reason. Whether the reason is GOOD is a human judgement
+// and is left to one - a check that tried to grade the reason would be guessing. What no human was
+// reliably doing is noticing a name that is simply absent, which is mechanical, so that is the part
+// mechanised. Absence of a check must be as loud as a failed one.
+// ---------------------------------------------------------------------------------------------
+const REQUIRED_AUDITS = ['abe-readability-audit', 'final-check', 'ai-detector'];
+
+for (const slug of slugs) {
+  const vdir = join(PIPELINE, slug);
+  const ver = readdirSync(vdir).find((f) => f.startsWith('07-'));
+  if (!ver) continue;                       // artefact completeness is check 1's job, not this one
+  const src = readFileSync(join(vdir, ver), 'utf8');
+  const missing = REQUIRED_AUDITS.filter((a) => !src.includes(a));
+  if (missing.length) {
+    fails.push(slug + ': 07 never names ' + missing.length + ' mandated audit(s): ' + missing.join(', ') +
+      '. Stage 7 must report every required audit as run-or-not - a GREEN with one absent is a FAIL, not a pass. ' +
+      'If it was deliberately skipped, say so and why under a "Not run, and why" heading; that is a disposition and it passes.');
+  } else {
+    oks.push(slug + ': 07 dispositions all ' + REQUIRED_AUDITS.length + ' mandated audits');
+  }
+}
+
 
 console.log('=== Pipeline conformance ===\n');
-for (const f of fails) console.log(`  FAIL  ${f}`);
-for (const w of warns) console.log(`  WARN  ${w}`);
-for (const o of oks) console.log(`  OK    ${o}`);
+const shown = [bySlug(fails, SLUG), bySlug(warns, SLUG), bySlug(oks, SLUG)];
+for (const f of shown[0]) console.log(`  FAIL  ${f}`);
+for (const w of shown[1]) console.log(`  WARN  ${w}`);
+for (const o of shown[2]) console.log(`  OK    ${o}`);
+if (SLUG) console.log(slugNote(SLUG, shown.flat().length, fails.length + warns.length + oks.length));
 console.log(`\n  ${fails.length} failing, ${warns.length} warning, ${oks.length} ok`);
 
 if (fails.length && STRICT) process.exit(1);

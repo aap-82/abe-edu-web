@@ -2,7 +2,7 @@
 
 **When to read:** Step 4 (writing) and Step 6 (pre-production) for any course page. Applies to Owner Builder, ASQA-accredited (White Card), and CPD pages.
 
-**Provenance:** distilled from `COURSE-PAGE-CONTENT-TEMPLATE.md` v1.13 (17 June 2026), the working template behind the QLD Owner Builder reference build. Companions: `COURSE-PAGE-DESIGN-PRINCIPLES.md` (how it looks), `COURSE-PAGE-READABILITY.md` (format-time rules).
+**Standing:** this is the **legacy** page-shape layer, distilled from a QLD-derived working template that is no longer in the repo. **`references/archetypes/NN-*.md` is canonical for page shape** — Stage 3 routes there, they are per-archetype, and they are the newer layer. Read this one for the hero stack and the section-by-section reasoning it still carries better than anywhere else; where the two disagree, the archetype wins. (The three provenance pointers here named files that no longer exist and were removed 29 Jul 2026.)
 
 **Authority gate:** every section below is subject to `authority-model.md`. ABE is not an RTO. State-approved courses carry no "accredited" / "qualification" / "statement of attainment" language; the award is a Certificate of Completion. RTO-partner pages carry the ASQA disclosure per `asqa-disclosure-framework.md`.
 
@@ -157,4 +157,4 @@ Data strip, trust band, and closing CTA **punctuate** the arc rather than advanc
 
 ---
 
-**Verified:** 2026-07-12 · **Re-verify:** when the template (`COURSE-PAGE-CONTENT-TEMPLATE.md`) changes version, or on the standard skill audit cadence.
+**Verified:** 2026-07-12 · **Re-verify:** when `references/archetypes/` changes the section set for an archetype, or on the standard skill audit cadence. (The old trigger fired on a template version that no longer exists, so it could never fire.)

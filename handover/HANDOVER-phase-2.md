@@ -1,5 +1,13 @@
 # Handover — Phase 2: the evidence run
 
+## Status: closed (verified 29 Jul 2026 by the system audit)
+
+Phase 2 ran and is recorded in `ROADMAP.md` as done, verdict Amber; two further evidence runs closed
+the authority-model set. Its reviews are `skill-reviews/2026-07-23-*`. Kept as the brief that produced
+them, not as a task list. **One instruction below has gone stale:** Stage 2 says the GSC exports are in
+`data/gsc/`. They are in **`business data/GSC/`** (note the space), gitignored, and never committed —
+see `CLAUDE.md` → Knowledge base and pipeline conventions.
+
 For Claude Code in `C:\dev\abe-web` on `main`. Self-contained. This is a long session — plan for it.
 
 Read `ROADMAP.md` first if it is in the repo.

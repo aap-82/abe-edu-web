@@ -1,5 +1,11 @@
 # Handover — small fixes (figures without a source)
 
+## Status: closed (verified 29 Jul 2026 by the system audit)
+
+`node scripts/check-claims.mjs` now reports **0 failing, 0 warning, 11 ok** — the eight warnings this
+note was written to clear are gone, and the check has since grown from four sections to seven. Every
+figure named below now has an owner. Kept for the rule it states, not as a task list.
+
 For Claude Code in `C:\dev\abe-web` on `main`. Self-contained. Short session.
 
 `node scripts/check-claims.mjs` is down to 8 warnings and 0 FAIL. This clears the remaining 8. None
