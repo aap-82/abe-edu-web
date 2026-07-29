@@ -510,6 +510,66 @@ if (nameHits.length) {
   oks.push('Company name: no bare "ABE" in reader-facing content');
 }
 
+/* ---- 7. SYSTEM.md §5 names every check that exists ---------------------- */
+/* WHY THIS EXISTS. SYSTEM.md is the standing design reference, and its §5 is the list of how the
+   system knows it is working. On 29 July 2026 that list named five checks while eleven were
+   running. Absent from it: `check-assets` (a prebuild gate that had caught a real untracked-hero
+   404 two commits earlier), `check-redirect-targets`, `check-shipped`, `check-pipeline`,
+   `prose-lint` and `check-links`.
+
+   Nothing could have caught it. `system-health` resolves the paths a SKILL points at; §1 above
+   checks a hand-curated list of claims about the code. Neither reads SYSTEM.md, so the document
+   describing the check system had no check of its own — SYSTEM.md §2's "every recorded thing has
+   a reader" failing on SYSTEM.md. The mistakes log had recorded "documentation describing the
+   build drifted from the code and was trusted over it" eight times before this one; this is that
+   risk landing on the document meant to explain the rules.
+
+   BOTH DIRECTIONS, because a claim about a set has to constrain the whole set or it cannot
+   detect an addition — the same lesson as the five-collections claim in §1:
+     forward   a check script not named in §5 fails   catches a check added, doc not updated
+     reverse   a name in §5 with no script fails      catches a check renamed or deleted
+
+   Exempt scripts are generators and utilities, not checks. Exempt means "need not be named",
+   not "may not be named": §5 currently names all four so its list is exhaustive, and the reverse
+   direction still holds them to existing. */
+const CHECK_EXEMPT = new Map([
+  ['generate-redirects', 'generator — the only writer of public/_redirects'],
+  ['demand-split',       'derived view — renders handover notes from demand lists'],
+  ['health-log-dedupe',  'log maintenance — collapses identical health records'],
+  ['sync-cpd-register',  'manual data sync, kept outside prebuild so the build stays hermetic'],
+]);
+/* A backticked token in §5 that is lowercase and hyphenated is read as a script reference. Every
+   such token in §5 today is one. Add a term here only if §5 ever needs to backtick a hyphenated
+   word that is not a script, so the exception is visible rather than loosening the pattern. */
+const NOT_A_SCRIPT_REF = new Set([]);
+
+if (!existsSync('SYSTEM.md')) {
+  warns.push('SYSTEM.md not found — its §5 check list is unverified. Run this from the repo root.');
+} else {
+  const s5 = (readFileSync('SYSTEM.md', 'utf8').match(/\n## 5\.[\s\S]*?(?=\n## |\s*$)/) || [])[0];
+  if (!s5) {
+    fails.push('SYSTEM.md has no "## 5." section, so its check list cannot be verified. If the section was renumbered, update the selector in scripts/check-claims.mjs §7 to match.');
+  } else {
+    const scripts = readdirSync('scripts').filter((f) => f.endsWith('.mjs')).map((f) => f.slice(0, -4));
+    const named = new Set([...s5.matchAll(/`([^`]+)`/g)]
+      .map((m) => m[1].trim().replace(/\.mjs$/, ''))
+      .filter((t) => /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/.test(t) && !NOT_A_SCRIPT_REF.has(t)));
+
+    const missing = scripts.filter((s) => !CHECK_EXEMPT.has(s) && !named.has(s));
+    const dangling = [...named].filter((t) => !scripts.includes(t));
+
+    if (missing.length) {
+      fails.push(`SYSTEM.md §5 does not name ${missing.length} check(s) that run: ${missing.join(', ')}. §5 is the standing list of how the system knows it is working, so a check missing from it is invisible to every session that reads the document instead of scripts/. Name it there, or add it to CHECK_EXEMPT in scripts/check-claims.mjs with a reason if it is not a check.`);
+    }
+    if (dangling.length) {
+      fails.push(`SYSTEM.md §5 names ${dangling.length} script(s) that do not exist: ${dangling.join(', ')}. A pointer at nothing is the failure mode this system is most prone to (SYSTEM.md §2). Fix the name, delete the line, or add the term to NOT_A_SCRIPT_REF if it is not a script reference.`);
+    }
+    if (!missing.length && !dangling.length) {
+      oks.push(`SYSTEM.md §5: names all ${scripts.length - CHECK_EXEMPT.size} check(s) that run, ${CHECK_EXEMPT.size} utility script(s) exempt`);
+    }
+  }
+}
+
 
 for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) for (const m of xs) console.log(`  ${l.padEnd(5)} ${m}`);
 
