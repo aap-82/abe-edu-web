@@ -953,3 +953,170 @@ happened.
 `ClaudeCode/white-card-wa-citation-fixes` was deleted after this reconciliation. Everything on it is
 either applied, superseded, or deliberately withdrawn - the em-dash relabelling is withdrawn per
 `05-components.md`, and its own `07d` section is duplicative of the design review and of `07f`.
+
+---
+
+# 07d · The three mandated sub-skill audits — run 30 July 2026
+
+**Why this section exists.** Stage 7 mandates `abe-readability-audit`, `final-check` and `ai-detector`
+by name. On this run they were never run and never recorded as not-run, which the Stage-9 grader
+caught and filed as the **third consecutive occurrence** (`cpd-building-tas`, `white-card-tas`,
+`white-card-wa`). `kb/mistakes-log.md` #14 had carried a prose guard for it since 23 July and prose
+did not hold. `check-pipeline.mjs` §5 now FAILs any slug whose `07` does not name all three, and this
+page was its first and only FAIL. This section clears it by **running them**, not by dispositioning
+them away: the escape hatch exists for a deliberate skip, and using it on the third silent skip would
+be the wrong use of it.
+
+Disposition: **all three RUN.** Measured values below, never ticks.
+
+## 1 · `abe-readability-audit` — RUN
+
+**Tooling caveat, recorded because it invalidates a naive run.** The skill's `audit_render.py` loads
+its target as `file://`. This site's stylesheet is a **root-absolute** path (`/_astro/….css`), which
+over `file://` resolves to the filesystem root and never loads, so the probe measures a completely
+**unstyled** page. Run that way it reported 4 FAILs (158 CPL, white-on-white text, `a.btn-primary` at
+185x17px) and every one was an artefact of missing CSS. Serve `dist/` over HTTP and pass the URL
+instead; the script already accepts one (`if "://" not in target`). Both runs are recorded so the
+difference is visible rather than asserted.
+
+| | `file://` (unstyled) | `http://` (correct) |
+|---|---|---|
+| Desktop measure | 158 CPL | 135 CPL on the widest paragraph |
+| Tap targets | 6 elements failing | 1 (`button.burger-btn` 40x20px) |
+| Live contrast | 1 failing | 3 failing, 1 of them a false positive |
+| Horizontal overflow 320/360/390 | pass | pass |
+
+**Static lint (`audit_static.py`): 0 FAIL, 4 FLAG, 10 checks.** Three FLAGs are "not found" results
+caused by the tokens living in an external stylesheet the static scan does not follow. The real one:
+**9 declarations below the 12px floor**, smallest 9.5px (`.ht-rail`), plus `.ht-eyebrow` and `.ht-n`
+at 10px, `.bt-sub` at 10px, `.pagebar .crumbs li` and `.pagebar .reviewed` at 11px.
+
+**Measured over HTTP at 1280px. Every paragraph over the 85 CPL hard rule:**
+
+| CPL | Element | Size | `max-width` | What it is |
+|---|---|---|---|---|
+| **180** | `p.pl-disc` in `div.partner` | 12px | **none** | the ASQA partner disclosure |
+| **135** | unclassed `p` in `div.wrap` | 17px | **none** | the ABN / authorised-publisher line |
+| 101 | unclassed `p` in `div.f-pub` | 13px | none | footer enrolment note |
+| 101 | `p.f-asqa` | 12px | 607px | footer ASQA disclosure |
+| 91 | `p.capsule` x2 | 18px | 820px | answer capsules |
+
+**The 180 CPL disclosure is a repeat, not a novelty.** The first time these audits were skipped
+(`cpd-building-tas`) and then run, what they found was an ASQA disclosure block at ~135 CPL. The same
+component class has recurred here at 180 CPL. `.pl-disc` was already on the demand list from
+`design/2026-07-28-footnote-component.md` for being left on its own 12px definition; this is the
+measured consequence of that.
+
+**Live contrast, each verified individually rather than taken from the probe:**
+
+- **FALSE POSITIVE** — `p.capsule.on-dark` reported at 1:1. Its real ancestor is `section.sec.bg-dark`
+  at `rgb(26,26,26)`; white at 92% on near-black is roughly **15:1**. The probe resolves only the
+  immediate parent (`div.wrap`, transparent) and defaults to white. Verified by walking the
+  computed-style chain.
+- **REAL** — `rgb(154,154,154)` on `rgb(251,249,245)` at 13px = **2.68:1** (needs 4.5). Footer "About".
+- **REAL** — `rgba(255,255,255,0.4)` on `rgb(26,26,26)` at 11px = **3.81:1** (needs 4.5). The
+  "Sources" label.
+
+**Tap target:** `button.burger-btn` is **40x20px** at 390px (padding 9px, `min-height:auto`). Under
+both the 44px primary target and the 24px minimum. Real.
+
+**Passes:** no horizontal overflow at 320, 360 or 390px; mobile measure 39 CPL; one `<h1>`;
+`lang="en-AU"`; all 4 images carry alt; no justified or multi-column prose; reading column capped.
+
+**Scoring note.** Every failure above is **sitewide chrome or a shared component**, not page copy.
+None is fixable in a build session and none is specific to `/white-card-wa`. They route to `design`.
+
+## 2 · `final-check` — RUN
+
+| # | Check | Status |
+|---|---|---|
+| 1 | Contradictions | **PASS**, with one register conflict resolved in the page's favour (below) |
+| 2 | Duplicate / repeated information | **FAIL** |
+| 3 | Logical flow | PASS |
+| 4 | Logical grouping | PASS |
+| 5 | Australian English | PASS |
+| 6 | AI writing patterns | PASS |
+
+**Check 2 — FAIL. Two paragraphs render verbatim twice**, once from `PartnerDisclosure` and again
+from the `Credentials` organisation card:
+
+- "Blue Dog Training develops, delivers and assesses the nationally recognised White Card unit
+  CPCWHS1001, and issues the Statement of Attainment on completion."
+- "ABE Education publishes the course, takes your enrolment and provides student support. It is not a
+  registered training organisation, and it does not deliver training, conduct assessment or issue
+  qualifications."
+
+This is the **third independent filing** of the duplicate-partner-blurb item and the first time it has
+been caught by a copy check rather than a design read. Already on the demand list; this run raises its
+evidence, not its count.
+
+**Check 1 — the register conflict, and why the page wins.** `kb/register/eligibility-by-state.md`
+records the WA sufficient-knowledge test as "must hold a general construction induction card **and**
+either ...", i.e. a mandatory card plus one of three. The page says "four ways ... at least one
+applicant must satisfy one of them", and that a currently registered WA building practitioner needs
+neither the course nor the card. These are materially different, and on a live indexed page that is
+mistakes-log **#21**'s exact shape.
+
+**It is the register that is stale.** The page's own provenance comment records the reasoning: it is
+**sourced to Form 75 page 5**, the instrument the applicant signs, read at source 28 Jul 2026, and it
+states that the regulator's *web page* summary is wrong and self-contradictory, collapsing the Form's
+pathway 2 and dropping the five-year bound on pathway 4. The register entry was built from that web
+page on 22 Jul. Per mistakes-log #13, a file-level verified date is not per-claim provenance, and the
+primary instrument beats the guidance page. **Routed `[facts]`: re-verify the register against Form 75
+page 5.** No page change.
+
+Recording this deliberately: the first read of this conflict pointed at the page, and reporting it
+that way would have proposed removing correct, sourced content from a live page and writing the
+falsehood into the register, which is **mistakes-log #18 verbatim**. The comment in the MDX is what
+prevented it.
+
+**Check 5 — Australian English: clean.** `licence` correct as a noun ("a current Western Australian
+driver's licence"); `recognised`, `organisation`, `authorised` throughout; no `-ize` forms, no
+American vocabulary, no instance of "comprehensive".
+
+## 3 · `ai-detector` — RUN
+
+**Assessment: high confidence human-authored.** Body prose, 2,410 words.
+
+**Indicators found: one, and it is minor.** Three "worth" constructions ("it is worth knowing", "it is
+worth understanding why it is there", "That is worth saying plainly"). A stylistic tic rather than the
+hedging formula, and under the threshold for that family. **No** "delve", "leverage", "comprehensive",
+"robust", "furthermore", "moreover", "it is important to note", and no meta-commentary.
+
+**Human markers, strong and numerous:**
+
+- Takes positions: "That number is the thing worth checking, and we would rather you did."; "If a
+  provider selling you a White Card cannot tell you which registered training organisation stands
+  behind it, that is your answer."
+- Insider knowledge: "Landscaping is the one that catches people out"; the observation that several
+  other states require in-person lodgement, which is what makes WA's absence of a second payment worth
+  stating at all.
+- Concrete specificity rather than generic filler: regulation 289, Form 75 page 5, RTO 31193 running to
+  20 March 2030, $99 / $179 / $278, two to six hours, fifteen to thirty minutes, the 2009 blue-to-white
+  design change, "a camp in the Pilbara".
+- Uneven emphasis: the live-assessment section argues a case at length while the blue-card section is
+  two sentences. AI-typical copy gives sections equal weight.
+
+**Recommendation: keep as is.** No rewrite indicated.
+
+## Findings and routing
+
+Nothing found blocks this page or requires a content change. Every defect is a shared component, page
+chrome, or one register entry.
+
+- `[design]` `.pl-disc` (ASQA partner disclosure) renders at **180 CPL** with `max-width: none`. Worst
+  measure on the page, and a recurrence of the defect the first run of these audits found.
+- `[design]` The unclassed ABN / authorised-publisher paragraph renders at **135 CPL**, no cap.
+- `[design]` Footer "About" link at **2.68:1** and the "Sources" label at **3.81:1**, both below AA.
+- `[design]` `button.burger-btn` is **40x20px**, under the 44px target.
+- `[design]` Nine type declarations below the 12px floor, smallest 9.5px.
+- `[design]` Partner blurb duplicated verbatim. Third filing, first from a copy check.
+- `[facts]` `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
+  regulator's web summary. Re-verify against **Form 75 page 5** and record the four numbered pathways.
+- `[skills]` `audit_render.py` must be given an **HTTP URL**, not a path, or it silently measures an
+  unstyled page and returns four false FAILs. Belongs in `references/verification.md`.
+
+## Ship decision
+
+**No change to `/white-card-wa`.** The page passes all three audits on its own copy and structure. The
+Stage-7 record is now complete and `check-pipeline` §5 passes for this slug.
