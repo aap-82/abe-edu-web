@@ -74,8 +74,14 @@ function demandSection(body) {
 /**
  * `- [skills] text` -> { destination, text }. Unrecognised tags route to null.
  * Accepts unordered (`-`/`*`) and ordered (`1.`/`1)`) markers: real reviews use both, and a
- * numbered demand list is still a demand list. Only the lead line of a wrapped item is parsed;
- * continuation lines have no marker and are correctly ignored.
+ * numbered demand list is still a demand list.
+ *
+ * Expects an item ALREADY COALESCED by joinWrapped() below. Until 29 Jul 2026 this read only the
+ * lead line and called dropping the rest "correct", which it is not: a demand item wrapped at 100
+ * columns lost everything after the first line, so the handover note rendered half a sentence and
+ * repeat detection keyed on a fragment. The dead-Login-anchor item truncated at "is a dead",
+ * putting every discriminating word — anchor, site, chrome, page — on a line nothing read, which is
+ * why it never paired with the same complaint filed a day earlier.
  */
 function parseItem(line) {
   const m = line.match(/^\s*(?:[-*]|\d+[.)])\s*\[([^\]]*)\]\s*(.+?)\s*$/);
@@ -83,7 +89,42 @@ function parseItem(line) {
   const tag = m[1].trim().toLowerCase();
   const text = m[2].trim();
   if (!text) return null;
+  if (isPlaceholder(text)) return null;
   return { destination: DESTINATIONS.includes(tag) ? tag : null, rawTag: tag, text };
+}
+
+/**
+ * `- [skills] none.` is the ABSENCE of an item, not an item. Reviews write it so a reader can tell
+ * "this destination was considered and is empty" from "this destination was forgotten", which is a
+ * real distinction and worth keeping in the review.
+ *
+ * It must not survive into the routing. Six reviews wrote it, so "none." repeated across runs and
+ * was promoted to "Trigger met — these have earned action" in both handover-skills.md and
+ * handover-facts.md: the tool was reporting the absence of work as the most-repeated work. It also
+ * inflated every item count by six.
+ *
+ * Matched narrowly and anchored. "none of the four states publishes a figure" is a real item and
+ * must not be swallowed by a loose test — the failure this guard prevents is a placeholder counted
+ * as work, and swallowing a real item would be the worse mistake in the other direction.
+ */
+const isPlaceholder = (text) =>
+  /^(none|n\/?a|nil|nothing)\b[\s.—-]*$/i.test(text.replace(/\*+/g, '').trim());
+
+/**
+ * Fold continuation lines back into the item they belong to.
+ *
+ * A demand item wrapped across several lines is one item. A line that carries no list marker is a
+ * continuation of the item above it, exactly as Markdown renders it. Blank lines end an item.
+ */
+function joinWrapped(lines) {
+  const MARKER = /^\s*(?:[-*]|\d+[.)])\s/;
+  const out = [];
+  for (const line of lines) {
+    if (MARKER.test(line)) out.push(line.trimEnd());
+    else if (line.trim() && out.length) out[out.length - 1] += ` ${line.trim()}`;
+    else if (!line.trim()) out.push('');            // blank line closes the current item
+  }
+  return out;
 }
 
 /**
@@ -98,11 +139,43 @@ const STOPWORDS = new Set([
 ]);
 
 /**
- * Normalise for repeat detection: lowercase, drop code spans, punctuation and
- * filler, keep order, cap the key so a long tail cannot split two phrasings of
- * the same complaint into separate items.
+ * Normalise for repeat detection.
+ *
+ * CODE SPANS ARE KEPT, not stripped — this was backwards until 29 Jul 2026 and it is what made the
+ * detector miss real repeats. `SiteHeader.astro`, `Note.astro`, `--paper-alt`, `PartnerDisclosure`
+ * are the most identifying tokens a demand item has; the surrounding prose is the part that varies
+ * between two people describing the same defect. Stripping the identifier and keying on the prose
+ * keeps exactly the wrong half.
+ *
+ * Measured on the real corpus: the dead `Login` anchor is filed in two reviews and reduced to
+ * `site header dead anchor needs destination` and `dead anchor site chrome every page filed again`
+ * — two keys, no repeat detected, while the destination note said "No item has recurred yet". The
+ * partner-blurb duplication (three filings) and the VerifiedSources new-tab decision (two) failed
+ * the same way. The whole second-occurrence rule in ROADMAP runs on these counts.
+ *
+ * Identifiers are also SORTED ahead of the prose, so two items that name the same file agree on
+ * their key prefix regardless of where in the sentence each mentioned it.
  */
 function normalise(text) {
+  // Path- and symbol-like tokens from inside code spans, deduped and sorted: the stable half.
+  const ids = [...new Set(
+    [...text.matchAll(/`([^`]+)`/g)]
+      .flatMap((m) => m[1].toLowerCase().match(/[a-z0-9][a-z0-9._/-]*[a-z0-9]/g) ?? [])
+      .filter((t) => t.length > 2 && !STOPWORDS.has(t)),
+  )].sort();
+  const prose = text
+    .toLowerCase()
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/[^a-z0-9 ]+/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !STOPWORDS.has(w))
+    .slice(0, 6);
+  return [...ids, ...prose].join(' ');
+}
+
+/** The pre-29-Jul key: prose only, code spans discarded. Kept so a rekeying cannot silently drop a
+ *  pairing the old scheme did catch — see the union in the bucketing below. */
+function normaliseProseOnly(text) {
   return text
     .toLowerCase()
     .replace(/`[^`]*`/g, ' ')
@@ -145,7 +218,7 @@ async function loadReviews() {
   for (const file of files) {
     const raw = await readFile(path.join(REVIEW_DIR, file), 'utf8');
     const { meta, body } = splitFrontmatter(raw);
-    const items = demandSection(body).map(parseItem).filter(Boolean);
+    const items = joinWrapped(demandSection(body)).map(parseItem).filter(Boolean);
     reviews.push({
       file,
       date: meta.date || file.slice(0, 10),
@@ -205,6 +278,65 @@ function render(destination, entries, reviews, mistakes) {
   }
   lines.push('');
 
+  /* NEAR MISSES. Two single-occurrence items that name the same file or component are probably one
+     complaint written twice, but "probably" is not a count, and a detector that silently promoted
+     them would be guessing at the exact gate — ROADMAP rule 3 — where guessing is most expensive.
+     So they are surfaced for a person to confirm or reject, and are NOT counted as triggered.
+     A repeat the tool cannot see is worse than one it flags and gets wrong: the first is invisible,
+     the second is a question. */
+  const idsOf = (t) => new Set(
+    [...t.matchAll(/`([^`]+)`/g)]
+      .flatMap((m) => m[1].toLowerCase().match(/[a-z0-9][a-z0-9._/-]*\.(?:astro|ts|mjs|mdx|css|json|md)|[a-z0-9-]{4,}/g) ?? [])
+      .filter((x) => !STOPWORDS.has(x)),
+  );
+  const wordsOf = (t) => new Set(
+    t.toLowerCase().replace(/`[^`]*`/g, ' ').replace(/[^a-z0-9 ]+/g, ' ')
+      .split(/\s+/).filter((w) => w.length > 3 && !STOPWORDS.has(w)),
+  );
+  /* A shared identifier ALONE is not evidence. `global.css` and `PartnerDisclosure` appear in many
+     unrelated items, so pairing on identity alone produced 30+ pairs here, nearly all spurious — and
+     a check that produces more noise than signal is a defect in the check, not a finding (SYSTEM.md
+     §5, the 93-warning lesson). Requiring shared PROSE as well is what separates "two items about
+     the same file" from "two items about the same defect": the two partner-blurb filings share
+     `blurb renders twice asqa page`, while the `.note` max-width item and the reduced-motion guard
+     share only the filename. The threshold is printed with the output so the next reader can see
+     whether it is still earning its place rather than taking it on trust. */
+  /* An ABSOLUTE word count does not survive a change in item length, and item length just changed:
+     coalescing wrapped items roughly doubled the average item, and a fixed threshold of 3 went from
+     4 pairs to 26 overnight without a single new repeat existing. Long items share words by chance.
+     So the test is a RATIO against the shorter item — what fraction of the smaller item's content
+     the two have in common — with a small absolute floor so two three-word items cannot pair on one
+     coincidence. Both numbers are printed with the output. */
+  const MIN_SHARED_WORDS = 3;
+  const MIN_OVERLAP = 0.35;
+  const nearMisses = [];
+  for (let i = 0; i < single.length; i++) {
+    for (let j = i + 1; j < single.length; j++) {
+      const shared = [...idsOf(single[i].text)].filter((x) => idsOf(single[j].text).has(x));
+      if (!shared.length) continue;
+      const wi = wordsOf(single[i].text), wj = wordsOf(single[j].text);
+      const words = [...wi].filter((w) => wj.has(w));
+      if (words.length < MIN_SHARED_WORDS) continue;
+      if (words.length / Math.min(wi.size, wj.size) < MIN_OVERLAP) continue;
+      nearMisses.push({ a: single[i], b: single[j], shared, words });
+    }
+  }
+  if (nearMisses.length) {
+    lines.push('## Possible repeats — confirm by hand');
+    lines.push('');
+    lines.push(`Each pair is two single-occurrence items that name the same thing AND share at least`);
+    lines.push(`${MIN_SHARED_WORDS} content words, being >= ${Math.round(MIN_OVERLAP * 100)}% of the shorter item. If they are the same complaint,`);
+    lines.push('that is a second occurrence and the trigger has fired — merge them in the source reviews,');
+    lines.push('not here; this file is derived.');
+    lines.push('');
+    for (const { a, b, shared, words } of nearMisses) {
+      lines.push(`- shared: ${shared.map((s) => `\`${s}\``).join(', ')} · ${words.slice(0, 6).join(', ')}`);
+      lines.push(`  - ${a.text.slice(0, 110)} _(${a.runs[0]})_`);
+      lines.push(`  - ${b.text.slice(0, 110)} _(${b.runs[0]})_`);
+    }
+    lines.push('');
+  }
+
   lines.push('## Recorded once (no action yet)');
   lines.push('');
   if (single.length) {
@@ -252,19 +384,31 @@ async function main() {
         unrouted.push({ ...item, run: runLabel });
         continue;
       }
+      /* Two keys per item, and a match on EITHER merges. The identifier-led key catches the repeats
+         the prose-only key missed; keeping the prose-only key alongside it means the rekeying can
+         only ever add pairings, never silently drop one the old scheme caught. A change to how a
+         set is keyed is the same hazard as a change to how it is traversed (mistakes-log row 24) —
+         both quietly alter what the counts are counting. */
       const key = normalise(item.text) || item.text.toLowerCase();
+      const altKey = normaliseProseOnly(item.text) || item.text.toLowerCase();
       const bucket = buckets.get(item.destination);
-      const existing = bucket.get(key);
+      const existing = bucket.get(key) ?? bucket.get(altKey);
       if (existing) {
         existing.count += 1;
         existing.runs.push(runLabel);
+        existing.keys.add(key);
+        existing.keys.add(altKey);
+        for (const k of existing.keys) bucket.set(k, existing);   // both keys reach the merged entry
       } else {
-        bucket.set(key, {
+        const entry = {
           text: item.text,
           count: 1,
           runs: [runLabel],
-          mistakeCount: mistakes.get(key) || 0,
-        });
+          keys: new Set([key, altKey]),
+          mistakeCount: mistakes.get(key) || mistakes.get(altKey) || 0,
+        };
+        bucket.set(key, entry);
+        bucket.set(altKey, entry);
       }
     }
   }
@@ -272,7 +416,9 @@ async function main() {
   if (WRITE) await mkdir(OUT_DIR, { recursive: true });
 
   for (const destination of DESTINATIONS) {
-    const entries = [...buckets.get(destination).values()].sort(
+    // An entry is stored under both of its keys, so dedupe by object identity before listing —
+    // otherwise every item renders twice and the counts read as double what they are.
+    const entries = [...new Set(buckets.get(destination).values())].sort(
       (a, b) => b.count - a.count || a.text.localeCompare(b.text),
     );
     const note = render(destination, entries, reviews, mistakes);

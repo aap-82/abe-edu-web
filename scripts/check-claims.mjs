@@ -122,6 +122,13 @@ const CLAIMS = [
   { claim: 'demand routing is recursive over skill-reviews/, so design/ reviews are routed',
     source: 'scripts/demand-split.mjs',
     must: [/async function walkReviews/, /withFileTypes:\s*true/] },
+  // Three properties of the repeat counter that ROADMAP rule 3 depends on, each of which was false
+  // until 29 Jul 2026 and each of which fails silently — a miscounted repeat looks exactly like a
+  // correct one. Asserted together because they are one mechanism: what counts as an item, how much
+  // of it is read, and how two phrasings of it are matched.
+  { claim: 'demand-split ignores none/n-a placeholders, coalesces wrapped items, and keeps code spans in the repeat key',
+    source: 'scripts/demand-split.mjs',
+    must: [/isPlaceholder/, /function joinWrapped/, /joinWrapped\(demandSection\(body\)\)/, /const ids = \[\.\.\.new Set\(/] },
   // CLAUDE.md states check-freshness "warns without blocking" on register staleness. That is true of
   // register staleness and false in general: a live, expired, still-sold CPD course exits 1 without
   // --strict. The doc asserted the general form until 29 Jul 2026.
