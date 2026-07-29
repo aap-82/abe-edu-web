@@ -88,11 +88,17 @@ hero:
     - { n: "2-6 hrs", text: "typical theory time" }
     - { n: "31193", text: "RTO partner" }
   howItWorks: "Enrol → Work through the theory online → Book your live assessment → Blue Dog issues your card"
-  # artefactImg deliberately omitted: the image does not exist in src/assets/images yet, and
-  # src/lib/images.ts returns an unmatched basename unchanged, which would ship a 404 <img>.
-  # Omitting keeps the designed FPO placeholder. Prompt + exact filename: 06-image-prompts.md.
-  artefactDesc: "A Western Australian construction worker in a high-visibility shirt and white hard hat on a Perth residential building site, holding their construction induction White Card."
+  # HERO SLOT CLOSED 29 Jul 2026. This half of B4 is done; the #assessment slot is still FPO.
+  # The asset is Slot 1 variant C from 06-image-prompts.md, the schematic line-art option, not the
+  # photographic variant A the original brief described. artefactDesc is rewritten to match what
+  # actually shipped rather than what was first briefed.
+  artefactDesc: "A maroon line drawing of a part-built single-storey Australian home: exposed roof trusses, framed walls and temporary site fencing, on a warm off-white ground."
   artefactSpec: "4:5 · warm tone · ~1000×1250"
+  artefactImg: "/images/white-card-wa-hero.avif"
+  # 117 chars, inside alt-text-guidelines CR2 (80-125). Purely descriptive: it does not claim this
+  # particular site requires a card, because that is a judgement the hero copy already makes and
+  # CR8 says not to restate surrounding text in alt.
+  artefactAlt: "Line drawing of a part-built single-storey home with exposed roof trusses behind temporary construction site fencing."
   # r45 = 4:5 portrait, matching the spec above and both owner builder heroes. WITHOUT this the Hero
   # defaults to r54 (5:4 LANDSCAPE, Hero.astro:22), so a 4:5 image renders inside a landscape box.
   artefactRatio: "r45"
@@ -251,7 +257,12 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <SectionWayfinder label="What the course covers" href="#covered" />
 </Section>
 
-<Section id="covered" marker="04" eyebrow="What you learn" h2="What does the White Card course actually cover?">
+{/* bg-alt, not the default band. Inserting this section between #online and #assessment, both of
+    which are default, left THREE default bands adjacent and flattened the page's rhythm. No sibling
+    page has even two adjacent defaults: white-card-tas runs d | alt | d | warm | d | alt | d | alt,
+    and QLD and TAS owner builder alternate the same way. An independent Stage 7 audit flagged the
+    two-in-a-row when this section landed; it was not acted on then, and it is fixed here. */}
+<Section bg="bg-alt" id="covered" marker="04" eyebrow="What you learn" h2="What does the White Card course actually cover?">
   <AnswerCapsule>Four things. The unit covers health and safety law on a construction site, how to spot hazards and control the risk, how safety information is communicated and reported, and what to do when something goes wrong. You also select and fit the protective equipment yourself, which is part of the assessment.</AnswerCapsule>
   <div class="measure">
     <BulletList

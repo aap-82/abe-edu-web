@@ -246,3 +246,50 @@ none of which CPCWHS1001 assesses.
 
 Whichever is chosen, closing a slot is unchanged: generate, save to `src/assets/images/` under the
 filename in that slot's section above, add the prop back, and use that variant's alt text verbatim.
+
+---
+
+## Slot 1 CLOSED, 29 July 2026 — variant C shipped
+
+**Asset:** `src/assets/images/white-card-wa-hero.avif`, supplied. **Variant C, the schematic line-art
+option**, not the photographic variant A the original brief described.
+
+**Specs, measured:** 1000 x 1250 native, 4:5, 61,894 B. Matches `artefactSpec` exactly, no resize.
+Variants 12.6 / 40.5 / 56.6 kB. Rendered `width=1000 height=1250 loading="eager" decoding="async"`,
+`sizes="(max-width: 800px) 100vw, 640px"`, box 499 x 623 at ratio 0.800 against a decoded 0.800, so
+distortion-free and identical in geometry to the QLD and TAS heroes.
+
+**What is in the frame:** a single-weight maroon line drawing of a part-built single-storey Australian
+home in three-quarter view: exposed roof trusses, framed walls, brick base, porch posts, a slab and
+temporary site fencing, with a tree and a neighbouring roofline behind, on a warm off-white ground.
+The upper left is empty ground, which is the negative space the hero heading needs, and is why
+variant C was written that way.
+
+**Alt text** (117 chars, CR2 80-125, en-AU)
+> Line drawing of a part-built single-storey home with exposed roof trusses behind temporary construction site fencing.
+
+Deliberately descriptive only. It does not claim this particular site requires a White Card: that is
+a judgement the hero copy already makes, and CR8 says alt must not restate surrounding text.
+`artefactDesc` was rewritten too, because the old one described the photographic variant A.
+
+**Guardrails it satisfies that variant A could not:** no text anywhere in the frame, nothing that
+renders as a credential, no person who could read as stock photography, and controllable negative
+space. On a page whose authority model forbids ABE Education appearing to deliver the training, an
+illustration carries less risk than a staged photograph of a trainer.
+
+### One open design question, raised when variant C was written and now live
+
+The line work is **maroon**, and DESIGN.md reserves maroon for actions, spent sparingly. This is the
+one place it appears decoratively, at hero scale. Variant C flagged that in advance:
+
+> "Maroon is the action accent, so this is the one place it appears decoratively; if that sits wrong,
+> specify `--ink` instead and treat it as a design decision rather than a prompt tweak."
+
+It is shipped as supplied and it reads well. Recording it as a **`[design]`** question rather than a
+defect: whether hero illustration may use the accent colour, or whether it should be `--ink`, is a
+register decision, and it will recur the moment a second page takes the schematic option.
+
+### Still open on this page
+
+**Slot 2, the `#assessment` ZSection, is still FPO.** One placeholder remains in `dist/`, exposing
+its prompt and spec string to readers. B4 is half closed, not closed.
