@@ -66,10 +66,18 @@ hero:
     - { n: "Online", text: "self-paced" }
     - { n: "31193", text: "RTO partner" }
   howItWorks: "Enrol → Complete online → Pass the video assessment → Lodge for your card"
-  artefactDesc: "A Tasmanian construction worker in hi-vis and a white hard hat on a residential build site, holding a construction induction White Card, natural daylight."
+  # Hero swapped 29 Jul 2026 to white-card-tas-hero.avif. It is 1000x1250 native, so it matches the
+  # artefactSpec below exactly and needs no resize; the previous asset was 1122x1402 (same 4:5 ratio,
+  # larger than the spec). Both alt and artefactDesc were rewritten to describe THIS frame rather
+  # than the old one: the previous alt described a video assessment, and the previous artefactDesc
+  # described a worker on a build site holding a card, which is a different picture again.
+  artefactDesc: "A man at a desk above Hobart watching the online White Card course on a laptop, with his hard hat, gloves, boots and high-visibility vest laid out beside him."
   artefactSpec: "4:5 · warm tone · ~1000×1250"
-  artefactImg: "/images/white-card-tas-hero-online.avif"
-  artefactAlt: "White Card Tasmania: a Tasmanian resident completing the self-paced online course and video assessment for their construction induction card on a laptop at home."
+  artefactImg: "/images/white-card-tas-hero.avif"
+  # 120 chars, inside alt-text-guidelines CR2 (80-125). The previous alt was 162 and breached it.
+  # Names what is actually in frame: the person, the city, the activity, and the three PPE items
+  # visible on the desk. Does not describe the on-screen card (see 06-image-prompts.md).
+  artefactAlt: "A man in Hobart watching the online White Card course on a laptop, hard hat, boots and high-visibility vest on the desk."
 ctaBand:
   headingHtml: 'Get your Tasmanian White Card<span class="dot">.</span>'
   sub: "$59, online and self-paced, delivered with Blue Dog Training (RTO 31193). Start today and lodge for your card as soon as you pass."

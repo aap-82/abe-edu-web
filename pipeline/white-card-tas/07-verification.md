@@ -251,3 +251,34 @@ breadcrumb on a noindexed page costs nothing while on an indexable one it costs 
 **Re-measured:** visible crumb `Home / White Card Tasmania`; `BreadcrumbList` two items, both
 resolving; zero crumb or CTA links to `/white-card` (the one remaining is the footer's Courses
 column, sitewide chrome that every page carries). Restore the middle crumb when W3-6 ships.
+
+---
+
+## Re-verification — hero asset swapped, 29 July 2026
+
+The page source changed, so `check-pipeline` §4 would otherwise report this verification as
+certifying content that no longer exists. Re-measured and committed with the change.
+
+**Scope: the hero image slot only.** No section added, moved, merged or cut, so `05-components.md`
+is unaffected and every other row above stands.
+
+| Check | Measured |
+|---|---|
+| Asset | `white-card-tas-hero.avif`, **1000 x 1250** native, 4:5, 47,226 B |
+| Matches `artefactSpec` `4:5 · ~1000×1250` | yes, exactly. No resize needed |
+| Rendered | `width="1000" height="1250" loading="eager" decoding="async"` |
+| `sizes` | `(max-width: 800px) 100vw, 640px` — identical to the QLD hero |
+| `srcset` | 400w / 800w / 1000w at 12.6 / 30.7 / 41.3 kB |
+| Alt length | **120 chars**, inside alt-text-guidelines CR2 (80-125). Was 162, a breach |
+| Alt accuracy | describes this frame: person, Hobart, activity, and the PPE actually visible |
+| Old asset still referenced in `dist/` | **no** |
+| `guardrails` | 20 pages passed |
+| Build incl. `postbuild` | **exit 0** |
+
+`loading="eager"` is correct and unchanged: this is the LCP candidate above the fold and must not be
+lazy. Intrinsic dimensions on the tag reserve the box, so the swap introduces no layout shift.
+
+**Carried forward, not resolved here:** the shipped frame breaches this slot's own guardrail on
+visible screen content. Recorded in full at the foot of `06-image-prompts.md`, including the one
+question nobody in this session could answer from the pixels: whether the legible on-screen course
+title is ABE's real material or a mock-up. That decision is Andrey's and does not block the swap.
