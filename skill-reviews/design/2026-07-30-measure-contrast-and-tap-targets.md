@@ -99,8 +99,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - ~~[design] The partner blurb still renders verbatim twice per ASQA page. **Fourth filing.** Not fixed
   here because it is a content-ownership decision — which of `PartnerDisclosure` or `Credentials` owns
   the description — and the losing one needs its copy re-cut, not just suppressed.~~ fixed in #92
-- [design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Third filing, still
-  undecided.** This is a decision, not work; someone needs to make it.
+- ~~[design] `VerifiedSources` / `SourcesFooter` citation links: new tab or not. **Third filing, still
+  undecided.** This is a decision, not work; someone needs to make it.~~ decided in #94: citations stay same-tab; rule now in DESIGN.md §7
 - [design] The 28px gutter is still hardcoded 11 times with no token. Token change, exclusive session.
 - [skills] `audit_render.py` must be given an HTTP URL, and resolves background from the immediate
   parent only. Both produce confident wrong numbers. Belongs in `references/verification.md`.

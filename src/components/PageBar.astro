@@ -47,8 +47,13 @@ const crumbsHtml = crumbs.map(crumb).join('');
 const href = reviewed ? reviewed.href : undefined;
 const isAnchor = !!href && href.startsWith('#');
 const extAttrs = isAnchor ? '' : ' rel="author noopener" target="_blank"';
+// The cue is required wherever target="_blank" is, not decorative: an unannounced tab change is a
+// WCAG 3.2.5 failure, and this was the only _blank link on the site shipping without one. Same
+// wording and mechanism as PartnerDisclosure, Credentials and ResourceLink. A plain string, not a
+// template literal, so nothing nests inside nameHtml's interpolation below.
+const extCue = isAnchor ? '' : '<span class="sr-only">, opens in a new tab</span>';
 const nameHtml = reviewed && href
-  ? `<a href="${href}"${extAttrs}>${reviewed.name}</a>`
+  ? `<a href="${href}"${extAttrs}>${reviewed.name}${extCue}</a>`
   : (reviewed ? reviewed.name : '');
 const reviewedHtml = reviewed
   ? `Reviewed by ${nameHtml} on <time>${reviewed.date}</time>`

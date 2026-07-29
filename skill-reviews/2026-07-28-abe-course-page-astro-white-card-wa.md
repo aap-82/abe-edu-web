@@ -333,9 +333,9 @@ Tag every item: [skills] | [design] | [facts]
   named: either the nav entry is declared build-owned (a data edit, not a design change), or the
   orphan guardrail accepts a declared-pending page, or page builds hand the nav entry to a design
   session and block on it. Silently crossing with per-run approval is the worst of the three.
-- [design] **Sitewide chrome, all measured in `dist/`:** `tel:(07)33316000` is malformed (should be
+- ~~[design] **Sitewide chrome, all measured in `dist/`:** `tel:(07)33316000` is malformed (should be
   `tel:+61733316000`); `<a href="#">Login</a>` ×2 is a dead anchor; logo `<img alt="">` lacks
-  `aria-hidden`; the same training.gov.au URL is emitted in two casings on one page.
+  `aria-hidden`; the same training.gov.au URL is emitted in two casings on one page.~~ all four parts fixed; last two in #94 (two pages, not one)
 - [design] **`ExpertCredentials developerRto` duplicates the PartnerDisclosure blurb, email, phone and
   verify link verbatim**, and the `after-hero` move put the two ~8 screens apart instead of adjacent.
 - [skills] **`#real`'s micro-CTA precedes its verification block** (inverting `verification.md` §1c)

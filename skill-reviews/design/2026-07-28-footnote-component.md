@@ -130,5 +130,5 @@ Tag every item: [skills] | [design] | [facts]
   part of the compliance record. Worth doing, worth doing deliberately.
 - [design] The footnote clears AA by **0.02** on `--paper-warm`. Anything that darkens that token
   breaks this text first. If the ground ramp is ever revisited, re-measure this before shipping.
-- [design] Decide whether `VerifiedSources` and `SourcesFooter` citation links should open in a new
-  tab (carried forward, unchanged, from the ResourceLink review).
+- ~~[design] Decide whether `VerifiedSources` and `SourcesFooter` citation links should open in a new
+  tab (carried forward, unchanged, from the ResourceLink review).~~ decided in #94: citations stay same-tab; rule now in DESIGN.md §7
