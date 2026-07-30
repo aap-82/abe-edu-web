@@ -106,6 +106,14 @@ rule working as written.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
+- [skills] **GitHub's server-side merge ignores `.gitattributes` merge drivers, so `data/health-log.jsonl`
+  conflicts on GitHub even though it merges cleanly locally.** `.gitattributes` marks it `merge=union`,
+  which local git honours; GitHub's merge does not, so every PR that spans a main advance is reported as
+  conflicted on a file that has no real conflict. It happened on #102. The existing `.gitattributes`
+  comment covers the *local checkout* hazard but not this one. Options worth weighing: stop committing
+  the log (recording policy layer 2 would need a different home), commit it only on `main`, or accept the
+  noise and document that the resolution is always "merge main in locally, then run
+  `health-log-dedupe.mjs`". Currently every such PR costs a manual merge.
 - [skills] **A push to a branch whose PR has already merged is silent.** It happened three times in one
   session (#98, #99, #100 each merged mid-flight), and each time the newest commit sat on `origin` but
   not on `main`. Detectable: compare the current branch's upstream PR state before pushing, or warn when
