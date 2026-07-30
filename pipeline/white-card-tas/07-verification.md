@@ -357,3 +357,21 @@ it mixes lowercase route words with an uppercase unit code, which is an identifi
 the page source became newer than its verification, which is exactly the invariant that check
 protects, and it fired correctly. Recording the delta rather than re-running Stage 7 wholesale is the
 same treatment the hero-asset and aspect-ratio deltas above received.
+
+## Re-verification — becomeSteps stub removed, 30 July 2026
+
+**Delta:** the `becomeSteps: []` line was deleted from the frontmatter. **No rendered output changed
+and no claim was touched** - the field was always empty and this page never read it.
+
+**Checked before deleting, not after:** `becomeSteps` is `z.array(step).optional()` in
+`src/content.config.ts`, so an absent key validates. Its only consumer is
+`<Stepper steps={frontmatter.becomeSteps} />`, which the six owner-builder pages render explicitly and
+neither White Card page does: white-card-tas draws its Stepper from `howItWorksSteps`, and
+white-card-wa renders no Stepper at all. Grepped across `src/**` for any other reader and found none.
+
+**Why it existed:** the field was required when these pages were built, so both carried an empty array
+to satisfy Zod. Making it optional was itself filed as a demand item on the second occurrence, landed,
+and left these two stubs behind as dead frontmatter.
+
+**Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
+`check-claims` 0 failing, `prose-lint` 10 files passed.

@@ -97,8 +97,10 @@ future runs not to bother. Struck with the correction, and the `py` invocation i
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [build] The two `becomeSteps: []` stubs can go now the field is optional
-  (`white-card-tas.mdx:102`, `white-card-wa.mdx:128`). Carried, not new.
+- ~~[build] The two `becomeSteps: []` stubs can go now the field is optional
+  (`white-card-tas.mdx:102`, `white-card-wa.mdx:128`). Carried, not new.~~ fixed in the 30 Jul 2026
+  build session, together with the older filing of the same item in
+  `2026-07-29-system-audit.md`.
 - [skills] Archetype 2's two-part trust section is now prescribed but nothing enforces it. A page with
   `partnerRto` and no `#real`-shaped section passes every gate, because the missing section was never
   briefed so brief-to-page conformance agrees. Mechanically detectable: an `asqa-accredited` page whose
