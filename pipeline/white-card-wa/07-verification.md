@@ -1235,3 +1235,107 @@ sector versus past roles).
 united with its outer rules intact; "Reviewed 28 July 2026" renders once; no page overflow at 1352px;
 build green at 20 pages, guardrails passed, `astro check` 0 errors, `check-claims` 0 failing,
 `prose-lint` 10 files passed.
+
+## Re-verification — Credential glance note expanded, 30 July 2026
+
+**Delta:** the `#your-card` FactGrid's Credential note now names the credential type and the unit title:
+"A nationally recognised Statement of Attainment for the unit Prepare to work safely in the
+construction industry, issued by Blue Dog Training once you pass the live assessment."
+
+**No new claim.** Every element was already verified and already on this page: "nationally recognised
+Statement of Attainment ... issued by Blue Dog Training" is the section's own answer capsule verbatim
+in substance, and the unit title matches the partner record's `scopeNote` and the `UnitOutline` plate.
+The live-assessment condition is carried over from the previous note rather than dropped.
+
+**Unit title set in SENTENCE case** ("Prepare to work safely in the construction industry"), matching
+training.gov.au and every other instance in this repo, not the title case in the request.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
+
+## Re-verification — card dispatch time added, 30 July 2026
+
+**Delta:** the `#your-card` Card note gains a dispatch time: "Issued by the training organisation and
+posted to a Western Australian address the next business day." Previously it ended at "address."
+
+**This IS a new claim, and its source is Andrey**, supplied directly as the copy to use on 30 Jul 2026.
+It is an internal commercial fact about ABE Education's own fulfilment, not a government figure, so the
+business owner is its authority and `kb/register/` does not own it. Recorded here because it is the
+first delivery-time promise on this page and nothing else in the repo states one.
+
+**Two things worth a second look by whoever owns fulfilment:**
+1. The sentence can be read as *posted* the next business day (dispatch) or *delivered* the next
+   business day. It is written as dispatch. If Australia Post transit time is ever read as part of the
+   promise, that is a consumer-law exposure, and the sentence should say "dispatched" outright.
+2. It is stated unconditionally. If next-business-day dispatch depends on the assessment being passed
+   before a daily cut-off, or does not hold on weekends or public holidays, the note needs that
+   qualifier.
+
+**Still unverified and NOT on the page:** whether express post is included in the $99. That was asked
+and is not answered by this delta; the page makes no postage-class claim.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
+
+## Re-verification — Credential cell restructured, 30 July 2026
+
+**Delta:** the `#your-card` Credential cell's figure changes from the bare code `CPCWHS1001` to
+`Statement of Attainment`, and the note becomes: "A nationally recognised Statement of Attainment for
+the unit of competency CPCWHS1001 Prepare to work safely in the construction industry, issued by
+Blue Dog Training (RTO 31193)." Copy supplied by Andrey.
+
+**A UNIT CODE TYPO WAS CAUGHT AND CORRECTED.** The supplied copy read **CPCWHS101** - one digit short
+of CPCWHS1001. It was corrected before building. A wrong unit code on an asqa-accredited page is a
+publish hard-blocker class of error: it is the identifier a reader takes to training.gov.au and an
+employer takes to verify the card, and a near-miss code resolves to nothing. Asserted after the build:
+`grep -c "CPCWHS101[^0]"` on `dist/white-card-wa/index.html` returns **0**.
+
+**Note for whoever reads this next:** nothing in the guardrails would have caught it. `check-claims`
+guards the superseded `CPCCWHS1001` and the register figures, but there is no check that every unit
+code on a page is a real code on the partner's scope. That gap is filed as a `[skills]` demand item.
+
+**No other new claim.** "Nationally recognised", "Statement of Attainment", the unit title and
+RTO 31193 are all already verified and already elsewhere on this page. "Blue Dog Training (RTO 31193)"
+is parenthesised to match the form used everywhere else in the repo.
+
+**Known redundancy, accepted:** the note restates "A nationally recognised Statement of Attainment"
+immediately under the figure that now says "Statement of Attainment". That is the supplied copy and it
+reads as emphasis in a small cell rather than as an error, but it is the house style's "no restated
+headings" line and is worth a second look.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
+
+## Re-verification — express post claim added, 30 July 2026
+
+**Delta:** the `#your-card` Card cell now leads with "Express post, tracked" and reads: "Issued by the
+training organisation and dispatched the next business day, by express post with tracking, to any
+Western Australian address at no extra cost."
+
+**SOURCE: Andrey, 30 Jul 2026**, answering a direct question asked before any copy was written. The
+question was put because this is a claim about what the $99 buys, sitting beside the price, which makes
+a wrong one a consumer-law exposure rather than a copy slip. His answer, verbatim in substance: express
+post to **all Western Australian addresses**, **paid by Blue Dog**, with **tracking and fast delivery**.
+
+**How each clause maps to that answer:**
+- "by express post with tracking" - his "Tracking and Fast delivery".
+- "to any Western Australian address" - his "for all western australia addresses".
+- "at no extra cost" - his "paid by Blue Dog". Framed as cost-to-the-reader rather than naming who
+  pays, because the reader's question is whether it is on top of the $99, and this is consistent with
+  the section capsule's "that is the whole cost".
+- "dispatched the next business day" - carried from the previous delta, same day.
+- "Issued by the training organisation" - unchanged, and load-bearing: the RTO issues, ABE Education
+  does not.
+
+**Deliberately NOT added: a tick glyph.** The request was "add with a tick". `FactGrid` has no tick
+affordance, and DESIGN.md gives the tick two specific jobs (hero glyphs in maroon; the Verify Deep tick
+that is one signature with the word VERIFIED). Inventing a third use inside a glance cell is a design
+register decision, not a content one, so the claim is carried in copy and the tick is left for a design
+session to decide. Filed as `[design]`.
+
+**Two qualifiers still unstated, same caution as the dispatch-time delta:** whether next-business-day
+dispatch depends on a daily cut-off, and whether it holds across weekends and public holidays. The
+sentence is written as dispatch, not delivery.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.

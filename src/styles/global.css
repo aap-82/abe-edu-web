@@ -842,13 +842,6 @@ footer .f-auth > p + p{margin-top:var(--s-2xs);}
    two-up grid collapses. */
 .person{display:grid;grid-template-columns:clamp(112px,18vw,140px) 1fr;gap:var(--s-md);align-items:start;}
 .person .ph.r45{width:100%;}
-/* The RTO card's logo frame is LANDSCAPE (5:4), not the portrait 4:5 the headshots use. A logo is a
-   wide object: in a portrait frame with object-fit:contain it letterboxes into a thin band with dead
-   space above and below, and the placeholder that stands in for it towers. Needs to beat the
-   `.ph.r54{max-width:520px;margin:0 auto}` rule in the max-width:720px block, which would otherwise
-   centre a 210px frame in the column; `.person .ph.r54` is 0,3,0 against that rule's 0,2,0, so it wins
-   on specificity regardless of source order. */
-.person .ph.r54{width:100%;max-width:none;margin:0;}
 .person h3{font-size:20px;margin-bottom:3px;}
 .person .role{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);margin:2px 0 var(--s-sm);}
 /* Credentials as a real list, hairline-separated, not a run-on line of bullet-joined
