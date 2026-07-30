@@ -1305,3 +1305,37 @@ headings" line and is worth a second look.
 
 **Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
 `prose-lint` 10 files passed.
+
+## Re-verification — express post claim added, 30 July 2026
+
+**Delta:** the `#your-card` Card cell now leads with "Express post, tracked" and reads: "Issued by the
+training organisation and dispatched the next business day, by express post with tracking, to any
+Western Australian address at no extra cost."
+
+**SOURCE: Andrey, 30 Jul 2026**, answering a direct question asked before any copy was written. The
+question was put because this is a claim about what the $99 buys, sitting beside the price, which makes
+a wrong one a consumer-law exposure rather than a copy slip. His answer, verbatim in substance: express
+post to **all Western Australian addresses**, **paid by Blue Dog**, with **tracking and fast delivery**.
+
+**How each clause maps to that answer:**
+- "by express post with tracking" - his "Tracking and Fast delivery".
+- "to any Western Australian address" - his "for all western australia addresses".
+- "at no extra cost" - his "paid by Blue Dog". Framed as cost-to-the-reader rather than naming who
+  pays, because the reader's question is whether it is on top of the $99, and this is consistent with
+  the section capsule's "that is the whole cost".
+- "dispatched the next business day" - carried from the previous delta, same day.
+- "Issued by the training organisation" - unchanged, and load-bearing: the RTO issues, ABE Education
+  does not.
+
+**Deliberately NOT added: a tick glyph.** The request was "add with a tick". `FactGrid` has no tick
+affordance, and DESIGN.md gives the tick two specific jobs (hero glyphs in maroon; the Verify Deep tick
+that is one signature with the word VERIFIED). Inventing a third use inside a glance cell is a design
+register decision, not a content one, so the claim is carried in copy and the tick is left for a design
+session to decide. Filed as `[design]`.
+
+**Two qualifiers still unstated, same caution as the dispatch-time delta:** whether next-business-day
+dispatch depends on a daily cut-off, and whether it holds across weekends and public holidays. The
+sentence is written as dispatch, not delivery.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
