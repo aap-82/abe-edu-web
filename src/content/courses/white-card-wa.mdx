@@ -371,7 +371,7 @@ import { faqs } from '../../data/faqs-white-card-wa';
 
 <Section bg="bg-alt" id="content-review" marker="08" eyebrow="Who develops and reviews this" h2="Who developed and checked this course?">
   <AnswerCapsule>Blue Dog Training <b>develops and owns the accredited course</b>, as the registered training organisation delivering CPCWHS1001. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for legislative currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
-  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
+  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} reviewed={frontmatter.reviewedBy} />
   <SectionWayfinder label="Common questions" href="#faq" />
 </Section>
 
