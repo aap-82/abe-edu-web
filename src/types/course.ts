@@ -40,6 +40,11 @@ export interface Person {
   linkedin: string;
   portrait?: Img;         // omit -> FPO placeholder, and no image in schema
   profileHref?: string;   // set -> renders a link to that expert's profile page
+  // The date THIS PAGE was last reviewed by this person, rendered under their portrait as the
+  // counterpart to the RTO card's "Verified" line. Comes from the course frontmatter's `reviewedBy`,
+  // never from the expert record: the same reviewer checks different pages on different dates, so the
+  // date belongs to the page, not to the person.
+  reviewed?: string;
 }
 
 // Visible breadcrumb trail. Built from the same data as the JSON-LD BreadcrumbList so
