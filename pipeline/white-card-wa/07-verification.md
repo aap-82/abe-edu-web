@@ -1200,3 +1200,38 @@ this file. This change is presentation plus the removal of one undated assertion
 1352px (was 138 CPL when the table filled the section, against the 85 CPL rule) and 34 CPL at 375px,
 no page overflow at 375px, table does not scroll inside its wrapper, build green at 20 pages,
 `check-claims` 0 failing, `prose-lint` 10 files passed.
+
+## Re-verification — Credentials cards reworked onto one visual column, 30 July 2026
+
+**Delta:** presentation only, plus two label renames and one date newly surfaced. No claim was added,
+removed or reworded.
+
+- Both cards' visual columns widened to 210px and now carry the mark, the action and the dated check
+  as one stack. The RTO logo frame became LANDSCAPE (r54); the portrait stays r45.
+- The RTO card's `Verify on training.gov.au` link and `Verified 19 Jul 2026` moved from the text column
+  into the visual column. **Same strings, same href, same new-tab treatment and screen-reader cue.**
+- The person card gained `See full profile →` (was `Full profile →`, moved from the text column) and a
+  new `Reviewed 28 July 2026` line.
+- Multi-item fact values render as chips rather than bullets. Same items, same order.
+- The contact table lost its internal rules; email, phone and website are unchanged.
+- An `About` eyebrow was added over the RTO blurb.
+
+**The reviewed date is NOT new data.** It is `reviewedBy.date` from this page's own frontmatter
+("28 July 2026"), which already drove the page's review furniture; it is now also rendered under the
+reviewer's portrait. It is matched to the person **by name** against `reviewedBy.name`, so on a
+two-person card it cannot land under the developer. No date is invented and no expert record carries
+one: the same reviewer checks different pages on different dates, so the date belongs to the page.
+
+**Two credential labels renamed** in `src/content/experts/warwick-smith.md`, at Andrey's request:
+`Current:` -> `Current role:` and `Formerly:` -> `Work experience:`. **The values are untouched.** The
+`expertPage` superRefine constrains the role, the organisation name and the nature of his review; it
+does not constrain `creds`, and none of those constrained strings was edited. Worth a second look by
+whoever owns the record: the card now shows both "Experience" and "Work experience" as labels, which
+are close enough in wording to read as a duplication even though they hold different things (years in
+sector versus past roles).
+
+**Measured after:** both visual columns 210px and equal; logo frame 210x183 landscape, portrait
+210x263; 2 chip sets and 0 `.vlist` on the page; contact-row borders 0px/0px/1px, so the block is
+united with its outer rules intact; "Reviewed 28 July 2026" renders once; no page overflow at 1352px;
+build green at 20 pages, guardrails passed, `astro check` 0 errors, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
