@@ -1252,3 +1252,27 @@ training.gov.au and every other instance in this repo, not the title case in the
 
 **Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
 `prose-lint` 10 files passed.
+
+## Re-verification — card dispatch time added, 30 July 2026
+
+**Delta:** the `#your-card` Card note gains a dispatch time: "Issued by the training organisation and
+posted to a Western Australian address the next business day." Previously it ended at "address."
+
+**This IS a new claim, and its source is Andrey**, supplied directly as the copy to use on 30 Jul 2026.
+It is an internal commercial fact about ABE Education's own fulfilment, not a government figure, so the
+business owner is its authority and `kb/register/` does not own it. Recorded here because it is the
+first delivery-time promise on this page and nothing else in the repo states one.
+
+**Two things worth a second look by whoever owns fulfilment:**
+1. The sentence can be read as *posted* the next business day (dispatch) or *delivered* the next
+   business day. It is written as dispatch. If Australia Post transit time is ever read as part of the
+   promise, that is a consumer-law exposure, and the sentence should say "dispatched" outright.
+2. It is stated unconditionally. If next-business-day dispatch depends on the assessment being passed
+   before a daily cut-off, or does not hold on weekends or public holidays, the note needs that
+   qualifier.
+
+**Still unverified and NOT on the page:** whether express post is included in the $99. That was asked
+and is not answered by this delta; the page makes no postage-class claim.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
