@@ -162,6 +162,7 @@ import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import ResourceLink from '../../components/ResourceLink.astro';
 import BulletList from '../../components/BulletList.astro';
+import UnitOutline from '../../components/UnitOutline.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-wa';
@@ -264,16 +265,25 @@ import { faqs } from '../../data/faqs-white-card-wa';
     two-in-a-row when this section landed; it was not acted on then, and it is fixed here. */}
 <Section bg="bg-alt" id="covered" marker="04" eyebrow="What you learn" h2="What does the White Card course actually cover?">
   <AnswerCapsule>Four things. The unit covers health and safety law on a construction site, how to spot hazards and control the risk, how safety information is communicated and reported, and what to do when something goes wrong. You also select and fit the protective equipment yourself, which is part of the assessment.</AnswerCapsule>
+  {/* Was a BulletList. UnitOutline carries the same four element statements, word for word, and adds
+      what the bullets could not: the unit's code as an identity plate and a link to check it on the
+      national register. The lead-in lost its colon because it no longer introduces a list; the
+      training-and-assessment point it made is kept, since neither the capsule nor the table says it. */}
   <div class="measure">
-    <BulletList
-      leadIn="CPCWHS1001 is built from four elements, and both the training and the assessment follow them:"
-      items={[
-        "<b>Health and safety law on site.</b> The duty of care you carry, the basic roles, responsibilities and rights of everyone else on the job, and the safe work practices expected of you.",
-        "<b>Hazards and risk control.</b> The common construction hazards, the basic principles of risk management, the measures used to control them, and the purpose and use of protective equipment.",
-        "<b>Communication and reporting.</b> Safety signs and symbols, the safety documents you will be handed, who the designated safety people are, and how to report a hazard, an incident or an injury.",
-        "<b>Incidents and emergencies.</b> What to do when something goes wrong, how to get first aid, and the types and purpose of fire safety equipment.",
-      ]}
-    />
+    <p>Both the training and the assessment follow the unit's four elements.</p>
+  </div>
+  <UnitOutline
+    code="CPCWHS1001"
+    title="Prepare to work safely in the construction industry"
+    verifyUrl="https://training.gov.au/training/details/CPCWHS1001/unitdetails"
+    elements={[
+      { title: "Health and safety law on site", body: "The duty of care you carry, the basic roles, responsibilities and rights of everyone else on the job, and the safe work practices expected of you." },
+      { title: "Hazards and risk control", body: "The common construction hazards, the basic principles of risk management, the measures used to control them, and the purpose and use of protective equipment." },
+      { title: "Communication and reporting", body: "Safety signs and symbols, the safety documents you will be handed, who the designated safety people are, and how to report a hazard, an incident or an injury." },
+      { title: "Incidents and emergencies", body: "What to do when something goes wrong, how to get first aid, and the types and purpose of fire safety equipment." },
+    ]}
+  />
+  <div class="measure">
     <p>Selecting and fitting the protective equipment sits inside the second element, and it is the part you demonstrate rather than answer. That is why the assessment is a live video call instead of a multiple-choice page, and it is worth knowing before you book one.</p>
   </div>
   <VerifiedSources date="28 Jul 2026" facts="The four elements of CPCWHS1001 and their performance criteria, read on the national register (unit Release 2, usage recommendation Current)" sources={[{ label: 'training.gov.au — CPCWHS1001 Prepare to work safely in the construction industry', href: 'https://training.gov.au/training/details/CPCWHS1001/unitdetails' }]} />
@@ -370,4 +380,4 @@ import { faqs } from '../../data/faqs-white-card-wa';
   <VerifiedSources date="28 Jul 2026" facts="Every regulatory answer in this list, fact-checked" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/Organisation/Details/31193' }, { label: 'WorkSafe WA — Construction induction training', href: 'https://www.worksafe.wa.gov.au/construction-induction-training' }]} />
 </Section>
 
-<Note label="Training and assessment"><BulletList marker="dot" items={["ABE Education recruits and markets training on behalf of Blue Dog Training Pty Ltd (RTO 31193).", "Blue Dog Training Pty Ltd is the Registered Training Organisation responsible for delivering this qualification and issuing certification.", "All training and assessment is conducted in accordance with the Standards for Registered Training Organisations 2025.", "Blue Dog Training Pty Ltd can be verified on the national register at training.gov.au using RTO Code 31193."]} /></Note>
+<Note label="Training and assessment"><BulletList items={["ABE Education recruits and markets training on behalf of Blue Dog Training Pty Ltd (RTO 31193).", "Blue Dog Training Pty Ltd is the Registered Training Organisation responsible for delivering this qualification and issuing certification.", "All training and assessment is conducted in accordance with the Standards for Registered Training Organisations 2025.", "Blue Dog Training Pty Ltd can be verified on the national register at training.gov.au using RTO Code 31193."]} /></Note>

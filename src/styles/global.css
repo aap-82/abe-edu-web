@@ -516,11 +516,13 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 .blist-items{list-style:none;}
 .blist-items li{position:relative;padding-left:var(--s-md);margin-bottom:var(--s-2xs);color:var(--ink-3);}
 .blist-items li:last-child{margin-bottom:0;}
-.blist-items li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--maroon);}
+/* Round hairline dot is the DEFAULT marker (was an 8x1px maroon dash until 30 Jul 2026). The dash
+   applied the accent to every list, so no list could be emphasised relative to another. Maroon is
+   now opt-in via marker="accent" below. */
+.blist-items li::before{content:"";position:absolute;left:0;top:.58em;width:5px;height:5px;border-radius:50%;background:var(--rule-strong);}
+/* marker="accent": the same dot in Heritage Maroon, for a set that has earned the lift. */
+.blist-items--accent li::before{background:var(--maroon);}
 .blist-items li b,.blist-items li strong{color:var(--ink);font-weight:600;}
-/* marker="dot": round, hairline-coloured. Same treatment as the .vlist utility above, for reference
-   sets rather than argument - see the note in BulletList.astro for when to choose it over the dash. */
-.blist-items--dot li::before{width:5px;height:5px;border-radius:50%;background:var(--rule-strong);top:.58em;}
 .blist-items--num{counter-reset:blist;}
 .blist-items--num li{padding-left:var(--s-lg);}
 .blist-items--num li::before{content:counter(blist) ".";counter-increment:blist;left:0;top:0;width:auto;height:auto;background:none;font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--maroon);font-variant-numeric:tabular-nums;}
@@ -632,10 +634,17 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
    blast radius is this card, not every label on the site. */
 .pl-col > .pl-lbl:not(:first-child){margin-top:var(--s-md);}
 .pl-blurb{margin:0 0 var(--s-sm);font-size:15px;line-height:1.6;color:var(--ink-2);max-width:60ch;}
+/* EYEBROW rows, not a label column (changed 30 Jul 2026 with Credentials' .fxrow, which is the same
+   shape and must not drift from it). The label sits ABOVE its value in the row's full width, so the
+   value gets the whole card instead of what a fixed 108px track leaves it. Two things it buys:
+   admin@bluedogtraining.com.au and a course name with a unit code in brackets stop wrapping at
+   mobile, and the dt metrics are now literally the .eyebrow treatment used elsewhere on the card,
+   so one label style covers the whole component. The hairline per row is what still makes it a
+   table; the aligned column was never the only way to get that. */
 .pl-facts{margin:0;}
-.pl-frow{display:grid;grid-template-columns:108px 1fr;gap:var(--s-sm);padding:8px 0;border-bottom:1px solid var(--rule);}
+.pl-frow{display:grid;gap:3px;padding:9px 0;border-bottom:1px solid var(--rule);}
 .pl-frow:last-child{border-bottom:0;}
-.pl-frow dt{font:500 11px/1.3 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--slate);}
+.pl-frow dt{font:500 10.5px/1.2 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
 /* min-width:0 is the fix, not overflow-wrap alone. A `1fr` grid track defaults to min-width:auto,
    so it cannot shrink below its content's min-content width - and admin@bluedogtraining.com.au is
    28 characters with no break opportunity. That single cell forced the whole document to 410px:
