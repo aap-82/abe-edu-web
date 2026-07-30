@@ -1235,3 +1235,20 @@ sector versus past roles).
 united with its outer rules intact; "Reviewed 28 July 2026" renders once; no page overflow at 1352px;
 build green at 20 pages, guardrails passed, `astro check` 0 errors, `check-claims` 0 failing,
 `prose-lint` 10 files passed.
+
+## Re-verification — Credential glance note expanded, 30 July 2026
+
+**Delta:** the `#your-card` FactGrid's Credential note now names the credential type and the unit title:
+"A nationally recognised Statement of Attainment for the unit Prepare to work safely in the
+construction industry, issued by Blue Dog Training once you pass the live assessment."
+
+**No new claim.** Every element was already verified and already on this page: "nationally recognised
+Statement of Attainment ... issued by Blue Dog Training" is the section's own answer capsule verbatim
+in substance, and the unit title matches the partner record's `scopeNote` and the `UnitOutline` plate.
+The live-assessment condition is carried over from the previous note rather than dropped.
+
+**Unit title set in SENTENCE case** ("Prepare to work safely in the construction industry"), matching
+training.gov.au and every other instance in this repo, not the title case in the request.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
