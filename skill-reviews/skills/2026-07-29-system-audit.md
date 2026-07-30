@@ -232,9 +232,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [build] Re-run Stage 7 for `white-card-wa` and disposition the three mandated audits in
   `07-verification.md`. This is the new standing FAIL. Skipping them is allowed; skipping them silently
   is what the check now catches.
-- [build] Drop the `becomeSteps: []` stubs from `white-card-tas.mdx:102` and `white-card-wa.mdx:128`
+- ~~[build] Drop the `becomeSteps: []` stubs from `white-card-tas.mdx:102` and `white-card-wa.mdx:128`
   now the field is optional. `src/content/**` is build-owned, which is why the schema half shipped here
-  and the content half did not.
+  and the content half did not.~~ fixed in the 30 Jul 2026 build session — both stubs deleted, no
+  rendered output changed, delta recorded against Stage 7 on both pages.
 - [build] `dist/` carries FPO image placeholders on **11 built pages**, including indexable
   `act-owner-builder-course`, `tas-owner-builder-course` and `owner-builder-courses`. Second sighting.
 - [build] "Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and is live on
