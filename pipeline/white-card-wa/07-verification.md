@@ -1276,3 +1276,32 @@ and is not answered by this delta; the page makes no postage-class claim.
 
 **Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
 `prose-lint` 10 files passed.
+
+## Re-verification — Credential cell restructured, 30 July 2026
+
+**Delta:** the `#your-card` Credential cell's figure changes from the bare code `CPCWHS1001` to
+`Statement of Attainment`, and the note becomes: "A nationally recognised Statement of Attainment for
+the unit of competency CPCWHS1001 Prepare to work safely in the construction industry, issued by
+Blue Dog Training (RTO 31193)." Copy supplied by Andrey.
+
+**A UNIT CODE TYPO WAS CAUGHT AND CORRECTED.** The supplied copy read **CPCWHS101** - one digit short
+of CPCWHS1001. It was corrected before building. A wrong unit code on an asqa-accredited page is a
+publish hard-blocker class of error: it is the identifier a reader takes to training.gov.au and an
+employer takes to verify the card, and a near-miss code resolves to nothing. Asserted after the build:
+`grep -c "CPCWHS101[^0]"` on `dist/white-card-wa/index.html` returns **0**.
+
+**Note for whoever reads this next:** nothing in the guardrails would have caught it. `check-claims`
+guards the superseded `CPCCWHS1001` and the register figures, but there is no check that every unit
+code on a page is a real code on the partner's scope. That gap is filed as a `[skills]` demand item.
+
+**No other new claim.** "Nationally recognised", "Statement of Attainment", the unit title and
+RTO 31193 are all already verified and already elsewhere on this page. "Blue Dog Training (RTO 31193)"
+is parenthesised to match the form used everywhere else in the repo.
+
+**Known redundancy, accepted:** the note restates "A nationally recognised Statement of Attainment"
+immediately under the figure that now says "Statement of Attainment". That is the supplied copy and it
+reads as emphasis in a small cell rather than as an error, but it is the house style's "no restated
+headings" line and is worth a second look.
+
+**Measured after:** build green at 20 pages, guardrails passed, `check-claims` 0 failing,
+`prose-lint` 10 files passed.
