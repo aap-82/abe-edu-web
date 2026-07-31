@@ -13,6 +13,20 @@ derives a figure from frontmatter it is written `{like this}`.
 
 **White Card NSW**
 
+---
+
+## F1 · at-a-glance opener · "What do you need to know before you enrol?"
+
+Page furniture, not a briefed section: the hero's facts restated as a `FactGrid`. Recorded here
+because it carries a capsule, and a capsule that exists on the page but in no artefact is
+indistinguishable to `check-pipeline` from a section that went missing.
+
+**Answer capsule (45 words)**
+
+> You pay ABE Education {price}, and that covers the training, the assessment and your SafeWork NSW
+> card. It runs as one live online session with a trainer rather than at your own pace, because New
+> South Wales requires it, and the credential is nationally recognised.
+
 **Hero subhead.** Get your nationally recognised White Card for New South Wales in one online day with
 a live trainer, for {price}. The training is delivered and assessed by our RTO partner Upskill
 Institute, RTO 45708, and you receive a Statement of Attainment for CPCWHS1001, the construction
@@ -234,13 +248,35 @@ safety glasses.
 
 ---
 
-## S7 · `#content-review` · "Who checked this page?"
+## F2 · TrustBand lede
 
-**Answer capsule (44 words)**
+Trust furniture between `#cost` and `#how-it-works`, not a briefed section. Carries an
+`AnswerCapsule onDark`, so it is recorded here for the same reason as F1.
 
-> Warwick Smith reviewed this page on 1 August 2026. He checks ABE Education's course pages against
-> the current regulator and training-register positions, independently of the people who write them.
-> Every government fact here carries the source it came from and the date it was checked.
+**Answer capsule (18 words)** — short by design. It is a trust lede on a dark band, not a section
+opener, so the 40-60 word rule does not apply and `guardrails.ts` does not hold it to one.
+
+> A nationally recognised White Card, delivered and assessed by Upskill Institute (RTO 45708) and
+> published by ABE Education.
+
+---
+
+## S7 · `#content-review` · "Who develops the course, and who checks this page?"
+
+**Answer capsule (57 words)** — *rewritten at Stage 6. The heading changed from "Who checked this
+page?" to name both roles, because on an asqa-accredited page the RTO is the developer and ABE
+Education is only the reviewer, and a capsule that led with the reviewer buried the distinction the
+authority model exists to make. The page is the source of truth; this is what shipped.*
+
+> The course is **developed, owned and delivered by Upskill Institute, RTO 45708**, under the
+> Standards for Registered Training Organisations. ABE Education publishes this page and enrols you;
+> it does not develop the course. This page is **independently reviewed by Warwick Smith** for
+> regulatory currency, and every government fact carries its source and the date it was checked.
+
+**Superseded draft, kept as the record of what changed:** "Warwick Smith reviewed this page on
+1 August 2026. He checks ABE Education's course pages against the current regulator and
+training-register positions, independently of the people who write them. Every government fact here
+carries the source it came from and the date it was checked."
 
 **Body**
 

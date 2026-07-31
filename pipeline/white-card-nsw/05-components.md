@@ -15,11 +15,17 @@ One row per section. The **Brief** column is the point of this artefact: it is t
 | 6 | `how-it-works` | 06 | How it works | How does the session run? | **S6** | `Section` · `AnswerCapsule` · .measure prose · `Stepper` (`howItWorksSteps`) · `Note variant="caution"` · `VerifiedSources` · `SectionWayfinder` | — |
 | 7 | `content-review` | 07 | Reviewed | Who develops the course, and who checks this page? | **S7** | `Section` · `AnswerCapsule` · `ExpertCredentials` · `SectionWayfinder` | bg-alt |
 | 8 | `faq` | 08 | FAQ | Common questions | **S8** | `Section` · `Faq` · `VerifiedSources` · `SectionWayfinder ready` | — |
+| — | `rto-partner` | — | — | *(no H2 — a disclosure, not a section)* | *(none — see below)* | `PartnerDisclosure`, rendered by `CourseLayout` from `partnerRto`, `placement: after-body` | — |
 
-Plus the layout-rendered `#rto-partner` `PartnerDisclosure` card, from `partnerRto` frontmatter,
-`placement: after-body`. **Not a section** and deliberately not in the table above as one: it carries no
-H2, no capsule and no sources. Section 1 exists precisely because that card cannot answer the
-archetype's core question. See archetype 02 §3.
+**On the `rto-partner` row.** It is in the table because `check-pipeline` reads the table, not this
+prose, and reported it as a section on the page that the plan did not account for. It is still **not a
+section**: no H2, no capsule, no sources, no brief, no marker. It is a disclosure the layout renders
+from `partnerRto`. Section 1 exists precisely because that card cannot answer the archetype's core
+question. See archetype 02 §3.
+
+That was the fix for a genuine problem rather than a cosmetic one: three permanently-warning rows on a
+check whose entire purpose is catching a section that vanished silently will train the next reader to
+skim the block, and a real loss would sit among them looking identical.
 
 ---
 
