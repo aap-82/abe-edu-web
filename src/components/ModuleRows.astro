@@ -135,7 +135,6 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      16 and not more because `.wrap` gives 28px of padding to borrow from, and the tint should sit
      inside the column rather than break out of it. */
   .mrow details{
-    margin:0 -16px; padding:0 16px;
     transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
   /* HOVER IS ON THE HEADING ONLY. The summary is the thing you click, so it is the thing that should
@@ -167,16 +166,22 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 13px;
     align-items:baseline; gap:var(--s-md);
     min-height:44px; cursor:pointer; list-style:none;
-    /* The same -16/+16 the row uses, so the hover tint spans the full row width rather than stopping
-       16px short of the open-state background it sits inside. Content x is unchanged either way. */
-    margin:0 -16px; padding:var(--s-md) 16px;
+    /* NO horizontal bleed. Both tints were pulled 16px wider than the row for breathing room, which
+       put them 16px past the hairline that closes every row and past the dashed rule under the
+       section: the background overhung the structure it sits in. Rules win, and the breathing room
+       is vertical instead. Top and bottom padding match, including when the group is open, so the
+       heading is not lighter under the title than above it. */
+    padding:var(--s-md) 0;
     transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
   .mrow summary::-webkit-details-marker{ display:none; }
   /* The ring goes on the summary, which is the focusable element; inset so the row rule above does
      not clip it. */
   .mrow summary:focus-visible{ outline:2px solid var(--ink); outline-offset:-3px; }
-  .mrow details[open] summary{ padding-bottom:var(--s-sm); }
+  /* The open summary used to drop its bottom padding to --s-sm, so an open heading sat 24px clear of
+     the row above and only 16px clear of its own content. Symmetric now: --s-md both sides, open or
+     closed, and the panel adds nothing on top, so the space above the Modules eyebrow and the space
+     below the last outcome are the same 24px and the open block is balanced. */
 
   /* TYPE, reconciled to DESIGN.md section 3 on 31 Jul 2026. The component had grown five mono
      elements across three sizes (12/11/10), two weights (500/400) and three trackings
@@ -311,14 +316,12 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      into the free column-2 slot beside the title, and dropped the marker onto a fourth row of its
      own where it read as a stray dash. */
   @media (max-width:640px){
-    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; margin:0 -10px; padding:var(--s-sm) 10px; }
+    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; padding:var(--s-sm) 0; }
     .mr-key{ grid-area:1 / 1 / 2 / 3; flex-direction:row; align-items:baseline; gap:10px; }
     .mr-title{ grid-area:2 / 1 / 3 / 2; }
     .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
     .mr-count{ grid-area:3 / 1 / 4 / 3; }
     .mr-panel{ padding:0 0 var(--s-sm); }
-    /* Less bleed on a phone: `.wrap` has far less padding to borrow at this width. */
-    .mrow details{ margin:0 -10px; padding:0 10px; }
     .mr-cols{ grid-template-columns:1fr; gap:var(--s-md); }
     /* Stacked, the divider turns horizontal but is still the same within-a-group line, so it stays
        dotted. Solid here would be indistinguishable from the rule that ends the group. */
