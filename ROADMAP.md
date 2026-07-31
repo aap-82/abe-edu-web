@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 28 July 2026.
+Last updated: 1 August 2026.
 
 ---
 
@@ -31,6 +31,21 @@ sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now f
   (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
   impressions, the biggest White Card asset), plus `/accreditation`, `/experts`, `/reviews`, `/cpd`,
   `/cpd-tas`.
+- **Added 1 Aug 2026: `/white-card-nsw`** (W3-2, PR #103) — built, indexable, **no purchase path**,
+  the `/white-card-tas` pattern. There is no NSW White Card product in LearnWorlds at all, so every
+  CTA is the in-page `#enrol` anchor. Both image slots are FPO. Wave 3 is now **three spokes of
+  five**; QLD and ACT remain, and the `/white-card` hub is still gated on all five existing.
+  Two things this run changed outside its own page, both worth reading before the next one:
+  **`/owner-builder-nsw-course` was noindexed** — it rendered `index,follow` while this file and
+  CLAUDE.md both said it was noindexed, and only the `-w` variant ever was. That closed a cutover
+  risk and opened a redirect one: `/nsw-owner-builder-course` now 301s into a noindexed page, so it
+  sits in `check-redirect-targets`' PENDING list. Those two URLs carry **38,257 impressions** and
+  their cutover fate is an open commercial decision, filed as a `[build]` demand item.
+  And the NSW **delivery-mode** position now has a known gap: SafeWork NSW's only findable Specific
+  Conditions for GIT (Oct 2022) prohibit online learning, that document is confirmed outdated, and no
+  current one could be located. The page attributes live delivery to Upskill's SafeWork NSW
+  registration rather than to the regulator. Obtaining the current conditions is the top item on
+  `reports/handover-facts.md`.
 - **Published with two standing warnings:** **`/white-card-tas`** — indexable since 28 Jul on
   Andrey's call. Both are **warnings, not blockers**: the page ships, and neither holds up cutover.
   1. **No purchase path.** TAS payment is not configured, so every CTA is the in-page `#enrol`
@@ -49,8 +64,8 @@ sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now f
 - **Built but held back:** `/cpd-building-tas`, noindexed pending Andrey-only inputs.
   `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and ⛔ must not ship in
   their current form.
-- **Not started:** W2-6 insurance, W2-7 Project Advisory, **three of five White Card state pages
-  (NSW, QLD, ACT) and the `/white-card` hub**, eight of ten CPD tickets, and all of Waves 5 and 6.
+- **Not started:** W2-6 insurance, W2-7 Project Advisory, **two of five White Card state pages
+  (QLD, ACT) and the `/white-card` hub**, eight of ten CPD tickets, and all of Waves 5 and 6.
 
 **Everything that needs Andrey, in the order it bites:**
 1. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
