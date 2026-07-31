@@ -180,10 +180,11 @@ answers a gesture aimed at one line of it. The two states also now move in oppos
 warming and open lifting to `--paper`, so they read as two meanings rather than two degrees.
 
 **`--paper-warm` is the darkest value available, and that is measured rather than chosen.** One step
-further, `#f2eee4`, drops `--slate` to **4.40:1** against a 4.50 floor, and `--slate` appears twice in
-the hovered row (the count and the disclosure marker). Asked to make the hover louder, the honest
-answer is that it cannot go louder in this direction without failing the quietest text in the thing
-being hovered. Verified with a live pointer, not a stylesheet read: the hovered summary computes
+further, `#f2eee4`, drops `--slate` to **4.40:1** against a 4.50 floor, and `--slate` carries the count
+in the hovered row. Asked to make the hover louder, the honest answer is that it cannot go louder in
+this direction without failing the quietest text in the thing being hovered. (Written when the
+disclosure marker was `--slate` as well; it is maroon now, see below, so the count is the binding
+constraint on its own.) Verified with a live pointer, not a stylesheet read: the hovered summary computes
 `rgb(245, 241, 232)` while its panel and its row both stay `rgba(0, 0, 0, 0)`.
 
 The tint bleeds 16px either side (10px on mobile) via matched negative margin and padding on both the
@@ -246,6 +247,43 @@ Module names unchanged at 34. Build green, guardrails 20 pages.
 DESIGN.md's Title is 22px, which suits a card H3 but lands differently on ACT's twelve group titles,
 where it stops being a scannable index and becomes twelve headings. That is a hierarchy decision
 about the section, not a typographic tidy-up. Filed below.
+
+## Fourth pass: spacing owned per block, and one accordion glyph
+
+**Padding.** Three attempts, and the first two were wrong in instructive ways. A negative margin made
+the tints overhang the row hairlines. Removing it left the text touching the tint edges. Padding on
+the summary alone looked right until the two elements took different backgrounds, at which point the
+summary's 24px sat *inside* the tinted band and the Modules eyebrow ended up flush against its lower
+edge. **Padding that belongs to a block has to live on that block.** Both the summary and the panel
+now carry 24px on all four sides (16px at 640px and below), measured: 0px tint overhang, 16px content
+inset from the tint edges, a real 24px between the heading band and the eyebrow, and 24px under the
+last outcome.
+
+**The disclosure marker is now the FAQ's.** It was a pair of CSS-drawn `--slate` rules on the argument
+that disclosure is navigation rather than an action and should not spend maroon. That was wrong twice:
+DESIGN.md §5 documents the house accordion as *"a maroon plus-mark rotates 45 degrees to a cross when
+open"*, so maroon here is the documented behaviour rather than an exception to the One Maroon Rule,
+and a site should not have two accordions that disclose with different glyphs in different colours.
+**Copying the declarations was not enough, and that is the part worth keeping.** With `color`,
+`font-size`, `line-height` and `transition` all matching, the mark still moved differently, and
+diffing the two computed styles on the same page found why: this one is a **grid** item and stretched
+to its 20px track, so `transform-origin` resolved to 10px, the centre of the box, with a ~12.7px glyph
+sitting at its left. It swung through an arc where the FAQ's spins in place, because `.faq summary
+.pm` is a `flex:none` flex item and is therefore content-sized, giving it an origin of 6.37px. A
+second difference came out of the same diff: `.faq summary` sets `--font-display` and `font-weight:
+600`, so the FAQ's plus is semibold Archivo while this one had inherited regular DM Sans and was
+drawing a different glyph at the same size.
+
+Fixed with `justify-self:center` plus the face and weight. Verified after: all eleven compared
+properties identical, and both markers report the same `matrix(0.707107, ...)` when open.
+
+**The lesson is about how "same as X" gets verified.** Matching the source declarations looked done;
+only comparing the two *computed* styles side by side showed the layout context changing the result.
+Same-as claims want a diff, not a copy.
+
+**This also shrinks the open maroon question.** Of the four non-action maroon marks filed earlier, the
+marker is now covered by §5's own wording, so the demand item concerns three: the module numbers, the
+outcome discs and the count figures.
 
 ## Grader note
 

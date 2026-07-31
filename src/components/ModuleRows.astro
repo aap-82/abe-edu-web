@@ -73,7 +73,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
               ))}
             </span>
           )}
-          <span class="mr-mark" aria-hidden="true" />
+          <span class="mr-mark" aria-hidden="true">+</span>
         </summary>
 
         <div class="mr-panel">
@@ -143,8 +143,10 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      background when the group is actually open.
      `--paper-warm`, the third step of the warm ramp, and it is the DARKEST value available here.
      One step further (#f2eee4) drops `--slate` to 4.40:1 against a 4.50 AA floor, measured, and
-     `--slate` is in this row twice: the count and the disclosure marker. So the hover cannot go
-     louder by going darker without failing the quietest text in the thing being hovered.
+     `--slate` carries the count in this row (and the module range where a state authors one). So the
+     hover cannot go louder by going darker without failing the quietest text in the thing being
+     hovered. The disclosure marker used to be `--slate` too and is now maroon, which is why this
+     says "the count" and not "the count and the marker".
      Darker also reads as more definite than the white wash it replaces, because it moves the OPPOSITE
      way to the open state: hover warms, open lifts to --paper. Two directions, two meanings, rather
      than two degrees of the same one.
@@ -163,7 +165,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      eyebrow and the module numbers one shared left edge, with only the group key outside it in its
      rail. A bare 150px track left every panel sitting 24px left of its own title. */
   .mrow summary{
-    display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 13px;
+    display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 20px;
     align-items:baseline; gap:var(--s-md);
     min-height:44px; cursor:pointer; list-style:none;
     /* The horizontal room is INSIDE the row, not outside it. First attempt pulled both tints 16px
@@ -236,25 +238,44 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      is on the demand list rather than being decided one override at a time. */
   .mr-count-n{ color:var(--maroon); }
 
-  /* One marker drawn in CSS rather than as a glyph, so it is a true +/- at any size and needs no
-     icon set. --slate, not maroon: disclosure is navigation, not an action. */
-  .mr-mark{ position:relative; display:block; width:13px; height:13px; flex:none; }
-  .mr-mark::before,
-  .mr-mark::after{
-    content:""; position:absolute; left:0; top:6px; width:13px; height:1px; background:var(--slate);
+  /* The SAME mark the FAQ uses: a literal maroon "+" that rotates 45 degrees to a cross when open,
+     matching `.faq summary .pm` in global.css declaration for declaration (maroon, 20px,
+     line-height 1, transform .2s). It was a pair of CSS-drawn slate rules, on the reasoning that
+     disclosure is navigation rather than an action and so should not spend maroon. That reasoning
+     was wrong twice over: DESIGN.md section 5 documents the house accordion as "a maroon plus-mark
+     rotates 45 degrees to a cross when open", so maroon here is the documented behaviour rather than
+     an exception to the One Maroon Rule, and the site should not have two accordions that disclose
+     with different glyphs in different colours. */
+  /* `justify-self:center` and the display face are both load-bearing, and copying the FAQ's
+     declarations without them was not the same mark.
+     A grid item stretches to its track by default, so this span was 20px wide with a ~12.7px glyph
+     sitting at its left. `transform-origin` then resolved to 10px, the centre of the BOX, and the
+     plus swung through an arc on its way to a cross instead of spinning where it sat. Content-sized,
+     the origin is the centre of the glyph (6.37px), which is what `.faq summary .pm` gets for free
+     as a `flex:none` flex item. The 20px track stays so the column reserves the same width whatever
+     the glyph measures.
+     The face matters for the same reason: `.faq summary` sets `--font-display`, so the FAQ's plus is
+     Archivo. This one inherited DM Sans from the page and drew a different glyph at the same size. */
+  .mr-mark{
+    justify-self:center; align-self:center;
+    font-family:var(--font-display); font-weight:600; color:var(--maroon); font-size:20px;
+    line-height:1; transition:transform .2s;
   }
-  .mr-mark::after{ transform:rotate(90deg); transition:transform .18s cubic-bezier(.22,1,.36,1); }
-  .mrow details[open] .mr-mark::after{ transform:rotate(0deg); }
-  .mrow summary:hover .mr-mark::before,
-  .mrow summary:hover .mr-mark::after{ background:var(--ink); }
+  .mrow details[open] .mr-mark{ transform:rotate(45deg); }
   @media (prefers-reduced-motion:reduce){
-    .mr-mark::after{ transition:none; }
+    .mr-mark{ transition:none; }
   }
 
   /* Same 16px in from each edge as the summary, so heading and body share one text column inside the
      tint. The left value carries the 150px rail on top of it, which keeps the panel aligned under
-     the title rather than under the group key. */
-  .mr-panel{ padding:0 var(--s-sm) var(--s-md) calc(150px + var(--s-sm)); }
+     the title rather than under the group key.
+     TOP PADDING IS ITS OWN, and this is the thing that was wrong twice. The summary's bottom padding
+     looks like separation until the two elements have different backgrounds, which they now do: on
+     hover the heading is --paper-warm and the panel is --paper, so those 24px sit INSIDE the tinted
+     band and the Modules eyebrow ends up flush against its lower edge. Padding that belongs to the
+     panel has to live on the panel. 24px top and bottom, so the panel's own box is symmetric the way
+     the summary's is, and each block owns its spacing rather than borrowing the neighbour's. */
+  .mr-panel{ padding:var(--s-md) var(--s-sm) var(--s-md) calc(150px + var(--s-sm)); }
 
   /* 480px, matching `.measure` and the caps global.css settled on. `ch` is not used anywhere in this
      file: it is the advance of the "0" glyph, wider than the average character in DM Sans, so a ch
@@ -321,12 +342,12 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      into the free column-2 slot beside the title, and dropped the marker onto a fourth row of its
      own where it read as a stray dash. */
   @media (max-width:640px){
-    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; padding:var(--s-sm); }
+    .mrow summary{ grid-template-columns:1fr 20px; row-gap:3px; padding:var(--s-sm); }
     .mr-key{ grid-area:1 / 1 / 2 / 3; flex-direction:row; align-items:baseline; gap:10px; }
     .mr-title{ grid-area:2 / 1 / 3 / 2; }
     .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
     .mr-count{ grid-area:3 / 1 / 4 / 3; }
-    .mr-panel{ padding:0 var(--s-sm) var(--s-sm); }
+    .mr-panel{ padding:var(--s-sm); }
     .mr-cols{ grid-template-columns:1fr; gap:var(--s-md); }
     /* Stacked, the divider turns horizontal but is still the same within-a-group line, so it stays
        dotted. Solid here would be indistinguishable from the rule that ends the group. */
