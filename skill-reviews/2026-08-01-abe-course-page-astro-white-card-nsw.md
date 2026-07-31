@@ -381,6 +381,28 @@ this section, and two items placed outside it were parsed as nothing and reporte
   reads as a weak version of the open state (already `--paper`), and a darker step puts `--slate` at
   4.40:1 against a 4.50 AA floor while `--slate` carries the module count. Re-measure `--slate` on
   the module row's ground and take the reversal deliberately.
+- [design] **`ModuleRows` scoped CSS is emitted as a separate render-blocking stylesheet and breaks
+  the Lighthouse budget on two pages.** Measured on PR #104's CI run, 1 Aug 2026:
+  `/qld-owner-builder-course` found **2** render-blocking resources against `maxLength <= 1`, and
+  `/styleguide` found **3** against `<= 2`. The blocking pair is `/_astro/SourcesFooter.*.css` and
+  `/_astro/ModuleRows.*.css`, both plain `<link rel="stylesheet">`. The `+1` on both pages is
+  `ModuleRows.css`, which appeared when the syllabus became a disclosure list on 30-31 Jul.
+  **Not the fonts.** Two `<link>` tags carry the same Google Fonts href and neither blocks: one is
+  `media="print"` with `onload="this.media='all'"`, the other is inside `<noscript>`. A raw count of
+  stylesheet hrefs reports a duplicate that does not exist, and this run reported exactly that before
+  reading the markup.
+  **The fix is a sitewide CSS-delivery change**, either `build.inlineStylesheets` in
+  `astro.config.mjs` or bringing the component's CSS under the inline threshold, so it is not a
+  drive-by: `BaseLayout.astro`'s own comment on the font block says to measure LCP before and after
+  on a throttled run and not to assume preloading helps, "it measured worst of everything tried".
+  Same discipline applies here. Measure, then choose.
+- [skills] **A PR can merge before its CI runs, and did, twice in one night.** #103 was squash-merged
+  seconds after creation with no CI run recorded against it, so the `ModuleRows` regression reached
+  `main` unmeasured and `main`'s Workers build then failed on a gate the branch had never exercised.
+  The same window stranded the fix: two commits pushed after the merge never reached `main`, and
+  `check-shipped` caught it only because it is run at pre-flight. This is the enabling condition
+  behind `kb/mistakes-log.md`'s stranded-work row rather than a fourth instance of it. Worth deciding
+  whether the CI job should be a required check, so a merge waits for it.
 
 ---
 
