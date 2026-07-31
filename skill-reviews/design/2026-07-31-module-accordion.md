@@ -170,13 +170,24 @@ darker fails the quietest text in the component. Measured on `#learn` (`--paper-
 | state | colour | luminance vs ground | `--slate` |
 |---|---|---|---|
 | rest | `#f7f4ec` | 1.000 | 4.64:1 |
-| hover | `#faf8f3` (white wash .35) | 1.036 | 4.80:1 |
+| hover | `#f5f1e8` (`--paper-warm`) | 0.974 | **4.52:1** |
 | open | `#ffffff` (`--paper`) | 1.105 | 5.10:1 |
 
-1.036 is not an arbitrary "subtle": `global.css` records that a 1.026 band separation read as too weak
-and the warm ramp was widened past it. Hover is a wash rather than a token so it adapts to whatever
-ground a section gives the component. The tint bleeds 16px either side (10px on mobile) via matched
-negative margin and padding, so it has room to breathe without moving the shared left edge.
+**Revised twice on Andrey's direction, and the second revision is the one worth recording.** Hover
+started as a white wash on the whole row at a 1.036 step. It is now `--paper-warm` on the **summary
+only**: the panel stays transparent, because the summary is what you click and lighting the whole row
+answers a gesture aimed at one line of it. The two states also now move in opposite directions, hover
+warming and open lifting to `--paper`, so they read as two meanings rather than two degrees.
+
+**`--paper-warm` is the darkest value available, and that is measured rather than chosen.** One step
+further, `#f2eee4`, drops `--slate` to **4.40:1** against a 4.50 floor, and `--slate` appears twice in
+the hovered row (the count and the disclosure marker). Asked to make the hover louder, the honest
+answer is that it cannot go louder in this direction without failing the quietest text in the thing
+being hovered. Verified with a live pointer, not a stylesheet read: the hovered summary computes
+`rgb(245, 241, 232)` while its panel and its row both stay `rgba(0, 0, 0, 0)`.
+
+The tint bleeds 16px either side (10px on mobile) via matched negative margin and padding on both the
+row and the summary, so hover and open span the same width and neither moves the shared left edge.
 
 **PRODUCT.md and DESIGN.md now carry the exception**, closing the item above. Four places.
 
