@@ -56,6 +56,25 @@ const PENDING = new Map([
   // apex, and this build replaces that apex at cutover. Remove BOTH this line and the noindex flag
   // together, and only once that decision lands.
   ['/cpd-building-tas', 'BUILT; noindex pending the learn. subdomain decision (buyUrl + Stage 7 both cleared)'],
+  // Added 1 Aug 2026, and it records an open decision rather than a build step.
+  //
+  // The page was ALWAYS a noindex-worthy dead end for equity; it just did not say so. Until this
+  // date it rendered `index,follow` while CLAUDE.md and ROADMAP both stated it was noindexed, so
+  // `resolves()` returned true and this gate stayed quiet. Setting the noindex flag made the gate
+  // tell the truth: /nsw-owner-builder-course (151 clicks, 12,988 impressions, position 16.53)
+  // 301s here, and a 301 into a noindexed page discards that ranking rather than moving it.
+  //
+  // So this entry is NOT "a page we are about to build". NSW Owner Builder is on hold: the Upskill
+  // partnership is unsigned and the five required units are not on RTO 45708's scope, so there is
+  // no product behind either URL. The real question is what those two URLs should DO at cutover,
+  // and it is a commercial call, not a build step - retire both into a live hub, hold one as the
+  // pre-launch info page ROADMAP describes, or 301 both somewhere that converts. Filed as a [build]
+  // demand item on the white-card-nsw Stage-9 review with the equity figures.
+  //
+  // Remove this line when that decision lands. Do NOT remove it by dropping the noindex flag: that
+  // would restore a page carrying a nationally-recognised claim ABE Education cannot support to the
+  // index, linked twice from every page, which is the risk the flag was added to close.
+  ['/owner-builder-nsw-course', 'ON HOLD, noindexed; the cutover fate of both NSW OB URLs is an open commercial decision'],
   ['/about', 'B4 - about page'],
   ['/guides', 'B5 - content hub index'],
 ]);
