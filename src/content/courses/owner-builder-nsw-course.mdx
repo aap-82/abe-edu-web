@@ -15,8 +15,18 @@
 #
 # The copy below is UNCHANGED on purpose. Fixing it means either naming a real delivering RTO or
 # pulling the nationally-recognised claim entirely, and that is Andrey's commercial call, not an
-# editorial one. The page is pre-cutover and the workers.dev host is noindexed, so nothing is
-# publicly exposed — but this file must not reach the live domain in its current form.
+# editorial one.
+#
+# `noindex: true` ADDED 1 Aug 2026, on Andrey's instruction. Until then this page rendered
+# `index,follow` while CLAUDE.md and ROADMAP both stated that this page AND its `-w` variant were
+# "pre-cutover and noindexed". Only the variant was: it carries `noindex: true`, this file did not,
+# and BaseLayout.astro:32 emits the tag from that frontmatter field alone. The comment below this
+# one used to rely on the workers.dev host header for protection, which is true today and stops
+# being true at cutover, when `workers_dev: false` — at which point an on-hold page carrying a
+# nationally-recognised claim ABE Education cannot support becomes indexable and is linked twice
+# from every page and four times from /owner-builder-courses. Found by the white-card-nsw Stage-9
+# grader, 1 Aug 2026. Remove this only when the authority claims below are corrected.
+noindex: true
 #
 # NSW WHITE CARD IS UNAFFECTED. That Upskill partnership IS in force and CPCWHS1001 IS on scope.
 # Do not let this block White Card work.

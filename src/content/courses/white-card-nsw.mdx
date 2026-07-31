@@ -1,0 +1,250 @@
+---
+title: "White Card NSW - Nationally Recognised, Live Online (CPCWHS1001)"
+description: "Get your White Card for NSW online in one day with a live trainer, for $129 all inclusive. Delivered by RTO partner Upskill Institute (RTO 45708). Nationally recognised Statement of Attainment for CPCWHS1001."
+canonical: "https://www.abeeducation.edu.au/white-card-nsw"
+# DELIVERY MODE - read before editing any sentence about how this course is delivered.
+# Trainer-led CONNECTED DELIVERY (live video) is permitted for GIT in NSW. Confirmed by Andrey
+# 1 Aug 2026. This was raised as a publish blocker during the build and cleared the same night:
+# SafeWork NSW's Specific Conditions PDF of Oct 2022 says "Distance education and on-line learning
+# are not permitted in NSW for the delivery of GIT" (p.5, condition q), but that document is
+# OUTDATED - it is framed under the WHS Regulation 2017, while SafeWork NSW's current register cites
+# the 2025 Regulation. SafeWork NSW's live general conditions define connected delivery and permit it,
+# and Upskill (RTO800520) is a SafeWork-registered provider delivering by Zoom now.
+# A current Specific Conditions document was NOT located publicly - see 07-verification.md.
+# Do not "correct" this page back to face-to-face on the strength of that Oct 2022 PDF.
+#
+# BUILT 1 Aug 2026 (W3-2). Ships INDEXABLE with NO PURCHASE PATH, the same pattern
+# and the same reasoning as /white-card-tas: NSW payment is not configured, so every CTA is the
+# in-page #enrol anchor. Carried as a warning, not a blocker. Wire the real buyUrl the moment a NSW
+# product exists in LearnWorlds - the 23 Jul revenue export has no NSW White Card row at all.
+# Because this ships indexable it must NOT be added to astro.config.mjs's NOINDEX array.
+state: "NSW"
+authorityModel: "asqa-accredited"
+partnerRto:
+  name: "Upskill Institute"
+  rtoNumber: "45708"
+  url: "https://training.gov.au/organisation/details/45708"
+  units:
+    - { code: "CPCWHS1001", name: "Prepare to work safely in the construction industry" }
+  credential: "Statement of Attainment"
+  placement: "after-body"
+  eyebrow: "About your training provider"
+courseName: "White Card NSW (CPCWHS1001)"
+courseDescription: "Nationally recognised construction induction training for New South Wales, delivered and assessed by RTO partner Upskill Institute (RTO 45708) and published by ABE Education. Complete it in one live online session with a trainer, then work on your statement of training while SafeWork NSW posts your card."
+price: "$129"
+priceNumber: "129"
+credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
+credentialCategory: "Statement of Attainment"
+# The middle "White Card" crumb is OMITTED until W3-6 ships, exactly as /white-card-wa and
+# /white-card-tas do. /white-card is not built, so the crumb would render as a visible link to a 404
+# and as a BreadcrumbList item naming a URL that does not resolve. check-links holds breadcrumbs
+# stricter than its PLANNED list for this reason. Restore the crumb when the hub lands.
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "White Card NSW", item: "https://www.abeeducation.edu.au/white-card-nsw" }
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "1 August 2026" }
+nav:
+  - { label: "Is it real?", href: "#real", sectionId: "real" }
+  - { label: "Online in NSW?", href: "#online", sectionId: "online" }
+  - { label: "Where accepted", href: "#accepted", sectionId: "accepted" }
+  - { label: "Your card", href: "#your-card", sectionId: "your-card" }
+  - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "How it works", href: "#how-it-works", sectionId: "how-it-works" }
+  - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+# microcopy overrides Hero.astro:36's default ("Pay by card or 4 interest-free payments with
+# Afterpay"). That default must not run on this page: there is no checkout, so it promises a payment
+# method the page cannot accept. Andrey's call, 1 Aug 2026, from the rendered page.
+cta: { href: "#enrol", label: "See White Card options", microcopy: "One-off payment. No hidden fees." }
+sticky: { label: "White Card NSW", sub: "Nationally recognised · CPCWHS1001", price: "$129", cta: { href: "#enrol", label: "See options" } }
+hero:
+  eyebrow: "White Card · New South Wales · CPCWHS1001"
+  h1Html: 'White Card NSW<span class="dot">.</span>'
+  updated: "Updated August 2026 · Government facts verified 1 Aug 2026"
+  subhead: "Get your nationally recognised White Card for New South Wales in one online day with a live trainer, for $129. The training is delivered and assessed by our RTO partner Upskill Institute, RTO 45708, and you receive a Statement of Attainment for CPCWHS1001, the construction induction unit every Australian site accepts."
+  ticks:
+    - "<b>Nationally recognised</b> Statement of Attainment for CPCWHS1001"
+    - "Delivered by <b>Upskill Institute (RTO 45708)</b> · Enrolled through ABE Education"
+    - "<b>Live online classroom</b> · Monday to Saturday, plus a Tuesday evening class"
+    - "Your training statement lets you work while the card is in the post"
+  proof:
+    - { n: "$129", text: "everything included" }
+    - { n: "1 day", text: "7 hrs with a trainer" }
+    - { n: "45708", text: "RTO partner" }
+  howItWorks: "Book a session → Attend live online → Pass the assessment → Work on your statement"
+  # Image slot ships as an FPO PLACEHOLDER: artefactImg is deliberately omitted rather than pointed
+  # at a filename that does not exist. check-assets.mjs fails the build on an image reference whose
+  # file is not tracked in git, and resolveImage() returns an unmatched basename unchanged, which is
+  # how a live <img> to a 404 once shipped on an indexable page. Prompt: 06-image-prompts.md.
+  artefactDesc: "A construction worker in a home office in Sydney attending the live online White Card session on a laptop, wearing a high-visibility vest and hard hat for the practical assessment."
+  artefactSpec: "4:5 · warm tone · ~1000×1250"
+  artefactRatio: "r45"
+ctaBand:
+  headingHtml: 'Get your NSW White Card<span class="dot">.</span>'
+  sub: "$129 all inclusive, delivered live online with Upskill Institute (RTO 45708). Sessions run Monday to Saturday, with an evening class on Tuesdays."
+  cta: { href: "#enrol", label: "See White Card options", microcopy: "Statement of Attainment issued by Upskill Institute" }
+glance:
+  - { key: "Price", value: "$129", note: "Training, assessment and your SafeWork NSW card, all included." }
+  - { key: "Delivery", value: "Live online", note: "Trainer-led session over video. Six days a week, plus Tuesday evenings." }
+  - { key: "Duration", value: "1 day", note: "About seven hours with the trainer, breaks included." }
+  - { key: "Credential", value: "CPCWHS1001", note: "Nationally recognised Statement of Attainment, issued by Upskill Institute." }
+# NO dollar figure is attached to the SafeWork NSW card fee anywhere on this page. The amount quoted
+# on the RTO partner's own sales page is UNVERIFIED against any .gov.au source (Service NSW states no
+# amount at all), so it is barred until a facts session confirms and registers it. The figure itself
+# is deliberately not written here either: check-claims scans comments, and a figure quoted inside one
+# is read as a live page figure. That is kb/mistakes-log.md's third sighting of exactly this.
+priceRows:
+  - { label: "Course and assessment", sub: "Paid to ABE Education", amount: "$129.00" }
+  - { label: "SafeWork NSW card fee", sub: "Paid by Upskill Institute to SafeWork NSW on your behalf, inside the $129", amount: "Included" }
+  - { label: "Total to a card in hand", sub: "There is nothing further to pay", amount: "$129.00", isTotal: true }
+howItWorksSteps:
+  - { title: "Book your session", body: "Choose a weekday, a Saturday, or the Tuesday evening class. Because a trainer runs the session live, you book a day rather than starting whenever you like." }
+  - { title: "Get your USI and ID ready", body: ["You need a Unique Student Identifier, which anyone doing nationally recognised training in Australia can create.", "You also need a hundred points of identification."] }
+  - { title: "Have your PPE to hand", body: ["A hi-vis vest or shirt, a hard hat, ear plugs and safety glasses.", "You put them on during the assessment while the trainer watches, so the session cannot be completed without them."] }
+  - { title: "Attend the full session", body: "About seven hours with the trainer, breaks included, from anywhere in New South Wales. The assessment is conducted in English and you complete it yourself." }
+  - { title: "Pass, and get your statement", body: "Your statement of training and Statement of Attainment are emailed on the day you pass. Upskill Institute lodges your card application with SafeWork NSW for you." }
+experts: ["warwick-smith"]
+footerSources:
+  - { label: "training.gov.au — Upskill Institute (RTO 45708), CPCWHS1001 on scope", href: "https://training.gov.au/organisation/details/45708", verified: "Verified 1 Aug 2026" }
+  - { label: "SafeWork NSW register — Upskill Institute, RTO800520, General Construction Induction Training", href: "https://verify.licence.nsw.gov.au/details/Registered%20Training%20Organisation/1-3PNZC7B", verified: "Verified 1 Aug 2026" }
+  - { label: "SafeWork NSW — White cards", href: "https://www.safework.nsw.gov.au/licences-and-registrations/white-cards", verified: "Verified 1 Aug 2026" }
+  - { label: "SafeWork NSW — General conditions for registered training organisations delivering training and assessment", href: "https://www.safework.nsw.gov.au/resource-library/licence-and-registrations/general-conditions-for-registered-training-organisations-delivering-training-and-assessment", verified: "Verified 1 Aug 2026" }
+  - { label: "SafeWork NSW — General construction induction RTOs", href: "https://www.safework.nsw.gov.au/licences-and-registrations/registered-training-organisations/construction-induction-rtos", verified: "Verified 1 Aug 2026" }
+  - { label: "Service NSW — Apply for a general construction induction card", href: "https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card", verified: "Verified 1 Aug 2026" }
+disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Upskill Institute Pty Ltd (RTO 45708). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>ABE Education does not deliver training, conduct assessments, or issue qualifications.</b> <b>The card is issued by SafeWork NSW</b>, on an application Upskill Institute lodges for you, not by ABE Education. <b>Delivery:</b> this course runs as a trainer-led session in real time. Self-paced online White Card training is not permitted for New South Wales residents, and you must be physically located in New South Wales while you are assessed.'
+---
+
+import Section from '../../components/Section.astro';
+import ZSection from '../../components/ZSection.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import CanCant from '../../components/CanCant.astro';
+import Stepper from '../../components/Stepper.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
+import Faq from '../../components/Faq.astro';
+import Note from '../../components/Note.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ArrowRight from '../../components/ArrowRight.astro';
+import { faqs } from '../../data/faqs-white-card-nsw';
+
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>You pay ABE Education <b>$129</b>, and that covers the training, the assessment and your SafeWork NSW card. It runs as one live online session with a trainer rather than at your own pace, because New South Wales requires it, and the credential is nationally recognised.</AnswerCapsule>
+  <FactGrid items={frontmatter.glance} />
+</Section>
+
+<Section id="real" marker="01" eyebrow="Is it real?" h2="Is this a real White Card?">
+  <AnswerCapsule>Yes. The training is delivered and assessed by Upskill Institute, RTO 45708, and you receive a nationally recognised Statement of Attainment for CPCWHS1001. In New South Wales an RTO needs two things to run this course: registration with ASQA, and a separate agreement with SafeWork NSW. Upskill Institute holds both.</AnswerCapsule>
+  <div class="measure">
+    <p>Most providers show you an RTO number. That number is worth checking, and it is worth knowing what it does not tell you on its own. Registration with ASQA lets an organisation deliver nationally recognised training. It does not, by itself, let anyone deliver construction induction training in New South Wales. SafeWork NSW requires a separate agreement, and its position is plain: only RTOs accredited by ASQA with an agreement from SafeWork NSW can deliver this training in the state.</p>
+    <p>Upskill Institute Pty Ltd is RTO 45708, registered until July 2030, with CPCWHS1001 on its scope to both deliver and assess. It also holds SafeWork NSW registration RTO800520 for General Construction Induction Training. Both are public, and you can confirm them yourself before you pay us anything: the national register at training.gov.au for the first, and the SafeWork NSW register at verify.licence.nsw.gov.au for the second. We would rather you did.</p>
+    <p>Upskill Institute issues your Statement of Attainment. ABE Education publishes this course, enrols you and supports you through it, and is not a registered training organisation.</p>
+    <a class="btn-link" href="#online">Can you do it online in NSW? <ArrowRight /></a>
+  </div>
+  <VerifiedSources date="1 Aug 2026" facts="RTO 45708 registration and CPCWHS1001 scope checked on the national register; SafeWork NSW registration RTO800520 for General Construction Induction Training checked on the SafeWork NSW register" sources={[{ label: 'training.gov.au — Upskill Institute RTO 45708', href: 'https://training.gov.au/organisation/details/45708' }, { label: 'SafeWork NSW register — Upskill Institute, RTO800520', href: 'https://verify.licence.nsw.gov.au/details/Registered%20Training%20Organisation/1-3PNZC7B' }, { label: 'SafeWork NSW — General construction induction RTOs', href: 'https://www.safework.nsw.gov.au/licences-and-registrations/registered-training-organisations/construction-induction-rtos' }]} />
+  <SectionWayfinder label="Online in NSW?" href="#online" />
+</Section>
+
+<Section bg="bg-alt" id="online" marker="02" eyebrow="Online in NSW" h2="Can you do the NSW White Card online?">
+  <AnswerCapsule>Yes, entirely online, with no travel and no classroom. What you cannot do in New South Wales is complete it at your own pace. SafeWork NSW requires a live trainer in real time, so the course runs as a booked session on video rather than as a course you click through whenever it suits you.</AnswerCapsule>
+  <div class="measure">
+    <p>If you have been comparing prices, you have seen White Cards advertised for around forty dollars, finished the same hour, no appointment. Those are real courses. They are also not available to you as a New South Wales resident, and the reason is worth two minutes of your time.</p>
+    <p>Fully self-paced online White Card training is permitted in Western Australia and Tasmania. Everywhere else, including New South Wales, the training has to happen with a live trainer, and SafeWork NSW sets a hard limit on what that delivery can contain. In its conditions for training organisations it states that connected delivery "must not include any pre-training, self-paced learning; or pre-recorded trainer videos or teaching course content".</p>
+    <p>Upskill Institute is registered with SafeWork NSW to deliver general construction induction training, registration RTO800520, and it runs this course as a live trainer-led session under that registration. That is what lets you do it from your kitchen table without travelling to a classroom.</p>
+    <p>So a trainer runs the session live, verifies who you are, watches you demonstrate the practical components and assesses you by direct observation. That is the requirement, not a service level ABE Education invented.</p>
+  </div>
+  <CanCant
+    canTitle="In New South Wales you can"
+    can={['Complete the whole course online from home or a work site, with no travel to a classroom.', 'Ask the trainer questions in real time and be assessed on the spot.', 'Choose a weekday, a Saturday, or the Tuesday evening class.']}
+    cantTitle="In New South Wales you cannot"
+    cant={['Work through the course at your own pace whenever it suits you.', 'Complete it by watching pre-recorded videos.', 'Use a self-paced course bought for another state to satisfy the NSW requirement.', 'Sit the session from outside New South Wales.']}
+  />
+  {/* The `facts` string was NARROWED 1 Aug 2026 and must not be widened back without a source.
+      It previously also attested "the acceptance of live video as face to face, quoted from the
+      regulator's conditions". That half is NOT quoted from them: the general conditions permit
+      connected delivery only "if provided for in the relevant Specific Conditions", which is a
+      conditional, and no current Specific Conditions document has been located. The acceptance is
+      confirmed by Andrey (1 Aug 2026), not by a public primary source, so the badge no longer
+      claims a regulator as its source for it. Widen this again only when a facts session records
+      the current Specific Conditions. See 01-source-map.md and 07-verification.md. */}
+  <VerifiedSources date="1 Aug 2026" facts="The definition of connected delivery, and the prohibition on self-paced learning and pre-recorded content within it, quoted from the regulator's conditions" sources={[{ label: 'SafeWork NSW — General conditions for RTOs delivering training and assessment', href: 'https://www.safework.nsw.gov.au/resource-library/licence-and-registrations/general-conditions-for-registered-training-organisations-delivering-training-and-assessment' }]} />
+  <SectionWayfinder label="Where it is accepted" href="#accepted" />
+</Section>
+
+<Section id="accepted" marker="03" eyebrow="Where accepted" h2="Where is a NSW White Card accepted?">
+  <AnswerCapsule>On construction sites anywhere in Australia. CPCWHS1001 is a nationally recognised unit, so the card you earn in New South Wales travels with you interstate. It works the other way too: SafeWork NSW accepts construction induction cards issued by other states and territories on NSW sites.</AnswerCapsule>
+  <div class="measure">
+    <p>If you already hold a White Card from Queensland, Western Australia or anywhere else in Australia, you probably do not need to buy this course. SafeWork NSW says construction workers can work in New South Wales using construction induction cards issued by other states and territories. Check your card is still valid, and if it is, keep your money.</p>
+    <p>There is one condition that catches people out, and it has nothing to do with which state issued the card. A construction induction card becomes void if you have not carried out construction work for two consecutive years or more. If you have been out of the industry that long, the card in your wallet is no longer doing anything, wherever it came from, and you will need to complete the training again.</p>
+  </div>
+  <Note variant="caution" label="Two-year rule">Been out of construction for two years or more? Your existing card is void, whichever state issued it, and you will need to do the training again before you return to site.</Note>
+  <VerifiedSources date="1 Aug 2026" facts="Interstate card recognition in NSW and the two-year lapse rule checked against the regulator" sources={[{ label: 'SafeWork NSW — White cards', href: 'https://www.safework.nsw.gov.au/licences-and-registrations/white-cards' }]} />
+  <SectionWayfinder label="Getting your card" href="#your-card" />
+</Section>
+
+<ZSection
+  id="your-card"
+  marker="04"
+  eyebrow="Getting your card"
+  h2="What do you get, and when does the card arrive?"
+  imgDesc="A construction worker on a Sydney site showing the digital White Card in the Service NSW app on a phone, with the site supervisor checking it."
+  imgSpec="4:5 · warm tone · ~520×650"
+  next={{ label: "What it costs", href: "#cost" }}
+>
+  <AnswerCapsule>You get a Statement of Attainment for CPCWHS1001 from Upskill Institute, emailed on the day you pass, along with a SafeWork NSW statement of training. Upskill Institute lodges your card application for you. The plastic card usually arrives within thirty days, and the statement covers you for sixty.</AnswerCapsule>
+  <div class="measure">
+    <p>The gap between finishing the course and holding a card is where most of the worry in this category sits, so here is the shape of it. You do not lodge anything yourself. Once you pass, Upskill Institute sends your application to SafeWork NSW, and you are emailed a statement of training you can show on site straight away.</p>
+    <p>That statement is valid for sixty days. Your card usually arrives within thirty. The longer number is deliberate: the statement is designed to outlast the wait, so there is no window where you have completed the training but cannot legally work. If you pass on a Friday, you can be on site on Monday.</p>
+    <p>Once the card has been issued you can also carry it digitally in the Service NSW app, which is worth doing the first time you leave the physical one at home.</p>
+  </div>
+  <FactGrid items={[{ key: "Statement of training", value: "60 days", note: "Emailed on the day you pass. Show it on site while you wait." }, { key: "Plastic card", value: "~30 days", note: "Posted by SafeWork NSW after Upskill Institute lodges your application." }, { key: "Issued by", value: "RTO 45708", note: "Upskill Institute issues the Statement of Attainment." }, { key: "Digital card", value: "Service NSW", note: "Carry the card in the Service NSW app once it is issued." }]} />
+  <VerifiedSources date="1 Aug 2026" facts="The 60-day statement, the 30-day card delivery, the RTO-lodged application and the digital card checked against the regulator and Service NSW" sources={[{ label: 'SafeWork NSW — White cards', href: 'https://www.safework.nsw.gov.au/licences-and-registrations/white-cards' }, { label: 'Service NSW — Apply for a general construction induction card', href: 'https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card' }]} />
+</ZSection>
+
+<Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What does the NSW White Card cost?">
+  <AnswerCapsule><b>$129</b>, and that is the whole cost. It covers the training, the assessment and the government card fee, which Upskill Institute pays to SafeWork NSW on your behalf rather than charging you for it separately. There is nothing further to pay once you have enrolled.</AnswerCapsule>
+  <div class="measure">
+    <p>The government fee for issuing your card is real, but you never handle it. Upskill Institute pays it to SafeWork NSW as part of lodging your application, and it sits inside the $129 you have already paid. You will not be asked for it at any point, and there is no separate government payment to make before your card arrives.</p>
+    <p>The only cost that can come later is a replacement card, if you lose the one you are sent. That is arranged with SafeWork NSW directly and is not part of this course fee.</p>
+  </div>
+  <PriceCard rows={frontmatter.priceRows} foot="There is no membership, renewal or annual charge. A replacement card, if you lose it, is arranged through SafeWork NSW and is not part of this course fee." />
+  <SectionWayfinder label="How the session works" href="#how-it-works" />
+</Section>
+
+<TrustBand
+  h2="Nationally recognised, delivered by an RTO"
+  stats={[{ value: '45708', label: 'Upskill Institute RTO', numeric: true }, { value: 'CPCWHS1001', label: 'Nationally recognised unit' }, { value: '$129', label: 'Everything included', numeric: true }, { value: '6 days', label: 'Sessions a week', numeric: true }]}
+  attestHtml='Delivered and assessed by Upskill Institute Pty Ltd (RTO 45708), accredited by the Australian Skills Quality Authority (ASQA). Published by ABE Education, which is not a registered training organisation. ABN 64 125 455 272 · <a href="https://training.gov.au/organisation/details/45708" rel="noopener">training.gov.au</a>'
+>
+  <AnswerCapsule onDark>A nationally recognised White Card, delivered and assessed by Upskill Institute (RTO 45708) and published by ABE Education.</AnswerCapsule>
+</TrustBand>
+
+<Section id="how-it-works" marker="06" eyebrow="How it works" h2="How does the session run?">
+  <AnswerCapsule>One booked day with a live trainer, about seven hours including breaks, run over video. Sessions run Monday to Saturday from 9am to 4pm, with an evening class on Tuesdays from 4pm to 11pm. You attend, take part, complete the practical demonstrations and are assessed as you go.</AnswerCapsule>
+  <div class="measure">
+    <p>Because a trainer runs the session in real time, you book a day rather than starting whenever you like. Sessions run six days a week, and the Tuesday evening class exists for people who cannot lose a day's pay to get a ticket they need in order to earn it.</p>
+    <p>Four things have to be sorted before the session starts, and every one of them stops the day if it is not. You need a Unique Student Identifier. You need a hundred points of identification. You need to be physically located in New South Wales while you are being assessed. And you need your own personal protective equipment in front of you, because part of the assessment is putting it on correctly while the trainer watches: a hi-vis vest or shirt, a hard hat, ear plugs and safety glasses.</p>
+    <p>The assessment is conducted in English and you cannot be helped through it by anyone else.</p>
+  </div>
+  <Stepper steps={frontmatter.howItWorksSteps} maxWidth="560px" />
+  <Note variant="caution" label="Bring your own PPE">You supply your own personal protective equipment. The assessment includes fitting and wearing it correctly on camera, so a session cannot be completed without a hi-vis vest or shirt, a hard hat, ear plugs and safety glasses.</Note>
+  <VerifiedSources date="1 Aug 2026" facts="Minimum age and identity requirements checked against Service NSW; session structure and equipment confirmed with the delivering RTO" sources={[{ label: 'Service NSW — Apply for a general construction induction card', href: 'https://www.service.nsw.gov.au/transaction/apply-for-a-general-construction-induction-card-white-card' }]} />
+  <SectionWayfinder label="Who develops and checks this" href="#content-review" />
+</Section>
+
+<Section bg="bg-alt" id="content-review" marker="07" eyebrow="Who develops and reviews this" h2="Who develops the course, and who checks this page?">
+  <AnswerCapsule>The course is <b>developed, owned and delivered by Upskill Institute, RTO 45708</b>, under the Standards for Registered Training Organisations. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for regulatory currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
+  <div class="measure">
+    <p>The facts on this page were read at their sources on 1 August 2026: SafeWork NSW for the delivery and card rules, Service NSW for the application process, and training.gov.au for the training organisation's registration and scope. Where a figure could not be confirmed at a government source, it is not on this page at all.</p>
+  </div>
+  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} reviewed={frontmatter.reviewedBy.date} />
+  <SectionWayfinder label="Common questions" href="#faq" />
+</Section>
+
+<Section id="faq" marker="08" eyebrow="FAQ" h2="Common questions">
+  <Faq items={faqs} />
+  <VerifiedSources date="1 Aug 2026" facts="Answers checked against the national register, SafeWork NSW and Service NSW" sources={[{ label: 'training.gov.au — RTO 45708', href: 'https://training.gov.au/organisation/details/45708' }, { label: 'SafeWork NSW — White cards', href: 'https://www.safework.nsw.gov.au/licences-and-registrations/white-cards' }]} />
+  <SectionWayfinder label="See White Card options" href="#enrol" ready />
+</Section>
