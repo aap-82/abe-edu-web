@@ -163,23 +163,45 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mrow summary:focus-visible{ outline:2px solid var(--ink); outline-offset:-3px; }
   .mrow details[open] summary{ padding-bottom:var(--s-sm); }
 
-  /* The key rail is fixed so the numbers line up down the page and can be scanned without reading.
-     Tabular figures via .num keep the ranges from jittering. 12px, not 14: the group number locates
-     a row, it does not head one, and at 14px it competed with the title beside it. */
+  /* TYPE, reconciled to DESIGN.md section 3 on 31 Jul 2026. The component had grown five mono
+     elements across three sizes (12/11/10), two weights (500/400) and three trackings
+     (.14/.12/.04em), which is not a scale, it is an accumulation. Canon is one Label style: DM Mono
+     500, 11px, .18em, uppercase, and the Mono Label Rule allows .08em to .18em with "the wider the
+     tracking, the smaller the type".
+     Three of those were straight breaches rather than judgement calls: `.mr-count`, `.mr-range` and
+     `.mr-mnum` sat at **.04em, below the .08em floor**, at weight 400 where every mono label on the
+     site is 500, and the count rendered **lowercase** where the rule says mono is always uppercase.
+     Now: 11px/500 throughout, with tracking carrying the hierarchy instead of size. .18em on the
+     group key (canon Label exactly) and on the 10px column eyebrows, per "wider tracking, smaller
+     type"; .1em on the supporting run of count, range and module number, which sit inside the .08 to
+     .18em band and read quieter without changing size.
+     The key rail is fixed so the numbers line up down the page and can be scanned without reading;
+     tabular figures via .num keep the ranges from jittering. */
   .mr-key{ display:flex; flex-direction:column; gap:4px; }
   .mr-no{
-    font-family:var(--font-mono); font-size:12px; font-weight:500;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--maroon);
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--maroon);
   }
-  .mr-range{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); }
+  .mr-range{
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--slate);
+  }
 
+  /* 18px is the one size in here that is NOT a documented step, and it is left alone deliberately.
+     DESIGN.md section 3's Title is Archivo 600 22px, which is right for a card or sub-section H3 but
+     lands differently on a list of twelve of them: ACT renders twelve group titles, and at 22px the
+     rail stops reading as a scannable index and starts reading as twelve headings. Raising it is a
+     hierarchy decision about the whole section rather than a typographic tidy-up, so it is on the
+     review's demand list for Andrey rather than changed here. Against the 15px body inside the row
+     it is a 1.2 step, which is a real step but under the 1.25 the impeccable scale asks for. */
   .mr-title{
     font-family:var(--font-display); font-weight:600; font-size:18px;
     line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0;
   }
 
   .mr-count{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate);
+    font-family:var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--slate);
     white-space:nowrap;
   }
   /* The separator is a real text node, not a ::before. As generated content it looked identical and
@@ -231,7 +253,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mr-clabel{
     display:block; margin-bottom:9px;
     font-family:var(--font-mono); font-size:10px; font-weight:500;
-    letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
+    letter-spacing:.18em; text-transform:uppercase; color:var(--slate);
   }
 
   /* One module per line, its number in the mono/tabular face so the numbers form a scannable column
@@ -244,20 +266,26 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mr-mods-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; }
   .mr-mods-list li{
     display:grid; grid-template-columns:28px 1fr; gap:var(--s-sm);
-    font-size:15px; line-height:1.5; color:var(--ink-3);
+    font-size:15px; line-height:1.55; color:var(--ink-3);
   }
   .mr-mnum{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:#600000;
+    font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.1em; color:#600000;
     text-align:left; padding-top:3px; font-variant-numeric:tabular-nums;
   }
 
   /* Learning outcomes as a bullet list. `outcome` is an array, one discrete statement per <li>.
      Items are authored capitalised and end-stopped in the source, so no ::first-letter fix-up is
-     needed. */
+     needed.
+     15px/1.55, matching the module names exactly. These two lists are PEERS: they sit side by side,
+     they hold the same kind of short statement, and they were set 15px/1.5 against 14px/1.55 for no
+     reason either of them records. A 15-against-14 step is the muddy hierarchy the typography
+     reference names by example: too close to read as deliberate, far enough to look like a mistake.
+     Same size, same leading, and the difference between the columns is carried by their eyebrows and
+     by ink colour, which is where it belongs. */
   .mr-olist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
   .mr-olist li{
     position:relative; padding-left:18px;
-    font-size:14px; line-height:1.55; color:var(--ink-2);
+    font-size:15px; line-height:1.55; color:var(--ink-2);
   }
   .mr-olist li::before{ content:"\2022"; position:absolute; left:4px; color:var(--maroon); }
 
