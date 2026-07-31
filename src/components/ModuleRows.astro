@@ -138,7 +138,19 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     margin:0 -16px; padding:0 16px;
     transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
-  .mrow details:has(> summary:hover){ background:rgba(255,255,255,.35); }
+  /* HOVER IS ON THE HEADING ONLY. The summary is the thing you click, so it is the thing that should
+     answer the pointer; tinting the panel as well made the whole row light up in response to a
+     gesture aimed at one line of it. The panel stays transparent on hover and only takes a
+     background when the group is actually open.
+     `--paper-warm`, the third step of the warm ramp, and it is the DARKEST value available here.
+     One step further (#f2eee4) drops `--slate` to 4.40:1 against a 4.50 AA floor, measured, and
+     `--slate` is in this row twice: the count and the disclosure marker. So the hover cannot go
+     louder by going darker without failing the quietest text in the thing being hovered.
+     Darker also reads as more definite than the white wash it replaces, because it moves the OPPOSITE
+     way to the open state: hover warms, open lifts to --paper. Two directions, two meanings, rather
+     than two degrees of the same one.
+     Contrast on hover, measured: --slate 4.52:1, the title 15.44:1, the group key 9.71:1. */
+  .mrow summary:hover{ background:var(--paper-warm); }
   .mrow details[open]{ background:var(--paper); }
   /* Reduced motion keeps the colours and drops the fade: the state still reads, it just arrives at
      once. A background cross-fade is not vestibular motion, but it is the same interaction as the
@@ -154,8 +166,11 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mrow summary{
     display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 13px;
     align-items:baseline; gap:var(--s-md);
-    min-height:44px; padding:var(--s-md) 0;   /* 44px tap-target floor, WCAG 2.5.5 */
-    cursor:pointer; list-style:none;
+    min-height:44px; cursor:pointer; list-style:none;
+    /* The same -16/+16 the row uses, so the hover tint spans the full row width rather than stopping
+       16px short of the open-state background it sits inside. Content x is unchanged either way. */
+    margin:0 -16px; padding:var(--s-md) 16px;
+    transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
   .mrow summary::-webkit-details-marker{ display:none; }
   /* The ring goes on the summary, which is the focusable element; inset so the row rule above does
@@ -296,7 +311,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      into the free column-2 slot beside the title, and dropped the marker onto a fourth row of its
      own where it read as a stray dash. */
   @media (max-width:640px){
-    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; padding:var(--s-sm) 0; }
+    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; margin:0 -10px; padding:var(--s-sm) 10px; }
     .mr-key{ grid-area:1 / 1 / 2 / 3; flex-direction:row; align-items:baseline; gap:10px; }
     .mr-title{ grid-area:2 / 1 / 3 / 2; }
     .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
