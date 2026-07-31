@@ -208,14 +208,29 @@ and the prohibition within it, both genuinely quoted. Measured in `dist` after t
 "acceptance of live video" returns **0 occurrences** in `#online`; the reader-facing body copy is
 **unchanged**.
 
-**⚠ What this did NOT fix, stated plainly so it is not mistaken for closed.** The body sentence
-"SafeWork NSW accepts live video delivery as face to face, which is why this course can be done from
-your kitchen table" still attributes the acceptance to the regulator in prose, and
-`hasCourseInstance.courseMode: "online"` still asserts it in structured data. Narrowing the badge
-removed the *verification claim* over that fact, not the *attribution* of it. The page is more honest
-than it was and is not yet fully honest. Closing it properly needs the current Specific Conditions
-(top item on `reports/handover-facts.md`); the alternative, if that source never materialises, is to
-attribute the acceptance to the delivering RTO rather than to SafeWork NSW.
+**Then closed properly, 1 Aug 2026, by re-attribution.** Narrowing the badge removed the
+*verification claim* over that fact but not the *attribution* of it: the body still read "SafeWork
+NSW accepts live video delivery as face to face". On Andrey's instruction the alternative route was
+taken — attribute the acceptance to the delivering RTO, which is verifiable, rather than to the
+regulator, which is not.
+
+| Where | Now reads |
+|---|---|
+| `#online` body | "…the training has to happen with a live trainer, and SafeWork NSW sets a hard limit on what that delivery can contain" + a new paragraph: "Upskill Institute is registered with SafeWork NSW to deliver general construction induction training, registration RTO800520, and it runs this course as a live trainer-led session under that registration." |
+| FAQ, "Why can I not do a self-paced White Card in NSW" | Quotes the prohibition, then: "Upskill Institute delivers this one as a live session under its SafeWork NSW registration, RTO800520." |
+
+Measured in `dist` after the change: "accepts live video" returns **0 occurrences**; `RTO800520`
+**present**. Every remaining SafeWork NSW attribution on the page is a verified quote from its general
+conditions, and the acceptance now rests on the RTO's registration, which was read on the SafeWork
+NSW register in this session (S9).
+
+**Correction to this file's earlier claim.** It previously listed
+`hasCourseInstance.courseMode: "online"` as part of the same problem. It is not. That property
+describes how the course is delivered, and it genuinely is delivered online; it attributes nothing to
+the regulator. The over-flag is recorded rather than deleted.
+
+**Still worth doing:** the current Specific Conditions remain the top item on
+`reports/handover-facts.md`. The page no longer depends on them, but the register row does.
 
 ### The finding as raised
 
