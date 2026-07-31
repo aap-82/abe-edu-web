@@ -359,6 +359,29 @@ viewport-reversion trap) are **not repeated here**. These are new.
   `/white-card-tas` is **live** with the default. Found by the run from a screenshot, checked by no
   gate.
 
+**Added after grading, by the build session, 1 Aug 2026.** Not the grader's findings; its list above
+is unedited. Filed here rather than under a heading of their own because `demand-split` reads only
+this section, and two items placed outside it were parsed as nothing and reported as nothing.
+
+- [build] **The two live NSW owner builder URLs carry 38,257 impressions between them and neither is
+  resolved for cutover.** `/owner-builder-nsw-course` (335 clicks, 25,269 impressions, position 9.69)
+  and `/nsw-owner-builder-course` (151 clicks, 12,988 impressions, position 16.53), from the 16-month
+  site-wide GSC export. In this build `/owner-builder-nsw-course` exists and is now
+  `noindex,nofollow`; **`/nsw-owner-builder-course` has no page at all.** Migration plan W2-3
+  consolidates both legacy URLs *to* `/nsw-owner-builder-course`, the slug that does not exist, so
+  the higher-equity URL serves a noindexed page and the 12,988-impression URL 404s unless the
+  redirect map catches it. Both are for a product ABE cannot currently sell, which is why it has not
+  bitten. Needs a decision about what those URLs *do* at cutover, not only about when the course
+  returns. Read at Stage 0 by whoever builds NSW owner builder; belongs on the Wave 6 gate list too.
+- [design] **Match the `ModuleRows` group accordion to the FAQ accordion** (Andrey, 1 Aug 2026).
+  Scope it before starting: the plus-mark is already aligned (`0b02349`), structural and typographic
+  parity is conflict-free, but full visual parity means adopting the FAQ's
+  `background: var(--paper-alt)` surface-tint hover, which reverses `7236dec` and `bbc54a0`.
+  `ModuleRows.astro` carries the measured reasoning for moving hover off the surface: a lighter wash
+  reads as a weak version of the open state (already `--paper`), and a darker step puts `--slate` at
+  4.40:1 against a 4.50 AA floor while `--slate` carries the module count. Re-measure `--slate` on
+  the module row's ground and take the reversal deliberately.
+
 ---
 
 ## Output — every Amber or Red needs at least one
@@ -502,3 +525,4 @@ alternative (mark it UNVERIFIED) was available and not taken.
 delivery, this page is not wrong in a sentence, it is wrong as a product, and `07` says so plainly.
 That possibility is what the amber is for, and it is why the `facts` item to obtain those conditions
 sits at the top of the demand list rather than in the middle of it.
+
