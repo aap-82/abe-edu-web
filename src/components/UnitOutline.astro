@@ -194,8 +194,14 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
      an average character advance of 7.72px at 15px - so `70ch` is 702px and renders about 91 actual
      characters per line, over this project's 85 CPL rule rather than inside the 65-75 band. 58ch
      measures 582px and 75 characters. Both figures were measured in-browser, not estimated.
-     ModuleRows' `.mr-body { max-width: 70ch }` has the same gap between the unit and the outcome; it
-     is not changed here because it ships on six pages and is not this component's to move. */
+     ModuleRows had the same gap between the unit and the outcome and was left alone here because it
+     ships on six pages. It has since been fixed, on measurement, in its own session (30 Jul 2026): both
+     `.mr-body` and `.mr-outcome` now cap at 480px, matching `.measure`. Two things that session found
+     which apply to the 58ch below. First, a ch cap converts to a different CPL for every copy: 58ch was
+     75 CPL on this component's sentences and up to 84 on ACT's syllabus prose, one character inside the
+     85 rule. Second, px is what global.css already settled on at `.measure` for exactly this reason.
+     `.unit-eb` is not changed here for the same reason ModuleRows was not changed there - it ships, and
+     it wants its own measurement and visual diff. Recorded as a demand item. */
   .unit-eb { display: block; max-width: 58ch; }
   /* Close the table with the stronger rule: the last row's hairline would otherwise read as another
      divider inside the list rather than as its foot. */

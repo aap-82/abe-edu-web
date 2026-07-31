@@ -135,9 +135,11 @@ course MDX tripped `check-pipeline` §4 for the third time today, and a dated de
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **`ModuleRows`' `.mr-body { max-width: 70ch }` renders ~91 CPL**, over the 85 rule, on six
+- ~~[design] **`ModuleRows`' `.mr-body { max-width: 70ch }` renders ~91 CPL**, over the 85 rule, on six
   owner-builder pages. Same `ch`-versus-character gap measured here. One-line fix, six pages of visual
-  diff, so it wants its own session and a look at each page rather than a blind find-and-replace.
+  diff, so it wants its own session and a look at each page rather than a blind find-and-replace.~~
+  fixed in `2026-07-30-modulerows-measure.md` — measured at 102 CPL not 91, and it was two selectors
+  (`.mr-outcome` carried the same cap and was the QLD breach), all now 480px on the `.measure` precedent.
 - [skills] **The CPL rule should state its unit.** "85 CPL" written as a `ch` value is about 30% looser
   than intended in DM Sans, which is how both this component and `ModuleRows` ended up over it while
   looking compliant in the source. Either state the rule in px per breakpoint, or say explicitly that

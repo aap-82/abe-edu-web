@@ -572,7 +572,7 @@ const groups = [
       <div class="sg-demo"><ProcessTrack steps="Enrol → Complete online → Get certificate → Apply" label="Process" /></div>
     </div>
     <div class="sg-item">
-      <div class="sg-meta"><span class="sg-name">ModuleRows</span><span class="sg-desc">Syllabus rows: mono key rail, module range, contents, optional outcome. Rows not cards, per DESIGN.md s7 (reference/syllabus). Third row shows the optional fields absent.</span><span class="sg-props">items[] (tag · title · body · modules? · outcome?)</span></div>
+      <div class="sg-meta"><span class="sg-name">ModuleRows</span><span class="sg-desc">The syllabus as a <b>disclosure list</b>: first group open, the rest on click, native <code>&lt;details&gt;</code> with no JS. Open groups show Modules beside Learning outcomes, divided by a dotted within-a-group rule. Rows not cards, per DESIGN.md s7 (reference/syllabus). <b>Note it breaks the FAQ-only accordion rule in PRODUCT.md and s7</b> — a deliberate exception, 31 Jul 2026; see the design review. The three specimens below are the three data shapes: contents + outcome (two columns), body only (prose, the shape four of five states have today), and neither.</span><span class="sg-props">items[] (tag · title · body? · modules? · contents? · outcome?)</span></div>
       <div class="sg-demo"><ModuleRows items={moduleRowsEx} /></div>
     </div>
 
