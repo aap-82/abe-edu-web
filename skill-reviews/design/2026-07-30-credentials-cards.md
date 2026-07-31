@@ -124,9 +124,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   and the register figures, but no check confirms a unit code exists and is on the partner's scope. It is
   the identifier a reader takes to training.gov.au, so a near-miss resolves to nothing. **Highest-value
   check missing.**
-- [design] **`ModuleRows`' `.mr-body { max-width: 70ch }` renders ~91 CPL**, over the 85 rule, on six
+- ~~[design] **`ModuleRows`' `.mr-body { max-width: 70ch }` renders ~91 CPL**, over the 85 rule, on six
   owner-builder pages. Same `ch`-versus-character gap measured in `UnitOutline`. One line, six pages of
-  visual diff, so it wants its own session.
+  visual diff, so it wants its own session.~~ fixed in `2026-07-30-modulerows-measure.md` — measured at
+  102 CPL not 91, and on two selectors rather than one; all caps now px, on the `.measure` precedent.
 - [skills] **The CPL rule should state its unit.** `ch` is the advance of the "0" glyph — 10.03px in
   DM Sans against a 7.72px average character — so a rule written in `ch` is ~30% looser than intended.
   Both `UnitOutline` and `ModuleRows` landed over the limit while looking compliant in source.

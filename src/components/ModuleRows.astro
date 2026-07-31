@@ -1,134 +1,247 @@
 ---
 import type { ModuleGroup } from '../types/course';
 /**
- * The syllabus. Rows, not cards.
+ * The syllabus, as a disclosure list. One group per row; the first opens on load, the rest open on
+ * click.
  *
- * DESIGN.md section 7 already prescribes this: "Reference / syllabus | Dense, mono-numbered
- * rows, scanned not read". It assigned TopicGrid to the job, but TopicGrid renders a
- * three-column card grid, so the output contradicted the rule it was meant to satisfy.
+ * DESIGN.md section 7 prescribes "Reference / syllabus | Dense, mono-numbered rows, scanned not
+ * read". It assigned TopicGrid to the job, but TopicGrid renders a three-column card grid, so the
+ * output contradicted the rule it was meant to satisfy. Cards were wrong for a second reason: the
+ * reader's-job table gives cards to "browse between entry points", and a module group is not an
+ * entry point, there is nowhere to click. That argument still stands and this is still rows.
  *
- * Cards were wrong for a second reason. The reader's-job table gives cards to "browse
- * between entry points", and a module group is not an entry point: there is nowhere to
- * click. Six equal boxes in a grid make the eye re-enter at every tile, when the job is to
- * run down a list and take in scope.
+ * WHAT CHANGED, AND THE RULE IT BREAKS (31 Jul 2026, Andrey's call after reviewing six rendered
+ * variants). The rows now collapse. PRODUCT.md's Accessibility and Inclusion section says
+ * "Decision-critical content (eligibility, cost, requirements, what the course actually is) stays
+ * fully visible and is never hidden behind an accordion. Accordions are for FAQs only", and
+ * DESIGN.md section 7 says the same twice: in the reader's-job table ("An accordion (FAQ only)",
+ * avoid "Hiding eligibility, cost, or requirements") and in the rules under it. The syllabus IS
+ * what the course actually is, and this section's H2 asks "What do the modules cover?".
  *
- * Structure separates what the cards welded together. A card body read "Your role and
- * responsibilities. Modules 1-2: Course Introduction, Key Responsibilities" - a theme and a
- * contents list in one sentence, with the module numbers doing real work but buried
- * mid-paragraph. Here the number, the theme, the range and the contents each get their own
- * slot, and the outcome answers the question the reader actually has: what will I be able to
- * do after this.
+ * So this component now contradicts two canonical documents. That is recorded rather than
+ * smoothed over: the alternative was five rendered variants that kept the rule, one of which
+ * (variant A, every group open) was measured and offered. The exception is Andrey's to make and he
+ * made it with the trade-off in front of him. `skill-reviews/design/2026-07-31-module-accordion.md`
+ * carries the measurements, and a [skills] demand item asks for PRODUCT.md and DESIGN.md to be
+ * reconciled with this, because a rule that the code silently ignores is worse than either the rule
+ * or the code being wrong on its own.
  *
- * `modules` and `outcome` are optional by design. See the ModuleGroup type: the five states
- * author this data differently, and a state opts in when its copy is written rather than
- * being back-filled from a guess.
+ * Native <details>/<summary>, no JS: the same mechanism `Faq.astro` uses, so the site has one
+ * accordion rather than two, and collapsed content stays in the DOM and in `dist/` where a crawler
+ * still reads it.
+ *
+ * THREE DATA SHAPES, because the five states author this differently and only QLD has all of it:
+ *   contents + outcome  ->  two columns, Modules beside You will be able to      (QLD)
+ *   body only           ->  the prose, one column, no eyebrows       (ACT, TAS, WA, NSW)
+ *   body + either       ->  the prose above the columns, as the note it is meant to be
+ * A group with `body` alone puts one sentence behind a click, which is a thin reward for the
+ * gesture. It is what the data supports today; the fix is authoring `contents` and `outcome` for
+ * those four states, which is build-session work and is on the demand list.
  */
 interface Props { items: ModuleGroup[]; }
 const { items } = Astro.props;
+
+/**
+ * The summary count, split into figure and word so the two can be coloured apart: the digit carries
+ * the information, the noun only labels it. Empty for a group with neither list, which is why it is
+ * rendered conditionally rather than as a joined string.
+ */
+const countParts = (m: ModuleGroup) => {
+  const mods = m.contents?.length ?? 0;
+  const outs = m.outcome?.length ?? 0;
+  const parts: { n: number; word: string }[] = [];
+  if (mods) parts.push({ n: mods, word: mods === 1 ? 'module' : 'modules' });
+  if (outs) parts.push({ n: outs, word: outs === 1 ? 'outcome' : 'outcomes' });
+  return parts;
+};
+const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.length);
 ---
 <ol class="mrows" role="list">
-  {items.map((m) => (
+  {items.map((m, i) => (
     <li class="mrow">
-      <div class="mr-key">
-        <span class="mr-no num">{m.tag}</span>
-        {m.modules && <span class="mr-mods num">{m.modules}</span>}
-      </div>
-      <div class="mr-main">
-        <h3 class="mr-title" set:html={m.title} />
-        {m.contents && (
-          <ul class="mr-mods-list" role="list">
-            {m.contents.map((c) => (
-              <li><span class="mr-mnum num">Module {c.n}</span><span set:html={c.name} /></li>
-            ))}
-          </ul>
-        )}
-        {m.body && <p class="mr-body" set:html={m.body} />}
-        {m.outcome && m.outcome.length > 0 && (
-          <div class="mr-outcome">
-            <span class="mr-olabel">You will be able to</span>
-            <ul class="mr-olist" role="list">
-              {m.outcome.map((o) => <li set:html={o} />)}
-            </ul>
-          </div>
-        )}
-      </div>
+      <details open={i === 0}>
+        <summary>
+          <span class="mr-key">
+            <span class="mr-no num">{m.tag}</span>
+            {m.modules && <span class="mr-range num">{m.modules}</span>}
+          </span>
+          <h3 class="mr-title" set:html={m.title} />
+          {countParts(m).length > 0 && (
+            <span class="mr-count num">
+              {countParts(m).map((p, n) => (
+                <span class="mr-count-part">{n > 0 ? ' · ' : ''}<span class="mr-count-n">{p.n}</span> {p.word}</span>
+              ))}
+            </span>
+          )}
+          <span class="mr-mark" aria-hidden="true" />
+        </summary>
+
+        <div class="mr-panel">
+          {m.body && <p class="mr-body" set:html={m.body} />}
+
+          {hasColumns(m) && (
+            <div class="mr-cols">
+              <div class="mr-col">
+                <span class="mr-clabel">Modules</span>
+                <ul class="mr-mods-list" role="list">
+                  {m.contents?.map((c) => (
+                    <li><span class="mr-mnum num">{c.n}</span><span set:html={c.name} /></li>
+                  ))}
+                </ul>
+              </div>
+              <div class="mr-col mr-col-out">
+                <span class="mr-clabel">Learning outcomes</span>
+                <ul class="mr-olist" role="list">
+                  {m.outcome?.map((o) => <li set:html={o} />)}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      </details>
     </li>
   ))}
 </ol>
 
 <style>
-  /* Hairline-separated rows on the section ground: no card borders, because a border per
-     group implies six separable objects when this is one list. Depth comes from the rules,
-     per DESIGN.md's hairline rule. */
+  /* Hairline-separated rows on the section ground: no card borders, because a border per group
+     implies six separable objects when this is one list. Depth comes from the rules, per DESIGN.md's
+     hairline rule. Those rules are SOLID because they are structure, between groups. The one dotted
+     line in here divides two columns within a single group, which is the job global.css assigns
+     dotted: "solid is structure, dashed is the edge of a note, dotted separates within one". */
   .mrows{ list-style:none; margin:var(--s-lg) 0 0; padding:0; border-top:1px solid var(--rule); }
-  .mrow{
-    display:grid; grid-template-columns:150px 1fr; gap:var(--s-md);
-    padding:var(--s-md) 0; border-bottom:1px solid var(--rule);
-  }
+  .mrow{ border-bottom:1px solid var(--rule); }
 
-  /* The key column is a fixed rail so the numbers line up down the page and can be scanned
-     without reading. Tabular figures via .num keep the ranges from jittering. */
+  /* The rail track is 150px MINUS the column gap, so that once the gap is added back the title
+     starts at exactly 150px: the same x as the panel below it. That gives the title, the Modules
+     eyebrow and the module numbers one shared left edge, with only the group key outside it in its
+     rail. A bare 150px track left every panel sitting 24px left of its own title. */
+  .mrow summary{
+    display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 13px;
+    align-items:baseline; gap:var(--s-md);
+    min-height:44px; padding:var(--s-md) 0;   /* 44px tap-target floor, WCAG 2.5.5 */
+    cursor:pointer; list-style:none;
+  }
+  .mrow summary::-webkit-details-marker{ display:none; }
+  /* The ring goes on the summary, which is the focusable element; inset so the row rule above does
+     not clip it. */
+  .mrow summary:focus-visible{ outline:2px solid var(--ink); outline-offset:-3px; }
+  .mrow details[open] summary{ padding-bottom:var(--s-sm); }
+
+  /* The key rail is fixed so the numbers line up down the page and can be scanned without reading.
+     Tabular figures via .num keep the ranges from jittering. 12px, not 14: the group number locates
+     a row, it does not head one, and at 14px it competed with the title beside it. */
   .mr-key{ display:flex; flex-direction:column; gap:4px; }
   .mr-no{
-    font-family:var(--font-mono); font-size:14px; font-weight:500;
+    font-family:var(--font-mono); font-size:12px; font-weight:500;
     letter-spacing:.14em; text-transform:uppercase; color:var(--maroon);
   }
-  .mr-mods{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); }
+  .mr-range{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); }
 
   .mr-title{
     font-family:var(--font-display); font-weight:600; font-size:18px;
-    line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0 0 5px;
-  }
-  .mr-body{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0; max-width:70ch; }
-
-  /* One module per line, its number set in the mono/tabular face so the numbers form a
-     scannable column instead of hiding mid-sentence. A group's modules are not always
-     contiguous (group 02 is 3, 11, 12), which is precisely why the range in the rail is not
-     enough on its own. */
-  .mr-mods-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; max-width:70ch; }
-  .mr-mods-list li{ display:grid; grid-template-columns:88px 1fr; gap:var(--s-sm); font-size:15px; line-height:1.5; color:var(--ink-3); }
-  /* A deeper maroon than --maroon (#800000): these numbers repeat down the whole column, so
-     they sit back a step rather than competing with the group titles beside them. */
-  .mr-mnum{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:#600000; padding-top:3px; }
-  /* Stack on narrow screens: an 88px rail beside a short name wastes the line. */
-  @media (max-width:640px){
-    .mr-mods-list li{ grid-template-columns:1fr; gap:1px; }
+    line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0;
   }
 
-  /* The outcome is the payoff line, so it is set apart rather than appended: a mono kicker
-     and a rule above it, in the same grammar the verified-source line uses for its label. */
-  /* Block, not flex. Flex-wrap put the label inline when the outcome was short enough to fit
-     beside it and on its own line when it was not, so the outcomes started at two different
-     x-positions down the same list - measured on the QLD page, groups 03 and 04 sat inline
-     while 01, 02, 05 and 06 wrapped. A kicker that moves depending on sentence length is
-     worse than no kicker. */
-  /* Dotted, not solid. The row is already closed by a solid rule at its foot, and a second
-     solid line inside it read as a row boundary in the wrong place. Dotted separates the
-     outcome from the contents without competing with the structure. */
-  .mr-outcome{
-    margin:10px 0 0; padding-top:9px; border-top:1px dotted var(--rule-strong);
-    font-size:14px; line-height:1.55; color:var(--ink-2); max-width:70ch;
+  .mr-count{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate);
+    white-space:nowrap;
   }
-  .mr-olabel{
-    display:block; margin-bottom:3px;
+  /* The separator is a real text node, not a ::before. As generated content it looked identical and
+     read "2 modules3 outcomes" to anything using textContent: copy-paste, text extraction, tooling
+     that does not resolve CSS. A separator between two facts is content, not decoration. */
+  /* Figures maroon, nouns slate. This is one of three maroon-on-a-non-action marks in this file (the
+     module numbers and the outcome discs are the others), all Andrey's calls on 31 Jul 2026. At
+     three it is no longer a run of exceptions to "Heritage Maroon for actions only" but a second,
+     consistent job the colour does here: FIGURES. Settling that belongs in the design register, and
+     is on the demand list rather than being decided one override at a time. */
+  .mr-count-n{ color:var(--maroon); }
+
+  /* One marker drawn in CSS rather than as a glyph, so it is a true +/- at any size and needs no
+     icon set. --slate, not maroon: disclosure is navigation, not an action. */
+  .mr-mark{ position:relative; display:block; width:13px; height:13px; flex:none; }
+  .mr-mark::before,
+  .mr-mark::after{
+    content:""; position:absolute; left:0; top:6px; width:13px; height:1px; background:var(--slate);
+  }
+  .mr-mark::after{ transform:rotate(90deg); transition:transform .18s cubic-bezier(.22,1,.36,1); }
+  .mrow details[open] .mr-mark::after{ transform:rotate(0deg); }
+  .mrow summary:hover .mr-mark::before,
+  .mrow summary:hover .mr-mark::after{ background:var(--ink); }
+  @media (prefers-reduced-motion:reduce){
+    .mr-mark::after{ transition:none; }
+  }
+
+  .mr-panel{ padding:0 0 var(--s-md) 150px; }
+
+  /* 480px, matching `.measure` and the caps global.css settled on. `ch` is not used anywhere in this
+     file: it is the advance of the "0" glyph, wider than the average character in DM Sans, so a ch
+     cap buys more characters than it names. Measured on the built pages, `70ch` here rendered up to
+     102 CPL against the project's 85 hard rule; 480px renders 60 to 72. */
+  .mr-body{ font-size:15px; line-height:1.6; color:var(--ink-3); margin:0; max-width:480px; }
+  .mr-body + .mr-cols{ margin-top:var(--s-md); }
+
+  /* Asymmetric, and deliberately so. Split 50/50 the modules column measured 408px holding names
+     that peak at 40 characters, with most lines just a number, while the outcome sentences were
+     squeezed to 41 CPL: half the grid carrying a fifth of the words. 300px fits the longest real
+     module name across the six pages and gives the rest to the sentences. */
+  .mr-cols{
+    display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr);
+    gap:var(--s-xl); align-items:start;
+  }
+  .mr-col{ max-width:480px; }
+  .mr-col-out{ padding-left:var(--s-xl); border-left:1px dotted var(--rule-strong); }
+  /* --rule-strong, not --rule: a dotted line inks about half the pixels a solid one does, and at
+     --rule it reads as a smudge rather than a division. */
+  .mr-clabel{
+    display:block; margin-bottom:9px;
     font-family:var(--font-mono); font-size:10px; font-weight:500;
     letter-spacing:.12em; text-transform:uppercase; color:var(--slate);
   }
-  /* Learning outcomes as a bullet list under the "You will be able to" kicker: outcome is an
-     array, one discrete statement per <li>. A <div class="mr-outcome"> wraps it, not a <p>,
-     because a <p> cannot legally contain a <ul>. Markers are --slate discs, not maroon: maroon
-     is for actions only, and "you will be able to" outcomes inform rather than claim a box
-     ticked, so a plain bullet reads truer than a check. Items are authored capitalised and
-     end-stopped in the source, so no ::first-letter fix-up is needed; they inherit the
-     .mr-outcome size/colour/measure. */
-  .mr-olist{ list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
-  .mr-olist li{ position:relative; padding-left:18px; }
-  .mr-olist li::before{ content:"\2022"; position:absolute; left:4px; color:var(--slate); }
 
-  /* Stack the rail above the content on narrow screens. A 150px rail beside a ~170px text
-     column is not a list any more, it is two cramped columns. */
+  /* One module per line, its number in the mono/tabular face so the numbers form a scannable column
+     instead of hiding mid-sentence. A group's modules are not always contiguous (QLD group 02 is 3,
+     11, 12), which is why the range in the rail is not enough on its own.
+     Numbers are LEFT-aligned, so the digits start on the column's own left edge and the list reads
+     flush with the eyebrow above it. The rail is a fixed track either way, so the names stay aligned
+     regardless. Deeper maroon than --maroon so a column of numbers sits back rather than competing
+     with the group title. */
+  .mr-mods-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; }
+  .mr-mods-list li{
+    display:grid; grid-template-columns:28px 1fr; gap:var(--s-sm);
+    font-size:15px; line-height:1.5; color:var(--ink-3);
+  }
+  .mr-mnum{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:#600000;
+    text-align:left; padding-top:3px; font-variant-numeric:tabular-nums;
+  }
+
+  /* Learning outcomes as a bullet list. `outcome` is an array, one discrete statement per <li>.
+     Items are authored capitalised and end-stopped in the source, so no ::first-letter fix-up is
+     needed. */
+  .mr-olist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .mr-olist li{
+    position:relative; padding-left:18px;
+    font-size:14px; line-height:1.55; color:var(--ink-2);
+  }
+  .mr-olist li::before{ content:"\2022"; position:absolute; left:4px; color:var(--maroon); }
+
+  /* Stack on narrow screens. A 150px rail beside a ~170px text column is not a list any more, it is
+     two cramped columns. The summary goes to three explicit rows: sharing one row with the count
+     left the title about 200px and broke "Design & energy" over three lines, and the count is the
+     least important thing in the row. Rows are placed explicitly because auto-flow cannot backtrack
+     into the free column-2 slot beside the title, and dropped the marker onto a fourth row of its
+     own where it read as a stray dash. */
   @media (max-width:640px){
-    .mrow{ grid-template-columns:1fr; gap:6px; padding:var(--s-sm) 0; }
-    .mr-key{ flex-direction:row; align-items:baseline; gap:10px; }
+    .mrow summary{ grid-template-columns:1fr 13px; row-gap:3px; padding:var(--s-sm) 0; }
+    .mr-key{ grid-area:1 / 1 / 2 / 3; flex-direction:row; align-items:baseline; gap:10px; }
+    .mr-title{ grid-area:2 / 1 / 3 / 2; }
+    .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
+    .mr-count{ grid-area:3 / 1 / 4 / 3; }
+    .mr-panel{ padding:0 0 var(--s-sm); }
+    .mr-cols{ grid-template-columns:1fr; gap:var(--s-md); }
+    /* Stacked, the divider turns horizontal but is still the same within-a-group line, so it stays
+       dotted. Solid here would be indistinguishable from the rule that ends the group. */
+    .mr-col-out{ padding-left:0; padding-top:var(--s-md); border-left:0; border-top:1px dotted var(--rule-strong); }
   }
 </style>
