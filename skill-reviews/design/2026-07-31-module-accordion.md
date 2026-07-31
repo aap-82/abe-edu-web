@@ -167,10 +167,13 @@ direction was forced by measurement rather than taste: the row carries `--slate`
 count and marker, and `--slate` is 4.52:1 on `--paper-warm` against a 4.50 AA floor, so one step
 darker fails the quietest text in the component. Measured on `#learn` (`--paper-alt`, `#f7f4ec`):
 
+**Superseded — see "Hover left the surface entirely" below.** Kept because the measurements are what
+ruled the surface out.
+
 | state | colour | luminance vs ground | `--slate` |
 |---|---|---|---|
 | rest | `#f7f4ec` | 1.000 | 4.64:1 |
-| hover | `#f5f1e8` (`--paper-warm`) | 0.974 | **4.52:1** |
+| hover (withdrawn) | `#f5f1e8` (`--paper-warm`) | 0.974 | **4.52:1** |
 | open | `#ffffff` (`--paper`) | 1.105 | 5.10:1 |
 
 **Revised twice on Andrey's direction, and the second revision is the one worth recording.** Hover
@@ -284,6 +287,30 @@ Same-as claims want a diff, not a copy.
 **This also shrinks the open maroon question.** Of the four non-action maroon marks filed earlier, the
 marker is now covered by §5's own wording, so the demand item concerns three: the module numbers, the
 outcome discs and the count figures.
+
+## Fifth pass: hover left the surface entirely
+
+Three surface treatments were tried and none was right, which was the signal. A wash lighter than the
+ground reads as a weaker version of the open state, since open is already `--paper`. A step darker is
+boxed in: `--paper-warm` is the last value with headroom, because one further (`#f2eee4`) drops
+`--slate` to 4.40:1 against a 4.50 floor and `--slate` carries the count. **The surface could only
+ever be quiet, in either direction, and Andrey did not want quiet.**
+
+So hover moved off the surface: **the title goes ink to maroon**, and the background now means one
+thing only, open or closed.
+
+This is the site's existing language rather than a new idea. DESIGN.md's One Maroon Rule lists
+**"hovers"** among the jobs maroon exists for, beside marks, ticks and active states, and every link
+and button on the site already answers the pointer this way. Measured with a live pointer: the
+hovered title computes `rgb(128, 0, 0)` at **9.96:1** on the section ground, against 15.83:1 as ink,
+so it changes unmistakably while staying far clear of the floor. Neighbouring titles stay ink and both
+the summary and panel backgrounds stay `rgba(0, 0, 0, 0)`.
+
+**Worth noticing across passes 3 to 5:** three of the four things asked for here ended up resolved by
+the documented palette rather than by a new value. The marker is maroon because §5 says the house
+accordion's is; hover is maroon because the One Maroon Rule says hovers are; the count and eyebrow
+tracking came from the Mono Label Rule's own band. The component had drifted from DESIGN.md in small
+ways, and most of the fixes were returns rather than inventions.
 
 ## Grader note
 
