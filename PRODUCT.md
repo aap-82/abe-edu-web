@@ -91,8 +91,20 @@ people to get me through it." The reader should feel briefed, not sold to.
 
 - **Target: WCAG 2.1 AA.**
 - **Mobile-first by necessity.** Readers are phone-heavy and decide in one sitting. Decision-critical
-  content (eligibility, cost, requirements, what the course actually is) stays fully visible and is
-  never hidden behind an accordion. Accordions are for FAQs only.
+  content (eligibility, cost, requirements) stays fully visible and is never hidden behind an
+  accordion. Accordions are for FAQs **and the module-group syllabus**.
+  **The syllabus exception, added 31 Jul 2026 (Andrey).** `ModuleRows` is a disclosure list: the first
+  group open, the rest on click. The rule previously read "what the course actually is" into the
+  protected set and so covered the syllabus too. Two things changed the call. The section is long
+  enough that hiding it earns real page: on `/act-owner-builder-course`, twelve groups, it is **39%
+  shorter** at 390px (1869px to 1141px, measured). And a syllabus is browsing material rather than a
+  decision input, unlike a fee or an eligibility threshold, which the reader must see to act. The
+  answer capsule above it still states the scope in prose with nothing collapsed, so the section's
+  question is answered before any disclosure is touched.
+  **What the exception does not cover.** Eligibility, cost, requirements, the authority model and
+  anything a reader needs in order to decide stay fully visible, on every page. This is one component
+  on one section, not a licence to collapse.
+  Collapsed content stays in the DOM and in `dist/`, so it remains crawlable and findable in-page.
 - **Alt text is a build gate.** Content images carry descriptive alt of at least 80 characters in
   Australian English; decorative images take `alt=""`. Enforced by the `abe-guardrails` integration.
 - **Plain language.** Reading level around Grade 6 to 8; body measure capped at roughly 65 to 75ch;

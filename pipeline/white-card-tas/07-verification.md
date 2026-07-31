@@ -375,3 +375,27 @@ and left these two stubs behind as dead frontmatter.
 
 **Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
 `check-claims` 0 failing, `prose-lint` 10 files passed.
+
+## Re-verification — step bodies re-authored as bullet lists, 31 July 2026
+
+**Delta:** three of the four `howItWorksSteps` bodies changed from prose strings to arrays of points,
+which `Stepper.astro` now renders as a bulleted list with maroon discs. The fourth ("Your RTO
+partner, Blue Dog Training (RTO 31193), issues the nationally recognised Statement of Attainment for
+CPCWHS1001") stays prose deliberately: it is one indivisible statement, and it is also the page's
+ASQA-disclosure sentence, which should not be broken across bullets.
+
+**No claim, figure or authority statement changed.** Carried across verbatim: the `$13.72` Service
+Tasmania fee, the `60 days` lodgement window, `CPCWHS1001`, `Blue Dog Training (RTO 31193)` as the
+issuing RTO, and WorkSafe Tasmania as the card issuer. ABE Education is still the publisher and never
+the RTO.
+
+**One clause was reworded rather than split.** "Take your Statement of Attainment, your ID and the
+$13.72 fee to a Service Tasmania centre, in person, within 60 days of the date on the Statement"
+became two bullets, the second reading "It must be lodged in person, within 60 days of the date on
+the Statement." The word "lodged" was added so the bullet stands alone as a sentence; the in-person
+requirement and the 60-day window are unchanged and still sit together, which matters because
+splitting them would let a reader take the deadline without the in-person condition.
+
+**Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
+`check-claims` 0 failing / 0 warning, `prose-lint` 10 files passed, `check-pipeline` 0 failing.
+Rendered on the built page: 1 stepper, 3 bulleted step lists, 1 kept as a paragraph.

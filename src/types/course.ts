@@ -3,7 +3,9 @@ export interface CTA { label: string; href: string; microcopy?: string; }
 export interface Img { src: string; alt: string; }        // content images: alt >= 80 chars, en-AU
 export interface Source { label: string; href: string; verified?: string; }
 export interface Fact { key: string; value: string; note?: string; }
-export interface Step { title: string; body: string; }
+// `body` takes prose OR a list of points; the array form renders as bullets. See the note on `step`
+// in `src/content.config.ts` for why both are kept rather than migrating everything to an array.
+export interface Step { title: string; body: string | string[]; }
 export interface DefinitionItem { term: string; def: string; }  // one glossary pair for DefinitionList
 export interface TopicCard { tag: string; title: string; body: string; } // body may contain <b>
 

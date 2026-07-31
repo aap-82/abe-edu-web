@@ -112,6 +112,41 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mrows{ list-style:none; margin:var(--s-lg) 0 0; padding:0; border-top:1px solid var(--rule); }
   .mrow{ border-bottom:1px solid var(--rule); }
 
+  /* Hover and open states, both LIGHTER than the section ground, and that direction was forced by
+     measurement rather than taste. The row carries --slate on its eyebrows, its count and its
+     marker, and --slate measures 4.52:1 on --paper-warm against a 4.50 AA floor: one step darker
+     than the ground and the quietest text in the component fails. Lighter is the only direction with
+     headroom, and it raises --slate to 4.80 on hover and 5.10 when open.
+
+     Measured on `#learn` (--paper-alt, #f7f4ec) at 1520px, relative luminance against the ground:
+       rest          #f7f4ec   1.000   --slate 4.64:1
+       hover         #faf8f3   1.036   --slate 4.80:1
+       open          #ffffff   1.105   --slate 5.10:1
+     1.036 is not an arbitrary "subtle": global.css records that a 1.026 band separation read as too
+     weak and the warm ramp was widened past it, so this sits just above the threshold this system
+     already decided was the floor for perceptible.
+
+     Hover is a white WASH rather than a token, so it works on whatever ground a section gives the
+     component (--ground, --paper-alt or --paper-warm) instead of assuming one. Open takes --paper
+     outright: an open group is the elevated one. */
+  /* The tint needs room around the text, or it reads as a highlighter stroke rather than a surface.
+     Pulled out 16px and padded back 16px, so the BOX grows either side while the content x does not
+     move: the title, the Modules eyebrow and the module numbers stay on the shared edge set above.
+     16 and not more because `.wrap` gives 28px of padding to borrow from, and the tint should sit
+     inside the column rather than break out of it. */
+  .mrow details{
+    margin:0 -16px; padding:0 16px;
+    transition:background-color .18s cubic-bezier(.22,1,.36,1);
+  }
+  .mrow details:has(> summary:hover){ background:rgba(255,255,255,.35); }
+  .mrow details[open]{ background:var(--paper); }
+  /* Reduced motion keeps the colours and drops the fade: the state still reads, it just arrives at
+     once. A background cross-fade is not vestibular motion, but it is the same interaction as the
+     marker rotation above and they should not disagree. */
+  @media (prefers-reduced-motion:reduce){
+    .mrow details{ transition:none; }
+  }
+
   /* The rail track is 150px MINUS the column gap, so that once the gap is added back the title
      starts at exactly 150px: the same x as the panel below it. That gives the title, the Modules
      eyebrow and the module numbers one shared left edge, with only the group key outside it in its
@@ -239,6 +274,8 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
     .mr-count{ grid-area:3 / 1 / 4 / 3; }
     .mr-panel{ padding:0 0 var(--s-sm); }
+    /* Less bleed on a phone: `.wrap` has far less padding to borrow at this width. */
+    .mrow details{ margin:0 -10px; padding:0 10px; }
     .mr-cols{ grid-template-columns:1fr; gap:var(--s-md); }
     /* Stacked, the divider turns horizontal but is still the same within-a-group line, so it stays
        dotted. Solid here would be indistinguishable from the rule that ends the group. */
