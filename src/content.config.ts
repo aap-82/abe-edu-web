@@ -6,7 +6,19 @@ const cta = z.object({ href: z.string(), label: z.string(), microcopy: z.string(
 const img = z.object({ src: z.string(), alt: z.string() });
 const source = z.object({ label: z.string(), href: z.string(), verified: z.string().optional() });
 const fact = z.object({ key: z.string(), value: z.string(), note: z.string().optional() });
-const step = z.object({ title: z.string(), body: z.string() });
+/**
+ * A step's body takes either prose or a list of points. The array form renders as a bulleted list in
+ * `Stepper.astro`; the string form stays a paragraph.
+ *
+ * Both are kept deliberately, rather than migrating every step to an array. A step whose body is one
+ * indivisible statement ("If the residential building work is worth more than $11,000 including GST,
+ * you need an owner builder permit") is a sentence, and a list of one bullet is a worse rendering of
+ * it than a paragraph. Splitting is authored per step on the same principle `src/data/modules.ts`
+ * uses for learning outcomes: by clause, never mechanically, and never in the component, because a
+ * sentence split by a regex produces fragments like "And your White Card, if you will be on site."
+ * standing alone as a bullet. Added 31 Jul 2026.
+ */
+const step = z.object({ title: z.string(), body: z.union([z.string(), z.array(z.string())]) });
 const priceRow = z.object({ label: z.string(), sub: z.string().optional(), amount: z.string(), isTotal: z.boolean().optional() });
 const person = z.object({
   name: z.string(),

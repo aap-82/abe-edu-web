@@ -1357,3 +1357,26 @@ and left these two stubs behind as dead frontmatter.
 
 **Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
 `check-claims` 0 failing, `prose-lint` 10 files passed.
+
+## Re-verification — step bodies re-authored as bullet lists, 31 July 2026
+
+**Delta:** the four `howItWorksSteps` bodies in this page's frontmatter changed from prose strings to
+arrays of points. **No rendered output changed**, because this page renders no `Stepper` at all: the
+field is carried in frontmatter and never read, exactly as recorded in the becomeSteps-stub delta
+above. Verified rather than assumed, on the built page: 0 `class="steps"` and 0 `class="step-points"`
+in `dist/white-card-wa/index.html`.
+
+**Why it was edited at all.** The conversion swept every course page so the frontmatter shape is
+consistent, rather than leaving one page on the old string form to be discovered later by whoever
+first renders a Stepper here. It is dead data either way; it is now dead data in the current shape.
+
+**No claim, figure or authority statement changed**, and none could have: nothing on this page reads
+these strings. `CPCWHS1001` (single C, WA), `Blue Dog Training` and the two-to-six-hour theory
+estimate are carried across verbatim regardless.
+
+**Worth flagging for whoever next touches this page:** four authored step bodies exist here with no
+Stepper to render them. Either wire one in or delete the field; carrying unrendered content is how
+the `becomeSteps: []` stub survived for weeks.
+
+**Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
+`check-claims` 0 failing / 0 warning, `prose-lint` 10 files passed, `check-pipeline` 0 failing.

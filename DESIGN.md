@@ -248,7 +248,7 @@ Every government fact block ends in one, and they feed the page-foot Sources lis
 The FPO image block: a warm paper gradient with a dashed inset border, a mono label and an Archivo description. Aspect is locked by `.r54` (5:4) or `.r45` (4:5). Omit the image `src` and this stays in place; drop a real image in and it swaps to an `<img>`.
 
 ### FAQ
-A single 8px bordered container of `<details>` rows split by 1px rules. The summary is Archivo 600 18px; a maroon plus-mark rotates 45 degrees to a cross when open. Accordions are for FAQs only: decision-critical content is never hidden inside one.
+A single 8px bordered container of `<details>` rows split by 1px rules. The summary is Archivo 600 18px; a maroon plus-mark rotates 45 degrees to a cross when open. Accordions are for FAQs and the module-group syllabus (`ModuleRows`, see §7): decision-critical content, meaning eligibility, cost, requirements and the authority model, is never hidden inside one.
 
 ### Navigation
 Sticky site header (blurred paper, click-open megamenus) with the maroon brand tile; `PageBar` for breadcrumbs and the dated reviewer line; `WayfinderNav`, a sub-nav of mono uppercase jump-links whose active item carries a maroon underline; `SectionWayfinder`, the end-of-section forward-scent link (a mono NEXT kicker above the next section's title and the fly arrow); and, on mobile, a fixed bottom CTA strip that slides up into view.
@@ -275,7 +275,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 - **Don't** introduce pure `#000` or `#fff` for text or borders; use the Ink and Rule tokens.
 - **Don't** use em dashes, or the word "comprehensive", in any copy (house style).
 - **Don't** nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card.
-- **Don't** hide eligibility, cost or requirements inside an accordion. Accordions are for FAQs only.
+- **Don't** hide eligibility, cost or requirements inside an accordion. Accordions are for FAQs and the module-group syllabus (`ModuleRows`), and nothing else. See §7 for the exception and its evidence.
 
 ## 7. Content design and element selection
 
@@ -347,10 +347,34 @@ When the treatment is not obvious, pick by what the reader is trying to do in th
 | Follow a process in order | A stepper | Bulleting steps; a diagram for a linear flow |
 | Compare values across items | A table, few columns on mobile | Cards |
 | Browse between entry points | Cards | Cards for comparison |
-| Dip into a few of many short sections | An accordion (FAQ only) | Hiding eligibility, cost, or requirements |
+| Dip into a few of many short sections | An accordion (FAQ, and the module-group syllabus) | Hiding eligibility, cost, or requirements |
 | Understand branching logic | A diagram paired with text | A diagram for simple linear steps |
 
-Rules that follow: one callout per section, matched to severity; lists take a lead-in colon, stay parallel, and cap around seven; tables compare and cards browse, never compare in cards; accordions are FAQ-only; a linear journey is a stepper, not a diagram.
+Rules that follow: one callout per section, matched to severity; lists take a lead-in colon, stay parallel, and cap around seven; tables compare and cards browse, never compare in cards; accordions are for FAQs and the module-group syllabus (below); a linear journey is a stepper, not a diagram.
+
+### The syllabus accordion (added 31 July 2026)
+
+**`ModuleRows` is a disclosure list: the first group open, the rest on click.** This is the one
+non-FAQ accordion on the site, and it is a deliberate exception to the line above rather than an
+oversight, decided by Andrey against six rendered variants.
+
+Why it earns the exception:
+
+- **It buys real page.** On `/act-owner-builder-course`, the largest syllabus at twelve groups, the
+  section is **39% shorter** at 390px: 1869px to 1141px, measured on the built page.
+- **A syllabus is browsing material, not a decision input.** The reader must see a fee or an
+  eligibility threshold to act; they dip into module contents. That is the "dip into a few of many
+  short sections" row of the table above, which is exactly what an accordion is for.
+- **The question is answered before any disclosure.** The section's answer capsule states the scope
+  in prose, uncollapsed, so the H2 is answered whether or not the reader opens a group.
+- **Nothing is lost to a crawler.** Collapsed content stays in the DOM and in `dist/`.
+
+The exception is scoped to this component and this content. Eligibility, cost, requirements and the
+authority model stay fully visible everywhere. Two things to know if you touch it: the four states
+other than QLD have no module contents or outcomes authored yet, so a disclosure there currently
+reveals a single sentence, and variant A (every group open, control collapses what you have read) is
+the recorded fallback if this is ever reversed. Evidence and measurements:
+`skill-reviews/design/2026-07-31-module-accordion.md`.
 
 ### Imagery
 

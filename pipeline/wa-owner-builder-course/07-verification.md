@@ -493,3 +493,28 @@ Not GREEN for three named reasons:
 **F28** (six ledgers reading "against … against") and **F18** (a sub-AA grey the codebase has already
 documented and half-fixed) are next. Fix F2, F3 and F28 and this goes GREEN on the next pass, with F1
 carried as a recorded system caveat.
+
+## Re-verification — step bodies re-authored as bullet lists, 31 July 2026
+
+**Delta:** the seven multi-point `howItWorksSteps` and `becomeSteps` bodies on this page changed from
+prose strings to arrays of points, which `Stepper.astro` now renders as a bulleted list with maroon
+discs. One body was deliberately left as prose ("If the building work is valued over $20,000 and you
+want to run it yourself, you need owner-builder approval") because it is a single indivisible
+statement and a one-item list renders a sentence worse than the sentence does.
+
+**No claim, figure or authority statement changed.** The split is by clause, authored per step, and
+every regulated string is carried across verbatim: the `$212 residential, $467
+industrial-commercial` fee pair, the `$20,000` threshold, the `80%` pass mark and `3` attempts, the
+`Form 75` naming, `Building and Energy` as the decision-maker, the `BA7` Notice of Completion, and
+the six-week timeframe with its "though timeframes vary" qualifier intact on the same bullet as the
+figure it qualifies. The knowledge-requirement model is untouched: the owner-builder step is still an
+approval, never a permit or licence, and no `recognizedBy` exists to disturb.
+
+**One clause was reworded rather than split.** "Work to your approval and permit, meet the inspection
+stages, keep your records, and complete through to the Notice of Completion (BA7)" became three
+bullets, the middle one reading "Meet the inspection stages and keep your records." Two coordinated
+verbs joined into one bullet; no obligation added, removed or softened.
+
+**Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
+`check-claims` 0 failing / 0 warning across all 150 page figures, `prose-lint` 10 files passed,
+`check-pipeline` 0 failing. Rendered on the built page: 2 steppers, 7 bulleted step lists.

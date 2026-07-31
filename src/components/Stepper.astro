@@ -1,5 +1,14 @@
 ---
 import type { Step } from '../types/course';
+/**
+ * A numbered linear process. Per DESIGN.md section 7: "Follow a process in order | A stepper".
+ *
+ * `body` takes prose or a list of points. A list renders as bullets with maroon discs, matching the
+ * learning outcomes in `ModuleRows`, so the two bulleted things on a course page look like each
+ * other. Prose stays a paragraph: a step whose body is one indivisible sentence reads worse as a
+ * list of one bullet than as the sentence it is. Which steps carry a list is authored per step, not
+ * decided here, for the reason recorded on the schema in `src/content.config.ts`.
+ */
 interface Props { steps: Step[]; maxWidth?: string; }
 const { steps, maxWidth } = Astro.props;
 const style = maxWidth ? `max-width:${maxWidth}` : undefined;
@@ -9,7 +18,27 @@ const style = maxWidth ? `max-width:${maxWidth}` : undefined;
     <div class="step">
       <span class="s-k">Step {String(i + 1).padStart(2, '0')}</span>
       <h3 class="h3" set:html={s.title} />
-      <p set:html={s.body} />
+      {Array.isArray(s.body)
+        ? (
+          <ul class="step-points" role="list">
+            {s.body.map((point) => <li set:html={point} />)}
+          </ul>
+        )
+        : <p set:html={s.body} />}
     </div>
   ))}
 </div>
+
+<style>
+  /* Maroon discs, the same marker the learning outcomes use in `ModuleRows`, so the bulleted lists on
+     a course page agree with each other. The 18px indent and 4px marker offset are that component's
+     values too, rather than a second set of numbers doing the same job.
+     Colour and size only: the type is inherited from `.step p` in global.css, which owns the step's
+     body styling, so a change there still reaches both forms. */
+  .step-points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .step-points li{
+    position:relative; padding-left:18px;
+    color:var(--ink-3); font-size:16px; line-height:1.6;
+  }
+  .step-points li::before{ content:"\2022"; position:absolute; left:4px; color:var(--maroon); }
+</style>

@@ -119,11 +119,16 @@ time, render the sparsest real data beside the richest.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] **PRODUCT.md and DESIGN.md section 7 now contradict the shipped code.** Both say accordions
-  are FAQ-only and that "what the course actually is" is never hidden; `ModuleRows` hides it on six
-  pages. Either write the syllabus exception into both, or the decision reverts to variant A. A rule
-  the code ignores in silence is worse than either being wrong alone, and "documentation drifted from
-  the code and was trusted over it" is this repo's most-repeated recorded risk (seen 10x).
+- ~~[skills] **PRODUCT.md and DESIGN.md section 7 now contradict the shipped code.** Both say
+  accordions are FAQ-only and that "what the course actually is" is never hidden; `ModuleRows` hides
+  it on six pages. Either write the syllabus exception into both, or the decision reverts to variant
+  A. A rule the code ignores in silence is worse than either being wrong alone, and "documentation
+  drifted from the code and was trusted over it" is this repo's most-repeated recorded risk (seen
+  10x).~~ **Closed same day, on Andrey's instruction.** Both documents now carry the syllabus
+  exception with its measurement and its scope, in all four places the FAQ-only claim appeared:
+  PRODUCT.md's Accessibility section, DESIGN.md's Don't list, the section 7 reader's-job table, and
+  the Accordion entry in the section 5 component list. A new section 7 subsection, "The syllabus
+  accordion", carries the evidence and names variant A as the recorded fallback.
 - [skills] **"Heritage Maroon for actions only" needs a figures clause, or three reverts.** Third
   filing of this shape today. Register-exclusive work under rule 7, so it cannot be done inside a
   session that also ships components.
@@ -133,6 +138,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   a real source read.
 - [design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa`,
   1 of 4 elements over the 85 rule. Carried forward from this morning's review, still open.
+- [design] **`.mr-title` is 18px, which is not a step in DESIGN.md section 3.** Canon Title is Archivo
+  600 22px. Raising it is a section-level hierarchy call, because ACT renders twelve group titles and
+  at 22px the list stops reading as an index. Either adopt 22px, or add 18px to the documented scale
+  as a "list heading" step so the component stops carrying an undocumented size. Andrey's call.
 - [design] **A variant sheet must render the sparsest real data, not just the richest.** Six variants
   were reviewed against QLD only, and the four prose-only states were invisible in every one of them.
 
@@ -148,6 +157,84 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [x] **Demand item closed** — the variants item in `2026-07-30-modulerows-measure.md`.
 - [ ] **Memory written** — not needed. The durable forms are the two `[skills]` items (rule
   reconciliation) and the component comments; neither is a fact about how I should work.
+
+## Second pass, same day: states, docs and the Stepper
+
+Four further changes after the accordion shipped, all Andrey's direction.
+
+**Hover and open backgrounds on `ModuleRows`.** Both go LIGHTER than the section ground, and the
+direction was forced by measurement rather than taste: the row carries `--slate` on its eyebrows,
+count and marker, and `--slate` is 4.52:1 on `--paper-warm` against a 4.50 AA floor, so one step
+darker fails the quietest text in the component. Measured on `#learn` (`--paper-alt`, `#f7f4ec`):
+
+| state | colour | luminance vs ground | `--slate` |
+|---|---|---|---|
+| rest | `#f7f4ec` | 1.000 | 4.64:1 |
+| hover | `#faf8f3` (white wash .35) | 1.036 | 4.80:1 |
+| open | `#ffffff` (`--paper`) | 1.105 | 5.10:1 |
+
+1.036 is not an arbitrary "subtle": `global.css` records that a 1.026 band separation read as too weak
+and the warm ramp was widened past it. Hover is a wash rather than a token so it adapts to whatever
+ground a section gives the component. The tint bleeds 16px either side (10px on mobile) via matched
+negative margin and padding, so it has room to breathe without moving the shared left edge.
+
+**PRODUCT.md and DESIGN.md now carry the exception**, closing the item above. Four places.
+
+**`Stepper` bodies became bulleted lists.** `body` widened to `string | string[]` in
+`content.config.ts` and `types/course.ts`; an array renders as maroon discs matching the syllabus
+outcomes, a string stays a paragraph. **49 of 56 bodies were converted, authored by clause, and 7
+were deliberately left as prose** because they are single indivisible statements and a one-item list
+is a worse rendering of a sentence than the sentence.
+
+Two bodies needed rewriting rather than splitting, which is exactly why this was not done with a
+regex: `"And your White Card, if you will be on site."` is a clause continuing its own heading and
+reads wrong standing alone, so it became `"Add your White Card too, if you will be on site."` No
+figure moved: `check-claims` is 0 failing / 0 warning across all 150 page figures.
+
+**Boundaries crossed, on the standing instruction.** This session wrote `PRODUCT.md`, `DESIGN.md` and
+`src/content.config.ts` (**skills**) and eight files under `src/content/courses/` (**build**) as well
+as `src/components/**` (**design**). Andrey chose "one session does both" each time and the repo has
+four prior instances of the same call. Recorded here rather than left to be discovered.
+
+## Third pass: typeset against DESIGN.md section 3
+
+Asked for consistency and proportion. Audited the rendered values rather than the source, against the
+canonical Label style (DM Mono 500, 11px, .18em, uppercase) and the Mono Label Rule's .08em to .18em
+band.
+
+**Three of the findings were breaches, not preferences.** `.mr-count`, `.mr-range` and `.mr-mnum` sat
+at **.04em, below the documented .08em floor**, at **weight 400** where every mono label on the site
+is 500, and the count rendered **lowercase** where the rule says mono is always uppercase.
+
+| | before | after |
+|---|---|---|
+| mono sizes | 12 / 11 / 10px | 11 / 10px |
+| mono weights | 500 and 400 | **500 only** |
+| mono tracking | .14 / .12 / **.04**em | .18em (key, eyebrow) / .1em (count, range, number) |
+| mono case | uppercase and lowercase mixed | uppercase throughout |
+| module name | 15px / 1.5 | **15px / 1.55** |
+| outcome | **14px** / 1.55 | **15px / 1.55** |
+
+Hierarchy inside the mono voice is now carried by **tracking rather than size**, which is what
+"the wider the tracking, the smaller the type" already prescribes: .18em on the group key and the
+10px column eyebrows, .1em on the supporting run.
+
+The two column lists were 15px/1.5 against 14px/1.55 for no reason either recorded. They are peers,
+side by side, holding the same kind of short statement, and a 15-against-14 step is precisely the
+muddy hierarchy the typography reference names by example. Same size, same leading now; the
+difference between the columns is carried by their eyebrows and by ink colour.
+
+Uppercase is applied with `text-transform`, not authored, so `textContent` stays sentence case for
+copy-paste and screen readers.
+
+**Measured after:** outcome measure moves 62 to **58 CPL** worst at the same 480px cap, the expected
+cost of the size bump and still inside the band with 27 characters of headroom under the 85 rule.
+Module names unchanged at 34. Build green, guardrails 20 pages.
+
+**Not changed: `.mr-title` at 18px**, the one size in the component that is not a documented step.
+DESIGN.md's Title is 22px, which suits a card H3 but lands differently on ACT's twelve group titles,
+where it stops being a scannable index and becomes twelve headings. That is a hierarchy decision
+about the section, not a typographic tidy-up. Filed below.
 
 ## Grader note
 
