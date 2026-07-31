@@ -137,21 +137,20 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mrow details{
     transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
-  /* HOVER IS ON THE HEADING ONLY. The summary is the thing you click, so it is the thing that should
-     answer the pointer; tinting the panel as well made the whole row light up in response to a
-     gesture aimed at one line of it. The panel stays transparent on hover and only takes a
-     background when the group is actually open.
-     `--paper-warm`, the third step of the warm ramp, and it is the DARKEST value available here.
-     One step further (#f2eee4) drops `--slate` to 4.40:1 against a 4.50 AA floor, measured, and
-     `--slate` carries the count in this row (and the module range where a state authors one). So the
-     hover cannot go louder by going darker without failing the quietest text in the thing being
-     hovered. The disclosure marker used to be `--slate` too and is now maroon, which is why this
-     says "the count" and not "the count and the marker".
-     Darker also reads as more definite than the white wash it replaces, because it moves the OPPOSITE
-     way to the open state: hover warms, open lifts to --paper. Two directions, two meanings, rather
-     than two degrees of the same one.
-     Contrast on hover, measured: --slate 4.52:1, the title 15.44:1, the group key 9.71:1. */
-  .mrow summary:hover{ background:var(--paper-warm); }
+  /* HOVER CHANGES THE TITLE, NOT THE SURFACE. Two background attempts came before this one, and the
+     surface turned out to be the wrong axis on this component. A wash lighter than the ground reads
+     as a weaker version of the open state, which is already --paper. A step darker was measured at
+     the boundary: `--paper-warm` is the last value with any headroom, because one step further
+     (#f2eee4) drops `--slate` to 4.40:1 against a 4.50 AA floor, and `--slate` carries the count in
+     this row. So the surface could only ever be quiet, in either direction.
+     Ink to maroon on the title is not quiet, and it is the site's existing language rather than a new
+     idea: DESIGN.md's One Maroon Rule lists "hovers" among the jobs maroon exists for, alongside
+     marks, ticks and active states, and every link and button on the site already answers the pointer
+     this way. It also leaves the background free to mean one thing only, which is open or closed.
+     Measured on hover: the title reads 9.96:1 as maroon on the section ground, against 15.83:1 as
+     ink, so it stays far clear of the 4.50 floor while changing unmistakably. */
+  .mrow summary:hover .mr-title{ color:var(--maroon); }
+  .mr-title{ transition:color .18s cubic-bezier(.22,1,.36,1); }
   .mrow details[open]{ background:var(--paper); }
   /* Reduced motion keeps the colours and drops the fade: the state still reads, it just arrives at
      once. A background cross-fade is not vestibular motion, but it is the same interaction as the
@@ -176,7 +175,6 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
        Top and bottom match too, including when the group is open, so the heading is not lighter
        under the title than above it. */
     padding:var(--s-md) var(--s-sm);
-    transition:background-color .18s cubic-bezier(.22,1,.36,1);
   }
   .mrow summary::-webkit-details-marker{ display:none; }
   /* The ring goes on the summary, which is the focusable element; inset so the row rule above does
