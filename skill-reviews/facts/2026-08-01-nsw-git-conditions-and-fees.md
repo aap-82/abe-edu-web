@@ -165,18 +165,24 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [facts] **Verify the QLD row of `online-delivery-policy-by-state.md` against WHSQ.** Same
   virtual-classroom claim that failed for NSW, same industry-guide provenance, and it is already on a
   live page. Then work through TAS, ACT, WA and the out-of-scope rows.
-- ~~[skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom position as canonical.**~~ **CLOSED 2 Aug 2026 — all three reconciled to §2A-1: mode stated as the RTO's, no source link, and a new prohibited-claims row banning regulator attribution.** Original finding kept below.
+- ~~[skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom position as canonical.**~~ **CLOSED 2 Aug 2026 by PR #112**, which reconciled all three and added a prohibited-claims row banning regulator attribution of the mode. A later branch duplicated that work off a stale base and discarded its own version in favour of #112's on merge; only the §2A-1 exemption pointer was added on top. Original finding kept below.
   They stated that position as canonical. Reconcile against `online-delivery-policy-by-state.md` §2A.
   Line 371 is in the prohibited-claims table, so it currently teaches the wrong replacement wording.
 - [skills] **`.claude/skills/abe-course-page-astro/references/seo/badge-inventory.md:141` carries the
   same NSW delivery claim**, and `references/seo/changelog.md` (lines 326, 337) records it as settled.
   The badge file is the one that will re-teach it to the next build.
-- [skills] **Add a rule 11 to CLAUDE.md: facts sessions close with a review**, on the same terms as
+- ~~[skills] **Add a rule 11 to CLAUDE.md: facts sessions close with a review**, on the same terms as
   rules 9 and 10. This review is filed at `skill-reviews/facts/` on that assumption —
   `demand-split.mjs` recurses so it routes correctly, and the flat build-run scans in
   `review-trends.mjs` and `system-health` correctly ignore it. The convention now exists in the tree
   without existing in the rules, which is the gap rule 10 was written to close for skills sessions.
-  Until it lands, a facts session grading no page has no stated obligation to record what it found.
+  Until it lands, a facts session grading no page has no stated obligation to record what it found.~~
+  Added 1 Aug 2026. Your reading of the tooling was confirmed independently before the rule was
+  written (38 reviews scanned, ten items routed from this review; the flat scans ignore it), so
+  rule 11 ships as documentation only, with no code change. It carries two clauses beyond rules 9
+  and 10 that this run's own experience argued for: record the *reading* and not just the figure,
+  and make a reversal name every place still carrying the old position. See
+  `skill-reviews/skills/2026-08-01-session-type-gaps.md`.
 - [skills] **A session's branch base is unchecked, and it nearly put 11 unrelated `src/` files into a
   facts PR.** This session's branch was cut from whatever was checked out at open
   (`design/type-floor-and-tap-targets`), so `origin/main...HEAD` carried three design commits it had

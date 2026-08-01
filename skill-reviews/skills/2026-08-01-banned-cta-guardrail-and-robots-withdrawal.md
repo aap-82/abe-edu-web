@@ -181,9 +181,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   the table never assigns it, and CLAUDE.md names it only to forbid *the improvement pass* from
   touching it. Same shape as the open `.claude/launch.json` item and the `content.config.ts` /
   `SYSTEM.md` precedent. Assign it. `public/` has the same gap — see below.
-- [skills] **`public/robots.txt`, `public/_redirects` and `public/images/` have no owner either.**
+- ~~[skills] **`public/robots.txt`, `public/_redirects` and `public/images/` have no owner either.**
   They are neither content nor component nor platform config, and `_redirects` in particular is the
-  cutover's main deliverable. Assign `public/**` in the same pass.
+  cutover's main deliverable. Assign `public/**` in the same pass.~~ Assigned to **skills** 1 Aug
+  2026, in the same pass as `.claude/launch.json` as this item asked — see
+  `skill-reviews/skills/2026-08-01-session-type-gaps.md`.
 - [skills] **A withdrawn rule needs a closing record where the rule lived, not only where it was
   withdrawn.** Three sessions filed a demand item for a robots block that had been withdrawn 12 days
   earlier, because the withdrawal was recorded in the risk audit and in `verification.md` while the

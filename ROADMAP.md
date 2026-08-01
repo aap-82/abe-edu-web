@@ -357,18 +357,20 @@ roadmap was built to enforce.
 
 ---
 
-## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, four triggers have fired
+## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, five triggers have fired
 
 Phase 2's demand list now exists, so the gate is open for **the candidates it names and no others**.
-Four triggers have fired. The first three have evidence in
+Five triggers have fired. The first three have evidence in
 `skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`; the fourth was earned on
-28 July and has already recurred.
+28 July and has already recurred; the fifth was earned on 1 August across three boundary crossings in
+two sessions on the same day.
 
 | Candidate | Trigger | Evidence |
 |---|---|---|
 | **`page-auditor` subagent** | "the audit wanted its own context, or graded inconsistently" | Stage 7 ticked five rows the built HTML fails. Runs as a fresh subagent given only `dist/{slug}/index.html`, and reports a **measured value per row**, never a tick. |
 | **Per-slug warning filter** | not on the original candidate list; earned by the run | Three scripts raised warnings naming the slug; none was read. A `--slug` filter turns existing signal into used signal, with no new checks. |
 | **Guardrail: fail on undeclared authority** | "a rule was violated that a hook would have caught" | A page in a course or bundle collection with no `authority` silently skips the checks that model triggers. |
+| **Session-type path check** ⭐ **3 crossings, 2 sessions, one day — authorised** | not on the original list; earned 1 Aug 2026 | **Nothing compares a commit's touched paths against the declaring session's may-write list.** A design session committed `scripts/check-redirect-targets.mjs` via cherry-pick (`3d9cc44`) and never flagged it; the same session edited `.claude/launch.json`; a skills session edited `public/robots.txt`. Only the last two were flagged, and the `scripts/` one surfaced solely because Andrey asked, hours later, whether it was a design session. The cherry-pick is the instructive case: **an edit arriving via cherry-pick, merge, revert or rebase is still an edit by the session that runs it**, and that is the case the human eye skips, because the paths scroll past in tool output rather than being typed. Mechanically trivial — given a session type and a commit range, diff touched paths against the table in `CLAUDE.md`. **Build it as advisory, not a flat FAIL:** several paths are deliberately unassigned (`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`), so an unassigned path must report differently from a wrong-owner path or the check goes red on work no session may fix — the ratchet lesson. Filed by `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`. |
 | **Headless width check over `dist/`** ⭐ **2 occurrences — build it** | not on the original list; earned 28 Jul, recorded twice the same day | **Nothing in the repo can see a horizontal scrollbar.** A 90px sideways scroll at 320px survived a green build, 20/20 guardrails, `check-claims` 0 failing and an independent Stage 7 audit, on every page rendering `PartnerDisclosure`. It had **three** independent causes (a `1fr` grid track that could not shrink, an `inline-flex` eyebrow that could not wrap, and a header row 14px too wide), so a one-off fix would not have held. Filed by both `2026-07-28-abe-readability-audit-white-card-wa.md` and `skill-reviews/design/2026-07-28-reflow-spacing-and-tap-targets.md`. |
 
 Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,

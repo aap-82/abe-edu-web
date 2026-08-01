@@ -274,7 +274,7 @@ and every subagent.
 | **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/styles/**`, `src/content.config.ts` |
 | **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `SYSTEM.md`, `ROADMAP.md`, `kb/mistakes-log.md`, `handover/**`, `src/content.config.ts` | `kb/register/**`, `src/styles/**`, `src/components/**`, any live run's artefacts |
 | **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
-| **facts** | Verify and record regulatory figures | `kb/register/**` | everything else |
+| **facts** | Verify and record regulatory figures | `kb/register/**`, `skill-reviews/facts/**` (its own review only) | everything else |
 
 `src/content.config.ts` (the content schema) is owned by **skills** — it is cross-cutting model
 infrastructure, not one page's build, so a build session treats it as fixed. (Assigned 25 Jul 2026, when
@@ -292,6 +292,24 @@ unassigned and deliberately so:** `worker/`, `wrangler.jsonc`, `astro.config.mjs
 own decision with a human in it — say so out loud rather than folding it into a session. (This audit
 edited one comment in `worker/entry.js`, a stale pointer at a file that had moved; that was a judgement
 call at the boundary, and it is recorded here rather than left to be discovered.)
+
+**`public/**` and `.claude/launch.json` are owned by skills** (assigned 1 Aug 2026, third application
+of the same precedent). Two sessions hit these on the same day and both had to cross a boundary to
+finish: a skills session edited `public/robots.txt` to record *why* it carries no `Disallow`, and a
+design session added a `dist-static-auto` entry to `.claude/launch.json` because the pinned-port entry
+made it impossible for a second session to verify anything at all. Both flagged it; neither had a rule
+to point at. `public/robots.txt`, `public/_redirects` and `public/images/` are sitewide delivery
+artefacts that no single page owns, and `launch.json` is per-session verification tooling that every
+type needs — which is precisely the shape that ends up unassigned, because it belongs to everyone's
+work and nobody's remit. **This is now the third path-ownership gap found the same way** (after
+`content.config.ts` and `SYSTEM.md`/`handover/**`), so the pattern is worth naming rather than
+patching a fourth time: a path goes unassigned when it is *infrastructure for* the work rather than
+*part of* the work. When you meet one, assign it in the same session that hit it.
+
+Note the distinction against the deliberately-unassigned list above: `public/**` is build **output
+configuration** that ships with every page and changes with the content, while `wrangler.jsonc` and
+`astro.config.mjs` decide how and where the whole site is served. The test is whether getting it wrong
+breaks one page's correctness (assignable) or the deployment itself (human decision).
 
 Subagents inherit the session type of the session that launched them and cannot widen it. A subagent
 that needs to write outside the type stops and reports upward. It never guesses.
@@ -334,6 +352,30 @@ that needs to write outside the type stops and reports upward. It never guesses.
    repo and was the only kind closing with no record at all. Same subdirectory logic as design: routed
    by `demand-split`, excluded from the build-run trend and page-coverage scans, because a skills
    session grades no page.
+11. **Facts sessions close with a review as well**, to `skill-reviews/facts/YYYY-MM-DD-<topic>.md`, on
+   the same terms as rules 9 and 10, with two additions that are specific to facts work and are the
+   reason this rule exists rather than being folded into them.
+   **(a) Record the reading, not just the figure.** `kb/register/**` stores what is true; the review
+   stores *how it was established* — the instrument opened, the clause or page cited, the date, and
+   what was searched for and not found. A register diff shows a row changing from ✅ to ❌ and cannot
+   show why, so without the review the next session re-derives the reasoning from scratch or, worse,
+   reverses it back.
+   **(b) A reversal names what it contradicts.** When a reading overturns a position the repo already
+   holds, the review lists every place still carrying the old one — rule docs, page copy, MDX
+   comments, skill references — because those are skills- and build-owned and a facts session may not
+   fix them itself. An unlisted contradiction is one nobody is assigned to close.
+   Added 1 Aug 2026, after a facts session read SafeWork NSW's GIT conditions, reversed the NSW
+   delivery row, and had **no mandated place to put the reasoning** — for the most consequential kind
+   of change in the repo, since `kb/register/**` is the single owner of every verified regulatory
+   figure and a wrong row propagates to page copy and schema. It filed one anyway, at
+   `skill-reviews/facts/2026-08-01-nsw-git-conditions-and-fees.md`; this rule ratifies the practice
+   rather than inventing it. Same subdirectory logic as rules 9 and 10, and **no tooling change was
+   needed** — verified 1 Aug 2026: `demand-split.mjs` has been recursive since 29 Jul, so facts items
+   already route (38 reviews scanned, ten hits from that one review), while `review-trends.mjs` and
+   `system-health.mjs:177` read `skill-reviews/` flat and already exclude it. Self-grading is allowed
+   with `graded_by: self` and a stated reason; there is no fresh-subagent facts grader, and note that
+   rule 4 already forbids the obvious substitute — a second session cannot re-verify a figure without
+   reading the source itself.
 
 ### Demand-list format
 Every demand-list item in a Stage 9 review carries a destination, so the handover notes can be derived
