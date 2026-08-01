@@ -188,7 +188,7 @@ Checkmarks (✓) and stars (★) can improve visual distinction in SERPs, but ov
 | Course detail | Course + location. Duration + mode. Outcome. Trust signal. CTA + price. | White Card Tasmania. 6-hour online course with live assessment. Get your construction induction card — valid in all states. RTO 31193. Start now — $77.37. |
 | Category | Explore [X]+ [category] courses [location]. Qualification levels. Differentiator. CTA. | Explore construction training courses in Tasmania. White Card, Owner Builder, and CPD. Nationally recognised. Browse courses. |
 | Blog/guide | Brief direct answer to query. What the guide covers. Read more. | A White Card costs $77.37 in Tasmania ($64 training + $13.37 government fee). This guide explains what's included and how to enrol. |
-| Location page | Who we serve + location. Course types. Key trust signal. CTA. | Online construction training for Hobart and regional Tasmania. White Card, Owner Builder, Asbestos. RTO 31193 partnership. Enrol today. |
+| Location page | Who we serve + location. Course types. Key trust signal. CTA. | Online construction training for Hobart and regional Tasmania. White Card, Owner Builder, Asbestos. RTO 31193 partnership. Start today. |
 
 ### Trust signals to include in descriptions
 
@@ -208,7 +208,7 @@ Pick 1–2 per description (don't cram all of them):
 
 | CTA | Best for |
 |---|---|
-| "Enrol Now" | Transactional course pages (strongest) |
+| "Get Certified Now" | Transactional course pages (strongest) |
 | "Book Your Spot" | Creates scarcity |
 | "Get Certified" / "Get Your White Card" | Outcome-focused, ideal for vocational courses |
 | "Start Learning Today" | Emphasises immediacy for online delivery |
@@ -261,7 +261,8 @@ Desc:  Get your White Card online with ABE Education. CPCWHS1001 construction in
 
 - First-person wins: "Start my free trial" → 90% improvement
 - 2–5 words, benefit-driven: "Get My Free Guide" > "Submit"
-- Be specific: "Book Your White Card Course" > "Enrol Now" > "Submit"
+- Be specific: "Book Your White Card Course" > "Get Certified" > "Submit"
+  (the banned "Enrol Now" is not a rung on this ladder — see `meta-framework.md`)
 - Specific CTAs increase conversions 161%
 
 ### Design rules

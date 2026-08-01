@@ -142,6 +142,45 @@ const SG_PENDING: Record<string, { added: string; owner: string; why: string }> 
 
 const PENDING_MAX_DAYS = 30;
 
+/* ---------------------------------------------------------------------------
+   BANNED-CTA RATCHET.
+
+   `verification.md` §1f and SKILL.md stage 7 both name "Enrol now" / "Enrol today"
+   as a hard-blocker: a passive, generic CTA where the rule wants benefit-led,
+   first-person wording. It was named in the skill, listed among the publish
+   blockers, checked by hand every run - and shipped anyway, four times on one page
+   and 21 times across four live pages. A rule that is only ever enforced by an
+   author reading a checklist is not enforced.
+
+   Why a ratchet and not a flat FAIL. A flat FAIL is correct and would redden the
+   build on four pages today. Fixing that copy is `src/content/**` - a BUILD
+   session's territory, not this one's - so shipping a bare FAIL from here would
+   hand every other session a broken build it is not allowed to repair. The
+   INLINE_STYLE_BUDGET ratchet above solved exactly this shape, so this follows it:
+
+     over budget   -> fail. A NEW banned CTA. This is the case that matters, and it
+                      is caught the first time, on the first build, forever.
+     under budget  -> fail. Debt was paid; lower the number so it cannot creep back.
+     page absent   -> budget 0. Every page written from here on starts clean.
+
+   The "under budget" arm is what makes this converge instead of rot. Each page
+   below is a real, open defect on a live indexable page, not an exemption - the
+   count is the debt, and the only legal direction is down. When a build session
+   rewrites one page's CTAs the entry goes to 0 and then leaves this table.
+
+   Measured on `dist` 2026-08-01, after `npm run build`. Body only: the styleguide
+   and preview trees are skipped by the page loop, so its specimen CTA is out of
+   scope by construction, not by exemption.
+   --------------------------------------------------------------------------- */
+const BANNED_CTA = /\bEnrol\s+(?:now|today)\b/gi;
+
+const BANNED_CTA_BUDGET: Record<string, number> = {
+  'act-owner-builder-course/index.html': 5,
+  'owner-builder-nsw-course/index.html': 5,
+  'owner-builder-nsw-course-w/index.html': 5,
+  'tas-owner-builder-course/index.html': 5,
+};
+
 // The YAML frontmatter block of an MDX file, or '' if it has none.
 function frontmatterOf(src: string): string {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -521,6 +560,22 @@ export default function guardrails(): AstroIntegration {
 
           // 7 - unresolved facts must never ship
           if (/\[confirm:/i.test(html)) fails.push(`${name}: unresolved [confirm: ...] marker in the output.`);
+
+          // 7a - banned generic CTA, ratcheted. See BANNED_CTA_BUDGET above for why this
+          //      is a budget and not a flat FAIL. Body only: chrome carries no enrol CTA.
+          const ctaHits = [...body.matchAll(BANNED_CTA)].map((m) => m[0]);
+          const ctaBudget = BANNED_CTA_BUDGET[name] ?? 0;
+          if (ctaHits.length > ctaBudget) {
+            fails.push(
+              `${name}: ${ctaHits.length} banned CTA(s) ("${[...new Set(ctaHits)].join('", "')}") in the body, budget ${ctaBudget}. ` +
+                `"Enrol now"/"Enrol today" is a publish hard-blocker (verification.md 1f) - it is passive and generic where the rule wants benefit-led, first-person wording ("Start my ACT course"). Rewrite the CTA; do not raise the budget.`,
+            );
+          } else if (ctaHits.length < ctaBudget) {
+            fails.push(
+              `${name}: ${ctaHits.length} banned CTA(s) in the body but BANNED_CTA_BUDGET still allows ${ctaBudget}. ` +
+                `Debt was paid - lower the number in src/integrations/guardrails.ts to ${ctaHits.length}${ctaHits.length === 0 ? ' (or delete the entry)' : ''} so it cannot creep back.`,
+            );
+          }
 
           // 7b - no VISIBLE link may hardcode our own production origin.
           //

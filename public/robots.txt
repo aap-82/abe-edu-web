@@ -1,3 +1,20 @@
+# /course/, /program/ and /bundle/ are DELIBERATELY NOT disallowed. This is not an oversight,
+# and it has now been filed as a defect three times (white-card-wa Stage 9, the 29 Jul system
+# audit, and again on 1 Aug) against a rule that was withdrawn on 16 Jul 2026.
+#
+# Those ~229 player URLs 301 to learn.abeeducation.edu.au (see public/_redirects). Google must be
+# able to CRAWL an old URL to see the redirect that carries its equity; a disallowed URL's 301 is
+# never followed, so blocking them would strand every one of them indexed on the dead path,
+# transfer nothing, and fill GSC with "indexed though blocked". One of them
+# (/course/qld-owner-builder-education) carries 33 clicks.
+#
+# Crawl control for the player URLs belongs on the learn.* host instead (risk audit R6).
+# Sources: new site/abe-migration-plan-v2-risk-audit.md R1; migration plan v2 sect 5 and the
+# cutover runbook step 3; .claude/skills/abe-course-page-astro/references/verification.md sect 1e.
+#
+# Before adding any Disallow here, read R1. The staging host is kept out of the index by the
+# X-Robots-Tag in worker/entry.js, not by this file.
+
 User-agent: *
 Allow: /
 

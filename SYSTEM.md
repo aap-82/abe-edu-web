@@ -116,7 +116,15 @@ HTML. Correctness: exactly one H1, answer capsules that answer the question thei
 JSON-LD node set with Person counts and `recognizedBy` conditional on authority model, claims
 forbidden per model, price parity between schema and page, alt-text length, in-page anchors,
 unresolved `[confirm:]` markers, MDX hygiene and class ownership, styleguide specimens, hub
-bijection, orphans, and superseded course codes. Never weakened to make a page pass.
+bijection, orphans, superseded course codes, and banned generic CTAs. Never weakened to make a
+page pass.
+
+The banned-CTA check is a **ratchet**, not a flat assertion, and it is the only one here that is:
+each page carries its measured count as a budget and the build fails if the count rises **or** if
+it falls without the budget following it down. That shape exists because the rule was breached on
+four live pages before it was mechanised, and a flat FAIL from a skills session would have handed
+every build session a red build it was not permitted to fix. A ratchet converts standing debt into
+something that can only shrink; `INLINE_STYLE_BUDGET` does the same for inline styles.
 
 **At postbuild** — **`check-redirect-targets`**, asserting every internal redirect target resolves
 to a real page in `dist/`. A rule can redirect in one hop and still land the reader on a 404; those
@@ -140,9 +148,12 @@ repo (`../anything`) fails on sight, resolvable or not, because §2's "One home"
 single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
 `business data/` and the superseded `data/GSC/` — the first two are correct paths that are
 deliberately never committed, the third is named only in historical records. The four checks:
-- **`check-claims`** — three things nothing else sees: whether what the docs *say* about the build
+- **`check-claims`** — four things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
-  superseded figure failing, and whether this section still names every check that exists.
+  superseded figure failing, whether the skill's own worked examples demonstrate a phrase the skill
+  bans, and whether this section still names every check that exists. The worked-example guard
+  reads the *source of the copy* rather than the copy: `guardrails.ts` reads `dist/`, and a
+  reference doc is never built, so a skill that taught what it forbade was invisible to every gate.
 - **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at
   Stage 4 still exists as its own section on the page, rather than dissolving into a neighbour.
 - **`check-shipped`** — work on this branch can still reach `main`. A merged PR does not pick up

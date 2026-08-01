@@ -124,7 +124,7 @@ Trust bars and trust sections must never contain enrolment CTAs, pricing, or pro
 
 **Why:** Google's guidelines for FAQPage schema (which extends to trust-adjacent structured content) penalise promotional CTAs within answer/trust containers. This also violates the principle that trust signals should reduce anxiety, not create sales pressure. Mixing the two reduces effectiveness of both.
 
-**ABE application:** The ASQA disclaimer section, the "Delivered in partnership with..." badge, the review star strip, and the government approval badge must be free of "Enrol Now" buttons or pricing. CTAs belong in their own dedicated sections adjacent to — but separate from — trust elements.
+**ABE application:** The ASQA disclaimer section, the "Delivered in partnership with..." badge, the review star strip, and the government approval badge must be free of enrol buttons or pricing. CTAs belong in their own dedicated sections adjacent to — but separate from — trust elements.
 
 ---
 
@@ -239,7 +239,7 @@ Every course page hero section includes a trust strip beneath the price/CTA area
 2. **Outcome metric** — "95% pass rate" or "Same-day certification"
 3. **RTO partnership** — "Delivered with Blue Dog Training (RTO 31193)"
 
-**Why:** The course hero is the highest-conversion real estate on the page. Three elements provide credibility without pushing the CTA below the fold. More than three creates decision paralysis at the exact moment the user should be clicking "Enrol Now."
+**Why:** The course hero is the highest-conversion real estate on the page. Three elements provide credibility without pushing the CTA below the fold. More than three creates decision paralysis at the exact moment the user should be clicking the enrol CTA.
 
 **Design rules:**
 - Inline with hero content, not a separate section
@@ -386,7 +386,7 @@ FAQ sections must not contain trust badges, promotional language, or CTAs within
 
 **Why:** FAQPage schema guidelines prohibit promotional content in answer containers. Trust badges in FAQ answers reduce AI citation likelihood and violate Google's structured data policies. FAQ answers must be factual and direct.
 
-**ABE application:** FAQ questions like "Is this course nationally recognised?" should answer factually ("Yes, this course is delivered in partnership with Blue Dog Training (RTO 31193), a nationally registered training organisation...") without adding badge images or "Enrol Now" links inside the answer.
+**ABE application:** FAQ questions like "Is this course nationally recognised?" should answer factually ("Yes, this course is delivered in partnership with Blue Dog Training (RTO 31193), a nationally registered training organisation...") without adding badge images or enrol links inside the answer.
 
 ---
 
