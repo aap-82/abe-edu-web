@@ -205,8 +205,12 @@ What was painful, as evidence for structural decisions.
    also counts `.capsule.on-dark` proof bands as answer capsules (page-side regex `<p class="capsule[^"]*"`),
    so the 12 is 11 capsules plus one non-capsule. Both 05 and 07 reached this conclusion independently.
    Give it a run-type flag, and exclude `.on-dark`.
-6. [design] **`.note` and `.price-foot` need a `max-width`.** Verified in `global.css`: neither rule declares one,
-   producing 128-172 CPL on four live pages. One line, four pages, the largest readability win available.
+6. ~~[design] **`.note` and `.price-foot` need a `max-width`.** Verified in `global.css`: neither rule declares one,
+   producing 128-172 CPL on four live pages. One line, four pages, the largest readability win available.~~
+   Both caps shipped and were still in place when re-read on 2026-08-01: `.note` carries
+   `max-width:calc(480px + 2*var(--s-lg))` at `global.css:386` and `.footnote,.price-foot` carries
+   `max-width:440px` at `global.css:729`. Closed by the 2026-08-01 design session, which found the fix
+   already live and the item still routing.
 7. [skills] **Every sub-skill invoked files its own review the same session.** mistakes-log #17 was written on
    2026-07-23 and broken on 2026-07-23: the readability audit ran and no review was filed. If the
    requirement is real it belongs in `system-health` as a WARN naming the parent run.

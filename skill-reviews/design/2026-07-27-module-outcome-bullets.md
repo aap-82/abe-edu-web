@@ -52,7 +52,13 @@ state changed. When a state authors outcomes later, it authors an array and gets
 ## Demand list
 Tag every item: [skills] | [design] | [facts]
 - [skills] none.
-- [design] none outstanding; the bullet treatment is now live and matches the pre-staged CSS.
+- [design] none.
+
+  (Reworded 2026-08-01 from "none outstanding; the bullet treatment is now live and matches the
+  pre-staged CSS." That sentence was a declaration of no findings, but `isPlaceholder` in
+  `demand-split.mjs` anchors on `^none\b[\s.-]*$`, so the trailing clause made it parse as a real
+  demand item and it routed to the design handover for five days. It is not closed — it was never
+  open. The general fix, broadening the null match, is filed as a [skills] item.)
 - [facts] none - all figures carried verbatim from already-sourced course content.
 
 ## Gate

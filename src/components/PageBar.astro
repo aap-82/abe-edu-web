@@ -76,12 +76,17 @@ const reviewedHtml = reviewed
   .pagebar .crumbs ol{ list-style:none; margin:0; padding:0; display:flex; align-items:center; flex-wrap:wrap; }
   .pagebar .crumbs li{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
   .pagebar .crumbs li + li::before{ content:"/"; margin:0 9px; color:var(--slate-light); }
-  .pagebar .crumbs a{ color:var(--slate); text-decoration:none; border-bottom:1px solid transparent; transition:color .15s, border-color .15s; }
+  /* inline-flex + min-height, not padding: WCAG 2.5.8 AA wants a 24px target and these measured
+     19.1px (crumbs) and 15px (the reviewer name). Padding would have pushed each link's underline
+     away from its text; a min-height on the box grows the hit area and leaves the type where it is.
+     The bar grows 41px -> 46px as a result, which is free: .pagebar is not sticky and no token
+     tracks its height (unlike .waynav, where --waynav-h feeds .sec scroll-margin-top). */
+  .pagebar .crumbs a{ display:inline-flex; align-items:center; min-height:24px; color:var(--slate); text-decoration:none; border-bottom:1px solid transparent; transition:color .15s, border-color .15s; }
   .pagebar .crumbs a:hover{ color:var(--maroon); border-bottom-color:var(--maroon); }
   .pagebar .crumbs [aria-current="page"]{ color:var(--ink); }
 
   .pagebar .reviewed{ margin:0; font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--slate); white-space:nowrap; }
-  .pagebar .reviewed a{ color:var(--ink-3); text-decoration:none; border-bottom:1px solid var(--rule-strong); transition:color .15s, border-color .15s; }
+  .pagebar .reviewed a{ display:inline-flex; align-items:center; min-height:24px; color:var(--ink-3); text-decoration:none; border-bottom:1px solid var(--rule-strong); transition:color .15s, border-color .15s; }
   .pagebar .reviewed a:hover{ color:var(--maroon); border-color:var(--maroon); }
   .pagebar a:focus-visible{ outline:2px solid var(--maroon); outline-offset:2px; }
 

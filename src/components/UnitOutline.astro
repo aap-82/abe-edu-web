@@ -131,7 +131,7 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
   }
   .unit-id { display: grid; gap: 2px; min-width: 0; }
   .unit-k {
-    font: 500 10.5px/1.2 var(--font-mono, monospace);
+    font: 500 11px/1.2 var(--font-mono, monospace);
     letter-spacing: .14em; text-transform: uppercase; color: var(--slate);
   }
   .unit-code {
@@ -144,6 +144,11 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
     color: var(--maroon); text-decoration: none;
     border-bottom: 1px solid rgba(128, 0, 0, .3); padding-bottom: 2px;
     justify-self: start;
+    /* padding-TOP only. The box measured 21.1px, under the WCAG 2.5.8 AA 24px floor, and this is a
+       standalone link rather than one inside a sentence, so the inline exception does not cover it.
+       Growing it upward keeps the underline hugging the text; padding-bottom would have detached
+       the rule from the word it belongs to. */
+    padding-top: 3px;
   }
   .unit-verify:hover { border-bottom-color: var(--maroon); }
 
@@ -156,7 +161,7 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
      the Credentials and PartnerDisclosure cards. One label style across the accredited-course blocks. */
   .unit-t thead th {
     text-align: left;
-    font: 500 10.5px/1.2 var(--font-mono, monospace);
+    font: 500 11px/1.2 var(--font-mono, monospace);
     letter-spacing: .14em; text-transform: uppercase; color: var(--slate);
     padding: 0 var(--s-md) 8px 0;
     border-bottom: 1px solid var(--rule-strong);
