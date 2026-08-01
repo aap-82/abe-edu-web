@@ -102,6 +102,31 @@ publishing purposes. **The QLD row is the next one to check and it is the urgent
 makes the same "real-time virtual classroom is accepted" claim that just failed for NSW, and unlike
 NSW it is on a page that is already live.
 
+## 3a. Session close — every item with a disposition
+
+| Item | Disposition |
+|---|---|
+| Pre-flight `system-health` | ✅ run at open (0 failing) and again before merge (0 failing, 14 warn, 43 ok) |
+| Register writes | ✅ 7 files, every figure read at source **in this session** (rule 4) |
+| Demand items closed | ✅ 9 struck in the reviews that filed them, same session as the fix |
+| List reconciliation | ✅ 2 duplicate pairs struck, 1 null reworded — facts handover **14 → 2** |
+| This review filed | ✅ `skill-reviews/facts/` (routes via `demand-split`; excluded from build-run scans) |
+| New demand items routed | ✅ 9 filed, `unrouted: 0` across 158 tagged items |
+| Derived handover regenerated | ✅ `demand-split.mjs --write --strict`, exit 0 |
+| Build / check / claims | ✅ guardrails 21/21, 20 pages; 0 errors 0 warnings; claims 0 failing |
+| **Memory written** | ✅ `feedback_conditional_permission.md` **created**; `project_nsw_rto_scope_mismatch.md` updated from "contested" to "resolved on the documents"; `MEMORY.md` indexed both |
+| Shipped | ✅ **PR #109**, `facts/nsw-git-conditions-and-fees-v2 → main`, 15 files +349/−62, MERGEABLE. **Not merged at time of writing** |
+| Session type held | ✅ only `kb/register/**` + review records + the health-log artefact. No `src/`, no `kb/rules/`, no `.claude/skills/` |
+
+**One process defect in this session, recorded rather than hidden.** The first branch was cut from
+`design/type-floor-and-tap-targets` — whatever happened to be checked out at open — not from `main`.
+A PR from it would have carried **three unrelated design commits and 11 `src/` files** into trunk, and
+the "no `src/` changes" claim made to Andrey was true of the commit but false of the branch against
+`main`, which is what a PR actually merges. Caught by diffing `origin/main...HEAD` before opening the
+PR rather than trusting the commit. Fixed by cherry-picking the single commit onto a branch cut from
+`origin/main`; nothing rewritten, nothing force-pushed. **The lesson is that a session's branch base is
+part of its pre-flight**, and no gate in this repo checks it. Filed as `[skills]` below.
+
 ## 4. What I did not do
 
 - **Did not touch `kb/rules/authority-model.md`** (lines 141, 371, 390 still state the old NSW
@@ -148,6 +173,14 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `review-trends.mjs` and `system-health` correctly ignore it. The convention now exists in the tree
   without existing in the rules, which is the gap rule 10 was written to close for skills sessions.
   Until it lands, a facts session grading no page has no stated obligation to record what it found.
+- [skills] **A session's branch base is unchecked, and it nearly put 11 unrelated `src/` files into a
+  facts PR.** This session's branch was cut from whatever was checked out at open
+  (`design/type-floor-and-tap-targets`), so `origin/main...HEAD` carried three design commits it had
+  no business shipping. `system-health` checks a great deal and does not check this. Cheapest fix: a
+  pre-flight line that reports `git merge-base --is-ancestor origin/main HEAD` and names any commit on
+  the branch that the session did not write. Second-order point for the session-types table: a session
+  type constrains which **paths** may be written but says nothing about which **base** they land on,
+  and the second is just as capable of shipping the wrong thing.
 - [skills] **`isPlaceholder`'s `^none\b[\s.-]*$` is still too narrow.** A second null line
   (`- [facts] none - all figures carried verbatim...`) was found four lines below the one fixed on
   30 Jul and had been routing as a real facts item ever since. Broadening the match is already filed;
