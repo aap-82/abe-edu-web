@@ -167,12 +167,18 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] **`.claude/skills/abe-course-page-astro/references/seo/badge-inventory.md:141` carries the
   same NSW delivery claim**, and `references/seo/changelog.md` (lines 326, 337) records it as settled.
   The badge file is the one that will re-teach it to the next build.
-- [skills] **Add a rule 11 to CLAUDE.md: facts sessions close with a review**, on the same terms as
+- ~~[skills] **Add a rule 11 to CLAUDE.md: facts sessions close with a review**, on the same terms as
   rules 9 and 10. This review is filed at `skill-reviews/facts/` on that assumption —
   `demand-split.mjs` recurses so it routes correctly, and the flat build-run scans in
   `review-trends.mjs` and `system-health` correctly ignore it. The convention now exists in the tree
   without existing in the rules, which is the gap rule 10 was written to close for skills sessions.
-  Until it lands, a facts session grading no page has no stated obligation to record what it found.
+  Until it lands, a facts session grading no page has no stated obligation to record what it found.~~
+  Added 1 Aug 2026. Your reading of the tooling was confirmed independently before the rule was
+  written (38 reviews scanned, ten items routed from this review; the flat scans ignore it), so
+  rule 11 ships as documentation only, with no code change. It carries two clauses beyond rules 9
+  and 10 that this run's own experience argued for: record the *reading* and not just the figure,
+  and make a reversal name every place still carrying the old position. See
+  `skill-reviews/skills/2026-08-01-session-type-gaps.md`.
 - [skills] **A session's branch base is unchecked, and it nearly put 11 unrelated `src/` files into a
   facts PR.** This session's branch was cut from whatever was checked out at open
   (`design/type-floor-and-tap-targets`), so `origin/main...HEAD` carried three design commits it had

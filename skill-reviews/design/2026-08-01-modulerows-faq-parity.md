@@ -264,11 +264,13 @@ Tag every item: [skills] | [design] | [facts] | [build]
   authored ones, because that is the case the human eye skips. Note the ratchet lesson before
   building it as a flat FAIL: several paths are deliberately unassigned, so an unassigned path must
   report differently from a wrong-owner path or the check will be red on work nobody may fix.
-- [skills] **`.claude/launch.json` has no owner in the session-types table.** It is not
+- ~~[skills] **`.claude/launch.json` has no owner in the session-types table.** It is not
   `.claude/skills/**` (skills-owned) and not platform/deploy config (`worker/`, `wrangler.jsonc`,
   `astro.config.mjs`, `.github/**`, `package.json`, deliberately unassigned). It is per-session
   verification tooling, which every session type needs and none owns, and this session edited it to
-  be able to verify anything at all. Assign it, on the `content.config.ts` / `SYSTEM.md` precedent.
+  be able to verify anything at all. Assign it, on the `content.config.ts` / `SYSTEM.md` precedent.~~
+  Assigned to **skills** 1 Aug 2026, together with `public/**` which a skills session filed the same
+  day — see `skill-reviews/skills/2026-08-01-session-type-gaps.md`.
 - [design] **`.mr-title` is 18px, which is still not a step in DESIGN.md section 3.** Carried
   forward from `2026-07-31-module-accordion.md`, and this change sharpens it: `.faq summary` is also
   Archivo 600 18px, so the undocumented size is now shared by two components rather than one. That
