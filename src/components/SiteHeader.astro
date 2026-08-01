@@ -373,7 +373,11 @@ const mnavHtml = navGroups.map(mGroup).join('')
 
   /* student sign-in: outlined, not filled. It is a returning-student action, so it
      borrows the ghost-button language from global.css rather than the solid CTA. */
-  .site-head .portal-btn{ flex:none; background:transparent; color:var(--ink); border:1px solid var(--rule-strong); font-family:var(--font-body); font-weight:600; font-size:14.5px; padding:9px 17px; border-radius:7px; text-decoration:none; white-space:nowrap; transition:color .15s, border-color .15s; }
+  /* min-height, not more padding: the button measured 43.9px, 0.1px under the 44px house tap-target
+     floor, because 9+9 padding on a 25.9px line box lands just short. Padding would have changed the
+     button's proportions to buy a rounding error; min-height pins the floor and leaves the shape.
+     inline-flex is what makes min-height apply to an anchor. */
+  .site-head .portal-btn{ display:inline-flex; align-items:center; min-height:44px; flex:none; background:transparent; color:var(--ink); border:1px solid var(--rule-strong); font-family:var(--font-body); font-weight:600; font-size:14.5px; padding:9px 17px; border-radius:7px; text-decoration:none; white-space:nowrap; transition:color .15s, border-color .15s; }
   .site-head .portal-btn:hover{ color:var(--maroon); border-color:var(--ink); }
 
   /* megamenu */
@@ -383,7 +387,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .ni.open > .mega{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
   /* click-only by design: there is deliberately no .ni:hover > .mega rule */
   .site-head .mega-in{ max-width:var(--max); margin:0 auto; display:grid; grid-template-columns:1.9fr 1fr; gap:38px; padding:26px 28px 30px; }
-  .site-head .mlabel{ font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); margin-bottom:14px; }
+  .site-head .mlabel{ font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); margin-bottom:14px; }
   .site-head .mgrid{ display:grid; grid-template-columns:1fr 1fr; gap:2px 16px; }
   .site-head .mcard{ display:grid; grid-template-columns:46px 1fr; gap:0 14px; align-items:start; padding:11px 12px; border-radius:8px; text-decoration:none; transition:background .15s; }
   .site-head a.mcard:hover{ background:#f6f3ee; }
@@ -414,7 +418,7 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mlink{ display:inline-block; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-strong); padding-bottom:2px; transition:color .15s, border-color .15s; }
   .site-head .mlink:hover{ color:var(--maroon); border-color:var(--maroon); }
   .site-head .mfeat{ margin-top:22px; border:1px solid var(--rule); border-radius:9px; padding:16px 17px; background:var(--paper-warm); }
-  .site-head .mfeat-k{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon); }
+  .site-head .mfeat-k{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon); }
   .site-head .mfeat-t{ font-family:var(--font-display); font-weight:600; font-size:16px; color:var(--ink); margin:9px 0 5px; }
   .site-head .mfeat-d{ font-size:12.5px; color:var(--ink-3); line-height:1.5; margin:0; }
   .site-head .mfeat-p{ font-family:var(--font-display); font-weight:600; font-size:19px; color:var(--maroon); margin-top:11px; display:block; }
@@ -437,11 +441,11 @@ const mnavHtml = navGroups.map(mGroup).join('')
   .site-head .mnav.open{ display:block; }
   .site-head .mnav .bg{ padding:9px 0; border-bottom:1px solid var(--rule); }
   .site-head .mnav .bg:last-child{ border-bottom:0; }
-  .site-head .mnav .bg-h{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 6px; }
+  .site-head .mnav .bg-h{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 6px; }
   .site-head .mnav a{ display:block; padding:8px 6px; font-size:15px; color:var(--ink-2); text-decoration:none; border-radius:6px; }
   .site-head .mnav a:hover{ background:#f6f3ee; color:var(--maroon); }
   .site-head .mnav a.active{ background:#f6f3ee; color:var(--maroon); font-weight:600; }
-  .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate); margin:12px 0 3px; }
+  .site-head .mnav .bg-sub{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate); margin:12px 0 3px; }
   .site-head .mnav .bg-h + .bg-sub{ margin-top:2px; }
   .site-head .mnav .bg-hub{ color:var(--maroon); font-weight:600; }
   .site-head .mnav .bg-hub.soon{ display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--slate-light); font-weight:500; cursor:default; }

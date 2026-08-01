@@ -9,7 +9,9 @@
 // The rail's layout is driven by a @container query, not a viewport breakpoint: the hero's
 // left column carries container-type:inline-size, so it lays out against the width it
 // actually has. Wide enough -> one line with growing connectors; too narrow -> the steps
-// wrap and the connectors drop away. Font scales with the column.
+// wrap and the connectors drop away. The type does NOT scale with the column: it is a flat
+// 11px, DESIGN.md's Label token, at every width. It was clamp(9.5px, 1.8cqw, 11px) until
+// 2026-08-01, which bought the one-line rail by dropping below the register.
 interface Props { steps: string; label?: string; }
 const { steps, label = 'Process' } = Astro.props;
 const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
@@ -28,19 +30,33 @@ const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
 <style>
   .howtrack{ margin-top:var(--s-lg); display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
   /* eyebrow: mono uppercase label above the rail */
-  .ht-eyebrow{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
+  .ht-eyebrow{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
 
   /* the numbered rail: wrapped by default (mobile-first), connectors hidden */
   .ht-rail{ align-self:stretch; display:flex; flex-wrap:wrap; align-items:center; gap:9px 12px; font-family:var(--font-mono); font-size:11px; letter-spacing:.01em; color:var(--ink-2); }
-  .ht-node{ flex:none; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
-  .ht-n{ display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border-radius:50%; background:var(--maroon); color:#fff; font-size:10px; font-weight:500; flex:none; }
+  /* No white-space:nowrap here. It used to be unconditional, which meant a step label longer than
+     its column could not break and simply overflowed: /experts/warwick-smith's "Operational design
+     for training products" measured a 327px node inside a 319px rail at a 375px viewport, so the
+     label was clipped. The rail is flex-wrap:wrap by default precisely so narrow columns wrap, and
+     a node that cannot wrap defeats that. nowrap is reinstated inside the container query below,
+     where the single-line rail actually needs it. */
+  .ht-node{ flex:none; display:inline-flex; align-items:center; gap:7px; max-width:100%; }
+  /* 18px, not 17: the step number moved 10px -> 11px with the rest of the mono labels, and a
+     17px disc left the digit visually crowding its own circle. */
+  .ht-n{ display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:var(--maroon); color:#fff; font-size:11px; font-weight:500; flex:none; }
   /* the last step is the hand-off to the regulator: mark its number in the verify blue */
   .ht-node:last-child .ht-n{ background:var(--verify); }
   .ht-link{ display:none; }
 
   /* one line once the column can hold it (keyed to the column, not the viewport) */
   @container (min-width:560px){
-    .ht-rail{ flex-wrap:nowrap; white-space:nowrap; gap:0; font-size:clamp(9.5px, 1.8cqw, 11px); }
+    /* Was clamp(9.5px, 1.8cqw, 11px). The clamp bought the single-line rail by shrinking the
+       label to 9.5px, which is below DESIGN.md's 11px Label token - it paid for layout with
+       legibility. The connectors are `flex:1 1 auto` with `min-width:14px`, so they absorb the
+       slack instead. Measured across all 20 built pages at 375px and 1280px after the change: no
+       rail overflows its container at either width. */
+    .ht-rail{ flex-wrap:nowrap; white-space:nowrap; gap:0; font-size:11px; }
+    .ht-node{ white-space:nowrap; }
     .ht-link{ display:block; flex:1 1 auto; min-width:14px; height:1px; margin:0 12px; background:var(--rule-strong); }
   }
 </style>

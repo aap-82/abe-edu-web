@@ -172,7 +172,7 @@ p strong{color:var(--ink);font-weight:600;}
 .waynav .jl{display:flex;align-items:center;gap:var(--s-md);flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-width:0;}
 .waynav .jl::-webkit-scrollbar{display:none;}
 /* the label is a group heading, not an eighth link: 32px away from the list, 24px within */
-.waynav .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);flex:none;margin-right:var(--s-2xs);}
+.waynav .wl{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);flex:none;margin-right:var(--s-2xs);}
 /* Jump links are chips now, not underlined text: each carries its own background in the hover
    and active states, which is what makes the current section unmistakable. Padding is
    symmetric and modest so the pill stays well under the 41px CTA and --waynav-h is unchanged.
@@ -296,7 +296,7 @@ p strong{color:var(--ink);font-weight:600;}
 .proof .stat{position:relative;display:inline-flex;flex-direction:column;gap:3px;white-space:nowrap;padding:0 clamp(14px,1.9cqw,24px);}
 .proof .stat:first-child{padding-left:0;}
 .proof .stat:last-child{padding-right:0;}
-.proof .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);line-height:1.2;}
+.proof .l{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);line-height:1.2;}
 /* divider drawn between stats, so it can never be stranded at the end of a line */
 .proof .stat+.stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:30px;background:var(--rule-strong);}
 .proof .n{font-family:var(--font-display);font-weight:600;font-size:clamp(15px,2.9cqw,19px);color:var(--ink);letter-spacing:-.01em;line-height:1;}
@@ -622,7 +622,8 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 .pl-reg{display:inline-flex;align-items:baseline;gap:.4rem;}
 .pl-reg-k{font:600 11px/1 var(--font-mono);letter-spacing:.18em;color:var(--slate);}
 .pl-reg-n{font:700 24px/1 var(--font-mono);color:var(--maroon);}
-.pl-verify{font-size:14px;}
+/* 23.1px measured, 0.9px under the WCAG 2.5.8 AA floor. inline-flex so min-height applies. */
+.pl-verify{display:inline-flex;align-items:center;min-height:24px;font-size:14px;}
 .pl-verified{font-size:12px;color:var(--slate);}
 
 .pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-lg);padding:var(--s-md) 0;}
@@ -644,7 +645,7 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 .pl-facts{margin:0;}
 .pl-frow{display:grid;gap:3px;padding:9px 0;border-bottom:1px solid var(--rule);}
 .pl-frow:last-child{border-bottom:0;}
-.pl-frow dt{font:500 10.5px/1.2 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
+.pl-frow dt{font:500 11px/1.2 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
 /* min-width:0 is the fix, not overflow-wrap alone. A `1fr` grid track defaults to min-width:auto,
    so it cannot shrink below its content's min-content width - and admin@bluedogtraining.com.au is
    28 characters with no break opportunity. That single cell forced the whole document to 410px:
@@ -788,7 +789,7 @@ footer .srclist{list-style:none;padding:0;margin:var(--s-sm) 0 0;display:grid;gr
 footer .srclist li{font-size:13px;}
 footer .srclist a{color:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.2);}
 footer .srclist a:hover{color:#fff;}
-footer .srclist .vd{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.62);}
+footer .srclist .vd{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.62);}
 footer .f-auth{margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:13px;line-height:1.6;color:rgba(255,255,255,.62);max-width:66ch;}
 footer .f-auth b{color:rgba(255,255,255,.7);}
 /* .f-auth renders a <div> and receives multi-paragraph HTML, so the wrapper owns the spacing and
@@ -853,7 +854,11 @@ footer .f-auth > p + p{margin-top:var(--s-2xs);}
 /* Actions sit on one line, ABE's profile first. The secondary link is quieter in weight,
    not just in position, so the primary action wins without a second colour. */
 .person .p-links{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-md);margin:var(--s-sm) 0 0;}
-.person a.pl{font-family:var(--font-mono);font-size:12px;color:var(--maroon);text-decoration:none;border-bottom:1px solid rgba(128,0,0,.3);}
+/* padding-top carries the box from a measured 17px to the WCAG 2.5.8 AA 24px floor. Upward only,
+   for the same reason as .unit-verify: the border-bottom IS the underline, so padding-bottom would
+   push it off the word. These are row values (LinkedIn, a profile link), not links inside a
+   sentence, so 2.5.8's inline exception does not apply to them. */
+.person a.pl{font-family:var(--font-mono);font-size:12px;color:var(--maroon);text-decoration:none;border-bottom:1px solid rgba(128,0,0,.3);padding-top:7px;}
 .person a.pl:hover{border-bottom-color:var(--maroon);}
 .person a.pl-2{color:var(--slate);border-bottom-color:var(--rule-strong);}
 .person a.pl-2:hover{color:var(--ink);border-bottom-color:var(--ink);}
@@ -895,7 +900,7 @@ footer .f-auth > p + p{margin-top:var(--s-2xs);}
 .waynext a{display:inline-flex;flex-direction:column;align-items:flex-start;gap:5px;text-decoration:none;color:var(--ink);}
 .waynext .ln{display:inline-flex;align-items:center;gap:8px;line-height:1.25;}
 /* "NEXT" mono kicker: micro-label voice, uppercase */
-.waynext .lab{flex:none;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);}
+.waynext .lab{flex:none;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);}
 /* the next section's title in the display face, so it reads as a headline, not a label */
 .waynext .ttl{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink);transition:color .15s;}
 /* the ArrowRight icon: maroon, centred against the title; clip + fly animation are the

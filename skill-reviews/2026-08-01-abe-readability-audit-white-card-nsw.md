@@ -87,9 +87,17 @@ on this page.
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] `.mlabel` renders 10px in the header megamenu, under the 12px label floor. Sitewide, affects every page.
-- [design] One primary CTA variant renders 43px high, under the 44px tap-target rule. Needs `min-height`, not more padding.
-- [design] The reviewer link in the breadcrumb bar is 15px high, under the WCAG 2.5.8 AA 24px minimum.
+- ~~[design] `.mlabel` renders 10px in the header megamenu, under the 12px label floor. Sitewide, affects every page.~~
+  fixed at `SiteHeader.astro:386` (10px -> 11px), with `.mfeat-k`, `.bg-h` and `.bg-sub` in the same
+  megamenu, which were the same drift and were not filed. Measured with the megamenu open: 11px.
+- ~~[design] One primary CTA variant renders 43px high, under the 44px tap-target rule. Needs `min-height`, not more padding.~~
+  fixed at `SiteHeader.astro:376`: `.portal-btn` measured 43.9px and now takes `display:inline-flex`
+  + `min-height:44px`. min-height as the filing asked, not padding. `--head-h` is unaffected: the
+  header measured 67px before and after.
+- ~~[design] The reviewer link in the breadcrumb bar is 15px high, under the WCAG 2.5.8 AA 24px minimum.~~
+  fixed at `PageBar.astro:84`, with `.crumbs a` (19.1px) in the same bar, which was the same breach
+  and was not filed. Both now 24px. The bar grows 42.1px -> 47px at 1280 and 72.3px -> 83px at 375;
+  no token tracks `.pagebar` height and it is not sticky, so nothing else moved.
 - [design] Body leading is 1.65 against a 1.4-1.6 target. Not a rule break; worth a deliberate token decision rather than drift.
 - [skills] This skill's `audit_static.py` and `audit_render.py` cannot run against this repo (they target the `.t-*` register, which does not exist here). CLAUDE.md records the caveat, but the skill still instructs running them first. Either port the render probe to this build's tokens or state the exception in the skill itself, so each run does not re-derive it.
 - [skills] Viewport emulation in the browser pane silently reverted from 375px to 1417px mid-audit, which produced a false "sticky CTA is dead on mobile" finding that survived two measurements before being caught. Assert the viewport inside the same call as the measurement; never trust a resize from an earlier call.

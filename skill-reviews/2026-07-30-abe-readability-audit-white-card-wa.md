@@ -90,7 +90,13 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - ~~[design] The "Sources" label measures **3.81:1** on `rgb(26,26,26)`, below the 4.5:1 AA floor.~~ fixed in #89
 - ~~[design] `button.burger-btn` is **40x20px** at 390px, under both the 44px primary target and the
   24px minimum.~~ fixed in #89
-- [design] Nine type declarations sit below the 12px floor, smallest 9.5px (`.ht-rail`).
+- ~~[design] Nine type declarations sit below the 12px floor, smallest 9.5px (`.ht-rail`).~~ fixed
+  2026-08-01: 24 declaration sites across 10 files raised to 11px. Measured in a browser across all
+  20 built pages at 375px and 1280px, the smallest rendered type on the site is now **11px**, from
+  a previous floor of **9.5px**. Raised to 11, not 12: DESIGN.md:50/190 sets the Label token at DM
+  Mono 11px, and CLAUDE.md makes DESIGN.md canonical on conflict, so 11px is the register and
+  anything under it was drift. The audit's own ">= 12px" line contradicts that token and is filed
+  as a [skills] item to reconcile.
 - ~~[design] The partner blurb renders verbatim twice on every ASQA page, from `PartnerDisclosure` and
   again from `Credentials`. Third filing, and the first caught by a copy check rather than a design read.~~ fixed in #92
 - [facts] `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
