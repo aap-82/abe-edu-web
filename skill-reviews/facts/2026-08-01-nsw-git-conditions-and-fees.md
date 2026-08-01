@@ -166,9 +166,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
   virtual-classroom claim that failed for NSW, same industry-guide provenance, and it is already on a
   live page. Then work through TAS, ACT, WA and the out-of-scope rows.
 - ~~[skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom position as canonical.**~~ **CLOSED 2 Aug 2026 — all three reconciled to §2A-1: mode stated as the RTO's, no source link, and a new prohibited-claims row banning regulator attribution.** Original finding kept below.
-  Position as canonical, per the original wording:
-  position as canonical.** Reconcile against `online-delivery-policy-by-state.md` §2A. Line 371 is in
-  the prohibited-claims table, so it currently teaches the wrong replacement wording.
+  They stated that position as canonical. Reconcile against `online-delivery-policy-by-state.md` §2A.
+  Line 371 is in the prohibited-claims table, so it currently teaches the wrong replacement wording.
 - [skills] **`.claude/skills/abe-course-page-astro/references/seo/badge-inventory.md:141` carries the
   same NSW delivery claim**, and `references/seo/changelog.md` (lines 326, 337) records it as settled.
   The badge file is the one that will re-teach it to the next build.
