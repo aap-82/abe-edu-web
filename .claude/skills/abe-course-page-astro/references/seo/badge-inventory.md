@@ -138,7 +138,9 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 - Short (hero/badge strip): "Delivered with Upskill Institute (RTO 45708)"
 - Schema: `provider` → `EducationalOrganization` with `identifier: "RTO 45708"`
 
-**Delivery-mode note (NSW White Card):** the NSW White Card is trainer-led virtual classroom (accepted as face-to-face) or in person. Never pair this badge with "self-paced" or "complete online at your own pace" wording — self-paced fully online White Card is restricted to WA and TAS residents.
+**Delivery-mode note (NSW White Card).** The NSW White Card is trainer-led virtual classroom over Zoom, or in person — confirmed by Andrey, 1 Aug 2026. Never pair this badge with "self-paced" or "complete online at your own pace" wording: self-paced fully online White Card is restricted to WA and TAS residents.
+
+⚠️ **And do not put a regulator badge on the delivery claim.** SafeWork NSW's published GIT Specific Conditions (SW08319 cl. 1(q)) do not provide for Connected delivery, so a "Verified · SafeWork NSW" badge, or any `VerifiedSources` attestation citing the regulator, must not sit over the virtual-classroom statement. The mode is ABE Education's position, sourced to the business owner; badge it to ABE Education or Upskill Institute if it is badged at all. Doing otherwise is what earned `/white-card-nsw` an Amber on 1 Aug 2026. Full reading: `kb/register/online-delivery-policy-by-state.md` §2A; rule: `kb/rules/authority-model.md` → NSW delivery mode.
 
 **Incorrect wording (never use on NSW pages):**
 - ❌ "ABE Education (RTO 45708)" — the RTO number belongs to Upskill Institute
