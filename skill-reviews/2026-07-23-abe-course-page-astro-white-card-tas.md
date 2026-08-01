@@ -114,20 +114,23 @@ required field that every non-owner-builder page must stub empty is schema debt.
 ## Demand list
 What was painful, as evidence for structural decisions.
 
-- [skills] **Stage 7 must enumerate the three skill-audits as required rows and fail GREEN if any is absent.** The
+- ~~[skills] **Stage 7 must enumerate the three skill-audits as required rows and fail GREEN if any is absent.** The
   first subagent skipped readability, final-check and ai-detector and still certified. The audits are not
   optional colour; one of them found the only page-specific defect in the build. The checklist should
-  make their omission a hard FAIL, not something a human notices afterwards.
+  make their omission a hard FAIL, not something a human notices afterwards.~~ built in #86 (`d09a5c2`):
+  `REQUIRED_AUDITS` at `check-pipeline.mjs:263` is a hard FAIL. Same defect as the `white-card-wa` filing.
 - ~~[skills] **The archetype-2 ASQA branch needs a real core-section path, or the skill must prescribe the split.**
   The layout's `rto-partner` card cannot carry an H2/capsule/sources, so archetype 2's most important
   section is only rendered if the author knows to hand-build a second `#real` section. This branch was
   unexercised until now; it should either render the trust section properly or the skill should document
   the split as the required pattern rather than leaving it to be rediscovered.~~ fixed 30 Jul 2026: the split is now prescribed in references/archetypes/02-nationally-recognised-course.md
-- [skills] **`CPCCWHS1001` lives in three repo docs while only the register is right — grep for it and fail the
+- ~~[skills] **`CPCCWHS1001` lives in three repo docs while only the register is right — grep for it and fail the
   build.** `abe-new-site-sitemap.md:36`, the `content.config.ts:37` comment and the archetype worked copy
   all carry the superseded code. This run dodged the landmine by trusting the register; the next run that
   trusts any of those three docs ships a superseded unit code on a nationally-recognised page. A repo-wide
-  check for `CPCCWHS1001` outside `Archive` would convert a per-run act of vigilance into a gate.
+  check for `CPCCWHS1001` outside `Archive` would convert a per-run act of vigilance into a gate.~~ built in
+  `1c4bc4a`: `RETIRED_UNIT` at `check-claims.mjs:509` FAILs on any occurrence in `src/`, `new site/` or the
+  skill that does not itself say the code is superseded. Green today.
 - [skills] **The check-pipeline capsule format contract is undocumented and load-bearing.** Stage 4 had to write
   capsules in the exact `**Answer capsule**` + blockquote shape that `check-pipeline.mjs` diffs against
   the built page, and that contract lives only in the script. Put it in the skill or 05, the same argument

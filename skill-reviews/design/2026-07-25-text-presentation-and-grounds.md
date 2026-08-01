@@ -62,8 +62,10 @@ inset on every ground: `bg-alt` **1.026 → 1.099**, `bg-warm` **1.000 → 1.072
 
 ## Demand list
 Tag every item: [skills] | [design] | [facts]
-- [skills] `scripts/demand-split.mjs` is missing — the handover and `system-health` reference it, and
-  `reports/handover-design.md` cannot regenerate without it. Restore or retire it.
+- ~~[skills] `scripts/demand-split.mjs` is missing — the handover and `system-health` reference it, and
+  `reports/handover-design.md` cannot regenerate without it. Restore or retire it.~~ restored in `057a569`
+  and extended since (#87, #90, #91); `reports/handover-design.md` regenerates, and `system-health`
+  reports its unrouted count. Verified present 2026-08-01.
 - [skills] Another instance of the 6× "documentation drifted from the code and was trusted over it"
   risk: DESIGN.md cited `#fafafa` (two token generations stale) and the styleguide swatch mirror was
   stale too. Fixed in this session's commits; log the recurrence in `kb/mistakes-log.md`.

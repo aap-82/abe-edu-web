@@ -90,6 +90,9 @@ and per-source verification method)
 ### 1f · Banned-copy checks (quality-gates §2)
 - No the word **"comprehensive"** (user preference).
 - No passive/generic CTAs — **"Enrol now" / "Enrol today" are banned**; use benefit-led first-person wording.
+  **Mechanical since 1 Aug 2026** — `BANNED_CTA_BUDGET` in `src/integrations/guardrails.ts` fails the
+  build on any new occurrence in the page body. Do not hand-check this row and do not raise a budget:
+  four owner builder pages carry a measured debt of 5 each, and the only legal direction is down.
 - **No CTA inside an answer capsule or FAQ answer** (blocks AI extraction).
 - **No "verified" alongside a Trustpilot reference** (Blue Dog solicitation flag).
 - **Images:** content images have descriptive alt >= 80 chars; decorative images `aria-hidden` + empty alt.

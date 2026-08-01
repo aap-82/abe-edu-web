@@ -238,17 +238,25 @@ Tag every item: [skills] | [design] | [facts] | [build]
   rendered output changed, delta recorded against Stage 7 on both pages.
 - [build] `dist/` carries FPO image placeholders on **11 built pages**, including indexable
   `act-owner-builder-course`, `tas-owner-builder-course` and `owner-builder-courses`. Second sighting.
-- [build] "Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and is live on
+- ~~[build] "Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and is live on
   `act-owner-builder-course.mdx` (×4) and both NSW variants. A rule enforced only by a Stage-7 audit is
-  a rule pages ship without — but this is its first occurrence as a *guardrail* candidate, so record it.
+  a rule pages ship without — but this is its first occurrence as a *guardrail* candidate, so record it.~~
+  the guardrail was built 1 Aug 2026 (`BANNED_CTA_BUDGET`), which is what this item asked to record; the
+  page count was also short (tas is a fourth page, and the rendered body carries 5 per page, not 4).
+  Superseded by a sharper `[build]` item in `2026-08-01-banned-cta-guardrail-and-robots-withdrawal.md`
+  carrying the measured counts. Closed 1 Aug 2026.
 - [skills] `metrics.turns_to_passed_audit` is in `_TEMPLATE.md` and computed by `review-trends`, and
   **no review has ever filled it** — the direction line has read "not enough data" for six runs. A
   recorded field with no writer fails the same test as one with no reader. Fill it or retire it.
 - [skills] `data/health-log.jsonl` lines are **out of timestamp order** and carry near-duplicates nine
   seconds apart that `health-log-dedupe` did not collapse. `system-health`'s own header specifies
   timestamp order. Either the dedupe window or the ordering assumption is wrong.
-- [skills] `public/robots.txt` has no `Disallow` for `/course/` and `/program/`, both of which
-  `check-links` reports as same-origin LearnWorlds paths.
+- ~~[skills] `public/robots.txt` has no `Disallow` for `/course/` and `/program/`, both of which
+  `check-links` reports as same-origin LearnWorlds paths.~~ WITHDRAWN, not fixed — same as the
+  `white-card-wa` filing. Risk audit R1 requires those paths to stay crawlable so Google follows
+  their 301s to learn.\*; blocking them would strand ~229 URLs indexed on dead paths. The
+  `check-links` WARN is about whether this build *advertises* the paths, which is a separate and
+  still-open question. `public/robots.txt` now explains the absence. Closed 1 Aug 2026.
 - [skills] Ten of twelve archetype files carry **no date at all**, so the newest and most-routed layer
   of the skill is invisible to every freshness cadence.
 - [skills] `seo-content-reference.md` (426 lines) is ~80% declared mirror of three files that own their

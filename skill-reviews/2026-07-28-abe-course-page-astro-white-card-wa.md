@@ -272,13 +272,14 @@ Tag every item: [skills] | [design] | [facts]
 
 **Restructure triggers (ROADMAP rule 3) — second-or-later occurrence:**
 
-- [skills] **THIRD OCCURRENCE — Stage 7 did not run, name or disclose the three mandated sub-skill
+- ~~[skills] **THIRD OCCURRENCE — Stage 7 did not run, name or disclose the three mandated sub-skill
   audits.** Zero matches for `readability-audit`, `final-check` or `ai-detector` across all seven
   artefacts. Prior: `cpd-building-tas` (claimed inline, was not), `white-card-tas` (skipped, bolted on
   after). mistakes-log #14's guard is prose and has now failed three times, which is the same
   meta-lesson as #18: **a lesson recorded as prose is not a method change.** Make it mechanical —
   `check-pipeline.mjs` FAILs a slug whose `07` does not contain a row for each of the three named
-  audits with an explicit run/not-run disposition.
+  audits with an explicit run/not-run disposition.~~ built in #86 (`d09a5c2`): `REQUIRED_AUDITS` at
+  `check-pipeline.mjs:263` FAILs any slug whose `07` does not name all three. All five slugs pass today.
 - ~~[skills] **SECOND OCCURRENCE — `becomeSteps` is required by `content.config.ts` and meaningless
   outside owner builder.** Filed by `white-card-tas`; stubbed `[]` again here (`05` deviation 6 marks
   it as the trigger itself). Make the field optional. Owned by `skills`, per the 25 Jul assignment of
@@ -299,9 +300,14 @@ Tag every item: [skills] | [design] | [facts]
 
 **First occurrences:**
 
-- [skills] **"Enrol now" needs a build guardrail, not an audit row.** Named hard-blocker in
+- ~~[skills] **"Enrol now" needs a build guardrail, not an audit row.** Named hard-blocker in
   `verification.md` §1f and its publish-blocker list and in `SKILL.md`; shipped ×4 here and **still
-  live on 5 other built pages**. A one-line regex in `guardrails.ts` closes it permanently.
+  live on 5 other built pages**. A one-line regex in `guardrails.ts` closes it permanently.~~ built
+  1 Aug 2026 as `BANNED_CTA_BUDGET` in `guardrails.ts` — a ratchet, not a one-line regex, because a
+  flat FAIL would have reddened the build on four live pages whose copy only a build session may fix.
+  Measured on `dist`: 21 occurrences on 5 pages (act 5, nsw 5, nsw-w 5, tas 5, styleguide 1 — the
+  styleguide tree is skipped by the page loop). Both arms verified failing before the table was
+  restored. `verification.md` §1f now points at the check.
 - [skills] **The R4 query-coverage gate is defined at Stage 2 and enforced nowhere.** `02` §6 says
   "confirm at ship (Stage 7)"; `07` has no such section, and the Perth cluster (690 impressions,
   position 29.4) reached the page only as a counter-example and an FPO string. Either Stage 7 gains a
@@ -315,18 +321,24 @@ Tag every item: [skills] | [design] | [facts]
   crawl signals. Separately, all four CTAs on this page resolve to a path with no asset and no
   `_redirects` rule, so on the preview Worker every conversion path is dead. Needs a robots rule *and*
   an origin confirmation before Stage 8.
-- [skills] **`robots.txt` emits no `Disallow`.** `verification.md` §1e requires `/course/` and
-  `/program/` blocked; the shipped file is `User-agent: * / Allow: / / Sitemap:`.
+- ~~[skills] **`robots.txt` emits no `Disallow`.** `verification.md` §1e requires `/course/` and
+  `/program/` blocked; the shipped file is `User-agent: * / Allow: / / Sitemap:`.~~ WITHDRAWN, not
+  fixed — the rule it cites was already withdrawn when this was filed. Risk audit R1 (16 Jul 2026)
+  removed the block precisely because those paths 301 to learn.\* and a disallowed URL's redirect is
+  never followed; §1e was amended to say so on 28 Jul. Building this would have stranded ~229 player
+  URLs. `public/robots.txt` now carries a comment explaining the absence so it is not filed a fourth
+  time. Closed 1 Aug 2026.
 - [skills] **`Course.provider` is ABE Education while `Course.creator` is the RTO.** Not a rule breach
   as written, and it is the one place the authority split is not mirrored in structured data. Needs a
   documented decision in `asqa-disclosure-framework.md`, not a per-run judgement.
 - [skills] **ASQA disclosure location 3 renders paragraph 1 of the template and not paragraph 2.** The
   substance appears five times elsewhere so it is not a compliance hole, but it should be a conscious
   call recorded in the framework.
-- [skills] **The GSC export path in CLAUDE.md is wrong.** Documented as `data/GSC/`; actually
+- ~~[skills] **The GSC export path in CLAUDE.md is wrong.** Documented as `data/GSC/`; actually
   `business data/GSC/`, with `data/` holding only `health-log.jsonl`. A run following the documented
   path finds nothing and concludes no export exists — which nearly happened here. mistakes-log #1
-  family, 8th sighting.
+  family, 8th sighting.~~ corrected in #86 (`d09a5c2`); CLAUDE.md now reads `business data/GSC/` and
+  says why the old path was wrong. Verified 2026-08-01.
 - [skills] **Session types: a build session must edit design-owned `SiteHeader.astro` to ship any new
   page.** The orphan guardrail fails a build with no nav link, and the nav is design-owned. This is
   not a one-off — it is true of every page the pipeline will ever build. The model needs the boundary
