@@ -152,7 +152,7 @@ stale after the clamp came out, and now says what the component does.
 | `npm run build` | green, 20 pages, guardrails 21/21 passed |
 | `node scripts/system-health.mjs` | no FAIL; WARN set identical to pre-flight, none new |
 | `node scripts/check-claims.mjs` | 0 failing, 12 ok |
-| `node scripts/demand-split.mjs` | design 47 -> 45 open before the sweep's own closures |
+| `node scripts/demand-split.mjs` | design **46 -> 42 open, 30 -> 38 closed** against `origin/main`: 8 closed, 1 null removed, 5 new design items filed (3 more went to skills) |
 | Styleguide specimens | render; no component gained or lost a specimen |
 | Smallest rendered type, 20 pages x 2 viewports | 9.5px -> **11px** |
 | Rail overflow | 8px -> **0px** |
