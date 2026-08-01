@@ -338,3 +338,52 @@ unsourced government claim, no banned CTA copy. Sections 1 to 9 above stand as m
    indexable page. Prompts and filenames in `06-image-prompts.md`. Second sighting of this pattern
    across the build; 11 pages already carry it.
 3. **Stage 7 is self-verified** and the readability and AI-detection audits have not been run.
+
+---
+
+## 12. Re-verification — 2 August 2026, delivery-mode exemption
+
+**Why this section exists.** `src/content/courses/white-card-nsw.mdx` and
+`src/data/faqs-white-card-nsw.ts` were edited on 2 Aug 2026 after the 1 Aug Stage 7 above, so
+`check-pipeline` §4 correctly FAILed the slug: a verification that predates the content it certifies
+has certified nothing. This section re-measures only what the change could have moved. Sections 1-11
+above stand for everything else.
+
+**What changed and why.** Andrey recorded the NSW delivery mode as an **exemption**
+(`kb/register/online-delivery-policy-by-state.md` §2A-1): the course is delivered by Upskill Institute
+as a trainer-led virtual classroom, stated as the RTO's own delivery, never attributed to SafeWork
+NSW, and carrying no source link. The 1 Aug page credited the regulator with the mode and put a
+`VerifiedSources` badge over it. That is what was removed.
+
+**⚠ Self-verified again, same caveat as the header.** Measured from `dist/white-card-nsw/index.html`
+after `npm run build`, by reading the built HTML, not the source.
+
+| Check | Measured value | Verdict |
+|---|---|---|
+| `VerifiedSources` blocks in `#online` | **0** (was 1) | PASS — deliberate; §2A-1 rule 2 |
+| `VerifiedSources` blocks page-wide | 5, all over regulator-sourced facts | PASS |
+| Regulator credited with delivery mode | 0 matches for `SafeWork NSW (requires\|accepts\|permits\|treats) … (live\|video\|real time\|face)` | PASS |
+| "accepted as face-to-face" anywhere | 0 | PASS |
+| "because New South Wales requires it" | 0 (removed from the glance capsule) | PASS |
+| Mode attributed to the RTO in `#online` | "Upskill Institute runs this course as a booked session…" present | PASS |
+| Capsule word counts, all 8 section capsules | 40, 50, 53, 46, 48, 46, 48, 58 — all within 40-60 | PASS (glance capsule is now exactly 40, the floor; do not trim it further) |
+| H1 / H2 counts | 1 / 12, unchanged | PASS |
+| JSON-LD blocks / `@graph` | 1, single graph | PASS |
+| Person nodes | 1 (Warwick Smith) | PASS — asqa-accredited requires exactly 1 |
+| `Course.offers.price` | `129`, unchanged | PASS |
+| Guardrails | 21 pages passed | PASS |
+| `prose-lint` | 11 files passed | PASS |
+| `check-claims` | 0 failing | PASS |
+| Em dashes in this page's source | 13 → 12 (one removed with the deleted block; none added) | PASS |
+
+**Three mandated sub-skill audits — dispositions.** Unchanged from section 11: this is a
+targeted copy correction to four sentences and one deleted component, not a re-run of the page.
+`abe-readability-audit` **not re-run** — no layout, token or component-geometry change; the only
+structural delta is one removed `VerifiedSources` block, which shortens the section.
+`final-check` **not re-run** — the four rewritten sentences were read as prose in-session for
+repetition and answer/question fit. `ai-detector` **not re-run** — same reason, four sentences.
+Skipping is allowed; skipping silently is not, which is why they are dispositioned here.
+
+**Still open on this page, unchanged by this session:** no purchase path (every CTA is the in-page
+`#enrol` anchor, since there is no NSW White Card product in LearnWorlds), and both image slots
+render FPO placeholders.
