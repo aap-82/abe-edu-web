@@ -15,6 +15,14 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "dist", "-l", "4325"],
       "port": 4325
+    },
+    {
+      "// why": "Same job as dist-static, but WITHOUT the pinned port, because the pin is a trap when two sessions are open. `dist-static` hardcodes -l 4325, so a second session cannot start one: the port is taken, and the server already there is serving a DIFFERENT checkout's dist. Measured 1 Aug 2026 - a freshly built /_astro/ModuleRows.<hash>.css returned 404 from :4325 while the page there still linked the old hash, so a verification against it would have measured another branch's CSS and called it this one's. `serve` reads the PORT env var, which autoPort supplies, so this entry gets a free port and serves THIS working tree. Run `npm run build` first.",
+      "name": "dist-static-auto",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "dist"],
+      "port": 4326,
+      "autoPort": true
     }
   ]
 }

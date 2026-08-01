@@ -104,59 +104,61 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
 </ol>
 
 <style>
-  /* Hairline-separated rows on the section ground: no card borders, because a border per group
-     implies six separable objects when this is one list. Depth comes from the rules, per DESIGN.md's
-     hairline rule. Those rules are SOLID because they are structure, between groups. The one dotted
-     line in here divides two columns within a single group, which is the job global.css assigns
-     dotted: "solid is structure, dashed is the edge of a note, dotted separates within one". */
-  .mrows{ list-style:none; margin:var(--s-lg) 0 0; padding:0; border-top:1px solid var(--rule); }
-  .mrow{ border-bottom:1px solid var(--rule); }
-
-  /* Hover and open states, both LIGHTER than the section ground, and that direction was forced by
-     measurement rather than taste. The row carries --slate on its eyebrows, its count and its
-     marker, and --slate measures 4.52:1 on --paper-warm against a 4.50 AA floor: one step darker
-     than the ground and the quietest text in the component fails. Lighter is the only direction with
-     headroom, and it raises --slate to 4.80 on hover and 5.10 when open.
-
-     Measured on `#learn` (--paper-alt, #f7f4ec) at 1520px, relative luminance against the ground:
-       rest          #f7f4ec   1.000   --slate 4.64:1
-       hover         #faf8f3   1.036   --slate 4.80:1
-       open          #ffffff   1.105   --slate 5.10:1
-     1.036 is not an arbitrary "subtle": global.css records that a 1.026 band separation read as too
-     weak and the warm ramp was widened past it, so this sits just above the threshold this system
-     already decided was the floor for perceptible.
-
-     Hover is a white WASH rather than a token, so it works on whatever ground a section gives the
-     component (--ground, --paper-alt or --paper-warm) instead of assuming one. Open takes --paper
-     outright: an open group is the elevated one. */
-  /* The tint needs room around the text, or it reads as a highlighter stroke rather than a surface.
-     Pulled out 16px and padded back 16px, so the BOX grows either side while the content x does not
-     move: the title, the Modules eyebrow and the module numbers stay on the shared edge set above.
-     16 and not more because `.wrap` gives 28px of padding to borrow from, and the tint should sit
-     inside the column rather than break out of it. */
-  .mrow details{
-    transition:background-color .18s cubic-bezier(.22,1,.36,1);
+  /* ONE CARD, HAIRLINE-SEPARATED INSIDE IT — `.faq`'s container, declaration for declaration
+     (1px --rule, radius 8, --paper fill, overflow hidden, --s-lg top margin), with `.mrow + .mrow`
+     standing in for `.faq details+details`. 1 Aug 2026, Andrey's call: the site should not have two
+     accordions that look like two components.
+     This replaces bare rules on the section ground. The objection that stood here — "no card
+     borders, because a border per group implies six separable objects when this is one list" — was
+     answered, not overruled: it argues against a border PER GROUP, and this is one border around
+     the whole list, which is the same shape the FAQ has and reads as one object.
+     The fill is what makes the rest of this work. The FAQ's hover is --paper-alt, a step DARKER
+     than its --paper rest; without a container the rows inherit whatever ground the section gives
+     them, and `#learn` is `bg-alt` (--paper-alt) on five of the six pages that render this, so the
+     FAQ's own hover token would have been literally invisible on all five. On --paper it is the
+     same step off white that it is in the FAQ, on every page.
+     The rules between rows stay SOLID because they are structure, between groups. The one dotted
+     line further down divides two columns within a single group, which is the job global.css
+     assigns dotted: "solid is structure, dashed is the edge of a note, dotted separates within one". */
+  .mrows{
+    list-style:none; margin:var(--s-lg) 0 0; padding:0;
+    border:1px solid var(--rule); border-radius:8px; background:var(--paper); overflow:hidden;
   }
-  /* HOVER CHANGES THE TITLE, NOT THE SURFACE. Two background attempts came before this one, and the
-     surface turned out to be the wrong axis on this component. A wash lighter than the ground reads
-     as a weaker version of the open state, which is already --paper. A step darker was measured at
-     the boundary: `--paper-warm` is the last value with any headroom, because one step further
-     (#f2eee4) drops `--slate` to 4.40:1 against a 4.50 AA floor, and `--slate` carries the count in
-     this row. So the surface could only ever be quiet, in either direction.
-     Ink to maroon on the title is not quiet, and it is the site's existing language rather than a new
-     idea: DESIGN.md's One Maroon Rule lists "hovers" among the jobs maroon exists for, alongside
-     marks, ticks and active states, and every link and button on the site already answers the pointer
-     this way. It also leaves the background free to mean one thing only, which is open or closed.
-     Measured on hover: the title reads 9.96:1 as maroon on the section ground, against 15.83:1 as
-     ink, so it stays far clear of the 4.50 floor while changing unmistakably. */
-  .mrow summary:hover .mr-title{ color:var(--maroon); }
-  .mr-title{ transition:color .18s cubic-bezier(.22,1,.36,1); }
-  .mrow details[open]{ background:var(--paper); }
-  /* Reduced motion keeps the colours and drops the fade: the state still reads, it just arrives at
+  .mrow + .mrow{ border-top:1px solid var(--rule); }
+
+  /* HOVER IS BACK ON THE SURFACE, and it is `.faq summary:hover` exactly: --paper-alt, with the
+     FAQ's own `transition:background .15s`. This reverses bbc54a0 and 7236dec, which moved hover
+     off the surface onto the title, and it is worth being precise about why those are reversed
+     rather than simply overridden — their measurements were correct, their premise was not.
+
+     Both were measured with the rows sitting on the SECTION GROUND and with --paper spent on the
+     open state. Under that premise the surface really was boxed in: lighter read as a weak version
+     of open, and darker ran out at --paper-warm, one step above the #f2eee4 that drops --slate to
+     4.40:1. The container above changes the premise. Rest is --paper now, so --paper-alt is a step
+     DOWN off white rather than a fourth value squeezed between the ramp and the open state, and it
+     is the same step the FAQ has been making since it shipped.
+
+     Open therefore takes NO tint, which is the other half of parity: `.faq details[open]` sets no
+     background either. Open is carried by the plus rotating to a cross and by the panel appearing —
+     two unambiguous signals — so spending a third on it was what pushed hover into the corner the
+     two previous commits were trying to get out of. The background now means one thing, hover, and
+     the marker means the other.
+
+     MEASURED with getComputedStyle in the browser, --slate (#6e6e6e, which carries the count, the
+     range and the marker) against the resolved summary background, on both grounds this component
+     ships on:
+       rest / open   #ffffff   --slate 5.10:1
+       hover         #f7f4ec   --slate 4.64:1
+     Identical on the WA page (--ground section) and on the qld/act/tas/nsw pages (bg-alt section),
+     because the card fill no longer lets the section ground reach the row. 4.64 clears the 4.50 AA
+     floor with room, where the darker direction the old comment was pushed towards did not. */
+  .mrow summary{ transition:background .15s; }
+  .mrow summary:hover{ background:var(--paper-alt); }
+  /* Reduced motion drops the fade and keeps the colour: the state still reads, it just arrives at
      once. A background cross-fade is not vestibular motion, but it is the same interaction as the
-     marker rotation above and they should not disagree. */
+     marker rotation below and they should not disagree. */
   @media (prefers-reduced-motion:reduce){
-    .mrow details{ transition:none; }
+    .mrow summary{ transition:none; }
   }
 
   /* The rail track is 150px MINUS the column gap, so that once the gap is added back the title
@@ -167,14 +169,15 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     display:grid; grid-template-columns:calc(150px - var(--s-md)) 1fr auto 20px;
     align-items:baseline; gap:var(--s-md);
     min-height:44px; cursor:pointer; list-style:none;
-    /* The horizontal room is INSIDE the row, not outside it. First attempt pulled both tints 16px
-       wider than the row, which put them past the hairline closing every row and past the dashed
-       rule under the section: the background overhung the structure it sits in. Padding does the
-       same job from the other side. The background still spans the full row width and stops exactly
-       on the rules; the text sits 16px in from its edges instead of touching them.
-       Top and bottom match too, including when the group is open, so the heading is not lighter
-       under the title than above it. */
-    padding:var(--s-md) var(--s-sm);
+    /* 20px 24px, `.faq summary`'s padding exactly, replacing 24px 16px. The horizontal room is
+       INSIDE the row, not outside it: an early attempt pulled the tint 16px wider than the row,
+       which put it past the hairline closing every row, and now past the card border as well. The
+       background spans the full row width and stops exactly on the rules; the text sits 24px in
+       from its edges. Top and bottom match each other, open or closed, so the heading is not
+       lighter under the title than above it.
+       24px is now the component's gutter and `.mr-panel` carries the same value, so the card has
+       one inset rather than two. */
+    padding:20px 24px;
   }
   .mrow summary::-webkit-details-marker{ display:none; }
   /* The ring goes on the summary, which is the focusable element; inset so the row rule above does
@@ -264,16 +267,18 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     .mr-mark{ transition:none; }
   }
 
-  /* Same 16px in from each edge as the summary, so heading and body share one text column inside the
-     tint. The left value carries the 150px rail on top of it, which keeps the panel aligned under
-     the title rather than under the group key.
+  /* `.faq .ans`'s padding — `var(--s-sm) 24px 22px` — with the left value carrying the 150px rail on
+     top of the shared 24px gutter, so the panel aligns under the title rather than under the group
+     key. Right and bottom are the FAQ's verbatim.
      TOP PADDING IS ITS OWN, and this is the thing that was wrong twice. The summary's bottom padding
-     looks like separation until the two elements have different backgrounds, which they now do: on
-     hover the heading is --paper-warm and the panel is --paper, so those 24px sit INSIDE the tinted
-     band and the Modules eyebrow ends up flush against its lower edge. Padding that belongs to the
-     panel has to live on the panel. 24px top and bottom, so the panel's own box is symmetric the way
-     the summary's is, and each block owns its spacing rather than borrowing the neighbour's. */
-  .mr-panel{ padding:var(--s-md) var(--s-sm) var(--s-md) calc(150px + var(--s-sm)); }
+     looks like separation until the two elements have different backgrounds, which they do the
+     moment a pointer is over the heading: the summary goes --paper-alt while the panel stays
+     --paper, so any space borrowed from the summary sits INSIDE the tinted band and the Modules
+     eyebrow ends up flush against its lower edge. Padding that belongs to the panel has to live on
+     the panel. This is the same reason `.faq .ans` sets a top value at all, and global.css says so
+     in as many words: "the summary takes a paper-alt background on hover, and with a 0 top the open
+     answer sat flush against that coloured band". Same component, same fix, same number. */
+  .mr-panel{ padding:var(--s-sm) 24px 22px calc(150px + 24px); }
 
   /* 480px, matching `.measure` and the caps global.css settled on. `ch` is not used anywhere in this
      file: it is the advance of the "0" glyph, wider than the average character in DM Sans, so a ch
@@ -340,12 +345,18 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      into the free column-2 slot beside the title, and dropped the marker onto a fourth row of its
      own where it read as a stray dash. */
   @media (max-width:640px){
-    .mrow summary{ grid-template-columns:1fr 20px; row-gap:3px; padding:var(--s-sm); }
+    /* Padding is NOT reduced here, because `.faq` does not reduce its own: the FAQ runs 20px 24px
+       at every width, and a narrower gutter on this one would put the two accordions back out of
+       step at exactly the size most readers see them. 24px inside a 28px `.wrap` still leaves the
+       title ~233px at 375px, which is what the FAQ's own summary gets. */
+    .mrow summary{ grid-template-columns:1fr 20px; row-gap:3px; }
     .mr-key{ grid-area:1 / 1 / 2 / 3; flex-direction:row; align-items:baseline; gap:10px; }
     .mr-title{ grid-area:2 / 1 / 3 / 2; }
     .mr-mark{ grid-area:2 / 2 / 3 / 3; align-self:center; }
     .mr-count{ grid-area:3 / 1 / 4 / 3; }
-    .mr-panel{ padding:var(--s-sm); }
+    /* The rail collapses at this width, so the panel loses the 150px offset and keeps the shared
+       gutter: the FAQ's own `.ans` values, unmodified. */
+    .mr-panel{ padding:var(--s-sm) 24px 22px; }
     .mr-cols{ grid-template-columns:1fr; gap:var(--s-md); }
     /* Stacked, the divider turns horizontal but is still the same within-a-group line, so it stays
        dotted. Solid here would be indistinguishable from the rule that ends the group. */
