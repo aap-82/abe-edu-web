@@ -55,7 +55,7 @@ State codes: lowercase in URLs (`nsw`, `qld`, `wa`, `tas`, `act`), uppercase in 
 
 ## 4. ABE's delivery model by course type
 
-- **White Card** — delivered by ABE's RTO partners, never by ABE directly: **Blue Dog Training (RTO 31193)** for QLD, WA and TAS; **AlertForce (RTO 91826)** for ACT; **Upskill Institute (RTO 45708)** for NSW (trainer-led virtual classroom or in person — never self-paced online). Pages must disclose the delivering RTO.
+- **White Card** — delivered by ABE's RTO partners, never by ABE directly: **Blue Dog Training (RTO 31193)** for QLD, WA and TAS; **AlertForce (RTO 91826)** for ACT; **Upskill Institute (RTO 45708)** for NSW. Pages must disclose the delivering RTO. ⚠️ **NSW delivery mode corrected 1 Aug 2026:** SafeWork NSW's GIT conditions cl. 1(q) require face-to-face and prohibit distance and on-line learning; the "trainer-led virtual classroom" formerly stated here is **not** authorised. Read `online-delivery-policy-by-state.md` §2A before wording any NSW delivery claim.
 - **Owner Builder** — developed and delivered directly by ABE Education across **QLD, WA, TAS and ACT** (state-approved or state-listed where the regulator maintains such a list — CBOS, Access Canberra — or accepted under a knowledge-requirement model, WA Form 75). **NSW is not currently offered:** the intended Upskill Institute (RTO 45708) arrangement is ⛔ on hold and not in force, and the five required units are not on that RTO's scope. Treat NSW Owner Builder as a product ABE does not have today. Canonical status: `kb/rules/authority-model.md` → "NSW Owner Builder".
 - **CPD** — developed and delivered directly by ABE Education where offered (NSW building CPD; TAS building, plumbing and electrical CPD; WA real estate CPD).
 

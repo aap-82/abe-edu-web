@@ -307,24 +307,28 @@ viewport-reversion trap) are **not repeated here**. These are new.
 
 **First occurrences:**
 
-- [facts] **Obtain the current Specific Conditions for GIT in NSW from SafeWork NSW** (13 10 50 /
-  `tacs@safework.nsw.gov.au`) and record it in `kb/register/online-delivery-policy-by-state.md` with
-  the source and date. This is the single highest-value item on this list: it decides whether
-  `/white-card-nsw` ships as written, and until it lands the next run will rediscover the October 2022
-  PDF — still linked from safework.nsw.gov.au — and re-raise the same blocker from scratch.
-- [facts] **`kb/register/online-delivery-policy-by-state.md` §4 sources its whole delivery matrix to
-  "2026 RTO/industry guides (Tradie Training, FirstAidPro, National Courses)".** That register file is
-  the origin of the NSW "accepted as face-to-face" position that `kb/rules/authority-model.md` line
-  141 now states as canonical, and industry guides are not a regulator. Its §4 already says "confirm
-  against each WHS regulator... before changing any course-page delivery claim"; the confirmation has
-  never happened for NSW. Either verify the row or mark it UNVERIFIED — a register row that CLAUDE.md
-  says owns every verified regulatory figure should not be quietly carrying an unverified one.
-- [facts] **The NSW row of that same file states "min. 6-hour course" with no source.** This run
-  refused to put it on the page and was right to. Verify it against the current Specific Conditions
-  when they arrive, or mark it UNVERIFIED.
-- [facts] **SafeWork NSW replacement white card fee, 2026-27: $43, or $36 applied online**, read at
-  source on 1 Aug 2026 at `safework.nsw.gov.au/resource-library/licence-and-registrations/licensing-fees`.
-  Verified in a build session that could not write `kb/register/`. Re-read and record it.
+- ~~[facts] **Obtain the current Specific Conditions for GIT in NSW from SafeWork NSW**~~ done 1 Aug
+  2026 by the `facts/nsw-git-conditions-and-fees` session and recorded as
+  `kb/register/online-delivery-policy-by-state.md` **§2A**. **The answer went against this page.** The
+  Oct 2022 PDF *is* the Specific Conditions for GIT, it is still the document SafeWork NSW links from
+  its live GIT RTO page, and clause 1(q) reads "Ensure all training delivered in NSW is delivered by a
+  nominated trainer using face-to-face delivery techniques. Distance education and on-line learning are
+  not permitted in NSW for the delivery of GIT." The General Conditions permit Connected delivery only
+  "if provided for in the relevant Specific Conditions", and these do not provide for it. See the new
+  `[build]` item below.
+- ~~[facts] **`online-delivery-policy-by-state.md` §4 sources its whole delivery matrix to industry
+  guides**~~ addressed 1 Aug 2026: §4 now splits **primary sources** (three regulator documents, each
+  with the date it was read) from **secondary sourcing**, and states plainly that the guides were wrong
+  in the permissive direction on the one row later checked against a regulator. The non-NSW rows are
+  now flagged UNVERIFIED for publishing purposes rather than silently carried.
+- ~~[facts] **The NSW row of that same file states "min. 6-hour course" with no source.**~~ sourced
+  1 Aug 2026: GIT conditions clause 14, "RTOs must ensure the duration of GIT training is not less than
+  six hours (excluding breaks and administrative activities such as registration or EOI checks)", with
+  clause 16 confirming breaks are excluded. The run was right to refuse it; it is now citable.
+- ~~[facts] **SafeWork NSW replacement white card fee, 2026-27: $43, or $36 applied online**~~ re-read
+  at source 1 Aug 2026 and unchanged. One correction to this item: the figure was **already in the
+  register** at `state-fees-register.md` (verified 22 Jul 2026), so this was a re-verification, not a
+  missing record. The as-at date and the CPI re-verify cadence are now recorded there.
 - [build] **Narrow the `#online` `VerifiedSources` attestation to what it can quote.** It currently
   attests "the acceptance of live video as face to face... quoted from the regulator's conditions".
   The prohibition is quoted; the acceptance is not, and the cited general conditions make their

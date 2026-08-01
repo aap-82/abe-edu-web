@@ -11,7 +11,7 @@ Indicative list prices observed at competitor providers for ABE's two main cours
 
 Scope:
 - **Owner Builder** — NSW, QLD, WA, TAS, ACT (all five ABE states).
-- **White Card** — QLD, WA, TAS, ACT, NSW (NSW added via the Upskill Institute partnership; trainer-led virtual classroom or in person).
+- **White Card** — QLD, WA, TAS, ACT, NSW (NSW added via the Upskill Institute partnership). ⚠️ **NSW delivery mode corrected 1 Aug 2026** — see `online-delivery-policy-by-state.md` §2A; the "trainer-led virtual classroom" formerly stated here is not permitted by SafeWork NSW's GIT conditions.
 - **Out of scope for this snapshot:** CPD pricing (highly variable by hours and registration class — track separately if/when needed); ABE's own list prices (those live on `abeeducation.edu.au` and should be referenced rather than duplicated here, to avoid drift).
 
 ---
@@ -50,7 +50,7 @@ State-by-state pricing varies sharply because the **delivery mode is set by each
 - **WA and TAS** — fully self-paced online is allowed → cheapest tier.
 - **QLD** — virtual connected classroom (live trainer over Zoom/Meet) required → mid tier.
 - **ACT** — combined online + short live video session required → mid tier.
-- **NSW** — trainer-led virtual classroom (accepted as face-to-face) or in person; never self-paced online. ABE offers the NSW White Card via Upskill Institute (RTO 45708), so NSW is in scope.
+- **NSW** — ⚠️ **corrected 1 Aug 2026.** SafeWork NSW's GIT conditions cl. 1(q) require face-to-face delivery and state that "Distance education and on-line learning are not permitted in NSW for the delivery of GIT"; the Specific Conditions do not provide for Connected delivery, so the trainer-led virtual classroom this row previously claimed is **not** authorised. See `online-delivery-policy-by-state.md` §2A. ABE offers the NSW White Card via Upskill Institute (RTO 45708), so NSW is in scope — **but the NSW price band below was gathered on the wrong delivery assumption and should be re-gathered against in-person providers.**
 
 | Provider | RTO | States offered (price observed) | Notes |
 |---|---|---|---|
@@ -66,7 +66,7 @@ State-by-state pricing varies sharply because the **delivery mode is set by each
 
 | State | Visible range | Why the gap |
 |---|---|---|
-| **WA** | **$39 – $60** | Self-paced online allowed; commodity pricing. |
+| **WA** | **$39 – $60** | Self-paced online allowed; commodity pricing. ⚠️ **This is the competitor band, and ABE's WA product may not belong in it** — see the delivery-mode note below §3. |
 | **TAS** | **$39 – $60** | Self-paced online allowed; commodity pricing. |
 | **QLD** | **$99 – $250** | Virtual classroom mandated → higher per-student cost. |
 | **ACT** | **$99 – $150** | Online + live video session mandated; smaller competitive set. |
@@ -75,7 +75,8 @@ State-by-state pricing varies sharply because the **delivery mode is set by each
 
 ## 3. Pricing context
 
-- **Delivery-mode rules are the single biggest price driver** — WA and TAS White Cards are commodity-priced because the regulator allows fully self-paced online; QLD/ACT/NSW mid-priced because of live trainer requirements (NSW = trainer-led virtual classroom or in person). Compare ABE within its delivery-mode peer set, not across modes.
+- **Delivery-mode rules are the single biggest price driver** — WA and TAS White Cards are commodity-priced because the regulator allows fully self-paced online; QLD and ACT mid-priced because of live trainer requirements. **NSW sits at or above the QLD/ACT band, not within it**, because SafeWork NSW permits neither self-paced online nor the virtual classroom (see `online-delivery-policy-by-state.md` §2A) — in-person delivery is the most expensive mode to run. Compare ABE within its delivery-mode peer set, not across modes.
+- ⚠️ **The WA band above is a competitor band, and ABE's WA product is reportedly not a like-for-like member of it.** The 28 Jul 2026 `white-card-wa` build run recorded that ABE's WA White Card carries a **live 15-to-30-minute trainer assessment** — the same kind of live-trainer cost that this file gives as the reason QLD and ACT sit at $99–$150. If that is right, reading ABE's WA price against the $39–$60 self-paced band shows a ~2.25× "premium" that is really a **difference in peer set**, not in margin. **Not verified in this session:** this is ABE's own product configuration, not a regulator fact, so it needs Andrey or the Blue Dog Training (RTO 31193) course outline to confirm before any pricing decision leans on it. Recorded here so the next run does not re-derive the false premium.
 - **Hard-copy / face-to-face options sit well above online** — up to $617 (NSW hard copy OB) and $900 (QLD face-to-face OB one-on-one). Useful as anchor points but not the comparison set for ABE's online offering.
 - **Pay-on-pass** is a common pricing pattern (Live and Learn, Absolute, EOT) — worth noting if positioning ABE against it.
 - **Government fees are additional and unavoidable** — see `state-fees-register.md`. Course-price comparisons should make this explicit on customer-facing pages so the OB or White Card "total cost" is not understated against ABE.

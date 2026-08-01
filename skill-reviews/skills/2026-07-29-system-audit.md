@@ -265,14 +265,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] The SEO freshness audit is **64 days** overdue against a 60-day trigger; full-audit
   recommendation due **24 Aug 2026**. Refresh `expert-fallback/` in the same pass (same 26 May vintage;
   the two expert files are dated 20 April).
-- [facts] `kb/register/demand-and-revenue-snapshot.md` names `data/GSC/` twice. The exports moved to
-  `business data/GSC/` around 28 Jul; every other live pointer was corrected this session, but
-  `kb/register/**` is facts-owned. Path only — no figure in that file is in question.
-- [facts] `kb/register/online-delivery-policy-by-state.md:23` says "WA residents"; the WA test is
-  reportedly about being *located in WA at the time of assessment*. **Not verified by this audit** — a
-  facts session must read the source.
-- [facts] `kb/register/competitor-pricing-snapshot.md` §2, WA row, classes ABE's WA product as commodity
-  self-paced despite a live trainer assessment. **Not verified by this audit.**
+- ~~[facts] `kb/register/demand-and-revenue-snapshot.md` names `data/GSC/` twice.~~ fixed 1 Aug 2026.
+  Both instances now read `business data/GSC/`. This audit undercounted by one: the same paragraph also
+  named `data/LearnWorlds/`, which had moved to `business data/LearnWorlds/` in the same 28 Jul move, so
+  three paths were stale, not two. No figure changed.
+- ~~[facts] `kb/register/online-delivery-policy-by-state.md:23` says "WA residents"~~ duplicate of the
+  item filed by `2026-07-28-abe-course-page-astro-white-card-wa.md`, which originated it and states the
+  regulator's test more precisely. This audit only re-noticed it ("**Not verified by this audit**") and
+  never verified it, so it was never a second occurrence — struck 1 Aug 2026 so the trigger count
+  reflects one problem, not two. Tracked in the 28 Jul review.
+- ~~[facts] `kb/register/competitor-pricing-snapshot.md` §2, WA row, classes ABE's WA product as
+  commodity self-paced~~ duplicate of the same 28 Jul review, on the same terms. Struck 1 Aug 2026.
 
 ## Output
 - [x] **Fix applied** — governance-doc drift corrected; three routing/reference holes closed; five

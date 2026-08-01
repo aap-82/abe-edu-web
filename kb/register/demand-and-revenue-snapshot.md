@@ -12,12 +12,14 @@ decisions need and the row-level data is what should not be committed. **No cust
 data appears here or ever should** — the transactions export contains names, and it was analysed
 in aggregate only.
 
-**Sources.** `data/LearnWorlds/2026-07-23_ExportProductRevenues.csv` (149 products with sales) and
-`transactions-export--2026-07-23...csv` (2,143 successful payments, Dec 2022 - Jul 2026), crossed
-with `data/GSC/abeeducation.edu.au-Performance-on-Search-2026-07-19.zip` (16 months, 1,000
-queries, 2,256 clicks, 157,828 impressions).
+**Sources.** `business data/LearnWorlds/2026-07-23_ExportProductRevenues.csv` (149 products with sales)
+and `transactions-export--2026-07-23...csv` (2,143 successful payments, Dec 2022 - Jul 2026), crossed
+with `business data/GSC/abeeducation.edu.au-Performance-on-Search-2026-07-19.zip` (16 months, 1,000
+queries, 2,256 clicks, 157,828 impressions). **Paths corrected 1 Aug 2026** — both folders moved to
+`business data/` (note the space, so quote the path in shell commands) around 28 Jul 2026. No figure
+in this file changed.
 
-> **⚠ Read `Filters.csv` before using any GSC export.** Two of the three zips in `data/GSC/` are
+> **⚠ Read `Filters.csv` before using any GSC export.** Two of the three zips in `business data/GSC/` are
 > filtered to a single page (`+/owner-builder-nsw-course` and `+/nsw-owner-builder-course`). Only
 > the `...2026-07-19.zip` export is site-wide. Analysing a filtered export makes CPD look like it
 > has no search demand at all, which is false and would invert the conclusion below.
