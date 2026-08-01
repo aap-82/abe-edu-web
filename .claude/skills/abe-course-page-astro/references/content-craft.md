@@ -165,7 +165,8 @@ Fails if: the answer is not complete within the capsule, or the category is
 > important topics in building law. Enrol today to keep your licence current.
 
 Everything wrong at once: opens with a definition the reader does not need, spends the research
-nowhere, states points without category or source, and closes with a CTA inside the answer block.
+nowhere, states points without category or source, and closes with a CTA inside the answer block —
+and that CTA is "Enrol today", which §1f bans outright. Two breaches in the last sentence, not one.
 
 **Rewritten:**
 > This course counts as Building Law under CBOS Tasmania's CPD requirement, and carries 2 points.

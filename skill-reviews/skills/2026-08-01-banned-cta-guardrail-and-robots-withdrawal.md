@@ -23,6 +23,7 @@ items were closed **withdrawn rather than fixed** — building them would have d
 | A new page shipping "Enrol now" | passed every gate | FAILs on first build, budget 0 |
 | `skill-reviews` open items (skills) | 83 open · 11 closed | **75 open · 19 closed** |
 | `public/robots.txt` | bare `Allow: /`, no record of why | carries the R1 reasoning inline |
+| Skill docs teaching the banned CTA | 3 positive worked examples, 3 as the button's name | 0, gated by `check-claims` §8 |
 
 ## The four already-fixed items
 
@@ -81,6 +82,52 @@ ABE guardrails: 2 publish hard-blocker(s). Build stopped.
 ```
 
 The restored file was diffed against its pre-test backup: identical. Build green, 21 pages pass.
+
+## The skill was teaching what the skill banned
+
+Asked to update the reference docs, I grepped the skill for the banned phrase and found the likely
+**root cause of all 21 shipped CTAs**: three reference docs used it as a *positive* worked example.
+
+| Where | What it said | Status |
+|---|---|---|
+| `content-formatting-guidelines.md` §S5 | "Ready to get started? **Enrol now**" — the worked example of a good micro-CTA | fixed |
+| `seo-content-reference.md` CTA table | \| "**Enrol Now**" \| Transactional course pages (**strongest**) \| | fixed |
+| `seo-content-reference.md` copy rules | "Book Your White Card Course" > "**Enrol Now**" > "Submit" | fixed |
+| `trust-bar-guidelines.md` ×3 | "Enrol Now" as the generic *name of the enrol button* | reworded |
+| `content-craft.md` weak-draft sample | uses it, but the critique never named the breach | critique amended |
+
+An author following §S5 was breaching §1f **by following it**. The CTA table went further and ranked
+the banned phrase as the strongest option available, in direct contradiction of `meta-framework.md`'s
+❌/✅ table two files away. This is `mistakes-log` #1's family seen from the inside: not documentation
+drifting from code, but one document in a skill drifting from another in the same skill.
+
+So the guard added at `check-claims.mjs` §8 reads the **source of the copy**, not the copy.
+`guardrails.ts` reads `dist/` and a reference doc is never built, so this class was invisible to
+every gate the repo had.
+
+### The guard's first run flagged 10, and only 3 were the defect
+
+Recorded because it is the interesting part, and because the corpus already warns (`MIN_SHARED_WORDS`)
+against tuning a heuristic until the output looks tidy. The other 7 split two ways:
+
+- **4 legitimately catalogue the ban** — the ❌/✅ table, `quality-gates` item 11, `verification.md`
+  §1f and its blocker list, `SKILL.md` stage 7. A doc must be able to name what it forbids.
+- **3 were real drift of a milder kind** — `trust-bar-guidelines.md` using "Enrol Now" as the generic
+  button name, normalising the label without recommending it. Reworded, not exempted.
+
+The first fix was to widen the explanatory word list, which took 10 → 4 and then stalled: the
+remaining 4 are labelled by their *block*, not their line — a don't-column labelled by its table
+header, a deliberately-weak sample labelled by the critique underneath. Widening the word list
+further would eventually exempt everything. So the test reads a ±4-line window instead, and the
+window is deliberately small: a ban stated nine lines away is not labelling this example.
+
+**Then I put the real defect back and watched it fail**, rather than trusting a green:
+
+```
+FAIL  Skill reference docs demonstrate a banned CTA in 1 place(s): ...seo-content-reference.md:211
+--- restored ---
+OK    Skill docs: no banned CTA demonstrated in a worked example (2 phrase(s) scanned)
+```
 
 ## The robots.txt item: withdrawn, not built
 
@@ -142,6 +189,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
   earlier, because the withdrawal was recorded in the risk audit and in `verification.md` while the
   *absence* in `robots.txt` looked like an oversight. Worth a general form: when a rule is withdrawn,
   the artefact that no longer implements it gets a comment saying so. First filing.
+- [skills] **`seo-content-reference.md` contradicting a canonical rule is now evidenced, not just
+  suspected.** The open item calls it "~80% declared mirror of three files that own their numbers"
+  and asks whether it should become a pure index. It did not merely duplicate `meta-framework.md`'s
+  CTA rule — it **contradicted** it, ranking the banned "Enrol Now" as the strongest CTA available.
+  A stale mirror is a nuisance; a mirror that inverts the rule it mirrors is a defect generator.
+  **Second sighting**, and the stronger argument for the index conversion.
+- [skills] **A worked example is a rule with no owner.** `check-claims` §8 now guards one phrase in
+  one skill. The general form — every normative "never do X" in the skill should be checkable against
+  the skill's own examples — is unbuilt, and the ❌/✅ table in `meta-framework.md` already lists four
+  more banned CTAs ("Sign up", "Learn more", "Click here") that nothing checks in docs or in `dist`.
+  First filing; recorded, not built.
 - [skills] `demand-split`'s header still counts its two halves in different units — this session moved
   it `83 open · 11 closed` → `75 open · 19 closed`, where 8 items closed and open fell by 8 only
   because none of them were deduped away. Already filed on 30 Jul; recording that it held here too,

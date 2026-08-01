@@ -561,6 +561,60 @@ if (nameHits.length) {
   oks.push('Company name: no bare "ABE" in reader-facing content');
 }
 
+/* ---- 8. The skill must not teach what the skill bans -------------------- */
+/* `verification.md` §1f bans "Enrol now" / "Enrol today" as a publish hard-blocker, and
+   `content-formatting-guidelines.md` §S5 gave "Ready to get started? Enrol now" as its worked
+   example of a good micro-CTA. `seo-content-reference.md` closed a worked meta description with
+   "Enrol today." Both were found on 1 Aug 2026, the day the build-side guardrail
+   (BANNED_CTA_BUDGET in src/integrations/guardrails.ts) went in, and they are the most likely
+   reason 21 banned CTAs reached four live pages: an author following the worked example was
+   breaching the rule by doing so.
+
+   A rule and its own worked example drifting apart is mistakes-log #1's family seen from the
+   inside - not documentation drifting from code, but one document drifting from another in the
+   same skill. The build-side guardrail cannot see this: it reads dist/, and a reference doc is
+   never built. So it needs its own gate, on the source of the copy rather than the copy.
+
+   ALLOWED where the line states the ban rather than demonstrating it. A doc must be able to name
+   what it forbids - that is exactly what meta-framework.md's banned/replacement table does, and
+   what quality-gates.md item 11 does. A line counts as explanatory when it mentions ban / never /
+   avoid / instead / no / not / weak / wrong / forbid / blocker / replace / bad, or carries the
+   "❌" marker meta-framework.md uses for its don't-column.
+
+   The first run of this check flagged 10 lines and only 3 were the defect it was written for, so
+   the exemptions below were widened against those 10 by hand rather than tuned until the output
+   looked tidy. The other 7 split two ways: 4 legitimately catalogue the ban (the ❌/✅ table,
+   quality-gates 11, verification 1f and its blocker list, SKILL.md stage 7) and 3 were real drift
+   of a milder kind - trust-bar-guidelines.md used "Enrol Now" three times as the *generic name of
+   the enrol button*, which normalises the banned label without recommending it, and those were
+   reworded rather than exempted.
+
+   The literals are assembled at runtime so this file does not itself trip the scan (mistakes-log
+   #7: never write the token a machine scans for). */
+const BANNED_CTAS = ['Enrol ' + 'now', 'Enrol ' + 'today'];
+const EXPLAINS_BANNED = /\bban|never|avoid|instead|\bno\b|\bnot\b|weak|wrong|forbid|blocker|replace|\bbad\b|❌/i;
+const EXPLAIN_WINDOW = 4;
+const ctaDocHits = [];
+for (const f of walk('.claude/skills', '.md')) {
+  const lines = readFileSync(f, 'utf8').split('\n');
+  lines.forEach((line, i) => {
+    if (!BANNED_CTAS.some((p) => line.toLowerCase().includes(p.toLowerCase()))) return;
+    // The explanation rarely sits on the offending line. A don't-column is labelled by its table
+    // header; a deliberately-weak sample is labelled by the critique underneath it. Reading only
+    // the line flagged all four of those as defects on the first run. So the window is the block,
+    // not the line - which is also why EXPLAIN_WINDOW is small: a ban stated nine lines away is
+    // not labelling this example, it is a different paragraph.
+    const near = lines.slice(Math.max(0, i - EXPLAIN_WINDOW), i + EXPLAIN_WINDOW + 1).join('\n');
+    if (EXPLAINS_BANNED.test(near)) return;
+    ctaDocHits.push(`${f}:${i + 1}`);
+  });
+}
+if (ctaDocHits.length) {
+  fails.push(`Skill reference docs demonstrate a banned CTA in ${ctaDocHits.length} place(s): ${ctaDocHits.slice(0, 6).join(', ')}${ctaDocHits.length > 6 ? ' ...' : ''}. "Enrol now"/"Enrol today" is a publish hard-blocker (verification.md 1f) - a worked example must not use one. Rewrite it benefit-led and first-person, or say on the same line that the phrase is banned.`);
+} else {
+  oks.push(`Skill docs: no banned CTA demonstrated in a worked example (${BANNED_CTAS.length} phrase(s) scanned)`);
+}
+
 /* ---- 7. SYSTEM.md §5 names every check that exists ---------------------- */
 /* WHY THIS EXISTS. SYSTEM.md is the standing design reference, and its §5 is the list of how the
    system knows it is working. On 29 July 2026 that list named five checks while eleven were

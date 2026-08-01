@@ -193,7 +193,12 @@ Trust Bar (Steel) → Pre-Hero Meta Zone (#f9fafb) → Hero Content (white) → 
 **S4. Break any section longer than 400 words into sub-sections with H3 headings.**
 
 **S5. End every content section with a micro-CTA or directional cue.**
-"Ready to get started? Enrol now" or "Have questions? See our FAQ below."
+"Ready to start? Get my certificate" or "Have questions? See our FAQ below."
+
+> This example read "Ready to get started? Enrol now" until 1 Aug 2026 — the exact phrase
+> `verification.md` §1f bans as a publish hard-blocker. The skill was teaching by example what it
+> forbade by rule, which is the most likely reason 21 of them reached four live pages. Micro-CTAs
+> are benefit-led and first-person: "Get my certificate", "Start my ACT course", never "Enrol now".
 
 ---
 
