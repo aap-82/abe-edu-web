@@ -25,11 +25,11 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'Can I get a White Card online in NSW?',
-    a: 'Yes. The whole course runs online, with no travel and no classroom. It runs as a booked session with a live trainer rather than as a self-paced course you click through, because SafeWork NSW requires delivery and assessment in real time.',
+    a: 'Yes. The whole course runs online, with no travel and no classroom. Upskill Institute runs it as a booked session with a live trainer rather than as a self-paced course you click through, so the training and the assessment both happen in real time.',
   },
   {
     q: 'Why can I not do a self-paced White Card in NSW when other states can?',
-    a: 'Fully self-paced online delivery is permitted for Western Australian and Tasmanian residents only. Everywhere else the training must be run by a live trainer. SafeWork NSW’s conditions for training organisations state that connected delivery must not include self-paced learning or pre-recorded teaching content, so a course you click through on your own is not an option here. Upskill Institute delivers this one as a live session under its SafeWork NSW registration, RTO800520.',
+    a: 'Fully self-paced online delivery is available to Western Australian and Tasmanian residents only, so a course you click through on your own is not an option in New South Wales no matter how it is advertised. Upskill Institute delivers this one as a live trainer-led session under its SafeWork NSW registration, RTO800520, with nothing pre-recorded and no self-paced portion to work through beforehand.',
   },
   {
     q: 'How long does the course take?',

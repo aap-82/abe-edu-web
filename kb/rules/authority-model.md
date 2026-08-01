@@ -138,7 +138,7 @@ corrected 23 July 2026, see §"Asbestos and Silica" below.)
 **NSW — Upskill Institute (RTO 45708):**
 > "This course is delivered in partnership with Upskill Institute (RTO 45708), a nationally registered training organisation. Your Statement of Attainment and White Card will be issued by Upskill Institute."
 
-Delivery mode in NSW is trainer-led virtual classroom (accepted as face-to-face) or in person — **not** self-paced online (self-paced fully online White Card is restricted to WA and TAS residents; see `online-delivery-policy-by-state.md`). Upskill Institute (RTO 45708) is also ABE's NSW Owner Builder partner.
+Delivery mode in NSW is **trainer-led virtual classroom, delivered by Upskill Institute** — not self-paced online (self-paced fully online White Card is restricted to WA and TAS residents). **Write it as the RTO's delivery, never as something SafeWork NSW accepts, permits or treats as face-to-face, and carry no verification link or "Verified" badge on the claim** — there is no public source for it. This is a recorded exemption, **settled 2 Aug 2026 and closed**: see `online-delivery-policy-by-state.md` **§2A-1**, which also holds the regulator's contrary published position and the reasons this is not to be reopened. Upskill Institute (RTO 45708) is also ABE's NSW Owner Builder partner.
 
 **Schema pattern (substitute RTO name and number per state):**
 ```json
@@ -368,7 +368,8 @@ Any of these appearing in content = automatic pre-production FAIL.
 | "Nationally recognised" / "Statement of Attainment" / any RTO attribution on a **NSW Owner Builder** page | The Upskill partnership is unsigned and the five required units are not on RTO 45708's scope — the claim is unpublishable on both counts | Nothing. Do not build the page. See the NSW Owner Builder status block above |
 | Blue Dog Training on ACT White Card page | ACT White Card is delivered by AlertForce, not Blue Dog | "AlertForce (RTO 91826)" on ACT pages |
 | AlertForce on QLD/WA/TAS White Card pages | QLD/WA/TAS White Card is delivered by Blue Dog Training | "Blue Dog Training (RTO 31193)" on QLD/WA/TAS pages |
-| "Self-paced" / "fully online at your own pace" White Card to NSW residents | Self-paced fully online White Card is restricted to WA and TAS residents; NSW requires trainer-led virtual classroom or in person | "Live virtual classroom or in-person training delivered by Upskill Institute (RTO 45708)" |
+| "Self-paced" / "fully online at your own pace" White Card to NSW residents | Self-paced fully online White Card is restricted to WA and TAS residents; ABE's NSW course runs as a trainer-led live session | "A live online session delivered by Upskill Institute (RTO 45708)" |
+| "SafeWork NSW accepts live video as face-to-face" — or any wording crediting the **regulator** with the NSW delivery mode, or a `VerifiedSources` / "Verified [date]" badge over it | SafeWork NSW's published GIT conditions do not provide for it. ABE's mode is the **RTO's**, recorded as an exemption (`online-delivery-policy-by-state.md` §2A-1), and has no public source to cite | "Delivered by Upskill Institute (RTO 45708) as a trainer-led online session" — stated plainly, with **no** source link on the delivery claim |
 | "ABE Education (RTO 45708)", or ABE delivering/developing NSW Owner Builder | RTO 45708 belongs to Upskill Institute; ABE is enrolment partner only | "Delivered by Upskill Institute (RTO 45708) · Enrolled through ABE Education" |
 | "NSW Fair Trading" as the NSW building CPD regulator | Building Commission NSW took over Fair Trading's building functions on 1 Dec 2023; Fair Trading retains general consumer matters only | "Building Commission NSW" |
 | "Building Commission NSW-approved / endorsed CPD", "approved CPD provider" or "mandated provider" for NSW | NSW has no provider-approval regime; the regulator states it "cannot and does not endorse any provider of training and/or CPD" | "Meets the NSW CPD criteria administered by Building Commission NSW under the *Home Building Act 1989*" |
@@ -387,7 +388,7 @@ When Page Identity Card shows `ASQA req'd: Yes`, disclosures must appear in **7 
 
 - **QLD, WA, TAS:** Blue Dog Training (RTO 31193)
 - **ACT:** AlertForce (RTO 91826)
-- **NSW White Card:** Upskill Institute (RTO 45708) — nationally recognised; this disclosure framework applies. Trainer-led virtual classroom or in person (never self-paced online).
+- **NSW White Card:** Upskill Institute (RTO 45708) — nationally recognised; this disclosure framework applies. Trainer-led virtual classroom, delivered by the RTO, never self-paced online. State the mode as the RTO's, with no source link on it; do not credit SafeWork NSW with it. Recorded exemption, closed 2 Aug 2026 — `online-delivery-policy-by-state.md` §2A-1.
 - **NSW Owner Builder:** ⛔ **ON HOLD — no RTO.** The Upskill arrangement is not in force and the five units are not on 45708's scope. This framework does not apply to a page that must not be built. See the NSW Owner Builder status block above.
 
 1. **Hero inline** (short form): "Training delivered by [RTO Name] (RTO [Number]) · Enrolled through ABE Education"
