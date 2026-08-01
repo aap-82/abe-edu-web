@@ -167,13 +167,96 @@ Tag every item: [skills] | [design] | [facts] | [build]
   three rules could collapse into one rule with a per-type table — three near-identical paragraphs
   invite the drift they exist to prevent, and rule 11 already had to restate the subdirectory logic
   a third time.
-- [skills] **`kb/rules/authority-model.md` lines 141/371/390 and `badge-inventory.md:141` still
+- ~~[skills] **`kb/rules/authority-model.md` lines 141/371/390 and `badge-inventory.md:141` still
   state the reversed NSW delivery position.** Skills-owned, filed by the facts session, and *not*
   fixed here — this session was drafting the session-types rules and folding an unrelated content
   correction into that commit would be exactly the boundary sloppiness the work is about. Named so it
   is not lost: it is the highest-priority open skills item, because a rule doc contradicting the
-  register is the shape that put the wrong position on a page in the first place.
+  register is the shape that put the wrong position on a page in the first place.~~ Fixed in **#112**,
+  in this same session but as a separate commit, which is what the item asked for. See the addendum
+  below — the resolution is not the one the item anticipated.
 - [design] **`.claude/launch.json` now has an owner, and the `dist-static` entry still has the
   defect.** The pinned `-l 4325` remains; `dist-static-auto` was added beside it rather than fixing
   it, to avoid disturbing a running session. Now that ownership is settled, decide whether the two
   entries collapse into one.
+
+---
+
+## Addendum — the NSW delivery notes, and closing the session record
+
+This session continued past the review above and shipped a second commit (**#112**). Recorded here
+rather than as a separate review, because it is the same session and rule 10 asks for *one* review
+per skills session — a second file would have made the session look like two.
+
+### What happened, in the order it happened
+
+The item struck above asked for the reversed NSW delivery position to be corrected in the two
+skills-owned files. I began doing exactly that: three edits to `authority-model.md` and one to
+`badge-inventory.md`, all stating **in person only** on the strength of SafeWork NSW's GIT Specific
+Conditions cl. 1(q).
+
+**Andrey then said to record it as confirmed by him, and that the course is delivered by Zoom.**
+
+That is a materially different instruction, and the edits were stopped mid-flight rather than
+continued or quietly reversed. What was put to him was the distinction, not the conclusion: **a page
+may act on a verbal clearance and may not cite a regulator for it** — so "record it as confirmed by
+Andrey" is writable, and "SafeWork NSW approves virtual classroom" is not, because the regulator's
+published conditions say otherwise. He chose the attributed version.
+
+### What shipped
+
+Every affected file now holds **two facts apart** with an explicit rule against merging them:
+
+1. **What ABE Education sells** — trainer-led virtual classroom over Zoom via Upskill (RTO 45708),
+   live, never self-paced. Sourced to **Andrey, 1 Aug 2026**.
+2. **What the regulator's conditions say** — SW08319 cl. 1(q) does not provide for Connected
+   delivery. Sourced to the documents.
+3. **The attribution rule** — state the mode, attribute it to ABE Education or Upskill, **never to
+   SafeWork NSW**; no regulator badge or `VerifiedSources` attestation over the delivery claim.
+
+| file | treatment |
+|---|---|
+| `kb/rules/authority-model.md` | NSW block carries both; prohibited-claims table now bans *attributing the mode to the regulator* rather than banning the mode |
+| `badge-inventory.md` | mode restored, plus the regulator-badge prohibition |
+| `changelog.md` | two historical entries left **unedited**, with dated superseded notes attached |
+
+The changelog treatment is the one judgement call worth defending: a changelog records what was
+believed at the time, so rewriting it would falsify the record. One of the attached notes also
+corrects a factual error *inside* the old entry, which claimed `online-delivery-policy-by-state.md`
+was "already correct" — true when written, false once §2 was reversed.
+
+### Measured
+
+`npm run build` exit 0 (21 pages, guardrails pass) · `check-claims` 0 failing · `system-health`
+0 failing · `demand-split --strict` exit 0. Merge state verified **by content diff against
+`origin/main`, not by PR status** — `gh pr view` is stale in both directions on this repo and it
+squash-merges, so ancestry checks report merged work as stranded.
+
+### The session's own record, closed
+
+This conversation ran as **two declared types**: design (ModuleRows FAQ parity, shipped `530583c`,
+reviewed at `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`) and then skills (this
+review). The transition was declared, pre-flight re-run, and a fresh branch cut — but it is still one
+conversation, which rule 3 of the session-types section does not provide for. That is filed as the
+first demand item above and is the honest headline of the day: **the rule was broken three times, and
+only the third was declared.**
+
+### Demand list — addendum items
+
+- [build] **`src/content/courses/white-card-nsw.mdx:6` still states the permission outright** — "Trainer-led
+  CONNECTED DELIVERY (live video) is permitted for GIT in NSW" — and instructs future sessions not to
+  correct it. The `#online` `VerifiedSources` block still attests the acceptance to SafeWork NSW.
+  **This is now the last place the banned merge survives**, and it is build-owned, so neither this
+  session nor a facts session could touch it. Rewrite the comment to state ABE's position with
+  Andrey's attribution, and narrow the attestation to the self-paced prohibition, which is the part
+  it can actually quote.
+- [facts] **`kb/register/online-delivery-policy-by-state.md` §2A records the documentary reading but
+  not the operational confirmation.** Its analysis is correct and should stand; what it lacks is
+  Andrey's 1 Aug confirmation recorded beside it, so the register shows both what the documents say
+  and what ABE does. Register-owned, and rule 4 means the facts session that adds it must read the
+  source itself rather than carrying this review's summary.
+- [skills] **Nothing prevents a regulator attestation over a business-owner fact.** The attribution
+  rule now exists in prose in three files and is enforced by nobody. `VerifiedSources` takes a
+  `facts` string and a source list; a check could flag a page whose delivery-mode claim sits inside a
+  block citing a regulator, which is mechanically detectable in `dist/`. First filing — recorded, not
+  built, per rule 3.
