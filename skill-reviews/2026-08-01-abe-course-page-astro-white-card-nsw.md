@@ -387,7 +387,7 @@ this section, and two items placed outside it were parsed as nothing and reporte
   been a **no-op on those five** and visible only on WA. Adopting the FAQ's container (a `--paper`
   card) fixes that and frees the open state, which no longer takes a tint. Measured `--slate` 4.64:1
   on hover, 5.10:1 at rest and open, identical at 1280px and 375px and on both section grounds.
-- [design] **`ModuleRows` scoped CSS is emitted as a separate render-blocking stylesheet and breaks
+- ~~[design] **`ModuleRows` scoped CSS is emitted as a separate render-blocking stylesheet and breaks
   the Lighthouse budget on two pages.** Measured on PR #104's CI run, 1 Aug 2026:
   `/qld-owner-builder-course` found **2** render-blocking resources against `maxLength <= 1`, and
   `/styleguide` found **3** against `<= 2`. The blocking pair is `/_astro/SourcesFooter.*.css` and
@@ -401,7 +401,19 @@ this section, and two items placed outside it were parsed as nothing and reporte
   `astro.config.mjs` or bringing the component's CSS under the inline threshold, so it is not a
   drive-by: `BaseLayout.astro`'s own comment on the font block says to measure LCP before and after
   on a throttled run and not to assume preloading helps, "it measured worst of everything tried".
-  Same discipline applies here. Measure, then choose.
+  Same discipline applies here. Measure, then choose.~~ **Fixed in #106**, and the item is struck by
+  the session that filed it, an hour later, because leaving it open would have misdescribed the
+  repo. `build: { inlineStylesheets: 'always' }` in `astro.config.mjs`. Measured before and after on
+  all six template URLs: every page went to **0** blocking stylesheets (from 2 on
+  `/qld-owner-builder-course` and 3 on `/styleguide`), and `/_astro/*.css` went 3 to 0. The cost is
+  **~44kB added to every document**, the shared stylesheet moving inline instead of being cached
+  across pages, which is recorded in the config comment rather than sold. **LCP was not measured
+  locally and CI adjudicated it**: clean runner, three runs per URL, and every budget held with the
+  extra bytes, including a performance score of exactly 1 on all six templates. Verified on the
+  deployed Cloudflare preview afterwards by reading computed styles, not by checking a `<style>` tag
+  exists: H1 resolved to Archivo 56px and the body to the `--ground` cream, with zero external
+  stylesheets. `'always'` was chosen over shrinking this one component under Astro's ~4kB threshold
+  because it removes the class of failure rather than the instance.
 - [skills] **A PR can merge before its CI runs, and did, twice in one night.** #103 was squash-merged
   seconds after creation with no CI run recorded against it, so the `ModuleRows` regression reached
   `main` unmeasured and `main`'s Workers build then failed on a gate the branch had never exercised.
