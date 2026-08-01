@@ -123,9 +123,12 @@ the system doing what it was built to do to a session that stepped outside its l
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [facts] `kb/register/government-listings.md:114,124` prescribes `target="_blank"` for government
-  citation links, which now contradicts `DESIGN.md` §7. Update it to point at DESIGN.md as the
-  authority. Register-owned, so a facts session must do it.
+- ~~[facts] `kb/register/government-listings.md:114,124` prescribes `target="_blank"` for government
+  citation links, which now contradicts `DESIGN.md` §7.~~ fixed 1 Aug 2026. The "Key rules" list now
+  names `DESIGN.md` §7 as the authority and restates the act-vs-provenance split, including the point
+  the old snippet missed entirely: where a new tab is used the `.sr-only ", opens in a new tab"` cue is
+  **mandatory**. The code snippet above it is left unedited as a historical artefact, with the rule
+  pointing away from it.
 - [skills] `references/seo/trust-bar-guidelines.md:271` carries the same `target="_blank"` template for
   gov citation links, with the same conflict.
 - [skills] Nothing checks link targets. The rule now exists in DESIGN.md and is enforced by nobody —

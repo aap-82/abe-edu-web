@@ -121,7 +121,13 @@ Before displaying a government listing reference, verify all five:
 
 **Key rules:**
 - Government logo/crest must be used respectfully (check usage guidelines)
-- Link opens in new tab with `rel="noopener"`
+- **Link target: `DESIGN.md` §7 "Link targets" is the authority — do not follow the `target="_blank"`
+  in the snippet above.** That rule splits by the reader's job, not the destination: an **invitation
+  to act** (go and verify this listing) opens in a new tab with `rel="noopener"` **and a mandatory
+  `.sr-only ", opens in a new tab"` cue**, while **provenance** (a citation proving a claim was
+  checked) stays in the same tab with no `target` and no cue. A government listing badge is usually an
+  invitation to act, so a new tab is usually right — but **the cue is not optional**, and the snippet
+  above omits it. Corrected 1 Aug 2026; the snippet is left unedited as a historical artefact.
 - "Last verified" date must be present and recent
 - Badge text must be crawlable HTML (not image-embedded)
 - Never claim "endorsed by" — use "listed by" or "approved by"

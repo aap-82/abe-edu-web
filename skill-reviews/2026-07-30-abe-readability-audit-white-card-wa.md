@@ -99,9 +99,15 @@ Tag every item: [skills] | [design] | [facts] | [build]
   as a [skills] item to reconcile.
 - ~~[design] The partner blurb renders verbatim twice on every ASQA page, from `PartnerDisclosure` and
   again from `Credentials`. Third filing, and the first caught by a copy check rather than a design read.~~ fixed in #92
-- [facts] `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
-  regulator's web summary, which the page demonstrated is self-contradictory. Re-verify against
-  **Form 75 page 5** and record the four numbered pathways, including the five-year bound on pathway 4.
+- ~~[facts] `kb/register/eligibility-by-state.md` WA sufficient-knowledge entry is sourced to the
+  regulator's web summary, which the page demonstrated is self-contradictory.~~ re-verified 1 Aug 2026
+  against the official Form 75, page 5 of 10, and this review was right on every count. The four
+  pathways are now recorded as a table, with the five-year bound on pathway 4 and the statutory hook
+  (s.43(2)(b)(ii) BSR Act). **The summary was wrong in a way worth naming:** it imposes the white/blue
+  card on *all* routes, but Form 75 asks for it on pathways 1, 3 and 4 only — **pathway 2, current WA
+  Building Practitioner registration, does not require it** — and it states "previous ... registration"
+  with no time limit where the form bounds it to five years. Also recorded: the issuing department is
+  now **LGIRS**, and Form 75 copies in the old DEMIRS name stopped being accepted on 1 June 2026.
 - ~~[skills] `audit_render.py` must be given an **HTTP URL**, not a file path, or it measures an unstyled
   page and returns four false FAILs. Serve `dist/` first. Belongs in `references/verification.md`.~~ fixed 30 Jul 2026: both traps documented in references/verification.md, with the py/HTTP-URL fix
 - ~~[skills] `audit_render.py` resolves a background colour from the immediate parent only, so any text

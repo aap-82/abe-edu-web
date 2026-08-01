@@ -59,7 +59,14 @@ Tag every item: [skills] | [design] | [facts]
   `demand-split.mjs` anchors on `^none\b[\s.-]*$`, so the trailing clause made it parse as a real
   demand item and it routed to the design handover for five days. It is not closed — it was never
   open. The general fix, broadening the null match, is filed as a [skills] item.)
-- [facts] none - all figures carried verbatim from already-sourced course content.
+- [facts] none.
+
+  (Reworded 2026-08-01 from "none - all figures carried verbatim from already-sourced course content."
+  Same fault as the [design] line above, and missed when that one was fixed: the trailing clause after
+  "none" defeats `isPlaceholder`'s `^none\b[\s.-]*$`, so this parsed as a real demand item and sat on the
+  facts handover as a null entry. It is not closed — it was never open. Fixing one null line and not the
+  one four lines below it is the set-scoped miss this repo keeps repeating; the broadening of the null
+  match is still the [skills] item filed above.)
 
 ## Gate
 `npm run build` green (guardrails **19/19**), `npm run check` **0 errors / 0 warnings**, rendered-page

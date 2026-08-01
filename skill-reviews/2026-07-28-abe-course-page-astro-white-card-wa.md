@@ -352,13 +352,18 @@ Tag every item: [skills] | [design] | [facts]
   verify link verbatim**, and the `after-hero` move put the two ~8 screens apart instead of adjacent.
 - [skills] **`#real`'s micro-CTA precedes its verification block** (inverting `verification.md` §1c)
   and points at `#online` while the section's own "Next" wayfinder points at `#need-one`.
-- [facts] **`online-delivery-policy-by-state.md` line 23 says "WA residents".** WorkSafe WA's test is
-  *located in WA at the time of assessment* — not the same test, and the difference decides whether a
-  buyer can use the course. The page uses the regulator's wording; the register should too.
-- [facts] **`competitor-pricing-snapshot.md` §2, WA row, classes ABE's WA product as commodity
-  self-paced.** It carries a live 15-to-30-minute trainer assessment, which the same file says drives
-  the $99-$150 QLD/ACT band. The row needs a delivery-mode note, or the next run reads a 2.25×
-  premium where there is a peer-set difference.
+- ~~[facts] **`online-delivery-policy-by-state.md` line 23 says "WA residents".**~~ fixed 1 Aug 2026 —
+  this review was right. WorkSafe WA's own page states the card is issued only to candidates who
+  evidence they are "located in Western Australia **at the time of the assessment**", and its accepted
+  evidence includes a WA postal address, which settles it as a presence-and-nexus test rather than a
+  residency test. Recorded as §2B of that file, with the evidence list and the regulator's wording to
+  use on pages.
+- ~~[facts] **`competitor-pricing-snapshot.md` §2, WA row, classes ABE's WA product as commodity
+  self-paced.**~~ delivery-mode note added 1 Aug 2026 to §3, and the WA band row now points at it, so
+  the ~2.25× reads as a peer-set difference rather than a premium. **Recorded, not verified:** the live
+  15-to-30-minute trainer assessment is ABE's own product configuration, not a regulator fact, so the
+  note names this review as its source and asks for Andrey or the Blue Dog Training course outline
+  before any pricing decision leans on it.
 
 ---
 
