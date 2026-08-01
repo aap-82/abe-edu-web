@@ -373,14 +373,20 @@ this section, and two items placed outside it were parsed as nothing and reporte
   redirect map catches it. Both are for a product ABE cannot currently sell, which is why it has not
   bitten. Needs a decision about what those URLs *do* at cutover, not only about when the course
   returns. Read at Stage 0 by whoever builds NSW owner builder; belongs on the Wave 6 gate list too.
-- [design] **Match the `ModuleRows` group accordion to the FAQ accordion** (Andrey, 1 Aug 2026).
+- ~~[design] **Match the `ModuleRows` group accordion to the FAQ accordion** (Andrey, 1 Aug 2026).
   Scope it before starting: the plus-mark is already aligned (`0b02349`), structural and typographic
   parity is conflict-free, but full visual parity means adopting the FAQ's
   `background: var(--paper-alt)` surface-tint hover, which reverses `7236dec` and `bbc54a0`.
   `ModuleRows.astro` carries the measured reasoning for moving hover off the surface: a lighter wash
   reads as a weak version of the open state (already `--paper`), and a darker step puts `--slate` at
   4.40:1 against a 4.50 AA floor while `--slate` carries the module count. Re-measure `--slate` on
-  the module row's ground and take the reversal deliberately.
+  the module row's ground and take the reversal deliberately.~~ Done —
+  `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`. The scoping note was right that the
+  reversal was the crux and wrong about which constraint bit: the blocker was never contrast, it was
+  that `#learn` is `bg-alt` on five of the six pages, so the FAQ's `--paper-alt` hover would have
+  been a **no-op on those five** and visible only on WA. Adopting the FAQ's container (a `--paper`
+  card) fixes that and frees the open state, which no longer takes a tint. Measured `--slate` 4.64:1
+  on hover, 5.10:1 at rest and open, identical at 1280px and 375px and on both section grounds.
 - [design] **`ModuleRows` scoped CSS is emitted as a separate render-blocking stylesheet and breaks
   the Lighthouse budget on two pages.** Measured on PR #104's CI run, 1 Aug 2026:
   `/qld-owner-builder-course` found **2** render-blocking resources against `maxLength <= 1`, and
