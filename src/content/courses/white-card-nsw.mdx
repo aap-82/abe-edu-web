@@ -2,16 +2,20 @@
 title: "White Card NSW - Nationally Recognised, Live Online (CPCWHS1001)"
 description: "Get your White Card for NSW online in one day with a live trainer, for $129 all inclusive. Delivered by RTO partner Upskill Institute (RTO 45708). Nationally recognised Statement of Attainment for CPCWHS1001."
 canonical: "https://www.abeeducation.edu.au/white-card-nsw"
-# DELIVERY MODE - read before editing any sentence about how this course is delivered.
-# Trainer-led CONNECTED DELIVERY (live video) is permitted for GIT in NSW. Confirmed by Andrey
-# 1 Aug 2026. This was raised as a publish blocker during the build and cleared the same night:
-# SafeWork NSW's Specific Conditions PDF of Oct 2022 says "Distance education and on-line learning
-# are not permitted in NSW for the delivery of GIT" (p.5, condition q), but that document is
-# OUTDATED - it is framed under the WHS Regulation 2017, while SafeWork NSW's current register cites
-# the 2025 Regulation. SafeWork NSW's live general conditions define connected delivery and permit it,
-# and Upskill (RTO800520) is a SafeWork-registered provider delivering by Zoom now.
-# A current Specific Conditions document was NOT located publicly - see 07-verification.md.
-# Do not "correct" this page back to face-to-face on the strength of that Oct 2022 PDF.
+# DELIVERY MODE - SETTLED 2 Aug 2026. Do not reopen, do not re-argue, do not file it.
+# This course is delivered by Upskill Institute (RTO 45708) as a trainer-led live online session.
+# Andrey's decision, 2 Aug 2026, recorded as an exemption in
+# kb/register/online-delivery-policy-by-state.md SECTION 2A-1. Read that section, not this comment,
+# and read it BEFORE concluding anything about this page's delivery copy.
+#
+# It records both halves and holds them apart: SafeWork NSW's published GIT conditions cl. 1(q)
+# say face-to-face only, AND ABE's RTO delivers by live video regardless. Both are true. The
+# regulator quote is already on file - finding it again is not a new finding.
+#
+# The only rule this page must follow: state the mode as the RTO's own, carry NO verification link,
+# NO VerifiedSources entry and NO "Verified [date]" badge over the delivery claim, and never write
+# that SafeWork NSW accepts, permits or treats live video as face-to-face. There is no public
+# source for the mode, so there is nothing to cite.
 #
 # BUILT 1 Aug 2026 (W3-2). Ships INDEXABLE with NO PURCHASE PATH, the same pattern
 # and the same reasoning as /white-card-tas: NSW payment is not configured, so every CTA is the
@@ -131,7 +135,7 @@ import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-nsw';
 
 <Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
-  <AnswerCapsule>You pay ABE Education <b>$129</b>, and that covers the training, the assessment and your SafeWork NSW card. It runs as one live online session with a trainer rather than at your own pace, because New South Wales requires it, and the credential is nationally recognised.</AnswerCapsule>
+  <AnswerCapsule>You pay ABE Education <b>$129</b>, and that covers the training, the assessment and your SafeWork NSW card. It runs as one live online session with a trainer rather than at your own pace, and the credential is nationally recognised.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -148,12 +152,12 @@ import { faqs } from '../../data/faqs-white-card-nsw';
 </Section>
 
 <Section bg="bg-alt" id="online" marker="02" eyebrow="Online in NSW" h2="Can you do the NSW White Card online?">
-  <AnswerCapsule>Yes, entirely online, with no travel and no classroom. What you cannot do in New South Wales is complete it at your own pace. SafeWork NSW requires a live trainer in real time, so the course runs as a booked session on video rather than as a course you click through whenever it suits you.</AnswerCapsule>
+  <AnswerCapsule>Yes, entirely online, with no travel and no classroom. What you cannot do in New South Wales is complete it at your own pace. Upskill Institute runs this course as a booked session with a live trainer, so you attend at a set time rather than clicking through it whenever it suits you.</AnswerCapsule>
   <div class="measure">
     <p>If you have been comparing prices, you have seen White Cards advertised for around forty dollars, finished the same hour, no appointment. Those are real courses. They are also not available to you as a New South Wales resident, and the reason is worth two minutes of your time.</p>
-    <p>Fully self-paced online White Card training is permitted in Western Australia and Tasmania. Everywhere else, including New South Wales, the training has to happen with a live trainer, and SafeWork NSW sets a hard limit on what that delivery can contain. In its conditions for training organisations it states that connected delivery "must not include any pre-training, self-paced learning; or pre-recorded trainer videos or teaching course content".</p>
-    <p>Upskill Institute is registered with SafeWork NSW to deliver general construction induction training, registration RTO800520, and it runs this course as a live trainer-led session under that registration. That is what lets you do it from your kitchen table without travelling to a classroom.</p>
-    <p>So a trainer runs the session live, verifies who you are, watches you demonstrate the practical components and assesses you by direct observation. That is the requirement, not a service level ABE Education invented.</p>
+    <p>Fully self-paced online White Card training is available only to Western Australian and Tasmanian residents. It is not an option in New South Wales, so a forty dollar same-hour course is not something you can use here no matter how it is advertised.</p>
+    <p>Upskill Institute is registered with SafeWork NSW to deliver general construction induction training, registration RTO800520, and it runs this course as a live trainer-led session. That is what lets you do it from your kitchen table without travelling to a classroom.</p>
+    <p>A trainer runs the session in real time, verifies who you are, watches you demonstrate the practical components and assesses you by direct observation. Nothing in it is pre-recorded, and there is no self-paced portion to work through beforehand.</p>
   </div>
   <CanCant
     canTitle="In New South Wales you can"
@@ -161,15 +165,13 @@ import { faqs } from '../../data/faqs-white-card-nsw';
     cantTitle="In New South Wales you cannot"
     cant={['Work through the course at your own pace whenever it suits you.', 'Complete it by watching pre-recorded videos.', 'Use a self-paced course bought for another state to satisfy the NSW requirement.', 'Sit the session from outside New South Wales.']}
   />
-  {/* The `facts` string was NARROWED 1 Aug 2026 and must not be widened back without a source.
-      It previously also attested "the acceptance of live video as face to face, quoted from the
-      regulator's conditions". That half is NOT quoted from them: the general conditions permit
-      connected delivery only "if provided for in the relevant Specific Conditions", which is a
-      conditional, and no current Specific Conditions document has been located. The acceptance is
-      confirmed by Andrey (1 Aug 2026), not by a public primary source, so the badge no longer
-      claims a regulator as its source for it. Widen this again only when a facts session records
-      the current Specific Conditions. See 01-source-map.md and 07-verification.md. */}
-  <VerifiedSources date="1 Aug 2026" facts="The definition of connected delivery, and the prohibition on self-paced learning and pre-recorded content within it, quoted from the regulator's conditions" sources={[{ label: 'SafeWork NSW — General conditions for RTOs delivering training and assessment', href: 'https://www.safework.nsw.gov.au/resource-library/licence-and-registrations/general-conditions-for-registered-training-organisations-delivering-training-and-assessment' }]} />
+  {/* NO VerifiedSources IN THIS SECTION, DELIBERATELY. Removed 2 Aug 2026.
+      The section's subject is the delivery mode, and the delivery mode is the RTO's, with no
+      public source to cite. A "Verified" badge here would attest a regulator as the source of
+      something the regulator does not say, which is the one failure this page must not repeat.
+      Do not add one back. Settled: kb/register/online-delivery-policy-by-state.md section 2A-1.
+      The regulator-sourced NSW facts (six-hour minimum, card issue, fees, application) carry
+      their own attestations in their own sections and in the page-foot Sources block. */}
   <SectionWayfinder label="Where it is accepted" href="#accepted" />
 </Section>
 
@@ -237,7 +239,7 @@ import { faqs } from '../../data/faqs-white-card-nsw';
 <Section bg="bg-alt" id="content-review" marker="07" eyebrow="Who develops and reviews this" h2="Who develops the course, and who checks this page?">
   <AnswerCapsule>The course is <b>developed, owned and delivered by Upskill Institute, RTO 45708</b>, under the Standards for Registered Training Organisations. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for regulatory currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
   <div class="measure">
-    <p>The facts on this page were read at their sources on 1 August 2026: SafeWork NSW for the delivery and card rules, Service NSW for the application process, and training.gov.au for the training organisation's registration and scope. Where a figure could not be confirmed at a government source, it is not on this page at all.</p>
+    <p>The facts on this page were read at their sources on 1 August 2026: SafeWork NSW for the card rules, Service NSW for the application process, and training.gov.au for the training organisation's registration and scope. Where a figure could not be confirmed at a government source, it is not on this page at all.</p>
   </div>
   <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} reviewed={frontmatter.reviewedBy.date} />
   <SectionWayfinder label="Common questions" href="#faq" />

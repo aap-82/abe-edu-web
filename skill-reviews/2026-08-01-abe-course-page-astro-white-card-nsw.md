@@ -329,7 +329,8 @@ viewport-reversion trap) are **not repeated here**. These are new.
   at source 1 Aug 2026 and unchanged. One correction to this item: the figure was **already in the
   register** at `state-fees-register.md` (verified 22 Jul 2026), so this was a re-verification, not a
   missing record. The as-at date and the CPI re-verify cadence are now recorded there.
-- [build] **Narrow the `#online` `VerifiedSources` attestation to what it can quote.** It currently
+- ~~[build] **Narrow the `#online` `VerifiedSources` attestation to what it can quote.**~~ **CLOSED 2 Aug 2026 — gone further: the block was removed from `#online` entirely, because the section's subject is the delivery mode and the mode has no public source. Standing rule now in §2A-1: no verification link, no `VerifiedSources`, no "Verified" badge over a delivery claim.** Original finding kept below.
+  It currently
   attests "the acceptance of live video as face to face... quoted from the regulator's conditions".
   The prohibition is quoted; the acceptance is not, and the cited general conditions make their
   permission conditional on a document nobody has. Attest the prohibition, and let the acceptance sit

@@ -139,31 +139,35 @@ part of its pre-flight**, and no gate in this repo checks it. Filed as `[skills]
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [build] **`/white-card-nsw` must not publish as written.** Title, description, hero, `FactGrid`
+- ~~[build] **`/white-card-nsw` must not publish as written.**~~ **CLOSED 2 Aug 2026 — Andrey recorded the mode as an exemption (`online-delivery-policy-by-state.md` §2A-1). The page publishes; the copy no longer credits the regulator with the mode. Do not reopen.** Original finding kept below.
+  Title, description, hero, `FactGrid`
   "Delivery: Live online", the `#online` section and `disclaimersHtml` all assert a live-online
   delivery that SafeWork NSW's GIT conditions cl. 1(q) prohibit. The page is merged to `main` and is
   **not** in `astro.config.mjs`'s `NOINDEX`, so cutover would publish it. It returns 404 on the
   production domain today, so this is a pre-cutover fix, not an incident. **Blocked on a human
   decision** (see the two `[facts]` items below) — do not rewrite the copy to "in person" until it is
   known what Upskill actually delivers.
-- [build] **Delete or rewrite the DELIVERY MODE comment at `white-card-nsw.mdx` lines 5–14.** It
+- ~~[build] **Delete or rewrite the DELIVERY MODE comment at `white-card-nsw.mdx` lines 5–14.**~~ **CLOSED 2 Aug 2026 — rewritten to point at §2A-1 and to state the no-source-link rule.** Original finding kept below.
+  It
   instructs future sessions "Do not 'correct' this page back to face-to-face on the strength of that
   Oct 2022 PDF", on a reading of General Conditions §4.3.1 that drops the conditional clause. Left
   standing, it will defeat the next session that finds what this one found. This is the highest-value
   single line to change in the repo right now.
-- [facts] **Ask Andrey to obtain, in writing, either (a) SafeWork NSW's confirmation that Connected
+- ~~[facts] **Ask Andrey to obtain, in writing, either (a) SafeWork NSW's confirmation or (b) Upskill's approval for video delivery.**~~ **CLOSED 2 Aug 2026 — not being pursued. Andrey recorded the mode as an exemption instead (§2A-1); written confirmation is not a precondition for the page. Do not re-file this.** Original finding kept below.
+  Either (a) SafeWork NSW's confirmation that Connected
   delivery is provided for in the current Specific Conditions for GIT, or (b) Upskill Institute's
   SafeWork NSW approval or exemption for video delivery.** 13 10 50 / `tacs@safework.nsw.gov.au`.
   Either one unblocks the page; neither is obtainable without a human.
-- [facts] **Confirm with Upskill Institute what delivery mode they actually run in NSW.** If it is by
+- ~~[facts] **Confirm with Upskill Institute what delivery mode they actually run in NSW.**~~ **CLOSED 2 Aug 2026 — answered: trainer-led virtual classroom, confirmed by Andrey and recorded as an exemption (§2A-1). Settled, not a copy question and not an open action.** Original finding kept below.
+  If it is by
   video, that is a conflict between the partner's delivery and the regulator's published conditions,
   and it is a commercial and compliance question, not a copy decision.
 - [facts] **Verify the QLD row of `online-delivery-policy-by-state.md` against WHSQ.** Same
   virtual-classroom claim that failed for NSW, same industry-guide provenance, and it is already on a
   live page. Then work through TAS, ACT, WA and the out-of-scope rows.
-- [skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom
-  position as canonical.** Reconcile against `online-delivery-policy-by-state.md` §2A. Line 371 is in
-  the prohibited-claims table, so it currently teaches the wrong replacement wording.
+- ~~[skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom position as canonical.**~~ **CLOSED 2 Aug 2026 by PR #112**, which reconciled all three and added a prohibited-claims row banning regulator attribution of the mode. A later branch duplicated that work off a stale base and discarded its own version in favour of #112's on merge; only the §2A-1 exemption pointer was added on top. Original finding kept below.
+  They stated that position as canonical. Reconcile against `online-delivery-policy-by-state.md` §2A.
+  Line 371 is in the prohibited-claims table, so it currently teaches the wrong replacement wording.
 - [skills] **`.claude/skills/abe-course-page-astro/references/seo/badge-inventory.md:141` carries the
   same NSW delivery claim**, and `references/seo/changelog.md` (lines 326, 337) records it as settled.
   The badge file is the one that will re-teach it to the next build.

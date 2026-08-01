@@ -12,7 +12,7 @@ Which states permit the White Card (construction induction, **CPCWHS1001**) to b
 
 **Self-paced, fully online** White Card is permitted **only for WA residents and TAS residents** (since 2019). Residents of every other state/territory must complete the training **face-to-face**. The card is **nationally recognised** once issued, regardless of where or how it was completed — but the *delivery* rules are set by the resident's state.
 
-**"Face-to-face" does not automatically include the virtual classroom.** Some regulators accept trainer-led real-time video delivery as satisfying the face-to-face requirement and some do not, and this is settled per jurisdiction by that regulator's own conditions, never by inference from the phrase. **NSW does not accept it** (§2A). Do not carry an acceptance from one state to another.
+**"Face-to-face" does not automatically include the virtual classroom.** Some regulators accept trainer-led real-time video delivery as satisfying the face-to-face requirement and some do not, and this is settled per jurisdiction by that regulator's own conditions, never by inference from the phrase. **SafeWork NSW's published conditions do not provide for it** (§2A) — and ABE's NSW course is nonetheless delivered that way by its RTO under a recorded exemption (**§2A-1**, closed 2 Aug 2026). Do not carry an acceptance from one state to another.
 
 A supporting reason self-paced delivery is restricted: since December 2016 the assessment includes a **PPE demonstration** component (the learner must correctly fit and wear common construction PPE — see `ppe-requirements.md`), which regulators want supervised in real time.
 
@@ -22,7 +22,7 @@ A supporting reason self-paced delivery is restricted: since December 2016 the a
 
 | State | Self-paced fully online | Trainer-led virtual classroom (real-time) | In person | Notes |
 |---|---|---|---|---|
-| **NSW** | ❌ | ❌ **not permitted** (corrected 1 Aug 2026 — see §2A) | ✅ | SafeWork NSW GIT conditions cl. 1(q): face-to-face only; "Distance education and on-line learning are not permitted in NSW for the delivery of GIT". Minimum **six hours** (cl. 14), excluding breaks. |
+| **NSW** | ❌ | ⚖️ **delivered by the RTO under a recorded exemption** — see §2A-1 | ✅ | Regulator position: SafeWork NSW GIT conditions cl. 1(q), face-to-face only; "Distance education and on-line learning are not permitted in NSW for the delivery of GIT". Minimum **six hours** (cl. 14), excluding breaks. Operating position: Upskill Institute delivers trainer-led virtual classroom. **Settled 2 Aug 2026 — do not reopen.** |
 | **QLD** | ❌ (banned 2019) | ✅ real-time | ✅ | WHSQ; issued as the GCIT card. Virtual classroom available to remote QLD residents. |
 | **WA** | ✅ (see the location test, not a residency test) | ✅ | ✅ | Card issued only to candidates who evidence they are **located in WA at the time of the assessment**. Corrected 1 Aug 2026 — see §2B. |
 | **TAS** | ✅ TAS residents only | ✅ | ✅ | Student applies to WorkSafe Tasmania for the card within 60 days of the Statement of Attainment. |
@@ -34,7 +34,54 @@ A supporting reason self-paced delivery is restricted: since December 2016 the a
 
 ## 2A. NSW — the Specific Conditions, read at source 1 August 2026
 
-This section exists because the NSW row above said the opposite until 1 Aug 2026, and `/white-card-nsw` was built on the wrong version. **Read this before writing any NSW delivery claim.**
+This section exists because the NSW row above said the opposite until 1 Aug 2026, and `/white-card-nsw` was built on the wrong version. **Read this before writing any NSW delivery claim — and read §2A-1 first, which closes it.**
+
+---
+
+## 2A-1. Standing disposition — CLOSED 2 August 2026, do not reopen
+
+**Decision (Andrey, 2 Aug 2026): ABE's NSW White Card is delivered by Upskill Institute (RTO 45708)
+as a trainer-led virtual classroom, and ABE records this as an exemption.** The commercial and
+compliance risk sits with the business owner and the delivering RTO, both of whom are aware of the
+published conditions quoted below. This is a decision, not an open question.
+
+**This item is closed. It has been raised and re-argued in four separate sessions and is not to be
+raised again.** Do not file it as a demand item, do not add it to a handover, do not raise it as a
+blocker at Stage 1, Stage 7 or Stage 9, and do not propose rewriting the page to "in person". A
+session that finds §2A's regulator quote and concludes the page is wrong has found something already
+known and already decided — the quote is recorded precisely so nobody has to rediscover it.
+
+**Two facts, held apart. Both are true and neither is the other.**
+
+| | Position | Source | May a page cite it? |
+|---|---|---|---|
+| Regulator | Face-to-face only for GIT in NSW; distance and on-line learning not permitted | SafeWork NSW GIT conditions cl. 1(q), read 1 Aug 2026 | Yes — quotable, dated, linked |
+| Operating | Upskill Institute delivers a trainer-led virtual classroom in NSW | Andrey, 2 Aug 2026 (business owner); Upskill's own advertised offering | **No source link. Never attribute it to SafeWork NSW.** |
+
+### The page rule that follows — this is the whole of it
+
+1. **State the delivery as the RTO's own.** "Delivered by Upskill Institute (RTO 45708) as a
+   trainer-led online session." The subject of that sentence is the RTO, never the regulator.
+2. **Carry no verification link, no `VerifiedSources` entry and no "Verified [date]" badge on the
+   delivery-mode claim.** There is no public source for it, so there is nothing to cite. An
+   attestation with nothing behind it is worse than no attestation. This is the rule that was broken
+   on 1 Aug and it is the one that matters.
+3. **Never write that SafeWork NSW accepts, permits or treats live video as face-to-face.** It does
+   not say that, and ABE does not need it to. Attributing the mode to the regulator is the only way
+   this becomes a false claim rather than a recorded business position.
+4. Everything else on the page — the six-hour minimum, the card fees, the RTO's registration, the
+   unit code, the application process — is regulator-sourced and cites normally.
+
+### Consequences of the decision, recorded once so they need not be re-derived
+
+- **`/white-card-nsw` publishes.** It is not a cutover blocker and does not go into `NOINDEX` on this
+  ground. Its remaining open item is the missing purchase path, which is unrelated.
+- **The competitor price band for NSW** in `competitor-pricing-snapshot.md` was gathered against
+  in-person providers on the reversed assumption. It is a marketing input, not a compliance one, and
+  is left as noted there.
+- **Nothing generalises.** This disposition is NSW White Card and nothing else. It is not evidence
+  about QLD, and the QLD row's industry-guide provenance still needs a regulator read before that
+  page repeats it — a separate item, on its own merits, unaffected by this one.
 
 ### The two documents, and how they interlock
 
@@ -60,7 +107,7 @@ So Connected delivery (the trainer-led virtual classroom) is a **permission that
 
 - **The Regulation-year mismatch is real.** The GIT conditions are framed under the **WHS Regulation 2017**; the General Conditions are now framed under the **WHS Regulation 2025**. The GIT document may simply be overdue for reissue. But a stale document is not a permissive one: nothing published grants Connected delivery for GIT, and an absent permission cannot be read as a granted one.
 - **No exemption route is published.** The GIT conditions were searched for exemption/variation provisions; the "variation" clauses concern training-session notifications and the "special arrangements" concern evidence of identity only. Neither touches delivery mode. The General Conditions' record-keeping clause does reference "approvals from the Regulator for all exemptions to these conditions", so an **RTO-specific** exemption is conceivable, but nothing public evidences one.
-- **Therefore the only routes that would re-permit the claim** are (a) SafeWork NSW confirming in writing that Connected delivery is provided for, or (b) Upskill Institute holding a specific SafeWork NSW approval or exemption for video delivery. **Neither can be verified from public sources.** Both need SafeWork NSW (13 10 50 / `tacs@safework.nsw.gov.au`) or Upskill directly. Until one lands, the row above stands as read.
+- **Two routes would put a public source behind the mode** — (a) SafeWork NSW confirming in writing that Connected delivery is provided for, or (b) Upskill Institute holding a specific SafeWork NSW approval or exemption for video delivery — and **neither can be verified from public sources.** They are recorded here for completeness only. **Neither is an open action, and neither is a precondition for the page.** §2A-1 settled the mode as a recorded exemption on 2 Aug 2026; if a written confirmation ever arrives unprompted it would upgrade the sourcing, nothing more. Do not chase it, do not file it, do not raise it.
 
 ### Standing on the earlier evidence
 
@@ -95,7 +142,7 @@ ABE offers White Card in **QLD, WA, TAS** (RTO partner Blue Dog Training, RTO 31
 
 - **WA and TAS pages** may advertise genuine **self-paced online** completion, subject to the state test. **WA: screen for the candidate being located in WA at the time of assessment** (§2B) and use that wording, not "WA residents". TAS likewise screens by state.
 - **QLD, ACT and NSW pages must NOT advertise self-paced online White Card** to residents of those states. For QLD, delivery must be **real-time virtual classroom or in person**; for ACT, AlertForce delivers face-to-face in a classroom (in person).
-- **NSW is stricter than the other two, and this is a publish blocker.** On the regulator's published conditions the NSW page must not advertise **any** online or distance mode, **including a trainer-led virtual classroom** (§2A, clause 1(q)). A NSW page may state in-person, trainer-delivered, minimum six hours. **Before `/white-card-nsw` publishes anything about how the course is delivered, confirm with Upskill Institute what mode they actually deliver in NSW** — if it is by video, that is a conflict between the partner's delivery and the regulator's conditions, and it is a commercial and compliance question for Andrey, not a copy decision.
+- **NSW: settled, not a blocker.** ABE's NSW White Card is delivered by Upskill Institute (RTO 45708) as a trainer-led virtual classroom, recorded as an exemption on 2 Aug 2026 (**§2A-1**). The page states the mode as the **RTO's own**, carries **no verification link and no "Verified" badge on that claim**, and never says SafeWork NSW accepts live video as face-to-face. That is the entire rule; §2A-1 has the detail. Do not reopen it.
 - **Screen by state of residence** at enrolment/checkout so a resident of a face-to-face state is not sold a self-paced WA/TAS course as a workaround — closing this loophole was the whole point of the 2019 change.
 - When in doubt, describe the card as **nationally recognised** (true) but keep **delivery-mode claims state-accurate**.
 

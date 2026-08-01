@@ -138,7 +138,16 @@ corrected 23 July 2026, see §"Asbestos and Silica" below.)
 **NSW — Upskill Institute (RTO 45708):**
 > "This course is delivered in partnership with Upskill Institute (RTO 45708), a nationally registered training organisation. Your Statement of Attainment and White Card will be issued by Upskill Institute."
 
-**NSW DELIVERY MODE — read this whole block before writing any NSW delivery claim. Two things are true at once and they must never be merged into one sentence.**
+**NSW DELIVERY MODE — ⛔ SETTLED 2 Aug 2026, DO NOT REOPEN. Read this whole block before writing any NSW delivery claim. Two things are true at once and they must never be merged into one sentence.**
+
+> **Standing disposition, added 2 Aug 2026.** Andrey recorded this mode as an **exemption**: the
+> commercial and compliance risk is the business owner's and the RTO's, knowingly taken. It had been
+> re-argued in four consecutive sessions. **Do not file it as a demand item, do not raise it as a
+> Stage-1/7/9 blocker, do not propose rewriting a page to "in person", and do not chase SafeWork NSW
+> or Upskill for written confirmation** — those routes are recorded as unavailable from public
+> sources and are explicitly **not open actions**. Finding cl. 1(q) below is not a new finding; it is
+> recorded precisely so nobody rediscovers it. Full disposition and the page rule:
+> `kb/register/online-delivery-policy-by-state.md` **§2A-1**.
 
 **1. What ABE Education sells, and how it is actually delivered.** NSW White Card is delivered by
 Upskill Institute (RTO 45708) as a **trainer-led virtual classroom over Zoom** — a live, real-time
