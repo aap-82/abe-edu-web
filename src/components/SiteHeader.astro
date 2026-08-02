@@ -74,7 +74,17 @@ const navGroups: Group[] = [
     // LearnWorlds site, and would break outright the moment that site is retired.
     hub: { label: 'Owner Builder Hub', href: '/owner-builder-courses' },
     items: [
-      { code: 'NSW', name: 'NSW Owner Builder', href: '/owner-builder-nsw-course', desc: 'Nationally recognised, with our RTO partner' },
+      // NSW is inert on an AUTHORITY hold, not on a missing page - the two `-w` and non-`-w`
+      // pages both exist and are both noindex,nofollow. Until 2 Aug 2026 this entry linked to
+      // one of them and described it as "Nationally recognised, with our RTO partner", which
+      // put that claim on 17 built pages, 13 of them index,follow, and made this file the
+      // largest indexable surface still carrying it. Two independent gates are open: the
+      // Upskill Institute partnership is unsigned, and none of the five units NSW requires is
+      // on RTO 45708's scope. Canonical status, and the only file that may lift the hold:
+      // kb/rules/authority-model.md, "NSW Owner Builder". Do NOT restore the href or name an
+      // RTO here before that block says so - unlike the White Card TODO below, shipping a page
+      // is not what unblocks this one.
+      { code: 'NSW', name: 'NSW Owner Builder', soon: true, desc: 'In development' },
       { code: 'QLD', name: 'QLD Owner Builder', href: '/qld-owner-builder-course', desc: 'QBCC-approved: the NONACCABE course' },
       { code: 'WA', name: 'WA Owner Builder', href: '/wa-owner-builder-course', desc: 'Supports your Form 75 approval' },
       { code: 'TAS', name: 'TAS Owner Builder', href: '/tas-owner-builder-course', desc: 'Approved by CBOS Tasmania' },
