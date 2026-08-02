@@ -1,6 +1,15 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: OPEN — 14 items, none started
+## Status: IN PROGRESS — 2 of 14 addressed (1 closed, 1 partially), 12 still open
+
+Closed 1 (item 1, in full — the claim it named turned out to be three separate defects across three
+pages, not one) and partially closed 1 (item 11 — the mechanical half shipped, the other half was
+evaluated and rejected, see below). The remaining twelve items are untouched: this file stays open.
+
+Additional work landed this session that is **not** on this list at all — three build-session
+image-wiring commits and the full image-generation brief for the site's remaining FPO placeholders.
+See `handover/HANDOVER-image-prompts-2026-08-02.md` and the session's own skill-reviews for that
+track; it does not close anything below.
 
 This is a hand-written note (a source, not a derived view). It is **not** a substitute for
 `reports/handover-{skills,design,facts,build}.md`, which `demand-split` regenerates from the demand
@@ -29,19 +38,16 @@ and only then had the fact reverse underneath it.
 
 ## Do first — unblocked, in value order
 
-- [ ] **1. `[build]` Fix the NSW nationally-recognised claim on `/owner-builder-courses` — P0**
-  The biggest equity asset on the site (59.9k impressions) renders `index,follow` and asserts NSW
-  nationally recognised training in **three** places, measured in
-  `dist/owner-builder-courses/index.html`: the hero intro capsule, the NSW spoke blurb, and a third
-  body passage. NSW Owner Builder is ⛔ on hold on two independent grounds — the partnership is
-  unsigned **and** the five required units are not on RTO 45708's scope — so this is exactly the
-  claim `kb/rules/authority-model.md` forbids. The hub also links its NSW column to
-  `/owner-builder-nsw-course`, which PR #103 noindexed, so an indexable page points at a page ABE
-  deliberately hid.
-  Not an incident today (production still serves the legacy site; `workers.dev` is
-  `X-Robots-Tag: noindex`), but it **publishes at cutover and no gate can see it**.
-  Decide what the NSW column does: `soon: true`, or a link to the pre-launch page once it exists.
-  ROADMAP already holds the full pre-launch decision set — do not re-litigate it.
+- [x] ~~**1. `[build]` Fix the NSW nationally-recognised claim on `/owner-builder-courses` — P0**~~
+  Closed `b67234e`, `e1ecd6b`, `bf12c24`. Bigger than scoped: the claim was in **eight** places on the
+  hub alone, not three (including a frontmatter comment instructing future editors to keep asserting
+  it), plus the same claim in `SiteHeader.astro`'s shared nav — 17 built pages, 13 `index,follow` —
+  plus `src/content/partners/upskill-institute.md`'s blurb and `scopeNote`, live on two more indexable
+  pages including `/white-card-nsw`. Each commit's own fix surfaced the next. NSW now renders as a
+  `soon` column on the hub with no link and no data; the nav entry is inert; Upskill is credited with
+  the White Card only. Zero indexable pages now carry the claim. Still on disk, unchanged, `noindex`,
+  blocked on Andrey's call (item 14.2): `owner-builder-nsw-course.mdx`, its `-w` variant, and
+  `src/data/nsw-w.ts`.
 
 - [ ] **2. `[facts]` Read the TAS delivery row at WorkSafe Tasmania**
   Highest-risk unchecked row. `/white-card-tas` is **live and indexable** and advertises self-paced
@@ -105,13 +111,20 @@ and only then had the fact reverse underneath it.
   records that a blanket `git add -A` already swept those documents in once. Verified with
   `git check-ignore`. One line; consider `*.xlsx`, `*.xls` and `*.csv` together.
 
-- [ ] **11. `[skills]` Stop the demand backlog outgrowing its readers**
-  92 open skills items across 39 reviews. `demand-split` reports "Trigger met by exact match: None"
-  on every destination and explains this is the normal case on this corpus — so **ROADMAP rule 3 is
-  currently unenforceable mechanically**. Cap what a review may file (rank and file the top N, keep
-  the rest in review prose); canonicalise item wording at filing time, or accept the grouped output
-  as the trigger and stop reporting "None". Filed twice and still open: the header counts its two
-  halves in different units, so `N open · M closed` invites a subtraction that does not hold.
+- [x] ~~**11. `[skills]` Stop the demand backlog outgrowing its readers**~~ — half closed, half rejected
+  Closed `9b1f5f2`, and the premise behind it was wrong on both counts, checked against the code before
+  building anything. Rule 3 was never unenforceable: `demand-split.mjs:292` computes triggers live, and
+  the near-miss caution is a deliberate design choice, not a gap. Capping what a review may file was
+  **not built** — the largest review filed 9 items, the median is 3, so a cap saves almost nothing and
+  suppresses the evidence rule 2 exists to preserve. The real defect was narrower: a filing that
+  already states its own recurrence ("SECOND SIGHTING") was invisible to the counter, which read 0
+  triggers everywhere while the `SiteHeader.astro` ownership complaint had been filed three times.
+  Fixed — 0 triggers before, 8 in skills / 1 in build after, no source review re-worded. **What's left,
+  genuinely open:** a staleness signal. The backlog went 95 → 100 as a direct result of this fix,
+  because it made recurrence visible rather than smaller; a 23 Jul item still ranks equally with
+  today's. That is the one still worth building, not the capping this item originally asked for.
+  The header-units defect this item also named (`N open · M closed` in different units) is unchanged
+  and still open — filed a third time this session, see the demand list below.
 
 ## Blocked — deliberately
 
