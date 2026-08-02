@@ -679,7 +679,18 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 /* CPD matrix: industries down the side, states across the top. A real bordered table that
    scrolls on narrow screens rather than wrapping. Mono uppercase heads; maroon-hover cell
    links; a slate dash where a course is not offered yet. */
-.cpd-wrap{margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
+/* `position:relative` is LOAD-BEARING, not decoration. An `overflow-x:auto` box clips only the
+   descendants whose containing block is inside it, and `position:absolute` resolves against the
+   nearest POSITIONED ancestor. While this wrapper was `static`, the `.sr-only` spans inside the
+   table (`.cpd-dash`'s "Not offered yet") resolved against the initial containing block instead,
+   escaped the clip, and took their static position out at the table's real width. Measured at 320px
+   on `/styleguide` 1 Aug 2026: `documentElement.scrollWidth` 557 against a 320 viewport, three
+   spans sitting at right 557 / 454 / 350. `document.body.scrollWidth` read a clean 320 throughout,
+   because an absolutely-positioned element does not affect its parent's layout — which is why the
+   page looked fine to every check that measures body, and why the cause took a containing-block
+   walk to find rather than an eyeball. Making the wrapper the containing block clips them and drops
+   scrollWidth to 320. Same fix on `.cmp-wrap` below, same reason. */
+.cpd-wrap{position:relative;margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
 .cpd{width:100%;min-width:560px;border-collapse:collapse;}
 .cpd-cap{caption-side:top;text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);padding:14px var(--s-lg);border-bottom:1px solid var(--rule);}
 .cpd thead th{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;}
@@ -696,7 +707,10 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 /* Comparison table: products/states across the top, compared facts down the side, a
    trailing action row. Same bordered/scrolling idiom as .cpd, but compares named things
    side by side rather than mapping industry x state availability. */
-.cmp-wrap{margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
+/* `position:relative` for the same containing-block reason as `.cpd-wrap` above — this table also
+   carries `.sr-only` spans (the `Action` tfoot label), and a wrapper that scrolls must be the
+   containing block or its absolutely-positioned descendants escape the clip. */
+.cmp-wrap{position:relative;margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
 .cmp{width:100%;min-width:560px;border-collapse:collapse;}
 .cmp-cap{caption-side:top;text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);padding:14px var(--s-lg);border-bottom:1px solid var(--rule);}
 .cmp thead th{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;}
