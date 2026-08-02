@@ -269,6 +269,57 @@ async function loadMistakes() {
   return seen;
 }
 
+/* SELF-DECLARED REPEATS. The exact-key counter reads 0 on this corpus while the SiteHeader
+   ownership complaint has been filed three times, and the second filing opens with the literal
+   words "SECOND SIGHTING". A human had already done the counting, in the item text, and the tool
+   still printed "None". That is the counter failing on the one case where the evidence needed no
+   inference at all.
+   So a filing that STATES its own recurrence is taken at its word. This is not a fuzzy match and
+   does not weaken the near-miss caution below it: the near-miss logic guesses whether two items are
+   one complaint, whereas this reads an assertion the filing session made deliberately. Getting it
+   wrong requires a session to have written "second occurrence" about something that is not one.
+   `time` is deliberately NOT a matched noun - "the second time the page shipped" is about the page,
+   not about the filing - and the verb forms are kept narrow for the same reason. */
+const ORDINAL_WORDS = { second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9 };
+/* ONLY THE LEAD COUNTS. A declaration is a flag a session raises about its own filing, and every
+   true one on this corpus is written up front - "SECOND SIGHTING - ...", "(second sighting)",
+   "Third filing of this shape today". Deeper in the body the same words are doing something else,
+   and two cases here proved it: one item ends "...the stranded-work row rather than a fourth
+   instance of it", which is a NEGATION, and another says "the same shape as mistakes-log #1's 4th
+   sighting", which counts a DIFFERENT thing. Matching the whole item promoted both, so the tool
+   claimed a session had declared four occurrences in the exact sentence where it declared none.
+   A window is used rather than a negation blacklist because "rather than", "not a", "no longer" and
+   "instead of" is an open set, and the next phrasing that slips through would be silent. */
+const LEAD_CHARS = 200;
+/** Scans the WHOLE of whatever it is given. Callers pass the window; the window is not baked in. */
+function declarationIn(s) {
+  const ord = s.match(
+    /\b(second|third|fourth|fifth|sixth|seventh|eighth|ninth|2nd|3rd|4th|5th|6th|7th|8th|9th)\s+(?:consecutive\s+)?(?:sighting|occurrence|filing|instance)\b/i,
+  );
+  if (ord) {
+    const k = ord[1].toLowerCase();
+    return ORDINAL_WORDS[k] ?? Number(k[0]);
+  }
+  // `second occurrence` needs no clause of its own — the ordinal pattern above already covers it.
+  if (/\b(?:filed|seen|raised|reported|hit)\s+(?:again|twice)\b/i.test(s)) return 2;
+  return null;
+}
+export function selfDeclaredCount(text) {
+  return declarationIn(text.slice(0, LEAD_CHARS));
+}
+
+/* The same phrases BELOW the lead are not promoted, for the reasons above, but they are not dropped
+   either. `demand-split.mjs`'s own header-count item declares "as the second sighting" in its last
+   clause, and its twin does not cluster with it — so with a lead-only rule and nothing else, a
+   session that had counted to two would be invisible in both mechanisms at once.
+   This file already holds the answer to that tension at the near-miss note: an unseen repeat is
+   worse than a flagged one, because the first is invisible and the second is a question. The
+   distinction is WHERE it goes. "Trigger met" asserts and is acted on, so it takes only the
+   high-confidence lead match; a body match is a question, so it goes with the other questions. */
+export function bodyDeclaredCount(text) {
+  return declarationIn(text.slice(LEAD_CHARS));
+}
+
 function render(destination, entries, reviews, mistakes, closedCount = 0) {
   const now = new Date().toISOString().slice(0, 10);
   const lines = [];
@@ -292,27 +343,10 @@ function render(destination, entries, reviews, mistakes, closedCount = 0) {
   const triggered = entries.filter((e) => e.count >= 2);
   const single = entries.filter((e) => e.count < 2);
 
-  lines.push('## Trigger met (seen twice or more)');
-  lines.push('');
-  if (triggered.length) {
-    lines.push('These have earned action. Everything else is recorded, not actioned.');
-    lines.push('');
-    for (const e of triggered) {
-      lines.push(`- **${e.text}**`);
-      lines.push(`  - seen ${e.count}x — ${e.runs.join(', ')}`);
-      if (e.mistakeCount) lines.push(`  - mistakes-log: times seen ${e.mistakeCount}`);
-    }
-  } else {
-    /* "None" here means none by EXACT KEY, which is not the same as "nothing has recurred" and must
-       not be written as if it were. On this corpus the exact-key count was 0 for every destination
-       while the partner blurb had been filed four times and the VerifiedSources decision four times.
-       Saying "no item has recurred yet" over the top of that is the counter failing at its job in
-       the most confident possible voice. Clusters below carry the real answer. */
-    lines.push('None **by exact match**. Two sessions describing one defect rarely word it the same,');
-    lines.push('so on this corpus that is the normal case rather than good news — read "Related items"');
-    lines.push('below, which is where recurrence actually shows up.');
-  }
-  lines.push('');
+  /* The trigger section is RENDERED further down, after clustering, because a self-declared repeat
+     promotes itself and its cluster into it. Computing the split here and printing it there is
+     deliberate: the section must still appear ABOVE "Related items" in the output, since a reader
+     who has a fired trigger should not have to scroll past the maybes to reach it. */
 
   /* NEAR MISSES. Two single-occurrence items that name the same file or component are probably one
      complaint written twice, but "probably" is not a count, and a detector that silently promoted
@@ -408,7 +442,56 @@ function render(destination, entries, reviews, mistakes, closedCount = 0) {
   }
   clusters.sort((a, b) => b.items.length - a.items.length);
 
-  if (clusters.length) {
+  /* PROMOTION. A cluster holding a self-declared repeat is a fired trigger, not a maybe: one of its
+     members has already asserted the count. The whole cluster is promoted, because its other members
+     are the occasions being counted and a reader acting on the trigger needs to see them together.
+     A self-declared item with no cluster still fires on its own - the assertion does not need a
+     partner to be true, and requiring one would have kept the SiteHeader item invisible for the
+     three days its two filings sat too differently worded to pair. */
+  const inAnyCluster = new Set(clusters.flatMap((c) => c.items));
+  const promotedClusters = clusters.filter((c) => c.items.some((e) => selfDeclaredCount(e.text)));
+  const promotedSet = new Set(promotedClusters);
+  const promotedLone = single.filter((e) => selfDeclaredCount(e.text) && !inAnyCluster.has(e));
+  const openClusters = clusters.filter((c) => !promotedSet.has(c));
+  const anyTrigger = triggered.length || promotedClusters.length || promotedLone.length;
+
+  lines.push('## Trigger met (seen twice or more)');
+  lines.push('');
+  if (anyTrigger) {
+    lines.push('These have earned action. Everything else is recorded, not actioned.');
+    lines.push('');
+    for (const e of triggered) {
+      lines.push(`- **${e.text}**`);
+      lines.push(`  - seen ${e.count}x — ${e.runs.join(', ')}`);
+      if (e.mistakeCount) lines.push(`  - mistakes-log: times seen ${e.mistakeCount}`);
+    }
+    for (const c of promotedClusters) {
+      const declared = Math.max(...c.items.map((e) => selfDeclaredCount(e.text) ?? 0));
+      const ids = [...c.shared].sort().map((s) => `\`${s}\``).join(', ');
+      lines.push(`- **Self-declared repeat — ${ids}**`);
+      lines.push(`  - declared ${declared}x by the filing session; ${c.items.length} related item(s) grouped here`);
+      for (const it of c.items) lines.push(`    - ${it.text.slice(0, 150)} _(${it.runs[0]})_`);
+    }
+    /* The item text is NOT interpolated into a bold span here. Demand items conventionally open with
+       their own `**lead**`, so wrapping one in bold toggles the emphasis off mid-sentence and the
+       line renders inside out. Cluster members below are list children for the same reason. */
+    for (const e of promotedLone) {
+      lines.push(`- **Self-declared repeat — declared ${selfDeclaredCount(e.text)}x by the filing session, no related item paired with it**`);
+      lines.push(`    - ${e.text.slice(0, 150)} _(${e.runs[0]})_`);
+    }
+  } else {
+    /* "None" here means none by EXACT KEY or self-declaration, which is not the same as "nothing has
+       recurred" and must not be written as if it were. On this corpus the exact-key count was 0 for
+       every destination while the partner blurb had been filed four times and the VerifiedSources
+       decision four times. Saying "no item has recurred yet" over the top of that is the counter
+       failing at its job in the most confident possible voice. Clusters below carry the real answer. */
+    lines.push('None **by exact match or self-declaration**. Two sessions describing one defect rarely');
+    lines.push('word it the same, so on this corpus that is the normal case rather than good news — read');
+    lines.push('"Related items" below, which is where recurrence actually shows up.');
+  }
+  lines.push('');
+
+  if (openClusters.length) {
     lines.push('## Related items — read each group and count it yourself');
     lines.push('');
     lines.push('Items that never merged by key because they were worded differently, grouped where they');
@@ -425,7 +508,7 @@ function render(destination, entries, reviews, mistakes, closedCount = 0) {
     lines.push('match in the SOURCE reviews so the count becomes mechanical next time — not here; this');
     lines.push('file is derived.');
     lines.push('');
-    for (const c of clusters) {
+    for (const c of openClusters) {
       const ids = [...c.shared].sort().map((s) => `\`${s}\``).join(', ');
       lines.push(`### ${c.items.length} related items — ${ids}`);
       lines.push(`shared wording: ${[...c.words].slice(0, 8).join(', ')}`);
@@ -435,10 +518,34 @@ function render(destination, entries, reviews, mistakes, closedCount = 0) {
     }
   }
 
-  // Anything in a cluster is already listed above with its filing count. Listing it here as well
-  // would restore the double-reading the clustering was built to remove.
+  /* Declarations found below the lead. Not promoted and not counted — the two known false positives
+     both sat here — but printed, because the alternative is a session that counted to two being
+     invisible in both mechanisms at once. Anything already promoted or clustered is excluded, so
+     this section only ever holds signals nothing else surfaced. */
+  const shownAbove = new Set([...clusters.flatMap((c) => c.items), ...promotedLone]);
+  const bodyDeclared = single.filter((e) => !shownAbove.has(e) && bodyDeclaredCount(e.text));
+  if (bodyDeclared.length) {
+    lines.push('## Declared a repeat further down the item — confirm or reject');
+    lines.push('');
+    lines.push('These say "second sighting", "third filing" or similar somewhere after the opening');
+    lines.push(`${LEAD_CHARS} characters. That position is not trusted as a count: the two false positives found`);
+    lines.push('when the whole item was matched were both there, one a negation ("rather than a fourth');
+    lines.push('instance of it") and one counting a different thing. Nothing here has been counted or');
+    lines.push('grouped, and none of it appears above. Read the item; if the declaration means what it');
+    lines.push('says, the trigger has fired and the wording belongs in the lead next time.');
+    lines.push('');
+    for (const e of bodyDeclared) {
+      lines.push(`- says **${bodyDeclaredCount(e.text)}x** — ${e.text.slice(0, 150)} _(${e.runs[0]})_`);
+    }
+    lines.push('');
+  }
+
+  // Anything in a cluster is already listed above with its filing count, and so is a lone
+  // self-declared repeat promoted into the trigger section. Listing either here as well would
+  // restore the double-reading the clustering was built to remove.
   const clustered = new Set(clusters.flatMap((c) => c.items));
-  const trulySingle = single.filter((e) => !clustered.has(e));
+  const promotedLoneSet = new Set(promotedLone);
+  const trulySingle = single.filter((e) => !clustered.has(e) && !promotedLoneSet.has(e));
 
   lines.push('## Recorded once (no action yet)');
   lines.push('');

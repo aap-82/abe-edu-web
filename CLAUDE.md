@@ -385,13 +385,34 @@ type.** Anything else is reported UNROUTED by `scripts/demand-split.mjs` rather 
 design session had no valid tag and two correctly-tagged items reported UNROUTED. A `build` item is
 read at Stage 0 by the session building that page.)
 
+**Open with the thing, in backticks, and put a repeat in the first line.** Both rules exist because
+`demand-split.mjs` reads an item the way a person skims one, and an item written for neither is
+counted by neither.
+1. **Lead with the file, component or check the item is about, in backticks** — `SiteHeader.astro`,
+   `check-claims.mjs:229`, `--slate-light`. The near-miss detector pairs items on a shared identifier
+   *and then* on shared prose, so an item naming its subject only in the third sentence is one the
+   tool cannot group with its own twin. A prose-only item is still valid; it is just invisible to the
+   counter, which is the same as not being counted.
+2. **If it is a repeat, say so in the opening line** — "SECOND SIGHTING", "third filing", "second
+   occurrence". A declaration inside the first 200 characters is read as a count and promotes the item
+   straight into *Trigger met*. The identical words further down are surfaced only as a question, and
+   deliberately so: both false positives found when the whole item was matched sat below the lead, and
+   one of them was a negation ("...the stranded-work row rather than a fourth instance of it"), where
+   the tool would have reported four occurrences from a sentence declaring none.
+
+   Added 2 Aug 2026, after the SiteHeader ownership complaint had been filed three times — the second
+   filing opening with the literal words "SECOND SIGHTING" — while `demand-split` reported zero
+   triggers on every destination. A human had already done the counting, in the item text, and the
+   tool printed "None". ROADMAP rule 3 turns on that count, so a missed one is not a reporting blemish;
+   it is restructuring work that never gets authorised.
+
 ```
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
-- [skills] Stage 4 asks for keyword data the brief already supplies
-- [design] FAQ block spacing collapses below 768px — component fix, not a page fix
-- [facts] TAS White Card figure on the page has no register entry
-- [build] The breadcrumb on this page points at a hub that is not built yet
+- [skills] `abe-course-page-astro` Stage 4 asks for keyword data the brief already supplies
+- [design] SECOND SIGHTING — `.faq` block spacing collapses below 768px. Component fix, not a page fix
+- [facts] `white-card-tas.mdx` states a figure with no entry in `kb/register/`
+- [build] `owner-builder-courses.mdx` breadcrumb points at a hub that is not built yet
 ```
 
 ### Closing a demand item
