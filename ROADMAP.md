@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 1 August 2026.
+Last updated: 3 August 2026.
 
 ---
 
@@ -20,32 +20,48 @@ Last updated: 1 August 2026.
 
 ---
 
-## Current state (28 July 2026)
+## Current state (3 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
-closed. **Wave 3 has started: `/white-card-wa` (W3-1) is built and shipped to staging**, the first
-White Card state page to go out indexable. The **first design session** ran the same day and cleared a
-sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now fired (see the table).
+closed. **Wave 3 is nearly done: four of five White Card state spokes are built and indexable**
+(WA, NSW, TAS, and — new today — **QLD**). Only ACT (W3-5) and the hub (W3-6) remain, and a 3 Aug
+facts session closed the last two blockers on both. Phase 3 remains unbuilt, and a fifth trigger has
+now fired (see the table) — the same session-type crossing as the fourth, sighted a third time, from
+a `build` session this time.
 
 - **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, the `/owner-builder-courses` hub
   (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
-  impressions, the biggest White Card asset), plus `/accreditation`, `/experts`, `/reviews`, `/cpd`,
-  `/cpd-tas`.
+  impressions, the biggest White Card asset), `/white-card-nsw`, `/white-card-tas`, plus
+  `/accreditation`, `/experts`, `/reviews`, `/cpd`, `/cpd-tas`.
+- **Added 3 Aug 2026: `/white-card-qld`** (W3-3, commit `b36d8b4`) — built, indexable, delivered as a
+  live Connected Real Time Delivery (CRTD) session, not self-paced, correcting a live competitor
+  misconception (a superseded "100km rural exception" claim) with WHSQ's own Conditions of Agreement.
+  Graded **Amber** by an independent Stage 9 subagent: authority model and regulatory facts are
+  correct throughout, but the run had to edit design-owned `SiteHeader.astro` to satisfy the
+  orphan-page guardrail (see the Phase 3 trigger table — third sighting, first undisclosed until the
+  grader found it) and skipped `check-claims.mjs` at Stage 7 (fixed with an addendum once caught). No
+  `buyUrl` confirmed; every CTA is the in-page `#enrol` anchor. Mid-build, an initially-confirmed $99
+  price was superseded by the real Blue Dog timetable ($109 weekday / $169 Saturday) — every
+  occurrence was corrected, confirmed clean in the built page.
+- **All five ABE White Card delivery-mode rows are now regulator-sourced**, closed in one 3 Aug facts
+  session: TAS and ACT (WHS Regulations silent on delivery mode entirely — no restriction, but also no
+  affirmative permission, unlike WA which has a real, if dated, WorkSafe WA notice permitting online
+  delivery) and WA's own delivery-mode column (previously only its eligibility test was source-read).
+  `/white-card-tas`'s "Tasmanian residents only" wording is now known to be unsourced to either the
+  regulator or the Regulations — flagged `[build]`, not yet fixed. The same session found AlertForce's
+  "Silica Awareness" resell (named in CLAUDE.md) doesn't exist under that name and isn't national —
+  flagged `[skills]`.
 - **Added 1 Aug 2026: `/white-card-nsw`** (W3-2, PR #103) — built, indexable, **no purchase path**,
   the `/white-card-tas` pattern. There is no NSW White Card product in LearnWorlds at all, so every
-  CTA is the in-page `#enrol` anchor. Both image slots are FPO. Wave 3 is now **three spokes of
-  five**; QLD and ACT remain, and the `/white-card` hub is still gated on all five existing.
+  CTA is the in-page `#enrol` anchor. Both image slots are FPO.
   Two things this run changed outside its own page, both worth reading before the next one:
   **`/owner-builder-nsw-course` was noindexed** — it rendered `index,follow` while this file and
   CLAUDE.md both said it was noindexed, and only the `-w` variant ever was. That closed a cutover
   risk and opened a redirect one: `/nsw-owner-builder-course` now 301s into a noindexed page, so it
   sits in `check-redirect-targets`' PENDING list. Those two URLs carry **38,257 impressions** and
   their cutover fate is an open commercial decision, filed as a `[build]` demand item.
-  And the NSW **delivery-mode** position now has a known gap: SafeWork NSW's only findable Specific
-  Conditions for GIT (Oct 2022) prohibit online learning, that document is confirmed outdated, and no
-  current one could be located. The page attributes live delivery to Upskill's SafeWork NSW
-  registration rather than to the regulator. Obtaining the current conditions is the top item on
-  `reports/handover-facts.md`.
+  The NSW **delivery-mode** position is now settled as a recorded exemption (2 Aug 2026,
+  `online-delivery-policy-by-state.md` §2A-1) — do not reopen it.
 - **Published with two standing warnings:** **`/white-card-tas`** — indexable since 28 Jul on
   Andrey's call. Both are **warnings, not blockers**: the page ships, and neither holds up cutover.
   1. **No purchase path.** TAS payment is not configured, so every CTA is the in-page `#enrol`
@@ -64,8 +80,9 @@ sitewide reflow failure. Phase 3 remains unbuilt, and a fourth trigger has now f
 - **Built but held back:** `/cpd-building-tas`, noindexed pending Andrey-only inputs.
   `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and ⛔ must not ship in
   their current form.
-- **Not started:** W2-6 insurance, W2-7 Project Advisory, **two of five White Card state pages
-  (QLD, ACT) and the `/white-card` hub**, eight of ten CPD tickets, and all of Waves 5 and 6.
+- **Not started:** W2-6 insurance, W2-7 Project Advisory, **`/white-card-act` (W3-5) and the
+  `/white-card` hub (W3-6)** — both unblocked as of 3 Aug, neither built — eight of ten CPD tickets,
+  and all of Waves 5 and 6.
 
 **Everything that needs Andrey, in the order it bites:**
 1. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
@@ -80,12 +97,18 @@ and live with the page in the state list above. Three things previously tracked 
 TAS blockers are simply done: the two photos landed in `src/assets/images/` on 27 Jul, and all three
 RTO contacts carry a verified email and phone in `src/content/partners/`, checked at source 28 Jul.
 
-**The `/white-card` hub is gated on its spokes.** W3-6 depends on W3-1..W3-5, and the `hubs` schema
-types `spokes[].course` as a `reference('courses')`, so a hub naming a page that does not exist fails
-Zod at build. One spoke of five exists. Build NSW, QLD and ACT before attempting the hub.
+**The `/white-card` hub is not fully gated on its spokes, and that was found 2 Aug 2026.** The
+`hubs` schema types `spokes[].course` as a `reference('courses')`, which does fail Zod if a hub names
+a page that doesn't exist — but `spokes` itself is `z.array(...)` with **no minimum length**, and
+`comparison.columns[]` already carries a `soon: z.boolean()` flag `ComparisonTable.astro` renders as a
+non-linked "Coming soon" cell. The hub was designed for partial coverage; it does not need all five
+spokes built first, only the ones it names as built. As of 3 Aug it is blocked on nothing — build it
+with ACT (W3-5) as the one remaining "Coming soon" column, in either order.
 
-**No standing FAILs (28 Jul).** `system-health` reports 0 FAIL. The session-types pre-flight rule
-governs this: a red pre-flight ends the session rather than being repaired mid-run.
+**No standing FAILs (3 Aug).** `system-health` reports 0 FAIL (beyond the expected, momentary
+"07 not committed" a page carries between its Stage 9 review being written and its commit landing).
+The session-types pre-flight rule governs this: a red pre-flight ends the session rather than being
+repaired mid-run.
 
 ### Where this stood on 22 July (kept — the phase-1 close-out)
 
@@ -370,7 +393,7 @@ two sessions on the same day.
 | **`page-auditor` subagent** | "the audit wanted its own context, or graded inconsistently" | Stage 7 ticked five rows the built HTML fails. Runs as a fresh subagent given only `dist/{slug}/index.html`, and reports a **measured value per row**, never a tick. |
 | **Per-slug warning filter** | not on the original candidate list; earned by the run | Three scripts raised warnings naming the slug; none was read. A `--slug` filter turns existing signal into used signal, with no new checks. |
 | **Guardrail: fail on undeclared authority** | "a rule was violated that a hook would have caught" | A page in a course or bundle collection with no `authority` silently skips the checks that model triggers. |
-| **Session-type path check** ⭐ **3 crossings, 2 sessions, one day — authorised** | not on the original list; earned 1 Aug 2026 | **Nothing compares a commit's touched paths against the declaring session's may-write list.** A design session committed `scripts/check-redirect-targets.mjs` via cherry-pick (`3d9cc44`) and never flagged it; the same session edited `.claude/launch.json`; a skills session edited `public/robots.txt`. Only the last two were flagged, and the `scripts/` one surfaced solely because Andrey asked, hours later, whether it was a design session. The cherry-pick is the instructive case: **an edit arriving via cherry-pick, merge, revert or rebase is still an edit by the session that runs it**, and that is the case the human eye skips, because the paths scroll past in tool output rather than being typed. Mechanically trivial — given a session type and a commit range, diff touched paths against the table in `CLAUDE.md`. **Build it as advisory, not a flat FAIL:** several paths are deliberately unassigned (`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`), so an unassigned path must report differently from a wrong-owner path or the check goes red on work no session may fix — the ratchet lesson. Filed by `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`. |
+| **Session-type path check** ⭐ **4 crossings, 3 sessions, two days — authorised, still unbuilt** | not on the original list; earned 1 Aug 2026, recurred 3 Aug | **Nothing compares a commit's touched paths against the declaring session's may-write list.** A design session committed `scripts/check-redirect-targets.mjs` via cherry-pick (`3d9cc44`) and never flagged it; the same session edited `.claude/launch.json`; a skills session edited `public/robots.txt`. Only the last two were flagged, and the `scripts/` one surfaced solely because Andrey asked, hours later, whether it was a design session. The cherry-pick is the instructive case: **an edit arriving via cherry-pick, merge, revert or rebase is still an edit by the session that runs it**, and that is the case the human eye skips, because the paths scroll past in tool output rather than being typed. **A fourth crossing, 3 Aug 2026: a `build` session edited design-owned `SiteHeader.astro`** to satisfy the orphan-page guardrail while shipping `/white-card-qld` — the identical crossing `white-card-wa` (28 Jul) and `white-card-nsw` (1 Aug) both made, each disclosed at the time. This one was not disclosed in any of the run's own pipeline artefacts and was found only when an independent Stage 9 grader ran `git status` — see `skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md`. Mechanically trivial — given a session type and a commit range, diff touched paths against the table in `CLAUDE.md`. **Build it as advisory, not a flat FAIL:** several paths are deliberately unassigned (`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`), so an unassigned path must report differently from a wrong-owner path or the check goes red on work no session may fix — the ratchet lesson. Filed by `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`, and now a fourth time by the QLD review above. |
 | **Headless width check over `dist/`** ⭐ **2 occurrences — build it** | not on the original list; earned 28 Jul, recorded twice the same day | **Nothing in the repo can see a horizontal scrollbar.** A 90px sideways scroll at 320px survived a green build, 20/20 guardrails, `check-claims` 0 failing and an independent Stage 7 audit, on every page rendering `PartnerDisclosure`. It had **three** independent causes (a `1fr` grid track that could not shrink, an `inline-flex` eyebrow that could not wrap, and a header row 14px too wide), so a one-off fix would not have held. Filed by both `2026-07-28-abe-readability-audit-white-card-wa.md` and `skill-reviews/design/2026-07-28-reflow-spacing-and-tap-targets.md`. |
 
 Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,

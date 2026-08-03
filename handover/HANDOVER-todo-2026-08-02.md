@@ -1,12 +1,13 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 5 of 14 addressed (4 closed, 1 partially), 9 still open
+## Status: IN PROGRESS — 6 of 14 addressed (5 closed, 1 partially), 8 still open
 
-Closed 4 (item 1, in full — the claim it named turned out to be three separate defects across three
-pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`) and partially
-closed 1 (item 11 — the mechanical half shipped, the other half was evaluated and rejected, see below).
-Closing items 2-4 also unblocks items 8 and 15, moved up into "Do first" below. The remaining items are
-untouched: this file stays open.
+Closed 5 (item 1, in full — the claim it named turned out to be three separate defects across three
+pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`; item 7, the
+QLD White Card build, commit `b36d8b4`) and partially closed 1 (item 11 — the mechanical half shipped,
+the other half was evaluated and rejected, see below). Closing items 2-4 also unblocked items 8 and 15,
+which item 7's build then left genuinely open (not built). The remaining items are untouched: this file
+stays open.
 
 **2-4 closed 3 Aug 2026, commit `014287a`.** All three delivery-mode reads landed in one facts session:
 - **Item 2 (TAS):** `skill-reviews/facts/2026-08-03-tas-git-delivery.md`. WorkSafe Tasmania and the WHS
@@ -23,6 +24,18 @@ untouched: this file stays open.
 - **Item 4 (WA):** `skill-reviews/facts/2026-08-03-wa-git-delivery.md`. Same regulation-silence pattern,
   but backed by a real (if decade-old) WorkSafe WA notice permitting online delivery. All five ABE
   White Card delivery-mode rows are now regulator-sourced. No page fix needed.
+
+**7 closed 3 Aug 2026, commit `b36d8b4`.** `/white-card-qld` built end to end, all 9 stages, artefacts
+in `pipeline/white-card-qld/`. Graded **Amber** by an independent Stage 9 subagent —
+`skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md`. Not Green for two process reasons,
+neither a regulatory error reaching a reader: `check-claims.mjs` was never run at Stage 7 (fixed with an
+addendum to `07-verification.md` once caught); and the build had to edit design-owned
+`SiteHeader.astro` to satisfy the orphan-page guardrail — the **third sighting** of that exact
+crossing, and the first not disclosed anywhere in the run's own artefacts until the grader found it via
+`git status`. Both are filed below, tagged `[skills]`. Mid-build, the confirmed $99 price was
+superseded by Andrey supplying Blue Dog's real timetable ($109 weekday / $169 Saturday); every
+occurrence was found and corrected, confirmed zero stray `$99` in the built page. No `buyUrl`
+confirmed — every CTA uses the in-page `#enrol` anchor, per the `/white-card-tas` precedent.
 
 Additional work landed this session that is **not** on this list at all — three build-session
 image-wiring commits and the full image-generation brief for the site's remaining FPO placeholders.
@@ -70,13 +83,9 @@ and only then had the fact reverse underneath it.
 - [x] ~~**2. `[facts]` Read the TAS delivery row at WorkSafe Tasmania**~~
   Closed `014287a`. See `skill-reviews/facts/2026-08-03-tas-git-delivery.md` and the Status block above.
 
-- [ ] **7. `[build]` Build `/white-card-qld` (W3-3)** — unblocked 2 Aug 2026
-  WHSQ defines CRTD (live video) **as** a form of face-to-face, and Blue Dog Training (RTO 31193)
-  holds CRTD approval, so this can be a genuinely online page. Four mandatory copy constraints:
-  student **physically located in Queensland** (never "resident"), **minimum four and a half hours**,
-  **nothing self-paced or pre-recorded**, and **PPE to hand for the assessment**. Attribute the CRTD
-  approval to Blue Dog, **never** to ABE Education. Read `online-delivery-policy-by-state.md` §2C
-  before Stage 1. Use the per-page GSC export as the R4 input — it exists, nobody needs to ask.
+- [x] ~~**7. `[build]` Build `/white-card-qld` (W3-3)** — unblocked 2 Aug 2026~~
+  Closed `b36d8b4`. See `skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md` and the
+  Status block above.
 
 - [ ] **5. `[skills]` Build a `check-positions` guardrail**
   `check-claims` reconciles **figures** (150/150 page figures match the register). Nothing reconciles
@@ -106,10 +115,10 @@ and only then had the fact reverse underneath it.
   It is worth more than the spokes gating it. From the per-page GSC export
   (`business data/GSC/…2026-08-01.zip`, `Filters.csv` → `Page: +white-card`):
   `/white-card-wa-online` 141 clicks / 41,586 impr / pos 9.01 · **`/white-card` 41 / 11,227 / 19.74**
-  · `/tas-online-white-card` 35 / 7,873 / 11.95. There is **no legacy URL at all** for White Card
-  QLD, NSW or ACT — the two remaining spokes carry **zero** inherited equity, while the hub is a
-  `rebuild` row in `redirects.csv` and already ranks for the queries those spokes would target
-  ("white card act" 1,152 impr at 14.61; "white card tasmania" 1,223 at 21.13).
+  · `/tas-online-white-card` 35 / 7,873 / 11.95. **Now four of five spokes are live** (item 7 shipped
+  `/white-card-qld` since this row was written) — only ACT (item 8) carries zero inherited equity, since
+  it never had a legacy URL. The hub is a `rebuild` row in `redirects.csv` and already ranks for the
+  queries the remaining spoke would target ("white card act" 1,152 impr at 14.61).
 
 - [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — UNBLOCKED 3 Aug 2026
   Moved up from "Blocked — deliberately": item 3, its only blocker, is closed. Zero legacy equity. The
