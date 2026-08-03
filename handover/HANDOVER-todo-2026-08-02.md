@@ -1,10 +1,28 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 2 of 14 addressed (1 closed, 1 partially), 12 still open
+## Status: IN PROGRESS — 5 of 14 addressed (4 closed, 1 partially), 9 still open
 
-Closed 1 (item 1, in full — the claim it named turned out to be three separate defects across three
-pages, not one) and partially closed 1 (item 11 — the mechanical half shipped, the other half was
-evaluated and rejected, see below). The remaining twelve items are untouched: this file stays open.
+Closed 4 (item 1, in full — the claim it named turned out to be three separate defects across three
+pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`) and partially
+closed 1 (item 11 — the mechanical half shipped, the other half was evaluated and rejected, see below).
+Closing items 2-4 also unblocks items 8 and 15, moved up into "Do first" below. The remaining items are
+untouched: this file stays open.
+
+**2-4 closed 3 Aug 2026, commit `014287a`.** All three delivery-mode reads landed in one facts session:
+- **Item 2 (TAS):** `skill-reviews/facts/2026-08-03-tas-git-delivery.md`. WorkSafe Tasmania and the WHS
+  Regulations 2022 (Tas) impose no delivery-mode restriction at all. `/white-card-tas`'s "Tasmanian
+  residents only" wording is unsourced to either — **not fixed here** (facts session, `kb/register/**`
+  only); filed as a `[build]` item in that review and still open below the fold in
+  `reports/handover-build.md`.
+- **Item 3 (ACT):** `skill-reviews/facts/2026-08-03-act-delivery-and-alertforce-scope.md`. Same finding
+  as TAS. No page-copy fix needed — existing wording already attributes the mode to AlertForce, not the
+  regulator. Also confirmed AlertForce's actual course codes: Asbestos Awareness (11084NAT) is national
+  as CLAUDE.md assumes, but "Silica Awareness" doesn't exist as named — the real course (10830NAT) is
+  **not** national either (missing WA/SA/NT). Filed as a `[skills]` item for CLAUDE.md/
+  `authority-model.md` reconciliation.
+- **Item 4 (WA):** `skill-reviews/facts/2026-08-03-wa-git-delivery.md`. Same regulation-silence pattern,
+  but backed by a real (if decade-old) WorkSafe WA notice permitting online delivery. All five ABE
+  White Card delivery-mode rows are now regulator-sourced. No page fix needed.
 
 Additional work landed this session that is **not** on this list at all — three build-session
 image-wiring commits and the full image-generation brief for the site's remaining FPO placeholders.
@@ -49,11 +67,8 @@ and only then had the fact reverse underneath it.
   blocked on Andrey's call (item 14.2): `owner-builder-nsw-course.mdx`, its `-w` variant, and
   `src/data/nsw-w.ts`.
 
-- [ ] **2. `[facts]` Read the TAS delivery row at WorkSafe Tasmania**
-  Highest-risk unchecked row. `/white-card-tas` is **live and indexable** and advertises self-paced
-  online completion on 2026 industry-guide sourcing alone. Of the two rows since checked against a
-  regulator, one was wrong in the permissive direction (NSW) and one was right for the wrong reason
-  (QLD). Close with a facts review per CLAUDE.md rule 11.
+- [x] ~~**2. `[facts]` Read the TAS delivery row at WorkSafe Tasmania**~~
+  Closed `014287a`. See `skill-reviews/facts/2026-08-03-tas-git-delivery.md` and the Status block above.
 
 - [ ] **7. `[build]` Build `/white-card-qld` (W3-3)** — unblocked 2 Aug 2026
   WHSQ defines CRTD (live video) **as** a form of face-to-face, and Blue Dog Training (RTO 31193)
@@ -74,15 +89,33 @@ and only then had the fact reverse underneath it.
   build fails until every copy agrees, rather than adding a new session type.
   **DoD: the check fails on a known instance *before* the copy is fixed.**
 
-- [ ] **3. `[facts]` Read the ACT delivery row at WorkSafe ACT**
-  Gates item 8. The current position (AlertForce delivers in a classroom) was confirmed with the
-  **partner**, never the **regulator** — the same sourcing gap that produced the NSW error. Add the
-  UNVERIFIED AlertForce asbestos and silica course codes in the same session (browser, not WebFetch —
-  `training.gov.au` is a client-rendered SPA).
+- [x] ~~**3. `[facts]` Read the ACT delivery row at WorkSafe ACT**~~
+  Closed `014287a`. See `skill-reviews/facts/2026-08-03-act-delivery-and-alertforce-scope.md`. Unblocks
+  item 8, moved up below.
 
-- [ ] **4. `[facts]` Read the WA delivery row at WorkSafe WA**
-  Backs `/white-card-wa`, 39.9k impressions, live and indexable. §2B corrected WA *eligibility* at
-  source on 1 Aug; the *delivery* row still rests on guides.
+- [x] ~~**4. `[facts]` Read the WA delivery row at WorkSafe WA**~~
+  Closed `014287a`. See `skill-reviews/facts/2026-08-03-wa-git-delivery.md`. Unblocks item 15, moved up
+  below.
+
+- [ ] **15. `[build]` Build the `/white-card` hub with QLD and ACT as "Coming soon"** — UNBLOCKED 3 Aug 2026
+  Moved up from "Blocked — deliberately": items 2 and 4, its only blockers, are both closed. **Was
+  deliberately not blocked on the QLD or ACT spokes.** ROADMAP says the hub is Zod-gated on all five;
+  half true. `spokes` is `z.array(...)` with **no minimum length**, and `comparison.columns[]` already
+  carries a `soon: z.boolean()` flag that `ComparisonTable.astro:35` renders as a non-linked "Coming
+  soon" cell. The hub was designed for partial coverage.
+  It is worth more than the spokes gating it. From the per-page GSC export
+  (`business data/GSC/…2026-08-01.zip`, `Filters.csv` → `Page: +white-card`):
+  `/white-card-wa-online` 141 clicks / 41,586 impr / pos 9.01 · **`/white-card` 41 / 11,227 / 19.74**
+  · `/tas-online-white-card` 35 / 7,873 / 11.95. There is **no legacy URL at all** for White Card
+  QLD, NSW or ACT — the two remaining spokes carry **zero** inherited equity, while the hub is a
+  `rebuild` row in `redirects.csv` and already ranks for the queries those spokes would target
+  ("white card act" 1,152 impr at 14.61; "white card tasmania" 1,223 at 21.13).
+
+- [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — UNBLOCKED 3 Aug 2026
+  Moved up from "Blocked — deliberately": item 3, its only blocker, is closed. Zero legacy equity. The
+  hub currently absorbs the "white card act" query, so this page's job is to take that over rather than
+  protect an existing asset. **Sequence it after the hub (item 15), not before** — that ordering note
+  is unchanged.
 
 - [ ] **12. `[build]` Build W2-6 insurance and W2-7 Project Advisory**
   No regulatory dependency, unblocked by everything else here, and `/owner-builder-courses` already
@@ -128,23 +161,9 @@ and only then had the fact reverse underneath it.
 
 ## Blocked — deliberately
 
-- [ ] **15. `[build]` Build the `/white-card` hub with QLD and ACT as "Coming soon"** — blocked on 2 and 4 only
-  **Deliberately not blocked on the QLD or ACT spokes.** ROADMAP says the hub is Zod-gated on all
-  five; half true. `spokes` is `z.array(...)` with **no minimum length**, and `comparison.columns[]`
-  already carries a `soon: z.boolean()` flag that `ComparisonTable.astro:35` renders as a non-linked
-  "Coming soon" cell. The hub was designed for partial coverage.
-  It is worth more than the spokes gating it. From the per-page GSC export
-  (`business data/GSC/…2026-08-01.zip`, `Filters.csv` → `Page: +white-card`):
-  `/white-card-wa-online` 141 clicks / 41,586 impr / pos 9.01 · **`/white-card` 41 / 11,227 / 19.74**
-  · `/tas-online-white-card` 35 / 7,873 / 11.95. There is **no legacy URL at all** for White Card
-  QLD, NSW or ACT — the two remaining spokes carry **zero** inherited equity, while the hub is a
-  `rebuild` row in `redirects.csv` and already ranks for the queries those spokes would target
-  ("white card act" 1,152 impr at 14.61; "white card tasmania" 1,223 at 21.13).
-  Blocked only because the hub restates the TAS and WA delivery positions.
-
-- [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — blocked on 3
-  Zero legacy equity. The hub currently absorbs the "white card act" query, so this page's job is to
-  take that over rather than protect an existing asset. Sequence it after the hub, not before.
+Nothing here now — both items formerly blocked (8, 15) closed their blockers 3 Aug 2026 and moved up
+into "Do first". Section kept as a heading for whatever the next genuinely-blocked-and-deliberate item
+is.
 
 ## Only Andrey can unblock these — in the order they bite
 
