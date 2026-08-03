@@ -105,7 +105,7 @@ that own those files — filed below, not fixed here.
 `system-health` run at open (1 failing, 30 warning, 48 ok) and after (2 failing, 30 warning, 51 ok —
 +1 fail is the intended finding, +3 ok are this check's own three passing entries).
 
-Not shipped — working tree only, pending Andrey's review.
+Shipped 4 Aug 2026, commit `1b6ff50`, merged to `main` at `9f15a90`, deployed via Workers Builds.
 
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]

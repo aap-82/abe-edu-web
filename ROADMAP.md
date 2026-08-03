@@ -20,7 +20,7 @@ Last updated: 3 August 2026.
 
 ---
 
-## Current state (3 August 2026)
+## Current state (4 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
 closed. **Wave 3 is nearly done: four of five White Card state spokes are built and indexable**
@@ -109,6 +109,40 @@ with ACT (W3-5) as the one remaining "Coming soon" column, in either order.
 "07 not committed" a page carries between its Stage 9 review being written and its commit landing).
 The session-types pre-flight rule governs this: a red pre-flight ends the session rather than being
 repaired mid-run.
+
+**Superseded the next day. 2 standing FAILs as of 4 Aug 2026, both tracked, neither a surprise.**
+(1) The `manual_fix_passes` trend, worsening since the `/white-card-qld` Stage-9 review — already
+routed as todo items 9 and 10 below (both now closed, see next paragraph). (2) A new, deliberate one:
+`check-positions` (below) surfaces `/white-card-tas`'s unsourced "Tasmanian residents only" claim,
+which was already a filed `[build]` item and simply had no mechanical check pointed at it until
+today. `system-health` red at pre-flight still ends a session per rule 1 — the difference here is
+that the red is informative rather than a defect in the check.
+
+**A skills session closed three todo items 4 Aug 2026, none of them a page.** Commit `1b6ff50`
+(merged `9f15a90`):
+- **Item 5 — `check-positions.mjs` built.** Reconciles a page's claim about delivery mode or
+  authority model against `kb/register/`, the same job `check-claims` does for dollar figures.
+  Two mechanisms: a hand-curated `POSITIONS` table (delivery-mode banned phrasings, each citing the
+  register assertion it contradicts) and a re-application of `guardrails.ts`'s
+  `FORBIDDEN_BY_AUTHORITY` list to `SiteHeader.astro`'s own nav data — the one place that check
+  structurally cannot reach, since it excises the whole `<header>` from every page it audits. Wired
+  into `system-health.mjs` as a fifth check, named in `SYSTEM.md` §5. DoD met on the first run: it
+  FAILs on 12 locations across 5 files, 4 of which no prior session had named — including
+  `SiteHeader.astro`'s own TAS nav card. See `skill-reviews/skills/2026-08-04-check-positions.md`.
+- **Item 9 — Stage-0 provenance gate.** Added to Recipe A step 1
+  (`new site/abe-migration-implementation-plan.md`) and mirrored into the skill's own Stage 1
+  (`content-pipeline.md`): before Stage 3, every ledger row must be regulator-sourced against the
+  register's own primary/secondary split; an industry-guide or `UNVERIFIED` row goes to a facts
+  session first. Second occurrence of the risk (NSW built a full page on a row that reversed at
+  Stage 9; QLD's equivalent row was read first).
+- **Item 10 — four path-ownership assignments** in the session-types table (`CLAUDE.md`):
+  `src/integrations/guardrails.ts` and `.gitignore` → skills, `src/layouts/**` → design, and the five
+  top-level `new site/*.md` planning docs → skills (found while making the item 9 edit). The
+  `.gitignore` gap itself is fixed — `new site/reference/**/*.xlsx`/`.xls`/`.csv`, recursive and
+  scoped so `redirects.csv` stays tracked. See
+  `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md` for the two real defects
+  the session caught in its own first pass at that fix (dropped `*.pdf`/`*.docx` rules, then a
+  too-shallow `*.xlsx` pattern) before it shipped.
 
 ### Where this stood on 22 July (kept — the phase-1 close-out)
 
@@ -417,6 +451,17 @@ ask rather than folded into an audit session.
   shared across pages, so a filter there could hide a lapsed fee from the page depending on it. A
   filtered run prints the repo-wide totals underneath, labelled, so it can never be mistaken for a
   whole one. Stage 7 now opens by running all three (`references/verification.md`).
+
+### Ready to build now, authorised by a second occurrence (ROADMAP rule 3) — ✅ built 4 Aug 2026
+
+- ✅ **`check-positions.mjs`.** `check-claims` reconciles figures (dollar amounts) against
+  `kb/register/`; nothing reconciled positions (delivery mode, authority model, "nationally
+  recognised" status) until now. Named directly in `handover/HANDOVER-todo-2026-08-02.md` item 5,
+  citing three defects that each survived a green build, 21/21 guardrails and `check-claims` 0
+  failing: `/white-card-nsw`'s now-corrected delivery-mode misattribution, the NSW Owner Builder nav
+  card's authority claim, and `/white-card-tas`'s unsourced "Tasmanian residents only" framing — the
+  last of which the check still FAILs on, by design (see Current state above). Full detail:
+  `skill-reviews/skills/2026-08-04-check-positions.md`.
 
 ### Also built 29 Jul 2026, by the full system audit
 

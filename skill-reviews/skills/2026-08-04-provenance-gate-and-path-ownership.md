@@ -133,7 +133,11 @@ new ownership assignment describes; did not edit either).
 `check-positions` session, both fails already tracked) and after (identical: 2 failing, 30 warning,
 51 ok). No new FAIL, no new dangling reference from any of today's cross-references.
 
-Not shipped — working tree only, pending Andrey's review.
+Shipped 4 Aug 2026, commit `1b6ff50`, merged to `main` at `9f15a90`, deployed via Workers Builds.
+The `.gitignore` self-correction described above (dropped `*.pdf`/`*.docx` rules, then a too-shallow
+`*.xlsx` pattern) was caught and fixed during the `/ship` pre-flight, before either defect reached
+`origin/main` — recorded here rather than only in the ship-turn transcript, since that transcript is
+not a durable record and this review is.
 
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]

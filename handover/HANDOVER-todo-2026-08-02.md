@@ -1,13 +1,15 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 6 of 14 addressed (5 closed, 1 partially), 8 still open
+## Status: IN PROGRESS — 9 of 14 addressed (8 closed, 1 partially), 5 still open
 
-Closed 5 (item 1, in full — the claim it named turned out to be three separate defects across three
+Closed 8 (item 1, in full — the claim it named turned out to be three separate defects across three
 pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`; item 7, the
-QLD White Card build, commit `b36d8b4`) and partially closed 1 (item 11 — the mechanical half shipped,
-the other half was evaluated and rejected, see below). Closing items 2-4 also unblocked items 8 and 15,
-which item 7's build then left genuinely open (not built). The remaining items are untouched: this file
-stays open.
+QLD White Card build, commit `b36d8b4`; items 5, 9 and 10, a skills session's `check-positions`
+guardrail, Stage-0 provenance gate and path-ownership fixes, commit `1b6ff50`/`9f15a90`, shipped and
+deployed 4 Aug 2026) and partially closed 1 (item 11 — the mechanical half shipped, the other half was
+evaluated and rejected, see below). Closing items 2-4 also unblocked items 8 and 15, which item 7's
+build then left genuinely open (not built). The remaining 5 items (8, 12, 13, 14, 15) are untouched:
+this file stays open.
 
 **2-4 closed 3 Aug 2026, commit `014287a`.** All three delivery-mode reads landed in one facts session:
 - **Item 2 (TAS):** `skill-reviews/facts/2026-08-03-tas-git-delivery.md`. WorkSafe Tasmania and the WHS
@@ -87,8 +89,8 @@ and only then had the fact reverse underneath it.
   Closed `b36d8b4`. See `skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md` and the
   Status block above.
 
-- [x] ~~**5. `[skills]` Build a `check-positions` guardrail**~~ Closed 4 Aug 2026, not yet committed.
-  `scripts/check-positions.mjs` — a `POSITIONS` table (delivery-mode banned phrasings, each citing
+- [x] ~~**5. `[skills]` Build a `check-positions` guardrail**~~ Closed 4 Aug 2026, commit `1b6ff50`,
+  merged `9f15a90`. `scripts/check-positions.mjs` — a `POSITIONS` table (delivery-mode banned phrasings, each citing
   the register assertion it contradicts) plus a second mechanism re-applying `guardrails.ts`'s
   `FORBIDDEN_BY_AUTHORITY` to `SiteHeader.astro`'s own nav data, the one place that check cannot
   reach (it excises `<header>` from every page it audits). Wired into `system-health.mjs` as a
@@ -142,8 +144,8 @@ and only then had the fact reverse underneath it.
 
 ## Process fixes — cheap, compounding
 
-- [x] ~~**9. `[skills]` Add a Stage-0 provenance gate to the build recipe**~~ Closed 4 Aug 2026, not
-  yet committed. Added to `new site/abe-migration-implementation-plan.md`'s Recipe A step 1 and
+- [x] ~~**9. `[skills]` Add a Stage-0 provenance gate to the build recipe**~~ Closed 4 Aug 2026,
+  commit `1b6ff50`, merged `9f15a90`. Added to `new site/abe-migration-implementation-plan.md`'s Recipe A step 1 and
   mirrored into `.claude/skills/abe-course-page-astro/references/content-pipeline.md`'s Stage 1
   (the document a build session actually executes against) — same wording in both: confirm every
   row is regulator-sourced against the register's own primary/secondary provenance split
@@ -152,7 +154,7 @@ and only then had the fact reverse underneath it.
   `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 
 - [x] ~~**10. `[skills]` Assign the three unowned paths in the session-types table**~~ Closed
-  4 Aug 2026, not yet committed. `src/integrations/guardrails.ts` and `.gitignore` → **skills**
+  4 Aug 2026, commit `1b6ff50`, merged `9f15a90`. `src/integrations/guardrails.ts` and `.gitignore` → **skills**
   (same "infrastructure for the work" precedent as `public/**`); `src/layouts/**` → **design**
   (formalising what two design sessions already did in practice). The `.gitignore` gap itself is
   also fixed: `new site/reference/*.xlsx`, `*.xls` and `*.csv`, scoped to that folder rather than
