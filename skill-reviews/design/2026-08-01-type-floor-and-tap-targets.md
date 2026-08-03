@@ -178,14 +178,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
   survives: `- [facts] none - all figures carried verbatim...` is item 30 of `handover-facts.md`
   today. Broaden the match to a leading `none`/`nil`/`nothing` followed by explanatory prose.
   Second occurrence, so the trigger has fired.
-- [skills] **`src/layouts/**` has no owner in the session-types table.** This session edited
+- ~~[skills] **`src/layouts/**` has no owner in the session-types table.** This session edited
   `CpdBundleLayout.astro:278` — a `font-size` inside the layout's own `<style>` block, and the site's
   smallest type at 9.5px. The table gives design `src/components/**`, `src/styles/**` and the
   styleguide; it gives build `src/content/**`; nothing names `src/layouts/**`. Read strictly, the
   smallest type on the site could not be fixed by any session type. Taken as design's, on the
   grounds that a layout's `<style>` block is component styling — but that is a judgement call at a
   boundary and is recorded here rather than left to be discovered. Assign it, on the
-  `content.config.ts` / `SYSTEM.md` precedent. Same shape as the open `.claude/launch.json` item.
+  `content.config.ts` / `SYSTEM.md` precedent. Same shape as the open `.claude/launch.json` item.~~
+  Assigned to design, 4 Aug 2026, on exactly the judgement call this item made — see CLAUDE.md's
+  session-types section and
+  `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 - [design] **`--head-h` is 66px and the header renders 67px; `--waynav-h` is 65px and the bar renders
   66.1px** (46px vs 46.8px below 900px). Measured on a stashed baseline, so both predate this
   session. Both tokens feed `.sec { scroll-margin-top }`, so every anchored jump on the site lands

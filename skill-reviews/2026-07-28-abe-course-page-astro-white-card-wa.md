@@ -339,12 +339,15 @@ Tag every item: [skills] | [design] | [facts]
   path finds nothing and concludes no export exists — which nearly happened here. mistakes-log #1
   family, 8th sighting.~~ corrected in #86 (`d09a5c2`); CLAUDE.md now reads `business data/GSC/` and
   says why the old path was wrong. Verified 2026-08-01.
-- [skills] **Session types: a build session must edit design-owned `SiteHeader.astro` to ship any new
+- ~~[skills] **Session types: a build session must edit design-owned `SiteHeader.astro` to ship any new
   page.** The orphan guardrail fails a build with no nav link, and the nav is design-owned. This is
   not a one-off — it is true of every page the pipeline will ever build. The model needs the boundary
   named: either the nav entry is declared build-owned (a data edit, not a design change), or the
   orphan guardrail accepts a declared-pending page, or page builds hand the nav entry to a design
-  session and block on it. Silently crossing with per-run approval is the worst of the three.
+  session and block on it. Silently crossing with per-run approval is the worst of the three.~~ Fixed
+  4 Aug 2026 — the first option named here, exactly: nav data split into `src/data/nav.ts`
+  (build-owned), `SiteHeader.astro` keeps only the render logic. See
+  `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
 - ~~[design] **Sitewide chrome, all measured in `dist/`:** `tel:(07)33316000` is malformed (should be
   `tel:+61733316000`); `<a href="#">Login</a>` ×2 is a dead anchor; logo `<img alt="">` lacks
   `aria-hidden`; the same training.gov.au URL is emitted in two casings on one page.~~ all four parts fixed; last two in #93 (two pages, not one)

@@ -127,7 +127,7 @@ for (const pos of POSITIONS) {
   }
 }
 
-/* ---- 2. SiteHeader nav authority parity ---------------------------------- */
+/* ---- 2. Nav data authority parity ----------------------------------------- */
 /* guardrails.ts's FORBIDDEN_BY_AUTHORITY, applied here to the one source it structurally excludes
    from its own scan. The White Card group is skipped outright: it is the asqa-accredited group,
    so "nationally recognised" / "RTO partner" is its TRUE claim (guardrails.ts's own comment says
@@ -136,10 +136,18 @@ for (const pos of POSITIONS) {
    knowledge-requirement at best, never asqa-accredited, so none of it may claim RTO / nationally
    recognised / Statement of Attainment — and WA Owner Builder specifically may not claim an
    "approved course/provider" or a licence/permit, because no approved owner-builder course exists
-   in WA at all (CLAUDE.md's authority model). */
-const SITEHEADER = 'src/components/SiteHeader.astro';
-if (!existsSync(SITEHEADER)) {
-  warns.push(`${SITEHEADER} not found — nav authority parity unchecked (run from the repo root)`);
+   in WA at all (CLAUDE.md's authority model).
+
+   Reads `src/data/nav.ts`, not `SiteHeader.astro` — repointed 4 Aug 2026 in the same commit that
+   split the nav DATA out of the component (see that file's own header comment and
+   `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`). Before that split this constant
+   pointed at the component directly; had this check not been repointed in the same change, it
+   would have kept reading a file with no nav literals left in it and silently reported a clean
+   0-hit OK forever after — a check that has stopped looking is worse than no check, because it
+   still prints green. */
+const NAV_DATA = 'src/data/nav.ts';
+if (!existsSync(NAV_DATA)) {
+  warns.push(`${NAV_DATA} not found — nav authority parity unchecked (run from the repo root)`);
 } else {
   // Only WA is knowledge-requirement among today's Owner Builder codes; every other code in that
   // group (including one not yet built, like NSW) defaults to the state-approved-direct list below,
@@ -157,7 +165,7 @@ if (!existsSync(SITEHEADER)) {
     { re: /owner[- ]builder (licence|license|permit)/i, why: 'owner-builder "licence/permit" claim — WA\'s step is an approval, not a licence' },
   ];
 
-  const lines = readFileSync(SITEHEADER, 'utf8').split('\n');
+  const lines = readFileSync(NAV_DATA, 'utf8').split('\n');
   let group = null;
   const hits = [];
   lines.forEach((line, i) => {
@@ -176,14 +184,14 @@ if (!existsSync(SITEHEADER)) {
       ? [...CONSERVATIVE, ...KNOWLEDGE_EXTRA]
       : CONSERVATIVE;
     for (const b of banned) {
-      if (b.re.test(text)) hits.push(`${SITEHEADER}:${i + 1} [${group}${item ? ' ' + item[1] : ' feature'}] ${b.why} — "${text}"`);
+      if (b.re.test(text)) hits.push(`${NAV_DATA}:${i + 1} [${group}${item ? ' ' + item[1] : ' feature'}] ${b.why} — "${text}"`);
     }
   });
 
   if (hits.length) {
-    fails.push(`SiteHeader nav asserts an authority claim outside the group that may make it — ${hits.length} place(s): ${hits.slice(0, 6).join('; ')}${hits.length > 6 ? ' ...' : ''}. kb/rules/authority-model.md — Owner Builder and CPD nav entries are state-approved-direct or knowledge-requirement products, never asqa-accredited, and guardrails.ts cannot see this because it excises <header> from every page it audits.`);
+    fails.push(`Nav data asserts an authority claim outside the group that may make it — ${hits.length} place(s): ${hits.slice(0, 6).join('; ')}${hits.length > 6 ? ' ...' : ''}. kb/rules/authority-model.md — Owner Builder and CPD nav entries are state-approved-direct or knowledge-requirement products, never asqa-accredited, and guardrails.ts cannot see this because it excises <header> from every page it audits.`);
   } else {
-    oks.push('SiteHeader nav: no Owner Builder/CPD entry claims RTO, nationally recognised, Statement of Attainment, an approved course/provider, or an owner-builder licence/permit');
+    oks.push('Nav data: no Owner Builder/CPD entry claims RTO, nationally recognised, Statement of Attainment, an approved course/provider, or an owner-builder licence/permit');
   }
 }
 

@@ -191,6 +191,16 @@ attributes inside mapped ternary JSX, and scoped styles do not reach `set:html` 
 "simplify" it back to inline JSX. Sticky/layout rules use the `header.site-head` selector so they win
 over `global.css` regardless of stylesheet order.
 
+**Nav DATA lives in `src/data/nav.ts`, not in this file** (split 4 Aug 2026). `SiteHeader.astro`
+imports `navGroups`, `utility` and `studentPortal` from it and owns everything about how they
+render (the markup builders, the megamenu/burger controller, all CSS); `nav.ts` owns only what
+each entry says (`code`/`name`/`href`/`desc`, the hub link, the feature panel). This closes the
+repo's oldest fired trigger: a build session shipping a new page previously had to edit this
+design-owned component just to add its own nav card, filed four separate times
+(`skill-reviews/skills/2026-08-04-siteheader-nav-split.md` has the full history and the
+before/after proof that the split changes zero rendered output). **Add a new page's nav entry in
+`src/data/nav.ts`; never re-inline it into `SiteHeader.astro`.**
+
 ## Astro 7 compiler gotcha — nested template literals
 **Never nest a template literal inside a `${...}` interpolation of another template literal** in
 `.astro` frontmatter. The Rust compiler mis-scans it and dies with:
@@ -343,6 +353,25 @@ and changing a build recipe's steps is exactly the kind of change skills session
 file. Deliberately scoped to the five files, not `new site/**`: the directory also holds `reference/`
 and `examples of the certificates/`, gitignored source paperwork no session type edits, and `experts/`,
 which is an asset drop, not planning prose.
+
+**`src/data/**` is owned by build.** Named as unassigned twice before this — "it is page data,
+edited by build sessions in practice, but the table does not say so"
+(`skill-reviews/design/2026-08-02-siteheader-nsw-claim.md`) — and formalised 4 Aug 2026 as part of
+splitting `SiteHeader.astro`'s nav data into `src/data/nav.ts` (see the component gotcha section
+above), which made the gap load-bearing rather than theoretical: the whole point of the split was
+giving build a file it may edit to add its own page's nav entry, so the directory needed an owner
+the same day it needed a new file in it. Existing `src/data/faqs-*.ts` files (QLD/WA's per-page
+FAQ and module copy, predating the MDX content-collection migration — see Agreed stack above)
+were already build-edited in practice; this just says so.
+
+**Disclosed crossing, 4 Aug 2026.** The session that made this split was declared `skills`, whose
+table forbids `src/components/**` outright and does not grant `src/data/**` (it does now, per the
+paragraph above, decided IN that same session). Editing `SiteHeader.astro` and creating
+`src/data/nav.ts` were both done anyway, on Andrey's direct, informed instruction after the
+crossing was named and the alternative (leave the trigger unbuilt) was offered — the same shape as
+the QLD build session's disclosed `SiteHeader.astro` edit and the design session's disclosed
+`scripts/check-redirect-targets.mjs` cherry-pick before it. Recorded here rather than only in the
+session transcript. See `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
 
 Subagents inherit the session type of the session that launched them and cannot widen it. A subagent
 that needs to write outside the type stops and reports upward. It never guesses.

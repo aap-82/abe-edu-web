@@ -139,12 +139,13 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `demand-split` because its key sorts code-span identifiers first and one names `UnitOutline` while the
   other does not — worth knowing before the counts are trusted. I have not re-worded them: rewriting two
   past runs' records to satisfy a key is a skills call, not a design one.
-- [skills] **`demand-split`'s header counts its two halves in different units.** `openCount` is
+- ~~[skills] **`demand-split`'s header counts its two halves in different units.** `openCount` is
   `entries.length`, which is **deduped by key**, while `closedCount` is a count of **raw struck lines**
   (`demand-split.mjs:281` against `:527`). Striking the two filings of this item and filing one new one
   moved design from `36 open · 27 closed` to `36 open · 29 closed` — correct in both halves, and it reads
   as though nothing closed. A header written as `N open · M closed` invites subtraction; either count
-  entries on both sides or say which is which.
+  entries on both sides or say which is which.~~ fixed 4 Aug 2026, commit `92f6571`/`f26d159` — see
+  `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.
 - [skills] **`global.css`'s own note at `.measure` lists unfinished work and nobody owns it.** It says
   "`.capsule` and footer `.f-auth` still use 66ch and are therefore looser than they read - worth
   revisiting on the same evidence". That is a demand item living in a code comment, where no tool counts

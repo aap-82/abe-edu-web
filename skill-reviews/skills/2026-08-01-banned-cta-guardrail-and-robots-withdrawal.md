@@ -176,11 +176,13 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [design] The styleguide's `SectionWayfinder label="Enrol now"` specimen (`styleguide.astro:734`)
   teaches the banned wording as the worked example. Out of the guardrail's scope by construction (the
   page loop skips `styleguide/`), so nothing will ever catch it. Change the specimen's label.
-- [skills] **`src/integrations/guardrails.ts` has no owner in the session-types table.** This session
+- ~~[skills] **`src/integrations/guardrails.ts` has no owner in the session-types table.** This session
   edited it on the strength of the demand item being tagged `[skills]` and the file being a check, but
   the table never assigns it, and CLAUDE.md names it only to forbid *the improvement pass* from
   touching it. Same shape as the open `.claude/launch.json` item and the `content.config.ts` /
-  `SYSTEM.md` precedent. Assign it. `public/` has the same gap — see below.
+  `SYSTEM.md` precedent. Assign it. `public/` has the same gap — see below.~~ Assigned to skills,
+  4 Aug 2026 — see CLAUDE.md's session-types section and
+  `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 - ~~[skills] **`public/robots.txt`, `public/_redirects` and `public/images/` have no owner either.**
   They are neither content nor component nor platform config, and `_redirects` in particular is the
   cutover's main deliverable. Assign `public/**` in the same pass.~~ Assigned to **skills** 1 Aug
@@ -202,7 +204,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
   the skill's own examples — is unbuilt, and the ❌/✅ table in `meta-framework.md` already lists four
   more banned CTAs ("Sign up", "Learn more", "Click here") that nothing checks in docs or in `dist`.
   First filing; recorded, not built.
-- [skills] `demand-split`'s header still counts its two halves in different units — this session moved
+- ~~[skills] `demand-split`'s header still counts its two halves in different units — this session moved
   it `83 open · 11 closed` → `75 open · 19 closed`, where 8 items closed and open fell by 8 only
   because none of them were deduped away. Already filed on 30 Jul; recording that it held here too,
-  as the second sighting.
+  as the second sighting.~~ fixed 4 Aug 2026, commit `92f6571`/`f26d159` — see
+  `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.

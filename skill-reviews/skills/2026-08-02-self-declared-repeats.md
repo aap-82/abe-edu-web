@@ -117,10 +117,12 @@ again.
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] THIRD SIGHTING — `SiteHeader.astro` ownership is a fired trigger and is still unactioned.
+- ~~[skills] THIRD SIGHTING — `SiteHeader.astro` ownership is a fired trigger and is still unactioned.
   A build session must edit a design-owned file to ship any page. Rule 3 authorises restructuring:
   either split the nav data out of the component so build owns its own entries, or assign nav-data
-  edits to build while design keeps markup and CSS. This is now the oldest fired trigger in the repo.
+  edits to build while design keeps markup and CSS. This is now the oldest fired trigger in the repo.~~
+  Fixed 4 Aug 2026 — the first option, exactly: see
+  `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
 - [skills] `demand-split.mjs` has no staleness signal. Open items carry no age and nothing re-validates
   them, so 14 items from 23 Jul rank equally with today's. Report age, and flag items whose named file
   has changed since filing as candidates for re-checking or closing.
@@ -128,10 +130,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   nowhere to file a finding: `kb/mistakes-log.md` is skills-owned and a flat review would falsely
   satisfy `system-health.mjs:177`'s page-coverage check. Verified 2 Aug: `demand-split.mjs:226` walks
   recursively so items would route, and `:177` reads flat so coverage would stay honest.
-- [skills] THIRD FILING — `demand-split.mjs` counts its header halves in different units. `openCount`
+- ~~[skills] THIRD FILING — `demand-split.mjs` counts its header halves in different units. `openCount`
   is deduped by key, `closedCount` is raw struck lines. Filed 30 Jul, again 1 Aug, recorded here as
   the third. The 1 Aug filing put its own declaration in its closing clause, where the new lead
-  window cannot count it, so it is also the worked example of the recall gap above.
+  window cannot count it, so it is also the worked example of the recall gap above.~~ fixed 4 Aug 2026,
+  commit `92f6571`/`f26d159` — see `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.
 - [skills] `demand-split.mjs`'s lead window cannot tell a declaration from a **description** of one.
   This review's own first draft opened an item with "...the 1 Aug filing declares itself a second
   sighting", inside the first 200 characters, and it promoted as though this session had declared it —

@@ -300,10 +300,11 @@ viewport-reversion trap) are **not repeated here**. These are new.
   `white-card-wa`, now `white-card-nsw` (2 of 2 slots, `Image placeholder` ×2 measured in `dist/`).
   The `white-card-wa` review filed the guard ("fail the build when an `index,follow` page contains a
   `.ph` placeholder") and it has not been built. Build it, or stop filing it.
-- [skills] **SECOND SIGHTING — a build session must edit design-owned `SiteHeader.astro` to ship any
+- ~~[skills] **SECOND SIGHTING — a build session must edit design-owned `SiteHeader.astro` to ship any
   page.** Filed by `white-card-wa`, recurred here verbatim with Andrey's explicit per-run approval.
   The trigger has fired twice; pick one of that review's three options and write it into the
-  session-types table.
+  session-types table.~~ Fixed 4 Aug 2026 — see
+  `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
 
 **First occurrences:**
 

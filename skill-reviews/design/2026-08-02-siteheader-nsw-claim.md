@@ -137,7 +137,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   mistakes log is `kb/**` (skills-owned) and a flat `skill-reviews/*.md` would falsely satisfy
   `system-health`'s page-coverage check by claiming a graded run. Hit on the hub fix earlier the same
   day; the SiteHeader defect had to be carried out of that session by hand.
-- [skills] Nothing mechanically prevents a `desc` string in `SiteHeader.astro` from making an
+- ~~[skills] Nothing mechanically prevents a `desc` string in `SiteHeader.astro` from making an
   authority claim. `check-claims` reconciles figures and `check-positions` (to-do item 5) is proposed
   for delivery mode and authority model on pages — the nav's per-item `desc` is the same class of
-  claim on 17 pages at once, and should be in that check's scope when it is built.
+  claim on 17 pages at once, and should be in that check's scope when it is built.~~
+  `check-positions.mjs` built 4 Aug 2026 with exactly this in scope — it re-applies
+  `guardrails.ts`'s `FORBIDDEN_BY_AUTHORITY` list directly to `SiteHeader.astro`'s nav data. See
+  `skill-reviews/skills/2026-08-04-check-positions.md`.

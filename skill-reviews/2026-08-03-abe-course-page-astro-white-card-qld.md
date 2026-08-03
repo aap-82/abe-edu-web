@@ -256,7 +256,7 @@ Against that, two further things count here rather than being cost-free:
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] **THIRD SIGHTING — a build session must edit design-owned `SiteHeader.astro` to ship any new
+- ~~[skills] **THIRD SIGHTING — a build session must edit design-owned `SiteHeader.astro` to ship any new
   page, and this time it is undisclosed.** Filed at `white-card-wa` (28 Jul, disclosed in commit
   message) and `white-card-nsw` (1 Aug, disclosed with recorded approval); recurred here with no
   disclosure anywhere in the seven pipeline artefacts, the MDX comment, or `05-components.md`'s "new
@@ -268,7 +268,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   declared-pending page so a build can ship without the nav link at all and a design session wires it
   later; or a design session pre-clears the nav entry and blocks the build until it lands. Whichever is
   chosen, require the edit (if any) to be named in `05-components.md`
-  going forward, so silent recurrence stops being possible even before the structural fix ships.
+  going forward, so silent recurrence stops being possible even before the structural fix ships.~~
+  Fixed 4 Aug 2026 — the first option, exactly: see
+  `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
 - [facts] **`kb/register/legislation-references-qld.md` §2 is stale and contradicts the page it should
   agree with.** It states White Card training "must be completed in person in QLD (online delivery is
   restricted to WA and TAS residents)," which the more recently and more deeply sourced
