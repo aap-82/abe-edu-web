@@ -48,9 +48,22 @@ reports/
 # The SOURCE DOCUMENTS are ignored, not the folder. Notes written about them belong
 # in version control - see "new site/reference/qbcc-approval-conditions.md", which
 # carries every condition the site has to satisfy without carrying the signature.
+#
 *.pdf
 *.docx
 new site/reference/*.doc
+#
+# Found 2 Aug 2026: the block above covered *.pdf, *.docx and *.doc but not the spreadsheet formats
+# a regulator source is just as likely to arrive in (kb/register/online-delivery-policy-by-state.md
+# §2C cites a WHSQ .xlsx directly). Scoped to the folder, like *.doc above, not global like *.pdf/
+# *.docx - a global *.csv would also match repo-tracked redirects.csv and new site/redirect-map-v1.csv,
+# which must stay tracked. `**/` rather than a bare `*`, checked and needed: `*.doc`'s own shallow
+# form already missed a real file one level down (`new site/reference/QLD White Card/rto-approved-
+# general-construction-induction-training.xlsx`, found untracked while verifying this line) -
+# `**/` matches that depth and every other, including zero.
+new site/reference/**/*.xlsx
+new site/reference/**/*.xls
+new site/reference/**/*.csv
 
 # Local business data drops. THIS REPO IS PUBLIC. These folders hold commercial/
 # operational material (course exports, business records) that has no place in

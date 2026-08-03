@@ -311,6 +311,39 @@ configuration** that ships with every page and changes with the content, while `
 `astro.config.mjs` decide how and where the whole site is served. The test is whether getting it wrong
 breaks one page's correctness (assignable) or the deployment itself (human decision).
 
+**`src/integrations/guardrails.ts` and `.gitignore` are owned by skills** (assigned 4 Aug 2026, fourth
+application of the same precedent). Both were edited by sessions with no rule to point at:
+`guardrails.ts` on 1 Aug 2026, adding the banned-CTA ratchet, on the strength of the demand item being
+tagged `[skills]` and the file being a check — the same category as `scripts/**` and
+`content.config.ts`, just never named (`skill-reviews/skills/2026-08-01-banned-cta-guardrail-and-robots-
+withdrawal.md`); `.gitignore` on 2 Aug 2026, when a skills session verified it protects `new site/
+reference/` against `*.pdf`/`*.docx`/`*.doc` but not the spreadsheet formats a regulator source is just
+as likely to arrive in. Neither file is content, a component, or platform/deploy configuration:
+`guardrails.ts` decides what every page's build enforces, and `.gitignore` decides what enters version
+control at all — infrastructure *for* every session's work, not *part of* any one page's, same shape as
+`public/**` and `.claude/launch.json` before it. Passes the same test as those two: a wrong `.gitignore`
+line or a wrong guardrail risks the repo's own correctness (a leaked document, a silently-widened rule),
+never the deployment itself.
+
+**`src/layouts/**` is owned by design.** Not a new precedent — this formalises what two design sessions
+already did in practice, on the same judgement call each time: 28 Jul 2026
+(`skill-reviews/design/2026-07-28-landmarks-and-carriers.md`, adding skip-link and `<main>` landmarks
+across all four layouts) and 1 Aug 2026 (`skill-reviews/design/2026-08-01-type-floor-and-tap-targets.md`,
+a `font-size` fix inside `CpdBundleLayout.astro`'s own `<style>` block, filed as unowned even while
+fixing it). A layout wraps `BaseLayout` and renders the shared chrome and structural markup around a
+page's content — the same category of work as `src/components/**`, never a page's own content, so a
+build session still may not touch it.
+
+**The five top-level `new site/*.md` planning documents are owned by skills** — `abe-architecture-
+plan.md`, `abe-migration-implementation-plan.md`, `abe-migration-plan-v2-risk-audit.md`, `abe-new-site-
+sitemap.md` and `abe-website-migration-plan-v2.md`. Hit 4 Aug 2026, editing the Stage-0 provenance gate
+into `abe-migration-implementation-plan.md`'s Recipe A step 1 (todo item 9): these are standing
+plan/rules documents in the same sense as `ROADMAP.md` and `SYSTEM.md`, just not co-located with them,
+and changing a build recipe's steps is exactly the kind of change skills sessions make elsewhere in this
+file. Deliberately scoped to the five files, not `new site/**`: the directory also holds `reference/`
+and `examples of the certificates/`, gitignored source paperwork no session type edits, and `experts/`,
+which is an asset drop, not planning prose.
+
 Subagents inherit the session type of the session that launched them and cannot widen it. A subagent
 that needs to write outside the type stops and reports upward. It never guesses.
 

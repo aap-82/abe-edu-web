@@ -28,6 +28,15 @@ Method:
   will state), **Structure/scope**, or **Background**.
 - Record every figure with its source and the date verified. Flag indexed fees (e.g. QBCC resets
   ~1 July) as re-verify-on-cadence. An unresolved government fact is a publish hard-blocker.
+- **Provenance gate (added 4 Aug 2026, second occurrence of the risk — see `handover/HANDOVER-todo-
+  2026-08-02.md` item 9).** Before Stage 3, confirm every row this page will publish is
+  **regulator-sourced**, not an industry-guide restatement. The register labels rows by provenance —
+  `kb/register/online-delivery-policy-by-state.md` §4 is the model: "Primary sources" (regulator
+  documents, read at source) versus "Secondary sourcing" (2026 RTO/industry guides, "not a
+  regulator"), and any row can carry an explicit `UNVERIFIED` marker. NSW shipped a complete page on
+  an industry-guide row that reversed at Stage 9; QLD's equivalent row was read first and cost only a
+  fraction of that. A row resting only on a guide, or marked `UNVERIFIED`, is not authored against —
+  route it to a facts session and wait for the primary-source read before Stage 3.
 Output: a sourced table grouped by authority — each row noting whether the fact came from the internal
 register or a fresh live verification — plus an honest "can this be the content?" note (gov pages are
 the fact spine, not the page copy).

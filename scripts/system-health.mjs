@@ -51,7 +51,7 @@ const F = (m) => findings.fail.push(m), W = (m) => findings.warn.push(m), OK = (
 const rec = {
   ts: null, fail: null, warn: null, ok: null,
   register: null, skillRefs: null, docRefs: null, claims: null, figures: null,
-  totals: null, bundles: null, reviews: null, mistakes: null, unrouted: null,
+  totals: null, bundles: null, reviews: null, mistakes: null, unrouted: null, positions: null,
 };
 const countOf = (out, label) => (out.match(new RegExp(`^\\s+${label}\\b`, 'gm')) ?? []).length;
 
@@ -243,6 +243,23 @@ if (existsSync('scripts/check-pipeline.mjs')) {
   const m = out.match(/(\d+) failing, (\d+) warning, (\d+) ok/);
   if (m) rec.pipeline = { fail: +m[1], warn: +m[2], ok: +m[3] };
 } else W('scripts/check-pipeline.mjs missing — brief-to-page drift is unchecked');
+
+// 4c - position conformance. A page's claim about delivery mode or authority model must not
+// contradict kb/register/ — the reconciliation check-claims.mjs performs for dollar figures, done
+// here for positions instead. See scripts/check-positions.mjs's own header for the three defects
+// that motivated it, one of which (TAS residency) this check is expected to still FAIL on until a
+// build session fixes the copy — that is signal, not a regression this script introduced.
+if (existsSync('scripts/check-positions.mjs')) {
+  const out = run('check-positions.mjs');
+  for (const l of out.split('\n')) {
+    const t = l.trim();
+    if (t.startsWith('FAIL')) F(t.replace(/^FAIL\s+/, ''));
+    else if (t.startsWith('WARN')) W(t.replace(/^WARN\s+/, ''));
+    else if (t.startsWith('OK')) OK(t.replace(/^OK\s+/, ''));
+  }
+  const m = out.match(/(\d+) failing, (\d+) warning, (\d+) ok/);
+  if (m) rec.positions = { fail: +m[1], warn: +m[2], ok: +m[3] };
+} else W('scripts/check-positions.mjs missing — delivery-mode and authority-model positions are unchecked');
 
 // 5 - repeat risks
 if (existsSync('kb/mistakes-log.md')) {

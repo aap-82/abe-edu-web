@@ -87,16 +87,18 @@ and only then had the fact reverse underneath it.
   Closed `b36d8b4`. See `skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md` and the
   Status block above.
 
-- [ ] **5. `[skills]` Build a `check-positions` guardrail**
-  `check-claims` reconciles **figures** (150/150 page figures match the register). Nothing reconciles
-  **positions** — delivery mode, authority model, "nationally recognised" status. Three defects on
-  disk proved the gap and all three survived a green build, 21/21 guardrails, `check-claims` 0
-  failing and an independent Stage-7 audit. Past ROADMAP rule 3's threshold.
-  Minimum viable: a `POSITIONS` table mapping `(page, claim-kind) → register assertion`, failing the
-  build when a page contradicts the register. Same shape as the superseded-unit-code and company-name
-  checks. This is also the answer to "a fact reversal must fan out to every owner in one pass" — the
-  build fails until every copy agrees, rather than adding a new session type.
-  **DoD: the check fails on a known instance *before* the copy is fixed.**
+- [x] ~~**5. `[skills]` Build a `check-positions` guardrail**~~ Closed 4 Aug 2026, not yet committed.
+  `scripts/check-positions.mjs` — a `POSITIONS` table (delivery-mode banned phrasings, each citing
+  the register assertion it contradicts) plus a second mechanism re-applying `guardrails.ts`'s
+  `FORBIDDEN_BY_AUTHORITY` to `SiteHeader.astro`'s own nav data, the one place that check cannot
+  reach (it excises `<header>` from every page it audits). Wired into `system-health.mjs` as a
+  fifth check beyond `check-freshness`, and named in `SYSTEM.md` §5 so `check-claims`'s own
+  claim-drift check does not immediately fail on it.
+  **DoD met on the first run, not manufactured for the review:** it FAILs on `/white-card-tas`'s
+  unsourced "Tasmanian residents only" framing, unfixed since the 3 Aug facts session — 12 places
+  across 5 files, **one of which is new**: `SiteHeader.astro:64`'s own nav card carries the same
+  wording, which the facts session's 7-location count never saw because it only read
+  `white-card-tas.mdx` and its FAQ. See `skill-reviews/skills/2026-08-04-check-positions.md`.
 
 - [x] ~~**3. `[facts]` Read the ACT delivery row at WorkSafe ACT**~~
   Closed `014287a`. See `skill-reviews/facts/2026-08-03-act-delivery-and-alertforce-scope.md`. Unblocks
@@ -140,18 +142,24 @@ and only then had the fact reverse underneath it.
 
 ## Process fixes — cheap, compounding
 
-- [ ] **9. `[skills]` Add a Stage-0 provenance gate to the build recipe**
-  Second occurrence — the trigger has fired. NSW cost a complete page built on a fact that reversed
-  at Stage 9; QLD cost a fraction because the reading came first. The register now labels rows by
-  provenance, so Recipe A step 1 becomes: open the ledger **and** confirm every row it will publish
-  is regulator-sourced; any industry-guide row goes to a facts session before Stage 3.
+- [x] ~~**9. `[skills]` Add a Stage-0 provenance gate to the build recipe**~~ Closed 4 Aug 2026, not
+  yet committed. Added to `new site/abe-migration-implementation-plan.md`'s Recipe A step 1 and
+  mirrored into `.claude/skills/abe-course-page-astro/references/content-pipeline.md`'s Stage 1
+  (the document a build session actually executes against) — same wording in both: confirm every
+  row is regulator-sourced against the register's own primary/secondary provenance split
+  (`kb/register/online-delivery-policy-by-state.md` §4) before Stage 3; an industry-guide or
+  `UNVERIFIED` row goes to a facts session first. See
+  `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 
-- [ ] **10. `[skills]` Assign the three unowned paths in the session-types table**
-  `src/integrations/guardrails.ts` and `src/layouts/**` were both filed on 1 Aug by sessions that
-  edited them anyway. **`.gitignore`** was found on 2 Aug: it protects `new site/reference/` against
-  `*.pdf`, `*.docx` and `*.doc` but **not `*.xlsx`**, on a public repo whose own gitignore comment
-  records that a blanket `git add -A` already swept those documents in once. Verified with
-  `git check-ignore`. One line; consider `*.xlsx`, `*.xls` and `*.csv` together.
+- [x] ~~**10. `[skills]` Assign the three unowned paths in the session-types table**~~ Closed
+  4 Aug 2026, not yet committed. `src/integrations/guardrails.ts` and `.gitignore` → **skills**
+  (same "infrastructure for the work" precedent as `public/**`); `src/layouts/**` → **design**
+  (formalising what two design sessions already did in practice). The `.gitignore` gap itself is
+  also fixed: `new site/reference/*.xlsx`, `*.xls` and `*.csv`, scoped to that folder rather than
+  global so a repo-tracked CSV (`redirects.csv`, `new site/redirect-map-v1.csv`) is never at risk —
+  verified with `git check-ignore`. A fourth path was found and assigned in the same pass: the five
+  top-level `new site/*.md` planning documents (hit while making the Recipe A edit above) → skills.
+  See `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 
 - [x] ~~**11. `[skills]` Stop the demand backlog outgrowing its readers**~~ — half closed, half rejected
   Closed `9b1f5f2`, and the premise behind it was wrong on both counts, checked against the code before

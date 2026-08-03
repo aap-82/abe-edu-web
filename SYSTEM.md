@@ -137,7 +137,7 @@ matches the CSV it comes from.
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of
-its own, and runs four checks beyond `check-freshness`.
+its own, and runs five checks beyond `check-freshness`.
 
 Dangling-reference detection covers **two populations, counted separately**: the paths the skill
 points at, and the paths *this document and its peers* point at (`CLAUDE.md`, `ROADMAP.md`,
@@ -147,13 +147,26 @@ six dead pointers across the governance documents surviving clean runs — the d
 repo (`../anything`) fails on sight, resolvable or not, because §2's "One home" makes the repo the
 single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
 `business data/` and the superseded `data/GSC/` — the first two are correct paths that are
-deliberately never committed, the third is named only in historical records. The four checks:
+deliberately never committed, the third is named only in historical records. The five checks:
 - **`check-claims`** — four things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
   superseded figure failing, whether the skill's own worked examples demonstrate a phrase the skill
   bans, and whether this section still names every check that exists. The worked-example guard
   reads the *source of the copy* rather than the copy: `guardrails.ts` reads `dist/`, and a
   reference doc is never built, so a skill that taught what it forbade was invisible to every gate.
+- **`check-positions`** — a page's claim about *delivery mode* or *authority model* must not
+  contradict `kb/register/`, the same reconciliation `check-claims` performs for dollar figures.
+  Scans `src/content`, `src/data`, `src/components` and `src/pages` for hand-curated banned
+  phrasings, each citing the register assertion it contradicts, and separately re-applies
+  `guardrails.ts`'s `FORBIDDEN_BY_AUTHORITY` list to `SiteHeader.astro`'s own nav data — the one
+  place that check cannot reach, because it deliberately excises the whole `<header>` from every
+  page it audits (to avoid flagging the White Card group's TRUE claim rendering on an Owner Builder
+  page), which means it can never see a WRONG claim IN the header's own source either. Built
+  3 Aug 2026 after three defects survived a green build this way: `/white-card-nsw`'s
+  now-corrected delivery-mode misattribution, the NSW Owner Builder nav card's authority claim
+  (closed 2 Aug 2026), and `/white-card-tas`'s unsourced "Tasmanian residents only" framing, which
+  this check still FAILs on at the time it was written — a real, already-filed `[build]` item, not
+  a defect in the check.
 - **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at
   Stage 4 still exists as its own section on the page, rather than dissolving into a neighbour.
 - **`check-shipped`** — work on this branch can still reach `main`. A merged PR does not pick up
