@@ -575,6 +575,40 @@ function render(destination, entries, reviews, mistakes, closedCount = 0) {
   return lines.join('\n');
 }
 
+/**
+ * Merge one item into `bucket`, keyed by normalise()/normaliseProseOnly() so near-duplicate
+ * filings collapse into one entry. Factored out of the open-item loop so the SAME grouping rule
+ * can be applied to closed items too — see the header-units fix below for why that matters.
+ *
+ * Two keys per item, and a match on EITHER merges. The identifier-led key catches the repeats the
+ * prose-only key missed; keeping the prose-only key alongside it means the rekeying can only ever
+ * add pairings, never silently drop one the old scheme caught. A change to how a set is keyed is
+ * the same hazard as a change to how it is traversed (mistakes-log row 24) — both quietly alter
+ * what the counts are counting.
+ */
+function bucketItem(bucket, item, runLabel, mistakes) {
+  const key = normalise(item.text) || item.text.toLowerCase();
+  const altKey = normaliseProseOnly(item.text) || item.text.toLowerCase();
+  const existing = bucket.get(key) ?? bucket.get(altKey);
+  if (existing) {
+    existing.count += 1;
+    existing.runs.push(runLabel);
+    existing.keys.add(key);
+    existing.keys.add(altKey);
+    for (const k of existing.keys) bucket.set(k, existing);   // both keys reach the merged entry
+  } else {
+    const entry = {
+      text: item.text,
+      count: 1,
+      runs: [runLabel],
+      keys: new Set([key, altKey]),
+      mistakeCount: mistakes.get(key) || mistakes.get(altKey) || 0,
+    };
+    bucket.set(key, entry);
+    bucket.set(altKey, entry);
+  }
+}
+
 async function main() {
   const reviews = await loadReviews();
   const mistakes = await loadMistakes();
@@ -585,6 +619,15 @@ async function main() {
   }
 
   const buckets = new Map(DESTINATIONS.map((d) => [d, new Map()]));
+  /* CLOSED bucket, third sighting of the fix (filed 30 Jul, 1 Aug, 2 Aug —
+     skill-reviews/skills/2026-08-02-self-declared-repeats.md): the header printed
+     "N open · M closed" with `openCount` deduplicated by near-miss key and `closedCount` a raw sum
+     of struck lines, so the same complaint filed and closed three times read as 3 closed against
+     1-if-still-open — two different units in one sentence. Bucketing closed items the SAME way as
+     open ones makes both halves count "distinct complaints", not "distinct complaints" vs "filed
+     lines". A complaint that was filed, closed, then filed again later still counts once in EACH
+     bucket, correctly, because the two buckets are kept separate rather than merged into one. */
+  const closedBuckets = new Map(DESTINATIONS.map((d) => [d, new Map()]));
   const unrouted = [];
 
   for (const review of reviews) {
@@ -594,32 +637,14 @@ async function main() {
         unrouted.push({ ...item, run: runLabel });
         continue;
       }
-      /* Two keys per item, and a match on EITHER merges. The identifier-led key catches the repeats
-         the prose-only key missed; keeping the prose-only key alongside it means the rekeying can
-         only ever add pairings, never silently drop one the old scheme caught. A change to how a
-         set is keyed is the same hazard as a change to how it is traversed (mistakes-log row 24) —
-         both quietly alter what the counts are counting. */
-      const key = normalise(item.text) || item.text.toLowerCase();
-      const altKey = normaliseProseOnly(item.text) || item.text.toLowerCase();
-      const bucket = buckets.get(item.destination);
-      const existing = bucket.get(key) ?? bucket.get(altKey);
-      if (existing) {
-        existing.count += 1;
-        existing.runs.push(runLabel);
-        existing.keys.add(key);
-        existing.keys.add(altKey);
-        for (const k of existing.keys) bucket.set(k, existing);   // both keys reach the merged entry
-      } else {
-        const entry = {
-          text: item.text,
-          count: 1,
-          runs: [runLabel],
-          keys: new Set([key, altKey]),
-          mistakeCount: mistakes.get(key) || mistakes.get(altKey) || 0,
-        };
-        bucket.set(key, entry);
-        bucket.set(altKey, entry);
-      }
+      bucketItem(buckets.get(item.destination), item, runLabel, mistakes);
+    }
+    // Closed items with no valid destination tag are excluded from every closedCount, same as
+    // before this fix — reporting THOSE as a separate "unrouted closed" class is a different gap,
+    // not the units mismatch this pass closes, so it is left alone rather than folded in silently.
+    for (const item of review.closed) {
+      if (!item.destination) continue;
+      bucketItem(closedBuckets.get(item.destination), item, runLabel, mistakes);
     }
   }
 
@@ -631,8 +656,7 @@ async function main() {
     const entries = [...new Set(buckets.get(destination).values())].sort(
       (a, b) => b.count - a.count || a.text.localeCompare(b.text),
     );
-    const closedCount = reviews.reduce(
-      (n, r) => n + r.closed.filter((c) => c.destination === destination).length, 0);
+    const closedCount = new Set(closedBuckets.get(destination).values()).size;
     const note = render(destination, entries, reviews, mistakes, closedCount);
     if (WRITE) {
       const out = path.join(OUT_DIR, `handover-${destination}.md`);

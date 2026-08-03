@@ -1,13 +1,14 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 9 of 14 addressed (8 closed, 1 partially), 5 still open
+## Status: IN PROGRESS — 9 of 14 addressed, all fully closed, 5 still open
 
-Closed 8 (item 1, in full — the claim it named turned out to be three separate defects across three
+Closed 9 (item 1, in full — the claim it named turned out to be three separate defects across three
 pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`; item 7, the
 QLD White Card build, commit `b36d8b4`; items 5, 9 and 10, a skills session's `check-positions`
 guardrail, Stage-0 provenance gate and path-ownership fixes, commit `1b6ff50`/`9f15a90`, shipped and
-deployed 4 Aug 2026) and partially closed 1 (item 11 — the mechanical half shipped, the other half was
-evaluated and rejected, see below). Closing items 2-4 also unblocked items 8 and 15, which item 7's
+deployed 4 Aug 2026; item 11, closed 4 Aug 2026 — one part evaluated and rejected on the code, one
+part fixed same day as this line, its last remaining piece a staleness signal explicitly deferred,
+not rejected, see below). Closing items 2-4 also unblocked items 8 and 15, which item 7's
 build then left genuinely open (not built). The remaining 5 items (8, 12, 13, 14, 15) are untouched:
 this file stays open.
 
@@ -163,7 +164,8 @@ and only then had the fact reverse underneath it.
   top-level `new site/*.md` planning documents (hit while making the Recipe A edit above) → skills.
   See `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md`.
 
-- [x] ~~**11. `[skills]` Stop the demand backlog outgrowing its readers**~~ — half closed, half rejected
+- [x] ~~**11. `[skills]` Stop the demand backlog outgrowing its readers**~~ — closed, one piece
+  deliberately deferred, not rejected.
   Closed `9b1f5f2`, and the premise behind it was wrong on both counts, checked against the code before
   building anything. Rule 3 was never unenforceable: `demand-split.mjs:292` computes triggers live, and
   the near-miss caution is a deliberate design choice, not a gap. Capping what a review may file was
@@ -171,12 +173,17 @@ and only then had the fact reverse underneath it.
   suppresses the evidence rule 2 exists to preserve. The real defect was narrower: a filing that
   already states its own recurrence ("SECOND SIGHTING") was invisible to the counter, which read 0
   triggers everywhere while the `SiteHeader.astro` ownership complaint had been filed three times.
-  Fixed — 0 triggers before, 8 in skills / 1 in build after, no source review re-worded. **What's left,
-  genuinely open:** a staleness signal. The backlog went 95 → 100 as a direct result of this fix,
-  because it made recurrence visible rather than smaller; a 23 Jul item still ranks equally with
-  today's. That is the one still worth building, not the capping this item originally asked for.
-  The header-units defect this item also named (`N open · M closed` in different units) is unchanged
-  and still open — filed a third time this session, see the demand list below.
+  Fixed — 0 triggers before, 8 in skills / 1 in build after, no source review re-worded. The backlog
+  went 95 → 100 as a direct result of that fix, because it made recurrence visible rather than smaller.
+  **The header-units defect this item also named (`N open · M closed` in different units) is now
+  closed too — 4 Aug 2026**, third-plus sighting (filed 30 Jul, 1 Aug, 2 Aug), fixed by bucketing
+  closed items with the same near-miss dedup `openCount` already used. Measured: `design` 39→38
+  closed, `facts` 13→12, both exactly the one pair of same-complaint duplicate closures each carried.
+  See `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.
+  **Genuinely still open, and explicitly out of scope for this pass on Andrey's instruction:** a
+  staleness signal. A 23 Jul item still ranks equally with today's, and nothing re-validates an open
+  item against whether its named file has changed since filing. Worth its own session, not a
+  quick add.
 
 ## Blocked — deliberately
 
