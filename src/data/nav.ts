@@ -34,7 +34,7 @@ export const navGroups: Group[] = [
     label: 'White Card',
     megaLabel: 'White Card by state',
     // Inert until /white-card ships (B2). Was an absolute link to the legacy site.
-    hub: { label: 'White Card Hub', soon: true },
+    hub: { label: 'White Card Hub', href: '/white-card' },
     items: [
       // TODO: the slugs still flagged `soon` below have no page yet, on this site or the
       // old one. Flagged so each renders inert rather than linking to a 404. Restore the

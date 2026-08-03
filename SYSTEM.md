@@ -158,13 +158,16 @@ deliberately never committed, the third is named only in historical records. The
   contradict `kb/register/`, the same reconciliation `check-claims` performs for dollar figures.
   Scans `src/content`, `src/data`, `src/components` and `src/pages` for hand-curated banned
   phrasings, each citing the register assertion it contradicts, and separately re-applies
-  `guardrails.ts`'s `FORBIDDEN_BY_AUTHORITY` list to `SiteHeader.astro`'s own nav data — the one
+  `guardrails.ts`'s `FORBIDDEN_BY_AUTHORITY` list to `src/data/nav.ts`'s nav content — the one
   place that check cannot reach, because it deliberately excises the whole `<header>` from every
   page it audits (to avoid flagging the White Card group's TRUE claim rendering on an Owner Builder
-  page), which means it can never see a WRONG claim IN the header's own source either. Built
-  3 Aug 2026 after three defects survived a green build this way: `/white-card-nsw`'s
-  now-corrected delivery-mode misattribution, the NSW Owner Builder nav card's authority claim
-  (closed 2 Aug 2026), and `/white-card-tas`'s unsourced "Tasmanian residents only" framing, which
+  page), which means it can never see a WRONG claim IN the header's own source either. Repointed
+  from `SiteHeader.astro` on 4 Aug 2026 when the nav data moved into its own build-owned file (see
+  the component gotcha in `CLAUDE.md`) — the check would otherwise have kept reading a file with no
+  nav literals left in it and reported a false clean OK forever after. Built 3 Aug 2026 after three
+  defects survived a green build this way: `/white-card-nsw`'s now-corrected delivery-mode
+  misattribution, the NSW Owner Builder nav card's authority claim (closed 2 Aug 2026), and
+  `/white-card-tas`'s unsourced "Tasmanian residents only" framing, which
   this check still FAILs on at the time it was written — a real, already-filed `[build]` item, not
   a defect in the check.
 - **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at

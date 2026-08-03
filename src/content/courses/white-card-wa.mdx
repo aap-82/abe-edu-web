@@ -40,17 +40,10 @@ priceNumber: "99"
 courseWorkload: "PT6H"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
 credentialCategory: "Statement of Attainment"
-# The middle "White Card" crumb was REMOVED 28 Jul 2026 and must be restored when W3-6 ships.
-# It pointed at /white-card, which is not built: the crumb rendered as a visible link to a 404 and,
-# worse, as a BreadcrumbList ListItem naming a URL that does not resolve, which Google treats as an
-# invalid rich result. `check-links` did not catch it because /white-card is legitimately in its
-# PLANNED list, so the link reads as "not built yet" rather than "broken".
-# Not left to wait for the hub: the implementation plan records that W3-6 cannot start until its
-# spokes exist (the `hubs` schema types spokes[].course as reference('courses'), so a hub naming an
-# absent page fails Zod), and there is one spoke of five. W3-2, W3-3 and W3-5 come first, so this
-# would have pointed at a 404 for several tickets. Home > White Card WA is valid on its own.
+# Middle "White Card" crumb RESTORED 4 Aug 2026 - /white-card (W3-6) shipped.
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
   - { name: "White Card WA", item: "https://www.abeeducation.edu.au/white-card-wa" }
 reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "28 July 2026" }
 nav:

@@ -1,0 +1,110 @@
+---
+# The White Card hub. W3-6. Rebuilt 4 Aug 2026 from scratch via the formal abe-course-page-astro
+# pipeline (Stages 1-7 in full) - see pipeline/white-card/01-source-map.md through 05-components.md
+# for the research/brief/content/component trail behind every line below. Rebuild row in
+# redirects.csv (byte-identical slug, no redirect needed).
+#
+# Every per-state figure below resolves from the spoke course entries, not re-researched here -
+# same discipline as /owner-builder-courses. Prices, RTO partner and delivery mode all come from
+# each course's own already-verified frontmatter; this file adds only the routing copy and the
+# blurb per spoke.
+#
+# ACT IS NOT A SPOKE. No /white-card-act page exists yet (W3-5, still open), so it cannot be a
+# `reference('courses')` - the schema would fail Zod. It appears ONLY as a `soon: true` comparison
+# column with no href and no data cells, exactly the NSW treatment on the owner-builder hub. Do
+# not add a price, an RTO name or a delivery mode for ACT here before that page ships.
+#
+# DELIVERY MODE IS THE GENUINELY HUB-LEVEL FACT, not a state page in disguise (Recipe B's
+# cannibalisation gate, and pipeline/white-card/03-briefs.md's Stage-2-informed framing). WA and
+# TAS allow self-paced online; NSW and QLD require a live trainer session. That split, not the
+# price, is why a reader needs this page before picking a state.
+#
+# TAS: NO RESIDENCY CLAIM. kb/register/online-delivery-policy-by-state.md section 2D found no
+# regulator source for a Tasmanian-residency test - check-positions.mjs currently FAILs on
+# /white-card-tas for exactly this claim (filed [build], not yet fixed there). Do not repeat it
+# here. If a location qualifier is ever needed for TAS, the regulator's own wording is "completed
+# in Tasmania," never "for Tasmanian residents."
+#
+# NSW: delivery mode is the RTO's own arrangement, never SafeWork NSW's permission. Settled
+# 2 Aug 2026, online-delivery-policy-by-state.md section 2A-1. Do not attribute it to the regulator.
+title: "White Card Australia - WA, TAS, NSW, QLD | ABE Education"
+description: "Get your nationally recognised White Card. Self-paced online in WA and TAS, live online with a trainer in NSW and QLD. From $59, delivered by RTO partners Blue Dog Training and Upskill Institute."
+canonical: "https://www.abeeducation.edu.au/white-card"
+intro: "Every White Card is the same nationally recognised card once it's issued. How you get one is what changes: Western Australia and Tasmania let you finish the course online, at your own pace. New South Wales and Queensland both require a live session with a trainer. Pick your state below for the price and how it works."
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
+reviewedBy: { name: "Dominic Ogburn", href: "https://www.linkedin.com/in/dominic-ogburn", date: "4 August 2026" }
+nav:
+  - { label: "Choose your state", href: "#spokes", sectionId: "spokes" }
+  - { label: "Compare", href: "#compare", sectionId: "compare" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+hero:
+  eyebrow: "White Card"
+  h1Html: 'White Card, by state<span class="dot">.</span>'
+  updated: "Updated August 2026"
+  subhead: "Every state runs its own course. Here's how they differ, and what to pick."
+  cta: { href: "#spokes", label: "Choose your state", microcopy: "Four states available now, ACT coming soon" }
+sticky:
+  label: "White Card"
+  sub: "WA · TAS · NSW · QLD"
+  price: "from $59"
+  cta: { href: "#spokes", label: "Choose your state" }
+# Spoke order follows measured demand (GSC, business data/GSC/...2026-08-01.zip, Filters.csv ->
+# Page: +white-card): /white-card-wa-online leads at 141 clicks / 41,586 impr / pos 9.01, then
+# /tas-online-white-card at 35 / 7,873 / 11.95. NSW and QLD are too new (built 1 and 3 Aug) to
+# have comparable GSC history, so they follow in build order rather than a guessed demand rank.
+spokes:
+  - course: "white-card-wa"
+    blurb: "Work through the theory online at your own pace, then finish with a short live video assessment. $99, no government card fee."
+  - course: "white-card-tas"
+    blurb: "Complete the whole course online and self-paced. $59, plus a $13.72 government card fee paid separately to Service Tasmania when you lodge."
+  - course: "white-card-nsw"
+    blurb: "One live online session with a trainer, six days a week. $129 all-inclusive, no separate government fee."
+  - course: "white-card-qld"
+    blurb: "A live online session with a real trainer, under WHSQ's Connected Real Time Delivery rules. $109 weekdays, no government fee."
+comparison:
+  caption: "Course fees are ABE Education's and GST-free. QLD's $109 is the weekday rate; Saturday sessions are $169. Government card fees are set by each state's issuing authority and paid separately where they apply. Figures are current at the verification dates on each state's own page."
+  # Column order matches the spoke order above. ACT is soon: true with no href, no RTO and no
+  # price cell - the same treatment the owner-builder hub gives NSW. Every ACT data cell below is
+  # an en rule on purpose.
+  columns:
+    - { key: "wa", label: "WA", href: "/white-card-wa" }
+    - { key: "tas", label: "TAS", href: "/white-card-tas" }
+    - { key: "nsw", label: "NSW", href: "/white-card-nsw" }
+    - { key: "qld", label: "QLD", href: "/white-card-qld" }
+    - { key: "act", label: "ACT", soon: true }
+  rows:
+    - { label: "Course fee", values: ["$99", "$59", "$129", "$109", "–"] }
+    - { label: "Delivery", values: ["Online, self-paced", "Online, self-paced", "Live online with a trainer", "Live online with a trainer", "–"] }
+    - { label: "Government card fee", values: ["None", "$13.72", "None", "None", "–"] }
+    - { label: "Training provider", values: ["Blue Dog Training", "Blue Dog Training", "Upskill Institute", "Blue Dog Training", "–"] }
+faqs:
+  - q: "Which state's White Card course do I need?"
+    a: "The one for the state where you'll be working, not where you live. If you live in Victoria and are working on a site in Tasmania, you need the Tasmanian course."
+    open: true
+  - q: "How do I actually get my card once I finish the course?"
+    a: "Passing the course is the RTO's part, and that's the same everywhere. What happens next differs slightly by state: Western Australia, New South Wales and Queensland issue your card directly once you pass. Tasmania is the exception - you also lodge with Service Tasmania and pay the $13.72 card fee separately. Check your state's own page for the exact steps."
+  - q: "Can I do the course online and self-paced?"
+    a: "Only in Western Australia and Tasmania. New South Wales and Queensland both require a live session with a trainer, so budget for a booked time rather than working through it whenever suits you."
+  - q: "Is my White Card valid in other states once I have it?"
+    a: "Yes. The card is nationally recognised the moment it's issued and accepted on construction sites across Australia, regardless of which state's course you completed."
+  - q: "Do you offer a White Card course in the ACT, Victoria, South Australia or the Northern Territory?"
+    a: "Not yet. An ACT course is coming soon. We don't currently offer a course for Victoria, South Australia or the Northern Territory, so use a provider licensed in your state for those."
+  - q: "Is ABE Education a registered training organisation?"
+    a: "No. Each course is delivered and assessed by a registered training organisation: Blue Dog Training (RTO 31193) in Queensland, Western Australia and Tasmania, and Upskill Institute (RTO 45708) in New South Wales. ABE Education publishes the course and enrols you; the RTO delivers it and issues your nationally recognised Statement of Attainment."
+  - q: "What does the government card fee pay for?"
+    a: "It's a separate charge from whichever state or territory authority issues the physical card, on top of the course fee you pay ABE Education. Tasmania charges $13.72. Western Australia, New South Wales and Queensland charge no separate fee at all, since the training provider issues the card directly."
+ctaBand:
+  headingHtml: 'Ready to get your White Card<span class="dot">?</span>'
+  sub: "Pick your state below and enrol online. Your training provider issues a nationally recognised Statement of Attainment the moment you pass."
+  cta: { href: "#spokes", label: "Choose your state" }
+footerSources:
+  - { label: "WorkSafe WA — Construction induction training", href: "https://www.worksafe.wa.gov.au/construction-induction-training", verified: "Verified 28 Jul 2026" }
+  - { label: "Service Tasmania — Apply for a white card", href: "https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card", verified: "Verified 22 Jul 2026 · fee 1 Jul 2026" }
+  - { label: "SafeWork NSW — White cards", href: "https://www.safework.nsw.gov.au/licences-and-registrations/white-cards", verified: "Verified 1 Aug 2026" }
+  - { label: "Conditions of agreement for RTOs to issue GCIT cards in Queensland, V6.1", href: "https://trainingombudsman.qld.gov.au/wp-content/uploads/2024/05/Attachment-4-GCIT-Conditions-V6.1.pdf", verified: "Verified 2 Aug 2026" }
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. Each course is delivered and assessed by a registered training organisation: Blue Dog Training (RTO 31193) in Queensland, Western Australia and Tasmania, and Upskill Institute (RTO 45708) in New South Wales. A White Card course for the Australian Capital Territory is not yet available. Government card fees are set by each state's issuing authority and are separate from the course fee where they apply.</p>"
+publishedAt: "2026-08-04"
+lastReviewedAt: "2026-08-04"
+---

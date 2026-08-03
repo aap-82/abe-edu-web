@@ -23,11 +23,26 @@ Last updated: 3 August 2026.
 ## Current state (4 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
-closed. **Wave 3 is nearly done: four of five White Card state spokes are built and indexable**
-(WA, NSW, TAS, and — new today — **QLD**). Only ACT (W3-5) and the hub (W3-6) remain, and a 3 Aug
-facts session closed the last two blockers on both. Phase 3 remains unbuilt, and a fifth trigger has
-now fired (see the table) — the same session-type crossing as the fourth, sighted a third time, from
-a `build` session this time.
+closed. **Wave 3 is nearly done: the `/white-card` hub (W3-6) shipped 4 Aug 2026** with four of
+five spokes live (WA, NSW, TAS, QLD) and ACT as its only "Coming soon" column. **Only ACT (W3-5)
+itself remains** to complete the vertical. Phase 3 remains unbuilt, and a fifth trigger has fired
+(see the table) — the same session-type crossing as the fourth, sighted a third time, from a
+`build` session.
+
+- **Added 4 Aug 2026: the `/white-card` hub (W3-6), then rebuilt from scratch the same day** through
+  the full formal `abe-course-page-astro` pipeline (Andrey's instruction, after an ad-hoc first pass
+  had already shipped) — `pipeline/white-card/01` through `07`, Stage 7 and Stage 9 both graded by
+  independent fresh subagents. 23/23 guardrails. Stage 2's connector/SERP research reframed the
+  intro around delivery mode (the genuine hub-level differentiator no competitor states) and added a
+  7th FAQ answering a process-intent gap the research found unanswered. **One real, previously-
+  undetected defect, not fixable from a build session:** `HubLayout.astro` cannot tell
+  `SourcesFooter` this hub's spokes are ASQA-accredited (the `hubs` schema has no `asqa` field), so
+  the built page's sitewide compliance line wrongly states the state-approved-direct disclosure —
+  filed `[skills]`+`[design]`. Also carried forward: `HubLayout.astro`'s `.capsule` at ~91 CPL, now
+  at least a fifth recorded sighting (`[design]`), and `check-links.mjs`'s stale `/white-card`
+  `PLANNED` entry (`[skills]`). Graded **Amber**. See
+  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-hub-rebuild.md` — the two earlier
+  reviews of the ad-hoc build are marked superseded, not deleted.
 
 - **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, the `/owner-builder-courses` hub
   (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
@@ -124,11 +139,12 @@ that the red is informative rather than a defect in the check.
   authority model against `kb/register/`, the same job `check-claims` does for dollar figures.
   Two mechanisms: a hand-curated `POSITIONS` table (delivery-mode banned phrasings, each citing the
   register assertion it contradicts) and a re-application of `guardrails.ts`'s
-  `FORBIDDEN_BY_AUTHORITY` list to `SiteHeader.astro`'s own nav data — the one place that check
-  structurally cannot reach, since it excises the whole `<header>` from every page it audits. Wired
-  into `system-health.mjs` as a fifth check, named in `SYSTEM.md` §5. DoD met on the first run: it
-  FAILs on 12 locations across 5 files, 4 of which no prior session had named — including
-  `SiteHeader.astro`'s own TAS nav card. See `skill-reviews/skills/2026-08-04-check-positions.md`.
+  `FORBIDDEN_BY_AUTHORITY` list to the nav data — the one place that check structurally cannot
+  reach, since it excises the whole `<header>` from every page it audits. Wired into
+  `system-health.mjs` as a fifth check, named in `SYSTEM.md` §5. DoD met on the first run: it FAILs
+  on 12 locations across 5 files, 4 of which no prior session had named — including the header's own
+  TAS nav card (at the time, `SiteHeader.astro`'s own; see 4 Aug below for where it lives now). See
+  `skill-reviews/skills/2026-08-04-check-positions.md`.
 - **Item 9 — Stage-0 provenance gate.** Added to Recipe A step 1
   (`new site/abe-migration-implementation-plan.md`) and mirrored into the skill's own Stage 1
   (`content-pipeline.md`): before Stage 3, every ledger row must be regulator-sourced against the
@@ -143,6 +159,33 @@ that the red is informative rather than a defect in the check.
   `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md` for the two real defects
   the session caught in its own first pass at that fix (dropped `*.pdf`/`*.docx` rules, then a
   too-shallow `*.xlsx` pattern) before it shipped.
+
+**A second skills session the same day, 4 Aug 2026, closed the repo's oldest fired trigger plus six
+already-fixed demand items nobody had gone back to strike.** Commit `73b01d4` (merged `63a78a1`):
+- **`demand-split.mjs`'s header-units mismatch, fixed.** `openCount` was deduplicated by near-miss
+  key, `closedCount` was a raw sum of struck lines — third-plus sighting (filed 30 Jul, 1 Aug,
+  2 Aug). A new `bucketItem()` helper applies the same dedup to both. Measured: `design` 39→38
+  closed, `facts` 13→12, each exactly one genuine duplicate-closure pair. See
+  `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.
+- **Six already-shipped fixes, closed in their source reviews for the first time**: the
+  `guardrails.ts`/`src/layouts/**` ownership gaps (fixed by item 10 above, never struck),
+  `check-positions`'s SiteHeader scope (built by item 5, never struck), and the Stage-0 gate /
+  `.gitignore` items (built by item 9/10, never struck). Found by re-reading
+  `reports/handover-skills.md` against current code rather than assuming the backlog was current.
+- **`SiteHeader.astro`'s nav data split into `src/data/nav.ts` — the oldest fired trigger in the
+  repo, filed four times since 28 Jul** ("a build session must edit design-owned `SiteHeader.astro`
+  to ship any page"). `navGroups`, `utility` and `studentPortal` (plus their five type interfaces)
+  moved into a new build-owned data file; the component keeps only render logic. Verified
+  byte-identical `dist/index.html` before and after via `git stash`. `check-positions.mjs`'s
+  SiteHeader mechanism repointed at the new file in the same change, or it would have silently
+  stopped finding anything. **A disclosed session-type crossing**: this session was declared
+  `skills`, whose table forbids `src/components/**` outright; done on Andrey's explicit instruction
+  after the crossing was named and the alternative (leave it unbuilt) was offered. Graded **Amber**
+  for the crossing, not the fix. See `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
+  `src/data/**` assigned to build in the same pass — a gap named twice before, made load-bearing by
+  this split needing a file in it.
+
+Skills backlog across both sessions: **111 → 99 open** (`reports/handover-skills.md`).
 
 ### Where this stood on 22 July (kept — the phase-1 close-out)
 

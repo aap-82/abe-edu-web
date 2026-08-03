@@ -1,6 +1,6 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 9 of 14 addressed, all fully closed, 5 still open
+## Status: IN PROGRESS — 10 of 14 addressed, all fully closed, 4 still open (8, 12, 13, 14)
 
 Closed 9 (item 1, in full — the claim it named turned out to be three separate defects across three
 pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`; item 7, the
@@ -44,6 +44,19 @@ Additional work landed this session that is **not** on this list at all — thre
 image-wiring commits and the full image-generation brief for the site's remaining FPO placeholders.
 See `handover/HANDOVER-image-prompts-2026-08-02.md` and the session's own skill-reviews for that
 track; it does not close anything below.
+
+**A second, later skills session on 4 Aug 2026 (after items 5, 9 and 10 above) closed the repo's
+oldest fired trigger and six other already-fixed demand items, none of it on this list either.**
+`demand-split.mjs`'s header-units mismatch (filed three times, closed for good this time); the
+`guardrails.ts`/`src/layouts/**` ownership gaps; `check-positions`'s SiteHeader scope and the
+Stage-0 gate/`.gitignore` items that were built but never struck in their source reviews; and the
+main event — `SiteHeader.astro`'s nav data split into `src/data/nav.ts`, filed four separate times
+since 28 Jul as "a build session must edit design-owned `SiteHeader.astro` to ship any page."
+Verified byte-identical rendered output before/after. A disclosed session-type crossing
+(`src/components/**` and `src/data/**`, both outside a skills session's table), done on explicit
+instruction after being named. See `skill-reviews/skills/2026-08-04-demand-split-header-units.md`
+and `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`; skills backlog went 111 → 99 open
+across the two sessions.
 
 This is a hand-written note (a source, not a derived view). It is **not** a substitute for
 `reports/handover-{skills,design,facts,build}.md`, which `demand-split` regenerates from the demand
@@ -111,25 +124,37 @@ and only then had the fact reverse underneath it.
   Closed `014287a`. See `skill-reviews/facts/2026-08-03-wa-git-delivery.md`. Unblocks item 15, moved up
   below.
 
-- [ ] **15. `[build]` Build the `/white-card` hub with QLD and ACT as "Coming soon"** — UNBLOCKED 3 Aug 2026
-  Moved up from "Blocked — deliberately": items 2 and 4, its only blockers, are both closed. **Was
-  deliberately not blocked on the QLD or ACT spokes.** ROADMAP says the hub is Zod-gated on all five;
-  half true. `spokes` is `z.array(...)` with **no minimum length**, and `comparison.columns[]` already
-  carries a `soon: z.boolean()` flag that `ComparisonTable.astro:35` renders as a non-linked "Coming
-  soon" cell. The hub was designed for partial coverage.
-  It is worth more than the spokes gating it. From the per-page GSC export
-  (`business data/GSC/…2026-08-01.zip`, `Filters.csv` → `Page: +white-card`):
-  `/white-card-wa-online` 141 clicks / 41,586 impr / pos 9.01 · **`/white-card` 41 / 11,227 / 19.74**
-  · `/tas-online-white-card` 35 / 7,873 / 11.95. **Now four of five spokes are live** (item 7 shipped
-  `/white-card-qld` since this row was written) — only ACT (item 8) carries zero inherited equity, since
-  it never had a legacy URL. The hub is a `rebuild` row in `redirects.csv` and already ranks for the
-  queries the remaining spoke would target ("white card act" 1,152 impr at 14.61).
+- [x] ~~**15. `[build]` Build the `/white-card` hub with QLD and ACT as "Coming soon"**~~ Closed
+  4 Aug 2026, not yet committed. **Rebuilt from scratch the same day**, through the full formal
+  `abe-course-page-astro` pipeline (Andrey's explicit instruction, after the first pass below had
+  already shipped ad-hoc) — artefacts `pipeline/white-card/01` through `07`, Stage 7 verified and
+  Stage 9 graded by independent fresh subagents rather than self-graded. Built with **WA, TAS, NSW
+  and QLD live**, four spokes as `reference('courses')`, ACT as a `soon: true` comparison column
+  only, same treatment `/owner-builder-courses` gives NSW. `src/data/nav.ts`'s White Card Hub entry
+  wired to `/white-card`; all four spoke pages' breadcrumbs restored to the 3-level form. Build
+  23/23 guardrails. Stage 2's connector/SERP research changed Stage 3/4: reframed the intro around
+  delivery mode as the genuine differentiator (no competitor surfaces it) and added a 7th FAQ
+  answering the "how do I actually get my card" process intent Stage 2 found unanswered. See
+  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-hub-rebuild.md` (Amber, independently
+  graded) — the two earlier reviews of the ad-hoc build are marked superseded, not deleted.
+  **One real, previously-undetected defect surfaced, not fixable from a build session:** the `hubs`
+  schema has no `asqa` field, so `HubLayout.astro` can never tell `SourcesFooter` this hub's spokes
+  are ASQA-accredited — the built page's sitewide compliance line wrongly states the
+  state-approved-direct disclosure, contradicting the same page's own FAQ and disclaimers. Filed
+  `[skills]`+`[design]` in the rebuild review's demand list. Also carried forward: `check-links.mjs`'s
+  stale `/white-card` `PLANNED` entry (`[skills]`) and `HubLayout.astro`'s `.capsule` at ~91 CPL,
+  now at least a fifth recorded sighting (`[design]`).
 
-- [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — UNBLOCKED 3 Aug 2026
+- [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — UNBLOCKED 3 Aug 2026, sequencing note now
+  satisfied
   Moved up from "Blocked — deliberately": item 3, its only blocker, is closed. Zero legacy equity. The
   hub currently absorbs the "white card act" query, so this page's job is to take that over rather than
-  protect an existing asset. **Sequence it after the hub (item 15), not before** — that ordering note
-  is unchanged.
+  protect an existing asset. **Was to sequence after the hub (item 15) — item 15 closed 4 Aug 2026,**
+  so nothing more blocks starting this one. Once this page ships, the hub's `spokes` array needs
+  this course added as a `reference('courses')` entry, its `comparison.columns[]` ACT cell switched
+  from `soon: true` to real data, and `src/data/nav.ts`'s White Card ACT entry updated from
+  `soon: true, desc: 'In development'` to a real `href` — the hub was built with ACT as "Coming
+  soon" throughout, and this page's own build is what un-soons it everywhere.
 
 - [ ] **12. `[build]` Build W2-6 insurance and W2-7 Project Advisory**
   No regulatory dependency, unblocked by everything else here, and `/owner-builder-courses` already

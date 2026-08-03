@@ -1,0 +1,18 @@
+---
+// Hub route stub. One per hub, deliberately, rather than a shared dynamic route - see
+// owner-builder-courses.astro's own comment for why (scoped-style leak risk if HubLayout and
+// CourseLayout shared a Rollup entry via [slug]).
+//
+// A hub MDX with no stub renders silently nowhere. The guardrails bijection assert (A2) is what
+// closes that hole - do not add a hub without it.
+import { getEntry, render } from 'astro:content';
+import HubLayout from '../layouts/HubLayout.astro';
+
+const HUB_ID = 'white-card';
+const entry = await getEntry('hubs', HUB_ID);
+if (!entry) throw new Error(`No entry '${HUB_ID}' in the hubs collection. Expected src/content/hubs/${HUB_ID}.mdx - check the file exists and that this id matches its filename.`);
+const { Content } = await render(entry);
+---
+<HubLayout hub={entry.data}>
+  <Content />
+</HubLayout>
