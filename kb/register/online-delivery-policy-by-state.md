@@ -2,15 +2,15 @@
 
 Which states permit the White Card (construction induction, **CPCWHS1001**) to be completed online, and in what mode. This is a **compliance-critical** reference: never advertise self-paced online White Card to residents of a state that does not permit it — that was the exact loophole regulators closed in 2019.
 
-**Verified:** 26 May 2026 against multiple 2026 RTO/industry guides. **NSW re-verified 1 August 2026** against the regulator's own primary documents, and the previous NSW position was wrong — see §2A. **QLD re-verified 2 August 2026** against WHSQ's conditions of agreement and the Queensland Training Ombudsman's review — the ✅ was right, its stated reason was wrong, see §2C. **Re-verify:** annually and whenever a state WHS regulator changes its delivery rules. Confirm the actual delivery mode with the RTO partner before wording any course page.
+**Verified:** 26 May 2026 against multiple 2026 RTO/industry guides. **NSW re-verified 1 August 2026** against the regulator's own primary documents, and the previous NSW position was wrong — see §2A. **QLD re-verified 2 August 2026** against WHSQ's conditions of agreement and the Queensland Training Ombudsman's review — the ✅ was right, its stated reason was wrong, see §2C. **TAS re-verified 3 August 2026** against WorkSafe Tasmania's own guidance and the WHS Regulations 2022 (Tas) — no delivery-mode restriction exists in either, which also means the "Tasmanian residents only" framing on ABE's page is unsourced, see §2D. **ACT re-verified 3 August 2026** against WorkSafe ACT, Access Canberra and the WHS Regulation 2011 (ACT) — same finding as TAS: no delivery-mode restriction in the Regulation, but AlertForce's face-to-face delivery is its own choice, not a regulatory requirement, see §2E. **WA's delivery-mode column re-verified 3 August 2026** against the WHS General Regulations 2022 (WA) and WorkSafe WA/LGIRS — same silent-regulation pattern as TAS/ACT, but backed by an older WorkSafe WA notice that affirmatively permits online delivery, gated by RTO WA-scope, see §2B. **Re-verify:** annually and whenever a state WHS regulator changes its delivery rules. Confirm the actual delivery mode with the RTO partner before wording any course page.
 
-> ⚠️ **Provenance warning, updated 2 Aug 2026.** **NSW (§2A) and QLD (§2C) now rest on regulator documents.** Every other row in §2 — **WA, TAS, ACT, VIC, SA, NT** — still rests on the industry-guide sourcing described in §4, not on a regulator document. Industry guides are not a regulator. Of the two rows since checked against primary sources, one was **wrong in the permissive direction** (NSW) and one was **right for the wrong reason** (QLD). Treat the unchecked rows as UNVERIFIED for publishing purposes and read the regulator before any page repeats them. **TAS and ACT are the next two**, because both back live or planned pages.
+> ⚠️ **Provenance warning, updated 3 Aug 2026.** **Every ABE White Card delivery-mode row is now regulator-sourced: NSW (§2A), WA (§2B), QLD (§2C), TAS (§2D) and ACT (§2E).** Only VIC, SA and NT still rest on the 2026 industry guides described in §4, and none of the three backs a live or planned ABE page. Industry guides are not a regulator. Of the five rows checked against primary sources, one was **wrong in the permissive direction** (NSW), one was **right for the wrong reason** (QLD), two had **no rule at all where the guides implied one** (TAS, ACT), and one was **right and better-evidenced than expected, though the evidence is dated** (WA). Read the regulator before any page repeats an unchecked VIC/SA/NT row.
 
 ---
 
 ## 1. The core rule (post-2019)
 
-**Self-paced, fully online** White Card is permitted **only for WA residents and TAS residents** (since 2019). Residents of every other state/territory must complete the training **face-to-face**. The card is **nationally recognised** once issued, regardless of where or how it was completed — but the *delivery* rules are set by the resident's state.
+**Self-paced, fully online** White Card is understood to be permitted only for candidates dealing with **WA and TAS** (since 2019). Residents of every other state/territory must complete the training **face-to-face**. The card is **nationally recognised** once issued, regardless of where or how it was completed — but the *delivery* rules are set by the resident's state. **The "WA/TAS only" shape of this rule is confirmed for WA** (§2B: a location test, evidenced at assessment, plus an older but real WorkSafe WA notice affirmatively permitting online delivery gated by RTO WA-scope) **but not for TAS** (§2D: no delivery-mode rule was found in WorkSafe Tasmania's guidance or the WHS Regulations 2022 (Tas) at all — self-paced online is not prohibited there, but nothing regulator-sourced says it is limited to TAS candidates either). Treat "TAS residents/location" as an operational assumption pending the Blue Dog RTO-scope check noted in §2D, not as a verified regulator rule.
 
 **"Face-to-face" does not automatically include the virtual classroom.** Some regulators accept trainer-led real-time video delivery as satisfying the face-to-face requirement and some do not, and this is settled per jurisdiction by that regulator's own conditions, never by inference from the phrase. **SafeWork NSW's published conditions do not provide for it** (§2A) — and ABE's NSW course is nonetheless delivered that way by its RTO under a recorded exemption (**§2A-1**, closed 2 Aug 2026). Do not carry an acceptance from one state to another.
 
@@ -24,9 +24,9 @@ A supporting reason self-paced delivery is restricted: since December 2016 the a
 |---|---|---|---|---|
 | **NSW** | ❌ | ⚖️ **delivered by the RTO under a recorded exemption** — see §2A-1 | ✅ | Regulator position: SafeWork NSW GIT conditions cl. 1(q), face-to-face only; "Distance education and on-line learning are not permitted in NSW for the delivery of GIT". Minimum **six hours** (cl. 14), excluding breaks. Operating position: Upskill Institute delivers trainer-led virtual classroom. **Settled 2 Aug 2026 — do not reopen.** |
 | **QLD** | ❌ (banned 2019) | ✅ **CRTD, but only from an RTO separately approved for it** — see §2C | ✅ | WHSQ; issued as the GCIT card. CRTD **is** face-to-face on WHSQ's own definition. Student must be **physically located in Queensland** (cond. 37), min **4.5 hrs** (cond. 40), max **15:1** (cond. 39). **Blue Dog (RTO 31193) holds CRTD approval.** Verified 2 Aug 2026. |
-| **WA** | ✅ (see the location test, not a residency test) | ✅ | ✅ | Card issued only to candidates who evidence they are **located in WA at the time of the assessment**. Corrected 1 Aug 2026 — see §2B. |
-| **TAS** | ✅ TAS residents only | ✅ | ✅ | Student applies to WorkSafe Tasmania for the card within 60 days of the Statement of Attainment. |
-| **ACT** | ❌ | ❌ | ✅ | ABE's ACT White Card is delivered face-to-face in a classroom by AlertForce (RTO 91826). |
+| **WA** | ✅ (see the location test, not a residency test) | ✅ | ✅ | Card issued only to candidates who evidence they are **located in WA at the time of the assessment**. Eligibility corrected 1 Aug 2026; delivery mode re-verified 3 Aug 2026 — see §2B. |
+| **TAS** | ✅ no restriction found — but see the residency caveat, §2D | ✅ | ✅ | Regulator and Regulation both silent on delivery mode. WorkSafe Tasmania: training must be "completed in Tasmania" (location, not residency) and "delivered by a Registered Training Organisation". Reg 5, WHS Regulations 2022 (Tas): GCIT means training "delivered in Australia by an RTO" — a national test, not a Tasmania-specific one. No conditions-of-agreement document restricts mode, unlike NSW/QLD. Student applies to WorkSafe Tasmania for the card within 60 days of the Statement of Attainment. |
+| **ACT** | not regulator-restricted, but AlertForce does not offer it — see §2E | not regulator-restricted, but AlertForce does not offer it — see §2E | ✅ | ABE's ACT White Card is delivered face-to-face in a classroom by AlertForce (RTO 91826) — AlertForce's own delivery choice. The WHS Regulation 2011 (ACT) and WorkSafe ACT/Access Canberra guidance impose no delivery-mode restriction at all (same finding as TAS). |
 | VIC | ❌ | ❌ | ✅ only | Strictly in person; WorkSafe VIC-approved RTOs. |
 | SA / NT | ❌ | ⚠️ (some live options) | ✅ | In person via local RTO. |
 
@@ -118,7 +118,7 @@ The 1 Aug 2026 build run cited two facts in support of the virtual-classroom pos
 
 ---
 
-## 2B. WA — located in WA, not resident in WA (read at source 1 August 2026)
+## 2B. WA — located in WA, not resident in WA; delivery mode re-verified 3 August 2026
 
 The register said "WA residents" until 1 Aug 2026. **That is not the regulator's test, and the difference decides who can buy the course.**
 
@@ -133,6 +133,39 @@ The page attributes this to "Item 3(a) page 5 of the Terms and Conditions 2022".
 **Why the wording matters.** The last item alone shows this is a presence-and-nexus test, not a residency test. Someone working in WA on a fly-in-fly-out or temporary basis, with a WA postal address, satisfies it; the word "resident" would wrongly turn them away, and it would equally wrongly imply that a WA resident sitting the assessment interstate qualifies. Use the regulator's wording on pages: **located in WA at the time of assessment**.
 
 **Unit code note.** This page names the unit **CPCWHS1001** (single C), matching the house rule in CLAUDE.md. WorkSafe WA's own [Construction induction training](https://www.worksafe.wa.gov.au/construction-induction-training) page, in its replacement-card section, says "CPCCWHS1001" (double C) — an inconsistency **on the regulator's site**, not in this repo. The repo's position is unchanged and correct; recorded here only so the next run that spots it does not treat it as a defect to fix.
+
+### Delivery mode, read at source 3 August 2026 — the last unchecked column in the row
+
+Everything above is WA's **eligibility** test. The **delivery-mode** ✅s for WA (self-paced and virtual
+classroom, §2) rested on 2026 industry guides until today.
+
+**The current position is the same shape as TAS and ACT: the current regulator page and the current
+Regulation are both silent on delivery mode.** WorkSafe WA/LGIRS's live
+[Construction induction training](https://www.worksafe.wa.gov.au/construction-induction-training) page
+(read 3 Aug 2026) describes who must be trained and how cards are recognised interstate; it says nothing
+about online, self-paced, face-to-face or virtual delivery. The **Work Health and Safety (General)
+Regulations 2022 (WA)**, read via the full consolidated PDF from `legislation.wa.gov.au`, defines general
+construction induction training identically to TAS and ACT: "training delivered in Australia by an RTO
+for the specified VET course for general construction induction training" — and a full-text search of
+the ~31,000-line extracted document for every delivery-mode term used elsewhere in this register
+returned exactly **one** hit, the definition itself. No other WA regulation discusses delivery mode.
+
+**Unlike TAS and ACT, WA does have one piece of affirmative — if dated — regulator backing.** A
+WorkSafe WA notice titled "Construction induction training – changes to regulations," still hosted at
+`worksafe.wa.gov.au/system/files/migrated/.../white_cards.pdf` under a `dmirs.wa.gov.au` letterhead,
+states under "Online training": **"Online will continue to be available through registered training
+organisations, scoped to deliver training in WA."** This is real regulator language permitting online
+delivery, gated by the RTO's own WA scope — the same gating shape as the location test above. But it is
+old: it discusses "the Occupational Safety and Health Regulations (1996)" as current, which predates
+WA's 2020/2022 WHS harmonisation by roughly a decade, and the department name (`dmirs.wa.gov.au`) is two
+rebrands behind the current LGIRS. **The current, live WorkSafe WA/LGIRS page does not repeat this
+assurance** — it is silent, not contradictory.
+
+**Conclusion.** WA's self-paced ✅ is better evidenced than TAS's or ACT's was before today — there is a
+real, if aging, regulator statement permitting it, gated by RTO WA-scope, and nothing current
+contradicts it. It is not as solid as QLD's CRTD permission or as clean as a fresh confirmation would
+be. Treat it as **supported, not freshly confirmed** — worth a direct WorkSafe WA/LGIRS enquiry if the
+old PDF is ever challenged, but not a page-copy problem today the way TAS's residency wording was.
 
 ---
 
@@ -255,12 +288,134 @@ opposite and was the industry-guide claim, not the regulator's.
 
 ---
 
+## 2D. TAS — no delivery-mode restriction in the Regulations; the residency gate is unsourced (read at source 3 August 2026)
+
+The register carried "TAS residents only" for self-paced online GCIT, sourced to 2026 industry guides
+(§4). **Read at source 3 Aug 2026: WorkSafe Tasmania's own guidance is silent on delivery mode, and the
+primary Regulation imposes none either — a materially different finding from NSW (prohibited) and QLD
+(permitted with conditions).**
+
+### The regulator's public guidance
+
+WorkSafe Tasmania,
+[White cards (construction induction)](https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction),
+last updated 15 April 2025, read in a browser 3 Aug 2026, states in full on delivery:
+
+> "This training must be delivered by a Registered Training Organisation and must be completed in
+> Tasmania."
+
+That is the entire delivery-mode content of the page. It never uses the words "online," "self-paced,"
+"face-to-face," "virtual" or "classroom." It does not say residents only — it says the training must be
+**completed in Tasmania**, a location condition on the training, not a residency test on the candidate
+(the same distinction the WA correction turned on in §2B: "located in," not "resident").
+
+### The primary Regulation
+
+**Work Health and Safety Regulations 2022 (Tas)**, reg 5 (Interpretation), read via the Tasmanian
+Legislation Online consolidated text 3 Aug 2026 (version current from 1 July 2025):
+
+> "general construction induction training **means training delivered in Australia by an RTO for the
+> specified VET course for general construction induction training**;"
+
+Part 6.5 (regs 316-327) was read in full. Division 1 (316-318) imposes the PCBU's duty to provide and
+ensure GCIT and to recognise interstate cards; Division 2 (319-325) covers the card itself — issue,
+content, replacement, refusal, cancellation, and reg 325, which lets the regulator delegate
+card-**issuing** functions to an RTO. **None of the nine regulations in Part 6.5, and no other
+regulation in the instrument, imposes, permits or even discusses a delivery-mode condition** (online,
+self-paced, virtual, face-to-face) on general construction induction training. The only location test
+in the definition itself is national — "delivered in Australia" — not Tasmania-specific.
+
+### The conclusion, and what it is not
+
+**Tasmania's WHS Regulations do not restrict how GCIT is delivered.** Unlike NSW (§2A, delivery mode
+restricted by Specific Conditions the regulator publishes) and QLD (§2C, CRTD permitted by conditions
+the regulator publishes), **Tasmania publishes no equivalent conditions-of-agreement document
+restricting or authorising a delivery mode**, and reg 325 — the one regulation letting the regulator
+strike an agreement with an RTO — only concerns delegating card-issuing authority, not training
+delivery. Self-paced online GCIT is not prohibited by anything found, and it is not affirmatively
+authorised by anything found either: it is simply outside what the Tasmanian WHS Regulations govern.
+
+**This does not confirm ABE's current "Tasmanian residents only" claim.** That framing is not supported
+by either source read this session:
+
+- The regulator's own page requires the training be **completed in Tasmania**, not that the candidate
+  be a **resident of** Tasmania — the same wording error the WA row carried until 1 Aug 2026 (§2B).
+- The Regulation's own definition requires training **delivered in Australia**, a national test, not a
+  Tasmania-specific one.
+
+Neither source says who may enrol in a self-paced online course and complete it while physically
+outside Tasmania. **The actual gate on ABE's page is most likely Blue Dog Training's own scope of
+registration or delivery-location conditions with ASQA** — a fact this session did not check, because
+it sits outside a WHS regulator and outside this register's remit (this file's sources are the state WHS
+regulators, per §4). Confirming Blue Dog's RTO scope/conditions for CPCWHS1001 delivery locations is a
+distinct, separate verification, needed before any page states a residency or location test for TAS.
+
+### What this changes on `/white-card-tas`, stated plainly for the review
+
+The page currently states the online option is "open to Tasmanian residents only" and asks candidates
+to "evidence your residency at assessment." Both **residency** framings are unsourced to WorkSafe
+Tasmania — the regulator's own words are "completed in Tasmania," a location condition, and even that is
+the regulator's general training-location rule, not a delivery-mode-specific test. This session does not
+rewrite the page (facts sessions do not touch `src/content/**`); it is recorded here and flagged as a
+demand item below.
+
+---
+
+## 2E. ACT — same shape as TAS: no delivery-mode restriction, AlertForce's choice is its own (read at source 3 August 2026)
+
+The register attributed ACT's face-to-face delivery to AlertForce, not to the regulator, and that
+attribution was already correct — this section confirms it at the regulator rather than leaving it
+resting on the partner confirmation from 26 May 2026.
+
+**WorkSafe ACT**,
+[White cards (Construction induction)](https://www.worksafe.act.gov.au/licensing-and-registration/white-cards-construction-induction),
+read in a browser 3 Aug 2026: quotes WHS Regulation 2011 (ACT) s317 (the duty to ensure a worker is
+trained) and s318 (interstate recognition) in full. **Nothing on the page mentions delivery mode** —
+no online, self-paced, face-to-face or virtual language anywhere.
+
+**Access Canberra**,
+[General Construction Induction Card](https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card),
+read the same day: describes the training as "a competency unit known as 'Prepare to work safely in the
+construction industry'... a 6-hour training program," delivered "through a registered training
+organisation." Also silent on delivery mode. (Its fee figures — $47.00 application, $44.00 replacement,
+current 1 Jul 2026 – 30 Jun 2027 — match `state-fees-register.md` exactly; no correction needed there.)
+
+**Work Health and Safety Regulation 2011 (ACT)**, the full consolidated PDF (current, R47, effective
+29 Nov 2025) from `legislation.act.gov.au`, read 3 Aug 2026: reg 5's definition is word-for-word
+identical to Tasmania's — "general construction induction training means training delivered in
+Australia by an RTO for the specified VET course for general construction induction training." A search
+of the entire ~38,000-line extracted text for "self-paced," "distance education," "on-line learning,"
+"face-to-face," "connected delivery" and "virtual classroom" returned **zero matches** anywhere in the
+instrument, not just in the GCIT division.
+
+**Conclusion: identical finding to TAS (§2D).** The ACT's WHS Regulation does not restrict GCIT delivery
+mode at all — no NSW-style prohibition, no QLD-style conditional permission. AlertForce's face-to-face
+classroom delivery is AlertForce's own business practice. **Unlike the TAS page, no correction is needed
+on ABE's side**: the existing register and legislation-reference wording already attributes the mode to
+AlertForce, never to the regulator, and no ACT White Card page is built yet to carry a wrong claim.
+`kb/register/legislation-references-act.md` §2 is updated to state this precisely and to drop the old
+"self-paced online delivery is restricted to WA and TAS residents" parenthetical, which repeated the
+now-corrected TAS framing.
+
+**What this does not settle.** Whether AlertForce *could* deliver ACT White Card online if it chose to
+is not answered by this reading — nothing found prohibits it, but ABE has no reason to ask, since
+AlertForce is the delivering RTO and classroom delivery is its existing, working arrangement. This is
+recorded for completeness, not as an open action.
+
+---
+
 ## 3. What this means for ABE pages (apply this)
 
 ABE offers White Card in **QLD, WA, TAS** (RTO partner Blue Dog Training, RTO 31193), **ACT** (AlertForce, RTO 91826) and **NSW** (Upskill Institute, RTO 45708).
 
-- **WA and TAS pages** may advertise genuine **self-paced online** completion, subject to the state test. **WA: screen for the candidate being located in WA at the time of assessment** (§2B) and use that wording, not "WA residents". TAS likewise screens by state.
-- **QLD, ACT and NSW pages must NOT advertise self-paced online White Card** to residents of those states. For ACT, AlertForce delivers face-to-face in a classroom (in person).
+- **WA and TAS pages** may advertise genuine **self-paced online** completion; neither state's regulator
+  prohibits it. **WA: screen for the candidate being located in WA at the time of assessment** (§2B) and
+  use that wording, not "WA residents". **TAS: no regulator-sourced screening test exists** (§2D) —
+  WorkSafe Tasmania's own wording is that training must be "completed in Tasmania," not that the
+  candidate be a TAS resident, and even that is not delivery-mode-specific. Do not state a residency
+  test for TAS; if a location claim is needed, use the regulator's own "completed in Tasmania" wording
+  and confirm the actual enrolment gate against Blue Dog's RTO scope, not against this register.
+- **QLD and NSW pages must NOT advertise self-paced online White Card** to residents of those states (QLD: banned since 2019; NSW: prohibited by SafeWork NSW's conditions, §2A). **ACT: AlertForce delivers face-to-face in a classroom** (§2E) — not because the regulator requires it (it doesn't restrict delivery mode at all), but because that is AlertForce's own arrangement. State it as AlertForce's practice, never as a WorkSafe ACT requirement.
 - **QLD: a fully online page is publishable, and this is the one row where the regulator helps rather than constrains.** WHSQ defines CRTD **as** face-to-face (§2C), and Blue Dog Training (RTO 31193) holds CRTD approval, so a QLD page may say the course is completed online with a live trainer. Four things it must carry: the student must be **physically located in Queensland** (not "resident"), the session runs a **minimum of four and a half hours**, **nothing is self-paced or pre-recorded**, and the learner must have **PPE to hand for the assessment** — eye and hearing protection, hard hat, high-visibility clothing. Do **not** claim "approved by WHSQ" of ABE Education: the CRTD approval is **Blue Dog's**, and attributing it to ABE is the same error as the NSW attribution in §2A-1.
 - **NSW: settled, not a blocker.** ABE's NSW White Card is delivered by Upskill Institute (RTO 45708) as a trainer-led virtual classroom, recorded as an exemption on 2 Aug 2026 (**§2A-1**). The page states the mode as the **RTO's own**, carries **no verification link and no "Verified" badge on that claim**, and never says SafeWork NSW accepts live video as face-to-face. That is the entire rule; §2A-1 has the detail. Do not reopen it.
 - **Screen by state of residence** at enrolment/checkout so a resident of a face-to-face state is not sold a self-paced WA/TAS course as a workaround — closing this loophole was the whole point of the 2019 change.
@@ -281,10 +436,18 @@ ABE offers White Card in **QLD, WA, TAS** (RTO partner Blue Dog Training, RTO 31
 | QLD: that CRTD requires a **separate two-step WHSQ approval** (documentation, then a simulated session with an Inspector); that 10 of 215 RTOs held it at 30 Sep 2023 and **Blue Dog Training** was one; the superseded 2019 >100km rural exception | Queensland Training Ombudsman, [Review of General Construction Induction (White Card) training delivery in Queensland](https://trainingombudsman.qld.gov.au/wp-content/uploads/2024/05/Review-of-General-Construction-Induction-White-Card-training-delivery-in-Queensland-FINAL.pdf), FINAL, May 2024 | **2 Aug 2026** |
 | QLD: that **Blue Dog Training (RTO 31193) currently holds CRTD approval**, granted 7 Jun 2020, and that 13 of 226 RTOs hold it now | WHSQ, [List of RTOs approved to deliver GCIT in Queensland (XLSX)](https://www.worksafe.qld.gov.au/__data/assets/excel_doc/0025/21589/rto-approved-general-construction-induction-training.xlsx), file last saved 10 Jul 2025. **Derived from the hidden status columns, not the blank CRTD column — see the method note in §2C** | **2 Aug 2026** |
 | QLD: that the November 2022 conditions "allow GCIT to be delivered face-to-face via CRTD **where an RTO is approved to do so**", 24-hour notification, 15-cap, 4.5-hour minimum, mandated assessment | WHSQ, [New conditions for white cards in Queensland](https://www.worksafe.qld.gov.au/news-and-events/newsletters/esafe-newsletters/esafe-editions/esafe-construction/november-2022/new-conditions-for-white-cards-in-queensland), eSafe Construction, Nov 2022 (copy in `new site/reference/`) | **2 Aug 2026** |
+| TAS: "This training must be delivered by a Registered Training Organisation and must be completed in Tasmania" — the entire delivery-mode content of the regulator's consumer guidance; no online/self-paced/face-to-face wording anywhere on the page | WorkSafe Tasmania, [White cards (construction induction)](https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction), last updated 15 Apr 2025 | **3 Aug 2026** |
+| TAS: "general construction induction training means training delivered in Australia by an RTO for the specified VET course for general construction induction training" (reg 5); Part 6.5 (regs 316-327) imposes no delivery-mode condition anywhere | Work Health and Safety Regulations 2022 (Tas), consolidated text, version current from 1 Jul 2025, via Tasmanian Legislation Online (`legislation.tas.gov.au/view/html/inforce/current/sr-2022-109`) | **3 Aug 2026** |
+| ACT: WorkSafe ACT's consumer guidance (s317/s318 of the WHS Regulation quoted, nothing on delivery mode) | WorkSafe ACT, [White cards (Construction induction)](https://www.worksafe.act.gov.au/licensing-and-registration/white-cards-construction-induction) | **3 Aug 2026** |
+| ACT: the application/replacement process and current FY26-27 fees ($47.00 / $44.00, matching the register) | Access Canberra, [General Construction Induction Card](https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card) | **3 Aug 2026** |
+| ACT: "general construction induction training means training delivered in Australia by an RTO..." (reg 5) — identical wording to Tasmania's; zero matches anywhere in the instrument for any delivery-mode term | Work Health and Safety Regulation 2011 (ACT), R47, effective 29 Nov 2025, PDF via `legislation.act.gov.au/DownloadFile/sl/2011-36/current/PDF/2011-36.PDF` | **3 Aug 2026** |
+| AlertForce (RTO 91826): Asbestos Awareness (11084NAT, national) and Crystalline Silica Exposure Prevention (10830NAT, NSW/VIC/QLD/TAS/ACT only — not "Silica Awareness," and not national) | `training.gov.au/Organisation/Details/91826`, Courses tab; full detail in `kb/register/alertforce-scope.md` | **3 Aug 2026** |
+| WA: "general construction induction training means training delivered in Australia by an RTO..." (identical wording to TAS/ACT); zero delivery-mode terms anywhere else in the ~31,000-line instrument | Work Health and Safety (General) Regulations 2022 (WA), consolidated PDF via `legislation.wa.gov.au` | **3 Aug 2026** |
+| WA: "Online will continue to be available through registered training organisations, scoped to deliver training in WA" — dated (references the pre-2022 OSH Regulations 1996, `dmirs.wa.gov.au` letterhead), not repeated on the current live page, but real regulator language | WorkSafe WA (then DMIRS), "Construction induction training – changes to regulations," hosted at `worksafe.wa.gov.au/system/files/migrated/.../white_cards.pdf` | **3 Aug 2026** |
+| WA: the current live guidance page is silent on delivery mode (confirms nothing, contradicts nothing) | WorkSafe WA/LGIRS, [Construction induction training](https://www.worksafe.wa.gov.au/construction-induction-training) | **3 Aug 2026** |
 
-### Secondary sourcing (WA, TAS, ACT, VIC, SA, NT — everything except NSW and QLD)
+### Secondary sourcing (VIC, SA, NT — no ABE page depends on these)
 
-- 2026 RTO/industry guides (Tradie Training, FirstAidPro, National Courses) cross-checked for the self-paced vs virtual-classroom distinction. **These are not a regulator.** They remain the sole basis for the **WA, TAS, ACT, VIC, SA and NT** rows in §2. Weight them accordingly: they are a starting point for a search, not a source for a published claim.
-- **Both rows since checked against a regulator came back different from the guides, in opposite directions.** NSW was **wrong and permissive** — the guides claimed a mode the regulator prohibits (§2A). QLD was **right but for the wrong reason** — the ✅ held, but the guides attributed it to a remoteness exception that had been superseded four years earlier, and missed that it is gated on a per-RTO approval only 13 of 226 RTOs hold (§2C). A guide being right about the tick is not the same as being right about the rule, and only the rule is publishable.
-- Confirm against each WHS regulator — SafeWork NSW, Workplace Health and Safety Queensland, WorkSafe WA, WorkSafe Tasmania, WorkSafe ACT — and with the delivering RTO partner before changing any course-page delivery claim. ACT delivery confirmed 26 May 2026: AlertForce delivers face-to-face in a classroom.
-- **TAS and ACT are the next two to check.** TAS backs a **live indexable page** (`/white-card-tas`) whose self-paced claim rests entirely on guides, which makes it the higher risk of the two; ACT gates the unbuilt W3-5. Both should be read at WorkSafe Tasmania and WorkSafe ACT before either page states a delivery mode.
+- 2026 RTO/industry guides (Tradie Training, FirstAidPro, National Courses) cross-checked for the self-paced vs virtual-classroom distinction. **These are not a regulator.** They remain the sole basis for the **VIC, SA and NT** rows in §2. Weight them accordingly: they are a starting point for a search, not a source for a published claim. None of the three backs an ABE product, so none is a current priority.
+- **All five rows since checked against a regulator came back different from the guides, each in a different way.** NSW was **wrong and permissive** — the guides claimed a mode the regulator prohibits (§2A). QLD was **right but for the wrong reason** — the ✅ held, but the guides attributed it to a remoteness exception that had been superseded four years earlier, and missed that it is gated on a per-RTO approval only 13 of 226 RTOs hold (§2C). TAS and ACT each had **no rule where the guides implied one** — self-paced is not prohibited in either, but the "residents only" / regulator-mandated-classroom framings the guides implied have no source in either regulator's own wording (§2D, §2E). WA was **right, and better-evidenced than a guide could show** — the current regulation is silent like TAS/ACT, but an older regulator notice affirmatively permits online delivery, gated by RTO WA-scope (§2B). A guide being right about the tick is not the same as being right about the rule, and only the rule is publishable.
+- **Every ABE White Card delivery-mode claim is now regulator-sourced.** NSW (§2A), WA (§2B), QLD (§2C), TAS (§2D) and ACT (§2E) have all been read at a primary source. Nothing in §2 currently rests on an industry guide except VIC, SA and NT, none of which ABE sells into.

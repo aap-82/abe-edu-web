@@ -2,7 +2,7 @@
 
 Key ACT legislation for ABE's ACT owner builder and White Card content. Use for course-page legal references and compliance statements.
 
-**Verified:** 26 May 2026 against legislation.act.gov.au and Access Canberra. **Re-verify:** annually. **Confirm section numbers against the current consolidated Act before quoting.**
+**Verified:** 26 May 2026 against legislation.act.gov.au and Access Canberra. **§2's delivery-mode line re-verified 3 August 2026** — see the correction there. **Re-verify:** annually. **Confirm section numbers against the current consolidated Act before quoting.**
 
 ---
 
@@ -16,7 +16,7 @@ Key ACT legislation for ABE's ACT owner builder and White Card content. Use for 
 ## 2. WHS / White Card
 
 - ***Work Health and Safety Act 2011* (ACT)** + ***Work Health and Safety Regulation 2011* (ACT)**. Regulator: **WorkSafe ACT**.
-- **Construction induction ("White Card"):** the unit **CPCWHS1001** *Prepare to work safely in the construction industry*; the ACT refers to it as the **General Construction Induction Card**. ABE's ACT White Card is delivered by its RTO partner **AlertForce (RTO 91826)**, **face-to-face in a classroom** (self-paced online delivery is restricted to WA and TAS residents).
+- **Construction induction ("White Card"):** the unit **CPCWHS1001** *Prepare to work safely in the construction industry*; the ACT refers to it as the **General Construction Induction Card**. ABE's ACT White Card is delivered by its RTO partner **AlertForce (RTO 91826)**, **face-to-face in a classroom** — this is AlertForce's own delivery choice, not a regulatory requirement. **Corrected 3 Aug 2026:** the *Work Health and Safety Regulation 2011* (ACT) and WorkSafe ACT's / Access Canberra's own guidance impose **no delivery-mode restriction at all** — reg 5's definition is "training delivered in Australia by an RTO for the specified VET course", identical to Tasmania's wording (see `online-delivery-policy-by-state.md` §2D), and neither consumer page mentions online, self-paced, face-to-face or virtual delivery. The parenthetical previously here ("self-paced online delivery is restricted to WA and TAS residents") stated a national rule that is not sourced for TAS and has never been sourced for ACT; do not restate it. See `online-delivery-policy-by-state.md` §2 and §2D for the current, per-state position.
 
 ## 3. Sources & verification
 
