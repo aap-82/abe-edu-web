@@ -489,3 +489,44 @@ record it in `abe-baseline.md`/the design register rather than leaving it an unf
   line; consistent with the standing FAQ pattern used across sibling pages.
 - `Course.offers` represents only the $109 weekday tier in schema; the $169 Saturday tier has no separate
   `priceSpecification`. Common practice (lowest/base price in `Offer.price`), not a schema error.
+
+## Re-verification · 7 August 2026 — Stage 7 currency restored (breadcrumb-only change)
+
+**Why this exists.** `check-pipeline` §4 FAILed: this page's content was last committed 4 Aug 2026
+(`7ea0300`, "build /white-card hub (W3-6)"), which postdates every entry above, so this file no
+longer certified the current page. Found and reported in
+`handover/HANDOVER-white-card-stage7-drift-2026-08-07.md`, not by any check running at the time the
+drift was introduced. This page's gap was the smallest of the four spokes' (its prior verification
+was already the most recent, 3 Aug), but the invariant is the same regardless of gap size.
+
+**Scope: exactly one change, confirmed by diff before re-verifying**
+(`git show 7ea0300 -- src/content/courses/white-card-qld.mdx`). Unlike the other three spokes, this
+page **gained** the middle "White Card" breadcrumb entry rather than having one restored — it was
+built the day before the hub existed, so it briefly shipped a two-level crumb like the others did.
+Now that `/white-card` (W3-6) exists, it carries the same three-level crumb as every other spoke. No
+copy, price, regulatory claim, section or schema field beyond the `breadcrumb` array changed.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| `breadcrumb[]` length | **3** (was 2) — Home, White Card, White Card QLD |
+| Visible crumb nav (`nav.crumbs` in `dist/`) | `Home -> /`, `White Card -> /white-card` |
+| `/white-card` resolves in `dist/` | yes — `dist/white-card/index.html` exists, built 4 Aug, unaffected by anything since |
+| `BreadcrumbList` JSON-LD | 3 items: Home, `White Card -> https://www.abeeducation.edu.au/white-card`, White Card QLD |
+| Section/capsule conformance | unchanged — **10 sections** match the plan, **10 capsules** match `04-content.md` |
+| `guardrails` | 24 pages passed |
+| `check-pipeline` §4 (this slug) | clears once this file is committed with the page |
+
+**Not re-run: the three mandated skill-audits, the full authority-language/schema/ASQA sweep, and
+the citation gate.** None of their inputs changed — confirmed by `git show`, not assumed. A
+breadcrumb addition cannot introduce an RTO claim, a wrong price, or a missing disclosure, so
+re-running checks against provably unchanged inputs would measure nothing new. This is the light
+re-verify the change's actual severity earned, named as such rather than dressed up as a full pass.
+
+## Ship decision
+
+**Merge-ready.** The only change since the last full verification is confirmed cosmetic-structural
+(one breadcrumb array entry), the middle crumb now resolves instead of the page carrying a
+two-level crumb one day longer than its siblings, and every measured value above holds. This entry
+closes the verification's currency.

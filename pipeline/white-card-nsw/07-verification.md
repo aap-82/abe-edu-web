@@ -387,3 +387,42 @@ Skipping is allowed; skipping silently is not, which is why they are disposition
 **Still open on this page, unchanged by this session:** no purchase path (every CTA is the in-page
 `#enrol` anchor, since there is no NSW White Card product in LearnWorlds), and both image slots
 render FPO placeholders.
+
+## Re-verification · 7 August 2026 — Stage 7 currency restored (breadcrumb-only change)
+
+**Why this exists.** `check-pipeline` §4 FAILed: this page's content was last committed 4 Aug 2026
+(`7ea0300`, "build /white-card hub (W3-6)"), which postdates every entry above, so this file no
+longer certified the current page. Found and reported in
+`handover/HANDOVER-white-card-stage7-drift-2026-08-07.md`, not by any check running at the time the
+drift was introduced — the gap sat unnoticed for 3 days.
+
+**Scope: exactly one change, confirmed by diff before re-verifying**
+(`git show 7ea0300 -- src/content/courses/white-card-nsw.mdx`). The middle "White Card" breadcrumb
+entry was restored, now that `/white-card` (W3-6) exists — the same edit, for the same reason, on
+all four White Card spokes. No copy, price, regulatory claim, section or schema field beyond the
+`breadcrumb` array changed.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| `breadcrumb[]` length | **3** (was 2) — Home, White Card, White Card NSW |
+| Visible crumb nav (`nav.crumbs` in `dist/`) | `Home -> /`, `White Card -> /white-card` |
+| `/white-card` resolves in `dist/` | yes — `dist/white-card/index.html` exists, built 4 Aug, unaffected by anything since |
+| `BreadcrumbList` JSON-LD | 3 items: Home, `White Card -> https://www.abeeducation.edu.au/white-card`, White Card NSW |
+| Section/capsule conformance | unchanged — **9 sections** match the plan, **9 capsules** match `04-content.md` |
+| `guardrails` | 24 pages passed |
+| `check-pipeline` §4 (this slug) | clears once this file is committed with the page |
+
+**Not re-run: the three mandated skill-audits, the full authority-language/schema/ASQA sweep, and
+the citation gate.** None of their inputs changed — confirmed by `git show`, not assumed. A
+breadcrumb restoration cannot introduce an RTO claim, a wrong price, or a missing disclosure, so
+re-running checks against provably unchanged inputs would measure nothing new. This is the light
+re-verify the drift's actual severity earned, named as such rather than dressed up as a full pass.
+
+## Ship decision
+
+**Merge-ready.** The only change since the last full verification is confirmed cosmetic-structural
+(one breadcrumb array entry), the middle crumb now resolves instead of pointing at what was then an
+unbuilt hub, and every measured value above holds. This entry closes the verification's currency —
+3 days later than it should have, and recorded as such rather than backdated.
