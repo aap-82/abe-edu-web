@@ -1,6 +1,6 @@
 # HANDOVER — prioritised to-do list, 2 August 2026
 
-## Status: IN PROGRESS — 10 of 14 addressed, all fully closed, 4 still open (8, 12, 13, 14)
+## Status: IN PROGRESS — 11 of 14 addressed, all fully closed, 3 still open (12, 13, 14)
 
 Closed 9 (item 1, in full — the claim it named turned out to be three separate defects across three
 pages, not one; items 2, 3 and 4, the TAS/ACT/WA delivery-mode reads, commit `014287a`; item 7, the
@@ -125,7 +125,9 @@ and only then had the fact reverse underneath it.
   below.
 
 - [x] ~~**15. `[build]` Build the `/white-card` hub with QLD and ACT as "Coming soon"**~~ Closed
-  4 Aug 2026, not yet committed. **Rebuilt from scratch the same day**, through the full formal
+  4 Aug 2026, **committed `7ea0300`, pushed to `main` at `52b16b9`, Workers Builds deploy
+  succeeded (`ed7a1391-d913-41b2-ae76-3342b4362b89`) — live.** **Rebuilt from scratch the same
+  day**, through the full formal
   `abe-course-page-astro` pipeline (Andrey's explicit instruction, after the first pass below had
   already shipped ad-hoc) — artefacts `pipeline/white-card/01` through `07`, Stage 7 verified and
   Stage 9 graded by independent fresh subagents rather than self-graded. Built with **WA, TAS, NSW
@@ -145,16 +147,33 @@ and only then had the fact reverse underneath it.
   stale `/white-card` `PLANNED` entry (`[skills]`) and `HubLayout.astro`'s `.capsule` at ~91 CPL,
   now at least a fifth recorded sighting (`[design]`).
 
-- [ ] **8. `[build]` Build `/white-card-act` (W3-5)** — UNBLOCKED 3 Aug 2026, sequencing note now
-  satisfied
-  Moved up from "Blocked — deliberately": item 3, its only blocker, is closed. Zero legacy equity. The
-  hub currently absorbs the "white card act" query, so this page's job is to take that over rather than
-  protect an existing asset. **Was to sequence after the hub (item 15) — item 15 closed 4 Aug 2026,**
-  so nothing more blocks starting this one. Once this page ships, the hub's `spokes` array needs
-  this course added as a `reference('courses')` entry, its `comparison.columns[]` ACT cell switched
-  from `soon: true` to real data, and `src/data/nav.ts`'s White Card ACT entry updated from
-  `soon: true, desc: 'In development'` to a real `href` — the hub was built with ACT as "Coming
-  soon" throughout, and this page's own build is what un-soons it everywhere.
+- [x] ~~**8. `[build]` Build `/white-card-act` (W3-5)**~~ Closed 4 Aug 2026, not yet committed.
+  Built end to end through the full formal pipeline, `pipeline/white-card-act/01` through `07`, both
+  Stage 7 and Stage 9 graded by independent fresh subagents. Internal facts confirmed by Andrey in
+  this session: price **$137**, no `buyUrl` yet — every CTA is the in-page `#enrol` anchor, same
+  precedent as `/white-card-tas` before its payment was configured. RTO partner AlertForce (RTO
+  91826), confirmed on CPCWHS1001 scope with ACT in its delivery notification (training.gov.au,
+  4 Aug 2026). The page's central fact: delivery is **face-to-face in a classroom**, AlertForce's own
+  arrangement, never a WorkSafe ACT requirement (`kb/register/online-delivery-policy-by-state.md`
+  §2E) — stated correctly in all 8 ASQA disclosure locations, re-verified independently at Stage 9.
+  Stage 2's connector research found ~100/mo of "white card online canberra/act" demand this course
+  cannot honestly serve; the `#accepted` section and FAQ answer that directly rather than let a reader
+  discover the mismatch after paying. One page-content bug (a duplicated `SectionWayfinder` link)
+  was caught by Stage 7 and fixed the same session. Graded **Amber** — see
+  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-act.md`.
+  **Hub un-soon'd in the same session**: `src/content/hubs/white-card.mdx` gained ACT as a fifth
+  `reference('courses')` spoke (was `soon: true` with no data cells), and `src/data/nav.ts`'s White
+  Card ACT entry now has a real `href`. The hub's intro, comparison table, FAQ answers and
+  disclaimers were all rewritten to describe three delivery modes (online self-paced, live online,
+  face-to-face) instead of two, and to credit AlertForce alongside Blue Dog Training and Upskill
+  Institute.
+  **One real defect found, not fixable from a build session:** `CourseLayout.astro`'s
+  `hasCourseInstance.courseMode` is hardcoded `"online"` in every course page's JSON-LD — wrong for
+  this page specifically, the first of five White Card spokes where that's actually false. Filed
+  `[design]`/`[skills]`. The Stage 9 grader also found Stage 7's own verification mischaracterised two
+  already-settled findings and missed a real one (FPO placeholders printing visible "Image
+  placeholder" text on this indexable page — a fourth sighting of a known, still-unbuilt gap) — both
+  filed as process findings against `verification.md` and the missing build guard, `[skills]`.
 
 - [ ] **12. `[build]` Build W2-6 insurance and W2-7 Project Advisory**
   No regulatory dependency, unblocked by everything else here, and `/owner-builder-courses` already

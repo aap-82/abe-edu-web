@@ -43,7 +43,7 @@ export const navGroups: Group[] = [
       { code: 'QLD', name: 'White Card QLD', href: '/white-card-qld', desc: 'Live online with a trainer, Connected Real Time Delivery' },
       { code: 'WA', name: 'White Card WA', href: '/white-card-wa', desc: 'Online and self-paced, with a live trainer assessment' },
       { code: 'TAS', name: 'White Card TAS', href: '/white-card-tas', desc: 'Online and self-paced for Tasmanian residents' },
-      { code: 'ACT', name: 'White Card ACT', soon: true, desc: 'In development' },
+      { code: 'ACT', name: 'White Card ACT', href: '/white-card-act', desc: 'Face-to-face in a classroom, with AlertForce' },
     ],
     feature: { kicker: 'Delivered with', title: 'Blue Dog Training', body: 'Nationally recognised training, delivered with our RTO partner Blue Dog Training (RTO 31193).' },
   },

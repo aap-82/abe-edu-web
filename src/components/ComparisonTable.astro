@@ -1,45 +1,132 @@
 ---
-import ArrowRight from './ArrowRight.astro';
-// State-by-state (or product-by-product) comparison table: one column per item, one row
-// per compared fact, and a trailing action row. Distinct from CpdMatrix, which is an
-// industry x state grid of plain links: this compares named products side by side (e.g.
-// price, authority, points across states on a hub page). A real <table> with row/col
-// scopes; scrolls horizontally on narrow screens rather than collapsing the columns.
-interface Column { key: string; label: string; href?: string; soon?: boolean; }
-interface Row { label: string; values: string[]; } // one value per column, same order as columns
-interface Props { columns: Column[]; rows: Row[]; caption?: string; ctaLabel?: string; }
-const { columns, rows, caption, ctaLabel = 'View course' } = Astro.props;
+// Compares named items (states, products) against a set of facts, either axis first. A real
+// <table> with row/col scopes; scrolls horizontally on narrow screens rather than collapsing
+// columns. Distinct from CpdMatrix (an industry x state grid of plain links).
+//
+// Two orientations, same component, chosen by which side carries `href`/`soon`:
+//   items-as-columns (facts down the side, named items across the top) - `columns[].href`/`soon`
+//     drives a trailing ACTION ROW (tfoot), rendered as `.btn-secondary` buttons (several buttons
+//     in a line read as a set of equal parallel actions, not a list of citations, which a bare
+//     text link would). `.btn-primary` stays reserved for the page's one money CTA (Hick's Law,
+//     "one primary CTA per view", already a hard rule elsewhere on the site).
+//   items-as-rows (facts across the top, named items down the side) - `rows[].href`/`soon` drives
+//     a trailing ACTION COLUMN instead, one `.btn-secondary` button per row rather than the tfoot
+//     row's shared one, since each needs its own per-row wording (see `rowCtaLabel` below).
+// Both hubs currently use items-as-columns (/owner-builder-courses and /white-card, transposed
+// back to match it exactly on 5 Aug 2026 - see comparison.columns' own comment in white-card.mdx)
+// - items-as-rows is still a live second shape of this component, just unexercised by either
+// table right now, kept rather than removed for a shape nothing currently uses.
+// A table sets href/soon on whichever side names the linkable items; the other side's href/soon
+// stays unset and that branch simply doesn't render. Both read `emphasis` from their own side:
+// `columns[].emphasis` marks a fact column (e.g. price) for the figure-typography treatment;
+// `rows[].emphasis` does the same for a fact row. Never more than one column or row emphasised -
+// a single accent, not a way to grade the whole table.
+// `width` overrides a fact column's share of the table (any CSS width value, e.g. "10%") - once
+// white-card needed three different sizes among five fact columns (Course fee and Gov fee
+// trimmed, Training provider widened enough for its own header to sit on one line, Delivery and
+// Regulator left to split whatever's left), a single boolean "narrow" flag stopped being enough.
+// Threaded through the `<colgroup>` below, not a CSS `width` on the header cell itself - see that
+// block's own comment on why a cell-level width doesn't reach the actual column for this shape.
+interface Column { key: string; label: string; href?: string; soon?: boolean; emphasis?: boolean; width?: string; }
+interface Row { label: string; values: string[]; emphasis?: boolean; href?: string; soon?: boolean; } // one value per column, same order as columns
+// `cornerLabel` describes what the header row's columns ARE (both current hubs compare states,
+// so it defaults to "State" rather than sitting blank) - real text in the corner cell, not
+// CSS-generated content, so it stays accessible.
+// `ctaLabel` is the column-action (tfoot) button label, a single string shared by every column -
+// fine there, since "View course" needs no per-column customising. The row-action (text-link)
+// side takes `rowCtaLabel`, a function of the row's own label, because five identical "View
+// course" links is exactly the WCAG 2.4.9 "link text not distinguishable out of context"
+// anti-pattern a screen-reader user hits tabbing through them - each one needs to name what it
+// goes to. Falls back to `ctaLabel` (or its own default) when the caller doesn't supply one, so a
+// table with no per-row wording still renders sensibly.
+interface Props {
+  columns: Column[]; rows: Row[]; caption?: string; ctaLabel?: string; cornerLabel?: string;
+  rowCtaLabel?: (rowLabel: string) => string;
+}
+const {
+  columns, rows, caption, ctaLabel = 'View course', cornerLabel = 'State',
+  rowCtaLabel = () => ctaLabel,
+} = Astro.props;
+const columnsHaveAction = columns.some((c) => c.href || c.soon);
+const rowsHaveAction = rows.some((r) => r.href || r.soon);
 ---
 <div class="cmp-wrap">
-  <table class="cmp">
+  <table class:list={['cmp', rowsHaveAction && 'cmp--mono-head']}>
     {caption && <caption class="cmp-cap">{caption}</caption>}
+    {rowsHaveAction && (
+      // `<col>` widths, not a CSS `width` on the header cells: the action header is `.sr-only`
+      // (`position:absolute`), which drops it out of the table's own layout flow entirely, so a
+      // CSS width on that cell sizes only its own invisible box and never reaches the column the
+      // visible `td.cmp-action` link actually sits in - caught by measuring the live link cell's
+      // width after that attempt, not by reasoning about it. `<col>` sizing is a table-layout:
+      // fixed rule of its own (CSS2.1 17.5.2.1) and doesn't go through any individual cell, so it
+      // isn't exposed to that problem. Corner is 130px here, not the shared `.cmp-corner` CSS
+      // rule's 200px: that rule sizes /owner-builder-courses' corner column too, where the row
+      // labels are full fact names ("Course completed within"), not a short state code - this
+      // orientation's row labels are always WA/TAS/NSW/QLD/ACT (measured content ~90px including
+      // padding), so a colgroup override just for this shape trims the slack without touching the
+      // other one. Any column without its own `width` ("auto") splits whatever the explicitly
+      // sized columns (corner, action, and any column that sets one) leave over.
+      <colgroup>
+        <col style="width:130px" />
+        {columns.map((c) => <col style={c.width ? { width: c.width } : undefined} />)}
+        <col style="width:20%" />
+      </colgroup>
+    )}
     <thead>
       <tr>
-        <th scope="col" class="cmp-corner"></th>
-        {columns.map((c) => <th scope="col">{c.label}</th>)}
+        <th scope="col" class="cmp-corner">{cornerLabel}</th>
+        {columns.map((c) => <th scope="col" class:list={[c.emphasis && 'cmp-col-emphasis']}>{c.label}</th>)}
+        {rowsHaveAction && <th scope="col" class="sr-only">Action</th>}
       </tr>
     </thead>
     <tbody>
       {rows.map((r) => (
-        <tr>
+        <tr class:list={[r.emphasis && 'cmp-row-emphasis']}>
           <th scope="row">{r.label}</th>
-          {r.values.map((v) => <td class="num">{v}</td>)}
+          {r.values.map((v, i) => <td class:list={['num', columns[i]?.emphasis && 'cmp-col-emphasis']} set:html={v} />)}
+          {rowsHaveAction && (
+            <td class="cmp-action">
+              {r.soon
+                ? <span class="cmp-soon">Coming soon</span>
+                : r.href
+                  ? (() => {
+                      // Split the computed label around the row's own name (`r.label`, e.g. "WA")
+                      // so just that word can carry its own colour - `rowCtaLabel` still returns
+                      // one plain string (its job for a table with no per-row wording at all), so
+                      // this finds the name inside it rather than the template threading a second,
+                      // pre-split return shape through for one styling need.
+                      const full = rowCtaLabel(r.label);
+                      const i = full.indexOf(r.label);
+                      return (
+                        <a class="btn-secondary cmp-btn cmp-row-link" href={r.href}>
+                          {i === -1
+                            ? full
+                            : <>{full.slice(0, i)}<span class="cmp-row-link-state">{r.label}</span>{full.slice(i + r.label.length)}</>}
+                        </a>
+                      );
+                    })()
+                  : <span class="cmp-dash" aria-hidden="true">–</span>}
+            </td>
+          )}
         </tr>
       ))}
     </tbody>
-    <tfoot>
-      <tr>
-        <th scope="row" class="sr-only">Action</th>
-        {columns.map((c) => (
-          <td>
-            {c.soon
-              ? <span class="cmp-soon">Coming soon</span>
-              : c.href
-                ? <a class="btn-link" href={c.href}>{ctaLabel}<ArrowRight /></a>
-                : <span class="cmp-dash" aria-hidden="true">–</span>}
-          </td>
-        ))}
-      </tr>
-    </tfoot>
+    {columnsHaveAction && (
+      <tfoot>
+        <tr>
+          <th scope="row" class="sr-only">Action</th>
+          {columns.map((c) => (
+            <td>
+              {c.soon
+                ? <span class="cmp-soon">Coming soon</span>
+                : c.href
+                  ? <a class="btn-secondary cmp-btn" href={c.href}>{ctaLabel}</a>
+                  : <span class="cmp-dash" aria-hidden="true">–</span>}
+            </td>
+          ))}
+        </tr>
+      </tfoot>
+    )}
   </table>
 </div>

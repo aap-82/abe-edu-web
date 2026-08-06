@@ -8,6 +8,8 @@ import Section from '../components/Section.astro';
 import AnswerCapsule from '../components/AnswerCapsule.astro';
 import HubCard from '../components/HubCard.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
+import BulletList from '../components/BulletList.astro';
+import Footnote from '../components/Footnote.astro';
 import TrustBand from '../components/TrustBand.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -24,11 +26,18 @@ const {
 // Spokes are typed references into `courses`: resolve them here so price, state and the
 // URL always come from the course entry itself, never a copy in the hub's own
 // frontmatter that could drift. `blurb` is the only hub-authored text per spoke.
+// Display-only: the badge reads better spelled out than as a bare code. `course.state`
+// itself stays the short form (it's the only value other logic keys on, and nothing else
+// in `src/` reads it - grepped clean 5 Aug 2026), so this map never touches the frontmatter.
+const STATE_NAMES: Record<string, string> = {
+  WA: 'Western Australia (WA)', TAS: 'Tasmania (TAS)', NSW: 'New South Wales (NSW)',
+  QLD: 'Queensland (QLD)', ACT: 'Australian Capital Territory (ACT)',
+};
 const spokeEntries = await getEntries(spokes.map((s) => s.course));
 const spokeCards = spokes.map((s, i) => {
   const course = spokeEntries[i].data;
   return {
-    state: course.state,
+    state: STATE_NAMES[course.state] ?? course.state,
     title: course.courseName,
     desc: s.blurb,
     price: course.price,
@@ -87,7 +96,20 @@ const schema = {
   <slot />
   {comparison && (
     <Section id="compare" eyebrow="At a glance" h2="Compare by state">
-      <ComparisonTable columns={comparison.columns} rows={comparison.rows} caption={comparison.caption} />
+      {comparison.tableLabel && <p class="cmp-tablenum">{comparison.tableLabel}</p>}
+      <ComparisonTable
+        columns={comparison.columns}
+        rows={comparison.rows}
+        caption={comparison.notes ? undefined : comparison.caption}
+        rowCtaLabel={comparison.ctaLabelTemplate
+          ? (label: string) => comparison.ctaLabelTemplate!.replace('{state}', label)
+          : undefined}
+      />
+      {comparison.notes && (
+        <Footnote>
+          <BulletList leadIn={(comparison.notesHeading ?? 'Notes on these figures') + ':'} items={comparison.notes} />
+        </Footnote>
+      )}
     </Section>
   )}
   {trust && <TrustBand h2={trust.h2} stats={trust.stats} attestHtml={trust.attestHtml} />}

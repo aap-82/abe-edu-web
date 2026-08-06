@@ -1,0 +1,200 @@
+---
+# White Card ACT (W3-5). Built 4 Aug 2026 via the formal abe-course-page-astro pipeline -
+# pipeline/white-card-act/01-source-map.md through 07-verification.md carry the full research/brief/
+# content/component trail. Zero legacy equity: no prior URL for this page existed, so this is a
+# genuinely new page, not a rebuild.
+#
+# NO buyUrl YET. Andrey confirmed 4 Aug 2026: no LearnWorlds product/buyUrl exists for ACT. Every CTA
+# below is the in-page #enrol anchor, same precedent as /white-card-tas before its payment was
+# configured. Wire the real buyUrl and give the CTAs a destination the moment payment is set up.
+#
+# FACE-TO-FACE, NOT ONLINE - the one fact every other section leans on. AlertForce (RTO 91826)
+# delivers this course face-to-face in a classroom. kb/register/online-delivery-policy-by-state.md
+# section 2E found the WHS Regulation 2011 (ACT) imposes NO delivery-mode restriction at all - the
+# face-to-face format is AlertForce's own business choice, never a WorkSafe ACT requirement. State it
+# that way throughout. Stage 2 found real (if modest, ~100/mo) search demand for an online ACT White
+# Card this page cannot honestly serve - the #accepted section and FAQ answer that directly rather
+# than let a reader discover the mismatch after paying.
+title: "White Card ACT - Nationally Recognised, Face-to-Face (CPCWHS1001)"
+description: "Get your White Card for the ACT, delivered face-to-face by RTO partner AlertForce (RTO 91826), for $137. Nationally recognised Statement of Attainment for CPCWHS1001."
+canonical: "https://www.abeeducation.edu.au/white-card-act"
+state: "ACT"
+authorityModel: "asqa-accredited"
+partnerRto:
+  name: "AlertForce"
+  rtoNumber: "91826"
+  url: "https://training.gov.au/Organisation/Details/91826"
+  units:
+    - { code: "CPCWHS1001", name: "Prepare to work safely in the construction industry" }
+  credential: "Statement of Attainment"
+  placement: "after-body"
+  eyebrow: "About your training provider"
+courseName: "White Card ACT (CPCWHS1001)"
+courseDescription: "Nationally recognised construction induction training for the ACT, delivered and assessed by RTO partner AlertForce (RTO 91826) and published by ABE Education. Complete it face-to-face in a classroom, then apply for your General Construction Induction Card through Access Canberra."
+price: "$137"
+priceNumber: "137"
+credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
+credentialCategory: "Statement of Attainment"
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "White Card", item: "https://www.abeeducation.edu.au/white-card" }
+  - { name: "White Card ACT", item: "https://www.abeeducation.edu.au/white-card-act" }
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "4 August 2026" }
+nav:
+  - { label: "Is it real?", href: "#real", sectionId: "real" }
+  - { label: "Accepted?", href: "#accepted", sectionId: "accepted" }
+  - { label: "Your card", href: "#your-card", sectionId: "your-card" }
+  - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "How it works", href: "#how-it-works", sectionId: "how-it-works" }
+  - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+# microcopy set explicitly - Hero.astro's own default ("Pay by card or 4 interest-free payments
+# with Afterpay") implies a working checkout this page does not have yet (no buyUrl). Found live on
+# /white-card-tas (via the same unset default) and /white-card-qld (via an explicit override that
+# makes the same overclaim) while checking this page in the browser - flagged as a demand item
+# rather than silently fixed on those two already-shipped pages.
+cta: { href: "#enrol", label: "See White Card options", microcopy: "One-off payment. No hidden fees." }
+sticky: { label: "White Card ACT", sub: "Nationally recognised · CPCWHS1001", price: "$137", cta: { href: "#enrol", label: "See options" } }
+hero:
+  eyebrow: "White Card · ACT · CPCWHS1001"
+  h1Html: 'White Card ACT<span class="dot">.</span>'
+  updated: "Updated August 2026 · Government facts verified 3 Aug 2026"
+  subhead: "Get your nationally recognised White Card for the ACT, delivered face-to-face in a classroom with our RTO partner AlertForce, RTO 91826, for $137. You receive a Statement of Attainment for CPCWHS1001, the construction induction unit every Australian site accepts."
+  ticks:
+    - "<b>Nationally recognised</b> Statement of Attainment for CPCWHS1001"
+    - "Delivered by <b>AlertForce (RTO 91826)</b> · Enrolled through ABE Education"
+    - "<b>Face-to-face classroom delivery</b> in the ACT"
+  proof:
+    - { n: "$137", text: "one payment" }
+    - { n: "Face-to-face", text: "classroom delivery" }
+    - { n: "91826", text: "RTO partner" }
+  howItWorks: "Enrol → Attend the classroom session → Pass the assessment → Apply for your card"
+  # Ships as an FPO placeholder this run - see pipeline/white-card-act/06-image-prompts.md.
+  artefactDesc: "A worker in Canberra in hi-vis, arriving at a face-to-face White Card training session."
+  artefactSpec: "4:5 · warm tone · ~1000×1250"
+  artefactRatio: "r45"
+  artefactAlt: "A construction worker in high-visibility clothing arriving at a face-to-face White Card training session in Canberra, hard hat in hand."
+ctaBand:
+  headingHtml: 'Get your ACT White Card<span class="dot">.</span>'
+  sub: "$137, delivered face-to-face with our RTO partner AlertForce (RTO 91826). Enrol and AlertForce will confirm your session."
+  cta: { href: "#enrol", label: "See White Card options", microcopy: "Statement of Attainment issued by AlertForce" }
+glance:
+  - { key: "Price", value: "$137", note: "Paid to ABE Education. The $47.00 government application fee is separate." }
+  - { key: "Delivery", value: "Face-to-face", note: "In a classroom with AlertForce, not available online in the ACT." }
+  - { key: "Assessment", value: "In person", note: "Completed as part of the classroom session." }
+  - { key: "Credential", value: "CPCWHS1001", note: "Nationally recognised Statement of Attainment, issued by AlertForce." }
+priceRows:
+  - { label: "Course fee", sub: "Paid to ABE Education", amount: "$137.00" }
+  - { label: "Government application fee", sub: "Paid to Access Canberra when you apply for your card", amount: "$47.00" }
+  - { label: "Total to a card in hand", sub: "Course plus the government application fee, a budgeting figure only", amount: "$184.00", isTotal: true }
+howItWorksSteps:
+  - { title: "Attend the classroom session and pass", body: "AlertForce delivers the training and your assessment together, face-to-face." }
+  - { title: "AlertForce issues your Statement of Attainment", body: "Your RTO partner, AlertForce (RTO 91826), issues the nationally recognised Statement of Attainment for CPCWHS1001." }
+  - { title: "Apply online within 60 days", body: ["Apply through an ACT Digital Account within 60 days of the date on your certificate.", "Your receipt and training certificate let you start work while the application is assessed, usually within about a month."] }
+  - { title: "Access Canberra posts your card", body: "Once approved, Access Canberra posts your General Construction Induction Card, usually within about two weeks." }
+experts: ["warwick-smith"]
+footerSources:
+  - { label: "training.gov.au — AlertForce (RTO 91826), CPCWHS1001 on scope", href: "https://training.gov.au/Organisation/Details/91826", verified: "Verified 4 Aug 2026" }
+  - { label: "Access Canberra — General Construction Induction Card", href: "https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card", verified: "Verified 22 Jul 2026 · fee current FY26-27" }
+  - { label: "WorkSafe ACT — White cards (Construction induction)", href: "https://www.worksafe.act.gov.au/licensing-and-registration/white-cards-construction-induction", verified: "Verified 3 Aug 2026" }
+  - { label: "ACT legislation — Work Health and Safety Regulation 2011 (ACT)", href: "https://www.legislation.act.gov.au", verified: "legislation.act.gov.au" }
+disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> AlertForce Pty Ltd (RTO 91826). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by Access Canberra</b> once you apply online with your Statement of Attainment, not by ABE Education or AlertForce. <b>Fees:</b> the $47.00 Access Canberra application fee was verified 22 July 2026 for FY26-27 and is reviewed each 1 July, so confirm the current amount before you apply. This course is delivered face-to-face in a classroom by AlertForce; that is AlertForce’s own arrangement, not a WorkSafe ACT requirement.'
+publishedAt: "2026-08-04"
+lastReviewedAt: "2026-08-04"
+---
+
+import Section from '../../components/Section.astro';
+import ZSection from '../../components/ZSection.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import Stepper from '../../components/Stepper.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
+import Faq from '../../components/Faq.astro';
+import Note from '../../components/Note.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ArrowRight from '../../components/ArrowRight.astro';
+import { faqs } from '../../data/faqs-white-card-act';
+
+<Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
+  <AnswerCapsule>The course and the card are separate payments. You pay ABE Education <b>$137</b> for the course, then <b>$47.00</b> to Access Canberra when you apply for your card. It's delivered face-to-face in a classroom in the ACT, not online, and the credential is nationally recognised.</AnswerCapsule>
+  <FactGrid items={frontmatter.glance} />
+</Section>
+
+<Section id="real" marker="01" eyebrow="Is this real?" h2="Is this a real White Card?">
+  <AnswerCapsule>Yes. The training is delivered and assessed by AlertForce, RTO 91826, and you receive a nationally recognised Statement of Attainment for CPCWHS1001, Prepare to work safely in the construction industry. AlertForce issues the Statement of Attainment. ABE Education publishes and supports the course and is not a registered training organisation.</AnswerCapsule>
+  <div class="measure">
+    <p>The White Card market has known bad actors, so check the provider before you pay, not after. AlertForce holds CPCWHS1001 on its scope of registration and is approved to deliver and assess it in the ACT.</p>
+    <p>You can confirm that yourself on training.gov.au, the national register, by searching RTO 91826. We would rather you did. That is the difference between a real White Card and a worthless certificate: the unit code and the RTO number, both verifiable, before any money changes hands.</p>
+    <a class="btn-link" href="#accepted">Accepted, and can I do it online? <ArrowRight /></a>
+  </div>
+  <VerifiedSources date="4 Aug 2026" facts="RTO 91826 registration and CPCWHS1001 scope, with the ACT in its delivery notification, checked directly on the national register" sources={[{ label: 'training.gov.au — AlertForce RTO 91826', href: 'https://training.gov.au/Organisation/Details/91826' }]} />
+  <SectionWayfinder label="Accepted and online?" href="#accepted" />
+</Section>
+
+<Section bg="bg-alt" id="accepted" marker="02" eyebrow="Accepted and online" h2="Will it be accepted, and can I do it online?">
+  <AnswerCapsule>Yes to the first, no to the second. A White Card is nationally recognised the moment it's issued, accepted on every construction site in Australia. But in the ACT, this course is delivered face-to-face in a classroom by AlertForce, not online. That's AlertForce's own arrangement, not a WorkSafe ACT requirement, and other providers may offer it differently.</AnswerCapsule>
+  <div class="measure">
+    <p>Most sites will not let you start work without a White Card, so the first doubt is settled quickly: once issued, it is accepted everywhere, however the training was delivered. The second doubt is the one worth being direct about. Some providers advertise an online ACT White Card. AlertForce, ABE Education's RTO partner for the ACT, delivers this course face-to-face in a classroom instead.</p>
+    <p>Nothing in the Work Health and Safety Regulation 2011 (ACT) requires that. It is simply how AlertForce runs it here, the same as any RTO's own choice of delivery format.</p>
+  </div>
+  <VerifiedSources date="3 Aug 2026" facts="The WHS Regulation 2011 (ACT) imposes no delivery-mode restriction; face-to-face delivery is AlertForce's own arrangement, not a regulatory requirement" sources={[{ label: 'WorkSafe ACT — White cards (Construction induction)', href: 'https://www.worksafe.act.gov.au/licensing-and-registration/white-cards-construction-induction' }]} />
+  <SectionWayfinder label="Getting your card" href="#your-card" />
+</Section>
+
+<Section id="your-card" marker="03" eyebrow="Getting your card" h2="What do you get, and how do you get your card?">
+  <AnswerCapsule>Passing the course gives you a Statement of Attainment, not the physical card. To get the card you apply online through an ACT Digital Account within 60 days, and Access Canberra posts it once approved, usually within about two weeks. There's no expiry once it's issued.</AnswerCapsule>
+  <div class="measure">
+    <p>This is the step most providers do not mention, and the one most likely to catch you out. In the ACT the card is not issued by the course provider. AlertForce gives you the Statement of Attainment; the General Construction Induction Card itself comes from Access Canberra, and only after you apply.</p>
+    <p>Your receipt and training certificate let you start work while the application is assessed, which Access Canberra typically completes within about a month. Miss the 60-day window and you will need to arrange a fresh declaration from AlertForce confirming you completed the training, so applying in the first week is the simplest path.</p>
+  </div>
+  <Stepper steps={frontmatter.howItWorksSteps} maxWidth="560px" />
+  <Note variant="caution" label="60-day window">The 60-day window runs from the date on your training certificate. Apply after it and Access Canberra will also require a fresh declaration from AlertForce confirming you completed the training, so applying in the first week is the simplest path.</Note>
+  <VerifiedSources date="22 Jul 2026" facts="The 60-day application window, the online ACT Digital Account process and Access Canberra as the issuing body checked against the current guidance" sources={[{ label: 'Access Canberra — General Construction Induction Card', href: 'https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card' }]} />
+</Section>
+
+<Section bg="bg-warm" id="cost" marker="04" eyebrow="What it costs" h2="What does an ACT White Card cost in total?">
+  <AnswerCapsule>The course is <b>$137</b>, paid to ABE Education. Applying for your card costs <b>$47.00</b> through Access Canberra (<b>$44.00</b> if you're replacing one), paid separately when you apply. That's <b>$184.00</b> in total for a new card, and there's nothing else to pay.</AnswerCapsule>
+  <PriceCard rows={frontmatter.priceRows} foot="The $47.00 Access Canberra application fee is reviewed each 1 July, so check the current amount before you apply. There is no membership, renewal or annual charge, and the card does not expire once issued." />
+  <VerifiedSources date="22 Jul 2026" facts="The $47.00 application fee and $44.00 replacement fee checked against Access Canberra's current fee schedule (FY26-27)" sources={[{ label: 'Access Canberra — General Construction Induction Card', href: 'https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card' }]} />
+  <SectionWayfinder label="How the course works" href="#how-it-works" />
+</Section>
+
+<TrustBand
+  h2="Nationally recognised, delivered by an RTO"
+  stats={[{ value: '91826', label: 'AlertForce RTO', numeric: true }, { value: 'CPCWHS1001', label: 'Nationally recognised unit' }, { value: '$137', label: 'One payment', numeric: true }, { value: 'Face-to-face', label: 'Classroom delivery' }]}
+  attestHtml='Delivered and assessed by AlertForce Pty Ltd (RTO 91826), accredited by the Australian Skills Quality Authority (ASQA). Published by ABE Education, which is not a registered training organisation. ABN 64 125 455 272 · <a href="https://training.gov.au/Organisation/Details/91826" rel="noopener">training.gov.au</a>'
+>
+  <AnswerCapsule onDark>A nationally recognised White Card, delivered and assessed by AlertForce (RTO 91826) and published by ABE Education.</AnswerCapsule>
+</TrustBand>
+
+<ZSection
+  id="how-it-works"
+  marker="05"
+  eyebrow="How it works"
+  h2="How does the course work?"
+  imgDesc="An AlertForce trainer running a face-to-face White Card classroom session in Canberra, participants seated with hard hats and hi-vis visible."
+  imgSpec="4:5 · warm tone · ~520×650"
+  imgAlt="An AlertForce trainer running a face-to-face White Card classroom safety training session in Canberra, participants seated wearing hard hats and high-visibility clothing."
+  next={{ label: "Who developed and checked this", href: "#content-review" }}
+>
+  <AnswerCapsule>You attend a face-to-face session with AlertForce, in a classroom, covering both the training and your assessment together. AlertForce confirms your session time and any other details when you enrol. Because it's a classroom format rather than a self-paced course, there's a set time to attend rather than working through it whenever suits you.</AnswerCapsule>
+  <div class="measure">
+    <p>AlertForce runs the training and the assessment together, in one classroom session. The format naturally supervises the assessment, since you're in the room throughout rather than completing it alone. Exact timing, and anything you need to bring on the day, are confirmed by AlertForce once you enrol, since ABE Education is not the party running the session.</p>
+  </div>
+  <VerifiedSources date="3 Aug 2026" facts="Face-to-face classroom delivery, covering training and assessment together, confirmed as AlertForce's own delivery arrangement" sources={[{ label: 'WorkSafe ACT — White cards (Construction induction)', href: 'https://www.worksafe.act.gov.au/licensing-and-registration/white-cards-construction-induction' }]} />
+</ZSection>
+
+<Section bg="bg-alt" id="content-review" marker="06" eyebrow="Who develops and reviews this" h2="Who develops the course, and who checks this page?">
+  <AnswerCapsule>The course is <b>developed, owned and delivered by AlertForce, RTO 91826</b>, under the Standards for Registered Training Organisations. ABE Education publishes this page and enrols you; it does not develop the course. This page is <b>independently reviewed by Warwick Smith</b> for regulatory currency, and every government fact carries its source and the date it was checked.</AnswerCapsule>
+  <ExpertCredentials experts={frontmatter.experts} developerRto={frontmatter.partnerRto.rtoNumber} />
+  <SectionWayfinder label="Common questions" href="#faq" />
+</Section>
+
+<Section id="faq" marker="07" eyebrow="FAQ" h2="Common questions">
+  <Faq items={faqs} />
+  <VerifiedSources date="4 Aug 2026" facts="Answers checked against the national register, Access Canberra and WorkSafe ACT" sources={[{ label: 'training.gov.au — RTO 91826', href: 'https://training.gov.au/Organisation/Details/91826' }, { label: 'Access Canberra — General Construction Induction Card', href: 'https://www.accesscanberra.act.gov.au/business-and-work/building-and-construction/general-construction-induction-card' }]} />
+  <SectionWayfinder label="See White Card options" href="#enrol" ready />
+</Section>

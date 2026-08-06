@@ -23,11 +23,28 @@ Last updated: 3 August 2026.
 ## Current state (4 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
-closed. **Wave 3 is nearly done: the `/white-card` hub (W3-6) shipped 4 Aug 2026** with four of
-five spokes live (WA, NSW, TAS, QLD) and ACT as its only "Coming soon" column. **Only ACT (W3-5)
-itself remains** to complete the vertical. Phase 3 remains unbuilt, and a fifth trigger has fired
-(see the table) — the same session-type crossing as the fourth, sighted a third time, from a
-`build` session.
+closed. **Wave 3 is complete as of 4 Aug 2026: all five White Card spokes (WA, TAS, NSW, QLD, ACT)
+and the `/white-card` hub are built**, the hub un-soon'd for ACT the same session `/white-card-act`
+shipped. Phase 3 remains unbuilt, and a fifth trigger has fired (see the table) — the same
+session-type crossing as the fourth, sighted a third time, from a `build` session.
+
+- **Added 4 Aug 2026: `/white-card-act` (W3-5)**, the fifth and final White Card spoke — zero legacy
+  equity, a genuinely new page. Full formal pipeline, `pipeline/white-card-act/01` through `07`,
+  Stage 7 and Stage 9 both graded by independent fresh subagents. RTO partner AlertForce (RTO
+  91826); the page's central fact — delivery is **face-to-face in a classroom**, AlertForce's own
+  arrangement, never a WorkSafe ACT requirement — is stated correctly across all 8 ASQA disclosure
+  locations, re-verified independently. $137 price, no `buyUrl` yet (`#enrol` anchor, same
+  `/white-card-tas` precedent). Stage 2 found ~100/mo of "white card online canberra/act" demand
+  this course cannot honestly serve; the page answers that directly rather than let a reader
+  discover the mismatch after paying. One page-content bug (a duplicated `SectionWayfinder` link)
+  caught by Stage 7 and fixed same session. Graded **Amber** — see
+  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-act.md`. **One real defect, not
+  fixable from a build session:** `CourseLayout.astro`'s `hasCourseInstance.courseMode` is
+  hardcoded `"online"` in every course page's JSON-LD — wrong for this page, the first of five
+  White Card spokes where that's actually false. The Stage 9 grader also found Stage 7's own
+  verification mischaracterised two already-settled design findings and missed a real one (FPO
+  placeholders printing visible spec text on this indexable page, a fourth sighting of a known,
+  unbuilt guard) — both filed `[skills]` against `verification.md` and the missing build guard.
 
 - **Added 4 Aug 2026: the `/white-card` hub (W3-6), then rebuilt from scratch the same day** through
   the full formal `abe-course-page-astro` pipeline (Andrey's instruction, after an ad-hoc first pass

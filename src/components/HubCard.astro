@@ -1,17 +1,37 @@
 ---
+import ArrowRight from './ArrowRight.astro';
 // Spoke card for a hub page: links out to one course, carrying a state badge, price and
 // a soon/live state — the three things TopicGrid's card (tag/title/body only) cannot
 // carry. Keeps TopicGrid unchanged for its existing jobs (module groups, obligations).
-interface Props { state?: string; title: string; desc: string; price?: string; href?: string; soon?: boolean; }
+// `desc` takes either a plain string (one-line spoke blurb, White Card hub's own convention) or
+// a short array of points (2-3 max - this is a card, not a section) for a blurb that is really
+// two distinct facts glued into one sentence. Either renders through `set:html`, so a point may
+// carry `<b>` around its one keyword, the same convention BulletList and the FAQ answers already
+// use - never more than the single fact each point exists to carry.
+interface Props { state?: string; title: string; desc: string | string[]; price?: string; href?: string; soon?: boolean; }
 const { state, title, desc, price, href, soon = false } = Astro.props;
 const Tag = href && !soon ? 'a' : 'div';
+const descItems = Array.isArray(desc) ? desc : null;
+// A point that OPENS with the bold tag is a "Label value" fact line (White Card's convention:
+// "<b>Issued by</b> Blue Dog Training…") and gets the two-column grid. A point that carries a
+// bold word mid-sentence (Owner Builder's convention: "No approved course in WA. The
+// <b>Building Services Board</b> asks…") is still a sentence, not a fact line, and must not get
+// it - CSS alone can't tell these apart (`:has(b)` matches a bold ANYWHERE in the `<li>`, which
+// is what broke the Owner Builder hub's cards when the grid rule shipped keyed off that
+// selector). Testing the raw string before it becomes markup is the only place the distinction
+// is actually visible.
+const isFact = (d: string) => /^\s*<(b|strong)>/i.test(d);
 ---
 <Tag class:list={['hub-card', soon && 'is-soon']} href={href && !soon ? href : undefined}>
   {state && <span class="hc-state">{state}</span>}
   <h3 class="hc-title">{title}</h3>
-  <p class="hc-desc">{desc}</p>
+  {descItems
+    ? <ul class="hc-desc hc-desc--list">{descItems.map((d) => <li class:list={[isFact(d) && 'hc-fact']} set:html={d} />)}</ul>
+    : <p class="hc-desc" set:html={desc} />}
   <div class="hc-foot">
-    {price && <span class="hc-price num">{price}</span>}
-    {soon && <span class="hc-soon">Coming soon</span>}
+    {price && <span class="hc-price-wrap"><span class="hc-price-label">Cost</span><span class="hc-price num">{price}</span></span>}
+    {soon
+      ? <span class="hc-soon">Coming soon</span>
+      : href && <span class="hc-go" aria-hidden="true"><ArrowRight /></span>}
   </div>
 </Tag>

@@ -350,12 +350,38 @@ const hubs = defineCollection({
     sticky: z.object({ label: z.string(), sub: z.string().optional(), price: z.string(), cta }),
     spokes: z.array(z.object({
       course: reference('courses'),
-      blurb: z.string(),
+      // A single blurb sentence (White Card hub's convention) or 2-3 short bullet points, for a
+      // blurb that is really two distinct facts glued into one sentence (owner-builder-courses'
+      // convention as of 4 Aug 2026) - see HubCard.astro's own doc comment.
+      blurb: z.union([z.string(), z.array(z.string())]),
     })),
     comparison: z.object({
+      // Small mono microcopy above the table, top-right - the editorial "Table 1:" convention,
+      // optional per hub. Not a heading (the Section's own H2 already carries that job); this is
+      // a figure/table number in the same register as a caption or eyebrow.
+      tableLabel: z.string().optional(),
       caption: z.string().optional(),
-      columns: z.array(z.object({ key: z.string(), label: z.string(), href: z.string().optional(), soon: z.boolean().optional() })),
-      rows: z.array(z.object({ label: z.string(), values: z.array(z.string()) })),
+      // `notesHeading`/`notes` are the alternative to `caption`: a proper H3 + bullet list, for
+      // when the caveats are several distinct points rather than one line worth reading as a
+      // table caption. Kept separate from `caption` rather than replacing it - /owner-builder-
+      // courses' own comparison table still uses the plain caption and is unaffected either way.
+      notesHeading: z.string().optional(),
+      notes: z.array(z.string()).optional(),
+      // Per-row action-link wording for the states-as-rows shape, `{state}` substituted with the
+      // row's own label at render (HubLayout.astro builds the function ComparisonTable.astro's
+      // `rowCtaLabel` prop takes - frontmatter is data, not a function, so the template string is
+      // the handoff between them). Named links avoid five identical "Go to..." link texts, the
+      // WCAG 2.4.9 anti-pattern ComparisonTable.astro's own doc comment names.
+      ctaLabelTemplate: z.string().optional(),
+      // `emphasis` marks the one column or row a reader scans first (almost always price) for the
+      // site's figure typography instead of body type - ComparisonTable.astro's own doc comment.
+      // `href`/`soon` on columns drive a trailing action ROW (states-as-columns, /owner-builder-
+      // courses' shape); the same fields on rows drive a trailing action COLUMN instead
+      // (states-as-rows, /white-card's shape as of 4 Aug 2026). A table sets one side, never both.
+      // `width` overrides a column's share of the table (e.g. "10%") - ComparisonTable.astro's
+      // own doc comment on the prop.
+      columns: z.array(z.object({ key: z.string(), label: z.string(), href: z.string().optional(), soon: z.boolean().optional(), emphasis: z.boolean().optional(), width: z.string().optional() })),
+      rows: z.array(z.object({ label: z.string(), values: z.array(z.string()), emphasis: z.boolean().optional(), href: z.string().optional(), soon: z.boolean().optional() })),
     }).optional(),
     trust: z.object({
       h2: z.string(),

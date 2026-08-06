@@ -354,15 +354,76 @@ p strong{color:var(--ink);font-weight:600;}
 
 /* Hub spoke card: like .topic but carries a state badge, a price, and a soon state - the
    things a hub's course grid needs that the plain tag/title/body TopicGrid card cannot. */
-.hub-card{display:block;border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);text-decoration:none;color:inherit;transition:border-color .18s,transform .18s;}
+/* Flex column, not block: spoke blurbs run 3-4 lines and vary by state (WA's Form 75 fact
+   is a 4th bullet the other four don't carry), so the grid stretches cards in a row to the
+   tallest one's height regardless. Pinning `.hc-foot` to the bottom (margin-top:auto) keeps
+   every price on one baseline across the row instead of floating wherever its own blurb ends. */
+.hub-card{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);text-decoration:none;color:inherit;transition:border-color .18s,transform .18s;}
 a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
 .hub-card.is-soon{opacity:.55;}
 .hub-card .hc-state{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:12px;}
 .hub-card .hc-title{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;}
 .hub-card .hc-desc{margin:0;font-size:14px;line-height:1.55;color:var(--ink-3);}
-.hub-card .hc-foot{margin-top:var(--s-md);display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+/* Stacked fact lines, not a dot-marker bullet list: the White Card spokes turned this into a
+   lead sentence plus 2-3 short "Label value" facts (Issued by, Accepted, Required for), which
+   reads as a small spec sheet rather than a set of parallel bullet points - a dot marker in
+   front of "Issued by Blue Dog Training (RTO)." was fighting the label for the same job. A
+   dotted rule between lines does the separating instead, and only between lines (not before the
+   first or after the last), so the card's own top/bottom padding stays the only outer space. */
+.hub-card .hc-desc--list{list-style:none;padding:0;}
+.hub-card .hc-desc--list li{padding:7px 0;margin:0;}
+.hub-card .hc-desc--list li:first-child{padding-top:0;}
+.hub-card .hc-desc--list li:last-child{padding-bottom:0;}
+.hub-card .hc-desc--list li+li{border-top:1px dotted var(--rule);}
+/* Two columns for a labelled fact line only. `.hc-fact`, not `:has(b)` - the class is set in
+   HubCard.astro by testing whether the point's raw string OPENS with the bold tag, because
+   `:has(b)` matches a bold word ANYWHERE in the `<li>` and briefly grid-ified the Owner Builder
+   hub's own sentences too ("No approved course in WA. The <b>Building Services Board</b>
+   asks…" got split at the bold and squeezed its lead clause into the label column). A fixed
+   80px, not `auto`: every row uses the same rule with the same template, so a shared fixed
+   width is what lines the value column up across rows without needing `display:contents` to
+   make the list one shared grid - 80px clears "Issued by" and "Accepted" on one line (measured
+   ~71px and ~63px) but not "Required for" (~95px), which wraps to "Required"/"for" instead of
+   being the one row that pushes the column wider than the rest need. */
+.hub-card .hc-desc--list li.hc-fact{display:grid;grid-template-columns:80px 1fr;column-gap:10px;align-items:baseline;}
+/* Plain emphasis for a bold word inside an ordinary sentence (Owner Builder hub's own
+   convention, e.g. "the <b>Building Services Board</b> asks…") - ink and heavier weight only,
+   same size and font as the sentence around it. */
+.hub-card .hc-desc--list li b,.hub-card .hc-desc--list li strong{color:var(--ink);font-weight:600;}
+/* Mono, uppercase, tracked, smaller - the Mono Label Rule's own treatment (DESIGN.md 3) - but
+   only for a `.hc-fact` line's OWN label, layered on top of the plain rule above. Un-scoped,
+   this was the other half of the same bug the grid rule above had: it turned the Owner Builder
+   hub's plain bold words into small mono-caps labels too, since the general selector could not
+   tell "this is the leading label" from "this is emphasis mid-sentence". */
+.hub-card .hc-desc--list li.hc-fact b,.hub-card .hc-desc--list li.hc-fact strong{font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;font-size:12px;}
+.hub-card .hc-foot{margin-top:auto;padding-top:var(--s-md);display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+/* Same grid template as `.hc-fact` above (80px label column, 10px gap), not its own flex gap -
+   so "COST" and the price line up under "ISSUED BY" etc. and their own values, instead of
+   sitting wherever a narrower flex gap happens to put them. Also what keeps `.hc-foot`'s
+   `justify-content:space-between` splitting into exactly two groups (price side, soon side)
+   rather than three items fighting for the same two slots. */
+.hub-card .hc-price-wrap{display:grid;grid-template-columns:80px 1fr;column-gap:10px;align-items:baseline;}
+/* Same Mono Label Rule treatment as the fact list's own `<b>` labels above (DESIGN.md 3), so
+   "Cost" reads as one more labelled fact rather than a caption for the price alone. */
+.hub-card .hc-price-label{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);}
 .hub-card .hc-price{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--ink);}
 .hub-card .hc-soon{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-light);}
+/* Visual only (`aria-hidden`, no href of its own) - the card itself is already the real link
+   (`Tag` is an `<a>` wrapping the whole thing), and a second nested `<a>`/`<button>` in here
+   would be invalid HTML. This just gives the card an explicit "go" affordance in the corner,
+   where `.hc-soon` sits for the cards that don't have one, so the two are never both present. */
+.hub-card .hc-go{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--paper);flex:none;transition:background .18s;}
+a.hub-card:hover .hc-go{background:var(--maroon);}
+/* Not in the shared `.btn-link .arr-clip, .waynext .arr-clip, .reslink .arr-clip` selector list
+   (global.css:132) - a fourth addition there would make that rule read as "every arrow on the
+   site", when this is the one case where the arrow sits in a solid circle rather than following
+   inline text, so it gets its own self-contained sizing instead. Same clip-and-fly mechanism
+   (ArrowRight.astro's own doc comment), just triggered by hovering the CARD, not this icon on
+   its own - `.hc-go` has no hover state or href of its own to hover. */
+.hub-card .hc-go .arr-clip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;overflow:hidden;color:inherit;}
+.hub-card .hc-go .arr{width:16px;height:16px;flex:none;}
+a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
+@media(prefers-reduced-motion:reduce){ a.hub-card:hover .hc-go .arr{animation:none;} }
 .hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
 .cancan{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md);margin-top:var(--s-lg);}
 .can-col{border:1px solid var(--rule);border-radius:6px;background:var(--paper);overflow:hidden;}
@@ -710,15 +771,154 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 /* `position:relative` for the same containing-block reason as `.cpd-wrap` above — this table also
    carries `.sr-only` spans (the `Action` tfoot label), and a wrapper that scrolls must be the
    containing block or its absolutely-positioned descendants escape the clip. */
-.cmp-wrap{position:relative;margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:8px;}
-.cmp{width:100%;min-width:560px;border-collapse:collapse;}
-.cmp-cap{caption-side:top;text-align:left;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);padding:14px var(--s-lg);border-bottom:1px solid var(--rule);}
-.cmp thead th{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;}
-.cmp thead th.cmp-corner{text-align:left;}
-.cmp tbody th{text-align:left;padding:13px var(--s-lg);border-bottom:1px solid var(--rule);font-size:14px;color:var(--slate);font-weight:500;vertical-align:top;white-space:nowrap;}
-.cmp tbody td{text-align:center;padding:13px 14px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);font-size:15px;font-weight:500;color:var(--ink-2);}
-.cmp tfoot td{text-align:center;padding:16px 14px;border-left:1px solid var(--rule);}
-.cmp tfoot th{border:0;}
+/* The editorial "Table 1:" convention - a figure/table number, not a heading (the Section's own
+   H2 already carries that job). Optional per hub; top-right, above the table. */
+.cmp-tablenum{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);text-align:right;margin:var(--s-md) 0 var(--s-2xs);}
+/* Adjacent-sibling margins collapse to the larger of the two, so trimming the tablenum's own
+   margin-bottom alone did nothing - `.cmp-wrap`'s own 32px top margin (`--s-lg`) was still
+   winning the collapse. Scoped to "tablenum immediately followed by wrap" rather than reducing
+   `.cmp-wrap`'s margin generally, which would also close up the gap on every table that has no
+   tablenum above it. */
+.cmp-tablenum + .cmp-wrap{margin-top:var(--s-2xs);}
+/* No border of its own: `.cmp thead th` already carries a 1px top border on every cell, and
+   `border-collapse` only merges borders BETWEEN table cells, not between this wrapping div and
+   the table inside it - so a border here stacked a second 1px line directly above the header
+   row's own, rendering as a visibly heavier edge than every other line in the table despite both
+   being "1px". Confirmed by measuring the gap between the wrap's top and the table's top (1px)
+   before removing it, rather than assumed from the numbers alone. */
+.cmp-wrap{position:relative;margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+/* Fixed layout, corner column pinned, the five state columns split the remainder equally.
+   Auto layout was sizing each state column to its own widest cell (measured: WA 155px, TAS
+   161px, NSW/QLD/ACT 187px, a ~20% spread with no reason behind it beyond which word happened to
+   be longest that column). A comparison table's whole job is letting the eye move at a constant
+   interval across a row - "predictable grid, consistent density" (impeccable layout, product
+   register) - so the columns being compared should be the same width as each other on purpose. */
+.cmp{width:100%;min-width:560px;border-collapse:collapse;table-layout:fixed;}
+/* Prose, not a label: the caption carries full explanatory sentences (the QLD Saturday-rate
+   exception, the government-fee caveat), not a short key or eyebrow, so it takes the site's
+   existing fine-print treatment (`Footnote.astro`/`.footnote`: 14px, --slate, DM Sans, no
+   tracking) rather than the Mono Label Rule's short-label register. Unlike `.footnote` it carries
+   no max-width - a footnote sits under a narrow PriceCard, this caption spans the full table. */
+.cmp-cap{caption-side:top;text-align:left;font-size:14px;color:var(--slate);padding:16px var(--s-lg);border-bottom:1px solid var(--rule);}
+/* Header row: transparent, no rule of its own. State names are not a mono label - they are the
+   name of the thing being compared, same register as the data cells reading them, so they share
+   the data cells' own font (DM Sans, not mono) rather than the eyebrow/key treatment. No maroon:
+   reserved for the row-description column's own keys, not the column headers. The corner cell
+   ("State") matches its header-row siblings rather than carrying a distinct treatment, and is
+   pinned to 200px under `table-layout:fixed` so the five state columns can split the rest evenly. */
+/* Uniform grid: every cell white, every side a 1px rule. `border-collapse:collapse` merges
+   adjacent cells' borders into one shared line, so a plain `border:1px solid` on every cell is
+   the whole of it - no separate zebra band, no tonal row, nothing that varies cell to cell. */
+/* Grey, not the warm paper ramp - a deliberate one-off departure to give the header row its own
+   distinct surface rather than another step of paper/paper-alt/paper-warm. `--rule-strong`
+   (#d4d6da) is the site's own existing grey token (currently only a border colour), reused here
+   as a background rather than adding a new one; ink text keeps comfortable contrast on it. */
+.cmp thead th{font-family:var(--font-body);font-size:15px;font-weight:600;color:var(--ink);text-align:center;padding:18px 14px;background:var(--rule-strong);border:1px solid var(--rule-strong);white-space:nowrap;}
+/* The corner cell ("State") joins the header row's own grey now, not the row-label column's
+   paper-alt - it sits IN the header row, so it takes that row's background; mono/uppercase/ink
+   still matches the row-label column below it for the type treatment, just not the ground. */
+/* Left padding matched to `.cmp tbody th` below (`--s-lg`, not the header row's own 14px) -
+   otherwise "State" sits 18px left of "Course fee"/"Delivery" beneath it despite both being the
+   same left-aligned column, caught live by measuring against a straight edge rather than eye.
+   No fixed `width` here: a 200px value lived on this shared rule briefly and starved
+   /owner-builder-courses' five state columns of room they'd always had (Regulator, "What you
+   apply for" and "Course status" all overflowed at 72px each), since that rule reaches both
+   orientations and OB hub's own table has no `<colgroup>` to override it. The row-action shape
+   sets its own corner width via the `<colgroup>` in ComparisonTable.astro (130px, sized for a
+   short state code, not a full fact label like "Course completed within"), which wins over
+   anything here regardless - so this rule needs none. */
+.cmp thead th.cmp-corner{text-align:left;padding-left:var(--s-lg);background:var(--rule-strong);font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);}
+/* Row-label column: mono/uppercase because it is a KEY, the Mono Label Rule's own category
+   (DESIGN.md 3: "every piece of micro-type, eyebrows, keys, captions ... is DM Mono in
+   uppercase"), not a value. Ink, not maroon or slate - one consistent dark colour the whole
+   column down (corner included, emphasis row included), rather than a colour that changes row
+   to row. Paper-alt ground and a heavier 700 weight (up from 500) set the column apart from the
+   white, lighter-weight data cells beside it - the tonal-anchor device DESIGN.md SS4 already uses
+   to separate sections, here anchoring the compared FACT as the fixed axis. Wraps rather than
+   forcing one line: this rule reaches both hubs' longer fact labels now that their tables share
+   one shape, and mono-caps-with-tracking runs wider than the sentence-case original did -
+   /owner-builder-courses' "Course completed within" overflowed its column at the even 1/6 share
+   the corner gets with no fixed width of its own (removed above, same reason). Wrapping to two
+   lines costs nothing White Card's own short state-code column ever needs. */
+.cmp tbody th{text-align:left;padding:18px var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);font-weight:700;vertical-align:middle;white-space:normal;}
+/* Regular data values step back down to 400 (from the 600 the previous pass matched to the
+   header row) - the row-label column (700) and the Course fee row's own Archivo treatment are
+   the two things that should carry weight; the values in between should read quietly by
+   comparison, or nothing in the table stands out any more than anything else. */
+.cmp tbody td{text-align:center;padding:18px 14px;background:var(--paper);border:1px solid var(--rule);font-family:var(--font-body);font-size:15px;font-weight:400;color:var(--ink-2);}
+/* No zebra. A prior pass shaded even-row `td`s grey and left the row-label `th` at its own
+   constant paper-alt, reasoning the label column was a "frozen key axis" exempt from the
+   alternation - sound on paper, but live it reads as a colour mismatch inside every even row
+   (tan label butting a grey data band with nothing marking them as two zones), not as a
+   striped table. Caught by Andrey looking at the built page ("all over the shop"), not by
+   any measurement, which the earlier pass had relied on. Removed rather than patched: the
+   uniform grid's 1px rule on every cell already separates each row on its own, so a second,
+   half-applied separation device was pure noise. The label column's constant paper-alt is now
+   the table's only per-row colour signal, and it runs the same on every row. */
+/* The one row a reader scans first (price) keeps the site's figure voice - Archivo, tabular-nums,
+   ink, at a larger size - as the one remaining accent; everything else about it (background,
+   border) now matches every other row rather than carrying its own tonal band, per the uniform
+   grid above. */
+.cmp tr.cmp-row-emphasis td{font-family:var(--font-display);font-size:19px;font-weight:600;letter-spacing:-.01em;color:var(--ink);}
+/* Column-emphasis is the same promotion, applied per CELL rather than per row, for the shape
+   where the emphasised fact (price) is a column running down the table instead of a row running
+   across it - the header cell gets it too, so the whole column reads as one accent top to bottom. */
+.cmp thead th.cmp-col-emphasis{color:var(--ink);}
+.cmp tbody td.cmp-col-emphasis{font-family:var(--font-display);font-size:19px;font-weight:600;letter-spacing:-.01em;color:var(--ink);}
+/* Mono caps for every header in this orientation (`/white-card`'s row-per-state shape), not the
+   sentence-case DM Sans the plain items-as-columns table keeps (`/owner-builder-courses`, which
+   this class never reaches - see ComparisonTable.astro's own `cmp--mono-head` comment). Matches
+   the corner cell's own existing mono/uppercase treatment instead of sitting apart from it, now
+   that every header in the row carries the same key-like register. `white-space:normal` lets a
+   header wrap at its own word space if a column's set width ever leaves no room for it on one
+   line (Training provider does this at 9%; widened past that here, but the fallback costs
+   nothing to keep) - the same two-line move the data cells below make with an explicit `<br>`
+   ("Blue Dog" / "Training"). */
+.cmp--mono-head thead th{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:normal;}
+/* White and bordered, matching every `.cmp tbody td`/`th` above it (line 836 and 855) - the
+   tfoot action row used to float transparent and borderless against the page, back when the
+   items-as-columns and items-as-rows shapes looked different from each other. Both hubs now
+   share this exact table shape (5 Aug 2026, see comparison.columns' own comment in
+   white-card.mdx), so this is the one styling rule for the row and it reaches both. */
+.cmp tfoot td{text-align:center;padding:16px 10px;background:var(--paper);border:1px solid var(--rule);}
+.cmp tfoot th{background:var(--paper);border:1px solid var(--rule);}
+/* Action column: white and bordered, same as every other `.cmp tbody td` in the row (line 836) -
+   this cell went through every combination of its own border/fill and the button's before
+   landing here: a bordered white cell like its neighbours, with the button inside it staying
+   borderless and white (`.cmp-row-link`, below), so the click target reads as this cell's own
+   content rather than a second box nested inside it. Width still comes from the `<colgroup>` in
+   ComparisonTable.astro, not from CSS on this cell or its `.sr-only` header. */
+.cmp td.cmp-action{text-align:center;padding:16px 10px;background:var(--paper);border:1px solid var(--rule);}
+/* `.btn-secondary` at its standalone size (13px/24px padding) is sized for one CTA on its own
+   line; five side by side in a table column need to be more compact without losing the bordered
+   button shape that makes them read as five parallel actions rather than five stray citations.
+   10px, not 8px off the spacing scale: measured at 43.09px tall with 9px, half a pixel under the
+   44px touch-target floor - this is the deliberate deviation from the scale that clears it. */
+.cmp-btn{padding:10px 16px;font-size:14px;white-space:nowrap;}
+/* `.btn-link`'s own `margin-top` is tuned for following a paragraph, not sitting alone in a
+   table cell, and its 16px size wants more room than the action column reliably has for a
+   label like "WA White Card" - reset the margin, drop a size step, and let it wrap onto a
+   second line rather than force `white-space:nowrap` and overflow the cell the way the header
+   text did before that got caught and fixed. `.btn-link`'s own 44px min-height already covers
+   the touch-target floor, so nothing needed there. Trimmed from "Go to WA White Card": each
+   label still names its own state, so the WCAG 2.4.9 reason `rowCtaLabel` exists at all (five
+   identical "View course" links being indistinguishable out of context) still holds without
+   the extra two words. */
+/* Overrides `.btn-secondary`'s own border and transparent fill for this one link only - not a
+   change to that shared class, which OB hub's tfoot buttons still use unmodified. Borderless,
+   white fill: the cell around it (`td.cmp-action`, above) is borderless too now, so nothing in
+   this column draws a line any more - the bold weight and the state code's own colour are what
+   mark it as the row's action, the same way `.btn-link` read as one before this row tried a
+   button shape. */
+.cmp-row-link{margin-top:0;font-size:14px;white-space:normal;text-align:left;border:0;background:var(--paper);}
+/* #600000 is a literal per Andrey's own instruction, not `var(--maroon)` (#800000) - one shade
+   darker, and specific enough (a hex, not "maroon" or "darker") to read as deliberate rather than
+   a typo of the token. Scoped to this one link's state code and arrow only, not written into
+   :root, so the token file and every other maroon accent on the site are untouched. Explicit
+   colour, not inherited `currentColor` off `.btn-link`'s own hover state - both stay this colour
+   whether the link is hovered or not, the same permanently-coloured-arrow shape `.waynext` already
+   uses with `--maroon`, just a different colour and reason. */
+.cmp-row-link .cmp-row-link-state,.cmp-row-link .arr-clip{color:#600000;}
 .cmp .cmp-dash{color:var(--slate);}
 .cmp .cmp-soon{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate-light);}
 
