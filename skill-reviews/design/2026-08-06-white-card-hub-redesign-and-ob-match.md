@@ -116,9 +116,10 @@ caught live. Filed as a demand-list item below rather than added directly.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] `kb/mistakes-log.md` - add or increment: a CSS rule built for one orientation/table of
+- ~~[skills] `kb/mistakes-log.md` - add or increment: a CSS rule built for one orientation/table of
   a shared component, added to an unscoped selector, silently regresses the other
-  orientation/table (two occurrences this session: `.cmp-corner` width, `.cmp tbody th` wrap).
+  orientation/table (two occurrences this session: `.cmp-corner` width, `.cmp tbody th` wrap).~~
+  Closed 6 Aug 2026 - added as row 25, `kb/mistakes-log.md`, commit `6f1fd37`.
 - [design] `ComparisonTable.astro`'s row-action orientation (mono-head CSS, `.cmp-row-link`, the
   `<colgroup>` width mechanism) is unused by either live table - worth a look if the per-row-link
   work (state code + arrow in `#600000`, single-line CTAs) is wanted again, per the code comment
@@ -126,10 +127,31 @@ Tag every item: [skills] | [design] | [facts] | [build]
 
 ## Output
 - Fixed: both shared-selector regressions, the dead `ArrowRight` import, the ACT stray "Cost" bullet.
-- Demand list: two items above (kb/mistakes-log candidate; unused row-action code note).
+- Demand list: one item closed (mistakes-log row 25), one still open (unused row-action code note).
 
-## Grader note
-`graded_by: self`. No fresh design grader exists yet, same gap the 4 Aug review already notes.
-Amber, not Green: two real regressions shipped into the working tree during this session (caught
-and fixed before merge, not before the user saw them) is not a clean pass, even though nothing
-defective is in the diff being shipped now.
+## Post-review changes (6 Aug 2026)
+
+Work continued after this review was filed, per mistakes-log row 17's own rule ("a run's record is
+closed AFTER the last change, not at Stage 9"). Recorded here rather than left stale, original
+verdict and scores untouched.
+
+- **Both batches shipped**: commit `f10f166` (everything this review's main body covers - the
+  `/white-card-act` build, the HubCard/ComparisonTable redesign, both regression fixes, the ACT
+  "Cost" bullet fix, the dead-import cleanup) and commit `6f1fd37` (the mistakes-log entry below,
+  plus the TrustBand fix that follows). Both pushed to `main`; Workers Builds deploys on push.
+- **`kb/mistakes-log.md` row 25 added**, closing the one demand-list item this review had left
+  open. Filed as its own `skills`-typed task per the session-type table (design sessions may not
+  write that file), executed inline in this same continuous session on the user's direct request
+  rather than spun off separately.
+- **A separate, unrelated defect found and fixed the same session, disclosed as a crossing**: the
+  user asked "why does this go 3 lines?" on `qld-owner-builder-course.mdx`'s TrustBand heading -
+  `.trust .h2{max-width:18ch}` (a deliberate, pre-existing constraint, unchanged) wrapping
+  "Trusted by Queensland owner builders since 2007" across 3 lines with an orphaned last line.
+  Fixed by trimming the redundant ", since 2007" (the same block's own "19 | Years operating" stat
+  already states it) on all five course pages using this exact phrase - QLD, TAS, ACT, and both
+  NSW owner-builder variants (`noindex`'d, on hold, unaffected by a copy-length fix). **This
+  touched `src/content/courses/*.mdx`, which is `build`-owned, not `design`-owned, per the
+  session-type table** - a crossing, disclosed here per the pattern `CLAUDE.md`'s own "Disclosed
+  crossing" sections use, rather than left unrecorded. No regulatory, price or authority-model
+  claim was touched; the change is a five-word trim repeated identically five times, and every
+  page was re-measured live (`getClientRects()` line count) after the fix, not assumed.
