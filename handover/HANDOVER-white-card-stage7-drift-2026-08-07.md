@@ -1,6 +1,6 @@
 # HANDOVER — White Card Stage 7 drift + a facts contradiction, found closing out 2026-08-07
 
-## Status: OPEN
+## Status: IN PROGRESS — item 1 closed same day, items 2 and 3 still open
 
 Found running `node scripts/system-health.mjs` while closing a long design session
 (`skill-reviews/design/2026-08-06-white-card-hub-redesign-and-ob-match.md`). Nothing here was
@@ -9,7 +9,27 @@ fixed in place, because re-running Stage 7 and re-checking a regulatory position
 session's type (`design`) may not do. Per `CLAUDE.md` rule 1: close the session, open the type that
 owns the fix.
 
-## 1. `[build]` Five pages have content newer than their own Stage 7 verification
+## 1. ~~`[build]` Five pages have content newer than their own Stage 7 verification~~ CLOSED same day
+
+**Closed 7 Aug 2026, commit `25445eb`.** Four spokes (WA/TAS/NSW/QLD) confirmed by `git show` that
+the 4 Aug drift was a breadcrumb-only edit (restoring the middle "White Card" crumb now that the hub
+exists) — light re-verify appended to each `07-verification.md`, no other fact/copy/schema changed.
+The hub got the full pass this note called for: delegated to a fresh subagent (not self-verified,
+matching this repo's own established Stage 7 pattern), which confirmed everything the redesign added
+is correct (ACT fully live, "Issued by" lines name the RTO never the regulator, the comparison
+table matches `/owner-builder-courses` exactly, no mobile overflow) and confirmed the baseline's
+known `SourcesFooter`/ASQA-disclosure defect is still open (unchanged, `[design]`+`[skills]`, still
+outside build scope) — but also found two NEW defects a self-audit would likely have missed, both
+fixed same session: the TAS/ACT HubCard "Issued by" bullets were missing the "Statement of
+Attainment" qualifier every spoke page itself pairs with it (a real overclaim risk specifically on
+the two states where the physical card isn't RTO-issued), and the page's own `reviewedBy`/
+`lastReviewedAt` freshness signal had gone stale against the redesign. A third, unrelated finding
+from the same pass — `src/data/nav.ts`'s TAS mega-menu description repeating the banned "for
+Tasmanian residents" phrasing live in sitewide chrome — was also fixed. `node scripts/check-pipeline.mjs`
+now reports "verification is current" for all six White Card slugs. Full record:
+`pipeline/white-card/07-verification.md`'s own "Re-verification · 7 August 2026" section.
+
+**Original note, kept below for context:**
 
 `check-pipeline.mjs`'s invariant ("content must never outrun its verification") is currently
 FAILing on all five White Card pages plus the hub:
@@ -64,12 +84,13 @@ page.
   this is a real regression or an artefact of a short, unusual session (a lot of live iteration, one
   formal build) is for whoever reads the trend series next, not diagnosed here.
 
-## What this session actually shipped (for contrast)
+## What shipped, across the design session and its build-session close-out
 
-Two commits, both green at build/typecheck/guardrails time: `f10f166` (the `/white-card-act` build
-plus the HubCard/ComparisonTable redesign and its own regression fixes) and `6f1fd37` (a
-`kb/mistakes-log.md` entry plus an unrelated TrustBand heading fix on five owner-builder pages).
-Full detail in `skill-reviews/design/2026-08-06-white-card-hub-redesign-and-ob-match.md`, including
-its own post-review addendum. **None of the FAILs above block what already shipped** — they mean
-the next five White Card pages that ship *content* changes need Stage 7 re-run first, and the TAS
-residency claim needs a facts correction independent of anything in this session.
+Four commits, all green at build/typecheck/guardrails time: `f10f166` (the `/white-card-act` build
+plus the HubCard/ComparisonTable redesign and its own regression fixes), `6f1fd37` (a
+`kb/mistakes-log.md` entry plus an unrelated TrustBand heading fix on five owner-builder pages),
+`10b400d` (the design review's post-review addendum + this handover note), and `25445eb` (item 1's
+close-out: five Stage 7 re-verifications plus the three fixes they found). Full narrative detail in
+`skill-reviews/design/2026-08-06-white-card-hub-redesign-and-ob-match.md`. **Item 2 (the TAS
+residency facts contradiction) and item 3 (review coverage/trend) remain open** — neither is
+build-session work, and item 1's close-out did not touch either.
