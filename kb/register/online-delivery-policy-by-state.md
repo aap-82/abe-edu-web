@@ -359,6 +359,41 @@ the regulator's general training-location rule, not a delivery-mode-specific tes
 rewrite the page (facts sessions do not touch `src/content/**`); it is recorded here and flagged as a
 demand item below.
 
+### Addendum · Blue Dog's RTO scope checked, 7 August 2026 — does not supply the missing test either
+
+The one open dependency this section named (Blue Dog's delivery-location conditions for CPCWHS1001)
+was checked at source: **training.gov.au, Organisation 31193, Units tab**, read in a browser 7 Aug
+2026. CPCWHS1001 "Prepare to work safely in the construction industry" — Current, Explicit scope,
+Deliver and assess, 12/Jul/2022 to 20/Mar/2030, **Delivery notification: QLD, WA, TAS**.
+
+**This is an RTO-registration fact, not a candidate-eligibility test.** "Delivery notification"
+records which jurisdictions Blue Dog has notified ASQA it delivers a unit in — it explains why Blue
+Dog can legitimately run a Tasmania-specific offering at all (alongside QLD and WA), but it says
+nothing about who may enrol or where a candidate must be. No student-facing location or residency
+condition appears anywhere in this record. **The dependency is now resolved, and the answer is: no
+source — not the regulator, not the Regulation, not the RTO's own scope — supports any test on the
+*candidate's* residency or location for TAS.** WA is genuinely different (§2B): WorkSafe WA's own
+published condition names the candidate directly ("candidates who provide evidence that they are
+located in Western Australia **at the time of the assessment**"). No equivalent instrument exists
+for TAS in any of the three sources now checked.
+
+**Consequence for the fix.** Do not import WA's "located in ___, evidenced at assessment" phrasing
+onto TAS — that specific mechanism belongs to WorkSafe WA's own condition and is not sourced for
+Tasmania. The only TAS-sourced words available are WorkSafe Tasmania's own: the training "must be
+**completed in Tasmania**." Correct the page to state exactly that condition, on the training's
+completion, without inventing an evidencing mechanism or a residency test neither source states.
+
+### Full location list (superseding the 3 Aug review's own list — see note below)
+
+The `skill-reviews/facts/2026-08-03-tas-git-delivery.md` review named 7 spots in
+`white-card-tas.mdx` plus its FAQ. Re-grepped fresh 7 Aug 2026 against the *current* file (line
+numbers had already shifted since 3 Aug from unrelated edits) using the exact three regexes
+`scripts/check-positions.mjs` bans (`/Tasmanian\s+residents?\b/i`, `/resident\s+of\s+Tasmania\b/i`,
+`/evidence\s+(?:your|of)\s+residency\b/i`): **11 locations, matching `system-health.mjs`'s own
+count exactly.** The 3 Aug review's list was incomplete — it did not cover `white-card-nsw.mdx` or
+`faqs-white-card-nsw.ts`, which both carry the same claim as a comparison point about TAS/WA.
+Recorded in the facts review filed alongside this update, not duplicated here.
+
 ---
 
 ## 2E. ACT — same shape as TAS: no delivery-mode restriction, AlertForce's choice is its own (read at source 3 August 2026)
