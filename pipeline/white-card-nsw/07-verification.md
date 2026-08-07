@@ -426,3 +426,40 @@ re-verify the drift's actual severity earned, named as such rather than dressed 
 (one breadcrumb array entry), the middle crumb now resolves instead of pointing at what was then an
 unbuilt hub, and every measured value above holds. This entry closes the verification's currency —
 3 days later than it should have, and recorded as such rather than backdated.
+
+## Re-verification · 7 August 2026 — TAS-vs-WA online-delivery comparison point corrected
+
+**Why this exists.** The same facts-session finding that corrected `white-card-tas.mdx` (see
+`skill-reviews/facts/2026-08-07-tas-residency-fix-blue-dog-scope.md`) named one location on this
+page too: the comparison-point paragraph naming which states allow fully self-paced online delivery.
+It previously implied both WA and TAS gate on the candidate's *residency*; per
+`kb/register/online-delivery-policy-by-state.md` §2B/§2D these are two different conditions — WA
+genuinely gates on the candidate's location at assessment, TAS gates on where the training is
+*completed*, with no residency or location test on the candidate anywhere in its source. This page's
+own comparison sentence, and the matching FAQ answer, now distinguish the two mechanisms instead of
+conflating them.
+
+**Scope: 2 wording-only edits, no structural change.** One comparison-point paragraph and one FAQ
+answer (`src/data/faqs-white-card-nsw.ts`). No section added, moved or removed; no schema field,
+price, or RTO fact touched; this page's own delivery-model claims (trainer-led, live, Upskill
+Institute, SafeWork NSW registration) are unchanged.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| "Tasmanian resident(s)" / "resident of Tasmania" phrasing on this page | **0** occurrences |
+| WA condition stated accurately ("located there at assessment") | yes, unchanged from source |
+| TAS condition stated accurately ("training completed there") | yes, corrected |
+| `guardrails` | 24 pages passed |
+| `check-claims` | 0 failing |
+| `check-positions` (`tas-online-residency`) | **OK — no contradiction found** on this page |
+
+**Not re-run: the three mandated skill-audits, the full schema/ASQA sweep.** This page's own
+authority model (NSW, trainer-led, Upskill Institute RTO 45708) is untouched — only the comparison
+sentence naming the two *other* states' delivery conditions changed, and that fact was verified at
+source by the facts session, not re-derived here.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.

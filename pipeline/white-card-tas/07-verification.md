@@ -438,3 +438,37 @@ re-verify the drift's actual severity earned, named as such rather than dressed 
 unbuilt hub, and every measured value above holds. This entry closes the verification's currency —
 3 days later than it should have, and recorded as such rather than backdated.
 Rendered on the built page: 1 stepper, 3 bulleted step lists, 1 kept as a paragraph.
+
+## Re-verification · 7 August 2026 — TAS residency wording corrected, 8 spots
+
+**Why this exists.** A build-session task (`skill-reviews/facts/2026-08-07-tas-residency-fix-
+blue-dog-scope.md` named the locations; the fix itself is this page's own content commit) replaced
+every "Tasmanian resident(s)" / "resident of Tasmania" / "evidence your residency" occurrence with
+wording sourced to WorkSafe Tasmania's own words — the training must be **completed in Tasmania**
+— per `kb/register/online-delivery-policy-by-state.md` §2D. That's a page-source change, which
+`check-pipeline` §4 correctly flags as making this file stale again.
+
+**Scope: 8 wording-only edits, no structural change.** `courseDescription`, a hero tick, the
+`glance` note, `disclaimersHtml`, two `AnswerCapsule`s, the `CanCant` can/cant pair, and the
+`VerifiedSources` `facts` attribute. No section added, moved or removed; no schema field changed;
+no price, RTO, or government-fee figure touched.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| "Tasmanian resident(s)" / "resident of" / "evidence your residency" | **0** occurrences (was 8) |
+| Answer capsule word counts (the two edited) | **41** and **45** words — both inside the 40-60 band |
+| "comprehensive" / banned CTA ("Enrol now"/"today") | 0 / 0, unchanged |
+| `guardrails` | 24 pages passed |
+| `check-claims` | 0 failing |
+| `check-positions` (`tas-online-residency`) | **OK — no contradiction found** (was FAIL, 11 places sitewide) |
+
+**Not re-run: the three mandated skill-audits, the full schema/ASQA sweep.** None of their inputs
+changed — this is a wording substitution inside already-verified fields, not new copy, a new
+section, or a new claim category. The underlying regulatory position was verified at source by the
+facts session named above, not re-derived here.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.
