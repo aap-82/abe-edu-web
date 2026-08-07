@@ -41,7 +41,6 @@ const DIST = join(ROOT, 'dist');
  * here is a FAIL.
  */
 const PLANNED = new Map([
-  ['/white-card', 'W3-6 - White Card hub'],
   ['/about', 'W4 - about page'],
   ['/contact', 'W5-4 - contact'],
   ['/faq', 'W5-4 - FAQ'],
