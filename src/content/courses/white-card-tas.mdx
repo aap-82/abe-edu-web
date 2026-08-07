@@ -22,7 +22,7 @@ partnerRto:
   placement: "after-body"
   eyebrow: "About your training provider"
 courseName: "White Card Tasmania (CPCWHS1001)"
-courseDescription: "Nationally recognised construction induction training for Tasmania, delivered and assessed by RTO partner Blue Dog Training (RTO 31193) and published by ABE Education. Complete it online and self-paced as a Tasmanian resident, then lodge your Statement of Attainment for your construction induction White Card."
+courseDescription: "Nationally recognised construction induction training for Tasmania, delivered and assessed by RTO partner Blue Dog Training (RTO 31193) and published by ABE Education. Complete it online and self-paced, with the training completed in Tasmania, then lodge your Statement of Attainment for your construction induction White Card."
 price: "$59"
 priceNumber: "59"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
@@ -54,7 +54,7 @@ hero:
   ticks:
     - "<b>Nationally recognised</b> Statement of Attainment for CPCWHS1001"
     - "Delivered by <b>Blue Dog Training (RTO 31193)</b> · Enrolled through ABE Education"
-    - "<b>100% online and self-paced</b> for Tasmanian residents"
+    - "<b>100% online and self-paced</b>, completed in Tasmania"
     - "Video assessment plus online questions, on any device"
   proof:
     - { n: "$59", text: "one payment" }
@@ -82,7 +82,7 @@ ctaBand:
   cta: { href: "#enrol", label: "See White Card options", microcopy: "Statement of Attainment issued by Blue Dog Training" }
 glance:
   - { key: "Price", value: "$59", note: "Paid to ABE Education. The $13.72 government card fee is separate." }
-  - { key: "Delivery", value: "Online", note: "Self-paced, for Tasmanian residents. Study on any device." }
+  - { key: "Delivery", value: "Online", note: "Self-paced, completed in Tasmania. Study on any device." }
   - { key: "Assessment", value: "Video + questions", note: "A recorded safety demonstration plus online questions." }
   - { key: "Credential", value: "CPCWHS1001", note: "Nationally recognised Statement of Attainment, issued by Blue Dog Training." }
 priceRows:
@@ -100,7 +100,7 @@ footerSources:
   - { label: "Service Tasmania — Apply for a white card", href: "https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card", verified: "Verified 22 Jul 2026 · fee 1 Jul 2026" }
   - { label: "WorkSafe Tasmania — White cards (construction induction)", href: "https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction", verified: "Verified 27 May 2026" }
   - { label: "Tasmanian legislation — Work Health and Safety Act 2012", href: "https://www.legislation.tas.gov.au", verified: "legislation.tas.gov.au" }
-disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by WorkSafe Tasmania</b> through Service Tasmania once you lodge your Statement of Attainment in person, not by ABE Education or Blue Dog Training. <b>Fees:</b> the $13.72 Service Tasmania card fee was verified 22 July 2026 and is reviewed each 1 July, so confirm the current amount before you lodge. The self-paced online course is available to Tasmanian residents; residents of other states must complete White Card training under their own state’s delivery rules.'
+disclaimersHtml: '<b>Course:</b> CPCWHS1001 Prepare to work safely in the construction industry. <b>Training provider:</b> Blue Dog Training Pty Ltd (RTO 31193). <b>Enrolment partner:</b> ABE Education Pty Ltd (ABN 64 125 455 272). <b>The card is issued by WorkSafe Tasmania</b> through Service Tasmania once you lodge your Statement of Attainment in person, not by ABE Education or Blue Dog Training. <b>Fees:</b> the $13.72 Service Tasmania card fee was verified 22 July 2026 and is reviewed each 1 July, so confirm the current amount before you lodge. This self-paced online course is for White Card training completed in Tasmania; training completed elsewhere follows that state’s own delivery rules.'
 ---
 
 import Section from '../../components/Section.astro';
@@ -120,7 +120,7 @@ import ArrowRight from '../../components/ArrowRight.astro';
 import { faqs } from '../../data/faqs-white-card-tas';
 
 <Section bg="bg-alt" eyebrow="At a glance" h2="What do you need to know before you enrol?">
-  <AnswerCapsule>The course and the card are separate payments. You pay ABE Education <b>$59</b> for the course, then <b>$13.72</b> to Service Tasmania when you lodge for your card. It is online and self-paced for Tasmanian residents, and the credential is nationally recognised.</AnswerCapsule>
+  <AnswerCapsule>The course and the card are separate payments. You pay ABE Education <b>$59</b> for the course, then <b>$13.72</b> to Service Tasmania when you lodge for your card. It is online and self-paced, completed in Tasmania, and the credential is nationally recognised.</AnswerCapsule>
   <FactGrid items={frontmatter.glance} />
 </Section>
 
@@ -136,17 +136,17 @@ import { faqs } from '../../data/faqs-white-card-tas';
 </Section>
 
 <Section bg="bg-alt" id="accepted" marker="02" eyebrow="Accepted and online" h2="Is it accepted, and can I do it online in Tasmania?">
-  <AnswerCapsule>Yes on both counts, with one condition. A White Card is nationally recognised the moment it is issued, accepted on every construction site in Australia. And because you live in Tasmania, you may complete the training fully online at your own pace. That online option is open to Tasmanian residents only.</AnswerCapsule>
+  <AnswerCapsule>Yes on both counts, with one condition. A White Card is nationally recognised the moment it is issued, accepted on every construction site in Australia. And this course's self-paced online option is for training completed in Tasmania; other states run their own delivery rules instead.</AnswerCapsule>
   <div class="measure">
     <p>Most sites will not let you start work without a White Card, and the doubt people arrive with is whether an online one is treated any differently. It is not. Once issued, the card is the same credential however the training was delivered.</p>
   </div>
   <CanCant
     canTitle="You can complete it online if"
-    can={['You live in Tasmania and can evidence your residency at assessment.', 'You have a device with a camera for the video assessment.', 'You want to study self-paced and resume on any device.']}
+    can={['You complete the training while in Tasmania.', 'You have a device with a camera for the video assessment.', 'You want to study self-paced and resume on any device.']}
     cantTitle="You cannot use this course if"
-    cant={['You live in another state. Use your own state’s White Card course, where different delivery rules apply.', 'You need someone else to sit the assessment. You complete it yourself, on camera.']}
+    cant={['You complete the training in another state. Use that state’s own White Card course instead, where different delivery rules apply.', 'You need someone else to sit the assessment. You complete it yourself, on camera.']}
   />
-  <VerifiedSources date="26 May 2026" facts="Self-paced online delivery is permitted for Tasmanian residents; the card is nationally recognised once issued" sources={[{ label: 'WorkSafe Tasmania — White cards (construction induction)', href: 'https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction' }]} />
+  <VerifiedSources date="26 May 2026" facts="Self-paced online delivery is permitted when the training is completed in Tasmania; the card is nationally recognised once issued" sources={[{ label: 'WorkSafe Tasmania — White cards (construction induction)', href: 'https://worksafe.tas.gov.au/topics/licensing-permits-and-registration/white-cards-construction-induction' }]} />
   <SectionWayfinder label="Getting your card" href="#your-card" />
 </Section>
 

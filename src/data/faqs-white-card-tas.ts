@@ -24,7 +24,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'Can I do the online course if I do not live in Tasmania?',
-    a: 'The self-paced online course is for Tasmanian residents. If you live in another state, the delivery rules there may require real-time or in-person training, so use your own state’s White Card course instead.',
+    a: 'The self-paced online course is for training completed in Tasmania, not a residency test. If you’ll complete the training in another state, the delivery rules there may require real-time or in-person training, so use your own state’s White Card course instead.',
   },
   {
     q: 'I am on a student visa. Can I enrol?',

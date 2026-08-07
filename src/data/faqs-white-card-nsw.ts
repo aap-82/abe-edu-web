@@ -29,7 +29,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'Why can I not do a self-paced White Card in NSW when other states can?',
-    a: 'Fully self-paced online delivery is available to Western Australian and Tasmanian residents only, so a course you click through on your own is not an option in New South Wales no matter how it is advertised. Upskill Institute delivers this one as a live trainer-led session under its SafeWork NSW registration, RTO800520, with nothing pre-recorded and no self-paced portion to work through beforehand.',
+    a: 'Fully self-paced online delivery only applies in Western Australia, for candidates located there at assessment, and Tasmania, for training completed there, so a course you click through on your own is not an option in New South Wales no matter how it is advertised. Upskill Institute delivers this one as a live trainer-led session under its SafeWork NSW registration, RTO800520, with nothing pre-recorded and no self-paced portion to work through beforehand.',
   },
   {
     q: 'How long does the course take?',
