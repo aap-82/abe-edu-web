@@ -191,6 +191,7 @@ if (existsSync('scripts/review-trends.mjs')) {
   for (const l of out.split('\n')) {
     if (/WORSENING/.test(l)) F(`Trend ${l.trim()}`);
     else if (/improving|flat/.test(l)) OK(`Trend ${l.trim()}`);
+    else if (/too few points/.test(l)) W(`Trend ${l.trim()}`);
     else if (/RED on correct-and-safe|self-graded/.test(l)) W(l.trim());
     else if (/review due for/.test(l)) W(`Outcome ${l.trim()}`);
   }

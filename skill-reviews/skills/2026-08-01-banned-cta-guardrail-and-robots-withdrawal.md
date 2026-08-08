@@ -169,10 +169,17 @@ still-open question, and was not closed.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [build] Rewrite the 21 "Enrol now" CTAs on `act-owner-builder-course`, `owner-builder-nsw-course`,
+- ~~[build] Rewrite the 21 "Enrol now" CTAs on `act-owner-builder-course`, `owner-builder-nsw-course`,
   `owner-builder-nsw-course-w` and `tas-owner-builder-course` to benefit-led first-person wording, and
   drop each page's entry from `BANNED_CTA_BUDGET` as it reaches 0. The build now FAILs if a count
-  falls without the budget following it, so the two must move together.
+  falls without the budget following it, so the two must move together.~~ **Closed 8 Aug 2026.**
+  Measured 20 occurrences in `dist/`, not 21 (5 per page × 4 pages, matching the old budget exactly).
+  Rewritten to "Start my {STATE} course [— $price]" / "Start my course" (sticky short form),
+  following this item's own quoted example and the pattern already live on
+  `wa-owner-builder-course`. `BANNED_CTA_BUDGET` emptied to `{}`. See
+  `skill-reviews/skills/2026-08-08-review-trends-sparse-sample-and-cta-rewrite.md` for the disclosed
+  skills/build crossing this required (the check and the content are coupled — see that review for
+  why they couldn't land as separate commits).
 - [design] The styleguide's `SectionWayfinder label="Enrol now"` specimen (`styleguide.astro:734`)
   teaches the banned wording as the worked example. Out of the guardrail's scope by construction (the
   page loop skips `styleguide/`), so nothing will ever catch it. Change the specimen's label.

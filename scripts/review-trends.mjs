@@ -64,16 +64,28 @@ for (const r of runs) {
 }
 
 // Direction: mean of the most recent third against the mean of the earliest third.
+// Each window needs >=2 real (non-null) points on both sides, or the "mean" is just one
+// review's number and calling that a trend is the same failure as ticking from intent —
+// asserting a measured-sounding verdict the sample cannot support.
+const MIN_WINDOW_N = 2;
 if (runs.length >= 3) {
   const n = Math.max(1, Math.floor(runs.length / 3));
-  const mean = (set, k) => { const v = set.map((r) => num(r, k)).filter((x) => x !== null); return v.length ? v.reduce((a, b) => a + b) / v.length : null; };
+  const stat = (set, k) => {
+    const v = set.map((r) => num(r, k)).filter((x) => x !== null);
+    return { mean: v.length ? v.reduce((a, b) => a + b) / v.length : null, count: v.length };
+  };
   console.log('\n  Direction (recent third vs earliest third — lower is better):');
   for (const k of M) {
-    const early = mean(runs.slice(0, n), k), recent = mean(runs.slice(-n), k);
-    if (early === null || recent === null) { console.log(`    ${k}: not enough data`); continue; }
-    const d = recent - early;
+    const early = stat(runs.slice(0, n), k), recent = stat(runs.slice(-n), k);
+    if (early.mean === null || recent.mean === null) { console.log(`    ${k}: not enough data`); continue; }
+    const points = `(n=${early.count} -> n=${recent.count})`;
+    if (early.count < MIN_WINDOW_N || recent.count < MIN_WINDOW_N) {
+      console.log(`    ${k.padEnd(26)} ${early.mean.toFixed(1)} -> ${recent.mean.toFixed(1)}  ${points} too few points to call a direction`);
+      continue;
+    }
+    const d = recent.mean - early.mean;
     const verdict = Math.abs(d) < 0.05 ? 'flat' : d < 0 ? `improving (${d.toFixed(1)})` : `WORSENING (+${d.toFixed(1)})`;
-    console.log(`    ${k.padEnd(26)} ${early.toFixed(1)} -> ${recent.toFixed(1)}  ${verdict}`);
+    console.log(`    ${k.padEnd(26)} ${early.mean.toFixed(1)} -> ${recent.mean.toFixed(1)}  ${points} ${verdict}`);
   }
 } else {
   console.log(`\n  Direction needs 3+ runs (have ${runs.length}).`);

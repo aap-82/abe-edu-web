@@ -1,6 +1,6 @@
 # HANDOVER — White Card Stage 7 drift + a facts contradiction, found closing out 2026-08-07
 
-## Status: item 1 and item 2 CLOSED same day, item 3 still open
+## Status: all three items CLOSED — items 1 and 2 same day, item 3 on 2026-08-08
 
 Found running `node scripts/system-health.mjs` while closing a long design session
 (`skill-reviews/design/2026-08-06-white-card-hub-redesign-and-ob-match.md`). Nothing here was
@@ -97,14 +97,26 @@ needs to re-read the source, confirm the correct wording, and fix every one of t
 not just reword the first hit, since the same claim is repeated as a comparison point on a second
 page.
 
-## 3. `[skills]` Review coverage and trend, noted but not investigated
+## 3. ~~`[skills]` Review coverage and trend, noted but not investigated~~ CLOSED 2026-08-08
 
-- `Review coverage: 7/13 pages graded` and `No Stage-9 review for "act-owner-builder-course"` — the
-  ACT owner-builder page has no Stage-9 review on file. Not investigated further this session; flagging
-  since it surfaced in the same health-check run.
-- `Trend turns_to_passed_audit 0.0 -> 2.0 WORSENING` — a trend metric, not a content bug. Whether
-  this is a real regression or an artefact of a short, unusual session (a lot of live iteration, one
-  formal build) is for whoever reads the trend series next, not diagnosed here.
+**Closed 8 Aug 2026.** Both diagnosed. Full record:
+`skill-reviews/skills/2026-08-08-review-trends-sparse-sample-and-cta-rewrite.md`.
+
+- `Review coverage: 7/13 pages graded` — **not a regression.** The six missing pages
+  (`act-owner-builder-course`, both NSW owner-builder variants, `qld-owner-builder-course`,
+  `tas-owner-builder-course`, the `owner-builder-courses` hub) all predate the formal pipeline and
+  were never run through Stage 9. `wa-owner-builder-course` is the one exception, deliberately
+  retrofitted 23 Jul 2026 as evidence run 3. No fix needed — the WARN is accurate signal, not a
+  defect. Left as an open `[build]` judgement call (retrofit the six, or accept the standing WARN)
+  in the closing review's own demand list.
+- `Trend turns_to_passed_audit 0.0 -> 2.0 WORSENING` — **a real defect in `review-trends.mjs`, not a
+  regression in the pipeline.** The "earliest third vs recent third" window landed on exactly one
+  non-null data point on each side (n=1 vs n=1) out of 14 graded runs, 8 of which don't record this
+  metric at all. Read against the full six-point series (`0, 4, 0, 6, 6, 2`), the metric had actually
+  improved, not worsened. Fixed: `review-trends.mjs` now shows the sample count per window and
+  refuses to assert a direction below n=2 per side; `system-health.mjs` reports the resulting
+  "too few points" case as a WARN rather than a false FAIL or a silently dropped line.
+  `system-health.mjs` is now **0 failing** for the first time since this handover was filed.
 
 ## What shipped, across the design session and its two build-session close-outs
 

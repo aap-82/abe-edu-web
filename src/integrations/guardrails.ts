@@ -174,12 +174,7 @@ const PENDING_MAX_DAYS = 30;
    --------------------------------------------------------------------------- */
 const BANNED_CTA = /\bEnrol\s+(?:now|today)\b/gi;
 
-const BANNED_CTA_BUDGET: Record<string, number> = {
-  'act-owner-builder-course/index.html': 5,
-  'owner-builder-nsw-course/index.html': 5,
-  'owner-builder-nsw-course-w/index.html': 5,
-  'tas-owner-builder-course/index.html': 5,
-};
+const BANNED_CTA_BUDGET: Record<string, number> = {};
 
 // The YAML frontmatter block of an MDX file, or '' if it has none.
 function frontmatterOf(src: string): string {
