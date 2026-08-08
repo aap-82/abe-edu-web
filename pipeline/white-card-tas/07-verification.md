@@ -472,3 +472,37 @@ facts session named above, not re-derived here.
 ## Ship decision
 
 **Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.
+
+## Re-verification · 8 August 2026 — hero CTA microcopy overclaim fixed
+
+**Why this exists.** `Hero.astro:36` falls back to `'Pay by card or 4 interest-free payments with
+Afterpay'` whenever a page's `cta.microcopy` is unset. This page's `cta:` block never set one, so
+that default rendered under the hero CTA even though this page has **no working `buyUrl`** — every
+CTA is the in-page `#enrol` anchor (see the standing warning in `ROADMAP.md`'s Current state
+section). Filed against `white-card-act`'s own build
+(`skill-reviews/2026-08-04-abe-course-page-astro-white-card-act.md`) but never backported here.
+That's a page-source change, which `check-pipeline` §4 correctly flags as making this file stale
+again.
+
+**Scope: one field, one line.** `cta.microcopy` set to `"One-off payment. No hidden fees."`,
+matching the already-safe pattern live on `white-card-act` and `white-card-nsw`. No section added,
+moved or removed; no schema field, price, or regulatory claim touched; the `ctaBand.cta.microcopy`
+("Statement of Attainment issued by Blue Dog Training") was already correct and is unchanged.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| "Afterpay" / "Pay by card" in `dist/white-card-tas/index.html` | **0** occurrences (was 1, in the hero `cta-note`) |
+| Hero `cta-note` text | `"One-off payment. No hidden fees."` |
+| `guardrails` | 24 pages passed |
+| `check-claims` | 0 failing |
+| `check-pipeline` §4 (this slug) | clears once this file is committed with the page |
+
+**Not re-run: the three mandated skill-audits, the full schema/ASQA sweep.** None of their inputs
+changed — this is a one-line microcopy substitution correcting a false payment-method claim, not
+new copy, a new section, or a new regulatory claim.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.

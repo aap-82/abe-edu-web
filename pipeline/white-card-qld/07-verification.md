@@ -530,3 +530,38 @@ re-verify the change's actual severity earned, named as such rather than dressed
 (one breadcrumb array entry), the middle crumb now resolves instead of the page carrying a
 two-level crumb one day longer than its siblings, and every measured value above holds. This entry
 closes the verification's currency.
+
+## Re-verification · 8 August 2026 — hero CTA microcopy overclaim fixed
+
+**Why this exists.** `Hero.astro:36` falls back to `'Pay by card or 4 interest-free payments with
+Afterpay'` whenever a page's `cta.microcopy` is unset — and this page's own `cta:` block carried an
+**explicit** override making the identical overclaim, `"No hidden fees. Pay by card. Afterpay
+available."`, even though this page has **no confirmed `buyUrl`**: every CTA is the in-page
+`#enrol` anchor, per `01-source-map.md` §C-3. Filed against `white-card-act`'s own build
+(`skill-reviews/2026-08-04-abe-course-page-astro-white-card-act.md`) but never backported here.
+That's a page-source change, which `check-pipeline` §4 correctly flags as making this file stale
+again.
+
+**Scope: one field, one line.** `cta.microcopy` changed from `"No hidden fees. Pay by card.
+Afterpay available."` to `"One-off payment. No hidden fees."`, matching the already-safe pattern
+live on `white-card-act` and `white-card-nsw`. No section added, moved or removed; no schema
+field, price, or regulatory claim touched; the `ctaBand.cta.microcopy` ("Statement of Attainment
+issued by Blue Dog Training") was already correct and is unchanged.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| "Afterpay" / "Pay by card" in `dist/white-card-qld/index.html` | **0** occurrences (was 1, in the hero `cta-note`) |
+| Hero `cta-note` text | `"One-off payment. No hidden fees."` |
+| `guardrails` | 24 pages passed |
+| `check-claims` | 0 failing |
+| `check-pipeline` §4 (this slug) | clears once this file is committed with the page |
+
+**Not re-run: the three mandated skill-audits, the full schema/ASQA sweep.** None of their inputs
+changed — this is a one-line microcopy substitution correcting a false payment-method claim, not
+new copy, a new section, or a new regulatory claim.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.

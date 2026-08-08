@@ -179,7 +179,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [build] The FPO placeholders on this specific page (hero, `#how-it-works`) should be replaced with the
   real images once generated, per `06-image-prompts.md`'s own "generate later" disposition — routine,
   not a defect in itself, but tracked here so it isn't lost alongside the guard item above.
-- [build] `Hero.astro:36`'s default CTA microcopy — `cta.microcopy ?? 'Pay by card or 4
+- ~~[build] `Hero.astro:36`'s default CTA microcopy — `cta.microcopy ?? 'Pay by card or 4
   interest-free payments with Afterpay'` — fires on any page whose `cta` frontmatter omits
   `microcopy`, regardless of whether that page has a working `buyUrl`. Found after this review was
   filed, during the build session's own final browser check, not by this grader — recorded here so
@@ -190,7 +190,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `white-card-act.mdx` itself (`microcopy: "One-off payment. No hidden fees."`, matching
   `white-card-nsw.mdx`'s already-safe pattern) — **not** fixed on TAS or QLD, since editing two
   already-live, unrelated pages is outside this build's declared scope; flagged for a follow-up pass
-  instead of silently touched.
+  instead of silently touched.~~ **Closed 8 Aug 2026.** Both pages fixed to the same
+  `"One-off payment. No hidden fees."` pattern; `dist/` confirmed zero "Afterpay"/"Pay by card"
+  occurrences on either page. Light Stage 7 re-verification appended to both pages'
+  `07-verification.md`.
 
 ## Output — every Amber or Red needs at least one
 - [x] Fix applied — the duplicate `SectionWayfinder` line, same session, confirmed in the rebuild.
