@@ -77,7 +77,10 @@ export const navGroups: Group[] = [
     // cross-sell, not a sitewide utility link.
     extra: [
       { label: 'Project Advisory', soon: true },
-      { label: 'Insurance', soon: true },
+      // Live 8 Aug 2026 (W2-6). This entry was the `soon` placeholder the page was built
+      // against; flipping it here is also what satisfies the orphan guardrail, which needs
+      // every indexable page linked from at least one OTHER page.
+      { label: 'Insurance', href: '/owner-builder-insurance' },
     ],
   },
   {

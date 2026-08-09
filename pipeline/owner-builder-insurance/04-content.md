@@ -4,6 +4,26 @@ Written one section at a time from `03-briefs.md`. Derived figures (none on this
 `{placeholder}` needed; every figure here is a fixed regulatory fact, not something the layout
 computes) are written as literals since there is nothing for the layout to derive.
 
+> **Superseded in part, 8 August 2026 — read the built page for the copy that shipped.**
+> `src/pages/owner-builder-insurance.astro` is the source of truth for this page's wording; this
+> file records how it was arrived at. Stage 7's independent audit changed six things after this
+> draft was written, and they are listed here rather than silently re-edited into the prose below,
+> so the reason each one changed stays readable:
+> 1. **Section 5's WA "$10,000 fine" and ACT "rectification order after sale" were cut**, not
+>    reworded. Both were added after this draft, neither had a row in `01-source-map.md` §C, and
+>    the WA source read for this run explicitly declines to state an owner-builder penalty. A
+>    `VerifiedSources` block now closes section 5, which previously had none.
+> 2. **Capsule 2 gained the Tasmanian $5 million qualifier** it had dropped — it is the only
+>    mandatory insurance named anywhere on the page, so ending on "no scheme at all" understated it.
+> 3. **Capsule 7 now opens with Warwick Smith by name**, answering the "Who" its H2 asks rather
+>    than opening on process.
+> 4. **Section 7's `VerifiedSources` `facts` string was rewritten** — it named Warwick Smith and
+>    listed Warwick Smith as its only source, so the component's conditional joiner rendered
+>    "...training sector against Warwick Smith".
+> 5. **"close to 20 years" became "close to twenty years"** in the section 6 body, matching the
+>    capsule 120 words above it and CLAUDE.md's spell-out-durations-in-prose rule.
+> 6. **Section 7's H2 is "Who reviews this page?"**, not "Who checks this page?".
+
 ---
 
 ## H1
@@ -12,12 +32,12 @@ Owner builder insurance: what's actually compulsory, by state
 ## Section 1 — What insurance does an owner builder actually need?
 `id="what-you-need"` · marker `01`
 
-<AnswerCapsule>
-An owner builder normally deals with three covers: contract works insurance and public liability
-insurance, both sensible from day one of the build, and home warranty or indemnity insurance, the
-only one of the three that's ever a legal requirement — and it's only compulsory in some states,
-only in some circumstances.
-</AnswerCapsule>
+**Answer capsule** (48 words)
+
+> An owner builder normally deals with three covers: contract works insurance and public liability
+> insurance, both sensible from the day work starts, and home warranty or indemnity insurance, the
+> only one of the three that is ever a legal requirement, and only in some states and some
+> circumstances.
 
 Contract works insurance covers the build itself against fire, storm, theft and accidental damage
 while it's underway. Public liability covers you if the build injures someone or damages someone
@@ -32,14 +52,12 @@ depends entirely on which state the build is in. The next section answers that s
 ## Section 2 — Is home warranty/indemnity insurance compulsory for an owner builder?
 `id="compulsory"` · marker `02`
 
-<AnswerCapsule>
-No home-warranty scheme in any state ABE serves requires an owner builder to insure their own labour
-— Queensland and the ACT exclude owner builders by law, Western Australia and New South Wales only
-attach an obligation if you later sell within seven (WA) or seven and a half (NSW) years, and
-Tasmania has no warranty scheme at all. Tasmania is the one state with a *different* mandatory cover:
-at least $5 million of public and construction liability insurance, as a condition of the permit
-itself.
-</AnswerCapsule>
+**Answer capsule** (57 words)
+
+> No home warranty scheme in any state ABE Education serves requires an owner builder to insure
+> their own labour. Queensland and the ACT exclude owner builders by law, Western Australia and
+> New South Wales attach an obligation only if you sell, and Tasmania has no scheme at all, though
+> it does require $5 million of liability cover.
 
 That's worth stating plainly, because it isn't what most insurance pages imply. A page selling cover
 has no reason to tell a reader they might not need to buy it — this one does, because ABE refers
@@ -76,12 +94,12 @@ and ACT figures above were read directly.
 ## Section 3 — What does cover include and exclude?
 `id="cover"` · marker `03`
 
-<AnswerCapsule>
-Contract works and public liability cover the build and third parties while work is underway. Home
-warranty or indemnity insurance, where it applies, covers a future buyer against your defective or
-incomplete work — it has never covered your own losses, and it stops covering anything the moment you
-sell to someone who isn't relying on it.
-</AnswerCapsule>
+**Answer capsule** (46 words)
+
+> Contract works and public liability cover the build and third parties while work is underway.
+> Home warranty or indemnity insurance, where it applies, covers a future buyer against your
+> defective or incomplete work. It has never covered your own losses, and none of it is
+> retrospective.
 
 <CanCant
   canTitle="What these covers protect"
@@ -101,12 +119,12 @@ sell to someone who isn't relying on it.
 ## Section 4 — When must cover be in place?
 `id="timing"` · marker `04`
 
-<AnswerCapsule>
-Contract works and public liability cover need to be in place before work starts — there's no
-retrospective cover for a loss that already happened. Home warranty or indemnity insurance, where it
-applies, is a resale-time obligation: Western Australia requires it before settlement if you sell
-within 7 years, New South Wales requires disclosure if you sell within 7 years and 6 months.
-</AnswerCapsule>
+**Answer capsule** (48 words)
+
+> Contract works and public liability cover need to be in place before work starts, because
+> nothing covers a loss that has already happened. Home warranty or indemnity insurance, where it
+> applies, is a resale obligation instead: Western Australia requires it before settlement, New
+> South Wales requires a disclosure.
 
 <Note variant="caution">
 These are two different clocks. Arranging contract works and public liability cover is urgent from
@@ -117,12 +135,12 @@ the day you start; the home warranty timing only matters if and when you decide 
 ## Section 5 — What happens if you don't hold the required cover?
 `id="consequences"` · marker `05`
 
-<AnswerCapsule>
-The consequence is mostly resale-side, not a build-time penalty, in most of the states ABE serves.
-Western Australia can fine an owner builder and allow a buyer to withdraw before settlement; New
-South Wales lets a buyer void the contract of sale if the required warning is missing; Queensland
-requires written disclosure to a buyer within six years of completion.
-</AnswerCapsule>
+**Answer capsule** (47 words)
+
+> In most of these states the consequence lands at resale rather than during the build. Western
+> Australia lets a buyer withdraw before settlement, New South Wales lets a buyer void the
+> contract of sale, and Queensland requires written disclosure to a buyer within six years of
+> completion.
 
 | State | Stated consequence |
 |---|---|
@@ -134,6 +152,12 @@ requires written disclosure to a buyer within six years of completion.
 
 ## Section 6 — How to arrange cover
 `id="arrange"` · marker `06`
+
+**Answer capsule** (42 words)
+
+> Through a licensed broker, not through ABE Education. We are a training provider, not an
+> insurer, and we cannot give you insurance advice. What we can do is introduce you to the broker
+> our students have used for close to twenty years.
 
 <InsurancePartner
   heading="Cover for your build, through our partner"
@@ -148,6 +172,13 @@ requires written disclosure to a buyer within six years of completion.
 
 ## Section 7 — Sources
 `id="content-review"` · marker `07`
+
+**Answer capsule** (49 words)
+
+> Warwick Smith, an independent compliance and currency reviewer, checks this page for regulatory
+> currency. Every state position on it is read against the regulator that sets it, and dated.
+> Where a figure could not be confirmed at its source, the page says so rather than presenting it
+> as settled.
 
 Standard reviewer block (Warwick Smith only — see `01-source-map.md` §D on the authority-model
 question) plus a Sources list carrying all seven rows from `01-source-map.md` §B, each with its URL

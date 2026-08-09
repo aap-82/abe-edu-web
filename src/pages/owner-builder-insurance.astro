@@ -1,0 +1,289 @@
+---
+// Owner builder insurance (W2-6). Archetype 9 (insurance type), Recipe C prose page.
+// Pipeline artefacts: pipeline/owner-builder-insurance/01 through 07.
+//
+// ⚠️ CLAIM-ACCURACY NOTE FOR ANY FUTURE EDIT ⚠️
+// Like /accreditation, this page carries no `data-authority`, so the build-time
+// forbidden-claim scan in src/integrations/guardrails.ts NEVER RUNS on it. Nothing
+// mechanical checks the sentences below. Two rules govern them:
+//
+//   1. ABE Education is not a licensed insurance provider and never gives insurance
+//      advice. This page describes what each state REQUIRES; it never recommends a
+//      product or a level of cover. Archetype 9 §4 bans advice framing outright.
+//   2. The referral relationship with InsuranceTek Pty Ltd is disclosed in the BODY
+//      text (section 6), not only in a footer disclaimer. Archetype 9 §4 again.
+//
+// Every per-state figure below traces to a row in 01-source-map.md §C. Four of the five
+// states were read directly at the regulator; New South Wales, and Tasmania's $5m figure,
+// are corroborated-but-not-directly-fetched and say so ON THE PAGE rather than only in
+// the artefact. Do not quietly upgrade that wording without a facts session doing the read.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import CanCant from '../components/CanCant.astro';
+import Note from '../components/Note.astro';
+import InsurancePartner from '../components/InsurancePartner.astro';
+import VerifiedSources from '../components/VerifiedSources.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+
+const canonical = 'https://www.abeeducation.edu.au/owner-builder-insurance';
+
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'Owner Builder Training', item: 'https://www.abeeducation.edu.au/owner-builder-courses' },
+  { name: 'Owner Builder Insurance', item: canonical },
+];
+
+// One reviewer, not two. This page is not an ABE-developed course: there is no curriculum
+// to credit a developer with, and no product being sold. Warwick checks it for regulatory
+// currency, which is exactly what the page is made of.
+// Points at this page's own reviewer section, not the profile: verification.md §1c, and what
+// /white-card-act, /white-card-qld and /act-owner-builder-course all do.
+const reviewed = { name: 'Warwick Smith', href: '#content-review', date: '8 August 2026' };
+
+const cta = { href: '#arrange', label: 'Get an insurance quote' };
+
+const nav = [
+  { label: 'What you need', href: '#what-you-need', sectionId: 'what-you-need' },
+  { label: 'Is it compulsory?', href: '#compulsory', sectionId: 'compulsory' },
+  { label: 'What it covers', href: '#cover', sectionId: 'cover' },
+  { label: 'Timing', href: '#timing', sectionId: 'timing' },
+  { label: 'If you go without', href: '#consequences', sectionId: 'consequences' },
+  { label: 'Arrange cover', href: '#arrange', sectionId: 'arrange' },
+];
+
+// The five-state table, items-as-rows: facts across the top, states down the side.
+// `rows[].href`/`soon` deliberately unset - setting either renders a trailing action
+// column, and there is no per-state destination to send anyone to.
+const stateColumns = [
+  { key: 'compulsory', label: 'Warranty cover compulsory?', width: '26%' },
+  { key: 'applies', label: 'What actually applies' },
+];
+
+const stateRows = [
+  {
+    label: 'Queensland',
+    values: [
+      'No',
+      'Owner builders are excluded from the Queensland Home Warranty Scheme by law, so the cover is not available to you rather than merely optional.',
+    ],
+  },
+  {
+    label: 'Western Australia',
+    values: [
+      'Only if you sell within 7 years',
+      'Home indemnity insurance is required before settlement if you sell within seven years of the building permit being granted, on work valued over $20,000.',
+    ],
+  },
+  {
+    label: 'Australian Capital Territory',
+    values: [
+      'No',
+      'The statutory warranty that the $12,000 threshold triggers for licensed builders expressly excludes work carried out by a licensed owner-builder.',
+    ],
+  },
+  {
+    label: 'Tasmania',
+    values: [
+      'No warranty scheme, but liability cover is mandatory',
+      'No home warranty scheme exists in Tasmania at all. Separately, at least $5 million of public and construction liability cover is a condition of the permit itself.',
+    ],
+  },
+  {
+    label: 'New South Wales',
+    values: [
+      'Not for your own labour',
+      'You are not required to hold Home Building Compensation cover for work you do yourself. A consumer warning applies if you sell within seven years and six months of your permit, and any trade you contract must hold cover on work over $20,000.',
+    ],
+  },
+];
+
+// Every entry carries the date it was read. Without `verified`, SourcesFooter renders a bare
+// link and the page loses the freshness signal every other course page on this site shows.
+const stateSources = [
+  { label: 'QBCC — About owner-building', href: 'https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/about-owner-building', verified: '8 Aug 2026' },
+  { label: 'wa.gov.au — Home indemnity insurance, a reminder about your obligations', href: 'https://www.wa.gov.au/government/announcements/home-indemnity-insurance-reminder-about-your-obligations', verified: '8 Aug 2026' },
+  { label: 'wa.gov.au — Home indemnity insurance fact sheet', href: 'https://www.wa.gov.au/government/publications/home-indemnity-insurance-fact-sheet', verified: '8 Aug 2026' },
+  { label: 'ACT Planning — Statutory warranties', href: 'https://www.planning.act.gov.au/community/build-or-renovate/before-you-start/building-contracts/statutory-warranties', verified: '8 Aug 2026' },
+  { label: 'CBOS — Fact sheet, owner builder work', href: 'https://www.cbos.tas.gov.au/__data/assets/pdf_file/0006/404970/Fact-Sheet-Owner-Builder-Work.pdf', verified: '8 Aug 2026' },
+  { label: 'SIRA — Information for owner-builders', href: 'https://www.sira.nsw.gov.au/home-building-compensation/home-building-compensation-for-homeowners/information-for-owner-builders', verified: '8 Aug 2026' },
+];
+
+// No Course node and no offers: nothing on this page is purchasable, and asserting a
+// product that does not exist is the same class of error as an RTO claim. Article +
+// BreadcrumbList + the one reviewer Person.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${canonical}#article`,
+      // Matches the rendered <h1> exactly, minus its decorative full stop. A headline that
+      // disagrees with the visible heading is a mismatch Google resolves against the page.
+      headline: 'Owner builder insurance, and what your state actually requires',
+      description: 'Which insurance an owner builder must hold in Queensland, Western Australia, the ACT, Tasmania and New South Wales, and which is optional. Every state position sourced and dated.',
+      inLanguage: 'en-AU',
+      dateModified: '2026-08-08',
+      isPartOf: { '@type': 'WebSite', url: 'https://www.abeeducation.edu.au' },
+      publisher: {
+        '@type': 'EducationalOrganization',
+        name: 'ABE Education',
+        url: 'https://www.abeeducation.edu.au',
+      },
+      // A reference to the Person node below, not a second copy of it. Inlining the whole
+      // Person here emitted two Person objects describing one person, which reads as two
+      // reviewers to anything counting nodes.
+      reviewedBy: { '@id': `${canonical}#reviewer` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${canonical}#reviewer`,
+      name: 'Warwick Smith',
+      jobTitle: 'Compliance & Currency Reviewer',
+      description: 'Independent compliance and currency reviewer, with over 27 years in the Australian vocational education and training sector.',
+      sameAs: 'https://www.linkedin.com/in/warwick-a-l-smith/',
+      url: 'https://www.abeeducation.edu.au/experts/warwick-smith',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+
+const disclaimersHtml = 'ABE Education is not a licensed insurance provider and does not give insurance advice. This page describes the insurance obligations each state places on owner builders, sourced and dated. Cover is arranged by our partner InsuranceTek Pty Ltd, not by ABE Education.';
+---
+<BaseLayout
+  title="Owner Builder Insurance: What Is Compulsory, By State"
+  description="Which insurance an owner builder must hold in QLD, WA, the ACT, Tasmania and NSW, and which is optional. Every state position sourced and dated, from a training provider that refers rather than sells."
+  canonical={canonical}
+  schema={schema}
+  sticky={{ label: 'Owner Builder Insurance', sub: 'what each state requires', price: '5 states', cta }}
+  crumbs={crumbs}
+  reviewed={reviewed}
+>
+<main id="main">
+  <Hero
+    eyebrow="Owner Builder · Insurance"
+    h1Html={'Owner builder insurance, and what your state actually requires<span class="dot">.</span>'}
+    updated="Government facts verified 8 August 2026"
+    subhead="Most pages about owner builder insurance are written by someone selling it. This one is not. It sets out which cover each state requires, which it does not, and where the obligation only bites if you sell."
+    ticks={[
+      '<b>No state requires you to insure your own labour</b> under a home warranty scheme',
+      '<b>Every state position sourced and dated</b>, with the regulator named',
+      '<b>ABE Education refers rather than sells</b>, so this page can tell you when not to buy',
+    ]}
+    cta={{ ...cta, microcopy: 'An introduction to our partner broker. No obligation.' }}
+    proof={[
+      { n: '5', text: 'states covered' },
+      { n: '31,000+', text: 'students trained' },
+      { n: '2007', text: 'training since' },
+    ]}
+    howItWorks="Check your state → Confirm what applies → Get a quote"
+    artefactDesc="An owner builder home mid-build behind temporary fencing, the site risk that contract works and liability cover exist to protect."
+    artefactSpec="5:4 · warm tone · ~1000×800"
+  />
+
+  <WayfinderNav items={nav} cta={cta} />
+
+  <Section id="what-you-need" marker="01" total="7" eyebrow="The basics" h2="What insurance does an owner builder actually need?">
+    <AnswerCapsule>An owner builder normally deals with three covers: contract works insurance and public liability insurance, both sensible from the day work starts, and home warranty or indemnity insurance, the only one of the three that is ever a legal requirement, and only in some states and some circumstances.</AnswerCapsule>
+    <p>Contract works insurance covers the build itself against fire, storm, theft and accidental damage while it is underway. Public liability covers you if the build injures someone or damages someone else's property. Neither is a government mandate in most states. Tasmania is the exception, where at least $5 million of public and construction liability cover is a condition of the owner builder permit itself.</p>
+    <p>Home warranty or indemnity insurance is a different thing again. It protects a future buyer of the property against defective or incomplete work, not you against your own losses. Whether you need it, or can even get it, depends entirely on which state you are building in.</p>
+  </Section>
+
+  <Section id="compulsory" bg="bg-alt" marker="02" total="7" eyebrow="The decisive question" h2="Is home warranty insurance compulsory for an owner builder?">
+    <AnswerCapsule>No home warranty scheme in any state ABE Education serves requires an owner builder to insure their own labour. Queensland and the ACT exclude owner builders by law, Western Australia and New South Wales attach an obligation only if you sell, and Tasmania has no scheme at all, though it does require $5 million of liability cover.</AnswerCapsule>
+    <p>That is worth stating plainly, because it is not what most insurance pages imply. A page selling cover has no reason to tell a reader they might not need to buy it. This one does, because ABE Education refers rather than sells.</p>
+    <ComparisonTable
+      columns={stateColumns}
+      rows={stateRows}
+      cornerLabel="State"
+      caption="Home warranty and indemnity insurance for owner builders, by state"
+    />
+    <Note variant="caution" label="Sourcing">
+      The New South Wales figures, and Tasmania's $5 million liability figure, are corroborated by results citing the regulator rather than by a direct read of the source document, which returned an access error when checked. Treat them as reliable but not yet confirmed at source. The Queensland, Western Australian and ACT positions were read directly.
+    </Note>
+    <VerifiedSources
+      date="8 August 2026"
+      facts="The compulsory or optional status of warranty and indemnity cover in each state, read at the regulator named beside it"
+      sources={stateSources}
+    />
+  </Section>
+
+  <Section id="cover" marker="03" total="7" eyebrow="Cover and exclusions" h2="What does cover include, and what does it leave out?">
+    <AnswerCapsule>Contract works and public liability cover the build and third parties while work is underway. Home warranty or indemnity insurance, where it applies, covers a future buyer against your defective or incomplete work. It has never covered your own losses, and none of it is retrospective.</AnswerCapsule>
+    <CanCant
+      canTitle="What these covers protect"
+      can={[
+        'Contract works cover for fire, storm, theft and accidental damage during the build',
+        'Public liability cover if the build injures someone or damages a neighbouring property',
+        'A future buyer, against defective or incomplete owner builder work, where a scheme applies',
+      ]}
+      cantTitle="What they do not cover"
+      cant={[
+        'Your own loss if the build runs over budget or a trade does poor work',
+        'Anything that happened before the policy started. None of these covers are retrospective',
+        'Your liability for the work itself, which stays with you and can survive a sale',
+      ]}
+    />
+  </Section>
+
+  <Section id="timing" bg="bg-alt" marker="04" total="7" eyebrow="Timing" h2="When does cover need to be in place?">
+    <AnswerCapsule>Contract works and public liability cover need to be in place before work starts, because nothing covers a loss that has already happened. Home warranty or indemnity insurance, where it applies, is a resale obligation instead: Western Australia requires it before settlement, New South Wales requires a disclosure.</AnswerCapsule>
+    <Note variant="caution" label="Two different clocks">
+      Arranging contract works and public liability cover is urgent from the day you start. The home warranty obligation only matters if and when you decide to sell. Do not let "I am not selling any time soon" become a reason to delay the cover you need on day one.
+    </Note>
+  </Section>
+
+  <Section id="consequences" marker="05" total="7" eyebrow="Going without" h2="What happens if you do not hold the cover your state requires?">
+    <AnswerCapsule>In most of these states the consequence lands at resale rather than during the build. Western Australia lets a buyer withdraw before settlement, New South Wales lets a buyer void the contract of sale, and Queensland requires written disclosure to a buyer within six years of completion.</AnswerCapsule>
+    <p>Western Australia and New South Wales are the two states where going without has a defined consequence attached to the sale. In Western Australia, a purchaser can withdraw before settlement if the insurance is not provided. In New South Wales, a purchaser can void the contract of sale before settlement if the required consumer warning is missing from it.</p>
+    <p>Queensland's obligation is disclosure rather than insurance. If you sell within six years of completion you must tell the prospective buyer in writing that the work was done under an owner builder permit.</p>
+    <p>The ACT and Tasmania attach no warranty scheme consequence, because neither has a scheme to breach. That is not the same as carrying no risk: what a warranty scheme would have covered is simply uninsured, and the obligations each state does impose are the ones set out in the table above.</p>
+    <VerifiedSources
+      date="8 August 2026"
+      facts="The resale consequences above, read at the regulator that sets each one. Where a penalty amount is quoted by third parties but not stated by the regulator, this page leaves it out rather than repeating it"
+      sources={stateSources}
+    />
+  </Section>
+
+  <Section id="arrange" bg="bg-warm" marker="06" total="7" eyebrow="Next step" h2="How do you arrange cover?">
+    <AnswerCapsule>Through a licensed broker, not through ABE Education. We are a training provider, not an insurer, and we cannot give you insurance advice. What we can do is introduce you to the broker our students have used for close to twenty years.</AnswerCapsule>
+    <InsurancePartner
+      heading="Cover for your build, through our partner"
+      paras={[
+        'Contract works and public liability cover are worth arranging before work starts, whichever state you are building in. Home warranty or indemnity insurance is worth checking against the table above first, because in most of these states it is not something you can buy as an owner builder even if you want to.',
+        'ABE Education is not a licensed insurance provider. We work with our insurance partner InsuranceTek Pty Ltd, whose principal broker Mark Adams has helped ABE Education students for close to twenty years. We can introduce you for a quote and advice tailored to your project.',
+      ]}
+      cta={{ href: '#arrange', label: 'Get an owner builder insurance quote' }}
+      imgRatio="r54"
+      imgDesc="Stacked framing timber and roof trusses waiting on the ground beside a wheelbarrow, materials-first rather than house-first."
+      imgSpec="5:4 · warm tone · ~1000×800"
+    />
+    <Note><b>Please note:</b> this is general information, not a complete list of the cover you may need for your project. Insurance is arranged by InsuranceTek Pty Ltd, not ABE Education.</Note>
+  </Section>
+
+  <Section id="content-review" marker="07" total="7" eyebrow="Who checks this" h2="Who reviews this page?">
+    <AnswerCapsule>Warwick Smith, an independent compliance and currency reviewer, checks this page for regulatory currency. Every state position on it is read against the regulator that sets it, and dated. Where a figure could not be confirmed at its source, the page says so rather than presenting it as settled.</AnswerCapsule>
+    <p>Insurance obligations move with the legislation behind them, and four of the five states here set theirs in instruments that are amended from time to time. The verified date beside each source is the day it was read, not the day this page was published.</p>
+    <VerifiedSources
+      date="8 August 2026"
+      facts="Reviewed for regulatory currency, and every state position dated to the day it was read"
+      sources={[{ label: 'Warwick Smith, compliance and currency reviewer', href: '/experts/warwick-smith', verified: '8 Aug 2026' }]}
+    />
+  </Section>
+
+  <CtaBand
+    eyebrow="Next step"
+    headingHtml={'Not sure which cover applies to your build<span class="dot">?</span>'}
+    sub="Check your state in the table above, then let us introduce you to our partner broker for a quote on the cover you actually need."
+    cta={{ ...cta, microcopy: 'An introduction to our partner broker. No obligation.' }}
+  />
+</main>
+  <SourcesFooter sources={stateSources} disclaimersHtml={disclaimersHtml} updated="August 2026" />
+</BaseLayout>
