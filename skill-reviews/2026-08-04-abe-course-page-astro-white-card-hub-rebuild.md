@@ -136,7 +136,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] `scripts/check-links.mjs:44` still lists `/white-card` in its `PLANNED` array
   ("W3-6 - White Card hub") now that the page exists and ships. One-line deletion. Confirmed the FAIL
   still fires via `node scripts/check-links.mjs --slug white-card` as of this review. First sighting.
-- [design] AT LEAST FIFTH SIGHTING — `.capsule` (the shared answer-capsule component `HubLayout.astro`
+- ~~[design] AT LEAST FIFTH SIGHTING — `.capsule` (the shared answer-capsule component `HubLayout.astro`
   and every course page use) renders at ~91 characters per line at 820px/18px, over the site's own 85
   CPL hard rule. Prior sightings, oldest first: `skill-reviews/design/2026-07-30-measure-contrast-and-
   tap-targets.md` (filed, explicitly deferred: "the answer capsule is the design register's primary
@@ -145,7 +145,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `skill-reviews/2026-08-04-abe-course-page-astro-white-card-hub.md` and `skill-reviews/2026-08-04-
   abe-readability-audit-white-card.md` (both against this same page, same day); and now
   `pipeline/white-card/07-verification.md` (this run). ROADMAP rule 3 treats a second occurrence as
-  authorising restructuring; this is at least the fifth and still unfixed.
+  authorising restructuring; this is at least the fifth and still unfixed.~~ **Closed 10 Aug 2026.**
+  `.capsule` converted from `66ch` to a measured `600px` cap. This hub's own capsule measured 91 CPL
+  before and **65 CPL** after. Root cause was the unit, not the number: `1ch` is the advance of "0"
+  (12.42px) against an 8.41px average character, so `66ch` bought 92 characters. See
+  `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
 - [build] `pipeline/white-card/07-verification.md`'s Real-defects item 3 states the answer capsule is
   at 65 words. It is not, currently: `src/content/hubs/white-card.mdx`'s committed `intro` field and
   `dist/white-card/index.html`'s rendered capsule both measure 57 words (counted directly), matching

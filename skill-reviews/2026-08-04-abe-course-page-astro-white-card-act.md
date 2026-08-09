@@ -155,7 +155,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   again the same day this page was built. Add the check to `verification.md` once, rather than let a
   fourth Stage 7 rediscover it. Do not carry the "About/2.68" item forward as an open `[design]` item on
   this page — it is not one.
-- [design] AT LEAST SIXTH SIGHTING — `.capsule`/`.trust-lede` (the shared answer-capsule component on
+- ~~[design] AT LEAST SIXTH SIGHTING — `.capsule`/`.trust-lede` (the shared answer-capsule component on
   every course page and both hubs) renders at ~91 characters per line at 820px/18px desktop, over the
   site's own 85-CPL rule. `pipeline/white-card-act/07-verification.md` reports this only as "confirmed
   byte-identical on `/white-card-tas`," which undercounts it: `skill-reviews/2026-08-04-abe-course-page-
@@ -163,7 +163,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   citing `skill-reviews/design/2026-07-30-measure-contrast-and-tap-targets.md` (filed, deliberately
   deferred as a design-register decision), `/white-card-wa`'s own 30 Jul Stage 7, two 4 Aug hub reviews,
   and the hub rebuild's own Stage 7. This page's Stage 7 is at least the sixth. ROADMAP rule 3's
-  restructuring trigger was cleared long ago and remains unactioned.
+  restructuring trigger was cleared long ago and remains unactioned.~~ **Closed 10 Aug 2026**, on this
+  sixth filing. Both elements converted from `ch` to measured px caps: `.capsule` 66ch → 600px
+  (92 → 66 CPL), `.trust-lede` 60ch → 520px (~81 → 64 CPL). Verified across six pages, 0 of 43
+  capsules now over 85. See `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
 - [skills] FOURTH SIGHTING — an `index,follow` page (confirmed: `dist/white-card-act/index.html`'s
   robots meta and presence in `dist/sitemap-0.xml`) ships FPO image placeholders that print their own
   art-direction spec as visible reader-facing body copy ("Image placeholder", the alt-text prompt

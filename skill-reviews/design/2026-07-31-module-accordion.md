@@ -136,8 +136,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   put one sentence behind each disclosure and show no module list at all. `src/data/modules.ts` is the
   worked example; the source is each course's own material, so it is a build-session job per page with
   a real source read.
-- [design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa`,
-  1 of 4 elements over the 85 rule. Carried forward from this morning's review, still open.
+- ~~[design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa`,
+  1 of 4 elements over the 85 rule. Carried forward from this morning's review, still open.~~
+  **Closed 10 Aug 2026**, 58ch → 460px; 84.5 → 65.5 CPL median, 0 of 4 over 85.
 - [design] **`.mr-title` is 18px, which is not a step in DESIGN.md section 3.** Canon Title is Archivo
   600 22px. Raising it is a section-level hierarchy call, because ACT renders twelve group titles and
   at 22px the list stops reading as an index. Either adopt 22px, or add 18px to the documented scale

@@ -88,9 +88,13 @@ and multi-line forms render identically.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **`.capsule` measures 91 CPL** at 820px/18px, over the 85 hard rule, on every page's most
+- ~~[design] **`.capsule` measures 91 CPL** at 820px/18px, over the 85 hard rule, on every page's most
   prominent element. Not changed here: the answer capsule is the design register's primary reading
-  measure and resizing it sitewide is its own decision, not a side effect of a footer session.
+  measure and resizing it sitewide is its own decision, not a side effect of a footer session.~~
+  **Closed 10 Aug 2026**, on the sixth filing, in a session scoped to exactly this decision.
+  `max-width` converted from `66ch` to `600px`; measured 92 → 66 CPL median across 10 capsules on
+  `/white-card-wa`, 0 of 43 capsules over 85 across six pages. See
+  `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
 - [design] **DESIGN.md's measure guidance is wrong as applied.** "65-75ch" in DM Sans yields ~95-110
   actual characters. State the intent in real characters and adopt the px convention that measures
   correctly. Design-register change, exclusive session.

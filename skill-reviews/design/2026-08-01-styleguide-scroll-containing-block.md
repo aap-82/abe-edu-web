@@ -128,7 +128,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `.sr-only` will reproduce this exactly. The rule belongs next to `.sr-only` in `global.css:582`
   where the next reader will meet it, not only in the two call sites that were bitten — the same
   argument that put the R1 reasoning into `robots.txt` rather than leaving it in the risk audit.
-- [design] **`/styleguide` demos white cards on a white ground.** Carried forward from
+- ~~[design] **`/styleguide` demos white cards on a white ground.** Carried forward from
   `2026-08-01-modulerows-faq-parity.md`, still open, and it is the same page as this defect. `.sg-demo`
   computes `rgb(255,255,255)`, so every `--paper` component sits invisibly on it. Worth doing in the
-  same pass as any other styleguide work rather than as its own visit.
+  same pass as any other styleguide work rather than as its own visit.~~ **Closed 10 Aug 2026.**
+  `.sg-demo` moved from `--paper` to `--ground`; measured `rgb(255,255,255)` → `rgb(251,249,245)`,
+  so a `--paper` card now sits on the ground colour a real page uses instead of on itself.

@@ -765,7 +765,16 @@ const groups = [
   .sg-name { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 3px 9px; }
   .sg-desc { font-family: var(--font-body); font-size: 14px; color: var(--ink-3); }
   .sg-props { font-family: var(--font-mono); font-size: 11px; letter-spacing: .01em; color: var(--slate-light); flex-basis: 100%; }
-  .sg-demo { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 28px; overflow: hidden; }
+  /* --ground, not --paper, and the distinction is the whole point of this surface.
+     A demo well is a PAGE surface that displays ELEVATED components, so it has to be the
+     colour a real page is. On --paper it computed rgb(255,255,255) while the cards inside it
+     (.mrows, .faq, HubCard) are also rgb(255,255,255): a 1.0 contrast ratio, so every card
+     boundary the styleguide exists to demonstrate was invisible, and any card that lost its
+     border would have looked correct here and broken in production. Filed twice
+     (2026-08-01 x2). The two tokens were deliberately split on 24 Jul 2026 for exactly this
+     reason - see CLAUDE.md, "--ground is the page and its full-width chrome; --paper is the
+     fill of an ELEVATED surface". Do not merge them back. */
+  .sg-demo { background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 28px; overflow: hidden; }
   .sg-demo + .sg-demo { margin-top: 12px; }
   .sg-demo--bleed { padding: 0; }
   .sg-demo--dark { background: var(--ink); }

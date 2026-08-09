@@ -521,16 +521,32 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
    caution note's maroon top rule. Fills with --paper-inset, NOT --paper-warm: the capsule opens
    sections of every ground, and reusing a section-ramp value made it vanish on a warm section and
    near-vanish (1.026) on an alt one. --paper-inset sits off the ramp so the inset always reads. */
-.capsule{background:var(--paper-inset);border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.55;color:var(--ink-2);max-width:66ch;font-weight:500;}
+/* MEASURE IS CAPPED IN px, NOT ch, AND THIS IS THE SIXTH FILING OF THE SAME BUG.
+   `1ch` is the advance of "0", which in DM Sans at 18px is 12.42px, while the average
+   character in real sentence copy advances 8.41px. So `1ch` buys about 1.48 characters and
+   `max-width:66ch` resolved to 819.72px and rendered 90 to 93 CPL, against a 60-66 ideal and
+   an 85 hard rule. Every session that "fixed" this by tuning the ch number was measuring the
+   input it typed rather than the line the reader sees, six times over.
+   The repo had already settled the right answer elsewhere and it simply never reached here:
+   ModuleRows was converted to a px cap on 30 Jul 2026, and UnitOutline.astro's own comment
+   records why ("a ch cap converts to a different CPL for every copy... px is what global.css
+   already settled on at .measure"). These caps are px, derived from a measured advance:
+   600 - 46 of padding and border = 554px of content / 8.41 = 65.9 CPL. Re-measure in the
+   browser if the body font or size ever changes; do not convert these back to ch. */
+.capsule{background:var(--paper-inset);border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:var(--s-md) 0 var(--s-lg);font-family:var(--font-body);font-size:18px;line-height:1.55;color:var(--ink-2);max-width:600px;font-weight:500;}
 .capsule b,.capsule strong{color:var(--ink);font-weight:700;}
-.capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:60ch;}
+/* Reversed copy is where a long line hurts most, so it caps tighter: 560 - 46 = 514px / 8.63 = 59.6 CPL. */
+.capsule.on-dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(255,255,255,.92);max-width:560px;}
 .capsule.on-dark b,.capsule.on-dark strong{color:#fff;}
 /* TrustBand strapline. Deliberately NOT a capsule: no inset panel, no border, no 40-60 word
    contract. A capsule is an answer to a question; this restates the trust position and is read in
    a glance, so it is set as plain reversed prose. Measure capped at 60ch, the same ceiling the
    on-dark capsule uses, because reversed text is where a long line hurts most: at 375px this
-   column is ~319px wide and every extra sentence costs about three lines. */
-.trust-lede{max-width:60ch;margin:var(--s-sm) 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,.92);}
+   column is ~319px wide and every extra sentence costs about three lines.
+   Converted from 60ch to a px cap 10 Aug 2026 with .capsule above, same reason: 60ch resolved
+   to 745px and rendered ~81 CPL. No padding or border on this one, so 520px IS the content
+   width: 520 / 8.63 = 60.3 CPL. */
+.trust-lede{max-width:520px;margin:var(--s-sm) 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,.92);}
 .trust-lede b,.trust-lede strong{color:#fff;}
 /* ===== text-presentation components (SectionHeading / DefinitionList / StatBlock / KeyTakeaway) =====
    Archetype-independent text shapes. Tokens only; no hardcoded colour. Widths are px measures in

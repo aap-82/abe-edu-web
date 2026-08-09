@@ -206,8 +206,14 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
      75 CPL on this component's sentences and up to 84 on ACT's syllabus prose, one character inside the
      85 rule. Second, px is what global.css already settled on at `.measure` for exactly this reason.
      `.unit-eb` is not changed here for the same reason ModuleRows was not changed there - it ships, and
-     it wants its own measurement and visual diff. Recorded as a demand item. */
-  .unit-eb { display: block; max-width: 58ch; }
+     it wants its own measurement and visual diff. Recorded as a demand item.
+
+     DONE, 10 Aug 2026, in the session that converted `.capsule` and `.trust-lede` for the same
+     reason. Measured on /white-card-wa before the change: 58ch resolved to 595.08px and rendered
+     82 to 88 CPL across the four elements (median 84.5), one inside the 85 rule by a single
+     character. No padding or border here, so the px value IS the content width: at 15px the
+     average advance measures 7.0px, so 460 / 7.0 = 65.7 CPL. */
+  .unit-eb { display: block; max-width: 460px; }
   /* Close the table with the stronger rule: the last row's hairline would otherwise read as another
      divider inside the list rather than as its foot. */
   .unit-t tbody tr:last-child th,

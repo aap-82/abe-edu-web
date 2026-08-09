@@ -242,12 +242,15 @@ background value) and the `:hover` rule at higher specificity, with nothing comp
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **The styleguide demos white cards on a white ground.** `.sg-demo` computes
+- ~~[design] **The styleguide demos white cards on a white ground.** `.sg-demo` computes
   `rgb(255,255,255)`, so `.mrows` and `.faq` both now sit invisibly on it and only their 1px
   `--rule` border reads. Pre-existing and it affects every `--paper` component
   (`.price-card`, `.glance`, `.topic`, `.hub-card`), not just this one — `ModuleRows` has simply
   joined them. The page ground is `--paper-alt`, so the specimen wells are the odd surface, not the
-  components. Worth one change to `.sg-demo` rather than N per component.
+  components. Worth one change to `.sg-demo` rather than N per component.~~ **Closed 10 Aug 2026**,
+  as the one change to `.sg-demo` this item prescribed: `--paper` → `--ground`, measured
+  `rgb(255,255,255)` → `rgb(251,249,245)`. Fixes every `--paper` component at once, not just
+  `.mrows` and `.faq`. `.sg-demo--dark` re-checked and still `rgb(26,26,26)`.
 - [skills] **`ModuleRows` now contradicts one fewer canonical claim, and nobody will notice.** The
   open [skills] item asking PRODUCT.md and DESIGN.md to be reconciled with the FAQ-only accordion
   exception is unaffected by this change, but the *reason* those documents give — "accordions are

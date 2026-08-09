@@ -129,10 +129,13 @@ one line.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa` (median
+- ~~[design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa` (median
   83, 1 of 4 over the 85 hard rule, 4 of 4 over 75), measured 30 Jul at 1520px. Convert to px on the
   `.measure` precedent, as `ModuleRows` now is. One line, one live indexable page, so it wants its own
-  before/after.
+  before/after.~~ **Closed 10 Aug 2026**, exactly as prescribed: converted to px on the `.measure`
+  precedent. Measured on `/white-card-wa` at 1280px — before **82-88 CPL** (median 84.5, 1 of 4 over
+  85), after **64-68 CPL** (median 65.5, 0 over 85). See
+  `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
 - [skills] **The CPL rule should state its unit — third filing, and the trigger has fired.** Recorded in
   `2026-07-30-unit-outline.md` and `2026-07-30-credentials-cards.md`, and now with the evidence that the
   `58ch` written *as that item's own fix* is itself over the rule. The two prior filings do not merge in

@@ -194,9 +194,16 @@ Tag every item: [skills] | [design] | [facts] | [build]
   session. Both tokens feed `.sec { scroll-margin-top }`, so every anchored jump on the site lands
   ~1px shallow. Small, harmless today, and exactly the kind of drift that stops being harmless when
   someone later trusts the token instead of the box. Token change, exclusive session.
-- [design] **`/styleguide` scrolls 182px horizontally at a 375px viewport.** Pre-existing and
+- ~~[design] **`/styleguide` scrolls 182px horizontally at a 375px viewport.** Pre-existing and
   unchanged by this session. Internal and `noindex`, which is why it has survived, but it is the one
-  page whose job is to show components behaving.
+  page whose job is to show components behaving.~~ **Already fixed, struck 10 Aug 2026 — and this
+  session did not fix it.** Measured on a `git stash`ed baseline with every 10 Aug change removed:
+  `documentElement.scrollWidth - innerWidth` is **0px** at a 375px viewport, and zero elements
+  overflow the viewport outside an `overflow-x` container. The fix was almost certainly
+  `2026-08-01-styleguide-scroll-containing-block.md`, filed the same day as this item, which is why
+  the two never met. Struck rather than re-fixed: the item was stale, not open. This is the class
+  `demand-split` was made to surface — an item nobody closed because the session that fixed it was
+  not the session that filed it.
 - [design] **`.bc-foot` is mono reading copy, not a label.** It was 10.5px and is now 11px with the
   rest of the Label token, but its content is a sentence ("Add 1 further point from another approved
   activity to reach 12."), so mono micro-type is the wrong treatment regardless of size. It wants
