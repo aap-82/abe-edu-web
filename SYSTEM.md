@@ -188,6 +188,33 @@ would halt build sessions over a chrome defect, and `system-health` is the pre-f
 when `dist/` may be absent or stale. Postbuild is where it would belong. Revisit if a dead link
 ships again.
 
+**By hand only, and for a different reason** — **`check-reflow`**, the only check that RENDERS a page
+rather than reading it as text. `npm run check:reflow`, after `npm run build`. It serves `dist/` on
+an ephemeral port, drives headless chromium at 375px and 1280px, and measures two things nothing
+else in this repo can see: whether the document scrolls sideways, and how many characters per line
+the reading copy actually renders at.
+
+It exists because both defects it covers were paid for. A 90px sideways scroll at 320px survived a
+green build, 20/20 guardrails and an independent Stage 7 audit on every page rendering
+`PartnerDisclosure`. And `.capsule` rendered 92 CPL against an 85 rule and was filed **six times
+across five sessions** without being fixed, because the cap read `max-width: 66ch` and 66 looks
+correct — `1ch` is the advance of "0" (12.42px in DM Sans 18px), not of an average character
+(8.41px), so 66ch bought 92 characters. Five sessions re-derived the same wrong answer from the same
+wrong unit because nothing could measure the rendered line.
+
+Out of `system-health` deliberately, on the same reasoning as `check-links` plus one more: it needs
+a browser and a current `dist/`, and `system-health` is the pre-flight, which runs when `dist/` may
+be absent or stale. It also takes seconds per page rather than milliseconds. **It skips rather than
+fails when playwright or its browser is missing**, exiting 0 with the install command — the contract
+`check-shipped` uses for a missing `gh`, because a check that fails over a missing tool teaches
+people to ignore it.
+
+Its CPL half is a **ratchet**, not a flat FAIL: 35 breaches across eleven live pages existed the day
+it was written, in page content and `src/styles/**`, which a skills session may not fix. Each page
+carries its count as a budget that can only go down, and the budget FAILs when it rises *and* when
+it falls without the number following — the same shape as `BANNED_CTA_BUDGET`. The reflow half has
+no budget because it was already clean.
+
 Four scripts in `scripts/` are not checks and are exempt from the list above: `generate-redirects`
 (the only writer of `public/_redirects`, at prebuild), `demand-split` (derives handover notes),
 `health-log-dedupe` (collapses identical health records) and `sync-cpd-register` (manual by design,

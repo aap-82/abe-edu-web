@@ -11,7 +11,8 @@
     "check": "astro check",
     "lint:prose": "node scripts/prose-lint.mjs",
     "sync:cpd": "node scripts/sync-cpd-register.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check:reflow": "node scripts/check-reflow.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
@@ -24,6 +25,7 @@
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
+    "playwright": "^1.62.1",
     "secretlint": "^13.0.2"
   }
 }
