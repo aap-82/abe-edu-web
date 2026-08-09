@@ -206,10 +206,16 @@ function frontmatterOf(src: string): string {
    --------------------------------------------------------------------------- */
 const INLINE_STYLE_BUDGET: Record<string, number> = {
   // 23 -> 22 (HubCard took the "coming soon" span) -> 3 (ComparisonTable took the
-  // hand-rolled table, which was 19 of them on its own th/td). The 3 left are margin and
-  // max-width nudges, not structure. Converts to a hub entry in B3, expected to reach 0.
-  'cpd.astro': 3,
-  'cpd-tas.astro': 5,       // 8 -> 5 when BundleCard took over the bundle chooser
+  // hand-rolled table, which was 19 of them on its own th/td) -> 2 (10 Aug 2026: the
+  // `max-width:62ch` nudge on .measure deleted). The 2 left are margin nudges, not
+  // structure. Converts to a hub entry in B3, expected to reach 0.
+  'cpd.astro': 2,
+  // 8 -> 5 when BundleCard took over the bundle chooser -> 2 (10 Aug 2026: three
+  // `max-width:64ch` nudges on .measure deleted). Those four `ch` overrides across both
+  // files were the third sighting of the unit bug that also produced .capsule's 92 CPL:
+  // 64ch reads as 64 characters and rendered 91 to 95, because `1ch` is the advance of
+  // "0", not of an average character. Deleting them restores .measure's own 480px.
+  'cpd-tas.astro': 2,
   '404.astro': 3,           // standalone chrome, duplicates BaseLayout's font block
   'styleguide.astro': 2,    // internal page, never published
 };

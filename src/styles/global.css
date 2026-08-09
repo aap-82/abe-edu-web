@@ -100,6 +100,23 @@ p strong{color:var(--ink);font-weight:600;}
    against the block above, measured at 0px. .wrap is a block container, so adjacent margins
    collapse: after .capsule this stays 32 and nothing moves. */
 .measure{max-width:480px;margin-top:var(--s-lg);}
+/* THE SAME CAP, FOR PROSE THAT NEVER GOT THE WRAPPER. `.measure` has always been the convention,
+   and 14 of 35 measured breaches were simply paragraphs an author wrote straight into a section
+   without it - running to 152 CPL on /owner-builder-insurance and /cpd-building-tas against an 85
+   rule. Relying on every author to remember a wrapper is what produced those; a floor does not.
+   DELIBERATELY `>` ON BOTH STEPS **AND `:not([class])`**, not `.sec p`. Both halves are load-
+   bearing and the second was learned the hard way in this same session.
+   The `>` keeps the rule out of cards, notes, table cells, z-bodies and disclosure blocks.
+   `:not([class])` keeps it off the COMPONENTS that legitimately render a `<p>` as a direct child
+   of `.wrap` - `.capsule`, `.trust-lede`, `.lede`, `.waynext`, `.mc`, `.attest`, `.howline`,
+   `.member-lead`, `.cmp-tablenum`. Without it this rule matched 307 of them and flattened every
+   one to 480px, including resetting `.capsule` from the 600px measured for it the day before.
+   THE CPL CHECK PASSED THAT REGRESSION. 480px is narrower, and a narrower line never breaches an
+   upper bound, so the guard could not see it; a before/after width diff over all 1,142 paragraphs
+   on 22 pages is what caught it. A classless `<p>` here is prose nobody gave a component to, which
+   is exactly the set that breached (all 14 measured with `own class: (none)`).
+   Verified after the fix: 47 paragraphs narrowed, 0 widened, every component width unchanged. */
+.sec>.wrap>p:not([class]){max-width:480px;}
 /* ...but not when it is the first thing in its column or section, where the heading above already
    owns the spacing and a top margin would just push the prose down. */
 .measure:first-child,.z-body .measure:first-child{margin-top:0;}
@@ -344,7 +361,13 @@ p strong{color:var(--ink);font-weight:600;}
 .step{border-top:1px solid var(--rule);padding-top:var(--s-md);}
 .step .s-k{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:8px;}
 .step h3{margin-bottom:6px;}
-.step p{margin:0;color:var(--ink-3);font-size:16px;}
+/* Capped to .measure. Step bodies were the single biggest measure breach on the site: 13 of 35,
+   running to 162 CPL on /cpd-building-tas against an 85 hard rule, because `.step p` set a size and
+   a colour and never a width, so a step body ran the full section. 480px at 16px is ~64 CPL, the
+   same figure .measure gives body copy, which is the point - a step body IS body copy. Stepper's
+   own `maxWidth` prop still caps the container where a page wants it narrower; this is the floor
+   under the pages that never passed one. Measured, not estimated: see check-reflow.mjs. */
+.step p{margin:0;color:var(--ink-3);font-size:16px;max-width:480px;}
 .topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
 .topic{border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);transition:border-color .18s,transform .18s;}
 .topic:hover{border-color:var(--ink);transform:translateY(-2px);}

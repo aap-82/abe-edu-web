@@ -150,16 +150,23 @@ reading it. The budget-from-a-truncated-tail mistake is the more interesting one
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **35 prose elements across 11 pages exceed the 85 CPL rule**, all uncapped `<p>` inside
+- ~~[design] **35 prose elements across 11 pages exceed the 85 CPL rule**, all uncapped `<p>` inside
   `.sec` with no `.measure` wrapper. Measured, with per-page counts, in `CPL_BUDGET` in
   `scripts/check-reflow.mjs`. Worst: `/cpd-building-tas` (10 elements, to 162 CPL), `/cpd-tas` (9),
   `/owner-builder-insurance` (7, to 149). A single `.sec p` cap in `global.css` would likely clear
   most of it in one change, but it is sitewide CSS and belongs to a design session. Lower each
-  budget line as it is cleared; the table is meant to disappear.
-- [build] `/owner-builder-insurance` renders 7 body paragraphs at 141-149 CPL, the worst reading
+  budget line as it is cleared; the table is meant to disappear.~~ **Closed 10 Aug 2026, all 35, and
+  `CPL_BUDGET` is now empty.** The guess that one `.sec p` cap would clear most of it was close but
+  wrong in an instructive way: the 35 were three causes (`.step p` had no width at all, 13; no
+  `.measure` wrapper, 14; four inline `ch` overrides, 7), and a plain `.sec p` descendant selector
+  would have regressed 307 component paragraphs. Shipped as `.step p` plus
+  `.sec>.wrap>p:not([class])`. See `skill-reviews/design/2026-08-10-cpl-breaches-cleared.md`.
+- ~~[build] `/owner-builder-insurance` renders 7 body paragraphs at 141-149 CPL, the worst reading
   measure on the site after `/cpd-building-tas`, because it uses bare `<p>` inside `<Section>`.
   Shipped 9 Aug 2026 and passed an independent Stage 7 because no check could see it. Wrap its prose
-  in `.measure`, or fix it under the sitewide `[design]` item above, whichever lands first.
+  in `.measure`, or fix it under the sitewide `[design]` item above, whichever lands first.~~
+  **Closed 10 Aug 2026** by the sitewide fix, as this item anticipated — no page-level edit needed.
+  Its paragraphs now measure 60 CPL.
 - [skills] **`check-reflow` is not wired into CI**, so it runs only when someone remembers — the
   standing that SYSTEM.md itself calls the quieter failure mode. `.github/**` is on CLAUDE.md's
   deliberately-unassigned list, so wiring it into `ci.yml` (after the existing build step, alongside

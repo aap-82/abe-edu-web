@@ -76,19 +76,15 @@ const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
      under budget  -> FAIL. Debt was paid; lower the number so it cannot creep back.
      absent        -> budget 0. Pages written from here on start clean.
    Delete a line when it reaches 0. The whole table is meant to disappear. */
-const CPL_BUDGET = {
-  '/cpd-building-tas': 10,          // worst on the site: 3 elements over 150 CPL
-  '/cpd-tas': 9,
-  '/owner-builder-insurance': 7,    // shipped 9 Aug 2026 with bare <p> and no .measure wrapper
-  '/cpd': 2,
-  '/': 1,
-  '/act-owner-builder-course': 1,
-  '/owner-builder-nsw-course': 1,
-  '/owner-builder-nsw-course-w': 1,
-  '/qld-owner-builder-course': 1,
-  '/tas-owner-builder-course': 1,
-  '/wa-owner-builder-course': 1,
-};
+/* EMPTY, AND IT REACHED EMPTY THE SAME DAY IT WAS WRITTEN. The table opened at 35 breaches across
+   eleven pages and closed at zero in one design session, because the 35 turned out to be three
+   causes rather than thirty-five decisions: `.step p` had no cap at all (13), prose was written
+   straight into a section without the `.measure` wrapper (14), and four inline `max-width:NNch`
+   overrides on `.measure` reproduced the `ch` unit bug a third time (7). Two CSS rules and four
+   deletions. Every page now measures 0 over the 85 rule at 1280px.
+   Leave this empty. A page appearing here again is a regression, and budget 0 is what makes it
+   fail on the first build rather than on the sixth filing. */
+const CPL_BUDGET = {};
 
 const out = { fails: [], warns: [], oks: [] };
 const F = (m) => out.fails.push(m);
