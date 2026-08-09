@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 3 August 2026.
+Last updated: 10 August 2026.
 
 ---
 
@@ -20,13 +20,64 @@ Last updated: 3 August 2026.
 
 ---
 
-## Current state (4 August 2026)
+## Current state (10 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
-closed. **Wave 3 is complete as of 4 Aug 2026: all five White Card spokes (WA, TAS, NSW, QLD, ACT)
-and the `/white-card` hub are built**, the hub un-soon'd for ACT the same session `/white-card-act`
-shipped. Phase 3 remains unbuilt, and a fifth trigger has fired (see the table) — the same
-session-type crossing as the fourth, sighted a third time, from a `build` session.
+closed. **Wave 3 is complete: all five White Card spokes (WA, TAS, NSW, QLD, ACT) and the
+`/white-card` hub are built.** Wave 2 gained its first insurance page on 9 Aug. **One Phase 3
+candidate is now BUILT — the headless width check, as `scripts/check-reflow.mjs`** — and the
+session-type path check remains the oldest unbuilt one, with its evidence still accumulating.
+
+### 5-10 August 2026, newest first
+
+- **10 Aug — `scripts/check-reflow.mjs`, the first check in the repo that RENDERS a page**, closing
+  the ROADMAP Phase 3 "headless width check" candidate that had been authorised at two occurrences
+  since 28 July and held only on the `package.json` dependency question (`playwright`, now a
+  devDependency, authorised by Andrey). Serves `dist/` on an ephemeral port and drives headless
+  chromium at 375px and 1280px. **Reflow was clean sitewide on its first run** — the 90px
+  `PartnerDisclosure` scroll is genuinely fixed. It also measures characters per line, which is why
+  it immediately found 35 CPL breaches nothing else could see. Skips rather than fails without the
+  browser. Not in `system-health` (needs a browser and a current `dist/`); named in SYSTEM.md §5.
+  See `skill-reviews/skills/2026-08-10-check-reflow.md`.
+- **10 Aug — the measure defect closed on its sixth filing, then all 35 CPL breaches cleared.**
+  `.capsule` had been filed six times across five sessions and never fixed, because `max-width:66ch`
+  looks like 66 characters and is not: `1ch` is the advance of "0" (12.42px in DM Sans 18px) against
+  an 8.41px average character, so 66ch bought **92**. Converted to measured px caps (`.capsule`
+  92→66 CPL, `.unit-eb` 84.5→65.5, `.trust-lede` ~81→64), then the remaining 35 breaches turned out
+  to be three causes — `.step p` with no width at all (13, to 162 CPL), prose with no `.measure`
+  wrapper (14, to 152), and four inline `ch` overrides (7). Sitewide now **0 prose elements over the
+  85 rule across 44 page/viewport combinations**, and `CPL_BUDGET` is empty. The styleguide also
+  stopped demoing white cards on a white ground (`.sg-demo` → `--ground`). Two reviews:
+  `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md` and
+  `...-cpl-breaches-cleared.md`.
+- **9 Aug — `/owner-builder-insurance` (W2-6, first of three insurance pages)**, built end to end as
+  a hand-built Recipe C `.astro` page. Its central finding is worth reading before the other two:
+  **no state ABE serves requires an owner builder to insure their own labour under a warranty
+  scheme** — QLD and ACT exclude them by statute, TAS has no scheme (but mandates $5m liability
+  cover as a permit condition), WA and NSW attach an obligation only on resale within 7 / 7.5 years.
+  Stage 7 was graded by an independent subagent, which found **two government claims added after
+  Stage 4 with no ledger row**; both were cut rather than reworded. **Merge-blocked on one thing:**
+  all six CTAs resolve to `#arrange`, one from inside `<section id="arrange">`, because no quote
+  destination for InsuranceTek exists anywhere in the repo. Andrey's call.
+- **8 Aug — `review-trends.mjs` was reporting a false WORSENING trend.** Its earliest-third vs
+  recent-third comparison could run on a single data point per side; `turns_to_passed_audit` showed
+  "0.0 → 2.0 WORSENING" from n=1 vs n=1, against a six-point series (`0, 4, 0, 6, 6, 2`) that had
+  actually improved. Now reports sample counts and refuses a direction below n=2 per window. The
+  20 banned "Enrol now" CTAs on the four legacy owner-builder pages were rewritten the same day and
+  `BANNED_CTA_BUDGET` emptied; a false "Pay by card or Afterpay" claim was removed from
+  `/white-card-tas` and `/white-card-qld`, neither of which has a checkout.
+- **7 Aug — the White Card Stage 7 drift and the TAS residency contradiction both closed**, across
+  four commits and three session types. `/white-card-tas`'s "Tasmanian residents only" framing was
+  unsourced to any regulator and is now corrected in all 11 locations; `check-positions`'s
+  `tas-online-residency` rule reports OK sitewide.
+- **6 Aug — `/white-card-act` (W3-5) shipped and the `/white-card` hub was redesigned**, un-soon'ing
+  ACT as the fifth live spoke.
+
+**Review coverage is 7/13 and that is not a regression** (diagnosed 8 Aug). The six pages without a
+Stage-9 review — `act-owner-builder-course`, both NSW owner-builder variants,
+`qld-owner-builder-course`, `tas-owner-builder-course` and the `owner-builder-courses` hub — all
+predate the formal pipeline. `wa-owner-builder-course` is the one exception, retrofitted 23 Jul as
+evidence run 3. Whether to retrofit the rest is an open `[build]` judgement call, not a defect.
 
 - **Added 4 Aug 2026: `/white-card-act` (W3-5)**, the fifth and final White Card spoke — zero legacy
   equity, a genuinely new page. Full formal pipeline, `pipeline/white-card-act/01` through `07`,
@@ -474,13 +525,26 @@ roadmap was built to enforce.
 
 ---
 
-## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, five triggers have fired
+## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, six triggers fired, one built
 
 Phase 2's demand list now exists, so the gate is open for **the candidates it names and no others**.
-Five triggers have fired. The first three have evidence in
+Six triggers have fired. The first three have evidence in
 `skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`; the fourth was earned on
 28 July and has already recurred; the fifth was earned on 1 August across three boundary crossings in
-two sessions on the same day.
+two sessions on the same day. **The sixth — the headless width check — is BUILT as of 10 Aug 2026**,
+the first candidate on this table to be closed.
+
+**A new structural finding sits underneath the session-type candidate, and it is at two sightings.**
+A ratcheted budget always lives in a **skills-owned** file (`guardrails.ts`'s `BANNED_CTA_BUDGET` and
+`INLINE_STYLE_BUDGET`, `check-reflow.mjs`'s `CPL_BUDGET`) while the debt it counts always lives in
+**design- or build-owned** files. The ratchet FAILs the build when a count falls without its budget
+following, so **paying down debt cannot be completed inside one session type** — the build stays red
+until someone crosses. Disclosed 9 Aug 2026 (banned CTAs: content is build-owned) and again 10 Aug
+(inline styles and CPL: CSS and pages are design-owned). This is not the same defect as the
+session-type path check below — that one catches undisclosed crossings; this one *forces* them.
+Three options worth weighing before building either: move budgets to a data file any session may
+write; have the ratchet auto-lower and report rather than FAIL on a paid-down count; or name the
+exemption in the session-types table so it stops being a per-session judgement call.
 
 | Candidate | Trigger | Evidence |
 |---|---|---|
@@ -493,11 +557,20 @@ two sessions on the same day.
 Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,
 `token-lint`, event-driven Stage 1 verification.
 
-**Still unbuilt after the 29 Jul system audit, deliberately** — re-checked against disk, not assumed:
-the **`page-auditor` subagent** and the **fail-on-undeclared-authority guardrail** (both triggered, both
-still candidates), and the **headless width check** — which is at two occurrences and authorised, but
-needs playwright or puppeteer in `package.json`, so it was raised with Andrey and held as a separate
-ask rather than folded into an audit session.
+**Still unbuilt, deliberately** — re-checked against disk on 10 Aug 2026, not assumed: the
+**`page-auditor` subagent**, the **fail-on-undeclared-authority guardrail** and the **session-type
+path check** (all three triggered, all three still candidates). ~~the headless width check~~ **was
+the fourth on this list and is now BUILT** (10 Aug 2026, `scripts/check-reflow.mjs`) — the dependency
+question that had held it since 28 July was put to Andrey and answered.
+
+**One caveat on the new check, recorded the day it shipped:** it has a **ceiling and no floor**. On
+10 Aug a CSS change silently collapsed 307 component paragraphs to 480px — including resetting
+`.capsule` from the 600px measured for it hours earlier — and `check-reflow` reported clean, because
+a narrower line never breaches an upper bound. Build, typecheck, `system-health` and `check-claims`
+passed it too. It was caught only by an ad-hoc before/after width diff over all 1,142 paragraphs on
+22 pages, which was then thrown away. A companion assertion (a committed per-component width
+baseline, or a minimum-CPL check on elements carrying their own `max-width`) is filed as a
+`[skills]` item. **Do not read "check-reflow is green" as "the measure is correct".**
 
 ### Ready to build now, authorised by a second occurrence (ROADMAP rule 3) — ✅ both built 29 Jul 2026
 
