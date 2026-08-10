@@ -26,7 +26,7 @@
 | CPD Trade Hub | `/cpd-{trade}` | 800–1,200 | ItemList + BreadcrumbList | Home › CPD Courses › {Trade} CPD |
 | Bundle Main Hub | `/cpd-bundles` | 1,000–1,500 | ItemList + BreadcrumbList | Home › CPD Bundles |
 | Bundle State Hub | `/cpd-bundles/{state}` | 1,200–1,500 | ItemList + Organization + BreadcrumbList | Home › CPD Bundles › {State} Bundles |
-| Insurance Hub | `/insurance` | 800–1,200 | ItemList + BreadcrumbList | Home › Owner Builder Training › Insurance Services |
+| Insurance Hub | `/insurances` | 800–1,200 | ItemList + BreadcrumbList | Home › Owner Builder Training › Insurance Services |
 
 ### Course Pages (3 types)
 
@@ -398,8 +398,25 @@ Link    Link      Link     Not clickable
 | `/tas-owner-builder-course` | "TAS Owner Builder Permit" |
 | `/act-owner-builder-course` | "ACT Owner Builder Course" |
 | `/project-advisory` | "Project Advisory Pack" |
-| `/insurance` | "Owner Builder Insurance" |
+| `/owner-builder-insurance` | "Owner Builder Insurance" |
 
+> **The Owner Builder tail slugs, settled 10 Aug 2026 — THREE rows were wrong, not two.**
+> `/owner-builder-insurance` **shipped** 9 Aug 2026, and this file said `/insurance` in both the
+> hub-downlink table and the state-page cross-link table — the latter being the target every state
+> page is told to use. A third row, the page-type table above, used `/insurance` for the **Insurance
+> Hub**, which is a different page again: `new site/abe-new-site-sitemap.md` gives it as
+> **`/insurances`** (plural), with `/owner-builder-insurance` and `/professional-indemnity-insurance`
+> beneath it. Corrected to match; the hub is unbuilt, so nothing depends on it yet. The third row was
+> found only by re-grepping the whole file after fixing the first two, which is the point: a
+> line-range read is not an enumeration. `/project-advisory` is
+> **confirmed by Andrey** over `new site/abe-new-site-sitemap.md`'s `/project-advisory-pack`, which
+> that document itself flags "slug TBC": this table already used the short form as canonical *and*
+> as the state-page cross-link target, so confirming it left fewer stale references than changing it.
+> **The sitemap doc still says `/project-advisory-pack` and is now the stale one** — it is
+> skills-owned like this file, and reconciling it is filed, not done. W2-6's other two pages
+> (`/professional-indemnity-insurance`, the `/insurances` hub) are unbuilt, so their rows are not
+> yet in this table.
+>
 > **Owner Builder URL convention:** State landing pages are **state-first**: `/{state}-owner-builder-course` (matching the URL rule above). All five are self-canonical: `/nsw-owner-builder-course`, `/qld-owner-builder-course`, `/wa-owner-builder-course`, `/tas-owner-builder-course`, `/act-owner-builder-course`. The hub is `/owner-builder-courses`. Legacy alternate: NSW also resolves at `/owner-builder-nsw-course` (still indexed, but the canonical is the state-first form — use `/nsw-owner-builder-course`). The `/course/{state}-owner-builder-education…` LearnWorlds player URLs are separate enrolment pages, not the marketing landing pages governed here.
 
 ### Owner Builder State Page (e.g., `/tas-owner-builder-course`)
@@ -411,7 +428,7 @@ Link    Link      Link     Not clickable
 | Cross-links (non-competing) | Purpose |
 |---|---|
 | `/white-card-wa` | "Need a White Card for WA construction?" |
-| `/insurance` | "Owner Builder insurance options" |
+| `/owner-builder-insurance` | "Owner Builder insurance options" |
 | `/project-advisory` | "Get project advisory support" |
 | Relevant gov URL (external) | "LGIRS — WA Owner Builder (Form 75) requirements" |
 
