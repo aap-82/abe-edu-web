@@ -100,6 +100,7 @@ import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ResourceLink from '../../components/ResourceLink.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules-act';
 import { faqs } from '../../data/faqs-act';
@@ -167,6 +168,12 @@ import { faqs } from '../../data/faqs-act';
 <Section bg="bg-warm" id="cost" marker="05" eyebrow="What it costs" h2="What will you pay in total?">
   <AnswerCapsule>The course is <b>$179</b> to ABE Education. The Access Canberra licence fee is separate: <b>$320.20</b> for a Class 1 or 2 building lodged online. Together that is <b>$499.20</b> to be ready to apply. Owner builders pay no licence-term fee.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The Access Canberra licence fee is a Class 1 or 2 building lodged online. A Class 10a building is $239.13 online, and lodging in person or by post is higher ($344.99 Class 1/2, $250.11 Class 10). Fees are set under the Construction Occupations (Licensing) (Fees) Determination 2026 (DI2026-165), effective 1 July 2026 and indexed each 1 July, so check the current amount before you lodge. Owner builders pay no licence-term fee." />
+  <ResourceLink
+    href="/project-advisory"
+    kicker="Project tools"
+    title="The Project Advisory Pack"
+    desc="An automated budget estimator, a contracts calculator and a written guide, $89. Separate from the course, and not required by any regulator."
+  />
   <SectionWayfinder label="Your duties" href="#duties" />
 </Section>
 

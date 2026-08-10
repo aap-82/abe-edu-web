@@ -101,6 +101,7 @@ import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ResourceLink from '../../components/ResourceLink.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroupsWa, moduleOutcomeWa, obligationCardsWa } from '../../data/modules-wa';
@@ -219,6 +220,12 @@ import { faqsWa } from '../../data/faqs-wa';
     totalLabel="Both together"
     total="$278"
     cta={{ href: '#enrol', label: 'Enrol in the bundle' }}
+  />
+  <ResourceLink
+    href="/project-advisory"
+    kicker="Project tools"
+    title="The Project Advisory Pack"
+    desc="An automated budget estimator, a contracts calculator and a written guide, $89. Separate from the course, and not required by any regulator."
   />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>

@@ -98,6 +98,7 @@ import Faq from '../../components/Faq.astro';
 import Note from '../../components/Note.astro';
 import VerifiedSources from '../../components/VerifiedSources.astro';
 import SectionWayfinder from '../../components/SectionWayfinder.astro';
+import ResourceLink from '../../components/ResourceLink.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import ArrowRight from '../../components/ArrowRight.astro';
 import { moduleGroups, moduleOutcome, obligationCards } from '../../data/modules-tas';
@@ -198,6 +199,12 @@ import { faqs } from '../../data/faqs-tas';
 <Section bg="bg-warm" id="cost" marker="07" eyebrow="What it costs" h2="What will you pay in total?">
   <AnswerCapsule>The course is <b>$185</b> to ABE Education. The CBOS permit fee is a separate <b>$470.40</b> for a home. Together that is <b>$655.40</b> to be ready to build. Council building permit fees are additional.</AnswerCapsule>
   <PriceCard rows={frontmatter.priceRows} foot="The CBOS permit fee ($470.40 Class 1a / $235.20 Class 10) is set by the regulator and reviewed each 1 July, so check the current amount before you lodge. Council building permit fees, a Building Administration Fee and the TBCITB training levy are additional." />
+  <ResourceLink
+    href="/project-advisory"
+    kicker="Project tools"
+    title="The Project Advisory Pack"
+    desc="An automated budget estimator, a contracts calculator and a written guide, $89. Separate from the course, and not required by any regulator."
+  />
   <SectionWayfinder label="What else you need" href="#obligations" />
 </Section>
 

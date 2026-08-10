@@ -566,3 +566,39 @@ course checkout, and it is not a complete path. Open, and Andrey's call.
 ## Ship decision
 
 **Merge-ready.** Closes the Stage 7 currency gap this page's own content change opens.
+
+## Re-verification · 10 August 2026 — Project Advisory cross-link added
+
+**Why this exists.** `/project-advisory` (W2-7) shipped 10 Aug 2026, and its Stage 2 analysis
+concluded it converts warm internal traffic rather than ranking — its keyword space is ≤10/mo at $0
+CPC and saturated with "free". Its own Stage 7 then measured **0** in-body inbound links from any
+owner-builder page, i.e. the traffic model it was designed around did not exist. This page is one of
+the four that supplies it. Appended in the same commit as the edit, per `kb/mistakes-log.md` row 19.
+
+**Scope: one `ResourceLink` in `#cost`, plus its import.** No fact, figure, section, heading, price
+or schema field changed. Placed in the cost section because the pack is budget tooling and that is
+where a reader is already thinking about money.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| In-body links to `/project-advisory` in `dist/wa-owner-builder-course/index.html` | **1** (was 0) |
+| `ResourceLink` rendered | yes, kicker "Project tools" |
+| `/project-advisory` resolves in `dist/` | yes, built 10 Aug |
+| Sections, capsules, schema | unchanged |
+| `guardrails` | 26 pages passed |
+| `check-links` | 0 failing |
+
+**The link's copy carries the constraint the destination page is built around:** "Separate from the
+course, and not required by any regulator." The pack has no regulatory standing
+(`pipeline/project-advisory/01-source-map.md` §B), and a cross-link from a regulator-facing course
+page is exactly where that could blur. Stated in the link itself rather than left to the
+destination.
+
+**Not re-run: the three mandated skill-audits, the schema/authority/citation sweep.** No input
+changed — confirmed by diff.
+
+## Ship decision
+
+**Merge-ready.** Closes the currency gap this page's own change opens.
