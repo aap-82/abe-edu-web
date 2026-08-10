@@ -188,15 +188,41 @@ async function main() {
   const entries = await readdir('dist', { withFileTypes: true });
   let slugs = entries.filter((d) => d.isDirectory() && existsSync(join('dist', d.name, 'index.html'))).map((d) => d.name);
   if (existsSync('dist/index.html')) slugs.unshift('');
-  slugs = slugs.filter((s) => !s.startsWith('_') && s !== 'styleguide' || s === 'styleguide');
+  /* Only `_`-prefixed build artefacts are excluded. The previous expression read
+     `!s.startsWith('_') && s !== 'styleguide' || s === 'styleguide'`, which looks like it makes a
+     decision about the styleguide and does not: `&&` binds tighter than `||`, so the third clause
+     re-admits everything the second excluded and the whole thing reduces to the first. It was a
+     no-op wearing the costume of a rule. Written plainly, because /styleguide IS measured
+     deliberately - it is the one page whose job is to show components behaving, so a reflow or
+     measure defect there is worth catching even though the page is noindex and internal. */
+  slugs = slugs.filter((s) => !s.startsWith('_'));
   if (SLUG) slugs = slugs.filter((s) => s === SLUG);
 
   const rows = [];
+  const redirects = [];
   const page = await browser.newPage();
   for (const slug of slugs) {
+    let redirected = false;
     for (const vp of VIEWPORTS) {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await page.goto(`${base}/${slug}`, { waitUntil: 'networkidle' });
+
+      /* SKIP REDIRECT STUBS, and report them rather than dropping them silently.
+         Astro emits a static redirect as a real HTML file carrying a `<meta http-equiv="refresh">`,
+         and a real browser FOLLOWS it - so measuring `/` actually measured
+         `/qld-owner-builder-course` and filed the numbers under `/`. The first budget table this
+         script produced carried both `'/': 1` and `'/qld-owner-builder-course': 1`, the same page
+         counted twice under two names, which is what gave the bug away. The target is always
+         measured under its own slug anyway, so the honest move is to skip the stub, not to relabel
+         it. Compared by pathname, trailing slash normalised, because the server resolves a bare
+         `/slug` and `/slug/` to the same file. */
+      const landed = new URL(page.url()).pathname.replace(/\/$/, '');
+      const asked = ('/' + slug).replace(/\/$/, '');
+      if (landed !== asked) {
+        redirected = true;
+        break;
+      }
+
       const m = await page.evaluate(measure, PROSE);
       const label = '/' + slug;
 
@@ -230,6 +256,7 @@ async function main() {
         median: cpls.length ? cpls.sort((a, b) => a - b)[Math.floor(cpls.length / 2)] : null,
         over: over.length, overflowPx: m.overflowPx });
     }
+    if (redirected) redirects.push('/' + slug);
   }
 
   await browser.close();
@@ -239,6 +266,9 @@ async function main() {
   const pagesScrolling = rows.filter((r) => r.overflowPx > 0).length;
   if (!totalOver) OK(`Measure: 0 prose element(s) over the CPL rule across ${rows.length} page/viewport combination(s)`);
   if (!pagesScrolling) OK(`Reflow: no page scrolls sideways at 375px or 1280px`);
+  /* Named, not dropped. A check that quietly measures fewer pages than it appears to is the
+     failure mode SKILL.md calls "no silent caps": the count reads as full coverage when it is not. */
+  if (redirects.length) OK(`Skipped ${redirects.length} redirect stub(s), measured at their target instead: ${redirects.join(', ')}`);
 
   if (JSON_OUT) { console.log(JSON.stringify({ rows, ...out }, null, 2)); }
   else {
