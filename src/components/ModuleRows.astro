@@ -212,15 +212,24 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
     letter-spacing:.1em; text-transform:uppercase; color:var(--slate);
   }
 
-  /* 18px is the one size in here that is NOT a documented step, and it is left alone deliberately.
-     DESIGN.md section 3's Title is Archivo 600 22px, which is right for a card or sub-section H3 but
-     lands differently on a list of twelve of them: ACT renders twelve group titles, and at 22px the
-     rail stops reading as a scannable index and starts reading as twelve headings. Raising it is a
-     hierarchy decision about the whole section rather than a typographic tidy-up, so it is on the
-     review's demand list for Andrey rather than changed here. Against the 15px body inside the row
-     it is a 1.2 step, which is a real step but under the 1.25 the impeccable scale asks for. */
+  /* 22px, the documented Title step (DESIGN.md section 3: Archivo 600 22px). Andrey's call,
+     11 Aug 2026, after this sat as a demand item across three filings.
+     It was 18px for a real reason, recorded here so the trade-off is not re-litigated from
+     scratch: 18px was the one size in this component that matched no documented step, kept
+     because ACT renders TWELVE group titles and the worry was that at 22px the rail would stop
+     reading as a scannable index and start reading as twelve headings. That was a hierarchy
+     judgement about the whole section rather than a typographic tidy-up, which is why it went to
+     a human rather than being decided by a design session.
+     Measured before and after on ACT, the worst case, rather than assumed. At 1280px NOTHING WRAPS
+     at either size - all twelve titles stay on one line - so the desktop rail keeps its
+     one-line-per-row rhythm and the index reading the 18px note was protecting survives; the
+     section grows 1856px to 1916px, +3.2%. The cost lands on mobile: at 375px the same 8 of 12
+     titles wrap as before, but two move from two lines to three, and the section grows 2651px to
+     2811px, +6%. Judged acceptable against register conformance. Against the 15px row body this is
+     now a 1.47 step, comfortably past the 1.25 the scale asks for, where 18px sat at 1.2 and under
+     it. */
   .mr-title{
-    font-family:var(--font-display); font-weight:600; font-size:18px;
+    font-family:var(--font-display); font-weight:600; font-size:22px;
     line-height:1.25; letter-spacing:-.01em; color:var(--ink); margin:0;
   }
 

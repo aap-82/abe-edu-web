@@ -139,10 +139,14 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - ~~[design] **`UnitOutline`'s `.unit-eb { max-width: 58ch }` renders 89 CPL** on `/white-card-wa`,
   1 of 4 elements over the 85 rule. Carried forward from this morning's review, still open.~~
   **Closed 10 Aug 2026**, 58ch → 460px; 84.5 → 65.5 CPL median, 0 of 4 over 85.
-- [design] **`.mr-title` is 18px, which is not a step in DESIGN.md section 3.** Canon Title is Archivo
+- ~~[design] **`.mr-title` is 18px, which is not a step in DESIGN.md section 3.** Canon Title is Archivo
   600 22px. Raising it is a section-level hierarchy call, because ACT renders twelve group titles and
   at 22px the list stops reading as an index. Either adopt 22px, or add 18px to the documented scale
-  as a "list heading" step so the component stops carrying an undocumented size. Andrey's call.
+  as a "list heading" step so the component stops carrying an undocumented size. Andrey's call.~~
+  **Closed 11 Aug 2026 — Andrey chose 22px.** The index-reading worry was measured rather than
+  argued and does not materialise at desktop: on ACT, the twelve-title worst case, **nothing wraps
+  at 1280px at either size**, so the one-line-per-row rhythm survives. See
+  `skill-reviews/design/2026-08-11-mr-title-22px.md`.
 - [design] **A variant sheet must render the sparsest real data, not just the richest.** Six variants
   were reviewed against QLD only, and the four prose-only states were invisible in every one of them.
 

@@ -274,11 +274,15 @@ Tag every item: [skills] | [design] | [facts] | [build]
   be able to verify anything at all. Assign it, on the `content.config.ts` / `SYSTEM.md` precedent.~~
   Assigned to **skills** 1 Aug 2026, together with `public/**` which a skills session filed the same
   day — see `skill-reviews/skills/2026-08-01-session-type-gaps.md`.
-- [design] **`.mr-title` is 18px, which is still not a step in DESIGN.md section 3.** Carried
+- ~~[design] **`.mr-title` is 18px, which is still not a step in DESIGN.md section 3.** Carried
   forward from `2026-07-31-module-accordion.md`, and this change sharpens it: `.faq summary` is also
   Archivo 600 18px, so the undocumented size is now shared by two components rather than one. That
   is an argument for adding an 18px "list heading" step to the documented scale rather than for
-  raising `ModuleRows` to 22px. Andrey's call, unchanged.
+  raising `ModuleRows` to 22px. Andrey's call, unchanged.~~ **Closed 11 Aug 2026 — Andrey chose
+  22px for `.mr-title`.** This item's own sharpening still stands and is now *narrower*, so it is
+  re-filed rather than dropped: 18px is held by **`.faq summary` alone**, and the choice between
+  raising it or documenting an 18px step is untouched by the `.mr-title` decision. See
+  `skill-reviews/design/2026-08-11-mr-title-22px.md`.
 
 ## Closed by this session
 

@@ -173,10 +173,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   and name the px convention the code now uses. Design-register edit, so an exclusive session
   (rule 7). Second filing: `2026-07-30-measure-contrast-and-tap-targets.md` raised the same thing
   ("DESIGN.md's measure guidance is wrong as applied") and the trigger has therefore fired.
-- [design] `.mr-title` is 18px against DESIGN.md's 22px Title step, and the choice is Andrey's, not a
+- ~~[design] `.mr-title` is 18px against DESIGN.md's 22px Title step, and the choice is Andrey's, not a
   design session's — see "Not changed, deliberately" above. Either adopt 22px, or add 18px to the
   documented scale as a list-heading step so the component stops carrying an undocumented size.
-  Third filing.
+  Third filing.~~ **Closed 11 Aug 2026 — Andrey chose 22px**, the day after this filing. Routing it
+  to a human rather than deciding it in a design session was the right call and cost one day. See
+  `skill-reviews/design/2026-08-11-mr-title-22px.md`.
 - [skills] **Nothing in the repo can measure characters per line**, which is why a unit error
   survived six filings and five sessions. The CPL rule is enforced entirely by hand-run browser
   audits. The measurement is about fifteen lines of DOM plus canvas (this session's own script) and
