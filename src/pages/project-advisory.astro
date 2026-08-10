@@ -1,0 +1,219 @@
+---
+// Project Advisory Pack (W2-7). Recipe C prose page, Product schema.
+// Pipeline artefacts: pipeline/project-advisory/01 through 07.
+//
+// ⚠️ THIS PAGE HAS NO AUTHORITY MODEL, AND NOTHING MECHANICAL ENFORCES THAT ⚠️
+// Like /accreditation and /owner-builder-insurance, it carries no `data-authority`, so the
+// forbidden-claim scan in src/integrations/guardrails.ts NEVER RUNS on it.
+//
+// The product is a set of downloadable spreadsheets and a written guide. It is NOT training,
+// NOT a course, NOT approved or recognised by any regulator, and completing or buying it
+// satisfies NO legal requirement in any state. The one rule that governs every edit here:
+//
+//   NEVER imply the pack forms part of an owner builder obligation.
+//
+// An owner builder still needs their state's approved course, their White Card and their own
+// insurances. Section #who states that outright and must keep doing so.
+//
+// The price is stated GST-free on Andrey's instruction (10 Aug 2026), recorded as a flagged
+// assumption in 01-source-map.md section D rather than as a verified tax position: the product
+// is downloadable documents, not an education course, and GST-free treatment generally attaches
+// to education supplies. If that is corrected it is one word on one line.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import WayfinderNav from '../components/WayfinderNav.astro';
+import Section from '../components/Section.astro';
+import AnswerCapsule from '../components/AnswerCapsule.astro';
+import FactGrid from '../components/FactGrid.astro';
+import TopicGrid from '../components/TopicGrid.astro';
+import CanCant from '../components/CanCant.astro';
+import Note from '../components/Note.astro';
+import PriceCard from '../components/PriceCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SourcesFooter from '../components/SourcesFooter.astro';
+import type { TopicCard } from '../types/course';
+
+const canonical = 'https://www.abeeducation.edu.au/project-advisory';
+
+const crumbs = [
+  { name: 'Home', item: 'https://www.abeeducation.edu.au/' },
+  { name: 'Owner Builder Training', item: 'https://www.abeeducation.edu.au/owner-builder-courses' },
+  { name: 'Project Advisory Pack', item: canonical },
+];
+
+// The product sells at /course/project-advisory-pack, a LearnWorlds path on today's apex that
+// dies the moment the Astro build owns it (SKILL.md Stage 7, and the same blocker on /cpd-tas).
+// So this build may not link to the working checkout. In-page anchor, same precedent as
+// /white-card-tas. The microcopy names no payment method - that exact default overclaim was
+// removed from two live pages on 8 Aug 2026.
+// Points at #inside, NOT #enrol. `Hero.astro:55` hardcodes `id="enrol"` on its own primary
+// anchor, so `href: '#enrol'` makes the hero button a link to itself - and every other CTA on
+// the page a link to the hero button. Measured: getElementById('enrol') === the hero anchor.
+// No check can see this; `guardrails.ts` check 6 and `check-links.mjs` both only ask whether
+// the id EXISTS, and it does. `/white-card-tas` and `/qld-owner-builder-course` still carry the
+// identical no-op. The label promises "what is in the pack", so the destination is the section
+// that answers it - honest, and it works.
+const cta = { href: '#inside', label: 'See what is in the pack', microcopy: 'One payment. Files are yours to keep.' };
+
+const nav = [
+  { label: 'What it is', href: '#what', sectionId: 'what' },
+  { label: "What's inside", href: '#inside', sectionId: 'inside' },
+  { label: 'Why not free?', href: '#why-paid', sectionId: 'why-paid' },
+  { label: 'Who it suits', href: '#who', sectionId: 'who' },
+  { label: 'Cost', href: '#cost', sectionId: 'cost' },
+  { label: 'Who made it', href: '#content-review', sectionId: 'content-review' },
+];
+
+const glance = [
+  { key: 'Price', value: '$89.00', note: 'One payment, GST-free. Nothing recurring.' },
+  { key: 'Format', value: 'Download', note: 'Excel files and a written guide, yours to keep.' },
+  { key: 'Inside', value: '3 tools', note: 'Budget estimator, contracts calculator, written guide.' },
+  { key: 'Required?', value: 'No', note: 'Voluntary. No regulator requires it.' },
+];
+
+const contents: TopicCard[] = [
+  {
+    tag: '01',
+    title: 'Project Budget Estimator',
+    body: 'An automated Excel spreadsheet. Enter each trade activity and what you expect it to cost, and it applies a <b>20% contingency</b> as you go rather than leaving you to remember it. It holds the quotes you collect, tracks progress claims as they are paid, and shows what is still outstanding against each trade.',
+  },
+  {
+    tag: '02',
+    title: 'Project Contracts Calculator',
+    body: 'Follows the contract side of the same money: what each trade is contracted for, what has been drawn against it, what remains, and what is owing right now. This is the part a static budget cannot do, because it changes every time you pay someone.',
+  },
+  {
+    tag: '03',
+    title: 'The written guide',
+    body: '56 pages. Energy and water efficiency taken past the state minimum rating, sustainable design, solar, efficient lighting and air conditioning, and water management including pools. It also sets out contract terms in plain English and how to scope a trade so the quotes you get back can actually be compared.',
+  },
+];
+
+const priceRows = [
+  { label: 'Project Advisory Pack', sub: 'Paid once to ABE Education, GST-free', amount: '$89.00' },
+  { label: 'Ongoing costs', sub: 'There are none. No renewal, no subscription', amount: '$0.00' },
+  { label: 'Total', sub: 'What you pay, in full', amount: '$89.00', isTotal: true },
+];
+
+// Product, not Course. Nothing here is a credential, so there is no
+// EducationalOccupationalCredential, no recognizedBy and no Person credited as developing one.
+// `Offer.price` matches the on-page price; guardrails' price-parity check keys on
+// Course.offers.price and does not fire here, so it is checked by hand at Stage 7.
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Product',
+      '@id': `${canonical}#product`,
+      name: 'Project Advisory Pack',
+      description: 'Three downloadable tools for running an owner builder project: an automated budget estimator that applies a 20% contingency, a contracts calculator that tracks progress claims and amounts owing, and a 56-page written guide to efficiency, contracts and scoping trades.',
+      category: 'Owner builder project management tools',
+      brand: { '@type': 'Organization', name: 'ABE Education' },
+      offers: {
+        '@type': 'Offer',
+        price: '89.00',
+        priceCurrency: 'AUD',
+        availability: 'https://schema.org/InStock',
+        url: canonical,
+        seller: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
+    },
+  ],
+};
+
+const disclaimersHtml = 'The Project Advisory Pack is a set of project management tools, not training. It is not a course, it is not approved or recognised by any regulator, and buying it does not satisfy any owner builder requirement. Your state\'s approved course, your White Card and your insurances are separate obligations.';
+---
+<BaseLayout
+  title="Project Advisory Pack - Owner Builder Budget & Contract Tools $89"
+  description="Three downloadable tools for running an owner builder project: an automated budget estimator with built-in contingency, a contracts calculator, and a written guide. $89, one payment."
+  canonical={canonical}
+  schema={schema}
+  sticky={{ label: 'Project Advisory Pack', sub: 'budget and contract tools', price: '$89', cta }}
+  crumbs={crumbs}
+>
+<main id="main">
+  <Hero
+    eyebrow="Owner Builder · Project tools"
+    h1Html={'The Project Advisory Pack<span class="dot">.</span>'}
+    updated="Updated August 2026"
+    subhead="Three downloadable tools for the money side of your build: a budget estimator that adds the contingency for you, a contracts calculator that follows what you still owe, and a written guide to efficiency, contracts and scoping trades."
+    ticks={[
+      '<b>An automated budget estimator</b>, with a 20% contingency applied as you type',
+      '<b>A contracts calculator</b> tracking progress claims and amounts owing',
+      '<b>A 56-page written guide</b> to efficiency, contracts and scoping trades',
+    ]}
+    cta={cta}
+    proof={[
+      { n: '$89', text: 'one payment' },
+      { n: '31,000+', text: 'students trained' },
+      { n: '2007', text: 'training since' },
+    ]}
+    howItWorks="Buy once → Download the files → Use them across the whole build"
+    artefactDesc="A laptop angled away on a kitchen table, screen not legible, beside a folder of trade quotes and a calculator."
+    artefactSpec="5:4 · warm tone · ~1000×800"
+  />
+
+  <WayfinderNav items={nav} cta={cta} />
+
+  <Section id="what" marker="01" total="6" eyebrow="The basics" h2="What is the Project Advisory Pack?">
+    <AnswerCapsule>Three downloadable tools for the money side of an owner builder project: an automated budget estimator, a contracts calculator, and a written guide to running the build. It is not a course and it is not required by any regulator. One payment of $89.00, yours to keep.</AnswerCapsule>
+    <p>It arrives as files you download, not a login or a schedule. It is most useful once you have your approval and are about to start pricing trades, which is the point at which a budget stops being a rough number and starts being a set of commitments.</p>
+    <FactGrid items={glance} />
+  </Section>
+
+  <Section id="inside" bg="bg-alt" marker="02" total="6" eyebrow="What you get" h2="What is actually in it?">
+    <AnswerCapsule>The pack holds three files. The Project Budget Estimator is an Excel spreadsheet that adds a 20% contingency to every trade cost as you enter it. The Project Contracts Calculator follows contract values, progress claims and what you still owe. The written guide covers efficiency, contracts and scoping trades.</AnswerCapsule>
+    <TopicGrid items={contents} />
+  </Section>
+
+  <Section id="why-paid" marker="03" total="6" eyebrow="The honest comparison" h2="Why not just use a free template?">
+    <AnswerCapsule>A free template gives you an estimate. This follows the money: the contingency is applied for you rather than left to remember, and the contracts calculator tracks progress claims and what is still owed as the build runs. If you only need a one-off estimate, a free spreadsheet will do.</AnswerCapsule>
+    <CanCant
+      canTitle="What the pack does"
+      can={[
+        'Applies the 20% contingency to every trade cost automatically, so the allowance cannot be forgotten',
+        'Tracks progress claims and outstanding amounts as the build runs, not just at the start',
+        'Explains contract terms in plain English, so you know what you are signing',
+        'Shows how to scope a trade so competing quotes are genuinely comparable',
+      ]}
+      cantTitle="What a free template leaves to you"
+      cant={[
+        'Knowing that a contingency is needed, and choosing the rate yourself',
+        'Updating the numbers by hand every time a trade is paid',
+        'Working out the contract language on your own, or paying someone to',
+        'Comparing quotes that were written to different scopes',
+      ]}
+    />
+    <p>That is a real line, not a sales one. If your build is small and you want a number to take to the bank, a free spreadsheet is enough and there is no reason to spend $89 on this.</p>
+  </Section>
+
+  <Section id="who" bg="bg-alt" marker="04" total="6" eyebrow="Who it suits" h2="Who is it for, and who is it not for?">
+    <AnswerCapsule>It suits an owner builder who is running their own trades, money and contracts on a real project. It is not for you if a licensed builder is handling the budget and the trade contracts. No regulator requires it, and no owner builder approval depends on it.</AnswerCapsule>
+    <Note variant="caution" label="Not part of your requirement">
+      Your state's approved course, your White Card and your insurances are separate obligations, and none of them is satisfied by anything in this pack. It is a set of tools for running the project, bought because you want them.
+    </Note>
+  </Section>
+
+  <Section id="cost" marker="05" total="6" eyebrow="What it costs" h2="What does it cost?">
+    <AnswerCapsule>$89.00, paid once. There is nothing recurring, no renewal and no subscription. You download the files and keep them, so they stay usable across a whole build and any project after it. The price is GST-free, and there is no government fee attached to anything in the pack.</AnswerCapsule>
+    <PriceCard rows={priceRows} foot="The files are yours to keep and use on any project. There is no expiry and nothing to renew." />
+  </Section>
+
+  <Section id="content-review" bg="bg-warm" marker="06" total="6" eyebrow="Who made it" h2="Who made it?">
+    <AnswerCapsule>This pack is ABE Education's own product, sold directly rather than through a partner. Dominic Ogburn, a licensed NSW builder with more than 40 years in Australian construction, is the developer behind the state owner builder courses it sits alongside. ABE Education has trained owner builders since 2007.</AnswerCapsule>
+    <p>This page carries no compliance and currency review, and that is deliberate. The state course pages carry one because they state government facts that go stale and need re-checking on a cadence. Nothing on this page is a government fact, so claiming that kind of scrutiny would describe something the product has not had. You can read more about <a href="/experts/dominic-ogburn">Dominic Ogburn's background</a> on his profile.</p>
+  </Section>
+
+  <CtaBand
+    eyebrow="Next step"
+    headingHtml={'Ready to get your budget under control<span class="dot">?</span>'}
+    sub="One payment of $89.00 for all three tools, downloaded and yours to keep across the whole build."
+    cta={cta}
+  />
+</main>
+  <SourcesFooter sources={[]} disclaimersHtml={disclaimersHtml} updated="August 2026" />
+</BaseLayout>

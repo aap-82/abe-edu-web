@@ -76,7 +76,11 @@ export const navGroups: Group[] = [
     // Insurance moved here from the old top-level utility row - it is an owner-builder
     // cross-sell, not a sitewide utility link.
     extra: [
-      { label: 'Project Advisory', soon: true },
+      // Live 10 Aug 2026 (W2-7). Slug confirmed by Andrey as /project-advisory over the
+      // sitemap doc's /project-advisory-pack; page-type-engine.md already used the short form
+      // as canonical and as the state-page cross-link target. Flipping this also satisfies the
+      // orphan guardrail, which needs every page linked from at least one OTHER page.
+      { label: 'Project Advisory', href: '/project-advisory' },
       // Live 8 Aug 2026 (W2-6). This entry was the `soon` placeholder the page was built
       // against; flipping it here is also what satisfies the orphan guardrail, which needs
       // every indexable page linked from at least one OTHER page.
