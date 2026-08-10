@@ -20,13 +20,54 @@ Last updated: 10 August 2026.
 
 ---
 
-## Current state (10 August 2026)
+## Current state (11 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
 closed. **Wave 3 is complete: all five White Card spokes (WA, TAS, NSW, QLD, ACT) and the
-`/white-card` hub are built.** Wave 2 gained its first insurance page on 9 Aug. **One Phase 3
-candidate is now BUILT — the headless width check, as `scripts/check-reflow.mjs`** — and the
-session-type path check remains the oldest unbuilt one, with its evidence still accumulating.
+`/white-card` hub are built.** Wave 2 is now **8 of 10** — `/owner-builder-insurance` (9 Aug) and
+`/project-advisory` (10 Aug) both shipped. **One Phase 3 candidate is now BUILT — the headless width
+check, as `scripts/check-reflow.mjs`** — and the session-type path check remains the oldest unbuilt
+one, with its evidence still accumulating.
+
+**Measured against `dist/` on 11 Aug: 22 of 42 planned pages built, 20 indexable.** Waves 1 and 3
+are complete, Wave 2 is 8/10, and everything else outstanding is Waves 4-6. That count comes from
+`node scripts/page-status.mjs`, which is now the answer to "what is built" — see the entry below.
+
+### 10-11 August 2026
+
+- **A per-page status board, and the sitemap tracker replaced as the source of truth for progress.**
+  `new site/abe-new-site-sitemap.md` tracked one bit per page (built or not) and that bit had been
+  wrong twice, both times from being updated by memory. `scripts/page-status.mjs` now measures five
+  dimensions per page from `dist/` and the generated sitemap — research (pipeline artefacts),
+  content, images, SEO, and inbound in-body links — and `scripts/status-board.mjs` renders it to a
+  shareable HTML board. Both are registered utilities, not checks (`CHECK_EXEMPT`, SYSTEM.md §5,
+  exempt count 4 → 6). **The sitemap document was re-ticked against `dist/` in the same pass** and
+  gained two status states it lacked: ◑ built-but-noindexed and ⛔ blocked. Refresh procedure and
+  the artifact URL: `handover/HANDOVER-status-board.md`.
+- **`/project-advisory` (W2-7) built**, $89, `Product` schema, no `Course` node. Two findings worth
+  carrying: **none of the ten archetypes fits it** — it sells ABE Education's own product outright,
+  where archetype 9 is a referral and 1-4 are credentials — which makes it the second unarchetyped
+  Recipe C page in a fortnight and moves that `[skills]` item to trigger-met. And **its Stage 2
+  concluded the page must not chase search at all**: every keyword is ≤10/mo at $0 CPC with ten
+  explicit "free" variants, so it is a conversion page for warm internal traffic and is judged on
+  that, not on impressions.
+- **A class of defect no check in this repo can see: the no-op self-link.** `/project-advisory`'s
+  CTAs pointed at `#enrol`, and `Hero.astro:55` hardcodes `id="enrol"` on its own anchor — so every
+  CTA resolved to the hero button. `guardrails.ts` check 6 and `check-links.mjs` both ask only
+  whether the anchor id *exists*, and it did, because Hero was creating it. Fixed here;
+  **`/white-card-tas` and `/qld-owner-builder-course` still carry the identical no-op** and are
+  filed `[build]`. Found the same way as the insurance CTA that pointed at a course checkout: while
+  looking for something else.
+- **`check-reflow` was measuring redirect stubs as their targets.** Astro emits a static redirect as
+  a real HTML file with a meta refresh, which a real browser follows — so `/` was measured as
+  `/qld-owner-builder-course` and filed under `/`. The evidence had been sitting in the first budget
+  table the script produced (`'/': 1` and `'/qld-owner-builder-course': 1`, the same page twice).
+  Now skipped and reported. A second no-op in the same file was corrected: a slug filter whose
+  three clauses reduced to one.
+- **`/owner-builder-insurance` cross-linked from four state pages**, and a live label/destination
+  mismatch fixed on the way — the insurance CTA on WA, QLD and TAS said "Get an owner builder
+  insurance quote" and pointed at that page's own **course checkout**. `check-links` could not see
+  it, because `#enrol` resolves.
 
 ### 5-10 August 2026, newest first
 
