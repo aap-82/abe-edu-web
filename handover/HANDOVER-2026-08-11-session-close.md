@@ -69,14 +69,21 @@ sighting. It is why independent auditors keep re-opening findings the register a
 
 ---
 
-## Two things that need Andrey, not a session
+## What needs Andrey, not a session
 
 - **The InsuranceTek quote destination.** `/owner-builder-insurance` is live and its only CTA
   resolves to `#arrange`, its own section, because no quote URL, form or number exists anywhere in
   the repo. The page answers the insurance question correctly and sourced; it just cannot convert.
-- **`.mr-title` is 18px against DESIGN.md's 22px Title step.** Deliberately left: at 22px a rail of
-  twelve ACT group titles stops reading as a scannable index. Adopt 22px, or document 18px as a
-  list-heading step. Third filing, and it is a hierarchy judgement, not a typo.
+- ~~**`.mr-title` is 18px against DESIGN.md's 22px Title step.**~~ **DECIDED 11 Aug: 22px**, shipped
+  in `3966284`. The objection that had deferred it three times was measured rather than re-argued
+  and does not materialise where it mattered: on ACT, the twelve-title worst case, **nothing wraps
+  at 1280px at either size**, so the one-line-per-row index rhythm survives. Cost is on mobile,
+  where the same 8 of 12 already wrapped and two moved to three lines (+6% section height). All six
+  consumers verified at both viewports. `skill-reviews/design/2026-08-11-mr-title-22px.md`.
+  **Its successor is a design session's, not Andrey's:** `.faq summary` (`global.css:1000`) is now
+  the *only* holder of the undocumented Archivo 600 18px, so the choice is a clean either/or —
+  raise it to 22px, or add 18px to DESIGN.md §3 as a documented accordion-trigger step. Adding a
+  step is a register change and therefore an exclusive session (rule 7); raising it is not.
 
 **One gate before advertising:** `/project-advisory` states "56 pages", read from ABE Education's own
 live sales page. It is the one figure a buyer can hold against what they receive. Confirm it before
@@ -129,7 +136,7 @@ the tree larger than the checks that guard it.
 
 ## Backlog, as at 11 Aug
 
-`skills` 114 open · `design` 49 · `build` 31 · `facts` 12. Regenerate with
+`skills` 114 open · `design` **47** · `build` 31 · `facts` 12. Regenerate with
 `node scripts/demand-split.mjs --write`; the four `reports/handover-*.md` files are derived views and
 gitignored, so they are absent until generated.
 
