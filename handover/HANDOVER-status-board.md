@@ -13,20 +13,29 @@ describes a recurring task, so it stays open by design. Do not wait for it to be
 character is not allowed"). `&&` only arrived in PowerShell 7. Use this instead:
 
 ```powershell
-npm run build; if ($LASTEXITCODE -eq 0) { node scripts/page-status.mjs > status.json }
+npm run build; if ($LASTEXITCODE -eq 0) { node scripts/page-status.mjs --out reports/status.json; node scripts/status-board.mjs }
 ```
 
-**Do not simplify that to `npm run build; node scripts/page-status.mjs`.** A bare semicolon runs the
-second command regardless of whether the build failed, and `page-status.mjs` reads `dist/` — so
-against a stale or half-written `dist/` it reports the *previous* build's state, confidently and
-wrongly. That is the precise failure this tool exists to stop, so the guard is the point of the
-line, not ceremony. Verified in both directions: the collector runs after a clean build, and is
-correctly skipped when the preceding command exits non-zero.
+Verified verbatim in PowerShell 5.1. Two things in that line are load-bearing:
 
-In Git Bash, WSL or PowerShell 7, the familiar form is fine:
+**1. `if ($LASTEXITCODE -eq 0)`, not a bare `;`.** A bare semicolon runs the collector regardless of
+whether the build failed, and `page-status.mjs` reads `dist/` — so against a stale or half-written
+`dist/` it reports the *previous* build's state, confidently and wrongly. That is the precise
+failure this tool exists to stop. Checked in both directions: runs after a clean build, correctly
+skipped when the preceding command exits non-zero.
+
+**2. `--out`, not `>`.** Windows PowerShell 5.1's redirect writes **UTF-16LE with a BOM**
+(`ff fe ...`), producing a `status.json` that `JSON.parse` cannot read — and the failure surfaces
+later and elsewhere, in the renderer, as an opaque syntax error. `--out` makes Node write the file
+in UTF-8 and sidesteps the shell entirely. This was found by running the documented command
+verbatim rather than assuming the Git Bash form transferred; the first version of this note had it
+wrong.
+
+In Git Bash, WSL or PowerShell 7, the familiar form works too — but `--out` works everywhere, so
+prefer it:
 
 ```bash
-npm run build && node scripts/page-status.mjs > status.json
+npm run build && node scripts/page-status.mjs --out reports/status.json && node scripts/status-board.mjs
 ```
 
 ## What it measures
@@ -65,17 +74,29 @@ The board is a private artifact on claude.ai:
 
 Republishing to that same URL keeps the link stable, so it can be shared once and stay current.
 
-**The renderer is not in this repo.** `page-status.mjs` — the measurement, and the half worth
-keeping — is committed. The script that turns its JSON into the HTML board was written in a session
-scratchpad and does not survive the session. So today the loop is:
+Both halves are in the repo, so the whole loop runs without Claude — the command at the top of this
+note does all of it.
 
-1. `npm run build && node scripts/page-status.mjs > status.json`
-2. Ask Claude to rebuild the board from `status.json` and republish it to the URL above.
+It writes **`reports/status-board.html`**. `reports/` is gitignored, which is correct: the board
+is a layer 3 derived view, regenerable from `dist/` at any time, and committing it would be the
+duplication the recording policy exists to prevent.
 
-If that round trip becomes annoying, commit the renderer to `scripts/` as well. It is a derived
-view, so it would need a `CHECK_EXEMPT` entry in `scripts/check-claims.mjs` and a mention in
-SYSTEM.md §5's utility list, the same way `page-status` itself does — the §5 guard will fail the
-build until both are done, which is the guard working, not a problem.
+**Stamp the date deliberately when re-rendering an older measurement:**
+
+```powershell
+node scripts/status-board.mjs --date "11 August 2026"
+```
+
+Without `--date` it uses today, which is right for a fresh run and wrong for a re-render of an
+earlier `status.json` — the board should carry the day the build was *measured*.
+
+**Only publishing still needs Claude**, because the artifact URL is published from a conversation:
+open `reports/status-board.html`, ask for it to be republished to the URL above, and the link stays
+stable.
+
+**Two scripts rather than one, deliberately.** `page-status` measures, `status-board` presents. The
+measurement is the half worth trusting and re-running, and keeping it free of markup means its JSON
+can feed something else later without dragging a stylesheet along.
 
 ## Where the numbers came from last time
 

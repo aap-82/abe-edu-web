@@ -18,8 +18,8 @@
  * exits 0: this is an input to a status view, not a gate. The gates are check-* and system-health.
  */
 
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
 
 const SITEMAP_DOC = 'new site/abe-new-site-sitemap.md';
 
@@ -189,4 +189,21 @@ const out = { generated: null, groups: [] };
 for (const [group, pages] of PLANNED) {
   out.groups.push({ group, pages: pages.map(([slug, name, wave]) => ({ name, wave, ...assess(slug) })) });
 }
-console.log(JSON.stringify(out, null, 2));
+
+/* `--out PATH` writes the file from NODE rather than through a shell redirect, and on this repo's
+   own machine that is the difference between working and not. Windows PowerShell 5.1's `>` writes
+   **UTF-16LE with a BOM** (`ff fe ...`), so `node scripts/page-status.mjs > reports/status.json`
+   produces a file `JSON.parse` cannot read, and the failure surfaces later and elsewhere - in the
+   renderer - as an opaque syntax error. Found by running the documented command verbatim in
+   PowerShell instead of assuming the Git Bash form transferred. Redirect still works in Git Bash,
+   WSL and PowerShell 7; `--out` works everywhere, so it is what the runbook documents. */
+const oi = process.argv.indexOf('--out');
+const outPath = oi > -1 ? process.argv[oi + 1] : null;
+const json = JSON.stringify(out, null, 2);
+if (outPath) {
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, json, 'utf8');
+  console.log(`page-status: wrote ${outPath}`);
+} else {
+  console.log(json);
+}
