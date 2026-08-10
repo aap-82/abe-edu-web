@@ -215,10 +215,12 @@ carries its count as a budget that can only go down, and the budget FAILs when i
 it falls without the number following — the same shape as `BANNED_CTA_BUDGET`. The reflow half has
 no budget because it was already clean.
 
-Four scripts in `scripts/` are not checks and are exempt from the list above: `generate-redirects`
+Five scripts in `scripts/` are not checks and are exempt from the list above: `generate-redirects`
 (the only writer of `public/_redirects`, at prebuild), `demand-split` (derives handover notes),
-`health-log-dedupe` (collapses identical health records) and `sync-cpd-register` (manual by design,
-kept out of `prebuild` so the build stays hermetic).
+`health-log-dedupe` (collapses identical health records), `sync-cpd-register` (manual by design,
+kept out of `prebuild` so the build stays hermetic) and `page-status` (reads `dist/` and emits
+per-page build status as JSON for the shareable status board — a recording-policy layer 3 derived
+view, which gates nothing and always exits 0).
 
 A check exists to be read. When one produces more noise than signal — as the figure check did at 93
 warnings — that is a defect in the check, because a check nobody reads confers false confidence. A
