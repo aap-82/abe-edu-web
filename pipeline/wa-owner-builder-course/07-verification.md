@@ -518,3 +518,51 @@ verbs joined into one bullet; no obligation added, removed or softened.
 **Measured after:** build green at 20 pages, guardrails passed, `astro check` 0 errors,
 `check-claims` 0 failing / 0 warning across all 150 page figures, `prose-lint` 10 files passed,
 `check-pipeline` 0 failing. Rendered on the built page: 2 steppers, 7 bulleted step lists.
+
+## Re-verification · 10 August 2026 — insurance CTA repointed to the new page
+
+**Why this exists.** `/owner-builder-insurance` shipped 9 Aug 2026, so the `InsurancePartner`
+cross-sell block on this page finally has a real destination. That is a page-source change, which
+`check-pipeline` §4 flags as making this file stale — appended in the same commit as the edit rather
+than after it, per `kb/mistakes-log.md` row 19 (a verification that lands after the content it
+certifies has certified nothing), which was breached again as recently as 7 Aug 2026.
+
+**Scope: one attribute on one line, plus a house-style correction on its label.**
+
+| Change | Before | After |
+|---|---|---|
+| `InsurancePartner` `cta.href` | `#enrol` | `/owner-builder-insurance` |
+| `InsurancePartner` `cta.label` | "Get an owner-**builder** insurance quote" | "Get an owner builder insurance quote" |
+
+The `href` was a **live label/destination mismatch, not merely a missing cross-link**: the button
+said "Get an owner builder insurance quote" and landed the reader on this page's own course
+enrolment anchor. It has been that way since the block was written, on three pages at once, and no
+check could see it — `check-links` verifies that a target resolves, and `#enrol` does resolve.
+
+The label change is `CLAUDE.md`'s house-style rule ("owner builder — open, no hyphen — in all
+prose"); the QLD and TAS copies of this block already used the open form, so this was the odd one.
+
+## Measured
+
+| Check | Measured value |
+|---|---|
+| Rendered CTA `href` in `dist/wa-owner-builder-course/index.html` | `/owner-builder-insurance` |
+| Insurance CTAs still resolving to `#enrol`, sitewide | **0** (was 3) |
+| `/owner-builder-insurance` exists in `dist/` | yes, shipped 9 Aug |
+| `guardrails` | 25 pages passed |
+| `check-links` | 0 failing |
+| Hyphenated "owner-builder" in this page's reader-facing copy | **0** |
+
+**Not re-run: the three mandated skill-audits, the schema/authority/citation sweep.** None of their
+inputs changed — no fact, figure, section, heading or schema field was touched, and the authority
+model is untouched by a cross-link. Confirmed by the diff, not assumed.
+
+**One thing this does NOT fix, stated plainly rather than left implied:** the destination page's own
+CTA still resolves to `#arrange`, its own section, because no InsuranceTek quote destination exists
+in the repo. So the reader now reaches a page that answers the insurance question correctly and
+sourced, but still cannot get a quote from it. That is a genuine improvement over landing on a
+course checkout, and it is not a complete path. Open, and Andrey's call.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own content change opens.
