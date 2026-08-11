@@ -422,7 +422,7 @@ output made from memory of intent; "capsule 6 (#content-review): 28 words" is a 
 cannot carry a measured value, it is not a check. Word counts, the rendered marker sequence, the CTA's
 resolved target, the schema node list: read them out of `dist/`.
 
-**Three checks that exist because they were missed:**
+**Five checks that exist because they were missed:**
 1. **Section conformance.** Every section id in `05-components.md` appears in `dist/`, and every
    section in `dist/` appears in the table. A briefed section vanished between Stage 4 and the page
    and no gate noticed.
@@ -431,6 +431,17 @@ resolved target, the schema node list: read them out of `dist/`.
    never reached the audit table. **Zero failing is not zero findings.**
 3. **Artefact completeness.** `pipeline/{slug}/` holds 01 through 07. A missing file is a stage that
    did not happen.
+4. **Check the design register before filing a design-owned finding.**
+   `grep -rn "<token-or-selector>" skill-reviews/design/` first. If the register has a dated position,
+   it wins and there is no finding. Four runs filed the same settled contrast exemption as a new
+   sitewide FAIL, three of them inside four days. Detail and the worked examples:
+   `references/verification.md` §2a.
+5. **Read the summary furniture against the data it summarises.** Every hero tick, capsule, sticky bar
+   and meta description against the table or list that states the same thing in detail. Summary copy is
+   written early from the brief; the detail is written later from the sources, and when a source moves
+   the detail the summary silently keeps the old position. `/owner-builder-insurance` shipped a hero
+   tick its own state table refuted, past every gate. No script can do this one — nothing compares two
+   prose statements for agreement. `references/verification.md` §3 check 1.
 
 Then run the checks on the built HTML and fix FAILs by correcting the content or data, never by
 watering down the components:

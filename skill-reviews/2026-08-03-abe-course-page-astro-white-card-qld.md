@@ -293,8 +293,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   built page — the loudest possible false alarm and the quietest possible real one, indistinguishable.
   Not observed to have happened on this run (current state is clean, 10/10 matched), but worth a
   dedicated "0 markers found in an N-section plan" check, separate from the existing overlap-based one.
-- [skills] **Two of Stage 7's WARNs re-open questions the design register already settled, without
-  checking it first.** WARN 3 (the disabled "About" nav item's 2.68:1 contrast) was explicitly ruled
+- ~~[skills] **Two of Stage 7's WARNs re-open questions the design register already settled, without
+  checking it first.**~~ **Closed 12 Aug 2026** — this filing named the pattern first, and its spec
+  ("grep `skill-reviews/design/**` for the token/selector first") is what shipped, as `verification.md`
+  §2a plus `SKILL.md` §7 check 4. Both examples cited here are in it. WARN 3 (the disabled "About" nav item's 2.68:1 contrast) was explicitly ruled
   *not a defect* by `skill-reviews/design/2026-07-30-measure-contrast-and-tap-targets.md` (WCAG 1.4.3,
   deliberate `--slate-light` token). WARN 4 (the "12px label floor") measures against a floor
   `skill-reviews/design/2026-08-01-type-floor-and-tap-targets.md` already superseded with a deliberate

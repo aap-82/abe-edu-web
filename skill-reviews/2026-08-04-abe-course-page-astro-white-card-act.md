@@ -143,10 +143,16 @@ Tag every item: [skills] | [design] | [facts] | [build]
   where the hardcoded value does not happen to be true. Needs a frontmatter-driven field threaded
   through the layout, or at minimum a classroom/onsite branch. Owner: design (`CourseLayout.astro`)
   and/or skills (`src/content.config.ts` if a schema field is required).
-- [skills] THIRD SIGHTING — `.claude/skills/abe-course-page-astro/references/verification.md`'s Stage 7
+- ~~[skills] THIRD SIGHTING — `.claude/skills/abe-course-page-astro/references/verification.md`'s Stage 7
   checklist has no step requiring a check of the design register / recent `skill-reviews/` before
   filing a readability-audit WARN or FAIL, and it has now cost three separate runs in four days the
-  identical mistake on the identical finding. `pipeline/white-card-act/07-verification.md` files the
+  identical mistake on the identical finding.~~ **Closed 12 Aug 2026.** Added as `verification.md` §2a,
+  a mandatory pre-filing gate with the `grep -rn "<token>" skill-reviews/design/` command, both worked
+  examples (the `.nav-l.soon` 2.68:1 exemption and the superseded 12px label floor) and the rule that
+  the register wins. Mirrored into `SKILL.md` §7, whose "three checks that exist because they were
+  missed" list is now five. **Section 2's opening line was the cause and was rewritten**: it read "where
+  a token or layout differs, that is a finding, not a precedent", which instructs a run to file exactly
+  these. `pipeline/white-card-act/07-verification.md` files the
   disabled `.nav-l.soon` "About" @2.68:1 contrast (`SiteHeader.astro`) as a live, shared-sitewide
   `[design]` defect. It is closed: `skill-reviews/design/2026-07-30-measure-contrast-and-tap-
   targets.md` ruled this exact token/selector exempt under WCAG 1.4.3 on 30 Jul 2026.

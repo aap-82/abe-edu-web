@@ -104,7 +104,40 @@ and per-source verification method)
 
 ## 2. abe-readability-audit  (evidence-based targets)
 
-Score against these; where a token or layout differs, that is a finding, not a precedent.
+Score against these. Where a token or layout differs from them, that is a **candidate** finding — check
+it against the design register before filing it, per the gate immediately below. (This line read "that
+is a finding, not a precedent" until 12 Aug 2026. The intent was "a divergence is not licence to keep
+diverging", but read cold it instructs a run to file every token difference it measures, and the
+register caveat that walks it back sits 50 lines further down. Three runs did exactly what the opening
+line said.)
+
+### 2a · Check the design register BEFORE filing a design-owned finding — mandatory
+
+**Do this first, for every WARN or FAIL in this section that names a token, selector or component.**
+
+```
+grep -rn "<token-or-selector>" skill-reviews/design/
+```
+
+If the register already has a dated position, **the register wins and there is no finding.** Say so and
+move on. A settled question re-filed as new is not a harmless duplicate: it is a `[design]` item someone
+must open, re-measure and re-close, and it makes the demand list read as though the design system is
+failing when it is holding.
+
+If the register is silent, file normally. If the register's position looks *wrong*, that is still not a
+Stage 7 finding — it is a `[design]` item saying so, naming the review it disagrees with, because rule 7
+makes register changes an exclusive session's work and a build session cannot make one.
+
+**Why this is a mandatory step and not a suggestion.** It has cost three runs the identical mistake on
+the identical finding, inside four days:
+
+| Finding filed as new | What the register already said |
+|---|---|
+| Disabled `.nav-l.soon` "About" nav item at 2.68:1 (`SiteHeader.astro`) — filed as a live sitewide `[design]` FAIL by `white-card-qld`, the White Card hub rebuild, and `white-card-act`, three times in four days | `skill-reviews/design/2026-07-30-measure-contrast-and-tap-targets.md`, 30 Jul 2026: this exact token/selector is **exempt** under WCAG 1.4.3, text inside an inactive UI component |
+| A "12px label floor" breach | `skill-reviews/design/2026-08-01-type-floor-and-tap-targets.md` had already superseded it with a deliberate **11px** Label-token floor, swept sitewide |
+
+Filed as a `[skills]` demand item on 3 Aug (`white-card-qld`), again on 4 Aug (`white-card-act`, tagged
+THIRD SIGHTING), and carried to the 11 Aug handover as item 4. Added here 12 Aug 2026.
 
 - **Measure:** 45–75 characters per line, **60–66 ideal**; flag anything consistently >75. Mobile 30–45 CPL.
 - **Body size:** 16–18px, **16px is the floor**. Meaningful text >= 12px.
@@ -167,7 +200,33 @@ Chromium; if unavailable, do the static + manual review.
 ## 3. final-check (+ ai-detector)  — on the copy
 
 Run all six `final-check` checks on the page copy:
-1. **Contradictions** — no conflicting facts, dates, names, or claims.
+1. **Contradictions** — no conflicting facts, dates, names, or claims. **Read each piece of summary
+   furniture against the data it summarises, explicitly and one at a time:** every hero tick, the answer
+   capsule, the sticky bar, the meta description, each section's opening capsule — against the table,
+   FactGrid, PriceCard or list further down that states the same thing in detail. Summary furniture is
+   written early, from the brief; the detail is written later, from the sources. When a source moves the
+   detail, the summary is what silently keeps the old position.
+
+   **This rule already existed and a page shipped through it anyway**, which is why it now carries a
+   worked example. `/owner-builder-insurance` shipped 10 Aug 2026 saying, in a hero tick *and* in its
+   answer capsule, "No state requires you to insure your own labour under a home warranty scheme". Its
+   own Western Australia row, on the same page, says home indemnity insurance **is** required before
+   settlement if you sell within seven years. The capsule then half-corrected itself in its second
+   sentence, so an absolute claim and its own refutation sat in the same 55 words. Two further defects
+   rode along: "no state" asserted a position on SA and VIC when only five states were verified and
+   sourced, and the capsule grouped NSW with WA when the page's own NSW row says the opposite. Found on
+   12 Aug only because another page linked to it and the link's one-line description had to restate the
+   claim.
+
+   **No script can do this for you and none is planned.** Nothing in the repo compares two prose
+   statements on one page for agreement; both sentences above were individually well-formed, correctly
+   scoped in tone, and carried no banned CTA and no authority-model keyword. `check-claims`,
+   `check-links`, `check-reflow` and all 26 guardrails passed the wrong version and the right one
+   identically. This is a reading a person performs or nobody does.
+
+   A useful forcing move: **restate the page's central claim in one sentence, as if writing the link
+   description another page would use**, then go and find the row that proves it. That is precisely what
+   surfaced the defect above, and it is cheap.
 2. **Duplicate/repeated information** — no redundant sections or restated facts (incl. eyebrow/heading/lede).
 3. **Logical flow** — ideas progress; transitions clear; conclusions follow.
 4. **Logical grouping** — related content clustered; nothing sitting in the wrong section.
@@ -187,6 +246,11 @@ Then **`ai-detector`** where human-authored content is required.
 - Any RTO / "accredited" / (WA) "approved course" / "permit" authority-model breach.
 - A government/legislative claim with **no visible source** on the page, or the **Consolidated Sources**
   section missing.
+- **A regulatory claim in summary furniture that the page's own detail contradicts or narrows** — a hero
+  tick, capsule, sticky bar or meta description saying one thing where the table, FactGrid or list below
+  says another (§3 check 1). A page that states two positions on the same regulatory question has no
+  correct reading, and the summary is the part most readers act on. Equally blocking: a claim scoped
+  wider than the evidence, e.g. "no state" on a page that verified and sourced five of them.
 - An unresolved government fact, or a `[confirm: LW]` / `[TO VERIFY]` left open on a publish path.
 - A government fee past its re-verify cadence (e.g. 1 July) not re-checked.
 - The primary keyword is already targeted by an existing ABE page (cannibalisation).

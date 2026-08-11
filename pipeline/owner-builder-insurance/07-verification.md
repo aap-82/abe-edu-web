@@ -770,8 +770,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   shipped green.** Recorded here as the specific instance. The general shape — an absolute claim in
   hero furniture, qualified or reversed by the detail lower down the same page — is worth one
   deliberate read on any page whose hero ticks summarise a table. Not mechanisable; see below.
-- [skills] **A page's summary furniture (hero ticks, answer capsule, meta description) can contradict
-  its own data table with every check green.** No existing check reads two prose statements against
+- ~~[skills] **A page's summary furniture (hero ticks, answer capsule, meta description) can contradict
+  its own data table with every check green.**~~ **Closed 12 Aug 2026**, same day, as the reading step
+  rather than a script — `verification.md` §3 check 1 now names the failure mode, carries this page as
+  its worked example, states that no script can do it, and offers the forcing move that actually found
+  it (restate the central claim as a one-line link description, then go find the row that proves it).
+  Mirrored into `SKILL.md` §7 as check 5, and a matching hard-blocker added for the regulatory case. No existing check reads two prose statements against
   each other, and `check-claims` does not read `src/pages/**` at all (already filed above, 8 Aug).
   Worth deciding whether Stage 7 gets an explicit step — "read each hero tick against the section it
   summarises" — rather than another script. The failure here was a missing *reading*, not a missing
