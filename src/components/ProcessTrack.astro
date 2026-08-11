@@ -31,10 +31,8 @@ import type { HTMLAttributes } from 'astro/types';
  * The verify-blue last step went with the discs. The hand-off it marked is stated in the step's own
  * words ("Apply to QBCC"), which is where a reader actually reads it.
  *
- * NO EYEBROW. The old rail carried a mono "PROCESS" label and the first pass at this kept it; the
- * approved variant has none. An uppercase mono kicker over every hero on 26 pages is the "repeated
- * tiny tracked label as section grammar" the brand rules call scaffolding. The `label` prop survives
- * as the list's `aria-label`, so the sequence is still named for a screen reader.
+ * THE EYEBROW is back (12 Aug 2026, Andrey), after being removed earlier the same session to
+ * match the approved mock. See the note on `.ht-eyebrow` below for the argument that was overruled.
  *
  * NO BACKGROUND. `.hero` is transparent over the body's --ground, and a filled block under the image
  * would put a third ground inside the hero. The --ink cap rule does the separating.
@@ -47,6 +45,7 @@ const { steps, label = 'Process', ...rest } = Astro.props;
 const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
 ---
 <div class="howtrack" {...rest}>
+  <span class="ht-eyebrow">{label}</span>
   <ol class="ht-steps" role="list" aria-label={label}>
     {nodes.map((n, i) => (
       <li class="ht-cell" style={`--ht-indent:${Math.min(i, 3) * 20}px`}>
@@ -61,6 +60,25 @@ const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
      above it, which is the relationship wanted — the process belongs to the artefact, not to the
      page. --rule here was too quiet to close anything and the block floated. */
   .howtrack{ border-top:1px solid var(--ink); margin-top:var(--s-md); }
+
+  /* The PROCESS eyebrow, restored 12 Aug 2026 on Andrey's instruction. It has been on, off and on
+     again in one session, so the history is worth one line each: the old connector rail carried it;
+     the first pass at this rewrite kept it and was told to match the mock, which had none; the mock
+     was then overruled and it is back. The argument for removing it — "a repeated tiny tracked label
+     over every hero on 26 pages is the scaffolding the brand rules warn about" — is real and is
+     recorded as overruled rather than deleted.
+     It sits BELOW the --ink cap rule, not above it. The rule is what closes the image; putting text
+     between the image and its own underline would break that relationship. Below it, the eyebrow
+     labels the ledger it introduces.
+     `aria-label`, NOT `aria-labelledby` with an id on this span. That was the first implementation and
+     it shipped a duplicate id: `/styleguide` renders this component twice, so one fixed id appeared
+     twice on the page, which is invalid and points both lists at whichever node the browser resolves
+     first. Caught by counting `id="ht-label"` per built page rather than by looking at one page.
+     A per-instance unique id would work but has to come from somewhere — a counter that survives
+     Astro's per-render frontmatter, or a random suffix that churns `dist/` on every build. The label
+     is one word and identical in both places, so `aria-label` gets the same accessible name with no
+     id to collide. */
+  .ht-eyebrow{ display:block; margin:14px 0 10px; font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
 
   .ht-steps{ list-style:none; margin:0; padding:0; }
   /* Hairline between steps, none above the first (the --ink cap is already there) and none below the
