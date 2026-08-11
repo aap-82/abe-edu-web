@@ -23,15 +23,25 @@ const style = maxWidth ? `max-width:${maxWidth}` : undefined;
 <div class:list={["steps", columns === 2 && "steps-2"]} style={style}>
   {steps.map((s, i) => (
     <div class="step">
-      <span class="s-k">Step {String(i + 1).padStart(2, '0')}</span>
-      <h3 class="h3" set:html={s.title} />
-      {Array.isArray(s.body)
-        ? (
-          <ul class="step-points" role="list">
-            {s.body.map((point) => <li set:html={point} />)}
-          </ul>
-        )
-        : <p set:html={s.body} />}
+      {/* The numeral moved into its own gutter column (Andrey, 12 Aug 2026, from three rendered
+          layouts). It was a single "Step 01" mono line stacked above the title, which put the
+          numeral on the same x as everything else and made it read as a caption on the title rather
+          than an index. Split into the word and the figure so the figures form a column the eye can
+          run down. The word is lowercase on purpose: it is the quiet half of the pair. */}
+      <span class="s-k">
+        <span class="s-k-w">step</span>
+        <span class="s-k-d num">{String(i + 1).padStart(2, '0')}</span>
+      </span>
+      <div class="s-body">
+        <h3 class="h3" set:html={s.title} />
+        {Array.isArray(s.body)
+          ? (
+            <ul class="step-points" role="list">
+              {s.body.map((point) => <li set:html={point} />)}
+            </ul>
+          )
+          : <p set:html={s.body} />}
+      </div>
     </div>
   ))}
 </div>

@@ -65,11 +65,22 @@ const ctaNote = cta.microcopy ?? 'Pay by card or 4 interest-free payments with A
     <div class="z-img">
       <Placeholder ratio={artefactRatio} desc={artefactDesc} spec={artefactSpec} src={artefactImg} alt={artefactAlt} eager={!!artefactImg} />
     </div>
-    {/* ProcessTrack is a FULL-WIDTH row under both columns, not the last item in the text column.
-        In the column it made the column taller than any hero image and, on the bundle where the
-        image cover-fills, the image overran and clipped the last step. Full-width it also stops
-        being cramped: the 4-step rail finally has room. It carries its own container-type so its
-        @container rail query still fires now that it is outside the text column's container. */}
+    {/* ProcessTrack sits UNDER THE HERO IMAGE, in the right column. 12 Aug 2026, Andrey's call
+        across three passes: it was the hero's full-width last row, was briefly moved out of the
+        section entirely, and neither was right. The target is the dead space beneath the image —
+        on a typical course page the text column runs ~140px taller than the image, and that gap was
+        the only unresolved area of the hero.
+
+        The placement is done in global.css, not here: the text column spans both grid rows while
+        the image and this share column 2, so the process lands directly under the image rather than
+        below the whole hero. Markup order stays text -> image -> process, which is also the reading
+        order.
+
+        This does NOT reintroduce the failure the old comment guarded against. That was the process
+        living in the TEXT column, where it made the column taller than the image and, on the bundle
+        where the image cover-fills, the image overran and clipped the last step. It is now in the
+        image's own column, below it, so it cannot lengthen the text column and the image cannot
+        overrun it. Verified on /cpd-building-tas specifically. */}
     <ProcessTrack steps={howItWorks} />
   </div>
 </section>

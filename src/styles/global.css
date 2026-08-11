@@ -229,18 +229,18 @@ p strong{color:var(--ink);font-weight:600;}
 /* 500, not 600: DM Mono is loaded at 400 and 500 only (see BaseLayout's font link), so 600
    was being synthesised as a faux-bold - a smeared approximation rather than a real cut. 500
    is the heaviest weight the face actually ships, so it is both lighter and cleaner. */
-/* ACTIVE IS MAROON, 12 Aug 2026, Andrey's call. This breaks the "grey ramp with no accent" note
-   above, deliberately and by instruction: the ramp made hover and active two greys apart, which is
-   a difference you have to look for, and "you are here" is the one state in this bar worth spending
-   the accent on. Hover stays grey, so the two states are now different in KIND (grey pill vs filled
-   accent) rather than in shade — the thing the ramp comment was trying to achieve by other means.
-   Note this is the accent used on a state rather than an action, which CLAUDE.md's "Heritage Maroon
-   for actions only" line otherwise reserves. Instructed, not inferred.
-   Reversed out: --way-active (#d9dbde) is now unused by the active state itself and kept only as the
-   ramp's third value. Measured: #fff on --maroon 10.95:1, on --maroon-dark 14.64:1, both far clear
+/* ACTIVE KEEPS ITS GREY PILL AND TAKES MAROON TYPE, 12 Aug 2026, Andrey across two passes. A
+   maroon-FILLED chip was tried first and rejected the same day as "too loud" — at 109x30px in a
+   sticky bar that follows the reader down the page, a solid accent block competes with the hero and
+   with the CTA, which is the one thing in this chrome that should be shouting.
+   Type-only keeps the ramp intact: hover and active are still the greys that note describes, and
+   the accent marks "you are here" without adding a second filled object to the bar. It is also the
+   cheaper reading of "Heritage Maroon for actions only" — the accent tints a label rather than
+   claiming a surface.
+   Measured: --maroon on --way-active (#d9dbde) 7.89:1, on the :hover #cdcfd3 7.02:1, both far clear
    of AA at the 12px this bar is set in. */
-.waynav a.j.active{color:#fff;background:var(--maroon);font-weight:500;}
-.waynav a.j.active:hover{color:#fff;background:var(--maroon-dark);}
+.waynav a.j.active{color:var(--maroon);background:var(--way-active);font-weight:500;}
+.waynav a.j.active:hover{color:var(--maroon);background:#cdcfd3;}
 /* 9px/20px: a 26-character label needs more side air than 16px, and the extra 1px of
    vertical padding balances the cap height. Radius steps 5->6 for the taller box.
 
@@ -297,9 +297,18 @@ p strong{color:var(--ink);font-weight:600;}
    so stretching the cell is all that is needed). object-position:center keeps the document and
    tablet, which carry the message. Portrait course images are tall enough that align-items:start
    reads fine, so they are left alone. */
-/* ProcessTrack, moved out of the text column, spans both columns as its own full-width row.
-   container-type so its @container rail query fires against the full width, not the old column. */
-.hero .wrap > .howtrack{grid-column:1 / -1;container-type:inline-size;}
+/* ProcessTrack sits UNDER THE IMAGE, in column 2 (12 Aug 2026). It was `grid-column:1/-1`, a
+   full-width row across the bottom of the hero, where it stretched to 1144px for four short labels.
+   Now the TEXT COLUMN SPANS BOTH ROWS and the image and the process share column 2, so the process
+   fills the gap beneath the image instead of adding a fourth band to the page.
+   The span is what makes it work: without it, a third grid child lands in row 2 column 1 and row 2
+   begins below the TALLEST of row 1, which put the process under the whole hero rather than under
+   the image. `align-items:start` on the wrap keeps the image at the top of its row so the gap it
+   leaves is the space this fills.
+   No container-type any more: the @container rail query it fed is gone with the connector rail. */
+.hero .wrap > div:first-child{grid-row:1 / span 2;}
+.hero .wrap > .z-img{grid-column:2;grid-row:1;}
+.hero .wrap > .howtrack{grid-column:2;grid-row:2;align-self:start;}
 @media(min-width:1101px){
   .hero-bundle .hero .wrap{align-items:stretch;}
   .hero-bundle .hero .z-img{display:flex;}
@@ -355,21 +364,42 @@ p strong{color:var(--ink);font-weight:600;}
 /* the proof row sizes to its column, not the viewport: the hero grid collapses to one
    column at 1100px, so cqw tracks the real width where vw would not */
 .hero .wrap>div:first-child{container-type:inline-size;}
-.proof{display:flex;align-items:center;flex-wrap:nowrap;gap:0;color:var(--slate);}
-/* each stat stacks: figure on top, mono-uppercase label under it */
-.proof .stat{position:relative;display:inline-flex;flex-direction:column;gap:3px;white-space:nowrap;padding:0 clamp(14px,1.9cqw,24px);}
-.proof .stat:first-child{padding-left:0;}
-.proof .stat:last-child{padding-right:0;}
+/* THREE CAPPED CELLS, not a flex line with dividers (variant C, 12 Aug 2026, Andrey's pick from
+   three rendered options). Each stat is capped by a 2px --maroon rule and given room under it, so
+   the row reads as three defined things without a container, a fill or a shadow.
+   WHY NOT ACTUAL CARDS, which is what was asked for. Three bordered boxes each holding a big figure
+   over a small label is the hero-metric stat grid, the most template-looking object in the SaaS
+   vocabulary, and this row is already that content. A cap rule gives the same "these are three
+   objects" reading with none of the shape. It also spends the accent somewhere it earns its keep:
+   maroon already carries the ticks and the CTA in this hero, so the caps tie the proof to them.
+   Grid, not flex: three equal columns keep the figures on a common left edge, where the old
+   flex+padding put each figure at a different x depending on the width of its neighbour. */
+.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.4cqw,26px);align-items:start;color:var(--slate);}
+/* each stat stacks: figure on top, mono-uppercase label under it. Capped by a 2px --maroon rule, so
+   the row reads as three defined things without a container, a fill or a shadow.
+   WHY NOT ACTUAL CARDS, which is what was asked for first. Three bordered boxes each holding a big
+   figure over a small label is the hero-metric stat grid, the most template-looking object in the
+   SaaS vocabulary, and this row is already that content. A cap rule gives the same "these are three
+   objects" reading with none of the shape, and it spends the accent where it earns its keep: maroon
+   already carries the ticks and the CTA in this hero, so the caps tie the proof to them.
+   A tinted-cell version (--paper-grey-soft fill on a 2px --rule-strong base) was built and reverted
+   on 12 Aug 2026: it measured fine, 4.84:1 on the label, and read as three grey boxes competing with
+   the hero image rather than supporting the CTA above them.
+   Grid, not flex: three equal columns keep the figures on a common left edge, where the old
+   flex+padding put each figure at a different x depending on the width of its neighbour. */
+.proof .stat{position:relative;display:inline-flex;flex-direction:column;gap:3px;padding:10px 0 0;border-top:2px solid var(--maroon);}
 .proof .l{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);line-height:1.2;}
-/* divider drawn between stats, so it can never be stranded at the end of a line */
-.proof .stat+.stat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:30px;background:var(--rule-strong);}
+/* The vertical divider is gone with the flex row: the cap rules already separate the cells, and a
+   1px vertical rule between two 2px horizontal ones read as a grid fragment rather than a divider. */
 .proof .n{font-family:var(--font-display);font-weight:600;font-size:clamp(15px,2.9cqw,19px);color:var(--ink);letter-spacing:-.01em;line-height:1;}
 /* three stats cannot fit one line on a phone, so let them wrap and drop the dividers:
    a wrapped stat must never begin a line with a stray vertical rule */
-@media(max-width:720px){
-  .proof{flex-wrap:wrap;gap:8px 16px;}
-  .proof .stat{padding:0;}
-  .proof .stat+.stat::before{content:none;}
+/* Three capped cells survive a phone where three flex stats did not: the cap rule is the full width
+   of its own cell, so narrow cells look deliberate rather than cramped. They stay 3-up until the
+   figures themselves would break, then go 1-up. `white-space:nowrap` is deliberately NOT set — a
+   label that cannot break is what clipped the rail this hero used to carry. */
+@media(max-width:560px){
+  .proof{grid-template-columns:1fr;gap:12px;}
 }
 .howline{margin-top:var(--s-lg);font-family:var(--font-mono);font-size:12px;color:var(--slate);letter-spacing:.02em;}
 .howline b{color:var(--ink-2);font-weight:500;}
@@ -417,9 +447,28 @@ p strong{color:var(--ink);font-weight:600;}
    A width-triggered rule cannot know whether it sits in a 536px split column or a 1144px wrap.
    The call site does. So the call site says. */
 .steps{display:grid;gap:var(--s-lg);margin-top:var(--s-md);}
-.step{border-top:1px solid var(--rule);padding-top:var(--s-md);}
-.step .s-k{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:8px;}
-.step h3{margin-bottom:6px;}
+/* GUTTER NUMERAL, 12 Aug 2026, Andrey's pick from three rendered layouts. The step was a single
+   column: a mono "STEP 01" label stacked above the title, everything on one x, so the numeral read
+   as a caption on the title rather than as an index. A fixed 60px gutter puts the figures in their
+   own column and starts every title on the same line, which is what makes a list of steps scannable
+   as a sequence.
+   60px is sized to the figure, not guessed: the numeral is 21px mono and "step" above it is 10px
+   tracked, so the wider of the two sets the column. It holds at BOTH widths this renders at - the
+   full 1144px wrap and the ~536px half-column that  produces on /white-card-qld and
+   /cpd-building-tas. */
+.step{border-top:1px solid var(--rule);padding-top:var(--s-md);display:grid;grid-template-columns:60px 1fr;gap:20px;}
+.step .s-k{display:flex;flex-direction:column;align-items:flex-start;line-height:1;}
+.step .s-k-w{font-family:var(--font-mono);font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:lowercase;color:var(--slate);margin-bottom:4px;}
+.step .s-k-d{font-family:var(--font-mono);font-size:21px;font-weight:500;letter-spacing:.02em;color:var(--maroon);}
+/* DOTTED RULE UNDER THE TITLE. Andrey's pick, 12 Aug 2026, from three underline options, and it is
+   the one that sits awkwardly against this file's own line grammar - "solid is structure, dashed is
+   the edge of a note, dotted separates within one". A dotted rule under a title is not separating
+   two things inside one object; it is decorating a heading. That was raised before it shipped and
+   chosen anyway, so it is recorded here rather than quietly reinterpreted.
+   border-bottom rather than text-decoration, which is the whole point of this option over the other
+   two: it spans the content column, so it is the same width on every step regardless of how long the
+   title is, and a two-line title gets one rule instead of two. */
+.step h3{border-bottom:1.5px dotted var(--rule-strong);padding-bottom:7px;margin-bottom:9px;}
 /* Capped to .measure. Step bodies were the single biggest measure breach on the site: 13 of 35,
    running to 162 CPL on /cpd-building-tas against an 85 hard rule, because `.step p` set a size and
    a colour and never a width, so a step body ran the full section. 480px at 16px is ~64 CPL, the

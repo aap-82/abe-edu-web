@@ -69,7 +69,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
           {countParts(m).length > 0 && (
             <span class="mr-count num">
               {countParts(m).map((p, n) => (
-                <span class="mr-count-part">{n > 0 ? ' · ' : ''}<span class="mr-count-n">{p.n}</span> {p.word}</span>
+                <span class="mr-count-part">{n > 0 ? ' ' : ''}<span class="mr-count-n">{p.n}</span> {p.word}</span>
               ))}
             </span>
           )}
@@ -242,7 +242,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   .mr-key{ display:flex; flex-direction:column; gap:4px; }
   .mr-no{
     font-family:var(--font-mono); font-size:11px; font-weight:500;
-    letter-spacing:.18em; text-transform:uppercase; color:var(--maroon);
+    letter-spacing:.18em; text-transform:uppercase; color:#600000;
   }
   .mr-range{
     font-family:var(--font-mono); font-size:11px; font-weight:500;
@@ -283,7 +283,13 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      three it is no longer a run of exceptions to "Heritage Maroon for actions only" but a second,
      consistent job the colour does here: FIGURES. Settling that belongs in the design register, and
      is on the demand list rather than being decided one override at a time. */
-  .mr-count-n{ color:var(--maroon); }
+  .mr-count-n{ color:#600000; }
+  /* The dot is gone (Andrey, 12 Aug 2026) and this margin is what replaces it. The separator itself
+     is still a real SPACE text node rather than nothing, for exactly the reason the note above gives:
+     drop the character entirely and textContent reads "2 modules3 outcomes" to copy-paste, text
+     extraction and any tooling that does not resolve CSS. The space keeps the two facts apart in the
+     text layer; this margin keeps them apart on screen. */
+  .mr-count-part + .mr-count-part{ margin-left:9px; }
 
   /* The SAME mark the FAQ uses: a literal maroon "+" that rotates 45 degrees to a cross when open,
      matching `.faq summary .pm` in global.css declaration for declaration (maroon, 20px,
@@ -305,7 +311,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      Archivo. This one inherited DM Sans from the page and drew a different glyph at the same size. */
   .mr-mark{
     justify-self:center; align-self:center;
-    font-family:var(--font-display); font-weight:600; color:var(--maroon); font-size:20px;
+    font-family:var(--font-display); font-weight:600; color:#a00000; font-size:20px;
     line-height:1; transition:transform .2s;
   }
   .mrow details[open] .mr-mark{ transform:rotate(45deg); }

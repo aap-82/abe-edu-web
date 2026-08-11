@@ -1,62 +1,92 @@
 ---
-// Hero "how it works" line: a PROCESS eyebrow over a numbered rail (variant A). Numbered
-// steps joined by a thin connector that reads as "then"; the last number turns verify-blue
-// to mark the hand-off to the regulator.
-//
-// The steps arrive as one " → "-separated string (the frontmatter howItWorks field), so
-// this stays a single source of truth per page and the last step changes with it.
-//
-// The rail's layout is driven by a @container query, not a viewport breakpoint: the hero's
-// left column carries container-type:inline-size, so it lays out against the width it
-// actually has. Wide enough -> one line with growing connectors; too narrow -> the steps
-// wrap and the connectors drop away. The type does NOT scale with the column: it is a flat
-// 11px, DESIGN.md's Label token, at every width. It was clamp(9.5px, 1.8cqw, 11px) until
-// 2026-08-01, which bought the one-line rail by dropping below the register.
-interface Props { steps: string; label?: string; }
-const { steps, label = 'Process' } = Astro.props;
+import type { HTMLAttributes } from 'astro/types';
+/**
+ * The hero's "how it works" line: a numbered VERTICAL LEDGER under the hero image.
+ *
+ * Variant 1 of three stacked options, Andrey's pick, 12 Aug 2026. What it replaces: a horizontal
+ * rail of numbered discs joined by connector threads, and then, in the same session, three wrong
+ * placements of a horizontal spec row. All of it is recorded here because each attempt failed for a
+ * measurable reason and the next person should not re-run them.
+ *
+ * PLACEMENT, three attempts:
+ *   1. `grid-column:1/-1` inside `.hero .wrap` — a full-width row across the bottom of the hero. It
+ *      stretched to 1144px for four short labels, so each connector ran 217px of empty space.
+ *   2. Outside the section entirely, a full-bleed band. That added a fourth horizontal band directly
+ *      above the waynav's own rule, and left the gap under the image — the actual problem — empty.
+ *   3. Column 2, row 2, UNDER THE IMAGE. Right. The text column runs ~140px taller than the image on
+ *      a typical course page and that gap was the one unresolved area of the hero. The placement is
+ *      in global.css: the text column spans both grid rows so this sits beneath the image rather
+ *      than beneath the whole hero.
+ *
+ * WHY VERTICAL, and this is the part worth keeping. Horizontal four-across was tried and is not
+ * available on this site at any type size worth using. In a 499px column a four-up cell has 107px of
+ * usable width. Measured label widths at 12px: "Complete online" 93px, "Sit the assessment" 108px,
+ * "Get your White Card" 116px, "Certificate as you finish" 133px, "Get your Statement of Attainment"
+ * 193px. Only 8 of 26 pages have four labels short enough to hold one line, and /experts/warwick-smith
+ * rendered 1, 4, 2 and 4 lines across its four cells — 46px of raggedness. A content-derived column
+ * count (2-up for long labels, 4-up for short) was built and then deleted with this rewrite: stacked,
+ * every label on every page gets the full column width and none of them wrap, so the branch had
+ * nothing left to decide.
+ *
+ * The verify-blue last step went with the discs. The hand-off it marked is stated in the step's own
+ * words ("Apply to QBCC"), which is where a reader actually reads it.
+ *
+ * NO EYEBROW. The old rail carried a mono "PROCESS" label and the first pass at this kept it; the
+ * approved variant has none. An uppercase mono kicker over every hero on 26 pages is the "repeated
+ * tiny tracked label as section grammar" the brand rules call scaffolding. The `label` prop survives
+ * as the list's `aria-label`, so the sequence is still named for a screen reader.
+ *
+ * NO BACKGROUND. `.hero` is transparent over the body's --ground, and a filled block under the image
+ * would put a third ground inside the hero. The --ink cap rule does the separating.
+ *
+ * The steps arrive as one " → "-separated string (the frontmatter howItWorks field), so this stays a
+ * single source of truth per page and the last step changes with it.
+ */
+interface Props extends HTMLAttributes<'div'> { steps: string; label?: string; }
+const { steps, label = 'Process', ...rest } = Astro.props;
 const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
 ---
-<div class="howtrack">
-  <span class="ht-eyebrow">{label}</span>
-  <div class="ht-rail">
+<div class="howtrack" {...rest}>
+  <ol class="ht-steps" role="list" aria-label={label}>
     {nodes.map((n, i) => (
-      <>
-        {i > 0 && <span class="ht-link" aria-hidden="true"></span>}
-        <span class="ht-node"><span class="ht-n" aria-hidden="true">{i + 1}</span>{n}</span>
-      </>
+      <li class="ht-cell" style={`--ht-indent:${Math.min(i, 3) * 20}px`}>
+        <span class="ht-n num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <span class="ht-t">{n}</span>
+      </li>
     ))}
-  </div>
+  </ol>
 </div>
 <style>
-  .howtrack{ margin-top:var(--s-lg); display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
-  /* eyebrow: mono uppercase label above the rail */
-  .ht-eyebrow{ display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
+  /* The cap rule. --ink at 1px, not --rule: at column width this reads as the underline of the image
+     above it, which is the relationship wanted — the process belongs to the artefact, not to the
+     page. --rule here was too quiet to close anything and the block floated. */
+  .howtrack{ border-top:1px solid var(--ink); margin-top:var(--s-md); }
 
-  /* the numbered rail: wrapped by default (mobile-first), connectors hidden */
-  .ht-rail{ align-self:stretch; display:flex; flex-wrap:wrap; align-items:center; gap:9px 12px; font-family:var(--font-mono); font-size:11px; letter-spacing:.01em; color:var(--ink-2); }
-  /* No white-space:nowrap here. It used to be unconditional, which meant a step label longer than
-     its column could not break and simply overflowed: /experts/warwick-smith's "Operational design
-     for training products" measured a 327px node inside a 319px rail at a 375px viewport, so the
-     label was clipped. The rail is flex-wrap:wrap by default precisely so narrow columns wrap, and
-     a node that cannot wrap defeats that. nowrap is reinstated inside the container query below,
-     where the single-line rail actually needs it. */
-  .ht-node{ flex:none; display:inline-flex; align-items:center; gap:7px; max-width:100%; }
-  /* 18px, not 17: the step number moved 10px -> 11px with the rest of the mono labels, and a
-     17px disc left the digit visually crowding its own circle. */
-  .ht-n{ display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:var(--maroon); color:#fff; font-size:11px; font-weight:500; flex:none; }
-  /* the last step is the hand-off to the regulator: mark its number in the verify blue */
-  .ht-node:last-child .ht-n{ background:var(--verify); }
-  .ht-link{ display:none; }
+  .ht-steps{ list-style:none; margin:0; padding:0; }
+  /* Hairline between steps, none above the first (the --ink cap is already there) and none below the
+     last, so the ledger closes on its own content rather than on an empty rule. */
+  /* THE LADDER. Each step sits 20px further right than the one above it, so the four rows read as a
+     descending staircase rather than a flat list (Andrey, 12 Aug 2026). The indent is `margin-left`,
+     not `padding-left`, deliberately: margin moves the cell's own box, so the hairline above each row
+     steps with it and the staircase shows in the RULES as well as the numerals. Padding would have
+     indented the content inside a full-width row and left the rules flat.
+     The value is set per item in the frontmatter as `--ht-indent`, capped at the fourth step. Pages
+     carry 3 or 4 steps today (17 with four, 9 with three), and the cap means a longer list would
+     stop stepping rather than walking off the column. At the 4th step the cell starts 60px in, which
+     still leaves 439px — comfortably more than the longest label on the site at 193px. */
+  .ht-cell{ display:flex; align-items:baseline; gap:12px; padding:10px 0; margin-left:var(--ht-indent,0); }
+  .ht-cell + .ht-cell{ border-top:1px solid var(--rule); }
 
-  /* one line once the column can hold it (keyed to the column, not the viewport) */
-  @container (min-width:560px){
-    /* Was clamp(9.5px, 1.8cqw, 11px). The clamp bought the single-line rail by shrinking the
-       label to 9.5px, which is below DESIGN.md's 11px Label token - it paid for layout with
-       legibility. The connectors are `flex:1 1 auto` with `min-width:14px`, so they absorb the
-       slack instead. Measured across all 20 built pages at 375px and 1280px after the change: no
-       rail overflows its container at either width. */
-    .ht-rail{ flex-wrap:nowrap; white-space:nowrap; gap:0; font-size:11px; }
-    .ht-node{ white-space:nowrap; }
-    .ht-link{ display:block; flex:1 1 auto; min-width:14px; height:1px; margin:0 12px; background:var(--rule-strong); }
-  }
+  /* Fixed 20px gutter, so every label starts on the same x no matter how wide its numeral renders.
+     `01` not `1` for the same reason the gutter is fixed: two digits make the column self-evident
+     rather than dependent on the count staying under ten. */
+  .ht-n{ flex:none; width:20px; font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:.08em; color:var(--maroon); }
+  /* 13.5px. The stack has the full column width, so this does not have to shrink to fit the way the
+     horizontal attempts did — 12px was the floor those needed, and this is a step back above it.
+     Under DESIGN.md's 16px body floor because a step label is a label, not prose. */
+  .ht-t{ font-family:var(--font-body); font-size:13.5px; font-weight:500; line-height:1.35; color:var(--ink); }
+
+  /* Nothing to do at any width. The stack is one column already, the labels have never wrapped at
+     499px, and below the hero's 1100px collapse the block only gets wider. This component used to
+     carry a @container query and two breakpoint rules; vertical made all of them unnecessary. */
 </style>
