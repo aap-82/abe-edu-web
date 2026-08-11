@@ -49,23 +49,17 @@
      A darker grey is available only to text at --ink weight, never to a surface under --slate.
      Register addition under rule 7, disclosed in the review. */
   --paper-grey:#f2f3f4;
-  /* The permitted-side surface, added 12 Aug 2026 for CanCant's two header strips. A tint of --ok
-     (#2e7d5b), the green already in the file, so this is a lighter step in an existing family and
-     NOT a new colour. There is deliberately no red counterpart: --maroon is reserved for actions
-     ("Heritage Maroon for actions only"), the palette has never carried a red, and Andrey's call on
-     12 Aug was green-for-can against GREY-for-cannot rather than green against red. Red/green alone
-     is also the textbook colour-blind failure, so the ✓/✕ glyphs remain the non-colour signal and
-     the colour only reinforces them.
-     CHOSEN FOR LIGHTNESS PARITY, not by eye: its luminance is 0.996x --paper-grey's, so the two
-     columns read as a difference of HUE at equal weight. A darker green would have made "can" look
-     like the heavier half of a balanced pair.
-     Text on it stays --maroon at 9.82:1. --ok itself is NOT usable as text here — it measures 4.48
-     on this tint and 4.11 on the darker candidates, all under the 4.50 floor, which is why the
-     header keeps the accent it already had rather than turning green.
-     Both this and --paper-grey are COOL, which is what keeps them off the warm band behind the
-     card: the note on .can-h below records that a --paper-alt strip once blurred into .bg-alt
-     because it WAS that band's colour. */
-  --ok-tint:#eef4f0;
+  /* The soft companion to --paper-grey, one step lighter, for a SURFACE that sits under a
+     --paper-grey heading and must read as the same family without competing with it. Added
+     12 Aug 2026 for CanCant's "not" column, where the heading is --paper-grey and the body beneath
+     it is this.
+     Luminance 0.946 against --paper-grey's 0.895 and white's 1.0, so it is an unambiguous step in
+     both directions: visibly lighter than its own heading, visibly not white beside the white
+     "can" column next to it. --slate (the ✕) holds 4.84:1 on it, --ink-3 (the body) 8.41:1.
+     (A green --ok-tint briefly lived here on 12 Aug for the "can" heading and was removed the same
+     day on Andrey's call — "I don't like that green". The can side is plain --paper again. Recorded
+     so the token's absence reads as a decision rather than an oversight.) */
+  --paper-grey-soft:#f8f9fa;
   /* the answer capsule's ground, deliberately OFF the section ramp (deeper than every section
      band) so the capsule reads as an inset panel on ANY section. On --paper-warm it used to
      vanish (1.000) and on --paper-alt it separated by only 1.026 after the ramp widened. At
@@ -235,8 +229,18 @@ p strong{color:var(--ink);font-weight:600;}
 /* 500, not 600: DM Mono is loaded at 400 and 500 only (see BaseLayout's font link), so 600
    was being synthesised as a faux-bold - a smeared approximation rather than a real cut. 500
    is the heaviest weight the face actually ships, so it is both lighter and cleaner. */
-.waynav a.j.active{color:var(--ink);background:var(--way-active);font-weight:500;}
-.waynav a.j.active:hover{color:var(--ink);background:#cdcfd3;}
+/* ACTIVE IS MAROON, 12 Aug 2026, Andrey's call. This breaks the "grey ramp with no accent" note
+   above, deliberately and by instruction: the ramp made hover and active two greys apart, which is
+   a difference you have to look for, and "you are here" is the one state in this bar worth spending
+   the accent on. Hover stays grey, so the two states are now different in KIND (grey pill vs filled
+   accent) rather than in shade — the thing the ramp comment was trying to achieve by other means.
+   Note this is the accent used on a state rather than an action, which CLAUDE.md's "Heritage Maroon
+   for actions only" line otherwise reserves. Instructed, not inferred.
+   Reversed out: --way-active (#d9dbde) is now unused by the active state itself and kept only as the
+   ramp's third value. Measured: #fff on --maroon 10.95:1, on --maroon-dark 14.64:1, both far clear
+   of AA at the 12px this bar is set in. */
+.waynav a.j.active{color:#fff;background:var(--maroon);font-weight:500;}
+.waynav a.j.active:hover{color:#fff;background:var(--maroon-dark);}
 /* 9px/20px: a 26-character label needs more side air than 16px, and the extra 1px of
    vertical padding balances the cap height. Radius steps 5->6 for the taller box.
 
@@ -513,17 +517,22 @@ a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
    the DESIGN.md rule, not from a competing fill. */
 .can-h{padding:14px 22px;border-bottom:1px solid var(--rule-strong);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:var(--paper);}
 .can-col.can .can-h{color:var(--maroon);} .can-col.cant .can-h{color:var(--slate);}
-/* The two header strips carry the permitted/not distinction on the SURFACE as well as in the text
-   and the glyph, 12 Aug 2026, Andrey's call. Green for can, grey for cannot — not green/red: there
-   is no red in this palette and --maroon is actions-only, so a red would have been a new colour
-   family rather than a tint of an existing one.
-   This re-tints the strip the note above deliberately un-tinted, and the reason that note gives is
-   why these two values are safe where --paper-alt was not: it blurred because it WAS .bg-alt's
-   colour, a warm cream matching the band behind the card. Both of these are COOL, so neither can
-   match a warm band on any page this renders on.
-   Measured: --maroon on --ok-tint 9.82:1, --slate on --paper-grey 4.59:1, both clear AA, and the
-   two tints sit at 0.996 luminance of each other so neither column outweighs the other. */
-.can-col.can .can-h{background:var(--ok-tint);} .can-col.cant .can-h{background:var(--paper-grey);}
+/* ONLY THE "NOT" COLUMN IS TINTED, 12 Aug 2026, Andrey's call across two passes. The first pass
+   gave "can" a green heading and "cannot" a grey one; the green was rejected the same day ("I don't
+   like that green"), so the can side is plain --paper and carries its meaning the way it always did,
+   through the maroon ✓ and the maroon label. The distinction now works by ONE column being tinted
+   rather than by two competing hues, which is quieter and sidesteps the red/green colour-blind trap
+   entirely.
+   The "not" column is a two-step grey: --paper-grey for the heading, --paper-grey-soft beneath it.
+   The heading stays the darker of the two so the strip still reads as a header rather than dissolving
+   into its own body.
+   These are safe where the --paper-alt strip the note above records was not: that one blurred because
+   it WAS .bg-alt's colour, a warm cream matching the band behind the card. Both greys here are COOL,
+   so neither can match a warm band on any page this renders on.
+   Measured: --slate on --paper-grey 4.59:1 (heading), --slate on --paper-grey-soft 4.84:1 (the ✕),
+   --ink-3 8.41:1 and --ink 16.51:1 on the body. All clear AA. */
+.can-col.cant{background:var(--paper-grey-soft);}
+.can-col.cant .can-h{background:var(--paper-grey);}
 .can-col ul{list-style:none;}
 /* Glyph centres against the ROW, not the first line (Andrey, 12 Aug 2026). `flex-start` was the
    unexamined default and carried no rationale; it read fine on one-line items and left the ✓/✕
@@ -531,7 +540,13 @@ a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
    item in this component runs long enough for a centred marker to lose its first line. */
 .can-col li{display:flex;gap:12px;align-items:center;padding:13px 22px;font-size:16px;color:var(--ink-3);}
 .can-col li+li{border-top:1px solid var(--rule);}
-.can-col .gl{flex:none;font-weight:700;line-height:1.4;}
+/* Fixed box, not an auto-width glyph. ✓ measures 12.0px and ✕ measures 13.1px in DM Sans, so with
+   `flex:none` alone each column indented its text by a different amount — 46px on the can side, 47.1
+   on the cant side — and the two lists in a side-by-side pair did not align. The 1.1px is small
+   enough to be invisible as a measurement and exactly the kind of thing that reads as "the padding
+   is off" (Andrey, 12 Aug 2026). 14px clears the wider glyph; `text-align:center` centres each one in
+   its own box so neither hangs left. Text now starts at 48px in BOTH columns. */
+.can-col .gl{flex:none;width:14px;text-align:center;font-weight:700;line-height:1.4;}
 .can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate);}
 /* Leading clause takes the darker ink so the point of each line lands first and the list is
    scannable without reading it. Same values as Credentials' .cl-k, and the same split rule
