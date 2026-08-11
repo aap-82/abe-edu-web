@@ -154,6 +154,34 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      floor with room, where the darker direction the old comment was pushed towards did not. */
   .mrow summary{ transition:background .15s; }
   .mrow summary:hover{ background:var(--paper-alt); }
+
+  /* OPEN NOW CARRIES THE SAME TINT AS HOVER. Andrey's call, 12 Aug 2026: "when hover over use light
+     grey background for the title row. when open keep it light grey and body white."
+
+     This reverses the "Open therefore takes NO tint" paragraph above, and the reversal is his to
+     make, but the paragraph's reasoning is NOT what is being overturned and should not be read as
+     discredited. Its worry was that spending a tint on open squeezed hover into a corner, because
+     back then open was spending --paper and hover had to find a fourth value between the ramp and
+     the open state. That is no longer the shape: open and hover now share ONE value, so nothing is
+     squeezed and no new token is introduced.
+
+     What the reversal does cost, stated plainly rather than discovered later: hovering an ALREADY
+     OPEN row produces no background change, because the two states resolve to the same colour. The
+     affordance survives where it matters — every closed row still lights on hover — and an open row
+     already announces itself twice, by the cross and by the visible panel. That is the trade.
+
+     `> summary` is scoped to the direct child so a nested <details> could never inherit it, and the
+     panel is untouched, so the body stays --paper white as asked.
+
+     MEASURED with getComputedStyle after the change, --slate (#6e6e6e, which carries the count, the
+     range and the marker) against the resolved background:
+       closed rest    #ffffff   5.10:1
+       hover          #f7f4ec   4.64:1
+       OPEN summary   #f7f4ec   4.64:1   <- new, clears the 4.50 AA floor
+       open panel     #ffffff   5.10:1   <- unchanged, body stays white
+     Note --paper-alt is a WARM off-white in this palette, not a neutral grey. A true grey would be
+     a new token and therefore a design-register change under rule 7, which this is not. */
+  .mrow details[open] > summary{ background:var(--paper-alt); }
   /* Reduced motion drops the fade and keeps the colour: the state still reads, it just arrives at
      once. A background cross-fade is not vestibular motion, but it is the same interaction as the
      marker rotation below and they should not disagree. */
