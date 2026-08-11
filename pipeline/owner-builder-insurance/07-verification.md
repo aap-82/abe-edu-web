@@ -707,3 +707,73 @@ merge, and it needs an answer from Andrey rather than a decision from this sessi
 **Not merge-ready, on one blocker rather than three.** The page is factually clean, every state
 position is sourced and dated, and the archetype's own fail condition passes decisively. It cannot
 merge while its only call to action points at itself.
+
+---
+
+## Post-ship correction, 12 Aug 2026 — an internal contradiction Stage 7 did not catch
+
+Found while adding this page's inbound link on `/owner-builder-courses`, by reading the claim being
+summarised rather than the page as a whole. **Two statements on this page contradicted its own state
+table, and both shipped.**
+
+| Where | Said | The table says |
+|---|---|---|
+| Hero tick | "No state requires you to insure your own labour under a home warranty scheme" | WA: "Home indemnity insurance is **required** before settlement if you sell within seven years" |
+| Answer capsule | "No home warranty scheme in any state ABE Education serves requires an owner builder to insure their own labour" | same row, same page |
+
+Two distinct defects, not one.
+
+1. **Contradicted by the page's own data.** WA does require warranty cover for the owner builder's
+   own work, conditionally on sale. The capsule then half-corrected itself in its second sentence
+   ("Western Australia and New South Wales attach an obligation only if you sell"), which is how an
+   absolute claim and its own refutation ended up in the same 55 words.
+2. **Unscoped.** "No state" asserts a position on SA and VIC. This page verified five states and
+   sourced five regulators. ABE Education has no product in SA or VIC and no source was read for
+   either, so the claim reached beyond its evidence in a second, independent way.
+
+The capsule also lumped NSW in with WA. They are not alike: SIRA's position, in this page's own NSW
+row, is that cover is **not** required for work you do yourself, and the seven-and-a-half-year sale
+trigger is a *consumer warning*, not an insurance obligation.
+
+### Corrected to
+
+- Tick: "**Only Western Australia can require warranty cover for your own work**, and only if you sell"
+- Capsule: "Four of the five states ABE Education serves do not require an owner builder to insure
+  their own labour: Queensland and the ACT exclude owner builders by law, New South Wales does not
+  require cover for work you do yourself, and Tasmania has no scheme at all. Western Australia is the
+  exception, and only if you sell within seven years." (60 words, at the ceiling.)
+
+### No re-verification, deliberately, and the date is unchanged
+
+**"Government facts verified 8 August 2026" still stands and was not bumped.** No source was read in
+this session, so under rule 4 there is nothing to re-date. This was prose corrected to agree with data
+already verified on 8 Aug against the six named regulator sources in `stateSources`; the figures, the
+sources and their dates are untouched. Bumping the date would have claimed a re-reading that did not
+happen, which is the exact failure rule 4 exists to prevent.
+
+### Why the gates could not see it
+
+Every check passed on both the wrong and the right version: 26/26 guardrails, `check-claims` 0
+failing, `check-links` 0 failing, `check-reflow` 0 failing. Correctly so — **no check compares two
+prose statements on the same page for agreement**, and none can. Both sentences were individually
+well-formed, correctly scoped in tone, carried no banned CTA and no authority-model keyword. The
+contradiction was only visible by reading the hero against the table, which is a job for a reader.
+
+This is the "read copy as prose" lesson landing on a *factual* contradiction rather than a stylistic
+one, and it is the more serious form: a green build certified a page whose hero told a Western
+Australian the opposite of what its own table told them.
+
+## Demand list
+Tag every item: [skills] | [design] | [facts] | [build]
+
+- [build] `owner-builder-insurance.astro` **carried a hero claim its own state table refuted, and
+  shipped green.** Recorded here as the specific instance. The general shape — an absolute claim in
+  hero furniture, qualified or reversed by the detail lower down the same page — is worth one
+  deliberate read on any page whose hero ticks summarise a table. Not mechanisable; see below.
+- [skills] **A page's summary furniture (hero ticks, answer capsule, meta description) can contradict
+  its own data table with every check green.** No existing check reads two prose statements against
+  each other, and `check-claims` does not read `src/pages/**` at all (already filed above, 8 Aug).
+  Worth deciding whether Stage 7 gets an explicit step — "read each hero tick against the section it
+  summarises" — rather than another script. The failure here was a missing *reading*, not a missing
+  *rule*, and the third sighting of Stage 7 having no step for a check the session must perform by
+  eye (see the design-register item, 11 Aug).
