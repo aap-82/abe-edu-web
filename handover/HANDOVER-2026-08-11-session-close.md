@@ -124,7 +124,7 @@ the URL is promoted.
 
 ---
 
-## Dependencies — checked 11 Aug, deliberately NOT changed
+## Dependencies — ~~checked 11 Aug, deliberately NOT changed~~ **bumped 12 Aug 2026**
 
 `CLAUDE.md` forbids touching `package.json` without being asked, and `package.json` is on the
 deliberately-unassigned list. Reporting rather than acting:
@@ -146,6 +146,39 @@ returns nothing).
 gate suite. It clears the only advisory touching shipped output and is a minor version. Do not run
 `npm audit fix` blind — it can pull majors, and `playwright` (added 10 Aug for `check-reflow`) makes
 the tree larger than the checks that guard it.
+
+### Outcome, 12 Aug 2026 — done, by Andrey running `npm update`
+
+The 11 Aug reading above was accurate: live `npm outdated` matched it exactly a day later. All five
+bumps sat **inside their existing `^` ranges**, so `package.json` never changed and only
+`package-lock.json` moved. `astro` 7.0.6 → **7.2.0**, `@astrojs/mdx` → 7.0.5, `@astrojs/check` →
+0.9.10, both `secretlint` packages → 13.0.4, `@astrojs/sitemap` → 3.7.3. **`typescript` held at
+6.0.3** — 7.0.2 is a major and the caret correctly refused it.
+
+**`npm audit`: 6 findings → 0.** Better than predicted. The note expected only the Astro moderate to
+clear; the five high build-toolchain advisories went too, via transitive updates, and no
+`npm audit fix` was run.
+
+**The bump changed exactly one thing in shipped output, and it was verified rather than assumed.**
+Every one of the 26 built HTML files changed hash, which looks alarming and is not: diffing the new
+build against the **pre-bump build still being served live** showed the sole difference is that Astro
+7.2.0 emits the scoped `.ph-img` rule *after* `.howtrack` instead of before. **Non-CSS diff: 0 lines
+on every page sampled** — same markup, same copy, same `<img>` srcs, same schema.
+
+A reordered CSS rule is the exact shape that silently loses a specificity contest, so it was measured
+in a browser rather than reasoned about: all four `.ph-img` images on `/qld-owner-builder-course`
+still compute `object-fit: cover` and `display: block`. There are **24 such images across 12 pages**
+— a count that took two attempts, because `grep 'class="ph-img"'` returns **zero**: the real
+attribute is `class="ph r45 ph-img"` and an exact-match grep misses every one of them.
+
+**One false alarm worth recording so it is not re-investigated.** Those images report
+`naturalWidth: 0` in the local preview and look broken. They are not: the local static server sends
+**no `content-type`** for `.avif`, so the browser will not decode them. Cloudflare sends
+`image/avif` for the byte-identical 14,400-byte file. A local-preview artefact, present before and
+after the bump, and nothing to do with dependencies.
+
+Gates after: `npm run build` 26/26 guardrails, `npm run check` 0 errors / 0 warnings, `check-claims`
+0 failing, `check-links` 0 failing, `check-reflow` 0 failing, `system-health` 0 failing.
 
 ---
 
