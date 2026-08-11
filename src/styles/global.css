@@ -34,6 +34,21 @@
      4.52:1 on --paper-warm (AA small-text floor 4.50), which is why --paper-warm stops at #f5f1e8.
      --slate-light stays its usual deliberately-sub-AA muted token (2.50 on warm). */
   --paper:#ffffff; --paper-alt:#f7f4ec; --paper-warm:#f5f1e8;
+  /* THE ONE NEUTRAL SURFACE, promoted to a token 12 Aug 2026 rather than invented. The grounds
+     above are warm creams by design, which is correct for the page and its bands, but it means
+     "light grey" cannot be expressed by any of them: --paper-alt is #f7f4ec, visibly cream when a
+     reader asks for grey. This value is NOT new — it is the `.waynav` bar's own background, cool
+     and genuinely neutral, shipped since the wayfinder did, and it sits beside that component's
+     existing grey ramp (--way-hover #e7e8ea, --way-active #d9dbde) described there as "a grey ramp
+     with no accent". Promoting it gives the ramp a root-level entry point instead of a bare hex,
+     and `.waynav` now consumes the token so there is one source rather than two copies.
+     WHY THIS VALUE AND NOT A DARKER ONE. It is the only cool grey in the file that clears AA for
+     --slate (#6e6e6e), which carries the count and the marker on any control this lands on:
+       #f2f3f4  4.59  PASS      #e5e7eb (--rule)     4.12  FAIL
+       #e7e8ea  4.16  FAIL      #d9dbde (--way-active) 3.68  FAIL
+     A darker grey is available only to text at --ink weight, never to a surface under --slate.
+     Register addition under rule 7, disclosed in the review. */
+  --paper-grey:#f2f3f4;
   /* the answer capsule's ground, deliberately OFF the section ramp (deeper than every section
      band) so the capsule reads as an inset panel on ANY section. On --paper-warm it used to
      vanish (1.000) and on --paper-alt it separated by only 1.026 after the ramp widened. At
@@ -177,7 +192,7 @@ p strong{color:var(--ink);font-weight:600;}
    use. Two scoped tokens, one value each: --way-hover (a light grey pill on hover) and
    --way-active (a deeper grey "you are here" chip). Hover and active are different greys by
    design, so the current section never reads the same as one you are merely pointing at. */
-.waynav{--way-hover:#e7e8ea;--way-active:#d9dbde;position:sticky;top:var(--head-h);z-index:25;background:#f2f3f4;border-bottom:1px solid var(--rule);transition:box-shadow .3s ease-out;}
+.waynav{--way-hover:#e7e8ea;--way-active:#d9dbde;position:sticky;top:var(--head-h);z-index:25;background:var(--paper-grey);border-bottom:1px solid var(--rule);transition:box-shadow .3s ease-out;}
 /* Once stuck under the header, the bottom rule firms up (--rule -> --rule-strong) and a soft
    shadow lifts the bar off the content scrolling beneath it, so the strip clearly floats as
    its own control rather than blending into the page. */

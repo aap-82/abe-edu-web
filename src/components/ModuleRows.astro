@@ -126,10 +126,16 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
   }
   .mrow + .mrow{ border-top:1px solid var(--rule); }
 
-  /* HOVER IS BACK ON THE SURFACE, and it is `.faq summary:hover` exactly: --paper-alt, with the
-     FAQ's own `transition:background .15s`. This reverses bbc54a0 and 7236dec, which moved hover
-     off the surface onto the title, and it is worth being precise about why those are reversed
-     rather than simply overridden — their measurements were correct, their premise was not.
+  /* HOVER IS BACK ON THE SURFACE, with the FAQ's own `transition:background .15s`. This reverses
+     bbc54a0 and 7236dec, which moved hover off the surface onto the title, and it is worth being
+     precise about why those are reversed rather than simply overridden — their measurements were
+     correct, their premise was not.
+
+     NOTE, 12 Aug 2026: the VALUE is no longer `.faq summary:hover`'s --paper-alt. It is
+     --paper-grey, per the block at the foot of this comment. The parity being described below is
+     the parity of the STEP — one move off the card's --paper rest — not of the token. The FAQ is
+     unchanged and still uses --paper-alt for hover and no tint on open; the two accordions now
+     differ in colour by instruction rather than by drift.
 
      Both were measured with the rows sitting on the SECTION GROUND and with --paper spent on the
      open state. Under that premise the surface really was boxed in: lighter read as a weak version
@@ -153,7 +159,7 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      because the card fill no longer lets the section ground reach the row. 4.64 clears the 4.50 AA
      floor with room, where the darker direction the old comment was pushed towards did not. */
   .mrow summary{ transition:background .15s; }
-  .mrow summary:hover{ background:var(--paper-alt); }
+  .mrow summary:hover{ background:var(--paper-grey); }
 
   /* OPEN NOW CARRIES THE SAME TINT AS HOVER. Andrey's call, 12 Aug 2026: "when hover over use light
      grey background for the title row. when open keep it light grey and body white."
@@ -176,12 +182,15 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      MEASURED with getComputedStyle after the change, --slate (#6e6e6e, which carries the count, the
      range and the marker) against the resolved background:
        closed rest    #ffffff   5.10:1
-       hover          #f7f4ec   4.64:1
-       OPEN summary   #f7f4ec   4.64:1   <- new, clears the 4.50 AA floor
+       hover          #f2f3f4   4.59:1
+       OPEN summary   #f2f3f4   4.59:1   <- clears the 4.50 AA floor
        open panel     #ffffff   5.10:1   <- unchanged, body stays white
-     Note --paper-alt is a WARM off-white in this palette, not a neutral grey. A true grey would be
-     a new token and therefore a design-register change under rule 7, which this is not. */
-  .mrow details[open] > summary{ background:var(--paper-alt); }
+     BOTH STATES USE --paper-grey, NOT --paper-alt. Andrey asked for light grey and got cream: the
+     grounds in this palette are warm by design, so --paper-alt (#f7f4ec) reads as cream next to a
+     genuinely neutral grey. --paper-grey is the `.waynav` bar's own shipped value promoted to a
+     root token, and it is the only cool grey in the file that clears AA for --slate here:
+     #e7e8ea is 4.16, --rule #e5e7eb is 4.12, --way-active #d9dbde is 3.68. All three fail. */
+  .mrow details[open] > summary{ background:var(--paper-grey); }
   /* Reduced motion drops the fade and keeps the colour: the state still reads, it just arrives at
      once. A background cross-fade is not vestibular motion, but it is the same interaction as the
      marker rotation below and they should not disagree. */
