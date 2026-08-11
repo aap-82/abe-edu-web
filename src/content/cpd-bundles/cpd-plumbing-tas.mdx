@@ -11,20 +11,29 @@
 # Thirty-six is the three-year total and NOT an annual figure; A3b flags it as the figure most
 # likely to be mis-stated, so this page says "across a three-year licence" every time.
 #
-# DIFFERENCE 2 - THIRTEEN COURSES, TWELVE PUBLISHED POINTS. THIS IS THE ONE TO GET RIGHT.
-# The live pool for this category is THIRTEEN courses at one point each. `bundlePoints()` in
-# scripts/lib/cpd-derive.mjs publishes `min(pool, 12)`, so the points figure reads TWELVE while the
-# member table below it lists THIRTEEN rows. That is deliberate and documented in that file: the
-# cap is a DISPLAY ceiling for a twelve-point year, never a limit on bundle size, and the pool is
-# "kept whole in the register (NOT pruned to fit 12)".
-#   => THE COPY MUST NEVER SAY "TWELVE COURSES". A reader can count the table. Saying twelve in the
-#      hero while thirteen render below is a summary-that-contradicts-its-own-detail, which
-#      references/verification.md section 3 check 1 now treats as a hard blocker, and which cost
-#      /owner-builder-insurance a live defect on 10 Aug. Say thirteen courses, twelve-point year,
-#      one spare - which is a selling point, not an embarrassment.
-#   => `handover/HANDOVER-cpd-bundles.md` instructs "prune the surplus course so the sold set is
-#      exactly 12". DO NOT. That instruction predates the corrected bundle model and cpd-derive.mjs
-#      already implements the correction; pruning would delete a course the buyer actually receives.
+# DIFFERENCE 2 - A TWELVE-COURSE BUNDLE DRAWN FROM A THIRTEEN-COURSE POOL. ⛔ PUBLISH BLOCKER.
+# Corrected by Andrey on 12 Aug 2026, against this file's first draft, which had it backwards.
+#
+# THE MODEL: CBOS approves courses individually. THIRTEEN are approved for plumbers, and all
+# thirteen are sold individually. The BUNDLE is TWELVE of them - a selection made manually, once,
+# before the bundle is published. The buyer of the bundle receives twelve courses, not thirteen.
+# So `points` (12) is the course count too, and the RRP is 12 x $99. `CpdBundleLayout.astro`'s
+# assertion (`rrp === points x singleCoursePrice`) is CORRECT and was wrongly called a bug in this
+# file's first draft.
+#
+# ⛔ WHY THIS PAGE CANNOT BE PUBLISHED AS IT STANDS. The register records which courses are
+# ELIGIBLE for a category (`bundles: ["plumbing"]`, thirteen of them) but NOT which twelve were
+# selected for the sold bundle. `liveMembers()` therefore renders all THIRTEEN rows, so the member
+# table currently overstates the bundle by one course while the copy correctly says twelve.
+# A reader can count the table. That is a summary-vs-detail contradiction of exactly the kind
+# references/verification.md section 3 check 1 makes a hard blocker.
+#   => The selected twelve must be recorded before `noindex` comes off. That is a register/schema
+#      change (a `bundleMembers` list, or a per-course `inBundle` flag) and belongs to a skills or
+#      facts session, not this one. Filed in 07.
+#   => Until then the copy names the pool explicitly rather than pretending the table is the
+#      bundle, and the page stays noindex - which it already was, for the purchase path.
+#   => `handover/HANDOVER-cpd-bundles.md`'s "prune the surplus course so the sold set is exactly
+#      12" now reads as CORRECT in intent and is the same fix as recording the selection.
 #
 # DIFFERENCE 3 - NO PURCHASE PATH YET. See buyUrl below.
 #
@@ -39,7 +48,7 @@ noindex: true
 # the wrong product. REMOVE noindex ONLY when a real id lands and Stage 7 is re-run against it.
 buyUrl: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program"
 title: "TAS Plumber CPD Bundle - 12 CBOS-Approved Points, $499"
-description: "Thirteen CBOS-approved CPD courses for Tasmanian plumbers, $499. Covers a plumber's twelve-point year in full, online and self-paced, about seven hours."
+description: "Twelve CBOS-approved CPD courses for Tasmanian plumbers, $499. A plumber's full twelve-point year, online and self-paced, about six hours."
 canonical: "https://www.abeeducation.edu.au/cpd-plumbing-tas"
 category: "plumbing"
 state: "TAS"
@@ -48,17 +57,15 @@ regulator:
   url: "https://www.cbos.tas.gov.au"
 price: "$499"
 priceNumber: "499"
-# NO `rrp`, `singleCoursePrice` OR COMPARISON ROW - same reason as the electrical bundle. The flat
-# per-course figure the building bundle prices against was asked for these members on 12 Aug 2026
-# and is unanswered. An RRP is arithmetic on that number, so a wrong one makes every saving on the
-# page wrong. All three fields are optional; the page states the price it knows and compares
-# nothing.
+# RRP arithmetic. TWELVE x $99 = $1,188 - the courses IN the bundle, not the thirteen-course pool
+# they are drawn from. See the DIFFERENCE 2 block above for why those are different numbers.
+rrp: "$1,188"
 licences: "plumbers, gas-fitters and holders of a plumbing endorsement under an occupational licence"
-# Measured from LearnWorlds study time per starter, July 2026 snapshot, across TEN of the thirteen
-# members. Plumbing Essentials, the wiring-rules course and the solar course are newer than the
-# snapshot and carry no figure, so this UNDER-states rather than guesses. 416 measured minutes =
-# 6.9 hours.
-hours: "About seven hours"
+# Approximate, and it cannot be exact until the selected twelve are recorded (see DIFFERENCE 2).
+# The thirteen-course pool measures 416 minutes across ten of its members on the July 2026
+# LearnWorlds snapshot; three carry no figure. Twelve of the thirteen is therefore a little under
+# that, and "about six hours" is stated as a floor rather than a promise.
+hours: "About six hours"
 memberInfo:
   "Plumbing Essentials": { blurb: "Core compliance ground for Tasmanian plumbing work." }
   "Understanding Water Efficiency Labelling WELS": { blurb: "Meeting WELS requirements for fixtures and fittings.", minutes: 45 }
@@ -73,7 +80,7 @@ memberInfo:
   "Workplace Asbestos Basics": { blurb: "Identifying and working safely around asbestos in older buildings.", minutes: 36 }
   "Solar Energy": { blurb: "How rooftop solar and hot-water systems affect a residential job." }
   "Site and Personal Safety for Climate-Exposed Trades": { blurb: "Managing heat, UV and weather risk for outdoor trades.", minutes: 37 }
-intro: "Thirteen CBOS-approved courses, one point each, against a Tasmanian plumber's twelve-point year, in one purchase."
+intro: "Twelve CBOS-approved courses, one point each, covering a Tasmanian plumber's full CPD year in one purchase."
 breadcrumb:
   - { name: "Home", item: "https://www.abeeducation.edu.au/" }
   - { name: "CPD Courses", item: "https://www.abeeducation.edu.au/cpd" }
@@ -90,18 +97,19 @@ nav:
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 hero:
   eyebrow: "Tasmania · CBOS-approved"
-  # "twelve-point year" rather than "twelve courses" - the member table lists thirteen and a reader
-  # can count it. See DIFFERENCE 2.
+  # "a full twelve-point year" states the OUTCOME, which is true of the bundle either way and stays
+  # true when the selected twelve are recorded. The member table currently renders the thirteen-course
+  # pool, so a course-count headline would be contradicted by it until that is fixed. See DIFFERENCE 2.
   h1Html: 'Plumber CPD Tasmania: <b>a full twelve-point year</b> in one purchase'
   updated: "12 August 2026"
-  subhead: "Each course is approved by CBOS in its own right. Thirteen of them come in this bundle against a twelve-point year, so your year is covered in full with one course spare."
+  subhead: "Each course is approved by CBOS in its own right. Twelve of them make up this bundle, selected from the thirteen approved for Tasmanian plumbers, which is a plumber's full annual requirement in one purchase."
   cta:
     href: "#cost"
     label: "Get the bundle — $499"
     microcopy: "No hidden fees. Pay by card. Afterpay available."
   ticks:
-    - "<b>Thirteen CBOS-approved courses</b>, each approved in its own right"
-    - "<b>A plumber's full annual requirement</b>, with one course to spare"
+    - "<b>Twelve CBOS-approved courses</b>, each approved in its own right"
+    - "<b>A plumber's full annual requirement</b>, covered in one purchase"
     - "<b>Online and self-paced</b>, with no fixed schedule"
     - "<b>Every point counts</b>, with no annual cap on approved online courses"
   howItWorks: "Get the bundle → Work through in any order → Assessment on each course → Certificate as you finish"
@@ -114,20 +122,22 @@ sticky:
   cta: { href: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
 ctaBand:
   headingHtml: "Ready to complete your CPD year?"
-  sub: "Thirteen CBOS-approved courses, online and self-paced, about seven hours."
+  sub: "Twelve CBOS-approved courses, online and self-paced, about six hours."
   cta: { href: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
 experts:
   - dominic-ogburn
   - warwick-smith
+singleCoursePrice: "$99"
 priceRows:
+  - { label: "The same twelve bought individually", sub: "Twelve enrolments at $99 each", amount: "$1,188.00" }
   - { label: "This bundle", sub: "Paid to ABE Education, one enrolment", amount: "$499.00", isTotal: true }
 requirementRows:
   - { key: "Plumber, gas-fitter", value: "12", note: "CPD points per year" }
   - { key: "Three-year licence", value: "36", note: "across the licence, not per year" }
-  - { key: "This bundle", value: "13", note: "courses, covering the year with one spare" }
+  - { key: "This bundle", value: "12", note: "courses, a full year in one purchase" }
   - { key: "Two licences?", value: "Highest", note: "the highest single total, not the sum" }
 howItWorksSteps:
-  - { title: "Get the bundle", body: "One purchase covers all thirteen courses. Instant access after payment." }
+  - { title: "Get the bundle", body: "One purchase covers all twelve courses. Instant access after payment." }
   - { title: "Work through them in any order", body: "Online and self-paced, on any device. Your progress is saved between sittings." }
   - { title: "Complete the assessment on each course", body: "Every course is assessed, not just read through." }
   - { title: "Download your certificate as you go", body: "One certificate per course, issued as you finish it rather than at the end." }
@@ -136,8 +146,8 @@ faqs:
   - q: "How do I record my CPD in Tasmania?"
     a: "You keep the record yourself. CBOS puts the responsibility on the licence holder: employees keep their own record and make sure the employer's register matches it, and sole practitioners are responsible for all of it. Keep your certificates, and confirm your CPD when you renew your licence."
     open: true
-  - q: "Why are there thirteen courses for a twelve-point year?"
-    a: "Because CBOS approves each course separately and we have thirteen approved for plumbers, so all thirteen come with the bundle. Your annual requirement is twelve points, so you finish the year covered with one course still in hand. There is no extra charge for the thirteenth and no requirement to complete it."
+  - q: "You have thirteen courses approved. Why does the bundle have twelve?"
+    a: "Because your annual requirement is twelve points and each course carries one, so twelve is a full year. CBOS approves each course separately and thirteen are approved for Tasmanian plumbers, all of which can be bought individually. The bundle is twelve of them, so you are not paying for a point you cannot use inside the CPD year."
   - q: "Are these courses actually approved by CBOS?"
     a: "Yes, and each one separately. CBOS approves individual courses rather than providers, so the fact that a provider appears on a list does not mean everything it sells counts. Each course in this bundle carries its own approval, and the table above shows the date each one runs to."
   - q: "My licence runs for three years. Is it thirty-six points?"
@@ -174,7 +184,7 @@ import ExpertCredentials from '../../components/ExpertCredentials.astro';
 export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', href: 'https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements' }];
 
 <Section id="your-year" marker="01" total="06" eyebrow="Your obligation" h2="Does this bundle cover your whole year?">
-  <AnswerCapsule>Yes, in full. A Tasmanian plumber needs twelve CPD points a year and this bundle carries thirteen approved courses at one point each, so the year is covered with one course still in hand. If you also hold a gas-fitting licence you meet the highest single requirement, never the sum.</AnswerCapsule>
+  <AnswerCapsule>Yes, in full. A Tasmanian plumber needs twelve CPD points a year and this bundle carries twelve approved courses at one point each, so the year is covered exactly. If you also hold a gas-fitting licence you meet the highest single requirement, never the sum.</AnswerCapsule>
 
   <FactGrid items={frontmatter.requirementRows} />
 
@@ -198,21 +208,21 @@ export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', 
 </Section>
 
 <Section id="cost" marker="03" total="06" eyebrow="What it costs" h2="What does the bundle cost?">
-  <AnswerCapsule>$499 for the thirteen courses, paid once. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
+  <AnswerCapsule>$499 for the twelve courses, paid once, against $1,188 to buy the same twelve individually. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
 
   <PriceCard rows={frontmatter.priceRows} foot="One payment, no subscription and no renewal. Your licence renewal fee is paid separately to CBOS and is not part of this." />
 
-  <p>If you only need a point or two, buy the individual courses instead. There is no advantage in buying a full year of points you cannot use inside your CPD year.</p>
+  <p>If you only need a point or two, buy the individual courses instead. All thirteen approved for Tasmanian plumbers are available singly, and there is no advantage in buying a full year of points you cannot use inside your CPD year.</p>
 </Section>
 
 <Section id="how-long" marker="04" total="06" eyebrow="Time to complete" h2="How long does the bundle take?">
-  <AnswerCapsule>About seven hours for all thirteen courses, self-paced, with no fixed schedule. That figure is measured from what students actually spend on ABE Education's platform rather than from a nominal course length, and it covers ten of the thirteen, so treat it as a floor rather than a promise.</AnswerCapsule>
+  <AnswerCapsule>About six hours for the twelve courses, self-paced, with no fixed schedule. That figure comes from what students actually spend on ABE Education's platform rather than from a nominal course length, and several courses carry no measurement yet, so treat it as a floor rather than a promise.</AnswerCapsule>
 
-  <p>Most people do not sit down and complete a bundle in one stretch, and they do not need to. The courses are independent, so you can finish one in a sitting and come back to the next, and each certificate is issued as you go rather than at the end. If your renewal is a fortnight away, seven hours spread across thirteen sittings is a realistic plan.</p>
+  <p>Most people do not sit down and complete a bundle in one stretch, and they do not need to. The courses are independent, so you can finish one in a sitting and come back to the next, and each certificate is issued as you go rather than at the end. If your renewal is a fortnight away, six hours spread across twelve sittings is a realistic plan.</p>
 </Section>
 
 <Section id="how" bg="bg-alt" marker="05" total="06" eyebrow="How it works" h2="How does the bundle work?">
-  <AnswerCapsule>Get the bundle once, work through the thirteen courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
+  <AnswerCapsule>Get the bundle once, work through the twelve courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
 
   {/* columns={2} above 1100px, same as the building bundle: a plain Section at the full wrap, so
       the prop alone is enough and no ZSection wide slot is needed. Five steps puts one on the last

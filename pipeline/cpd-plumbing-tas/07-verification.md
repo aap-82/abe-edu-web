@@ -8,41 +8,54 @@ both: why stages 1-6 produced no artefacts (derived from the verified sibling
 `cpd-building-tas.mdx` and the register, not fresh research), the disclosed `global.css` crossing,
 the comment-figure defect, and the shared demand list. This file carries what is specific to plumbing.
 
-## The one thing that is genuinely different here: 13 courses, 12 published points
+## The one thing that is genuinely different here: a 12-course bundle drawn from a 13-course pool
 
-**This is the page's whole risk and it was the thing most likely to ship wrong.**
+**⛔ This is the page's publish blocker, and the first draft of this file had the model backwards.**
 
-The live pool for this category is **thirteen** courses at one point each. `bundlePoints()` in
-`scripts/lib/cpd-derive.mjs` publishes `min(pool, 12)`, so the page's points figure reads **12** while
-the member list below it renders **13 rows**. That is deliberate and documented in that file: the cap
-is a *display* ceiling for a twelve-point year, "never a limit on how large the bundle may be", and
-the pool is "kept whole in the register (NOT pruned to fit 12)".
+**Corrected by Andrey, 12 Aug 2026.** CBOS approves courses individually. **Thirteen** are approved
+for Tasmanian plumbers and all thirteen are sold as single courses. The **bundle is twelve of them**,
+selected manually, once, before the bundle is published. **A bundle buyer receives twelve courses,
+not thirteen.**
 
-**Copying the sibling's phrasing would have produced a contradiction a reader can count.**
-`cpd-building-tas` opens "Twelve CBOS-approved courses, one point each". Reused here, that would put
-"twelve courses" in the hero above a table listing thirteen — a summary refuted by its own detail,
-which `references/verification.md` §3 check 1 made a hard blocker **the same day this page was
-built**, on the evidence of `/owner-builder-insurance` shipping exactly that defect on 10 Aug.
+Two things follow, and both reverse what this file first recorded:
 
-So the copy says **thirteen courses against a twelve-point year, with one spare**, everywhere:
+1. **`points` is also the course count**, so the RRP is 12 × $99 = **$1,188**, and
+   `CpdBundleLayout.astro`'s assertion (`rrp === points × singleCoursePrice`) is **correct**. The
+   first draft called it a bug and set $1,287 against a thirteen-course reading. It is not a bug and
+   the build was right to throw.
+2. **`handover/HANDOVER-cpd-bundles.md`'s "prune the surplus course so the sold set is exactly 12"
+   is correct in intent**, not superseded. The first draft refused to follow it on the grounds that
+   it would delete a course the buyer receives. The buyer does not receive it.
+
+### ⛔ Why this page cannot be published as it stands
+
+**The register records which courses are *eligible* for a category, not which twelve were *selected*
+for the sold bundle.** `bundles: ["plumbing"]` tags thirteen courses, so `liveMembers()` renders
+**thirteen rows** while the copy correctly says the bundle is twelve. **A reader can count the
+table.** That is a summary-vs-detail contradiction of exactly the kind `references/verification.md`
+§3 check 1 makes a hard blocker — the same defect class as `/owner-builder-insurance` on 10 Aug, and
+this page has it in the opposite direction from the one the first draft was guarding against.
+
+**The fix is a data change, not a copy change**, and it is not this session's to make: the selected
+twelve need recording, either as a `bundleMembers` list on the bundle or a per-course `inBundle`
+flag, which is `kb/register/**` (facts) and/or `src/content.config.ts` (skills).
+
+**What the copy does in the meantime.** It states twelve everywhere it describes the bundle, and
+names the thirteen-course pool explicitly where a reader would otherwise be confused by the table —
+the `#cost` prose ("All thirteen approved for Tasmanian plumbers are available singly") and a
+dedicated FAQ ("You have thirteen courses approved. Why does the bundle have twelve?"). The H1 states
+the **outcome** ("a full twelve-point year") rather than a course count, so it stays true both before
+and after the selection is recorded. That reduces the contradiction; it does not remove it, and the
+page stays `noindex`.
 
 | Where | What it says |
 |---|---|
-| H1 | "a full twelve-point year" — the *outcome*, not a course count |
-| Subhead | "Thirteen of them come in this bundle against a twelve-point year ... one course spare" |
-| First tick | "Thirteen CBOS-approved courses" |
-| `intro`, `#cost`, `#how`, `#how-long` | thirteen |
-| Title / meta / sticky | twelve **points** (the derived figure) |
-| FactGrid row | "This bundle / 13 / courses, covering the year with one spare" |
-| Dedicated FAQ | "Why are there thirteen courses for a twelve-point year?" |
-
-Points and courses are never used as if they were the same number. The surplus is presented as
-headroom, which is what it is, rather than hidden.
-
-`handover/HANDOVER-cpd-bundles.md` instructs "prune the surplus course in the source doc so the sold
-set is exactly 12". **Not done, deliberately** — that instruction predates the corrected bundle model
-that `cpd-derive.mjs` now implements, and pruning would remove a course the buyer actually receives.
-Filed on the electrical page's demand list.
+| H1 | "a full twelve-point year" — the outcome, true either way |
+| Subhead | "Twelve of them make up this bundle, selected from the thirteen approved" |
+| First tick, `intro`, `#how`, steps | twelve |
+| Title / meta / sticky / FactGrid | twelve |
+| `#cost` prose, FAQ | names the thirteen-course pool as singles |
+| **Rendered member table** | **thirteen — the unresolved gap** |
 
 ## Regulatory basis
 
@@ -58,9 +71,10 @@ three-year total at every occurrence.
 | Check | Value |
 |---|---|
 | Points figure (derived) | **12** |
-| Member courses rendered | **13** |
-| Copy's course count vs rendered members | agree (13) |
-| Copy's points figure vs derived | agree (12) |
+| Member courses rendered | **13** — the pool, not the bundle (blocker above) |
+| Copy's course count | **12** everywhere it describes the bundle |
+| Copy's course count vs rendered members | **DISAGREE by one, knowingly** — see the blocker |
+| RRP | $1,188 = 12 × $99, asserted by the layout against the register |
 | `noindex` in `<head>` | present |
 | H1 count | 1 |
 | Page scroll width @1280px | 1265px (no sideways scroll) |
@@ -104,9 +118,19 @@ Shared items are on `pipeline/cpd-electrical-tas/07-verification.md` and are not
 
 - [build] **`/cpd-plumbing-tas` needs a real hero image**; it carries an FPO well and adds 1 to the
   FPO backlog. `artefactDesc`/`artefactSpec` are written and ready to prompt from.
-- [skills] **The 13-vs-12 shape has no check.** `cpd-derive.mjs` publishes `min(pool, cap)` and
-  nothing verifies that a bundle page's *prose* course count matches the rendered member count. This
-  page got it right by hand, one day after the same class of defect was made a hard blocker. A
-  bundle-specific check is cheap: compare the authored `intro`/tick wording against
-  `liveMembers().length`. Second bundle with a surplus pool will not necessarily be written by
-  someone who has just read this file.
+- [facts] ⛔ **PUBLISH BLOCKER — record which twelve of the thirteen approved plumbing courses are in
+  the sold bundle.** The register tags eligibility (`bundles: ["plumbing"]`, thirteen) but not
+  selection, so the page renders a thirteen-row table for a twelve-course bundle. Needs a
+  `bundleMembers` list or a per-course `inBundle` flag. Until it lands, `noindex` cannot come off,
+  independently of the purchase path.
+- [skills] **`src/content.config.ts` / `cpd-derive.mjs` conflate "eligible pool" with "bundle
+  contents".** `liveMembers()` is the pool; there is no concept of a selected set, and
+  `bundlePoints()`'s `min(pool, cap)` silently papers over the difference by capping the *display*.
+  That was readable as "the bundle is the whole pool, capped", which is how this build got the model
+  backwards for its first draft. Whatever shape the facts fix above takes, the derive layer needs to
+  distinguish the two.
+- [design] **`CpdBundleLayout.astro:180-183` hardcodes two facts that are wrong on any non-building
+  bundle.** Its members lead reads "about **ten hours** of work" regardless of `bundle.hours` (this
+  page states six, the layout ignores it), and "That meets a **builder's** 12-point year" on a
+  plumbing page. Invisible until now because `cpd-building-tas` was the only bundle and both happened
+  to be true of it. Both are visible on `/cpd-electrical-tas` and `/cpd-plumbing-tas` today.

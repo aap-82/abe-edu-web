@@ -60,10 +60,14 @@ at any of them sells the wrong product. A placeholder that 404s is the safer fai
 | `check-freshness` | 0 lapsed-but-live |
 | `check-pipeline --slug` | 0 failing |
 
-**No `rrp`, `singleCoursePrice` or comparison row.** The sibling prices its members at a flat
-per-course figure to reach an RRP. Whether that figure holds for these members was asked on 12 Aug
-2026 and is unanswered, and an RRP is arithmetic on it, so a wrong one makes every saving wrong. All
-three fields are optional in the schema; the page states the one price it knows and compares nothing.
+**RRP comparison added 12 Aug 2026**, after Andrey confirmed $99 per course. 11 × $99 = **$1,089**
+against $449. Not typed independently: `CpdBundleLayout.astro` throws unless `rrp` equals the live
+member count × `singleCoursePrice`, so the figure is asserted against the register at build. Lose a
+member to expiry and the build fails rather than the page quietly advertising a saving against a
+course count it no longer sells.
+
+This bundle has 11 members and 11 points, so the two are the same number and the assertion is
+unambiguous here. On `/cpd-plumbing-tas` they are not — see that page's 07.
 
 ## Two defects found and fixed during this build
 

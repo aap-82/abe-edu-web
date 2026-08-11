@@ -47,13 +47,12 @@ regulator:
   url: "https://www.cbos.tas.gov.au"
 price: "$449"
 priceNumber: "449"
-# NO `rrp`, `singleCoursePrice` OR COMPARISON ROW, DELIBERATELY. The building bundle prices its
-# members at a flat per-course figure to reach its RRP. Whether that figure holds for the electrical
-# members was
-# asked on 12 Aug 2026 and is unanswered, and an RRP is pure arithmetic on that number: state it
-# wrong and every saving on the page is wrong with it. The schema makes all three optional, so the
-# page states the one price it knows and makes no comparison at all. Add them together or not at
-# all - `CpdBundleLayout.astro:76` warns when rrp and singleCoursePrice disagree with the count.
+# RRP arithmetic, added 12 Aug 2026 once Andrey confirmed $99 per course. NOT typed independently:
+# `CpdBundleLayout.astro` throws if `rrp` does not equal the live member count x
+# `singleCoursePrice`, so these two fields and the priceRows comparison are asserted against the
+# register at build. Lose a member to expiry and the build fails rather than the page quietly
+# advertising a saving against a course count it no longer sells. 11 x $99 = $1,089.
+rrp: "$1,089"
 licences: "electricians, electrical contractors, lineworkers, cable jointers and gas-fitters holding an occupational licence"
 # Measured from LearnWorlds study time per starter, July 2026 snapshot, across NINE of the eleven
 # members. The wiring-rules and solar courses are newer than the snapshot and carry no figure, so
@@ -118,7 +117,9 @@ ctaBand:
 experts:
   - dominic-ogburn
   - warwick-smith
+singleCoursePrice: "$99"
 priceRows:
+  - { label: "The same eleven bought individually", sub: "Eleven enrolments at $99 each", amount: "$1,089.00" }
   - { label: "This bundle", sub: "Paid to ABE Education, one enrolment", amount: "$449.00", isTotal: true }
 requirementRows:
   - { key: "Electrician", value: "12", note: "CPD points per year" }
@@ -200,7 +201,7 @@ export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', 
 </Section>
 
 <Section id="cost" marker="03" total="06" eyebrow="What it costs" h2="What does the bundle cost?">
-  <AnswerCapsule>$449 for the eleven courses, paid once. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
+  <AnswerCapsule>$449 for the eleven courses, paid once, against $1,089 to buy the same eleven individually. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
 
   <PriceCard rows={frontmatter.priceRows} foot="One payment, no subscription and no renewal. Your licence renewal fee is paid separately to CBOS and is not part of this." />
 
