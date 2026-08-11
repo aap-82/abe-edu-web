@@ -248,7 +248,11 @@ export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', 
 <Section id="how" bg="bg-alt" marker="05" total="06" eyebrow="How it works" h2="How does the bundle work?">
   <AnswerCapsule>Enrol once, work through the twelve courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
 
-  <Stepper steps={frontmatter.howItWorksSteps} />
+  {/* columns={2} above 1100px. This stepper is already in a plain Section at the full wrap width,
+      unlike /white-card-qld's, which needed ZSection's `wide` slot to escape a 536px split column -
+      so it needs the prop alone. Five steps means the last row carries one; reading order is
+      unaffected (DOM and visual order both run 1 to 5). */}
+  <Stepper steps={frontmatter.howItWorksSteps} columns={2} />
 
   {/* Set apart from the stepper on purpose. As a bare paragraph after <Stepper /> this read as an
       unnumbered sixth step, because the stepper owns the h3 level and there was nothing to break

@@ -137,9 +137,14 @@ Tag every item: [skills] | [design] | [facts] | [build]
   deliberately did not reverse that sitewide, because the caps are a consistent existing decision
   and only one section was raised. If the two-up treatment is wanted more widely, it is now one
   prop per call site. Andrey's call, not a defect.
-- [build] `/cpd-building-tas` sets no `maxWidth` on its stepper and is the only other uncapped call
+- ~~[build] `/cpd-building-tas` sets no `maxWidth` on its stepper and is the only other uncapped call
   site. It renders single-column at full width, which is the "not using the whole length" shape
-  Andrey raised here. Noindex, so not urgent; `columns={2}` would fix it in one word.
+  Andrey raised here. Noindex, so not urgent; `columns={2}` would fix it in one word.~~ **Closed
+  11 Aug 2026, same day**, on Andrey's instruction. It needed the prop alone and no `wide` slot,
+  because unlike `/white-card-qld` it already sat in a plain `<Section>` at the full wrap: 5 steps
+  went 1 × 5 to 2 × 3, block height ~1,000px → **481px**, reading order verified 01 → 05,
+  `check-reflow` 0 failing. Stage 7 re-verification appended in the same commit. **Two of 19
+  steppers are now two-column, both opted in explicitly; the other 17 are untouched.**
 
 ## Grader note
 

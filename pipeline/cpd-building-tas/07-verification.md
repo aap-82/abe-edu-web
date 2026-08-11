@@ -93,3 +93,41 @@ external blocker, not a Stage-7 output.
 
 0 FAIL for this slug after commit. The one WARN naming this page is the archetype-coverage issue above,
 routed to the demand list. noindex is retained as the documented pre-launch state. Stop at Stage 8 — no deploy.
+
+## Re-verification · 11 August 2026 — stepper opted into two columns
+
+**Why this exists.** `Stepper` gained an opt-in `columns` prop the same day
+(`skill-reviews/design/2026-08-11-stepper-wide-slot.md`). This page's stepper was the only other
+call site on the site setting no `maxWidth`, so it rendered single-column across the full 1144px
+wrap — the same "not using the whole length" shape raised on `/white-card-qld`. Andrey asked for it
+to get the same treatment.
+
+**Scope: one prop.** No step text, fact, figure, points total, price, heading or schema field
+changed. Unlike `/white-card-qld`, this stepper is already in a plain `<Section>` at full width, so
+it needed the prop alone and no `wide` slot.
+
+## Measured
+
+| Check | Before | After |
+|---|---|---|
+| Columns × rows | 1 × 5 | **2 × 3** (last row carries one) |
+| Block height | ~1,000px | **481px** |
+| Stepper width | 1144px | 1144px, unchanged |
+| Page overflow, 1280px and 375px | 0 | **0** |
+| `check-reflow` | 0 failing | **0 failing** |
+
+**Reading order verified rather than assumed:** DOM order and visual left-to-right, top-to-bottom
+order both run Step 01 → 05.
+
+**Below 1100px it is a single column**, so the mobile rendering is unchanged. The breakpoint sits
+above the point a ZSection stops splitting, which is what stops a track floor becoming a grid
+child's min-content width — the failure that broke five pages during the change that introduced
+this prop, recorded in the design review above.
+
+**Not re-run: the three mandated audits, the schema/points/authority sweep.** None of their inputs
+changed — this is a layout prop on an existing component, and the page remains noindex.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own change opens. The page's standing
+noindex status and its open Andrey-only inputs are unaffected.
