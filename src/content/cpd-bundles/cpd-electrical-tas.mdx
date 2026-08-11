@@ -1,0 +1,237 @@
+---
+# Built through the abe-course-page-astro pipeline, 12 August 2026. Archetype 4 (CPD bundle).
+# Sibling of cpd-building-tas.mdx, which is the working template; read that file's comments first,
+# because the three things that DIFFER here are the whole of the risk.
+#
+# DIFFERENCE 1 - A DIFFERENT DETERMINATION. Builders, architects, designers, surveyors and
+# engineers take their 12/20/30 requirement from the Occupational Licensing (Building Services
+# Work) Determination. Electricians do NOT appear in it. Their requirement comes from the
+# Occupational Licensing (Continuing Professional Development) Determination 2018: section 6.4
+# sets twelve points a year, and section 6.2 phases a three-year licence to thirty-six from
+# 1 July 2019. Owner: kb/register/cbos-tas-reference.md A3b, read against the primary instrument
+# on 23 Jul 2026. The thirty-six figure is the phased total across a three-year licence and is
+# NOT an annual number - A3b flags it as the one most likely to be mis-stated, so the page says
+# "across a three-year licence" every time it appears.
+#
+# DIFFERENCE 2 - ELEVEN POINTS, NOT TWELVE. The register's live pool for this category is eleven
+# courses at one point each. `handover/HANDOVER-cpd-bundles.md` records that this bundle "once
+# advertised 12" and that eleven is the corrected figure: DO NOT RESTORE TWELVE. That also means
+# this bundle does NOT meet a full twelve-point year on its own, and the page says so in the hero
+# rather than burying it. A bundle page that implies a full year when it delivers eleven twelfths
+# of one is the exact overclaim the authority model exists to stop.
+#
+# DIFFERENCE 3 - NO PURCHASE PATH YET. See buyUrl below.
+#
+# THERE IS NO `points` FIELD, AND THERE MUST NOT BE. Same rule as the building bundle: the figure
+# and the member table are counted at build from kb/register/cpd/tas-courses.json by
+# scripts/lib/cpd-derive.mjs, live courses only. A typed figure is the thing that goes stale, and
+# this is the bundle it went stale on.
+noindex: true
+# BLOCKER, AND THE REASON THIS PAGE IS NOINDEX. This is a PLACEHOLDER id and does not resolve.
+# Andrey was asked for the current checkout id on 12 Aug 2026 and it is not yet supplied, so
+# nothing here is guessed. `business data/LearnWorlds/2026-07-23_ExportProductRevenues.csv` carries
+# only legacy products for this bundle - "TAS Electrician CPD 11.5 pt Bundle 2025", "TAS
+# Electrician CPD 12 pt Bundle" and "TAS Electrician CPD 12 pt Bundle 1" - three overlapping
+# products at three different point counts, none of them the current eleven-point 2026 bundle, and
+# the export carries titles only with no ids. Pointing a buyer at any of them would sell the wrong
+# product at the wrong point count. A placeholder that 404s is the safer failure.
+# REMOVE noindex ONLY when a real id lands here and Stage 7 has been re-run against it.
+buyUrl: "/payment?product_id=TBC-tas-electrician-cpd-bundle-2026&type=learning_program"
+title: "TAS Electrician CPD Bundle - 11 CBOS-Approved Points, $449"
+description: "Eleven CBOS-approved CPD courses for Tasmanian electricians, $449. Eleven of your twelve annual points, online and self-paced, about six hours."
+canonical: "https://www.abeeducation.edu.au/cpd-electrical-tas"
+category: "electrical"
+state: "TAS"
+regulator:
+  name: "CBOS Tasmania"
+  url: "https://www.cbos.tas.gov.au"
+price: "$449"
+priceNumber: "449"
+# NO `rrp`, `singleCoursePrice` OR COMPARISON ROW, DELIBERATELY. The building bundle prices its
+# members at a flat per-course figure to reach its RRP. Whether that figure holds for the electrical
+# members was
+# asked on 12 Aug 2026 and is unanswered, and an RRP is pure arithmetic on that number: state it
+# wrong and every saving on the page is wrong with it. The schema makes all three optional, so the
+# page states the one price it knows and makes no comparison at all. Add them together or not at
+# all - `CpdBundleLayout.astro:76` warns when rrp and singleCoursePrice disagree with the count.
+licences: "electricians, electrical contractors, lineworkers, cable jointers and gas-fitters holding an occupational licence"
+# Measured from LearnWorlds study time per starter, July 2026 snapshot, across NINE of the eleven
+# members. The wiring-rules and solar courses are newer than the snapshot and carry no figure, so
+# this UNDER-states the total rather than guessing at it. 371 measured minutes = 6.2 hours.
+hours: "About six hours"
+memberInfo:
+  "WHS Compliance and Legislation": { blurb: "The work health and safety duties that apply on an electrical job.", minutes: 37 }
+  "Safe Work Method Statement (SWMS)": { blurb: "Writing and using a SWMS for high-risk electrical work.", minutes: 35 }
+  "TAS CPD: Cyber Risks and Workplace Safety (1 pt)": { blurb: "Protecting client data and connected site systems from common threats.", minutes: 47 }
+  "Fire Risk Awareness For All Trades": { blurb: "Recognising and reducing fire hazards on site and in existing installations.", minutes: 55 }
+  "AS/NZS 3000:2018 Wiring Rules": { blurb: "What the current wiring standard requires of the work you certify." }
+  "Effective Communication and Documentation": { blurb: "Documenting decisions so nothing is lost between trades.", minutes: 37 }
+  "The Role of Drones In Building, Plumbing & Electrical Work": { blurb: "Where drones help with inspection, survey and site documentation.", minutes: 46 }
+  "Effective Email Management and Digital Communication": { blurb: "Keeping clear, defensible written records with clients and contractors.", minutes: 41 }
+  "Workplace Asbestos Basics": { blurb: "Identifying and working safely around asbestos in older installations.", minutes: 36 }
+  "Solar Energy": { blurb: "How rooftop solar and battery systems change the work on a residential job." }
+  "Site and Personal Safety for Climate-Exposed Trades": { blurb: "Managing heat, UV and weather risk for outdoor work.", minutes: 37 }
+intro: "Eleven CBOS-approved courses, one point each, against a Tasmanian electrician's twelve-point year, in one purchase."
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "CPD Courses", item: "https://www.abeeducation.edu.au/cpd" }
+  - { name: "Tasmania", item: "https://www.abeeducation.edu.au/cpd-tas" }
+  - { name: "Electrical CPD", item: "https://www.abeeducation.edu.au/cpd-electrical-tas" }
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "12 August 2026" }
+nav:
+  - { label: "What is in it", href: "#whats-in", sectionId: "whats-in" }
+  - { label: "Your year", href: "#your-year", sectionId: "your-year" }
+  - { label: "What counts", href: "#what-counts", sectionId: "what-counts" }
+  - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "How long", href: "#how-long", sectionId: "how-long" }
+  - { label: "How it works", href: "#how", sectionId: "how" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+hero:
+  eyebrow: "Tasmania · CBOS-approved"
+  h1Html: 'Electrician CPD Tasmania: <b>eleven CBOS-approved points</b> in one purchase'
+  updated: "12 August 2026"
+  # Says the shortfall out loud. Eleven against a twelve-point year is the single most important
+  # fact a buyer needs and the easiest one to bury, so it sits in the subhead rather than in an
+  # FAQ. See DIFFERENCE 2 above.
+  subhead: "Each course is approved by CBOS in its own right. Together they carry eleven of the twelve points a Tasmanian electrician needs each year, so you finish the year one point short and know it before you buy."
+  cta:
+    href: "#cost"
+    label: "Get the bundle — $449"
+    microcopy: "No hidden fees. Pay by card. Afterpay available."
+  ticks:
+    - "<b>Eleven CBOS-approved courses</b>, each approved in its own right"
+    - "<b>Eleven of your twelve points</b>, with one still to find elsewhere"
+    - "<b>Online and self-paced</b>, with no fixed schedule"
+    - "<b>Every point counts</b>, with no annual cap on approved online courses"
+  howItWorks: "Get the bundle → Work through in any order → Assessment on each course → Certificate as you finish"
+  artefactDesc: "A Tasmanian electrician's CPD record for the year, laid out as a single sheet"
+  artefactSpec: "5:4 landscape · document-on-desk, flat overhead, cool daylight"
+sticky:
+  label: "TAS Electrical CPD"
+  sub: "11 CBOS-approved points"
+  price: "$449"
+  cta: { href: "/payment?product_id=TBC-tas-electrician-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
+ctaBand:
+  headingHtml: "Ready to start your CPD year?"
+  sub: "Eleven CBOS-approved courses, online and self-paced, about six hours."
+  cta: { href: "/payment?product_id=TBC-tas-electrician-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
+experts:
+  - dominic-ogburn
+  - warwick-smith
+priceRows:
+  - { label: "This bundle", sub: "Paid to ABE Education, one enrolment", amount: "$449.00", isTotal: true }
+requirementRows:
+  - { key: "Electrician", value: "12", note: "CPD points per year" }
+  - { key: "Three-year licence", value: "36", note: "across the licence, not per year" }
+  - { key: "This bundle", value: "11", note: "one point short of a single year" }
+  - { key: "Two licences?", value: "Highest", note: "the highest single total, not the sum" }
+howItWorksSteps:
+  - { title: "Get the bundle", body: "One purchase covers all eleven courses. Instant access after payment." }
+  - { title: "Work through them in any order", body: "Online and self-paced, on any device. Your progress is saved between sittings." }
+  - { title: "Complete the assessment on each course", body: "Every course is assessed, not just read through." }
+  - { title: "Download your certificate as you go", body: "One certificate per course, issued as you finish it rather than at the end." }
+  - { title: "Find your twelfth point", body: "This bundle is eleven. Any CBOS-approved activity closes the gap, and the options are set out above." }
+  - { title: "File them with your CPD record", body: "You confirm your CPD to CBOS when you renew your licence." }
+faqs:
+  - q: "Does this bundle cover my whole CPD year?"
+    a: "Almost. A Tasmanian electrician needs twelve points a year and this bundle carries eleven, so one point has to come from somewhere else. Any CBOS-approved activity closes it: another approved online course, an industry association session, or a WorkSafe Tasmania event. We would rather say this here than let you find out at renewal."
+    open: true
+  - q: "How do I record my CPD in Tasmania?"
+    a: "You keep the record yourself. CBOS puts the responsibility on the licence holder: employees keep their own record and make sure the employer's register matches it, and sole practitioners are responsible for all of it. Keep your certificates, and confirm your CPD when you renew your licence."
+  - q: "Are these courses actually approved by CBOS?"
+    a: "Yes, and each one separately. CBOS approves individual courses rather than providers, so the fact that a provider appears on a list does not mean everything it sells counts. Each course in this bundle carries its own approval, and the table above shows the date each one runs to."
+  - q: "My licence runs for three years. Is it thirty-six points?"
+    a: "Yes, but read it as twelve a year rather than a lump. The Determination phases a three-year licence to thirty-six points across the full licence period, which is the same twelve-point year counted three times. It is not an extra requirement and it is not thirty-six in any one year."
+  - q: "I hold an electrical and a gas-fitting licence. Do I need double the points?"
+    a: "No. You meet the highest single requirement across the licences you hold, not the sum. Some of that learning should still relate to each type of work you are licensed for."
+  - q: "What happens when a course approval expires?"
+    a: "CBOS approvals run for two years. When one lapses, the course comes off this page and out of the bundle, and the point count on this page changes with it. You keep any points you have already completed and recorded."
+footerSources:
+  - label: "CBOS — Achieving your CPD requirements (points tables and Determinations)"
+    href: "https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements"
+    verified: "Verified 12 July 2026"
+  - label: "CBOS — Continuing professional development"
+    href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd"
+    verified: "Verified 12 July 2026"
+  - label: "CBOS — CPD Determination list"
+    href: "https://www.cbos.tas.gov.au/topics/resources-tools/occupational-licensing-determinations/cpd-determination-list"
+    verified: "Verified 12 July 2026"
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. CPD courses in this bundle are approved by CBOS Tasmania for the points shown, and a certificate of completion is issued for each course.</p>"
+publishedAt: "2026-08-12"
+lastReviewedAt: "2026-08-12"
+---
+
+import Section from '../../components/Section.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import Note from '../../components/Note.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import Stepper from '../../components/Stepper.astro';
+import Faq from '../../components/Faq.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
+
+export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', href: 'https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements' }];
+
+<Section id="your-year" marker="01" total="06" eyebrow="Your obligation" h2="Does eleven points cover your whole year?">
+  <AnswerCapsule>No, and that is worth knowing before you buy. A Tasmanian electrician needs twelve CPD points a year and this bundle carries eleven, so one point has to come from elsewhere. Any CBOS-approved activity closes the gap, and the options are set out below.</AnswerCapsule>
+
+  <FactGrid items={frontmatter.requirementRows} />
+
+  <p>The requirement for an electrician comes from a different instrument to the one that governs builders and designers. Electricians, lineworkers, cable jointers and gas-fitters sit under the Occupational Licensing (Continuing Professional Development) Determination, which sets twelve points a year and phases a three-year licence to thirty-six across the full licence period. Thirty-six is that three-year total, not a figure for any single year.</p>
+
+  <p>If you hold more than one occupational licence, you meet the highest single requirement rather than the sum. Some of that learning should still relate to each type of work you are licensed for.</p>
+
+  <Note variant="note" label="Closing the last point">One point is a single approved online course, or an hour at a WorkSafe Tasmania session, or an industry association briefing. The one route that will not close it quickly is reading trade journals, which CBOS caps at three points a year.</Note>
+
+  <VerifiedSources date="23 July 2026" facts="the twelve-point annual requirement for occupational licences, the thirty-six-point three-year total, and the multi-licence rule" sources={cbosSource} />
+</Section>
+
+<Section id="what-counts" bg="bg-warm" marker="02" total="06" eyebrow="What counts" h2="Do all eleven points actually count?">
+  <AnswerCapsule>Yes. CBOS caps some ways of earning points, not some subjects: attending WorkSafe Tasmania events is capped at six a year, trade journals at three. Approved online courses carry no annual cap, and health and safety is a recognised CPD category, so all eleven of these count.</AnswerCapsule>
+
+  <p>The distinction matters when you are topping up a short year. CBOS limits what you can claim for the things practitioners do incidentally: six points a year for WorkSafe Tasmania sessions, four for research, three for reading trade journals, two for association membership. Those limits attach to the activity, not to the topic.</p>
+
+  <p>Course points are not limited that way. An approved online course earns a point per hour whatever its subject, so a bundle weighted toward safety counts exactly the same as one weighted toward technical content. What does matter is that each course is approved in its own right, which is why the table above carries a date for every one.</p>
+
+  <Note variant="note" label="Where the caps do bite">If you were planning to make up a shortfall by reading journals or attending WorkSafe Month, those routes run out quickly: three and six points a year respectively. Course points do not.</Note>
+
+  <VerifiedSources date="23 July 2026" facts="which CPD activities carry annual caps, and that approved online courses do not" sources={cbosSource} />
+</Section>
+
+<Section id="cost" marker="03" total="06" eyebrow="What it costs" h2="What does the bundle cost?">
+  <AnswerCapsule>$449 for the eleven courses, paid once. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
+
+  <PriceCard rows={frontmatter.priceRows} foot="One payment, no subscription and no renewal. Your licence renewal fee is paid separately to CBOS and is not part of this." />
+
+  <p>If you only need a point or two, buy the individual courses instead. There is no advantage in buying eleven points you cannot use inside your CPD year.</p>
+</Section>
+
+<Section id="how-long" marker="04" total="06" eyebrow="Time to complete" h2="How long does the bundle take?">
+  <AnswerCapsule>About six hours for all eleven courses, self-paced, with no fixed schedule. That figure is measured from what students actually spend on ABE Education's platform rather than from a nominal course length, and it covers nine of the eleven, so treat it as a floor rather than a promise.</AnswerCapsule>
+
+  <p>Most people do not sit down and complete a bundle in one stretch, and they do not need to. The courses are independent, so you can finish one in a sitting and come back to the next, and each certificate is issued as you go rather than at the end. If your renewal is a fortnight away, six hours spread across eleven sittings is a realistic plan.</p>
+</Section>
+
+<Section id="how" bg="bg-alt" marker="05" total="06" eyebrow="How it works" h2="How does the bundle work?">
+  <AnswerCapsule>Get the bundle once, work through the eleven courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
+
+  {/* columns={2} above 1100px, same as the building bundle: this stepper sits in a plain Section at
+      the full wrap, so it needs the prop alone and no ZSection wide slot. Six steps means two full
+      rows of three; reading order is unaffected, DOM and visual order both run 1 to 6. */}
+  <Stepper steps={frontmatter.howItWorksSteps} columns={2} />
+
+  <Note variant="caution" label="Your responsibility">Recording your CPD is the licence holder's job, not the provider's and not your employer's. If you are employed, keep your own copies and make sure your employer's register matches them. If you work for yourself, the whole record is yours. Certificates stay with you between employers, which matters if you change jobs mid-cycle.</Note>
+
+  <VerifiedSources date="12 July 2026" facts="who is responsible for recording CPD in Tasmania" sources={cbosSource} />
+</Section>
+
+<Section id="content-review" marker="06" total="06" eyebrow="Who wrote this" h2="Who wrote and reviewed this page?">
+  <AnswerCapsule>The courses were developed by Dominic Ogburn, who has built ABE Education's owner builder and CPD training since 2007. This page was independently reviewed for currency by Warwick Smith, who checks the regulator facts and their dates rather than the marketing. Last reviewed 12 August 2026.</AnswerCapsule>
+
+  <ExpertCredentials experts={frontmatter.experts} />
+</Section>
+
+<Section id="faq" eyebrow="Questions" h2="Common questions about Tasmanian electrician CPD">
+  <Faq items={frontmatter.faqs} />
+</Section>

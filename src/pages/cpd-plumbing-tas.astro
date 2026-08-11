@@ -1,0 +1,15 @@
+---
+// CPD bundle route stub. One per bundle, deliberately, rather than a shared dynamic route.
+// See cpd-building-tas.astro for why: folding CpdBundleLayout into a dynamic [slug] route pulls
+// two layouts' component graphs into one Rollup entry, which is how commit 1c75bb2 leaked scoped
+// stylesheets onto every course page. This file is a copy of that stub with one id changed.
+import { getEntry, render } from 'astro:content';
+import CpdBundleLayout from '../layouts/CpdBundleLayout.astro';
+
+const entry = await getEntry('cpdBundles', 'cpd-plumbing-tas');
+if (!entry) throw new Error('Missing cpdBundles entry: cpd-plumbing-tas');
+const { Content } = await render(entry);
+---
+<CpdBundleLayout bundle={entry.data}>
+  <Content />
+</CpdBundleLayout>

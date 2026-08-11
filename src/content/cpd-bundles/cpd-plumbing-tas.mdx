@@ -1,0 +1,235 @@
+---
+# Built through the abe-course-page-astro pipeline, 12 August 2026. Archetype 4 (CPD bundle).
+# Sibling of cpd-building-tas.mdx (the working template) and cpd-electrical-tas.mdx. Read the
+# building bundle's comments first; the differences here are where the risk is.
+#
+# DIFFERENCE 1 - A DIFFERENT DETERMINATION, same as the electrical bundle. Plumbers and gas-fitters
+# do NOT take the 12/20/30 table that governs builders, designers and surveyors. They sit under the
+# Occupational Licensing (Continuing Professional Development) Determination 2018: section 6.4 sets
+# twelve points a year, section 6.2 phases a three-year licence to thirty-six from 1 July 2019.
+# Owner: kb/register/cbos-tas-reference.md A3b, read against the primary instrument 23 Jul 2026.
+# Thirty-six is the three-year total and NOT an annual figure; A3b flags it as the figure most
+# likely to be mis-stated, so this page says "across a three-year licence" every time.
+#
+# DIFFERENCE 2 - THIRTEEN COURSES, TWELVE PUBLISHED POINTS. THIS IS THE ONE TO GET RIGHT.
+# The live pool for this category is THIRTEEN courses at one point each. `bundlePoints()` in
+# scripts/lib/cpd-derive.mjs publishes `min(pool, 12)`, so the points figure reads TWELVE while the
+# member table below it lists THIRTEEN rows. That is deliberate and documented in that file: the
+# cap is a DISPLAY ceiling for a twelve-point year, never a limit on bundle size, and the pool is
+# "kept whole in the register (NOT pruned to fit 12)".
+#   => THE COPY MUST NEVER SAY "TWELVE COURSES". A reader can count the table. Saying twelve in the
+#      hero while thirteen render below is a summary-that-contradicts-its-own-detail, which
+#      references/verification.md section 3 check 1 now treats as a hard blocker, and which cost
+#      /owner-builder-insurance a live defect on 10 Aug. Say thirteen courses, twelve-point year,
+#      one spare - which is a selling point, not an embarrassment.
+#   => `handover/HANDOVER-cpd-bundles.md` instructs "prune the surplus course so the sold set is
+#      exactly 12". DO NOT. That instruction predates the corrected bundle model and cpd-derive.mjs
+#      already implements the correction; pruning would delete a course the buyer actually receives.
+#
+# DIFFERENCE 3 - NO PURCHASE PATH YET. See buyUrl below.
+#
+# THERE IS NO `points` FIELD, AND THERE MUST NOT BE. Counted at build from the register, live
+# courses only. A typed figure is the thing that goes stale.
+noindex: true
+# BLOCKER, AND THE REASON THIS PAGE IS NOINDEX. PLACEHOLDER id; it does not resolve. Andrey was
+# asked for the current checkout id on 12 Aug 2026 and it is not yet supplied, so nothing is
+# guessed. `business data/LearnWorlds/2026-07-23_ExportProductRevenues.csv` has no 2026 plumber
+# bundle at all - only "Special Plumbers CPD Courses" (2 payments) and the single course "TAS CPD
+# Plumbing Essentials" - and it carries titles with no ids. A placeholder that 404s beats selling
+# the wrong product. REMOVE noindex ONLY when a real id lands and Stage 7 is re-run against it.
+buyUrl: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program"
+title: "TAS Plumber CPD Bundle - 12 CBOS-Approved Points, $499"
+description: "Thirteen CBOS-approved CPD courses for Tasmanian plumbers, $499. Covers a plumber's twelve-point year in full, online and self-paced, about seven hours."
+canonical: "https://www.abeeducation.edu.au/cpd-plumbing-tas"
+category: "plumbing"
+state: "TAS"
+regulator:
+  name: "CBOS Tasmania"
+  url: "https://www.cbos.tas.gov.au"
+price: "$499"
+priceNumber: "499"
+# NO `rrp`, `singleCoursePrice` OR COMPARISON ROW - same reason as the electrical bundle. The flat
+# per-course figure the building bundle prices against was asked for these members on 12 Aug 2026
+# and is unanswered. An RRP is arithmetic on that number, so a wrong one makes every saving on the
+# page wrong. All three fields are optional; the page states the price it knows and compares
+# nothing.
+licences: "plumbers, gas-fitters and holders of a plumbing endorsement under an occupational licence"
+# Measured from LearnWorlds study time per starter, July 2026 snapshot, across TEN of the thirteen
+# members. Plumbing Essentials, the wiring-rules course and the solar course are newer than the
+# snapshot and carry no figure, so this UNDER-states rather than guesses. 416 measured minutes =
+# 6.9 hours.
+hours: "About seven hours"
+memberInfo:
+  "Plumbing Essentials": { blurb: "Core compliance ground for Tasmanian plumbing work." }
+  "Understanding Water Efficiency Labelling WELS": { blurb: "Meeting WELS requirements for fixtures and fittings.", minutes: 45 }
+  "WHS Compliance and Legislation": { blurb: "The work health and safety duties that apply on a plumbing job.", minutes: 37 }
+  "Safe Work Method Statement (SWMS)": { blurb: "Writing and using a SWMS for high-risk construction work.", minutes: 35 }
+  "TAS CPD: Cyber Risks and Workplace Safety (1 pt)": { blurb: "Protecting client data and site systems from common threats.", minutes: 47 }
+  "Fire Risk Awareness For All Trades": { blurb: "Recognising and reducing fire hazards during construction.", minutes: 55 }
+  "AS/NZS 3000:2018 Wiring Rules": { blurb: "What the current wiring standard means where your work meets electrical work." }
+  "Effective Communication and Documentation": { blurb: "Documenting decisions so nothing is lost between trades.", minutes: 37 }
+  "The Role of Drones In Building, Plumbing & Electrical Work": { blurb: "Where drones help with inspection, survey and site documentation.", minutes: 46 }
+  "Effective Email Management and Digital Communication": { blurb: "Keeping clear, defensible written records with clients and trades.", minutes: 41 }
+  "Workplace Asbestos Basics": { blurb: "Identifying and working safely around asbestos in older buildings.", minutes: 36 }
+  "Solar Energy": { blurb: "How rooftop solar and hot-water systems affect a residential job." }
+  "Site and Personal Safety for Climate-Exposed Trades": { blurb: "Managing heat, UV and weather risk for outdoor trades.", minutes: 37 }
+intro: "Thirteen CBOS-approved courses, one point each, against a Tasmanian plumber's twelve-point year, in one purchase."
+breadcrumb:
+  - { name: "Home", item: "https://www.abeeducation.edu.au/" }
+  - { name: "CPD Courses", item: "https://www.abeeducation.edu.au/cpd" }
+  - { name: "Tasmania", item: "https://www.abeeducation.edu.au/cpd-tas" }
+  - { name: "Plumbing CPD", item: "https://www.abeeducation.edu.au/cpd-plumbing-tas" }
+reviewedBy: { name: "Warwick Smith", href: "#content-review", date: "12 August 2026" }
+nav:
+  - { label: "What is in it", href: "#whats-in", sectionId: "whats-in" }
+  - { label: "Your year", href: "#your-year", sectionId: "your-year" }
+  - { label: "What counts", href: "#what-counts", sectionId: "what-counts" }
+  - { label: "Cost", href: "#cost", sectionId: "cost" }
+  - { label: "How long", href: "#how-long", sectionId: "how-long" }
+  - { label: "How it works", href: "#how", sectionId: "how" }
+  - { label: "FAQ", href: "#faq", sectionId: "faq" }
+hero:
+  eyebrow: "Tasmania · CBOS-approved"
+  # "twelve-point year" rather than "twelve courses" - the member table lists thirteen and a reader
+  # can count it. See DIFFERENCE 2.
+  h1Html: 'Plumber CPD Tasmania: <b>a full twelve-point year</b> in one purchase'
+  updated: "12 August 2026"
+  subhead: "Each course is approved by CBOS in its own right. Thirteen of them come in this bundle against a twelve-point year, so your year is covered in full with one course spare."
+  cta:
+    href: "#cost"
+    label: "Get the bundle — $499"
+    microcopy: "No hidden fees. Pay by card. Afterpay available."
+  ticks:
+    - "<b>Thirteen CBOS-approved courses</b>, each approved in its own right"
+    - "<b>A plumber's full annual requirement</b>, with one course to spare"
+    - "<b>Online and self-paced</b>, with no fixed schedule"
+    - "<b>Every point counts</b>, with no annual cap on approved online courses"
+  howItWorks: "Get the bundle → Work through in any order → Assessment on each course → Certificate as you finish"
+  artefactDesc: "A Tasmanian plumber's CPD record for the year, laid out as a single sheet"
+  artefactSpec: "5:4 landscape · document-on-desk, flat overhead, cool daylight"
+sticky:
+  label: "TAS Plumbing CPD"
+  sub: "12 CBOS-approved points"
+  price: "$499"
+  cta: { href: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
+ctaBand:
+  headingHtml: "Ready to complete your CPD year?"
+  sub: "Thirteen CBOS-approved courses, online and self-paced, about seven hours."
+  cta: { href: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program", label: "Get the bundle" }
+experts:
+  - dominic-ogburn
+  - warwick-smith
+priceRows:
+  - { label: "This bundle", sub: "Paid to ABE Education, one enrolment", amount: "$499.00", isTotal: true }
+requirementRows:
+  - { key: "Plumber, gas-fitter", value: "12", note: "CPD points per year" }
+  - { key: "Three-year licence", value: "36", note: "across the licence, not per year" }
+  - { key: "This bundle", value: "13", note: "courses, covering the year with one spare" }
+  - { key: "Two licences?", value: "Highest", note: "the highest single total, not the sum" }
+howItWorksSteps:
+  - { title: "Get the bundle", body: "One purchase covers all thirteen courses. Instant access after payment." }
+  - { title: "Work through them in any order", body: "Online and self-paced, on any device. Your progress is saved between sittings." }
+  - { title: "Complete the assessment on each course", body: "Every course is assessed, not just read through." }
+  - { title: "Download your certificate as you go", body: "One certificate per course, issued as you finish it rather than at the end." }
+  - { title: "File them with your CPD record", body: "You confirm your CPD to CBOS when you renew your licence." }
+faqs:
+  - q: "How do I record my CPD in Tasmania?"
+    a: "You keep the record yourself. CBOS puts the responsibility on the licence holder: employees keep their own record and make sure the employer's register matches it, and sole practitioners are responsible for all of it. Keep your certificates, and confirm your CPD when you renew your licence."
+    open: true
+  - q: "Why are there thirteen courses for a twelve-point year?"
+    a: "Because CBOS approves each course separately and we have thirteen approved for plumbers, so all thirteen come with the bundle. Your annual requirement is twelve points, so you finish the year covered with one course still in hand. There is no extra charge for the thirteenth and no requirement to complete it."
+  - q: "Are these courses actually approved by CBOS?"
+    a: "Yes, and each one separately. CBOS approves individual courses rather than providers, so the fact that a provider appears on a list does not mean everything it sells counts. Each course in this bundle carries its own approval, and the table above shows the date each one runs to."
+  - q: "My licence runs for three years. Is it thirty-six points?"
+    a: "Yes, but read it as twelve a year rather than a lump. The Determination phases a three-year licence to thirty-six points across the full licence period, which is the same twelve-point year counted three times. It is not an extra requirement and it is not thirty-six in any one year."
+  - q: "I hold a plumbing and a gas-fitting licence. Do I need double the points?"
+    a: "No. You meet the highest single requirement across the licences you hold, not the sum. Some of that learning should still relate to each type of work you are licensed for."
+  - q: "What happens when a course approval expires?"
+    a: "CBOS approvals run for two years. When one lapses, the course comes off this page and out of the bundle, and the point count on this page changes with it. You keep any points you have already completed and recorded."
+footerSources:
+  - label: "CBOS — Achieving your CPD requirements (points tables and Determinations)"
+    href: "https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements"
+    verified: "Verified 12 July 2026"
+  - label: "CBOS — Continuing professional development"
+    href: "https://www.cbos.tas.gov.au/topics/licensing-and-registration/cpd"
+    verified: "Verified 12 July 2026"
+  - label: "CBOS — CPD Determination list"
+    href: "https://www.cbos.tas.gov.au/topics/resources-tools/occupational-licensing-determinations/cpd-determination-list"
+    verified: "Verified 12 July 2026"
+disclaimersHtml: "<p>ABE Education is not a registered training organisation. CPD courses in this bundle are approved by CBOS Tasmania for the points shown, and a certificate of completion is issued for each course.</p>"
+publishedAt: "2026-08-12"
+lastReviewedAt: "2026-08-12"
+---
+
+import Section from '../../components/Section.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import FactGrid from '../../components/FactGrid.astro';
+import Note from '../../components/Note.astro';
+import PriceCard from '../../components/PriceCard.astro';
+import Stepper from '../../components/Stepper.astro';
+import Faq from '../../components/Faq.astro';
+import VerifiedSources from '../../components/VerifiedSources.astro';
+import ExpertCredentials from '../../components/ExpertCredentials.astro';
+
+export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', href: 'https://www.cbos.tas.gov.au/newsroom/tech-reg-news-technical-regulations/achieving-your-cpd-requirements' }];
+
+<Section id="your-year" marker="01" total="06" eyebrow="Your obligation" h2="Does this bundle cover your whole year?">
+  <AnswerCapsule>Yes, in full. A Tasmanian plumber needs twelve CPD points a year and this bundle carries thirteen approved courses at one point each, so the year is covered with one course still in hand. If you also hold a gas-fitting licence you meet the highest single requirement, never the sum.</AnswerCapsule>
+
+  <FactGrid items={frontmatter.requirementRows} />
+
+  <p>The requirement for a plumber comes from a different instrument to the one that governs builders and designers. Plumbers, gas-fitters, electricians, lineworkers and cable jointers sit under the Occupational Licensing (Continuing Professional Development) Determination, which sets twelve points a year and phases a three-year licence to thirty-six across the full licence period. Thirty-six is that three-year total, not a figure for any single year.</p>
+
+  <p>If you hold more than one occupational licence, you meet the highest single requirement rather than the sum. Some of that learning should still relate to each type of work you are licensed for.</p>
+
+  <VerifiedSources date="23 July 2026" facts="the twelve-point annual requirement for occupational licences, the thirty-six-point three-year total, and the multi-licence rule" sources={cbosSource} />
+</Section>
+
+<Section id="what-counts" bg="bg-warm" marker="02" total="06" eyebrow="What counts" h2="Do all of these points actually count?">
+  <AnswerCapsule>Yes. CBOS caps some ways of earning points, not some subjects: attending WorkSafe Tasmania events is capped at six a year, trade journals at three. Approved online courses carry no annual cap, and health and safety is a recognised CPD category, so every course here counts toward your twelve.</AnswerCapsule>
+
+  <p>The distinction matters when you are topping up a short year. CBOS limits what you can claim for the things practitioners do incidentally: six points a year for WorkSafe Tasmania sessions, four for research, three for reading trade journals, two for association membership. Those limits attach to the activity, not to the topic.</p>
+
+  <p>Course points are not limited that way. An approved online course earns a point per hour whatever its subject, so a bundle weighted toward safety counts exactly the same as one weighted toward technical content. What does matter is that each course is approved in its own right, which is why the table above carries a date for every one.</p>
+
+  <Note variant="note" label="Where the caps do bite">If you were planning to make up a shortfall by reading journals or attending WorkSafe Month, those routes run out quickly: three and six points a year respectively. Course points do not.</Note>
+
+  <VerifiedSources date="23 July 2026" facts="which CPD activities carry annual caps, and that approved online courses do not" sources={cbosSource} />
+</Section>
+
+<Section id="cost" marker="03" total="06" eyebrow="What it costs" h2="What does the bundle cost?">
+  <AnswerCapsule>$499 for the thirteen courses, paid once. There is no government fee attached to CPD itself: what you pay ABE Education is the whole cost, and your licence renewal fee is separate and paid to CBOS.</AnswerCapsule>
+
+  <PriceCard rows={frontmatter.priceRows} foot="One payment, no subscription and no renewal. Your licence renewal fee is paid separately to CBOS and is not part of this." />
+
+  <p>If you only need a point or two, buy the individual courses instead. There is no advantage in buying a full year of points you cannot use inside your CPD year.</p>
+</Section>
+
+<Section id="how-long" marker="04" total="06" eyebrow="Time to complete" h2="How long does the bundle take?">
+  <AnswerCapsule>About seven hours for all thirteen courses, self-paced, with no fixed schedule. That figure is measured from what students actually spend on ABE Education's platform rather than from a nominal course length, and it covers ten of the thirteen, so treat it as a floor rather than a promise.</AnswerCapsule>
+
+  <p>Most people do not sit down and complete a bundle in one stretch, and they do not need to. The courses are independent, so you can finish one in a sitting and come back to the next, and each certificate is issued as you go rather than at the end. If your renewal is a fortnight away, seven hours spread across thirteen sittings is a realistic plan.</p>
+</Section>
+
+<Section id="how" bg="bg-alt" marker="05" total="06" eyebrow="How it works" h2="How does the bundle work?">
+  <AnswerCapsule>Get the bundle once, work through the thirteen courses in any order at your own pace, complete the assessment on each, and download a certificate as you finish each one. Keep those certificates with your own CPD record, because in Tasmania the record is yours to hold.</AnswerCapsule>
+
+  {/* columns={2} above 1100px, same as the building bundle: a plain Section at the full wrap, so
+      the prop alone is enough and no ZSection wide slot is needed. Five steps puts one on the last
+      row; DOM and visual order both run 1 to 5. */}
+  <Stepper steps={frontmatter.howItWorksSteps} columns={2} />
+
+  <Note variant="caution" label="Your responsibility">Recording your CPD is the licence holder's job, not the provider's and not your employer's. If you are employed, keep your own copies and make sure your employer's register matches them. If you work for yourself, the whole record is yours. Certificates stay with you between employers, which matters if you change jobs mid-cycle.</Note>
+
+  <VerifiedSources date="12 July 2026" facts="who is responsible for recording CPD in Tasmania" sources={cbosSource} />
+</Section>
+
+<Section id="content-review" marker="06" total="06" eyebrow="Who wrote this" h2="Who wrote and reviewed this page?">
+  <AnswerCapsule>The courses were developed by Dominic Ogburn, who has built ABE Education's owner builder and CPD training since 2007. This page was independently reviewed for currency by Warwick Smith, who checks the regulator facts and their dates rather than the marketing. Last reviewed 12 August 2026.</AnswerCapsule>
+
+  <ExpertCredentials experts={frontmatter.experts} />
+</Section>
+
+<Section id="faq" eyebrow="Questions" h2="Common questions about Tasmanian plumber CPD">
+  <Faq items={frontmatter.faqs} />
+</Section>

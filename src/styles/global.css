@@ -268,6 +268,17 @@ p strong{color:var(--ink);font-weight:600;}
   .hero-bundle .hero .wrap{align-items:stretch;}
   .hero-bundle .hero .z-img{display:flex;}
   .hero-bundle .hero .z-img .ph-img{aspect-ratio:auto;object-position:center;}
+  /* The FPO placeholder needs the SAME reset as the real image above, and did not have it until
+     12 Aug 2026. `align-items:stretch` two lines up gives the image cell the full column height;
+     an element that still carries `aspect-ratio:5/4` then derives its WIDTH from that height, so
+     `.ph` computed 4359px inside a 1225px cell, starved the text column to 0px and scrolled the
+     page 3219px sideways at 1280px. Measured, not inferred: grid went `0px 1224.86px` -> the
+     correct `573.391px 498.594px`, and `.ph` 4359px -> 499px, matching /cpd-building-tas exactly.
+     Invisible until now because the only bundle page carried a real `artefactImg` and never took
+     the placeholder path; /cpd-electrical-tas and /cpd-plumbing-tas are the first that do.
+     This is the aspect-ratio sibling of the min-content trap recorded against `.steps` and
+     `UnitOutline`: a sizing rule that resolves against the wrong axis and pushes its parent. */
+  .hero-bundle .hero .z-img .ph{aspect-ratio:auto;}
 }
 /* Hero vertical rhythm, grouped into clusters rather than an even ramp: the eyebrow row,
    headline and lede sit tight as one unit; the ticks open up; the CTA gets the widest gap
