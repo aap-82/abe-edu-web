@@ -36,6 +36,14 @@ const { id, bg = '', marker, eyebrow, h2, rev = false, imgRatio = 'r45', imgDesc
       {h2 && <h2 class="h2" set:html={h2} />}
       <slot />
     </ZSplit>
+    {/* Full-width block BELOW the split, for content the body column starves.
+        Added 11 Aug 2026. A ZSection's body column is roughly half the wrap (536px of 1144px at
+        1553px viewport), which is right for prose and wrong for anything that wants to lay out
+        horizontally. `/white-card-qld`'s `#session` had a 4-step Stepper 917px tall stacked in
+        that half while the image column beside it sat empty for most of that height.
+        Opt-in and unstyled: a page puts `slot="wide"` on the child it wants to span, everything
+        else is untouched, and a section that never uses it renders byte-identical. */}
+    <slot name="wide" />
     {next && <SectionWayfinder label={next.label} href={next.href} ready={next.ready} />}
   </div>
 </section>

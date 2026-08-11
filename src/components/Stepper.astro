@@ -9,11 +9,18 @@ import type { Step } from '../types/course';
  * list of one bullet than as the sentence it is. Which steps carry a list is authored per step, not
  * decided here, for the reason recorded on the schema in `src/content.config.ts`.
  */
-interface Props { steps: Step[]; maxWidth?: string; }
-const { steps, maxWidth } = Astro.props;
+interface Props { steps: Step[]; maxWidth?: string; columns?: 1 | 2; }
+const { steps, maxWidth, columns = 1 } = Astro.props;
 const style = maxWidth ? `max-width:${maxWidth}` : undefined;
 ---
-<div class="steps" style={style}>
+{/* `columns={2}` is opt-in, per call site, and deliberately not inferred from width.
+    A stepper in a ZSection's body column has about 536px; one in the full wrap has 1144px, and
+    CSS alone cannot tell those apart without a width rule - which was tried and broke five pages
+    at 375px, because `.z-body` is a grid child whose min-content width absorbed the track floor
+    and pushed the whole split past the viewport (see `.steps` in global.css). The call site knows
+    what container it is in; the stylesheet does not. Two is the ceiling: steps are a sequence,
+    and at three the reading order stops being obvious. */}
+<div class:list={["steps", columns === 2 && "steps-2"]} style={style}>
   {steps.map((s, i) => (
     <div class="step">
       <span class="s-k">Step {String(i + 1).padStart(2, '0')}</span>
@@ -30,6 +37,14 @@ const style = maxWidth ? `max-width:${maxWidth}` : undefined;
 </div>
 
 <style>
+  /* Two columns only above 1100px, and only when the call site asked. The breakpoint is above the
+     point a ZSection stops splitting, so this can never apply inside a half-width body column even
+     if someone opts in there by mistake. Below it the stepper is a plain single column, with no
+     track floor for a grid parent's min-content width to absorb. */
+  @media (min-width: 1100px) {
+    .steps-2 { grid-template-columns: 1fr 1fr; }
+  }
+
   /* Maroon discs, the same marker the learning outcomes use in `ModuleRows`, so the bulleted lists on
      a course page agree with each other. The 18px indent and 4px marker offset are that component's
      values too, rather than a second set of numbers doing the same job.

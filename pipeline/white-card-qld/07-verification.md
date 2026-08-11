@@ -599,3 +599,48 @@ section that answers it rather than appearing broken.
 ## Ship decision
 
 **Merge-ready.** Closes the Stage 7 currency gap this page's own change opens.
+
+## Re-verification · 11 August 2026 — the #session stepper moved out of the split
+
+**Why this exists.** Andrey selected the stepper in `#session` and asked for it to use the full
+width rather than one column. It sat in the ZSection's body column: **536px of a 1144px wrap, four
+steps stacked 917px tall**, with the image column beside it empty for most of that height.
+
+**Scope: layout only.** No step text, fact, figure, heading, schema field or regulatory claim
+changed. Three edits: a `wide` slot added to `ZSection` (design), a `columns` prop added to
+`Stepper` (design), and this page opting into both.
+
+## Measured, in a live browser
+
+| Check | Before | After |
+|---|---|---|
+| Stepper width | 536px | **1144px** |
+| Columns × rows | 1 × 4 | **2 × 2** |
+| Block height | 917px | **439px**, a 52% reduction |
+| Inside `.z-body` | yes | **no** |
+| Page overflow, 1280px and 375px | 0 | **0** |
+| Other steppers changed (19 total) | — | **0** |
+
+**Reading order verified, not assumed:** DOM order and visual left-to-right, top-to-bottom order
+match, so the sequence still reads 1-2-3-4.
+
+## Two regressions caught before commit, both mine
+
+Recorded because the first two attempts each looked correct at the viewport they were checked at.
+
+1. **`minmax(460px, 1fr)` as a global `.steps` rule broke five pages at 375px**, scrolling 7 to
+   186px sideways. `.z-body` is a grid child with the default `min-width: auto`, so it never
+   shrinks below its content's min-content width, and the track floor *became* that width — pushing
+   the split past the viewport. The same min-content trap `UnitOutline.astro` already records
+   against `minmax(0, 1fr)`, met a third time.
+2. **`min(460px, 100%)` fixed the steps' own overflow and not the push**, because the circular
+   sizing resolves against a container the floor is already inflating.
+
+Both were found by `check-reflow`, which is the check built on 10 Aug for exactly this class and
+which reported **9 failing** on the first attempt. Resolved by making two columns an **opt-in prop**
+rather than a width rule: a stylesheet cannot tell a 536px split column from a 1144px wrap, and the
+call site can.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own change opens.

@@ -246,7 +246,12 @@ import { faqs } from '../../data/faqs-white-card-qld';
     <h3 class="h3">What to have ready</h3>
     <p>Have your protective equipment to hand before the session starts: eye protection, hearing protection, a hard hat, high-visibility clothing and a copy of the Work Health and Safety Act 2011 (Qld). You'll be asked to show some of it on camera as part of the assessment. Create your Unique Student Identifier before you begin, since nationally recognised training cannot be issued without one, and have photo ID ready: CRTD requires your identity to be verified in real time during the session, the same as it would be in a classroom.</p>
   </div>
-  <Stepper steps={frontmatter.howItWorksSteps} maxWidth="560px" />
+  {/* slot="wide" puts this below the image split instead of inside the 536px body column, the 560px
+      cap comes off so it can use the full 1144px wrap, and columns={2} opts into two columns above
+      1100px. Four steps that ran 917px tall in one narrow column now sit two-up at 439px.
+      All 18 other steppers on the site are unchanged: `columns` defaults to 1, so nothing renders
+      differently unless its own call site asks. */}
+  <Stepper slot="wide" steps={frontmatter.howItWorksSteps} columns={2} />
   <Note variant="caution" label="Before the session">You will need a device with a working camera and microphone, a stable connection for the full session, photo ID, your Unique Student Identifier, and the protective equipment listed above ready to hand.</Note>
   <VerifiedSources date="2 Aug 2026" facts="The minimum session length, the maximum trainer-to-student ratio, the mandated regulator assessment and the required protective equipment" sources={[{ label: 'WHSQ — Conditions of agreement for RTOs to issue GCIT cards in Queensland, V6.1', href: 'https://trainingombudsman.qld.gov.au/wp-content/uploads/2024/05/Attachment-4-GCIT-Conditions-V6.1.pdf' }]} />
 </ZSection>

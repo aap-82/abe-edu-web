@@ -357,6 +357,18 @@ p strong{color:var(--ink);font-weight:600;}
    page: .note keeps a 480px text column (matching .measure) plus its own 2x--s-lg padding, and
    .price-foot caps at 440px, landing both near 67 CPL. NOTE: .capsule and footer .f-auth still use
    66ch and are therefore looser than they read - worth revisiting on the same evidence. */
+/* SINGLE COLUMN BY DEFAULT, and it stays that way. Two columns are opt-in per call site via
+   `Stepper`'s `columns` prop, NOT automatic on width, and that is the outcome of getting it wrong
+   the other way first.
+   An `auto-fit` + `minmax(460px, 1fr)` rule here looked right on desktop and broke five pages at
+   375px: `.z-body` is a grid child with the default `min-width:auto`, so it never shrinks below
+   its content's min-content width, and the 460px track floor BECAME that width - pushing the
+   split, and the page, 7 to 186px wider than the viewport. `min(460px, 100%)` fixed the steps'
+   own overflow and not the push, because the circular sizing resolves against a container the
+   floor is already inflating. It is the same min-content trap `UnitOutline.astro` records against
+   `minmax(0, 1fr)` and `global.css` records against `.pl-frow dd`, met a third time.
+   A width-triggered rule cannot know whether it sits in a 536px split column or a 1144px wrap.
+   The call site does. So the call site says. */
 .steps{display:grid;gap:var(--s-lg);margin-top:var(--s-md);}
 .step{border-top:1px solid var(--rule);padding-top:var(--s-md);}
 .step .s-k{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:8px;}
