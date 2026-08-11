@@ -79,10 +79,22 @@ was done anyway. Rewritten without numerals; back to 24, 0 naming this slug.
 
 **The FPO placeholder broke the hero — see the disclosed crossing below.**
 
-## Disclosed session-type crossing
+## Disclosed session-type crossings
 
-Declared **build**. `src/styles/global.css` is **design**-owned and this session edited it: one
-selector added at line 270.
+Declared **build**. This session made **two** edits to design-owned files. Both are recorded here
+rather than only in the commits.
+
+**Crossing 2 — `src/layouts/CpdBundleLayout.astro`, on Andrey's explicit instruction** ("fix the
+layout strings"). Its members lead hardcoded two facts that were only ever true of the building
+bundle: "about **ten hours** of work" regardless of `bundle.hours`, and "That meets a **builder's**
+12-point year" on every bundle. So `/cpd-plumbing-tas` told a plumber it met a *builder's* year and
+stated ten hours where its own frontmatter says six. `hours` now derives from the field and drops out
+when unset; the trade noun comes from a map over `category`, which is a three-value enum in the
+schema. Verified on all three bundles, and **`/cpd-building-tas`'s sentence is byte-identical to
+before** — its frontmatter says "About ten hours", which is what the hardcoded text had been matching
+by coincidence. Full detail and measurements: `pipeline/cpd-plumbing-tas/07-verification.md`.
+
+**Crossing 1 — `src/styles/global.css`**, one selector added at line 270.
 
 `check-reflow` failed both new pages, scrolling **3219px** and **2912px** sideways at 1280px. Cause,
 measured rather than guessed: the bundle-only block at `global.css:267` sets `align-items:stretch` on

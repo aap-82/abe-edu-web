@@ -129,8 +129,17 @@ Shared items are on `pipeline/cpd-electrical-tas/07-verification.md` and are not
   That was readable as "the bundle is the whole pool, capped", which is how this build got the model
   backwards for its first draft. Whatever shape the facts fix above takes, the derive layer needs to
   distinguish the two.
-- [design] **`CpdBundleLayout.astro:180-183` hardcodes two facts that are wrong on any non-building
+- ~~[design] **`CpdBundleLayout.astro:180-183` hardcodes two facts that are wrong on any non-building
   bundle.** Its members lead reads "about **ten hours** of work" regardless of `bundle.hours` (this
   page states six, the layout ignores it), and "That meets a **builder's** 12-point year" on a
   plumbing page. Invisible until now because `cpd-building-tas` was the only bundle and both happened
-  to be true of it. Both are visible on `/cpd-electrical-tas` and `/cpd-plumbing-tas` today.
+  to be true of it. Both are visible on `/cpd-electrical-tas` and `/cpd-plumbing-tas` today.~~
+  **Closed 12 Aug 2026, same session**, on Andrey's explicit instruction ("fix the layout strings") —
+  a second disclosed crossing into design-owned `src/layouts/**`. `hours` now derives from
+  `bundle.hours` and drops out entirely when unset; the trade noun comes from a `category` map
+  (`building`→builder, `electrical`→electrician, `plumbing`→plumber), total over the schema's
+  three-value enum. Measured on all three bundles: plumbing now reads "about six hours ... meets a
+  **plumber's** 12-point year", electrical "about six hours ... 11 points against a 12-point year,
+  add 1 more", and **`/cpd-building-tas`'s sentence is unchanged** — because its own frontmatter says
+  "About ten hours", which is what the hardcoded string had been matching by coincidence. That
+  unchanged sibling is the regression evidence: the fix reproduces the old text from data.

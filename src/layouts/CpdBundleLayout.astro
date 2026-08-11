@@ -51,6 +51,22 @@ const live = liveTotal(register, bundle.category);
 // leaving the reader to subtract.
 const shortfall = POINTS_CAP - points;
 
+// The members lead used to hardcode two facts that were only ever true of the building bundle:
+// "a builder's 12-point year" on every bundle, and "about ten hours of work" regardless of what
+// `hours` said. Both were invisible while `cpd-building-tas` was the only bundle page, and both
+// were wrong the moment the electrical and plumbing bundles landed on 12 Aug 2026 — the plumbing
+// page told a plumber it met a *builder's* year, and stated ten hours where its own frontmatter
+// says six.
+//
+// `category` is a three-value enum in the schema, so the map is total; the fallback exists only so
+// a future fourth category degrades to something true rather than to `undefined`.
+const TRADE_NOUN = { building: 'builder', electrical: 'electrician', plumbing: 'plumber' };
+const tradeNoun = TRADE_NOUN[bundle.category] ?? 'licence holder';
+
+// `hours` is optional, so the clause disappears entirely rather than inventing a figure — the same
+// rule the hero proof row already follows. "About six hours" reads as "about six hours" mid-sentence.
+const hoursClause = bundle.hours ? ', and ' + bundle.hours.replace(/^About\s+/i, 'about ') + ' of work' : '';
+
 // The member list's data, decoupled from how it is displayed. Both the table and the card variants
 // consume this same array, so they can never disagree on names, blurbs or time. `minutes` is the
 // MEASURED LearnWorlds "avg time to finish" from memberInfo; undefined where the snapshot has no
@@ -177,10 +193,10 @@ const schema = {
       numbered sequence; carrying one here too rendered a second "01" on the page. */}
   <Section id="whats-in" eyebrow="What you get" h2={`What is in the ${bundle.category} bundle?`}>
     <AnswerCapsule>
-      {points} CBOS-approved courses, one point each, for {bundle.price}, and about ten hours of work.
+      {points} CBOS-approved courses, one point each, for {bundle.price}{hoursClause}.
       {shortfall > 0
         ? ` That is ${points} points against a ${POINTS_CAP}-point year, so you would add ${shortfall} more from another approved activity.`
-        : ` That meets a builder's ${POINTS_CAP}-point year in full, with no annual cap on approved online courses.`}
+        : ` That meets a ${tradeNoun}'s ${POINTS_CAP}-point year in full, with no annual cap on approved online courses.`}
       {' '}The list is generated from ABE's CBOS approval register, so it shows what is approved today.
     </AnswerCapsule>
 
