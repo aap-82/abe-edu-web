@@ -197,9 +197,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
   Note this SUPERSEDES the `[skills]` item this review first filed, which claimed the treatment needed
   a new `note` schema field — true for string bodies, false for array ones, and written without
   checking which shape the target used.
-- [build] **`wa-owner-builder-course.mdx` still carries the step line removed from QLD** ("You sit the
+- ~~[build] **`wa-owner-builder-course.mdx` still carries the step line removed from QLD** ("You sit the
   quiz yourself, as the person named on the certificate"). Deliberate — only QLD was pointed at — but
-  the two pages now differ on the same statement.
+  the two pages now differ on the same statement.~~ **Closed 12 Aug 2026, same session.** The fix was
+  NOT the obvious one. On QLD the statement already existed in `faqs.ts`, so removing it from the step
+  was de-duplication; WA uses `faqs-wa.ts`, which had **no assessment question at all**, and the
+  sentence appeared exactly once on the whole page. Deleting it to "match QLD" would have matched the
+  step and stripped an assessment-integrity statement from the page — the opposite of QLD's actual
+  state. So it moved rather than went: the step line is gone and a "How am I assessed, and what is the
+  pass mark?" entry was added to `faqs-wa.ts`, worded as QLD words it. No new figure was introduced —
+  the 80% pass mark and the 3-attempt limit were already on the page in that same step. Verified in
+  `dist/`: both pages now show step line removed, FAQ states it, assessment FAQ present.
 - [design] **`--maroon` now has a documented second job and a third and fourth shade.** `ModuleRows`
   already carried three "maroon on a non-action mark" exceptions with a note saying the FIGURES job
   belongs in the design register; this session added `#600000` figures, an `#a00000` marker, a maroon

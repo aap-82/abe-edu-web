@@ -63,7 +63,13 @@ priceRows:
   - { label: "Course + approval", sub: "Budgeting figure only. Industrial-commercial approval is $467, and council building-permit fees are extra", amount: "$391.00", isTotal: true }
 howItWorksSteps:
   - { title: "Enrol online", body: ["Pay $179 and get instant access.", "Pay by card, or split it with Afterpay."] }
-  - { title: "Complete the course", body: ["Work through the Introduction and 12 modules at your own pace, then sit an online quiz.", "The pass mark is 80%, and you have up to 3 attempts.", "You sit the quiz yourself, as the person named on the certificate."] }
+  # The third line, "You sit the quiz yourself, as the person named on the certificate", was moved to
+  # this page's FAQ on 12 Aug 2026, matching the QLD page. NOT simply deleted, and the difference
+  # matters: on QLD the same statement was already in `src/data/faqs.ts`, so removing it from the step
+  # was de-duplication. WA uses `faqs-wa.ts`, which had no assessment question at all, so deleting the
+  # line here would have removed an assessment-integrity statement from the page entirely. It is now
+  # the last sentence of the new "How am I assessed" FAQ, worded as QLD words it.
+  - { title: "Complete the course", body: ["Work through the Introduction and 12 modules at your own pace, then sit an online quiz.", "The pass mark is 80%, and you have up to 3 attempts."] }
   - { title: "Get your certificate, then lodge Form 75", body: ["Your certificate is issued the same day you pass.", "Attach it to your Form 75 owner-builder approval application."] }
 becomeSteps:
   - { title: "Check the value of your work", body: "If the building work is valued over $20,000 and you want to run it yourself, you need owner-builder approval." }
