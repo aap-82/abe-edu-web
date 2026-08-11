@@ -73,11 +73,29 @@ check 6 and `check-links.mjs` both ask only whether the id *exists*, and Hero cr
 `[skills]`: either stop Hero emitting a fixed id, or teach the anchor check to fail a link whose
 target is the link itself.
 
-**3. The hub cannot cross-link to either new page.** `/owner-builder-courses` is 59.9k impressions,
-the biggest single traffic source, and its body is empty — the page renders entirely from
-frontmatter, and the `hubs` schema has no field for a cross-link. Needs **one field** in
-skills-owned `content.config.ts`, or a `HubLayout.astro` change (design). Until then both new pages
-are reachable from four state pages and the nav, and not from the hub above them.
+**3. ~~The hub cannot cross-link to either new page.~~** **Done 12 Aug 2026 (`904f487`), and this
+item was wrong about why.** It claimed the `hubs` schema has no field for a cross-link and that the
+fix needed one field in skills-owned `content.config.ts` or a `HubLayout.astro` change — which is
+what ranked it as a cross-session-type item nobody could take alone.
+
+`HubLayout.astro:96` **already renders `<slot />`**, between `#spokes` and `#compare`, documented
+there as "freeform body content (e.g. a 'why ABE' section) — optional, from the hub's own MDX".
+Neither hub had ever used it, so the slot rendered nothing and the body looked structurally
+impossible rather than merely empty. **The capability existed and was unexercised.** The fix was
+content only: a "Beyond the course" section in `owner-builder-courses.mdx` with two `ResourceLink`s
+and a wayfinder entry. No schema change, no layout change, no boundary crossing, one session type.
+
+**The lesson is the misdiagnosis, not the gap.** "The body is empty" was observed correctly and then
+read as "the body cannot be filled". Those are different claims, and the second was never checked
+against the layout — which is the same shape as the withdrawn-robots-rule finding: reading an
+artefact and finding X absent cannot tell you whether X is impossible or merely unused. Read the
+component before recording what a page structurally cannot do.
+
+*Disclosed crossing: `handover/**` is skills-owned and the session that struck this item and wrote
+this correction was declared **build**. Done anyway, on the reasoning behind "any session may close
+an item it has just fixed" — a closure states a fact about status, and this one also removes a false
+constraint that would otherwise mislead the next session into scheduling a schema change that is not
+needed. No other item on this list was touched.*
 
 **4. `verification.md` has no step telling Stage 7 to check the design register first.** Third
 sighting. It is why independent auditors keep re-opening findings the register already settled.
