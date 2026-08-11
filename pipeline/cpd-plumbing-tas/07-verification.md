@@ -143,3 +143,45 @@ Shared items are on `pipeline/cpd-electrical-tas/07-verification.md` and are not
   add 1 more", and **`/cpd-building-tas`'s sentence is unchanged** — because its own frontmatter says
   "About ten hours", which is what the hardcoded string had been matching by coincidence. That
   unchanged sibling is the regression evidence: the fix reproduces the old text from data.
+
+
+---
+
+## Re-verification, 12 Aug 2026 — step bodies split into two-item lists
+
+**Structural only. No word of copy changed on this page.**
+
+The Stepper now renders a step body as a bordered card with the bullets removed and the FIRST list
+item in `--ink` at 600, the rest in `--ink-3`. That emphasis can only apply where the body is an
+array, because that is what renders as separate `<li>` elements; a single-string body renders as one
+`<p>` with nothing to promote. 2 steps on this page carried two sentences in one
+string and were split on the existing sentence boundary:
+
+  - "Get the bundle"
+  - "Work through them in any order"
+
+**The split is mechanical.** Each sentence became its own array item, character for character. No
+sentence was rewritten, shortened, merged or added, and no figure, date, name, price, threshold or
+regulator reference was touched. Verified by diff: the only changed characters are the quoting and
+brackets that turn one string into two.
+
+### Re-verified
+
+| Check | Result |
+|---|---|
+| Copy text | unchanged word for word |
+| Figures / dates / regulator names | none touched |
+| Authority model | untouched |
+| Guardrails | 28/28 |
+| `npm run check` | 0 errors, 0 warnings |
+| `check-claims` | 0 failing |
+| `check-reflow` | 0 failing |
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). Their input is the page's prose and the prose is identical; only its container
+changed. Stated rather than silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 fails a page whose source is committed later than its
+Stage 7 artefact, on the rule that a verification predating the content it certifies has certified
+nothing. That gate fired on this page for the split above, correctly, and this closes it in the same
+commit as the change rather than afterwards.
