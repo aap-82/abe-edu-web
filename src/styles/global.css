@@ -49,6 +49,23 @@
      A darker grey is available only to text at --ink weight, never to a surface under --slate.
      Register addition under rule 7, disclosed in the review. */
   --paper-grey:#f2f3f4;
+  /* The permitted-side surface, added 12 Aug 2026 for CanCant's two header strips. A tint of --ok
+     (#2e7d5b), the green already in the file, so this is a lighter step in an existing family and
+     NOT a new colour. There is deliberately no red counterpart: --maroon is reserved for actions
+     ("Heritage Maroon for actions only"), the palette has never carried a red, and Andrey's call on
+     12 Aug was green-for-can against GREY-for-cannot rather than green against red. Red/green alone
+     is also the textbook colour-blind failure, so the ✓/✕ glyphs remain the non-colour signal and
+     the colour only reinforces them.
+     CHOSEN FOR LIGHTNESS PARITY, not by eye: its luminance is 0.996x --paper-grey's, so the two
+     columns read as a difference of HUE at equal weight. A darker green would have made "can" look
+     like the heavier half of a balanced pair.
+     Text on it stays --maroon at 9.82:1. --ok itself is NOT usable as text here — it measures 4.48
+     on this tint and 4.11 on the darker candidates, all under the 4.50 floor, which is why the
+     header keeps the accent it already had rather than turning green.
+     Both this and --paper-grey are COOL, which is what keeps them off the warm band behind the
+     card: the note on .can-h below records that a --paper-alt strip once blurred into .bg-alt
+     because it WAS that band's colour. */
+  --ok-tint:#eef4f0;
   /* the answer capsule's ground, deliberately OFF the section ramp (deeper than every section
      band) so the capsule reads as an inset panel on ANY section. On --paper-warm it used to
      vanish (1.000) and on --paper-alt it separated by only 1.026 after the ramp widened. At
@@ -496,8 +513,23 @@ a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
    the DESIGN.md rule, not from a competing fill. */
 .can-h{padding:14px 22px;border-bottom:1px solid var(--rule-strong);font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;background:var(--paper);}
 .can-col.can .can-h{color:var(--maroon);} .can-col.cant .can-h{color:var(--slate);}
+/* The two header strips carry the permitted/not distinction on the SURFACE as well as in the text
+   and the glyph, 12 Aug 2026, Andrey's call. Green for can, grey for cannot — not green/red: there
+   is no red in this palette and --maroon is actions-only, so a red would have been a new colour
+   family rather than a tint of an existing one.
+   This re-tints the strip the note above deliberately un-tinted, and the reason that note gives is
+   why these two values are safe where --paper-alt was not: it blurred because it WAS .bg-alt's
+   colour, a warm cream matching the band behind the card. Both of these are COOL, so neither can
+   match a warm band on any page this renders on.
+   Measured: --maroon on --ok-tint 9.82:1, --slate on --paper-grey 4.59:1, both clear AA, and the
+   two tints sit at 0.996 luminance of each other so neither column outweighs the other. */
+.can-col.can .can-h{background:var(--ok-tint);} .can-col.cant .can-h{background:var(--paper-grey);}
 .can-col ul{list-style:none;}
-.can-col li{display:flex;gap:12px;align-items:flex-start;padding:13px 22px;font-size:16px;color:var(--ink-3);}
+/* Glyph centres against the ROW, not the first line (Andrey, 12 Aug 2026). `flex-start` was the
+   unexamined default and carried no rationale; it read fine on one-line items and left the ✓/✕
+   stranded at the top of the two-line ones. Centring is only visible where an item wraps, and no
+   item in this component runs long enough for a centred marker to lose its first line. */
+.can-col li{display:flex;gap:12px;align-items:center;padding:13px 22px;font-size:16px;color:var(--ink-3);}
 .can-col li+li{border-top:1px solid var(--rule);}
 .can-col .gl{flex:none;font-weight:700;line-height:1.4;}
 .can-col.can .gl{color:var(--maroon);} .can-col.cant .gl{color:var(--slate);}
