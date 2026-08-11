@@ -103,6 +103,54 @@ one line. The horizontal row was not achievable at any usable type size, and 12p
 floor. Measuring the whole set turned "make it smaller" into "this direction is closed", which is
 what produced the vertical variants.
 
+## Second pass, same session: step cards
+
+Added after the review above was written, so it is appended rather than folded in.
+
+| Change | Was |
+|---|---|
+| `.step` is a bordered card: 1px `--rule` on `--paper`, 16/18px padding | hairline above, no fill |
+| `.steps` gap `--s-lg` → `--s-md` | 32px between cards read as four unrelated boxes |
+| `.step-points` bullets removed | maroon discs |
+| First list item `--ink` 600, rest `--ink-3` 400 | both lines `--ink-3` 400 |
+| One step line removed from `qld-owner-builder-course.mdx` | — |
+
+Measured live: border `rgb(229,231,235)`, fill `rgb(255,255,255)`, bullets `none`, lead line weight
+**600** / `rgb(26,26,26)`, second line **400** / `rgb(74,74,74)`, gutter intact at `60px 362px` in a
+ZSplit body. Verified at `columns={2}` earlier in the session: `60px 476px` inside 556px, no overflow.
+
+**This is the one where offering first paid off in the same session it was learned.** "Make them look
+more like cards" is the same shape of instruction as "cards but subtle" on the proof row, which had
+been built and reverted hours earlier. Three treatments went out as a mock, C1 came back, and it
+shipped in one pass with no revert.
+
+**The bold lead needed no schema change here, and I had said it would.** Earlier in the session I
+filed a `[skills]` item saying the lead-sentence treatment required a new `note` field, because
+splitting a string on its first full stop breaks on "$179" and abbreviations. That is true for string
+bodies and false for array ones: a step body that is an array already renders as separate `<li>`
+elements, so `:first-child` is a real element and needs nothing new. The earlier item was written
+without checking which shape the target actually used.
+
+The measurement that matters for anyone acting on it: **50 steps on 10 pages have list bodies, 49
+steps on 17 pages are single strings.** The treatment reaches the first group and is invisible on the
+second. The demand item stands, but for the 49, not for all of them.
+
+## Disclosed crossing: one content edit
+
+`src/content/courses/qld-owner-builder-course.mdx` is **build**-owned and this session is design. One
+line was removed from a step body on Andrey's direct instruction: "You sit the quiz yourself, as the
+person named on the certificate."
+
+It is an assessment-integrity statement, so it was checked before deletion rather than after. The fact
+survives on the same page in full — `src/data/faqs.ts` carries "You must sit the quiz yourself, as the
+person named on the certificate" in the page's own FAQ — and that was verified in `dist/` after the
+build: absent from the step list, present in the FAQ. So the edit is de-duplication, not the removal
+of a claim.
+
+`wa-owner-builder-course.mdx` carries the identical line in its own step and was deliberately left
+alone, because only the QLD page was pointed at. The two now differ, which is on the demand list
+rather than silently accepted.
+
 ## Rule 7 disclosure
 
 **Two tokens were added in a session that did nine other things.** Rule 7 says a token or
@@ -143,11 +191,15 @@ Building before offering, on six one-line instructions. See the finding above.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] **The step body needs an authored split.** B1/B2/B3 (secondary second sentence, bolded lead)
-  cannot ship as CSS: splitting on the first full stop breaks on "$179", on abbreviations, and on any
-  single-sentence body. It needs an optional `note` field beside `body` on the step schema
-  (`src/content.config.ts`), which is skills-owned. Three treatments are rendered and waiting in the
-  variants mock.
+- [build] **49 step bodies are single strings and get no lead emphasis.** The bold-lead treatment
+  shipped and works on the 50 steps whose body is an array (10 pages); the other 49, on 17 pages,
+  render as one `<p>` with nothing to promote. Authoring those into two-item bodies is content work.
+  Note this SUPERSEDES the `[skills]` item this review first filed, which claimed the treatment needed
+  a new `note` schema field — true for string bodies, false for array ones, and written without
+  checking which shape the target used.
+- [build] **`wa-owner-builder-course.mdx` still carries the step line removed from QLD** ("You sit the
+  quiz yourself, as the person named on the certificate"). Deliberate — only QLD was pointed at — but
+  the two pages now differ on the same statement.
 - [design] **`--maroon` now has a documented second job and a third and fourth shade.** `ModuleRows`
   already carried three "maroon on a non-action mark" exceptions with a note saying the FIGURES job
   belongs in the design register; this session added `#600000` figures, an `#a00000` marker, a maroon

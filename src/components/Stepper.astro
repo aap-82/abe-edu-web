@@ -55,15 +55,23 @@ const style = maxWidth ? `max-width:${maxWidth}` : undefined;
     .steps-2 { grid-template-columns: 1fr 1fr; }
   }
 
-  /* Maroon discs, the same marker the learning outcomes use in `ModuleRows`, so the bulleted lists on
-     a course page agree with each other. The 18px indent and 4px marker offset are that component's
-     values too, rather than a second set of numbers doing the same job.
-     Colour and size only: the type is inherited from `.step p` in global.css, which owns the step's
-     body styling, so a change there still reaches both forms. */
-  .step-points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
-  .step-points li{
-    position:relative; padding-left:18px;
-    color:var(--ink-3); font-size:16px; line-height:1.6;
-  }
-  .step-points li::before{ content:"\2022"; position:absolute; left:4px; color:var(--maroon); }
+  /* NO BULLETS, AND A BOLD LEAD LINE (Andrey, 12 Aug 2026). The discs are gone: they were the same
+     maroon marker `ModuleRows` uses for learning outcomes, which was the right call while the step
+     was an unfilled row in a list of rows. Inside a bordered card the disc is a third level of
+     furniture — card, dotted title rule, then a bulleted list — and the card already does the
+     separating the bullets were doing.
+
+     The first line takes --ink at 600 and the rest stay --ink-3. The lead sentence of a step is the
+     answer ("Pay $179 and get instant access") and the rest is qualification, so weight promotes the
+     answer without spending a colour on it. This is the same shape the hero ticks already use.
+
+     THIS ONLY REACHES HALF THE STEPS, and that is a content fact rather than a CSS one. A step body
+     is either an array (rendered as this list, where `:first-child` is a real element) or a single
+     string (rendered as one `<p>`, with nothing to promote). Measured across `dist/`: 50 steps on 10
+     pages have list bodies, 49 steps on 17 pages are single strings and show no lead emphasis at all.
+     Making it universal means authoring those 49 into two-item bodies, which is build work and is on
+     the demand list. */
+  .step-points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px; }
+  .step-points li{ color:var(--ink-3); font-size:16px; line-height:1.55; }
+  .step-points li:first-child{ color:var(--ink); font-weight:600; }
 </style>

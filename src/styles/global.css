@@ -446,7 +446,7 @@ p strong{color:var(--ink);font-weight:600;}
    `minmax(0, 1fr)` and `global.css` records against `.pl-frow dd`, met a third time.
    A width-triggered rule cannot know whether it sits in a 536px split column or a 1144px wrap.
    The call site does. So the call site says. */
-.steps{display:grid;gap:var(--s-lg);margin-top:var(--s-md);}
+.steps{display:grid;gap:var(--s-md);margin-top:var(--s-md);}
 /* GUTTER NUMERAL, 12 Aug 2026, Andrey's pick from three rendered layouts. The step was a single
    column: a mono "STEP 01" label stacked above the title, everything on one x, so the numeral read
    as a caption on the title rather than as an index. A fixed 60px gutter puts the figures in their
@@ -456,7 +456,14 @@ p strong{color:var(--ink);font-weight:600;}
    tracked, so the wider of the two sets the column. It holds at BOTH widths this renders at - the
    full 1144px wrap and the ~536px half-column that  produces on /white-card-qld and
    /cpd-building-tas. */
-.step{border-top:1px solid var(--rule);padding-top:var(--s-md);display:grid;grid-template-columns:60px 1fr;gap:20px;}
+/* CARD, 12 Aug 2026, Andrey's pick from three treatments. Was a hairline above each step with no
+   fill, which read as a continuous list rather than as separate stages. 1px --rule on --paper at
+   radius 0 is the plainest card this site already speaks - the same construction as .mrows and .faq,
+   declaration for declaration - so it introduces no new object, only applies an existing one.
+   The gap between steps drops from --s-lg to --s-md with the fill: 32px between bordered cards reads
+   as four unrelated boxes, where 20px reads as a set. Unfilled rows needed the larger gap because
+   the hairline was the only thing separating them. */
+.step{border:1px solid var(--rule);background:var(--paper);padding:16px 18px;display:grid;grid-template-columns:60px 1fr;gap:20px;}
 .step .s-k{display:flex;flex-direction:column;align-items:flex-start;line-height:1;}
 .step .s-k-w{font-family:var(--font-mono);font-size:10px;font-weight:400;letter-spacing:.14em;text-transform:lowercase;color:var(--slate);margin-bottom:4px;}
 .step .s-k-d{font-family:var(--font-mono);font-size:21px;font-weight:500;letter-spacing:.02em;color:var(--maroon);}

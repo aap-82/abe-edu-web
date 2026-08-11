@@ -66,7 +66,12 @@ priceRows:
   - { label: "Ready-to-build total", sub: "Course + government fee, a budgeting figure only", amount: "$672.59", isTotal: true }
 howItWorksSteps:
   - { title: "Enrol online", body: ["Pay $179 and get instant access.", "Pay by card, or split it with Afterpay."] }
-  - { title: "Complete the course", body: ["Work through the 18 modules at your own pace, then sit an online quiz.", "The pass mark is 80%, and you have up to 3 attempts.", "You sit the quiz yourself, as the person named on the certificate."] }
+  # The third line, "You sit the quiz yourself, as the person named on the certificate", was removed
+  # 12 Aug 2026 on Andrey's instruction. The fact is NOT lost: `src/data/faqs.ts` states it in full
+  # in this page's own FAQ ("You must sit the quiz yourself, as the person named on the certificate"),
+  # so this is de-duplication rather than a deletion. `wa-owner-builder-course.mdx` still carries the
+  # identical line in its own step and was deliberately left alone.
+  - { title: "Complete the course", body: ["Work through the 18 modules at your own pace, then sit an online quiz.", "The pass mark is 80%, and you have up to 3 attempts."] }
   - { title: "Get your certificate, then apply", body: ["Your Certificate of Completion is emailed the moment you pass.", "Lodge it with your QBCC owner builder permit application."] }
 becomeSteps:
   - { title: "Check the value of your work", body: "If the residential building work is worth more than $11,000 including GST, you need an owner builder permit." }
