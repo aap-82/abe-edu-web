@@ -21,9 +21,13 @@
 # not reintroduce it, even if a future session finds a WHSQ worker-facing page that still states the
 # old face-to-face-only line (kb/register/online-delivery-policy-by-state.md §2C names this exact trap).
 #
-# buyUrl NOT CONFIRMED THIS SESSION. Every CTA below targets the in-page #enrol anchor, following the
-# /white-card-tas precedent, rather than guessing a payment `product_id` slug. Wire the real buyUrl the
-# moment one is confirmed.
+# buyUrl NOT CONFIRMED. Every CTA below targets an in-page anchor rather than guessing a payment
+# `product_id` slug. It was #enrol until 11 Aug 2026, which was a NO-OP: `Hero.astro:55` hardcodes
+# `id="enrol"` on its own primary anchor, so all four CTAs resolved to the hero button and nothing
+# moved when clicked. No check catches it - `guardrails.ts` check 6 and `check-links.mjs` both ask
+# only whether the anchor id EXISTS, and it did, because Hero created it. Now #cost, the section
+# that explains the $109/$169 the labels quote. Wire the real buyUrl the moment one is confirmed;
+# do not reintroduce #enrol.
 #
 # PRICE CORRECTED MID-BUILD, 3 Aug 2026: Andrey's first answer was $99 (a sibling-price default,
 # offered and accepted before the real schedule was known). He then supplied Blue Dog's actual QLD
@@ -78,12 +82,12 @@ nav:
   - { label: "Your card", href: "#your-card", sectionId: "your-card" }
   - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
-cta: { href: "#enrol", label: "Get your White Card for $109", microcopy: "One-off payment. No hidden fees." }
+cta: { href: "#cost", label: "Get your White Card for $109", microcopy: "One-off payment. No hidden fees." }
 sticky:
   label: "White Card QLD"
   sub: "Nationally recognised · CPCWHS1001"
   price: "$109"
-  cta: { href: "#enrol", label: "Get your White Card" }
+  cta: { href: "#cost", label: "Get your White Card" }
 hero:
   eyebrow: "White Card · Queensland · CPCWHS1001"
   h1Html: 'White Card QLD<span class="dot">.</span>'
@@ -106,7 +110,7 @@ hero:
 ctaBand:
   headingHtml: 'Get your Queensland White Card<span class="dot">.</span>'
   sub: "$109 on a weekday session, $169 on Saturday, run by Blue Dog Training (RTO 31193). There is no government fee to pay afterwards."
-  cta: { href: "#enrol", label: "Get your White Card for $109", microcopy: "Statement of Attainment issued by Blue Dog Training" }
+  cta: { href: "#cost", label: "Get your White Card for $109", microcopy: "Statement of Attainment issued by Blue Dog Training" }
 glance:
   - { key: "Price", value: "$109", note: "Weekday session, paid to ABE Education. Saturday sessions are $169. Queensland charges no government card fee." }
   - { key: "Delivery", value: "Live online (CRTD)", note: "One scheduled session with a real trainer, not self-paced." }

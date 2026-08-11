@@ -4,7 +4,7 @@ description: "Get your White Card for Tasmania online, self-paced, for $59. Deli
 canonical: "https://www.abeeducation.edu.au/white-card-tas"
 # PUBLISHED 28 Jul 2026 on Andrey's call, with enrolment still to come. `noindex` removed; the
 # buyUrl stays a PLACEHOLDER because TAS payment is not set up yet, so this page ships indexable
-# with NO PURCHASE PATH - every CTA is the in-page #enrol anchor. That is a warning carried
+# with NO PURCHASE PATH - every CTA is an in-page anchor. That is a warning carried
 # deliberately, not a blocker: the page holds real equity (/tas-online-white-card, 7,092
 # impressions, position 11.81) and answers the query, so it earns its place ahead of the checkout.
 # Wire the real buyUrl and give the CTAs a destination the moment payment is configured.
@@ -41,11 +41,15 @@ nav:
   - { label: "How it works", href: "#how-it-works", sectionId: "how-it-works" }
   - { label: "Reviewed", href: "#content-review", sectionId: "content-review" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
-# Was href: "/white-card" - a hub that does not exist, so on an indexable page the primary CTA
-# would have been a 404. Pointed at the same #enrol placeholder the sticky bar and CTA band
-# already use until payment is configured.
-cta: { href: "#enrol", label: "See White Card options", microcopy: "One-off payment. No hidden fees." }
-sticky: { label: "White Card Tasmania", sub: "Nationally recognised · CPCWHS1001", price: "$59", cta: { href: "#enrol", label: "See options" } }
+# Was href: "/white-card" - a hub that did not exist then, so on an indexable page the primary CTA
+# would have been a 404. Then #enrol, which was WORSE THAN A 404 AND HARDER TO SEE: `Hero.astro:55`
+# hardcodes `id="enrol"` on its own primary anchor, so every CTA on the page resolved to the hero
+# button and nothing moved when clicked. No check catches it - `guardrails.ts` check 6 and
+# `check-links.mjs` both ask only whether the anchor id EXISTS, and it did, because Hero created it.
+# Now #cost, the section that answers what these labels promise. Repoint to a real buyUrl the moment
+# payment is configured; do not reintroduce #enrol.
+cta: { href: "#cost", label: "See White Card options", microcopy: "One-off payment. No hidden fees." }
+sticky: { label: "White Card Tasmania", sub: "Nationally recognised · CPCWHS1001", price: "$59", cta: { href: "#cost", label: "See options" } }
 hero:
   eyebrow: "White Card · Tasmania · CPCWHS1001"
   h1Html: 'White Card Tasmania<span class="dot">.</span>'
@@ -79,7 +83,7 @@ hero:
 ctaBand:
   headingHtml: 'Get your Tasmanian White Card<span class="dot">.</span>'
   sub: "$59, online and self-paced, delivered with Blue Dog Training (RTO 31193). Start today and lodge for your card as soon as you pass."
-  cta: { href: "#enrol", label: "See White Card options", microcopy: "Statement of Attainment issued by Blue Dog Training" }
+  cta: { href: "#cost", label: "See White Card options", microcopy: "Statement of Attainment issued by Blue Dog Training" }
 glance:
   - { key: "Price", value: "$59", note: "Paid to ABE Education. The $13.72 government card fee is separate." }
   - { key: "Delivery", value: "Online", note: "Self-paced, completed in Tasmania. Study on any device." }
@@ -205,5 +209,5 @@ import { faqs } from '../../data/faqs-white-card-tas';
 <Section id="faq" marker="07" eyebrow="FAQ" h2="Common questions">
   <Faq items={faqs} />
   <VerifiedSources date="23 Jul 2026" facts="Answers checked against the national register, Service Tasmania and WorkSafe Tasmania" sources={[{ label: 'training.gov.au — RTO 31193', href: 'https://training.gov.au/Organisation/Details/31193' }, { label: 'Service Tasmania — Apply for a white card', href: 'https://www.service.tas.gov.au/services/working-in-tasmania/occupational-licences-and-certificates/apply-for-a-white-card' }]} />
-  <SectionWayfinder label="See White Card options" href="#enrol" ready />
+  <SectionWayfinder label="See White Card options" href="#cost" ready />
 </Section>

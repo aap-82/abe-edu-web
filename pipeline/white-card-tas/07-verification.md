@@ -506,3 +506,37 @@ new copy, a new section, or a new regulatory claim.
 ## Ship decision
 
 **Merge-ready.** Closes the Stage 7 currency gap this page's own content fix opened.
+
+## Re-verification · 11 August 2026 — dead CTAs repointed to a real section
+
+**Why this exists.** Every CTA on this page targeted `#enrol`, and `Hero.astro:55` hardcodes
+`id="enrol"` on its own primary anchor — so the hero button was simultaneously the link and its
+own target, and every other CTA resolved to it. **Clicking any of them moved the page nowhere.**
+
+**No check could see it, and that is the point.** `guardrails.ts` check 6 and `check-links.mjs`
+both ask only whether the anchor id EXISTS, and it did, because `Hero` was creating it. The defect
+was found on `/project-advisory` during its Stage 7 and traced back here.
+
+**Scope: the `href` value only.** No label, price, fact, section, schema field or regulatory claim
+changed. `#cost` chosen because it is the section that answers what these labels promise.
+
+## Measured, in a real browser
+
+| Check | Before | After |
+|---|---|---|
+| CTAs resolving to `#enrol` | all of them | **0** |
+| Hero anchor is its own target | **true** | **false** |
+| Distance the primary CTA travels | **0px** | see below |
+| `#cost` section exists | — | yes |
+
+Verified by measuring the offset between each CTA and its resolved target in a live browser, not by
+reading the markup: the primary CTA now travels thousands of pixels to the cost section instead of
+to itself.
+
+**Still no purchase path.** This remains an in-page anchor, not a checkout, and the standing
+`buyUrl` warning above is unchanged. The difference is that the CTA now takes a reader to the
+section that answers it rather than appearing broken.
+
+## Ship decision
+
+**Merge-ready.** Closes the Stage 7 currency gap this page's own change opens.

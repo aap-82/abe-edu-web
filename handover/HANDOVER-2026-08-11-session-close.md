@@ -60,10 +60,18 @@ and the only one visible to customers: an unfilled slot publishes its own art di
   different ask, already filed as "Blue Dog, AlertForce and Upskill each need a supplied logo asset
   plus a `logo:` line in their partner record".
 
-**2. Two no-op CTAs, live.** `/white-card-tas` and `/qld-owner-builder-course` set `cta.href` to
-`#enrol`, and `Hero.astro:55` hardcodes `id="enrol"` on its own anchor — so those buttons link to
-themselves. Fixed on `/project-advisory` by pointing at a real section. No check can catch this:
-both the guardrail and `check-links` ask only whether the id exists. Small, known, `[build]`.
+**2. ~~Two no-op CTAs, live.~~ DONE 11 Aug.** `/white-card-tas` and `/qld-owner-builder-course` set
+`cta.href` to `#enrol`, and `Hero.astro:55` hardcodes `id="enrol"` on its own anchor — so those
+buttons linked to themselves and clicking moved the page nowhere. **9 dead CTAs across the two
+pages, now 0**, repointed to each page's `#cost` section, the one that answers what the labels
+promise. Verified in a live browser by measuring the distance each CTA travels to its target rather
+than by reading the markup. Stage 7 re-verified on both in the same commit.
+**The underlying trap is still live and is now the interesting part:** `Hero.astro` emits
+`id="enrol"` on its own primary anchor unconditionally, so any page that ever sets `cta.href` to
+`#enrol` reproduces this silently. Three pages did. **No check can see it** — `guardrails.ts`
+check 6 and `check-links.mjs` both ask only whether the id *exists*, and Hero creates it. Filed
+`[skills]`: either stop Hero emitting a fixed id, or teach the anchor check to fail a link whose
+target is the link itself.
 
 **3. The hub cannot cross-link to either new page.** `/owner-builder-courses` is 59.9k impressions,
 the biggest single traffic source, and its body is empty — the page renders entirely from

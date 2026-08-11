@@ -594,8 +594,12 @@ a fresh `dist/`, not inferred from the edits.
 
 **The CTA fix is the one worth reading twice.** No check in this repo could catch it:
 `guardrails.ts` check 6 and `check-links.mjs` both ask only whether the anchor id *exists*, and it
-did — `Hero.astro` was creating the very id the CTA pointed at. `/white-card-tas` and
-`/qld-owner-builder-course` still carry the identical no-op and are filed `[build]`.
+did — `Hero.astro` was creating the very id the CTA pointed at. ~~`/white-card-tas` and
+`/qld-owner-builder-course` still carry the identical no-op and are filed `[build]`.~~ **Both fixed
+11 Aug 2026**, repointed to each page's own `#cost` section — 5 dead CTAs on TAS, 4 on QLD, now 0
+resolving to `#enrol` on either. Verified in a live browser by measuring the distance each CTA
+travels to its resolved target rather than by reading the markup. Stage 7 re-verification appended
+to both pages' `07-verification.md` in the same commit as the fix.
 
 ### Escalated, not fixed
 
