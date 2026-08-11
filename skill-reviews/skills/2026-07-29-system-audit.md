@@ -236,8 +236,8 @@ Tag every item: [skills] | [design] | [facts] | [build]
   now the field is optional. `src/content/**` is build-owned, which is why the schema half shipped here
   and the content half did not.~~ fixed in the 30 Jul 2026 build session — both stubs deleted, no
   rendered output changed, delta recorded against Stage 7 on both pages.
-- [build] `dist/` carries FPO image placeholders on **11 built pages**, including indexable
-  `act-owner-builder-course`, `tas-owner-builder-course` and `owner-builder-courses`. Second sighting.
+- ~~[build] `dist/` carries FPO image placeholders on **11 built pages**, including indexable
+  `act-owner-builder-course`, `tas-owner-builder-course` and `owner-builder-courses`. Second sighting.~~ **Guard built 11 Aug 2026** — `FPO_BUDGET` in `guardrails.ts`, ratcheted, noindex exempt, detecting the FPO wrapper structurally. It found this defect is LARGER than every filing said: all of them counted the words "Image placeholder", a default `label` that `Credentials.astro` overrides twice, so the true scale is **13 indexable pages, 20 wells**. Generating the images is still open and is tracked by the budget table. See `skill-reviews/skills/2026-08-11-fpo-guard.md`.
 - ~~[build] "Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and is live on
   `act-owner-builder-course.mdx` (×4) and both NSW variants. A rule enforced only by a Stage-7 audit is
   a rule pages ship without — but this is its first occurrence as a *guardrail* candidate, so record it.~~

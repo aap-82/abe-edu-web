@@ -164,7 +164,15 @@ function assess(slug) {
     words: text ? text.split(' ').length : 0,
   };
 
-  const fpo = (m.match(/Image placeholder/g) || []).length;
+  /* `.ph-in`, the FPO branch's own wrapper — NOT the words "Image placeholder", which is
+     `Placeholder.astro`'s default `label` and therefore misses every well that overrides it.
+     `Credentials.astro` overrides it twice (`label="Logo"`, `label="Portrait"`), so the text
+     match reported `/white-card-wa` and `/white-card-tas` as having NO placeholders while each
+     shipped an RTO logo well, and undercounted three White Card pages by one apiece. Every count
+     this board has published until now was low: 13 indexable pages and 20 wells, not 11-12.
+     Found when `guardrails.ts`'s FPO ratchet, which detects structurally, refused a budget
+     derived from the text match. */
+  const fpo = (m.match(/class="ph-in"/g) || []).length;
   const imgs = [...m.matchAll(/<img[^>]*>/g)].filter((x) => !/aria-hidden="true"/.test(x[0]));
   row.images = { real: imgs.length, fpo, ok: fpo === 0 && imgs.length > 0, none: fpo === 0 && imgs.length === 0 };
 

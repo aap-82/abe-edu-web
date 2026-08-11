@@ -176,6 +176,52 @@ const BANNED_CTA = /\bEnrol\s+(?:now|today)\b/gi;
 
 const BANNED_CTA_BUDGET: Record<string, number> = {};
 
+/* FPO PLACEHOLDERS ON AN INDEXABLE PAGE, ratcheted.
+   `Placeholder.astro` renders a real <img> when given `src`, and otherwise an FPO well whose
+   VISIBLE TEXT is the label, the art-direction sentence and the dimension string - so an
+   unfilled slot publishes "Image placeholder" and "4:5 · warm tone · ~1000×1250" as body copy
+   to anyone who lands on the page, and to anyone crawling it.
+   Filed four times before this guard existed (28 Jul white-card-wa, 1 Aug white-card-nsw,
+   4 Aug white-card-act, plus a build filing on 29 Jul naming 11 pages at once) and never
+   caught, because nothing in the build could see it: it is valid markup, the alt-text rule
+   does not apply to a div, and every other check reads structure rather than what a reader
+   sees.
+   DETECTED STRUCTURALLY, on `.ph-in`, not on the words. `label` is a prop, so a page that
+   overrides it would slip a text match while still shipping the well. `.ph-in` exists only in
+   the FPO branch of that component.
+   NOINDEX PAGES ARE EXEMPT, deliberately: a page held out of the index is unfinished on
+   purpose, and failing it would punish the state the repo uses to stage work.
+   RATCHETED because 11 indexable pages breach today and the fix is to generate images, which
+   no session can do alone - a flat FAIL would redden every build over work that is blocked on
+   a person. Each page carries its count, and it can only go down. Delete a line at 0; the
+   table is meant to disappear.
+
+   THE TABLE BELOW IS BIGGER THAN THE BACKLOG SAID, and finding that out is what this guard did
+   first. Every prior count - the handover's "12 pages", the status board's, the four filings -
+   was produced by grepping the words "Image placeholder", which is the DEFAULT `label` and misses
+   any well that overrides it. `Credentials.astro` overrides it twice, with `label="Logo"` for an
+   RTO partner logo and `label="Portrait"` for an expert headshot. So `/white-card-wa` and
+   `/white-card-tas` were reported as having no placeholders at all while each shipped an RTO logo
+   well, and three White Card pages were undercounted by one apiece.
+   True figures, measured structurally: **13 indexable pages, 20 wells**, against a backlog that
+   said 11-12 pages. The extra ones are the "every RTO card shows a placeholder" item already filed
+   against the partner records. Derived programmatically from `dist/`, not typed by hand. */
+const FPO_BUDGET: Record<string, number> = {
+  'accreditation/index.html': 1,
+  'cpd-tas/index.html': 1,
+  'experts/index.html': 1,
+  'owner-builder-courses/index.html': 1,
+  'owner-builder-insurance/index.html': 2,
+  'project-advisory/index.html': 1,
+  'tas-owner-builder-course/index.html': 1,
+  'white-card/index.html': 1,
+  'white-card-act/index.html': 3,
+  'white-card-nsw/index.html': 3,
+  'white-card-qld/index.html': 3,
+  'white-card-tas/index.html': 1,
+  'white-card-wa/index.html': 1,
+};
+
 // The YAML frontmatter block of an MDX file, or '' if it has none.
 function frontmatterOf(src: string): string {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -576,6 +622,26 @@ export default function guardrails(): AstroIntegration {
               `${name}: ${ctaHits.length} banned CTA(s) in the body but BANNED_CTA_BUDGET still allows ${ctaBudget}. ` +
                 `Debt was paid - lower the number in src/integrations/guardrails.ts to ${ctaHits.length}${ctaHits.length === 0 ? ' (or delete the entry)' : ''} so it cannot creep back.`,
             );
+          }
+
+          // 7a2 - FPO image placeholders on an INDEXABLE page, ratcheted. See FPO_BUDGET above.
+          //       Exempts noindex pages: unfinished-on-purpose is a state the repo uses to stage
+          //       work, and failing it would punish the staging rather than the shipping.
+          const isNoindex = /<meta[^>]+name="robots"[^>]*content="[^"]*noindex/i.test(html);
+          if (!isNoindex) {
+            const fpo = (body.match(/class="ph-in"/g) || []).length;
+            const fpoBudget = FPO_BUDGET[name] ?? 0;
+            if (fpo > fpoBudget) {
+              fails.push(
+                `${name}: ${fpo} FPO image placeholder(s) on an indexable page, budget ${fpoBudget}. ` +
+                  `An unfilled Placeholder publishes its own art direction as body copy ("Image placeholder", the description, and the dimension string). Supply \`src\` + \`alt\` (>= 80 chars), or noindex the page while it waits. Do not raise the budget.`,
+              );
+            } else if (fpo < fpoBudget) {
+              fails.push(
+                `${name}: ${fpo} FPO placeholder(s) but FPO_BUDGET still allows ${fpoBudget}. ` +
+                  `Debt was paid - lower it to ${fpo}${fpo === 0 ? ' (or delete the entry)' : ''} in src/integrations/guardrails.ts so it cannot creep back.`,
+              );
+            }
           }
 
           // 7b - no VISIBLE link may hardcode our own production origin.

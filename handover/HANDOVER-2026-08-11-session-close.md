@@ -44,14 +44,21 @@ it, so the order is a recommendation, not a dependency chain.
 
 ## Where to start next
 
-**1. FPO image placeholders — 12 live indexable pages.** The most-filed open item in the repo
-(four sightings) and the only one currently visible to customers: pages render the literal text
-`Image placeholder` plus their art direction (`4:5 · warm tone · ~1000×1250`) as body copy. Two
-halves, and the second does not need Andrey:
-- Generate the images. Prompts exist in `handover/HANDOVER-image-prompts-2026-08-02.md` and in
-  `pipeline/{owner-builder-insurance,project-advisory}/06-image-prompts.md`.
-- **Build a guard** so an `index,follow` page cannot ship placeholder text again. Filed four times,
-  never built. This is the half that stops a fifth sighting.
+**1. FPO image placeholders — 13 indexable pages, 20 wells.** The most-filed open item in the repo
+and the only one visible to customers: an unfilled slot publishes its own art direction as body copy.
+- ~~**Build a guard** so an `index,follow` page cannot ship placeholder text again.~~ **DONE
+  11 Aug** — `FPO_BUDGET` in `guardrails.ts`, ratcheted, noindex pages exempt. Detects the FPO
+  wrapper structurally rather than its text, and **that immediately proved every previous count
+  wrong**: the four filings, this note's own "12 pages", and the status board were all produced by
+  grepping "Image placeholder", which is a default `label` that `Credentials.astro` overrides twice.
+  `/white-card-wa` and `/white-card-tas` were reported clean while each shipped an RTO logo well.
+  **True scale: 13 indexable pages, 20 wells.** `page-status.mjs` corrected to match.
+- **Still open: generate the images.** Prompts in `handover/HANDOVER-image-prompts-2026-08-02.md`
+  and `pipeline/{owner-builder-insurance,project-advisory}/06-image-prompts.md`. Lower each
+  `FPO_BUDGET` line as a page is filled; the build fails if a count drops without the budget
+  following. **Six of the 20 are RTO partner logos and expert portraits, not page art** — a
+  different ask, already filed as "Blue Dog, AlertForce and Upskill each need a supplied logo asset
+  plus a `logo:` line in their partner record".
 
 **2. Two no-op CTAs, live.** `/white-card-tas` and `/qld-owner-builder-course` set `cta.href` to
 `#enrol`, and `Hero.astro:55` hardcodes `id="enrol"` on its own anchor — so those buttons link to

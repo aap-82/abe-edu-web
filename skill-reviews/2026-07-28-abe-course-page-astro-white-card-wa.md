@@ -292,11 +292,11 @@ Tag every item: [skills] | [design] | [facts]
   `after-hero` it emits an H3 as the first heading after the H1 (measured: `h1 → h3 → h2`), skipping a
   level. The `after-hero` placement is evidence-led and should stay; the heading level should follow
   the position.~~ fixed: headingLevel prop shipped; verified H1->H2 in dist
-- [skills] **Image slots left as FPO in a build declared ready (second sighting).** `cpd-building-tas`
+- ~~[skills] **Image slots left as FPO in a build declared ready (second sighting).** `cpd-building-tas`
   shipped three placeholders with no Stage-6 prompts; this run has prompts and filenames ready but
   still built an indexable page whose hero prints "Image placeholder · 4:5 · warm tone · ~1000×1250".
   Guard: fail the build when an `index,follow` page contains a `.ph` placeholder, or render the spec
-  string only outside production.
+  string only outside production.~~ **Guard built 11 Aug 2026** — `FPO_BUDGET` in `guardrails.ts`, ratcheted, noindex exempt, detecting the FPO wrapper structurally. It found this defect is LARGER than every filing said: all of them counted the words "Image placeholder", a default `label` that `Credentials.astro` overrides twice, so the true scale is **13 indexable pages, 20 wells**. Generating the images is still open and is tracked by the budget table. See `skill-reviews/skills/2026-08-11-fpo-guard.md`.
 
 **First occurrences:**
 

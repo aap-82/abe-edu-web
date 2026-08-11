@@ -296,10 +296,10 @@ viewport-reversion trap) are **not repeated here**. These are new.
   Make it mechanical: `check-claims` already scans artefacts — have it report a barred-figure hit in
   `pipeline/{slug}/**` as a WARN naming the file, so the sweep is the tool's job and not the author's
   memory. Increment #the-figure-in-a-comment entry to 4.
-- [skills] **THIRD SIGHTING — FPO placeholders on an `index,follow` page.** `cpd-building-tas`,
+- ~~[skills] **THIRD SIGHTING — FPO placeholders on an `index,follow` page.** `cpd-building-tas`,
   `white-card-wa`, now `white-card-nsw` (2 of 2 slots, `Image placeholder` ×2 measured in `dist/`).
   The `white-card-wa` review filed the guard ("fail the build when an `index,follow` page contains a
-  `.ph` placeholder") and it has not been built. Build it, or stop filing it.
+  `.ph` placeholder") and it has not been built. Build it, or stop filing it.~~ **Guard built 11 Aug 2026** — `FPO_BUDGET` in `guardrails.ts`, ratcheted, noindex exempt, detecting the FPO wrapper structurally. It found this defect is LARGER than every filing said: all of them counted the words "Image placeholder", a default `label` that `Credentials.astro` overrides twice, so the true scale is **13 indexable pages, 20 wells**. Generating the images is still open and is tracked by the budget table. See `skill-reviews/skills/2026-08-11-fpo-guard.md`.
 - ~~[skills] **SECOND SIGHTING — a build session must edit design-owned `SiteHeader.astro` to ship any
   page.** Filed by `white-card-wa`, recurred here verbatim with Andrey's explicit per-run approval.
   The trigger has fired twice; pick one of that review's three options and write it into the

@@ -167,7 +167,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   sixth filing. Both elements converted from `ch` to measured px caps: `.capsule` 66ch → 600px
   (92 → 66 CPL), `.trust-lede` 60ch → 520px (~81 → 64 CPL). Verified across six pages, 0 of 43
   capsules now over 85. See `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
-- [skills] FOURTH SIGHTING — an `index,follow` page (confirmed: `dist/white-card-act/index.html`'s
+- ~~[skills] FOURTH SIGHTING — an `index,follow` page (confirmed: `dist/white-card-act/index.html`'s
   robots meta and presence in `dist/sitemap-0.xml`) ships FPO image placeholders that print their own
   art-direction spec as visible reader-facing body copy ("Image placeholder", the alt-text prompt
   sentence, and the "4:5 · warm tone · ~1000×1250" dimension string) — confirmed directly in the built
@@ -178,7 +178,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   tas`, `white-card-wa`, now `white-card-nsw`"). Both asked for the same fix: fail the build when an
   `index,follow` page contains a `.ph` placeholder, or render the spec string only outside production.
   Confirmed still not built — no guard exists in any `scripts/*.mjs` file. This is now the fourth
-  sighting with the identical remedy proposed each time.
+  sighting with the identical remedy proposed each time.~~ **Guard built 11 Aug 2026** — `FPO_BUDGET` in `guardrails.ts`, ratcheted, noindex exempt, detecting the FPO wrapper structurally. It found this defect is LARGER than every filing said: all of them counted the words "Image placeholder", a default `label` that `Credentials.astro` overrides twice, so the true scale is **13 indexable pages, 20 wells**. Generating the images is still open and is tracked by the budget table. See `skill-reviews/skills/2026-08-11-fpo-guard.md`.
 - [build] The FPO placeholders on this specific page (hero, `#how-it-works`) should be replaced with the
   real images once generated, per `06-image-prompts.md`'s own "generate later" disposition — routine,
   not a defect in itself, but tracked here so it isn't lost alongside the guard item above.
