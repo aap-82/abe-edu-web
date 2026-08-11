@@ -602,3 +602,51 @@ changed — confirmed by diff.
 ## Ship decision
 
 **Merge-ready.** Closes the currency gap this page's own change opens.
+
+---
+
+## Re-verification, 12 Aug 2026 — the assessment-integrity line moved to the FAQ
+
+**This entry exists because the currency gate caught a real miss.** The change below was committed and
+**pushed without re-running Stage 7**, which is precisely what `check-pipeline` §4 forbids: a
+verification that predates the content it certifies has certified nothing. It was found by the gate on
+the next unrelated change, reporting the page as 2,677 minutes newer than its verification. Recorded
+rather than quietly back-dated.
+
+### What changed
+
+One line was removed from the `howItWorksSteps` "Complete the course" body — "You sit the quiz
+yourself, as the person named on the certificate" — and the same statement was added to
+`src/data/faqs-wa.ts` as a new FAQ, "How am I assessed, and what is the pass mark?", worded as the QLD
+page words it.
+
+**Nothing was deleted from the page.** The instruction was to match QLD, and on QLD the sentence was
+removed from the step *because `faqs.ts` already carried it*. `faqs-wa.ts` had no assessment question
+at all and the sentence appeared exactly once on the whole page, so deleting it would have matched the
+markup and stripped an assessment-integrity statement. It moved instead.
+
+### Re-verified
+
+| Check | Result |
+|---|---|
+| Sentence still on the page | yes, in the FAQ (`must sit the quiz yourself`) |
+| Removed from the step list | yes |
+| New figures introduced | **none** — 80% pass mark and 3 attempts were already in that step and remain |
+| Authority model (knowledge-requirement, Form 75) | untouched; no "approved course/provider", no permit/licence language added |
+| Government facts | none touched; no `kb/register/**` figure is involved |
+| Guardrails | 28/28 |
+| `npm run check` | 0 errors, 0 warnings |
+| `check-claims` | 0 failing |
+| `check-reflow` | 0 failing |
+
+Also on this page in the same session, from the sitewide design pass: step bodies now render as
+bordered cards with the bullets removed and the first list item bold. No copy changed for that.
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). The copy is unchanged word for word — one sentence moved between two blocks on the
+same page — so their inputs are the same text. Stated rather than silently skipped.
+
+### Ship decision
+
+**Merge-ready.** The content is unchanged in substance and the currency gap is now closed in the
+commit that closes it, which is the rule the earlier commit broke.
