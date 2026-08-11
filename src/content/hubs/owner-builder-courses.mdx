@@ -34,6 +34,7 @@ breadcrumb:
 reviewedBy: { name: "Dominic Ogburn", href: "https://www.linkedin.com/in/dominic-ogburn", date: "19 July 2026" }
 nav:
   - { label: "Choose your state", href: "#spokes", sectionId: "spokes" }
+  - { label: "Beyond the course", href: "#beyond", sectionId: "beyond" }
   - { label: "Compare", href: "#compare", sectionId: "compare" }
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 hero:
@@ -146,3 +147,38 @@ disclaimersHtml: "<p>ABE Education is not a registered training organisation. Th
 publishedAt: "2026-07-19"
 lastReviewedAt: "2026-08-02"
 ---
+
+{/* HubLayout renders `<slot />` between #spokes and #compare (HubLayout.astro:96), documented there
+    as "freeform body content — optional, from the hub's own MDX". Neither hub had ever used it, and
+    the 11 Aug handover wrongly recorded this as needing a new `hubs` schema field or a HubLayout
+    change. It needed neither: the capability already existed and was simply unexercised.
+
+    bg-warm, not bg-alt or default. The rhythm either side is #spokes (bg-alt) and #compare (default),
+    so both of those would have doubled a band. bg-warm is the third established ground token and
+    keeps the alternation.
+
+    ResourceLink rather than a CTA band or cards, deliberately. This page's job is routing a reader to
+    their state's course, and it carries 59.9k impressions doing it. A loud cross-sell sitting between
+    the state cards and the comparison table would compete with the primary conversion; a quiet
+    pointer does not. Both destinations state their own "not required by a regulator" line, and the
+    capsule says it here too, so a reader cannot read this as another obligation. */}
+
+import Section from '../../components/Section.astro';
+import AnswerCapsule from '../../components/AnswerCapsule.astro';
+import ResourceLink from '../../components/ResourceLink.astro';
+
+<Section id="beyond" bg="bg-warm" eyebrow="Beyond the course" h2="What else does an owner builder need?">
+  <AnswerCapsule>Your state's course is one requirement. Two other things shape an owner builder project and neither is part of it: what insurance you need, which varies by state and is sometimes conditional, and how you run the money and the contracts once work starts.</AnswerCapsule>
+  <ResourceLink
+    href="/owner-builder-insurance"
+    kicker="Insurance"
+    title="What insurance an owner builder actually needs"
+    desc="Which cover is compulsory in your state and which is not, and where the obligation only bites if you sell."
+  />
+  <ResourceLink
+    href="/project-advisory"
+    kicker="Project tools"
+    title="The Project Advisory Pack"
+    desc="An automated budget estimator, a contracts calculator and a written guide, $89. Separate from the course, and not required by any regulator."
+  />
+</Section>
