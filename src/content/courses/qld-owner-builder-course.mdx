@@ -78,7 +78,13 @@ becomeSteps:
   - { title: "Complete this course", body: ["Add your White Card too, if you will be on site.", "This gives you the Certificate of Completion the QBCC requires."] }
   - { title: "Apply for your permit", body: ["Apply through the QBCC.", "Declare your estimated material and labour costs.", "Pay the $493.59 fee."] }
   - { title: "Get your building approval", body: ["Once your permit is issued, apply for building approval (development approval) through your local council or a private certifier.", "This is separate from your permit."] }
-  - { title: "Build to your approval", body: ["Your approval sets out the inspection stages you must meet.", "They run through the build, not just at the end."] }
+  # "not just at the end" was added by 1c26fab when this body was split, and removed 12 Aug 2026.
+  # The original sentence read "the inspection stages you must meet through the build", so "through
+  # the build" is faithful; "not just at the end" was an inference about WHEN stages fall, and
+  # `kb/register/` has no QLD inspection-stage record of any kind to support it. Same class of error
+  # as the WA "below that threshold, no approval is required" claim reverted in 24b76bc, caught by
+  # the same re-read. The split now adds nothing to the original.
+  - { title: "Build to your approval", body: ["Your approval sets out the inspection stages you must meet.", "They run through the build."] }
 experts: ["dominic-ogburn", "warwick-smith"]
 footerSources:
   - { label: "QBCC — About owner-building", href: "https://www.qbcc.qld.gov.au/home-owner-hub/owner-build/about-owner-building", verified: "Verified 24 Jun 2026" }

@@ -125,3 +125,54 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [skills] `provider` carries `@id` but no `sameAs`: ABE Education's verified profile URLs are recorded nowhere in the repo. Inventing them on the node whose job is establishing who ABE Education is would be a fabricated identity claim, so this needs Andrey to supply the real URLs.
 - [skills] The `isoDate` helper is duplicated verbatim in `CourseLayout.astro` and `CpdBundleLayout.astro`. A shared module belongs in `src/lib/`, which no session type owns — the fifth path-ownership gap, same shape as `content.config.ts` and `public/**` before it.
 - [skills] `sitemap-0.xml` entries carry no `lastmod`.
+- [skills] `.lighthouserc.json` documents itself with `_comment_*` keys **inside the `assertions` objects**, and lhci parses every key there as an audit name. PR #117's run printed `✘ _comment_tbt failure for auditRan assertion` on an otherwise passing gate. It did not fail the build, which is the problem: a permanent false ✘ is noise a real assertion failure can hide behind. Move the comments outside the `assertions` object, or into `_comment` keys at the matrix level where lhci does not read them.
+- ~~[build] `white-card-qld.mdx:135` carries an em dash in `disclaimersHtml`, against house style~~ **fixed in `0d64474`** (punctuation only; the disclosure's claims, unit code, RTO name/number and ABN all unchanged, verified in the built HTML). Recorded because of how it was found: introduced by `6405efe` on **3 Aug 2026** and never gated, because CI runs on `pull_request` only and nothing ran between 1 Aug and PR #117. This is the SECOND defect the same trigger gap let through, alongside the CLS regression — evidence for the first `[skills]` item above, not an independent finding.
+
+## Ship record
+
+PR [#117](https://github.com/aap-82/abe-edu-web/pull/117), branch `design/schema-graph-edges-and-font-metrics`, five commits:
+
+| Commit | What |
+|---|---|
+| `7a81b8c` | Graph edges + `@id`s + `dateModified` (both layouts), metric-matched fallback faces |
+| `da2be1a` | Seven Stage-7 re-verifications |
+| `24b76bc` | WA unverified-claim revert + its Stage-7 entry |
+| `2cee1e9` | Recorded that the font overrides do NOT fix the hero CLS |
+| `0d64474` | prose-lint em dash + Stage-7 addendum |
+
+**CI green on `0d64474`** — Lighthouse + prose lint ✅, Workers Builds ✅. Not merged: merging is the
+deploy, and that is Andrey's gate.
+
+**The gate passing is itself a finding.** Lighthouse CI ran 6 URLs x 3 runs and raised no CLS or LCP
+failure, while the deployed build carries a reproducible ~0.074 hero shift. It measures
+`localhost:4321` via `npm run preview`, where this page reports ~0.0005. So the gate is not only dark
+on direct pushes (the `[skills]` item above) — **it is blind to this class of defect even when it
+runs.** A green tick on that assertion is not evidence the hero issue is absent.
+
+## Session close
+
+| Item | Disposition |
+|---|---|
+| Session type declared | **design**, at the start, unchanged |
+| Boundary crossings | **3**, all on Andrey's direct instruction after being named: `pipeline/**` (x2), `src/content/**` (x2). Disclosed in each Stage-7 entry and in the commit messages |
+| Design review filed | this file (rule 9) |
+| `graded_by` | **self** — there is no fresh-subagent design grader (CLAUDE.md rule 9 permits this with a stated reason) |
+| Demand list | 13 items, 4 struck closed in-session |
+| Memory written | **yes** — 3 files added/updated under `~/.claude/projects/C--dev-abe-web/memory/`, indexed in `MEMORY.md` |
+| `kb/mistakes-log.md` | **NOT updated** — skills-owned, and this session is design. Two entries are owed, listed below |
+| Handover views | regenerated via `demand-split.mjs --write` (derived, gitignored) |
+| Left undeployed | yes. PR green and waiting |
+
+**Owed to `kb/mistakes-log.md`, for a skills session** (design may not write it):
+1. **A commit message described a change as mechanical when it was a rewrite.** `1c26fab` says "split
+   every step body"; it re-worded sentences and added a regulatory claim to a WA page. The prior
+   commit's verification wording ("character for character") would have been false if copied forward.
+   This is the "documentation describing the build drifted from the code and was trusted over it" row,
+   which already stands at 10 sightings — and here the drifted description was a commit message, which
+   is the one artefact a reviewer trusts most and can least easily check.
+2. **I explained a check's output from a plausible mechanism without reading the check.** I attributed
+   8 Stage-7 FAILs to filesystem mtimes, then built a stat/build/stat test from the same assumption and
+   read its pass as confirmation. `check-pipeline.mjs` compares **git commit times**. The test could
+   never have falsified the theory because it measured a quantity the check does not read. Sibling of
+   the `feedback_self_certification_fails` lesson, one level up: not measuring the wrong end of my own
+   fix, but measuring the wrong quantity entirely to explain someone else's failure.
