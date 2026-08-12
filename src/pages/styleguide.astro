@@ -63,10 +63,15 @@ const topics = [
   { tag: '02', title: 'Safety and the site', body: 'WHS duties and the <b>National Construction Code</b>.' },
   { tag: '03', title: 'Costing and trades', body: 'Estimate, budget, and engage <b>licensed trades</b>.' },
 ];
+// Two array bodies and ONE string body, deliberately. Every step on the live site is now an array,
+// which renders as a list whose first item takes the lead weight; the string form still exists in the
+// component and still renders as a plain paragraph with no emphasis. A specimen that showed only the
+// array form would hide the shape a future author can still produce by writing `body: '...'`.
+// Row 3 is that shape, and it is the one to compare against the two above it.
 const steps = [
-  { title: 'Enrol online', body: 'Pay and get instant access. Card or Afterpay.' },
-  { title: 'Complete the course', body: 'Work through the modules at your own pace, then the quiz.' },
-  { title: 'Get your certificate', body: 'Emailed the moment you pass.' },
+  { title: 'Enrol online', body: ['Pay and get instant access.', 'Card or Afterpay.'] },
+  { title: 'Complete the course', body: ['Work through the modules at your own pace.', 'Then sit the quiz.'] },
+  { title: 'Get your certificate', body: 'Emailed the moment you pass. This row is the string form: one paragraph, no lead emphasis.' },
 ];
 // Shows the optional fields both present and absent - a state that has not authored them yet
 // must still render cleanly. Row 1 is the `contents` form (one numbered module per line, and

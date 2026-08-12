@@ -99,9 +99,18 @@ const credentialFacts = e.hasCredential.map((c) => ({
   note: `Issued by ${c.issuedBy}.`,
 }));
 
+// The period and the note stay SEPARATE array items rather than being joined into one string
+// (12 Aug 2026). They were `.join('. ')`ed, which flattened a two-part structure the data already
+// had, and then `Stepper` rendered the result as a single paragraph. As an array the period becomes
+// the list's first item and takes the lead weight, which is the right emphasis for a career entry:
+// the date range is the index you scan, the note is the detail. `filter(Boolean)` still drops an
+// absent note, so an entry with only a period renders one item and nothing is bolded against nothing.
 const careerSteps = e.careerHistory.map((r) => ({
   title: `${r.role} — ${r.org}`,
-  body: [r.period, r.note].filter(Boolean).join('. '),
+  // A type predicate, not a bare `filter(Boolean)`: TypeScript does not narrow on the latter, so the
+  // array stayed `(string | undefined)[]` and would not assign to `Step[]`. Caught by `npm run check`,
+  // which the build itself does not run.
+  body: [r.period, r.note].filter((x): x is string => Boolean(x)),
 }));
 
 const credentialSources = e.hasCredential
