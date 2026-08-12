@@ -20,18 +20,38 @@ Last updated: 10 August 2026.
 
 ---
 
-## Current state (11 August 2026)
+## Current state (12 August 2026)
 
 **The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
 closed. **Wave 3 is complete: all five White Card spokes (WA, TAS, NSW, QLD, ACT) and the
 `/white-card` hub are built.** Wave 2 is now **8 of 10** — `/owner-builder-insurance` (9 Aug) and
-`/project-advisory` (10 Aug) both shipped. **One Phase 3 candidate is now BUILT — the headless width
-check, as `scripts/check-reflow.mjs`** — and the session-type path check remains the oldest unbuilt
-one, with its evidence still accumulating.
+`/project-advisory` (10 Aug) both shipped, and the `/owner-builder-courses` hub now links to both
+(12 Aug). **Wave 4 has opened:** `/cpd-electrical-tas` and `/cpd-plumbing-tas` were built on 12 Aug,
+**both `noindex` and neither publishable** — see the blocker note below. **One Phase 3 candidate is
+BUILT — the headless width check, as `scripts/check-reflow.mjs`** — and the session-type path check
+remains the oldest unbuilt one, with its evidence still accumulating.
 
-**Measured against `dist/` on 11 Aug: 22 of 42 planned pages built, 20 indexable.** Waves 1 and 3
-are complete, Wave 2 is 8/10, and everything else outstanding is Waves 4-6. That count comes from
-`node scripts/page-status.mjs`, which is now the answer to "what is built" — see the entry below.
+**Measured against `dist/` on 12 Aug: 24 of 42 planned pages built, 28 pages in `dist/`, 20
+indexable and 8 noindexed.** Waves 1 and 3 are complete, Wave 2 is 8/10, Wave 4 has 2 of its bundles
+built-but-blocked, and everything else outstanding is Waves 4-6. That count comes from
+`node scripts/page-status.mjs`, which is the answer to "what is built" — see the entry below.
+
+**Neither new CPD bundle can be published, for two separate reasons.** Both lack a LearnWorlds
+checkout id, so their `buyUrl`s are placeholders that 404. `/cpd-plumbing-tas` has a second,
+independent blocker: `kb/register/cpd/tas-courses.json` records which courses are *eligible* for a
+category, never which twelve are *sold*, so `liveMembers()` renders 13 rows for a 12-course bundle
+while the copy correctly says twelve. A reader can count the table. Closing it needs a
+`bundleMembers` list or a per-course `inBundle` flag — `[facts]`, and it is the first ranked item in
+`handover/HANDOVER-2026-08-12-session-close.md`.
+
+**One thing the 12 Aug session got wrong, recorded here because it is a content-integrity failure
+rather than a process one.** Splitting single-sentence step bodies for a typographic treatment
+introduced **two regulatory claims that were not in the register**, both since reverted: a WA
+"below that threshold, no approval is required" (false — a requirement above a threshold is not an
+exemption below it, and the register documents a second WA trigger that refutes it) and a QLD "not
+just at the end" about inspection stages (unsupported — the register has no QLD inspection-stage
+record). The verification that certified that work checked only that facts were not *lost*; it could
+not see a fact *added*. No gate in this repo can read a sentence and ask whether it is true.
 
 ### 10-11 August 2026
 

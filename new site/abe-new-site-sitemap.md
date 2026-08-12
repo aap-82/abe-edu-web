@@ -16,13 +16,13 @@
 
 **Every row below was checked programmatically**: does `dist/{slug}/index.html` exist, and does the slug appear in `dist/sitemap-0.xml`. This is the second time this tracker has been corrected that way — the 24 Jul pass found it reading "all unstarted" while five tickets were live — so it is worth saying plainly that a status column is only as good as its last measurement.
 
-**20 of ~41 planned pages are live and indexable.** Waves 1, 2 and 3 are essentially complete; Waves 4, 5 and 6 are not started apart from `/cpd` and `/cpd-tas`.
+**20 of ~41 planned pages are live and indexable** (re-measured against `dist/` on 12 Aug 2026: 28 pages built, 20 indexable, 8 noindexed). Waves 1, 2 and 3 are essentially complete. **Wave 4 has opened but not landed:** the two TAS CPD bundles below are built and noindexed, and neither can be published yet.
 
 | | Count |
 |---|---|
 | ● Live and indexable | **20** |
-| ◑ Built, noindexed | **3** (`/cpd-building-tas`, `/owner-builder-nsw-course` + its `-w` variant) |
-| ○ To build | **~18** |
+| ◑ Built, noindexed | **5** (`/cpd-building-tas`, `/cpd-electrical-tas`, `/cpd-plumbing-tas`, `/owner-builder-nsw-course` + its `-w` variant) |
+| ○ To build | **~16** |
 | Not a page | `/` is currently a 391-byte redirect stub to `/qld-owner-builder-course` (`astro.config.mjs:71`), correctly `noindex` and excluded from the XML sitemap. **Cutover must not happen with a redirecting root** — see the `TODO(cutover)` at `astro.config.mjs:69`. |
 
 ---
@@ -60,8 +60,8 @@
 │   ├── /cpd-wa                     State hub                         ○  (W4-7)
 │   │   Bundle pages — the bundle IS the course page (see note below):
 │   ├── /cpd-building-tas           TAS Building · CBOS · 12 pts      ◑  (W4-2) — built, noindexed
-│   ├── /cpd-plumbing-tas           TAS Plumbing · CBOS · 12 pts      ○  (W4-3)
-│   ├── /cpd-electrical-tas         TAS Electrical · CBOS · 11 pts    ○  (W4-4)
+│   ├── /cpd-plumbing-tas           TAS Plumbing · CBOS · 12 pts      ◑  (W4-3) — built 12 Aug, noindexed; BLOCKED: no checkout id, and the register cannot say which 12 of the 13 eligible courses are sold
+│   ├── /cpd-electrical-tas         TAS Electrical · CBOS · 11 pts    ◑  (W4-4) — built 12 Aug, noindexed; BLOCKED: no checkout id
 │   ├── /cpd-building-nsw           CPD Building NSW                  ○  (W4-1)
 │   └── /cpd-real-estate-wa         CPD Real Estate WA                ○  (W4-5)
 │

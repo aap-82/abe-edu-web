@@ -112,10 +112,24 @@ in `ModuleRows.astro` is corrected, because it is false as written.
   for a 12-course bundle. Needs a `bundleMembers` list or per-course `inBundle` flag —
   `kb/register/**` and/or `src/content.config.ts`. `noindex` cannot come off until it lands.
 
-**2. The SEO audit's three blockers** (`SEO reviews/120826-…-seo-aeo-audit.md`, Amber). One of them,
-"an indexable preview host", **disagrees with what this session measured** — every fetch returned
-`X-Robots-Tag: noindex`, including after the final deploy. Resolve that disagreement before acting on
-the audit; one of the two is wrong and it matters which.
+**2. ~~The SEO audit's three blockers~~ — RESOLVED 12 Aug 2026, later the same day. The audit was
+wrong and this note was right.** The disagreement over "an indexable preview host" is closed: `curl -I`
+on the live preview returns `X-Robots-Tag: noindex`, served by `worker/entry.js`, exactly as
+CLAUDE.md's "Staging de-index" section describes. **The auditor read the `<meta name="robots">` tag and
+`robots.txt` and never checked the response header** — which is the whole mechanism. Its proposed fix
+(Option B, a hostname-matched Worker) is a re-implementation of code already in the repo. Google
+resolves meta-vs-header conflicts in favour of the more restrictive rule, so the host is not indexable.
+
+Two more of its blockers were measured and also rejected: the CLS was **not** caused by the two
+headshots (`.ph.r45` pins them by `aspect-ratio` plus a fixed width — both render 132x165 before AND
+after load despite intrinsic ratios of 640x640 and 1086x1448, so adding `width`/`height` would ship
+doing nothing), and its "decorative alt exemption" is unnecessary because `pageBody()` already strips
+`<header>`/`<footer>`. Its headline numbers do not reproduce either: CLS 0.303 measured 0.0752 deployed
+and 0.0005 local; LCP 2.9s measured 1.59s deployed; "607ms of redirects" measured 0ms on a direct 200.
+Its font-preload recommendation is contradicted by the measured table in `BaseLayout.astro`, where
+preloading Archivo was the **worst** option tried.
+
+What it got right and what was done with it is in the session section at the foot of this note.
 
 **3. Needs you, not a session:** the InsuranceTek quote destination (`/owner-builder-insurance` is
 live and correct but cannot convert), and confirming "56 pages" before `/project-advisory` is promoted.
