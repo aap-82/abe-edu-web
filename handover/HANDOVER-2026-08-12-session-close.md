@@ -42,6 +42,41 @@ write it.
 
 ---
 
+## Where to start next
+
+Ranked. Nothing here is blocked on anything else in it, so the order is a recommendation.
+
+**1. Record the selected twelve plumbing courses.** `[facts]`, and it is the only item that unblocks a
+finished page. `/cpd-plumbing-tas` is built, verified and correct, and renders **13 member rows for a
+12-course bundle** because the register records which courses are *eligible* for a category
+(`bundles: ["plumbing"]`) and not which twelve are *sold*. Needs a `bundleMembers` list or a
+per-course `inBundle` flag — `kb/register/cpd/tas-courses.json` and possibly
+`src/content.config.ts`. A reader can count the table, so `noindex` cannot come off until this lands,
+independently of the checkout id.
+
+**2. Settle whether the preview host is indexable.** `[skills]`, and it is cheap. The SEO audit
+committed this session calls it a publish blocker; every fetch this session made returned
+`X-Robots-Tag: noindex`, including after the final deploy. One of the two is wrong. Until that is
+resolved the audit's other two findings cannot be trusted either, because they were produced by the
+same pass.
+
+**3. `--maroon` has more documented exceptions than rule.** `[design]`, exclusive session under rule
+7. Three "maroon on a non-action mark" exceptions already sat in `ModuleRows.astro` with a note saying
+the FIGURES job belongs in the design register; this session added `#600000` figures, an `#a00000`
+marker, a maroon waynav state and maroon proof caps. The note asking for it to be settled is now
+older than the pile of exceptions it describes.
+
+**4. The FPO images.** `[build]` plus procurement: 20 wells on 13 indexable pages, of which **6 are
+partner logos and expert portraits** that need supplying rather than generating. The most-filed open
+item in the repo and the only one a customer can see.
+
+**5. `.faq` and `.mrows` have diverged by instruction.** `[skills]`. They were built to be one
+accordion, declaration for declaration; ModuleRows now uses `--paper-grey` for hover and tints its
+open state, and the FAQ does neither. Either the FAQ follows or the "one accordion, not two" comment
+in `ModuleRows.astro` is corrected, because it is false as written.
+
+---
+
 ## What shipped
 
 **Pages**

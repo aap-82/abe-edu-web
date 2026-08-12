@@ -1,5 +1,45 @@
 # HANDOVER — CPD bundle build-out (TAS Electrical + Plumbing, then NSW/WA)
 
+## Status: PARTLY DONE — both TAS bundles built 12 Aug 2026, neither publishable
+
+| Bundle | Outcome |
+|---|---|
+| TAS Building | Was already live |
+| **TAS Electrical** | **Built** `e562d21` — 11 courses, 11 points, $449, RRP $1,089. `noindex` |
+| **TAS Plumbing** | **Built** `e562d21` — 12 published points, $499, RRP $1,188. `noindex` |
+| NSW Building / WA Real Estate | Still parked; points, price, authority model and RTO all TBC |
+
+**Neither TAS page can be published, for two different reasons.** Both lack a LearnWorlds checkout id
+(the revenue export carries only legacy electrician products at three different point counts, and no
+2026 plumber bundle at all), so both `buyUrl`s are placeholders that 404. Plumbing has a **second,
+independent blocker**: see below.
+
+### One instruction in this note was followed, and one was not
+
+**"Prune the surplus course so the sold set is exactly 12" — NOT done, and the reason changed twice.**
+The build first refused it, on the belief that the bundle delivers the whole 13-course pool and
+pruning would delete a course the buyer receives. Andrey corrected that on 12 Aug: **CBOS approves
+courses individually, thirteen are approved for plumbers, and the bundle is twelve of them, selected
+manually once before publication.** So the instruction is correct in intent.
+
+It still was not executed, because the fix is not a prune. The register records which courses are
+*eligible* for a category, never which twelve are *sold*, so there is nowhere to record the selection
+even after removing one. `liveMembers()` renders all thirteen and the copy correctly says twelve.
+**That gap is now the plumbing page's publish blocker** and needs a `bundleMembers` list or a
+per-course `inBundle` flag — `[facts]` / `[skills]`, ranked first in
+`handover/HANDOVER-2026-08-12-session-close.md`.
+
+**The facts-then-build routing in this note held.** No figure was taken from a source read outside a
+facts session: every regulatory figure on both pages comes from `kb/register/cbos-tas-reference.md`
+A3b (read against the primary instrument 23 Jul 2026), and the register was used as recorded rather
+than re-derived. Andrey confirmed on 12 Aug that the 27 Jul sync is unchanged; that is recorded as a
+bare confirmation, not a re-read.
+
+Full detail: `pipeline/cpd-electrical-tas/07-verification.md` and
+`pipeline/cpd-plumbing-tas/07-verification.md`.
+
+---
+
 **Drafted 25 July 2026** by a `skills` session (session-types install), at Andrey's direction.
 This note routes work to the sessions that own it — it records **no register figure and builds no
 page itself**. Two session types are involved: **facts** (points/composition into `kb/register/`)

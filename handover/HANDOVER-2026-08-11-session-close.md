@@ -1,6 +1,27 @@
 # HANDOVER — session close, 11 August 2026
 
-## Status: OPEN — this is the starting point for the next session
+## Status: CLOSED 12 August 2026 — superseded by `HANDOVER-2026-08-12-session-close.md`
+
+Worked through in the session of 12 Aug 2026. Disposition of every ranked item:
+
+| Item | Outcome |
+|---|---|
+| 1. FPO placeholders, 13 pages / 20 wells | **Still open.** Carried to the 12 Aug note, item 4. Six of the twenty are partner logos and portraits needing procurement, not generation |
+| 2. Two no-op CTAs | Already DONE on 11 Aug |
+| 3. Hub cannot cross-link | **DONE** `904f487`. The item's premise was wrong: `HubLayout.astro:96` had always rendered a `<slot />` no hub had used, so it needed no schema field and no layout change |
+| 4. `verification.md` has no design-register step | **DONE** `1064a93`, as §2a, plus a second reading step at §3 check 1. The finding was that §2's own opening line had been *instructing* the failure |
+
+**Needs Andrey, still open and carried forward:** the InsuranceTek quote destination, and confirming
+"56 pages" before `/project-advisory` is promoted. The `.mr-title` and dependency items are resolved
+(22px shipped 11 Aug; deps bumped 12 Aug, `npm audit` 6 → 0).
+
+Kept rather than deleted, per the repo's rule that a run's record of what it found stays readable.
+Everything below is the note as it stood at the close of 11 Aug, with items 3 and 4 struck through
+in place.
+
+---
+
+## Original status: OPEN — this was the starting point for the next session
 
 Covers 8-11 August across four session types. Everything below is pushed and live; the working
 tree is clean and `system-health` reports **0 failing**.
