@@ -1,0 +1,131 @@
+# HANDOVER — session close, 12 August 2026
+
+## Status: OPEN — start here
+
+Everything below is on `main` (`bc83afb`) and deployed to the preview host
+(`26d22d41`). Working tree clean, `system-health` **0 failing**.
+
+```powershell
+node scripts/system-health.mjs
+```
+
+---
+
+## Read this first: I shipped two false regulatory claims
+
+The most important thing in this note is not what shipped, it is what nearly did.
+
+Splitting 28 single-sentence step bodies so the lead line could carry emphasis meant writing a second
+half for each. I stated in the commit that "nothing was invented; the only new words are connectives
+carrying no claim". **That was wrong twice.**
+
+| Page | Invented clause | Verdict |
+|---|---|---|
+| `/wa-owner-builder-course` | "Below that threshold, no approval is required." | **False.** Reverted (`24b76bc`) |
+| `/qld-owner-builder-course` | "…not just at the end." | **Unsupported.** Reverted (`bc83afb`) |
+| `/qld-owner-builder-course` | "That figure includes the value of materials as well as labour." | **Stands** — register-backed three ways |
+
+The WA one is the serious one. A requirement *above* a threshold is not an exemption *below* it, and
+`eligibility-by-state.md:74` records a **second, separate** WA trigger (Class 10a under $50,000,
+"separate from, and additional to, the $20,000 general approval trigger") which refutes a blanket
+exemption outright. That is the same shape as the conditional-permission error already in the
+mistakes log: quoting a rule without its condition.
+
+**Why the verification did not catch it.** I wrote a fact-token checker that extracts every dollar
+amount, number, unit code and proper noun from the before-state and confirms each survives. It
+reported "no fact token lost across 13 files", and that was true and irrelevant: **it can only see a
+fact removed, never a fact added.** A checker that answers a question you did not ask reads exactly
+like one that answers the question you did.
+
+If you write copy by splitting an existing sentence, the new half is new copy. Verify it or do not
+write it.
+
+---
+
+## What shipped
+
+**Pages**
+- `/cpd-electrical-tas` (11 courses, 11 pts, $449) and `/cpd-plumbing-tas` (13 in the pool, 12
+  published, $499). Both `noindex` — see blockers.
+- `/owner-builder-courses` now links to `/owner-builder-insurance` and `/project-advisory`, via a
+  `<slot />` `HubLayout` has always rendered and no hub had ever used.
+
+**Hero and steps (design)**
+- ProcessTrack rewritten: horizontal connector rail → vertical numbered ledger under the hero image,
+  with a 0/20/40/60px ladder indent. Three placements were tried; only the third is right.
+- Stepper: 60px gutter numeral, dotted title rule, bordered cards, bullets removed, bold lead line.
+- Proof row: three maroon-capped cells. CanCant: two-step grey on the "not" column, glyphs centred in
+  a fixed 14px box. ModuleRows: grey hover/open, `#600000` figures, `#a00000` marker, middot removed.
+- Tokens added: `--paper-grey` (`#f2f3f4`, the waynav's own shipped value promoted) and
+  `--paper-grey-soft` (`#f8f9fa`).
+
+**Checks and content**
+- `verification.md` gained two mandatory reading steps: check the design register before filing a
+  design finding (§2a), and read summary furniture against the data it summarises (§3 check 1).
+- 98 of 99 step bodies now carry the lead-line treatment (was 50).
+- Dependencies bumped inside existing `^` ranges; `npm audit` 6 → 0.
+
+---
+
+## Blockers, in the order they bite
+
+**1. Both new CPD bundles cannot be published.**
+- No LearnWorlds checkout id for either. The export carries only legacy electrician products at three
+  different point counts and no 2026 plumber bundle at all. Both `buyUrl`s are placeholders that 404.
+- **Plumbing has a second, independent blocker:** the register records which courses are *eligible*
+  for a category, not which twelve were *selected* for the sold bundle, so the page renders 13 rows
+  for a 12-course bundle. Needs a `bundleMembers` list or per-course `inBundle` flag —
+  `kb/register/**` and/or `src/content.config.ts`. `noindex` cannot come off until it lands.
+
+**2. The SEO audit's three blockers** (`SEO reviews/120826-…-seo-aeo-audit.md`, Amber). One of them,
+"an indexable preview host", **disagrees with what this session measured** — every fetch returned
+`X-Robots-Tag: noindex`, including after the final deploy. Resolve that disagreement before acting on
+the audit; one of the two is wrong and it matters which.
+
+**3. Needs you, not a session:** the InsuranceTek quote destination (`/owner-builder-insurance` is
+live and correct but cannot convert), and confirming "56 pages" before `/project-advisory` is promoted.
+
+---
+
+## Open work, tagged
+
+- `[facts]` Record the selected twelve plumbing courses (blocker 1 above).
+- `[skills]` `--maroon` now has more documented exceptions than rule: three in ModuleRows, plus
+  `#600000` figures, an `#a00000` marker, a maroon waynav state and maroon proof caps. Settling the
+  "figures" job belongs in the design register, which rule 7 makes an exclusive session.
+- `[skills]` `.faq` and `.mrows` have diverged by instruction, so ModuleRows' "one accordion, not
+  two" comment is now false as written. Either the FAQ follows or the comment is corrected.
+- `[skills]` `SKILL.md` and `references/verification.md` drifted apart twice; this session hand-mirrored
+  between them. One line in each naming the other as its mirror would close it.
+- `[build]` `/experts/*` reuse ProcessTrack for expertise areas, not a process. Its labels run to 45
+  characters against a course page's 5–19. The vertical ledger absorbs them, but the component is
+  numbered and `aria-label`led as a sequence and a list of expertise is not one.
+- `[build]` FPO images: 20 wells on 13 indexable pages, 6 of them partner logos and portraits that
+  need supplying rather than generating.
+
+---
+
+## Two process notes worth more than the features
+
+**A stranded push, caught by the repo's own check.** This session committed to
+`design/schema-graph-edges-and-font-metrics` whose PR #117 had already merged, so the last commit
+could not reach `main`. `check-shipped` reported it as a FAIL and it was resolved by cherry-picking
+onto `main`. The lesson is the diagnosis, not the fix: **five of the six commits on that branch were
+already on `main` by content** via the squash merge, and only ancestry made them look missing. Check
+by content, not by `--contains`.
+
+**Contrast figures were written into CSS comments twice before being computed** (10.37 vs 10.95;
+8.29/7.66 vs 7.89/7.02). Both corrected pre-commit, neither changed a verdict, but the second pair was
+the justification for the change it accompanied. Compute, then write.
+
+---
+
+## Reviews filed
+
+- `skill-reviews/design/2026-08-12-hero-furniture-and-accordion.md` — the design pass, with the
+  finding that three of six changes were rejected after being built, and every rejection came from
+  implementing a one-line instruction directly instead of rendering options first.
+- `skill-reviews/skills/2026-08-12-stage7-register-and-summary-checks.md` — the two Stage 7 reading
+  steps, and the discovery that Stage 7's own opening line had been *instructing* the failure it was
+  criticised for.
+- `pipeline/cpd-electrical-tas/07-verification.md`, `pipeline/cpd-plumbing-tas/07-verification.md`.
