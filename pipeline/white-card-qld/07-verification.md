@@ -748,3 +748,41 @@ git commit times, so this closes only once committed.
 
 **Filed by a design session.** `pipeline/**` is build-owned; this was written on Andrey's direct
 instruction after the crossing was named. Recorded here rather than only in the session transcript.
+
+
+### Addendum, 12 Aug 2026 — the prose-lint em dash, now closed
+
+The entry above recorded a pre-existing `prose-lint` failure on this page and deliberately left it
+open: an em dash in `frontmatter.disclaimersHtml`, outside the change being verified at the time.
+
+It has since been fixed, because it **blocked CI on PR #117**. This is the first time
+`prose-lint` has run against this page at all: the page was built by `6405efe` on 3 Aug 2026, and
+`.github/workflows/ci.yml` triggers on `pull_request` only, so nothing between 1 Aug and this PR ran
+the gate. The defect is that trigger gap made visible, not a regression.
+
+**Punctuation only.** The em dash became a full stop and the following word took a capital:
+
+> before: "...anyone physically located in Queensland during the session — this is a location test,
+> not a residency test."
+>
+> after: "...anyone physically located in Queensland during the session. This is a location test,
+> not a residency test."
+
+No word was added, removed or reordered. This is ASQA-model disclosure copy, so what matters is that
+the claims are untouched: the CRTD permission, the "physically located in Queensland" location test,
+the WHSQ-approved-provider restriction and the "no part is self-paced or pre-recorded" line all read
+exactly as before. The unit code, RTO name and number, ABN and the no-government-fee statement are
+unchanged.
+
+| Check | Result |
+|---|---|
+| `prose-lint` | **0 issues** (was 1) |
+| Claims in the disclosure | unchanged |
+| Unit code / RTO name / RTO number / ABN | unchanged |
+| Guardrails | 28/28 pages passed |
+| `astro check` | 0 errors, 0 warnings |
+| `check-claims` | 0 failing |
+
+**Why this addendum exists.** Editing the page source makes it newer than this artefact again, which
+would re-open the `check-pipeline` §4 failure the entry above closed. Closing it in the same commit
+as the edit is the rule that gate encodes.
