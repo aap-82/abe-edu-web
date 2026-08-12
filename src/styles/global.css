@@ -29,11 +29,27 @@
    That image is not itself faulty - correct width/height, correct aspect-ratio - so it is being
    moved by something above it. The obvious candidate was this font reflow, and it was tested and
    DOES NOT ACCOUNT FOR IT: at 375px the header (67px), page bar (101px) and hero image top (224px)
-   are byte-identical across webfont, this fallback and the old fallback. The same run measures
-   0.0005 locally, so the trigger is network-timing dependent and is not reproducible off the
-   deployed host. These overrides are therefore a real, measured reduction in reflow that stands
-   on its own; they are NOT a verified fix for the 0.0752. Re-measure on the deployed host after
-   the next deploy before crediting or blaming them.
+   are byte-identical across webfont, this fallback and the old fallback.
+
+   MEASURED ON A DEPLOYED HOST WITH THESE OVERRIDES LIVE (PR #117 branch preview, 12 Aug 2026,
+   three mobile lab runs). The answer is NO, and it is recorded here so nobody re-runs the
+   experiment:
+
+     production preview (no overrides)   CLS 0.0752 / 0.0752 / 0.0797   hero img 0.0747
+     branch preview (these overrides)    CLS 0.0002 / 0.0736 / 0.0736   hero img 0.0735
+
+   The hero image shift is unchanged - 0.0747 -> 0.0735 is noise. What these overrides DID remove
+   is the page bar's `time` element, which shifted 0.0005 on every production run and 0.0000 on
+   every branch run. That is the whole of their CLS effect, and it is two orders of magnitude
+   below the problem.
+
+   The new information is that the hero shift is INTERMITTENT: absent entirely in run 1, present
+   identically (0.0735, final rect top 206, 308x385) in runs 2 and 3, on one unchanged build. An
+   intermittent shift of a fixed-size element with correct width/height, correct aspect-ratio and
+   inlined CSS is a LOAD-ORDER RACE, not a sizing bug - which is why three static explanations
+   (headshots, font metrics, header/page-bar reflow) have each been measured and each been wrong.
+   Do not propose a fourth from inspection. Capture a trace on a deployed host with the shift
+   present and read what actually moves.
 
    The overrides are derived from the table above, not guessed:
      size-adjust     = webfont width / Arial width
