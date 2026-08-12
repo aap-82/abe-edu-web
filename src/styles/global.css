@@ -1,3 +1,82 @@
+/* METRIC-MATCHED FALLBACK FACES (12 Aug 2026). These carry no font data of their own: each is a
+   LOCAL system face re-declared with overrides so it occupies the same space as the webfont it
+   stands in for. Nothing about the page's appearance changes once the webfonts arrive.
+
+   WHY: BaseLayout loads Google Fonts off the critical path on purpose (a print-media stylesheet
+   that swaps to `all` on load) because a render-blocking font stylesheet cost ~750ms of LCP -
+   the measured table in BaseLayout.astro is the record of that decision, and it must not be
+   undone. The cost of that choice is that the page paints in a fallback face and reflows when
+   the real one lands. Measured at 100px on the deployed build, 12 Aug 2026:
+
+     reference string      width    ascent  descent
+     Archivo               3396.28    88      21
+     DM Sans               3494.80    99      31
+     Arial / sans-serif    3379.79    91      21
+     -apple-system         3121.68    89      22      <- what the stack actually fell back to
+
+   So body text was setting ~11% narrow and display ~8% narrow before the swap: lines wrapped at
+   different points and block heights changed. Measured effect of these overrides at 375px, on the
+   page's total height between the pre-swap and post-swap states: 599px of reflow -> 287px.
+
+   Note the width percentages here are SAMPLE-DEPENDENT - the fallback is a metric match, not the
+   same typeface, so the gap varies with the glyphs measured (the sans faces land between ~0.03%
+   and ~4% depending on the string, against 5-11% before). The 599 -> 287px page-height figure is
+   the one to trust and the one to re-measure against; do not treat any single width ratio as the
+   result.
+
+   WHAT THIS IS NOT KNOWN TO FIX. A mobile lab run of the DEPLOYED host measured CLS 0.0752
+   against this repo's own 0.02 gate, with 99.3% of it (0.0747) attributed to the hero image.
+   That image is not itself faulty - correct width/height, correct aspect-ratio - so it is being
+   moved by something above it. The obvious candidate was this font reflow, and it was tested and
+   DOES NOT ACCOUNT FOR IT: at 375px the header (67px), page bar (101px) and hero image top (224px)
+   are byte-identical across webfont, this fallback and the old fallback. The same run measures
+   0.0005 locally, so the trigger is network-timing dependent and is not reproducible off the
+   deployed host. These overrides are therefore a real, measured reduction in reflow that stands
+   on its own; they are NOT a verified fix for the 0.0752. Re-measure on the deployed host after
+   the next deploy before crediting or blaming them.
+
+   The overrides are derived from the table above, not guessed:
+     size-adjust     = webfont width / Arial width
+     ascent-override = webfont ascent / (100 x size-adjust)   (same for descent)
+   Arial is the src base because it is the widest-available local face and measured within 0.5%
+   of Archivo; the sizing is then corrected by size-adjust regardless of which local face wins.
+
+   A 12 Aug 2026 SEO audit of /qld-owner-builder-course blamed this CLS on two expert headshots
+   that ship without width/height attributes. That was measured and is wrong: `.ph.r45` already
+   pins them via aspect-ratio and a fixed width, and both render 132x165 before AND after load
+   despite having different intrinsic ratios (640x640 and 1086x1448). Adding the attributes would
+   have changed nothing. Do not re-file it. */
+/* size-adjust was derived from the table above and then CORRECTED against the rendered result:
+   the first pass (100.5% / 103.4%) still measured -1.25% and +1.59% off, because the local face
+   that actually wins is not identical to the Arial the table was measured from. Both faces
+   converged on the same 101.8%, which is the number to keep. Verified by rendering, not by the
+   arithmetic that produced it. */
+@font-face{
+  font-family:'Archivo Fallback';
+  src:local('Arial'),local('Helvetica Neue'),local('Roboto');
+  size-adjust:101.8%; ascent-override:86.4%; descent-override:20.6%; line-gap-override:0%;
+}
+@font-face{
+  font-family:'DM Sans Fallback';
+  src:local('Arial'),local('Helvetica Neue'),local('Roboto');
+  size-adjust:101.8%; ascent-override:97.2%; descent-override:30.5%; line-gap-override:0%;
+}
+/* Mono was nearly left out as small-label decoration, and measuring it is what showed that to be
+   wrong: `ui-monospace` sets 17.6% narrower than DM Mono - the WIDEST gap of the three faces - and
+   the page carries 259 mono text nodes (every eyebrow, fact label, RTO number and dated check).
+   Courier New is the src base rather than the usual Arial because it measured within 0.02% of
+   DM Mono's width; only the vertical metrics needed correcting.
+
+   HONEST RESULT: this did NOT move the 287px page-reflow figure at all - these labels are short
+   and do not re-wrap, so block heights were never what they changed. It is kept because a 17.6%
+   width jump across 259 labels is a visible re-set of the page's furniture on every cold load,
+   which is worth removing on its own. Do not credit it with a CLS improvement. */
+@font-face{
+  font-family:'DM Mono Fallback';
+  src:local('Courier New'),local('Liberation Mono'),local('DejaVu Sans Mono');
+  size-adjust:100%; ascent-override:99%; descent-override:31%; line-gap-override:0%;
+}
+
 :root{
   --maroon:#800000; --maroon-dark:#5a0000;
   /* --verify-deep is the attestation mark: the tick and the word VERIFIED. --verify stays
@@ -72,9 +151,9 @@
   --paper-chrome:var(--ground);
   --rule:#e5e7eb; --rule-strong:#d4d6da;
   --gold:#d4a843;
-  --font-display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
-  --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-  --font-mono:'DM Mono',ui-monospace,monospace;
+  --font-display:'Archivo','Archivo Fallback',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-body:'DM Sans','DM Sans Fallback',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'DM Mono','DM Mono Fallback',ui-monospace,monospace;
   --s-3xs:4px; --s-2xs:8px; --s-xs:12px; --s-sm:16px; --s-md:24px; --s-lg:32px; --s-xl:48px; --s-2xl:72px; --s-3xl:112px;
   --max:1200px; --content:980px;
   /* sticky chrome heights. --waynav-h must track .waynav's real height: it drives
