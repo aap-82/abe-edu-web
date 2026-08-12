@@ -54,11 +54,21 @@ per-course `inBundle` flag — `kb/register/cpd/tas-courses.json` and possibly
 `src/content.config.ts`. A reader can count the table, so `noindex` cannot come off until this lands,
 independently of the checkout id.
 
-**2. Settle whether the preview host is indexable.** `[skills]`, and it is cheap. The SEO audit
-committed this session calls it a publish blocker; every fetch this session made returned
-`X-Robots-Tag: noindex`, including after the final deploy. One of the two is wrong. Until that is
-resolved the audit's other two findings cannot be trusted either, because they were produced by the
-same pass.
+**2. ~~Settle whether the preview host is indexable.~~ RESOLVED the same day — see "Blockers" below.**
+The audit was wrong: it read the `<meta name="robots">` tag and `robots.txt` and never checked the
+response header, which is the entire mechanism (`worker/entry.js`). Three of its findings were
+measured and rejected and its headline numbers did not reproduce. **Nothing from that audit should be
+actioned without re-measuring it first** — it is retained as a record, not as a work list.
+
+**2b. Fix the three `ci.yml` / lhci defects.** `[skills]`, needs Andrey, and on the evidence it belongs
+above everything below it. **The Lighthouse gate does not run on direct pushes to `main`**
+(`on: pull_request` only), so it last ran 1 Aug while design work merged straight to `main` on 11 and
+12 Aug — two defects have already entered through that gap. **It also measures `localhost:4321`**, so
+when it does run it passed a page carrying a reproducible 0.0752 CLS while asserting CLS <= 0.02; it is
+blind to any defect whose trigger is network timing. And `.lighthouserc.json` documents itself with
+`_comment_*` keys **inside** the `assertions` objects, which lhci parses as audit names, printing a
+permanent false `✘` that a real failure can hide behind. Everything else in this note is a page. This
+is the thing that decides whether the next defect is caught at all.
 
 **3. `--maroon` has more documented exceptions than rule.** `[design]`, exclusive session under rule
 7. Three "maroon on a non-action mark" exceptions already sat in `ModuleRows.astro` with a note saying
@@ -178,3 +188,89 @@ the justification for the change it accompanied. Compute, then write.
   steps, and the discovery that Stage 7's own opening line had been *instructing* the failure it was
   criticised for.
 - `pipeline/cpd-electrical-tas/07-verification.md`, `pipeline/cpd-plumbing-tas/07-verification.md`.
+
+---
+
+## Later session, same day — SEO audit worked, schema graph connected
+
+A second **design** session ran after the one above, prompted by the SEO/AEO audit. It merged as
+PR [#117](https://github.com/aap-82/abe-edu-web/pull/117) and is live on `main`.
+
+**What shipped.** Both course layouts were emitting a `Course` node connected to nothing: the
+credential floated unattached and every named expert was a structural orphan, so the E-E-A-T was
+fully stated in prose and completely invisible to a parser. Added `educationalCredentialAwarded`,
+`author`, `reviewedBy`, `dateModified`, an `@id` on every `Person` (the expert's own profile
+canonical, so one person is one entity across every page) and an `@id` on `provider`.
+
+| | Before | After |
+|---|---|---|
+| Course pages with a connected graph | 0 of 14 | **14 of 14** |
+| Dangling `@id` references | — | **0** |
+| Authority-model breaches (ABE person as `author` on an asqa page) | — | **0 of 7 asqa pages** |
+
+Developer attribution reads the experts collection's per-course `role`, not a name match — Dominic
+develops QLD/WA/ACT but **not** TAS, so a name match would credit him on a page he had no hand in.
+TAS therefore ships with no `author` edge, which is the honest output and is filed as `[build]`.
+
+Also added metric-matched fallback faces for Archivo, DM Sans and DM Mono (page reflow 599px ->
+287px). **These do NOT fix the hero CLS** — measured on this PR's own branch preview, 0.0747 ->
+0.0735, noise. They are kept on the reflow reduction alone. `global.css` says so at the point of use.
+
+**The blocker this session left behind is a gate, not a page.**
+
+`.github/workflows/ci.yml` is `on: pull_request` only, so the Lighthouse gate **last ran 1 Aug 2026**
+while design work merged straight to `main` on 11 and 12 Aug. Two defects entered `main` through that
+gap: the hero CLS regression, and an em dash in `white-card-qld`'s ASQA disclosure copy that sat there
+from 3 Aug until PR #117 walked past it nine days later (fixed in `0d64474`, punctuation only).
+
+Worse, **the gate is blind to this defect even when it runs**. It measures `localhost:4321`, where the
+page reports ~0.0005, and passed while the deployed build carries a reproducible **0.0752 / 0.0752 /
+0.0797**. A green Lighthouse tick here is evidence about localhost, not about what readers get. There
+is also a permanent false `✘ _comment_tbt failure for auditRan assertion`, because `.lighthouserc.json`
+documents itself with `_comment_*` keys **inside** the `assertions` objects and lhci parses every key
+there as an audit name — noise a real failure can hide behind.
+
+All three are `.github/**` and `.lighthouserc.json`: **deliberately unassigned platform config**, so no
+session type may fix them. They need Andrey. This is the highest-value item outstanding, because it is
+the one that stops recurrence rather than patching instances.
+
+**Stage 7.** `1c26fab` put `check-pipeline` §4 into 8 FAIL. Seven were closed with dated
+re-verification entries; the eighth was held back because that page had gained the WA claim, and closed
+only once the claim was reverted. **8 -> 0.** Note for whoever re-verifies next: `1c26fab` describes
+itself as a mechanical split and is not one, so the wording `c7c6c43` used ("character for character")
+would have certified a rewrite as mechanical. Diff the commit, do not trust its message.
+
+**Also found:** five pages touched by `1c26fab` — `act-owner-builder-course`,
+`qld-owner-builder-course`, `tas-owner-builder-course` and both NSW owner builder pages — have **no
+`07-` artefact at all**, so `check-pipeline` §4 `continue`s past them silently. The check cannot
+distinguish "verified and current" from "never verified", and those are among the highest-traffic
+pages on the site. Filed `[build]`.
+
+**Mistakes log.** Row 1 incremented to **11** (the drifted document was a commit message this time),
+and a new **row 26** added: explaining a failing check from an invented mechanism without reading the
+check, then confirming it with a test built from the same assumption.
+
+**Open, tagged** — full list in the review; the ones that bite first:
+- `[skills]` the three `ci.yml` / lhci defects above. Needs Andrey.
+- `[build]` **no page on the site sets `ogImage`**, so every social share of every page renders a blank
+  card. `BaseLayout` already supports the prop and already upgrades `twitter:card`; only a 1200x630
+  JPG/PNG and one frontmatter line per page are missing. Cheapest visible win outstanding.
+- `[design]` the hero CLS cause is **still not isolated**. Three static explanations have each been
+  measured and each been wrong (the audit's headshots, font metrics, my own header/page-bar theory).
+  The shift is **intermittent** — absent in 1 of 3 runs, identical in the other 2 on one unchanged
+  build — which makes it a load-order race, not a sizing bug. Capture a trace on a deployed host with
+  the shift present; do not propose a fourth hypothesis from inspection.
+- `[build]` `Course.teaches` and a `FAQPage` node need content-layer data the layout cannot reach.
+- `[skills]` `provider` has `@id` but no `sameAs` — ABE Education's verified profile URLs are recorded
+  nowhere in the repo, and inventing them would be a fabricated identity claim. Needs Andrey.
+
+**Process note: I pushed to `main` without being asked.** After a session interruption the working
+directory was on `main` rather than the feature branch, and a bare `git push` sent two of Andrey's own
+unpushed commits (`c92d093`, `bc83afb`) to production. They deployed cleanly and were his work and
+clearly intended for `main` — but the decision to deploy was his, and I took it by not checking
+`git branch --show-current` after the resume. **Check the branch before any push, especially after an
+interruption**; a resumed session inherits a working directory whose state you did not set.
+
+**Review filed:** `skill-reviews/design/2026-08-12-schema-graph-edges-and-font-metrics.md`
+(`graded_by: self` — no fresh-subagent design grader exists). Three disclosed session-type crossings
+into `pipeline/**`, `src/content/**` and `kb/**`, each on Andrey's direct instruction after being named.
