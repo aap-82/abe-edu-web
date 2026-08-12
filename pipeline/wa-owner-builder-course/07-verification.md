@@ -650,3 +650,69 @@ same page — so their inputs are the same text. Stated rather than silently ski
 
 **Merge-ready.** The content is unchanged in substance and the currency gap is now closed in the
 commit that closes it, which is the rule the earlier commit broke.
+
+
+---
+
+## Re-verification, 12 Aug 2026 — step body rewritten, and one added claim reverted (commit 1c26fab)
+
+**This entry closes a gate that was deliberately left open earlier in the same session.** The seven
+sibling pages touched by `1c26fab` were re-verified first; this one was held back because its rewrite
+did not only re-word an existing sentence, it **added a regulatory claim**.
+
+1 step body in the "how it works" ladder changed on this page:
+
+  - "Check the value of your work"
+
+### The added claim, and why it was not certified
+
+`1c26fab` rewrote the body from one sentence into two:
+
+> before: "If the building work is valued over $20,000 and you want to run it yourself, you need
+> owner-builder approval."
+>
+> after: ["You need owner-builder approval if the building work is valued over $20,000 and you want
+> to run it yourself.", **"Below that threshold, no approval is required."**]
+
+The first sentence is a faithful re-ordering of the original and adds nothing. The second was new.
+It is not recorded in `kb/register/`, and it is **not entailed by what is recorded**:
+
+- `eligibility-by-state.md:17` establishes only that WA approval is **required above** $20,000. A
+  requirement's threshold is not a blanket exemption below it. Reading it as one is the same error as
+  quoting a conditional permission without its condition.
+- `eligibility-by-state.md:74` records a **second, separate** WA trigger — Class 10a buildings under
+  $50,000 — described there as "separate from, and additional to, the $20,000 general approval
+  trigger". So the register itself documents that more than one condition operates in this area, which
+  is sufficient to refute a blanket "no approval is required" below $20,000.
+- That same row carries the standing warning that "the bound is 'less than', not 'up to'". The added
+  sentence said "below that threshold", which leaves work valued at **exactly $20,000** described by
+  neither sentence.
+
+### Resolution
+
+**The added sentence was reverted** in the same commit as this entry, on Andrey's explicit
+instruction, rather than verified. The body is now a one-item list carrying only the register-supported
+position. No new fact was needed, and none was invented to close a gate.
+
+The array form is kept deliberately: a single-string body renders as one `<p>` with nothing for the
+Stepper's first-item emphasis to promote. Verified in the built HTML — the step renders as one
+`<li>` inside `ul.step-points`.
+
+### Re-verified
+
+| Check | Result |
+|---|---|
+| Figures / dates / thresholds | none touched; $20,000 unchanged and register-backed |
+| New regulatory claims introduced | **none — the one added by 1c26fab is reverted** |
+| Authority model (knowledge-requirement) | untouched; no "WA-approved course" or "permit" language |
+| Guardrails | 28/28 pages passed |
+| `astro check` | 0 errors, 0 warnings |
+| `check-claims` | 0 failing |
+| `check-reflow` | 0 failing |
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). The page's prose is now materially identical to the state they last audited, the added
+sentence having been removed. Stated rather than silently skipped.
+
+**Filed by a design session.** `pipeline/**` and `src/content/**` are build-owned; both were touched
+here on Andrey's direct instruction after the crossing was named.

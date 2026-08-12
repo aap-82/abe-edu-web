@@ -42,6 +42,38 @@ const { bundle } = Astro.props;
 // Resolved rather than inlined, same as CourseLayout: one record owns each person.
 const expertData = (await getEntries(bundle.experts)).map((e) => e.data);
 
+// Graph identity, mirroring CourseLayout (see the long note on its `@id` block for why the
+// edges matter at all). Two differences, both forced by the data rather than chosen:
+//
+// 1. The experts' per-course `role` cannot be used here. `courses[]` in the experts collection
+//    is a reference into `courses`, and no expert record lists a CPD BUNDLE, so there is no role
+//    to read. The reviewer is identified by `reviewedBy.name` instead - the same name match
+//    ExpertCredentials uses - and the remaining expert is the developer. That is only safe
+//    because CPD is state-approved-direct, where CLAUDE.md's authority model says ABE Education
+//    develops the course; it would be an authority breach on an asqa page, and a CPD bundle
+//    cannot be one.
+// 2. `author` is emitted only when EXACTLY ONE non-reviewer expert remains, so a third name
+//    added later leaves the edge off rather than crediting an arbitrary person.
+const reviewerData = bundle.reviewedBy
+  ? expertData.find((e) => e.name === bundle.reviewedBy!.name)
+  : undefined;
+const developersData = expertData.filter((e) => e !== reviewerData);
+const developerData = developersData.length === 1 ? developersData[0] : undefined;
+
+// "23 July 2026" -> "2026-07-23", omitting anything it cannot fully parse rather than guessing.
+// Deliberate twin of the helper in CourseLayout: the two layouts share no module today, and a
+// new shared one under src/lib/ would land in a directory no session type owns. Filed for skills.
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+const isoDate = (d?: string) => {
+  const m = d?.trim().match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+  const mi = m ? MONTHS.indexOf(m[2].toLowerCase()) : -1;
+  return m && mi !== -1
+    ? `${m[3]}-${String(mi + 1).padStart(2, '0')}-${String(Number(m[1])).padStart(2, '0')}`
+    : null;
+};
+const bundleDateModified = isoDate(bundle.reviewedBy?.date);
+const orgId = 'https://www.abeeducation.edu.au/#organization';
+
 const members: CpdCourse[] = liveMembers(register, bundle.category);
 const points = bundlePoints(register, bundle.category);
 const live = liveTotal(register, bundle.category);
@@ -115,7 +147,13 @@ const schema = {
       name: bundle.title,
       description: bundle.description,
       inLanguage: 'en-AU',
-      provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      provider: { '@type': 'Organization', '@id': orgId, name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      // The graph's edges, so the credential and both experts are reachable from the course
+      // rather than floating as unattached nodes. Same fix as CourseLayout, same reason.
+      educationalCredentialAwarded: { '@id': `${bundle.canonical}#credential` },
+      ...(developerData ? { author: { '@id': `${developerData.canonical}#person` } } : {}),
+      ...(reviewerData ? { reviewedBy: { '@id': `${reviewerData.canonical}#person` } } : {}),
+      ...(bundleDateModified ? { dateModified: bundleDateModified } : {}),
       offers: {
         '@type': 'Offer',
         price: bundle.priceNumber,
@@ -153,8 +191,11 @@ const schema = {
     // Two named people, developer and independent reviewer, with sameAs LinkedIn. Required by
     // the E-E-A-T rule and previously absent here: the Stage 7 audit caught it, because the
     // guardrails' node check only fires on a page that declares its authority model.
+    // `@id` is the person's OWN profile canonical, so Warwick on a CPD bundle, on a course page
+    // and on his profile is one entity rather than three look-alikes - and so the `author` and
+    // `reviewedBy` edges above have something to resolve against.
     ...expertData.map((e) => ({
-      '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
+      '@type': 'Person', '@id': `${e.canonical}#person`, name: e.name, jobTitle: e.jobTitle,
       ...(e.portrait ? { image: imageUrlAbs(e.portrait.src, bundle.canonical) } : {}),
       sameAs: e.linkedin,
     })),

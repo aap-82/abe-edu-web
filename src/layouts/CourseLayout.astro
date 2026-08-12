@@ -28,6 +28,46 @@ const {
 const expertEntries = await getEntries(experts);
 const expertData = expertEntries.map((e) => e.data);
 
+// WHO DID WHAT ON THIS COURSE, read off the experts collection's own per-course `role`
+// ("Course developer" / "Compliance and currency review") rather than guessed from a name.
+// The record is the one place that already answers this, and it answers it per course:
+// Dominic develops QLD/WA/ACT but not TAS, so a name match would credit him on a page he
+// had no hand in. Falls back to `reviewedBy.name` (the pattern ExpertCredentials uses) only
+// when no role is recorded.
+//
+// The slug comes off the canonical because the layout is handed `data`, not the entry, so it
+// has no id of its own. Safe: every course id equals its canonical slug, verified across all
+// 11 course files, and a miss just leaves the edge off rather than pointing it somewhere wrong.
+const slug = new URL(canonical).pathname.replace(/^\//, '');
+const roleOn = (e: (typeof expertEntries)[number]) =>
+  e.data.courses?.find((c) => c.course.id === slug)?.role ?? '';
+const developer = expertEntries.find((e) => /developer/i.test(roleOn(e)));
+const reviewer = expertEntries.find((e) => /review/i.test(roleOn(e)))
+  ?? expertEntries.find((e) => e.data.name === reviewedBy?.name);
+
+// "2 June 2026" -> "2026-06-02". Returns null on anything it does not fully recognise, so an
+// unparsed date is OMITTED rather than emitted wrong. A confidently wrong freshness signal is
+// worse than an absent one, and this is the same "never default a fact" rule the register runs on.
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+const isoDate = (d?: string) => {
+  const m = d?.trim().match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+  const mi = m ? MONTHS.indexOf(m[2].toLowerCase()) : -1;
+  return m && mi !== -1
+    ? `${m[3]}-${String(mi + 1).padStart(2, '0')}-${String(Number(m[1])).padStart(2, '0')}`
+    : null;
+};
+// The reviewer's own dated entry for THIS course first, falling back to the page's `reviewedBy`.
+// Both say the same thing by design (see the note on `courses[].date` in content.config.ts).
+const dateModified = isoDate(
+  reviewer?.data.courses?.find((c) => c.course.id === slug)?.date ?? reviewedBy?.date,
+);
+
+// A site-wide identity for the publisher, so `provider` on thirteen course pages is ONE entity
+// rather than thirteen anonymous organisations that happen to share a name. No `sameAs`: ABE
+// Education's verified profile URLs are not recorded anywhere in the repo, and inventing them
+// would be a fabricated identity claim on the one node whose job is establishing who ABE is.
+const orgId = 'https://www.abeeducation.edu.au/#organization';
+
 // CPD branch. The points-by-licence fact block reuses FactGrid (4 facts, matching its
 // grid); the approval reference is a real government listing, so it links out rather
 // than sitting inert inside the grid. matrix and bundle are each optional: not every
@@ -77,7 +117,26 @@ const schema = {
     {
       '@type': 'Course', '@id': canonical + '#course', name: courseName,
       description: courseDescription,
-      provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      provider: { '@type': 'Organization', '@id': orgId, name: 'ABE Education', url: 'https://www.abeeducation.edu.au' },
+      // THE GRAPH'S EDGES. Without these the credential and both experts are valid nodes that
+      // no machine can connect to the course: the E-E-A-T is fully stated in prose ("Reviewed by
+      // Warwick Smith on 2 June 2026") and completely invisible to a parser. Named as the highest
+      // -value structured-data fix in the 12 Aug 2026 SEO/AEO audit of this page, and it applies
+      // to every course page, not just the one audited.
+      educationalCredentialAwarded: { '@id': canonical + '#credential' },
+      // `author` is the COURSE DEVELOPER, and on an asqa-accredited page that is never an ABE
+      // Education person: the RTO partner develops and owns the accredited course, and is already
+      // credited via `creator` above. Crediting an ABE person here would be the exact authority-model
+      // breach kb/rules/authority-model.md sect 6 forbids, so the model gates it rather than relying on
+      // no developer happening to be listed.
+      ...(!asqa && developer ? { author: { '@id': developer.data.canonical + '#person' } } : {}),
+      // `reviewedBy` is valid on BOTH models - an independent compliance reviewer reviews the
+      // published page regardless of who developed the course.
+      ...(reviewer ? { reviewedBy: { '@id': reviewer.data.canonical + '#person' } } : {}),
+      // Recency is one of the few signals answer engines weight explicitly, and it was expressed
+      // only in prose. No `datePublished`: nothing in the repo records when each course page first
+      // went live, and a guessed publication date is a fabricated claim about the page's own history.
+      ...(dateModified ? { dateModified } : {}),
       // asqa-accredited: the RTO partner develops, owns and delivers the accredited course under the
       // Standards for RTOs. ABE develops nothing here, so the course is credited to the RTO as its
       // creator (developer) and provider — never to ABE or an ABE person. For state-approved-direct
@@ -100,10 +159,18 @@ const schema = {
       '@type': 'BreadcrumbList',
       itemListElement: breadcrumb.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.item })),
     },
-    // Field order here is load-bearing: it is what keeps the rendered JSON-LD
-    // byte-identical to the pre-refactor output. Do not reorder.
+    // Field order below was load-bearing during the frontmatter refactor: it kept the rendered
+    // JSON-LD byte-identical to the pre-refactor output. `@id` is a DELIBERATE addition on top of
+    // that (12 Aug 2026), so the output is no longer byte-identical by design; the existing fields
+    // keep their order and nothing else moves.
+    //
+    // The @id is the PERSON'S OWN PROFILE canonical, not a fragment of this course URL. That is
+    // what makes Dominic on /qld-owner-builder-course, on /wa-owner-builder-course and on his own
+    // profile page one entity instead of three look-alikes, and it is what `author`/`reviewedBy`
+    // above point at. Taken from the record's `canonical` rather than built from the id, so the
+    // profile page and the graph can never disagree about where a person lives.
     ...expertData.map((e) => ({
-      '@type': 'Person', name: e.name, jobTitle: e.jobTitle,
+      '@type': 'Person', '@id': e.canonical + '#person', name: e.name, jobTitle: e.jobTitle,
       ...(e.portrait ? { image: imageUrlAbs(e.portrait.src, canonical) } : {}),
       sameAs: e.linkedin,
     })),
