@@ -685,3 +685,66 @@ changed. Stated rather than silently skipped.
 Stage 7 artefact, on the rule that a verification predating the content it certifies has certified
 nothing. That gate fired on this page for the split above, correctly, and this closes it in the same
 commit as the change rather than afterwards.
+
+
+---
+
+## Re-verification, 12 Aug 2026 — step bodies rewritten as two-item lists (commit 1c26fab)
+
+**This is a COPY REWRITE, not the mechanical split of 12 Aug's earlier commit.** The re-verification
+entry added by `c7c6c43` certified that each sentence became its own array item "character for
+character". That is **not** true of `1c26fab`, and this entry deliberately does not reuse that
+wording. Sentences here were re-worded, re-ordered and in places lengthened to give the Stepper's
+first-item emphasis a short lead line to promote.
+
+4 module bodies in the unit outline changed on this page:
+
+  - "Health and safety law on site"
+  - "Hazards and risk control"
+  - "Communication and reporting"
+  - "Incidents and emergencies"
+
+### What was checked
+
+Every changed line was read against its predecessor in `git show 1c26fab`. The rewrites preserve
+meaning and introduce no new assertion: no figure, price, date, threshold, pass mark, unit code,
+licence class, RTO number or regulator name was added, removed or altered on this page.
+
+These four describe COURSE CONTENT, not regulation: no fee, threshold, date, licence class or
+regulator obligation appears in any of them. The rewrite splits comma-joined lists into separate
+sentences and changes only connecting words.
+
+`prose-lint` reports one issue on this page - an em dash in `frontmatter.disclaimersHtml` at
+line 135. It is PRE-EXISTING and outside this change: 1c26fab touched only the unit outline.
+Left open rather than fixed here, and filed, so this entry certifies nothing it did not check.
+
+### Re-verified
+
+| Check | Result |
+|---|---|
+| Figures / dates / thresholds / unit codes | none touched |
+| Regulator and RTO names and numbers | unchanged |
+| Authority model | untouched |
+| New regulatory claims introduced | **none on this page** |
+| Guardrails | 28/28 pages passed |
+| `astro check` | 0 errors, 0 warnings |
+| `check-claims` | 0 failing |
+| `check-reflow` | 0 failing |
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). Their input is the page's prose, and the prose here was re-worded rather than
+re-argued: no section was added, removed or re-ordered, and no claim changed. Stated rather than
+silently skipped, per the standing rule that skipping is allowed and skipping silently is not.
+
+**Sibling page NOT cleared.** `wa-owner-builder-course` was touched by the same commit and is
+deliberately left failing: its rewrite added a new regulatory sentence ("Below that threshold, no
+approval is required") that is not verified in `kb/register/`. That is a publish hard-blocker and
+is not this page's to close. See the design review of 12 Aug 2026 for the full finding.
+
+**Why this entry exists.** `check-pipeline` §4 fails a page whose source is committed later than
+its Stage 7 artefact, on the rule that a verification predating the content it certifies has
+certified nothing. That gate fired on this page for the rewrite above, correctly. The gate compares
+git commit times, so this closes only once committed.
+
+**Filed by a design session.** `pipeline/**` is build-owned; this was written on Andrey's direct
+instruction after the crossing was named. Recorded here rather than only in the session transcript.
