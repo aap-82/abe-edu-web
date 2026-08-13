@@ -60,7 +60,14 @@ response header, which is the entire mechanism (`worker/entry.js`). Three of its
 measured and rejected and its headline numbers did not reproduce. **Nothing from that audit should be
 actioned without re-measuring it first** — it is retained as a record, not as a work list.
 
-**2b. Fix the three `ci.yml` / lhci defects.** `[skills]`, needs Andrey, and on the evidence it belongs
+**2b. ~~Fix the three `ci.yml` / lhci defects.~~ DONE 13 Aug 2026** — push trigger added, `_comment_tbt`
+moved out of `assertions`, and a nightly Lighthouse run against the deployed host added
+(`.github/workflows/nightly-cwv.yml`). Two corrections to the account below: the gate last ran **12
+Aug**, not 1 Aug, and the missing trigger disabled **all five steps**, not only Lighthouse. Evidence,
+the measured reason the nightly's timing assertions warn rather than fail, and what remains open:
+`skill-reviews/skills/2026-08-13-ci-gate-defects.md`. Original text follows.
+
+`[skills]`, needs Andrey, and on the evidence it belongs
 above everything below it. **The Lighthouse gate does not run on direct pushes to `main`**
 (`on: pull_request` only), so it last ran 1 Aug while design work merged straight to `main` on 11 and
 12 Aug — two defects have already entered through that gap. **It also measures `localhost:4321`**, so

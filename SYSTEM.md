@@ -103,7 +103,7 @@ unknown internal facts go to the person; a regulatory fact is never defaulted).
 
 ## 5. How the system knows it is working
 
-Checks run at five moments, and the moment is part of what each one is for. A check that runs at
+Checks run at six moments, and the moment is part of what each one is for. A check that runs at
 prebuild stops a bad page from being built; the same check run by hand stops nothing.
 
 **At prebuild**, before Astro starts:
@@ -130,10 +130,32 @@ something that can only shrink; `INLINE_STYLE_BUDGET` does the same for inline s
 to a real page in `dist/`. A rule can redirect in one hop and still land the reader on a 404; those
 are two different assertions over two different columns of the same CSV.
 
-**In CI, on every pull request** — `astro check` for types in `.astro` frontmatter and inline
-scripts, Lighthouse CI against the performance budget, **`prose-lint`** for an em dash or
-"comprehensive" in `src/content` prose, and a diff gate proving the generated `public/_redirects`
-matches the CSV it comes from.
+**In CI, on every pull request and on every push to `main`** — `astro check` for types in `.astro`
+frontmatter and inline scripts, Lighthouse CI against the performance budget, **`prose-lint`** for
+an em dash or "comprehensive" in `src/content` prose, and a diff gate proving the generated
+`public/_redirects` matches the CSV it comes from.
+
+The push trigger was added 13 Aug 2026 and the workflow had been `pull_request`-only, which meant
+**all four of those were absent from every commit that reached `main` directly** — the normal path
+in a trunk-based repo. Demonstrated rather than argued: the three commits pushed that day have zero
+runs of the workflow between them, and one of them changed `global.css` and auto-deployed to
+production. The gate was not failing, it was not running, and its green board was being read as
+though it had. A `paths` filter was deliberately not added at the same time; a path filter is the
+same class of defect as the missing trigger, a gate that silently does not run.
+
+**Nightly, against the DEPLOYED host** — Lighthouse again, on the real origin rather than a build
+served from localhost on the runner. It exists because the pull-request gate is blind to any defect
+whose trigger is network delivery, and one of those is live: a reproducible ~0.0752 CLS on the
+deployed host that passes the localhost gate green against its own 0.02 budget. The config is
+derived from `.lighthouserc.json` by **`lhci-deployed-config`** rather than copied, so the two gates
+cannot drift apart on their budgets — a second copy of twelve numbers is the same failure as
+`DESIGN.md` and `global.css` disagreeing for three weeks, and harder to see in a nightly nobody
+watches. Deterministic assertions (CLS, byte budget, blocking-resource count) are **errors**;
+timing assertions (performance score, LCP, TBT) are **warnings** until there is a runner baseline to
+set them from. Measured 13 Aug 2026, three runs of one unchanged page gave LCP 3967 / 3617 / 2447ms
+against an 1800ms budget: that spread is the measuring machine, not the site, and shipping it as an
+error would mean a nightly red from night one on numbers nobody can defend. The promotion trigger is
+in the script's header and is a real one: two weeks of runner p95, not a someday.
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of

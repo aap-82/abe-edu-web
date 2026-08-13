@@ -1,0 +1,68 @@
+name: Nightly CWV (deployed host)
+
+# WHY THIS EXISTS. The CI job measures a build served from localhost on the runner. That is a fast
+# pre-merge gate and it catches regressions in the built output, but it is blind to any defect
+# whose trigger is real network delivery, and one of those is live: a reproducible ~0.0752 CLS on
+# the deployed host, 99.3% of it attributed to the hero image, which passes the localhost gate
+# green against its own 0.02 budget. Three static explanations for it have each been measured and
+# each been wrong (see the long comment at the top of src/styles/global.css); it behaves like a
+# load-order race, and a load-order race does not happen on a static file server on localhost.
+#
+# So this measures what a reader actually gets, on a schedule, and records it.
+#
+# WHY NIGHTLY RATHER THAN AFTER EACH DEPLOY. Workers Builds is not a GitHub Action, so there is no
+# workflow_run to hang a post-deploy job from, and the alternative is a poll-until-live loop whose
+# failure mode is a flaky gate. This repo has already had to raise two budgets that flapped on the
+# runner, both times after they had blocked merges without catching anything. A nightly tells you
+# a day later at worst, and cannot flap a merge.
+#
+# WHAT FAILS AND WHAT WARNS is decided in scripts/lhci-deployed-config.mjs, which derives this
+# run's config from .lighthouserc.json so the two gates cannot drift apart on their budgets. Short
+# version: deterministic assertions (CLS, byte budget, blocking-resource count) are errors;
+# timing assertions (performance score, LCP, TBT) are warnings until there is a runner baseline to
+# set them from. The script's header carries the measurements and the promotion trigger.
+
+on:
+  schedule:
+    # 16:00 UTC = 02:00 AEST. Deliberately not near a working day's pushes, so a red nightly is
+    # about the deployed site rather than about a deploy landing mid-run.
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+    inputs:
+      origin:
+        description: 'Origin to measure (scheme + host only, no path)'
+        required: false
+        default: ''
+
+# AT CUTOVER: change this to https://www.abeeducation.edu.au. It is the only place the host is
+# named. Until then the real domain still serves the old LearnWorlds site, so measuring it would
+# report on something this repo does not build.
+env:
+  DEPLOYED_ORIGIN: https://abe-edu-web.andrey-p-personal.workers.dev
+
+jobs:
+  cwv:
+    name: Lighthouse against the deployed host
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.nvmrc'
+
+      # No `npm ci` and no build on purpose: nothing here is built. The config generator uses only
+      # node builtins, lhci arrives via npx, and the only repo files needed are .lighthouserc.json
+      # and lighthouse-budget.json, which checkout has already provided. Installing would add a
+      # minute and a failure mode for no measurement.
+      - name: Derive the deployed-host config
+        run: |
+          ORIGIN="${{ github.event.inputs.origin }}"
+          if [ -z "$ORIGIN" ]; then ORIGIN="$DEPLOYED_ORIGIN"; fi
+          echo "Measuring $ORIGIN"
+          node scripts/lhci-deployed-config.mjs "$ORIGIN" ./lhci-deployed.json
+
+      # Same pinned version as ci.yml, for the same reason: a new lhci release must not silently
+      # change what this asserts.
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=./lhci-deployed.json

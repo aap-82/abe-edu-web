@@ -2,6 +2,23 @@ name: CI
 
 on:
   pull_request:
+  # PUSH TRIGGER ADDED 13 Aug 2026. This workflow was `pull_request`-only, which meant every one
+  # of the five steps below - type check, build, redirect-sync, Lighthouse and prose lint - was
+  # ABSENT on any commit that reached `main` directly. This repo is trunk-based and pushes to main
+  # routinely, so that is not an edge case, it is the normal path.
+  #
+  # Demonstrated rather than argued: the three commits pushed on 13 Aug (adb03be, 65ff82a,
+  # 2870306) have ZERO runs of this workflow between them, and 2870306 changed `global.css` and
+  # auto-deployed to production. `gh run list --commit <sha>` returns nothing for all three, while
+  # health.yml (which does carry a push trigger) ran on the same push. The gate was not failing,
+  # it was not running, and a green board was being read as though it had.
+  #
+  # Bot health commits carry `[skip ci]`, so the `chore(health)` traffic does not spend runner
+  # minutes here. Deliberately NOT filtered by `paths`: a path filter is the same class of bug as
+  # the missing trigger, a gate that silently does not run, and it is what "docs-only" changes
+  # said right before they shipped a CSS regression.
+  push:
+    branches: [main]
 
 # Touches nothing in package.json: Lighthouse CI runs via npx, pulling a pinned version
 # on demand rather than becoming a project dependency.
