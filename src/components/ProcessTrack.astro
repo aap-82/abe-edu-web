@@ -42,15 +42,44 @@ import type { HTMLAttributes } from 'astro/types';
  */
 interface Props extends HTMLAttributes<'div'> { steps: string; label?: string; }
 const { steps, label = 'Process', ...rest } = Astro.props;
-const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
+
+/* HORIZONTAL CARDS, TWO LINES PER STEP (13 Aug 2026, Andrey). This reverses the vertical ledger
+   above, and the reversal is only viable because of the two-line split: the measurements that
+   killed horizontal last time were all about ONE line not fitting a ~107px cell.
+
+   THE SPLIT IS AUTHORED, NEVER INFERRED, and that is the whole of the design here. A first-word
+   split was tested across all 66 steps on all 18 distinct `howItWorks` strings in the repo before
+   this was written, and it fails three ways:
+     - 11 of 66 steps (17%) are a single word ("Enrol", "Published"), so there is no second line;
+     - it splits proper nouns. The step naming the company and an RTO partner would put the
+       company's bare three-letter form alone on the first line, which is exactly what the house
+       style forbids and what `check-claims` §6 exists to stop. The source string is unchanged, so
+       that check CANNOT see it — the breach would exist only in the rendering. The step naming
+       Blue Dog Training splits the RTO's name the same way;
+       (Written without quoting either offending fragment, because §6 reads component source and
+       flagged an earlier draft of this very comment. The check was right: a reader-facing file
+       should not carry the bare form even to warn about it.)
+     - it is often not action/descriptive at all: "Regulator approves" is noun/verb, "Statement and
+       card issued" has no verb in the first position.
+   So an author opts in with `|`, and anything without one renders as a single line. A page that has
+   not been split yet looks unstyled-but-correct rather than wrong, and no second line is ever
+   invented — which is the failure mode recorded against the 12 Aug step-body split, where writing
+   the second half of 28 sentences introduced two regulatory claims that were not true. */
+const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean).map((s) => {
+  const at = s.indexOf('|');
+  return at === -1
+    ? { action: s, detail: '' }
+    : { action: s.slice(0, at).trim(), detail: s.slice(at + 1).trim() };
+});
 ---
 <div class="howtrack" {...rest}>
   <span class="ht-eyebrow">{label}</span>
   <ol class="ht-steps" role="list" aria-label={label}>
     {nodes.map((n, i) => (
-      <li class="ht-cell" style={`--ht-indent:${Math.min(i, 3) * 20}px`}>
+      <li class="ht-cell">
         <span class="ht-n num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-        <span class="ht-t">{n}</span>
+        <span class="ht-t">{n.action}</span>
+        {n.detail && <span class="ht-d">{n.detail}</span>}
       </li>
     ))}
   </ol>
@@ -80,31 +109,43 @@ const nodes = steps.split(' → ').map((s) => s.trim()).filter(Boolean);
      id to collide. */
   .ht-eyebrow{ display:block; margin:14px 0 10px; font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--slate); }
 
-  .ht-steps{ list-style:none; margin:0; padding:0; }
-  /* Hairline between steps, none above the first (the --ink cap is already there) and none below the
-     last, so the ledger closes on its own content rather than on an empty rule. */
-  /* THE LADDER. Each step sits 20px further right than the one above it, so the four rows read as a
-     descending staircase rather than a flat list (Andrey, 12 Aug 2026). The indent is `margin-left`,
-     not `padding-left`, deliberately: margin moves the cell's own box, so the hairline above each row
-     steps with it and the staircase shows in the RULES as well as the numerals. Padding would have
-     indented the content inside a full-width row and left the rules flat.
-     The value is set per item in the frontmatter as `--ht-indent`, capped at the fourth step. Pages
-     carry 3 or 4 steps today (17 with four, 9 with three), and the cap means a longer list would
-     stop stepping rather than walking off the column. At the 4th step the cell starts 60px in, which
-     still leaves 439px — comfortably more than the longest label on the site at 193px. */
-  .ht-cell{ display:flex; align-items:baseline; gap:12px; padding:10px 0; margin-left:var(--ht-indent,0); }
-  .ht-cell + .ht-cell{ border-top:1px solid var(--rule); }
+  /* HORIZONTAL CARDS, 13 Aug 2026, replacing the vertical ladder (whose `--ht-indent` staircase and
+     inter-row hairlines are gone with it — there are no rows left to step or to separate).
 
-  /* Fixed 20px gutter, so every label starts on the same x no matter how wide its numeral renders.
-     `01` not `1` for the same reason the gutter is fixed: two digits make the column self-evident
-     rather than dependent on the count staying under ten. */
-  .ht-n{ flex:none; width:20px; font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:.08em; color:var(--maroon); }
-  /* 13.5px. The stack has the full column width, so this does not have to shrink to fit the way the
-     horizontal attempts did — 12px was the floor those needed, and this is a step back above it.
-     Under DESIGN.md's 16px body floor because a step label is a label, not prose. */
-  .ht-t{ font-family:var(--font-body); font-size:13.5px; font-weight:500; line-height:1.35; color:var(--ink); }
+     `auto-fit` with a 92px floor rather than a fixed `repeat(4,1fr)`. The column this sits in is
+     ~499px at desktop, which gives four cards of ~107px; below that the track drops to 2-up and
+     then 1-up on its own, which is what makes the same component survive the hero collapsing to a
+     single full-width column under 1100px. A fixed four-across is what forced the 12px type floor
+     and the 46px of raggedness the previous attempt measured. */
+  .ht-steps{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(92px,1fr)); gap:8px; }
 
-  /* Nothing to do at any width. The stack is one column already, the labels have never wrapped at
-     499px, and below the hero's 1100px collapse the block only gets wider. This component used to
-     carry a @container query and two breakpoint rules; vertical made all of them unnecessary. */
+  /* Flat, 1px bordered, 6px radius: the content-card shape from DESIGN.md §5, at the smallest size
+     the system uses. No shadow, no fill beyond --paper, so it stays inside the hairline vocabulary
+     and does not introduce a third ground into the hero (see the NO BACKGROUND note above — the
+     cards carry --paper, the block behind them stays transparent). */
+  .ht-cell{ display:flex; flex-direction:column; gap:2px; padding:10px 12px; border:1px solid var(--rule); border-radius:6px; background:var(--paper); }
+
+  /* The numeral now sits ABOVE the label rather than beside it, so it no longer needs the fixed
+     20px gutter that kept a row of labels aligned — a card aligns to its own left edge. `01` not
+     `1` still, so the sequence reads as a set rather than depending on the count staying under ten. */
+  .ht-n{ display:block; font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:.08em; color:var(--maroon); }
+  /* THE TWO LINES. The action carries the weight and the ink; the detail drops to --slate and a
+     step down in size, so a reader scanning four cards reads four verbs first and the qualifiers
+     only if they want them. That hierarchy is the reason the split is worth having at all — two
+     equal lines would just be a wrapped label.
+
+     13px, half a step under the 13.5px the vertical ledger used. The cells are ~107px at desktop
+     rather than the full 499px column, and this is the size at which the longest authored action
+     ("Certificate") still holds one line in a 92px card. It stays above the 12px floor the earlier
+     horizontal attempts were forced down to, which is what made them unusable.
+     Both are under DESIGN.md's 16px body floor because a step label is a label, not prose. */
+  .ht-t{ font-family:var(--font-body); font-size:13px; font-weight:600; line-height:1.3; color:var(--ink); }
+  .ht-d{ font-family:var(--font-body); font-size:12px; font-weight:400; line-height:1.3; color:var(--slate); }
+
+  /* --slate on --paper is 5.10:1, clear of AA at this size. Do NOT reach for --slate-light here:
+     it measures 2.81:1 on --paper and is restricted to inactive-component text and decoration. */
+
+  /* No breakpoint rules. `auto-fit` reflows the track by itself: 4-up in the ~499px desktop column,
+     2-up as it narrows, 1-up at the bottom. The @container query and the two breakpoints this
+     component once carried are still unnecessary, for a different reason than before. */
 </style>

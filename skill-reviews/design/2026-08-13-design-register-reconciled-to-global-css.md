@@ -204,6 +204,47 @@ need the network to reproduce:
 the same reason the gate missed the defect. Proof is a nightly run against the deployed host after
 this ships.
 
+## Addendum 3 — ProcessTrack back to horizontal, as two-line cards
+
+Andrey's call, 13 Aug 2026, reversing the vertical ledger picked on 12 Aug. Worth recording *why the
+reversal is legitimate* rather than a preference swing: the measurements that killed horizontal last
+time were all about **one** line not fitting a ~107px cell. Two short lines fit where one long one
+did not, so the constraint that decided it has changed.
+
+**The split is authored, never inferred, and that is the whole design.** A first-word split was
+tested against all 66 steps in all 18 distinct `howItWorks` strings *before* any code was written,
+and it fails three ways: 11 of 66 steps (17%) are a single word, so no second line exists; it splits
+proper nouns, putting the company's bare three-letter form alone on a line, which is the house-style
+breach `check-claims` §6 exists to stop **and which that check cannot see, because the source string
+is unchanged**; and it is often not action/descriptive at all ("Regulator approves" is noun/verb).
+So an author opts in with `|`, and anything without one renders as one line.
+
+**No word was invented.** 53 steps split across 19 files, applied from an explicit table rather than
+by hand, and proved mechanically: every new string is byte-identical to its old one once each `|` is
+read back as the space it replaced. 12 steps were deliberately left one-line, each for a stated
+reason in the script. This is the guard the 12 Aug step-body split did not have, where writing the
+second half of 28 sentences introduced two regulatory claims that were untrue.
+
+Measured on the built pages:
+
+| | Result |
+|---|---|
+| Authored pages (`/qld-owner-builder-course`, `/white-card-nsw`) | 4-up at 1280 and 900, **every action 1 line, every detail 1 line** |
+| Same at 390px | reflows to 2-up on its own, still 1/1 |
+| Card heights within a row | equal on every page and width tested |
+| Horizontal scroll, 1280 / 900 / 390 / 320 | none anywhere |
+| Unauthored page (`/accreditation`) | 3-up, actions wrap to 2 lines, cards stay equal height |
+
+That last row is the honest limit: where a step is deliberately unsplit the action wraps, which is
+the old raggedness in miniature. It is bounded — the cards still align, so it reads as a fuller card
+rather than a broken row — and it only affects the 12 steps listed as unsplittable.
+
+**One thing the build caught that is worth keeping.** The first draft of the component comment
+*quoted* the offending bare brand form while explaining why the split must not produce it, and
+`check-claims` §6 failed the run: `Bare "ABE" in reader-facing content, ProcessTrack.astro:54,55`.
+The check was right and the comment was wrong. It is now written without quoting either fragment,
+and says so in place.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]
