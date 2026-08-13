@@ -137,6 +137,47 @@ directly since. A red there is the gate working, not a new break.
 above, because those came from a contended dev machine rather than a clean runner. That is precisely
 why the timing assertions warn.
 
+## Addendum — the nightly's first real run, and what it found
+
+Triggered manually via `workflow_dispatch` immediately after merge (run `31696624045`) rather than
+waiting for 02:00. **It failed, correctly, on its first run**, and found more than the one defect it
+was built for.
+
+| URL | CLS | vs 0.02 | previously known? |
+|---|---|---|---|
+| `/cpd` | **0.5622** | 28x | **no** |
+| `/qld-owner-builder-course` | 0.0748 | 3.7x | yes (~0.0752) |
+| `/reviews` | 0.0581 | 2.9x | **no** |
+
+`/owner-builder-courses`, `/experts/dominic-ogburn` and `/styleguide` passed CLS. Every timing
+assertion behaved as designed: warnings, no failure, numbers recorded. The run failed on CLS alone,
+which is exactly the severity split working.
+
+**The same CI run measured these six URLs on localhost and passed CLS on all of them.** That is the
+justification for this workflow, demonstrated within hours of building it.
+
+### Root cause, from the trace `global.css` asked for
+
+The comment at the top of `src/styles/global.css` ends: *"Do not propose a fourth explanation from
+inspection. Capture a trace on a deployed host with the shift present and read what actually
+moves."* Done, via the Lighthouse `layout-shifts` audit on all three failing reports:
+
+- **The shifting element is the hero image itself**, `<img class="ph r54 ph-img">` on `/cpd` and
+  `/reviews`, `ph r45 ph-img` on `/qld-owner-builder-course`. It carries essentially the whole score.
+- **The web-font shift event scores 0.0000** on all three. The metric-matched fallback faces added
+  12 Aug are doing their job, and are not the cause. That closes one of the open hypotheses.
+- **It is not intermittent.** `/qld` returned `0.07476670159705483` on all three runs, identical to
+  sixteen decimal places, and `/cpd` returned 0.5622 twice and 0.5664 once. The intermittency in the
+  earlier record ("absent entirely in run 1") was a contended local machine, not the site.
+- **It is not one page's hero.** Three pages, two aspect ratios, one component.
+
+Two corrections to the standing record follow from that, and both are design-owned so this review
+files them rather than making them: `global.css`'s comment says the hero image is "not itself
+faulty ... being moved by something above it", and characterises the defect as intermittent and as a
+load-order race. On a clean runner it is deterministic and attributed to the image element. The
+load-order-race hypothesis may still be right about the *mechanism*; the "intermittent" and "moved by
+something above it" framings are now contradicted by measurement.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]
@@ -149,11 +190,24 @@ Tag every item: [skills] | [design] | [facts] | [build]
   change to `https://www.abeeducation.edu.au`** or the nightly silently keeps measuring a preview
   host nobody visits. It is one line and it is the only place the host appears; add it to the cutover
   runbook rather than trusting it to be remembered.
-- [skills] The ~0.0752 deployed CLS is still unisolated. Three static explanations have each been
-  measured and each been wrong, and it did not reproduce in either probe run for this session, which
-  is consistent with the load-order race the `global.css` comment describes. The nightly will now
-  catch it when it recurs, on a build whose commit is known. Do not propose a fourth explanation from
-  inspection; capture a trace on a deployed host with the shift present.
+- [design] `.ph.ph-img` shifts on the deployed host on every page that has a hero image, and the
+  nightly's first run measured it at **0.5622 on `/cpd`** (28x the 0.02 budget), 0.0748 on
+  `/qld-owner-builder-course` and 0.0581 on `/reviews`, deterministic across three runs each. The
+  Lighthouse `layout-shifts` audit attributes it to the `<img class="ph ... ph-img">` element itself,
+  with the web-font shift event at 0.0000. Highest-value open defect on the site: it is on three
+  indexable pages, a reader sees it, and CLS is a ranking signal. `/cpd` first, since it is an order
+  of magnitude worse than the others and may be a different fault.
+- [design] `src/styles/global.css`'s hero-CLS comment now contains two claims the deployed trace
+  contradicts: that the shift is intermittent, and that the image is "not itself faulty ... being
+  moved by something above it". On a clean runner it is deterministic to sixteen decimal places and
+  attributed to the image element. The comment explicitly asked for this trace, so the answer belongs
+  in it. Do not delete the load-order-race hypothesis, which may still describe the mechanism;
+  correct the two framings that were measured and found wrong.
+- [skills] The nightly measures six URLs, one per template, inherited from the PR gate's list. Two of
+  the three CLS failures (`/cpd`, `/reviews`) were unknown before it ran, which means the URL list is
+  now doing discovery rather than regression-watching, and there are 24 built pages. Worth deciding
+  whether the deployed run should cover more than one URL per template, given a per-page fault has
+  now been found that the template exemplar did not predict.
 - [skills] `check-claims` §7 requires every `scripts/*.mjs` to be named in SYSTEM.md §5 or exempted,
   and the exempt list is now 7 of 20. That is a third of the directory exempt from the rule, each for
   a good reason individually. Worth one look at whether "is it a check" is still the right axis, or
