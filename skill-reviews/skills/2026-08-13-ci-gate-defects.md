@@ -272,12 +272,19 @@ Tag every item: [skills] | [design] | [facts] | [build]
   indexable pages, a reader sees it, and CLS is a ranking signal. `/cpd` first, since it is an order
   of magnitude worse than the others and may be a different fault.~~ fixed 13 Aug 2026: not an image bug. `.z-img`/`.howtrack` kept `grid-column:2` below 1100px, creating an implicit second column that starved the hero text column to **0px wide** on every hero page. See the addendum in `skill-reviews/design/2026-08-13-design-register-reconciled-to-global-css.md`.
 
-- [design] `src/styles/global.css`'s hero-CLS comment now contains two claims the deployed trace
+- ~~[design] `src/styles/global.css`'s hero-CLS comment now contains two claims the deployed trace
   contradicts: that the shift is intermittent, and that the image is "not itself faulty ... being
   moved by something above it". On a clean runner it is deterministic to sixteen decimal places and
   attributed to the image element. The comment explicitly asked for this trace, so the answer belongs
   in it. Do not delete the load-order-race hypothesis, which may still describe the mechanism;
-  correct the two framings that were measured and found wrong.
+  correct the two framings that were measured and found wrong.~~ done 13 Aug 2026. The load-order
+  hypothesis was **not** preserved as still-possible, because by then it was refuted rather than
+  merely unproven: the cause is `.hero .wrap`'s implicit second column, the fix shipped, and the
+  value is deterministic on a clean runner. The superseded reasoning is kept in place and labelled
+  rather than deleted, because how it went wrong is the useful part — "three static explanations
+  have been wrong, so it must be dynamic" was an inference the evidence never supported, and the
+  fourth static explanation was the right one. What held up (headshots, font metrics and
+  header/page-bar reflow each measured and cleared) is retained with its do-not-re-file note.
 - [skills] The nightly measures six URLs, one per template, inherited from the PR gate's list. Two of
   the three CLS failures (`/cpd`, `/reviews`) were unknown before it ran, which means the URL list is
   now doing discovery rather than regression-watching, and there are 24 built pages. Worth deciding

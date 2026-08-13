@@ -24,12 +24,26 @@
    the one to trust and the one to re-measure against; do not treat any single width ratio as the
    result.
 
-   WHAT THIS IS NOT KNOWN TO FIX. A mobile lab run of the DEPLOYED host measured CLS 0.0752
-   against this repo's own 0.02 gate, with 99.3% of it (0.0747) attributed to the hero image.
-   That image is not itself faulty - correct width/height, correct aspect-ratio - so it is being
-   moved by something above it. The obvious candidate was this font reflow, and it was tested and
-   DOES NOT ACCOUNT FOR IT: at 375px the header (67px), page bar (101px) and hero image top (224px)
-   are byte-identical across webfont, this fallback and the old fallback.
+   WHAT THIS DOES NOT FIX, AND WHAT DID. A mobile lab run of the DEPLOYED host measured CLS 0.0752
+   against this repo's own 0.02 gate, with 99.3% of it (0.0747) attributed to the hero image. The
+   obvious candidate was this font reflow, and it was tested and DOES NOT ACCOUNT FOR IT: at 375px
+   the header (67px), page bar (101px) and hero image top (224px) are byte-identical across webfont,
+   this fallback and the old fallback. That much was right and still is.
+
+   **The cause was found on 13 Aug 2026 and fixed: it was `.hero .wrap`, not a font and not a race.**
+   Below 1100px the template collapses to `grid-template-columns:1fr`, but `.z-img` and `.howtrack`
+   kept the `grid-column:2` they are given at :412-413. A `grid-column:2` against a one-column
+   template does not place an item in a column that does not exist, it CREATES an implicit second
+   column sized to the image, and `1fr` for column 1 then means "whatever is left" - which was
+   nothing. Measured on the deployed /cpd at 390px: `grid-template-columns` was `0px 286px`, the
+   hero text column was **0px wide**, and `h1.h1` was 0px wide and 248px tall. Every hero page below
+   1100px had been rendering its headline and body in a zero-width column since the ProcessTrack
+   rework of 12 Aug moved those placements in. `left:76` in the Lighthouse trace is exactly 28px wrap
+   padding + 0px text column + 48px gap. After: a single 334px column, CLS on /cpd 0.5622 -> 0.0012,
+   verified by nightly run against the deployed host.
+
+   Keep the paragraphs below. They remain the record of what these font overrides do and do not do,
+   and the answer is unchanged: they were never the hero fix.
 
    MEASURED ON A DEPLOYED HOST WITH THESE OVERRIDES LIVE (PR #117 branch preview, 12 Aug 2026,
    three mobile lab runs). The answer is NO, and it is recorded here so nobody re-runs the
@@ -43,13 +57,24 @@
    every branch run. That is the whole of their CLS effect, and it is two orders of magnitude
    below the problem.
 
-   The new information is that the hero shift is INTERMITTENT: absent entirely in run 1, present
-   identically (0.0735, final rect top 206, 308x385) in runs 2 and 3, on one unchanged build. An
-   intermittent shift of a fixed-size element with correct width/height, correct aspect-ratio and
-   inlined CSS is a LOAD-ORDER RACE, not a sizing bug - which is why three static explanations
-   (headshots, font metrics, header/page-bar reflow) have each been measured and each been wrong.
-   Do not propose a fourth from inspection. Capture a trace on a deployed host with the shift
-   present and read what actually moves.
+   THIS PARAGRAPH USED TO SAY THE SHIFT WAS INTERMITTENT AND A LOAD-ORDER RACE. Both were wrong, and
+   the reasoning is kept rather than deleted because the way it went wrong is the useful part.
+
+   It read: absent entirely in run 1, present identically (0.0735, final rect top 206, 308x385) in
+   runs 2 and 3 on one unchanged build; therefore a race rather than a sizing bug; therefore do not
+   propose a fourth static explanation from inspection, capture a trace instead.
+
+   The instruction was right and the diagnosis was wrong. A trace WAS captured, on 13 Aug 2026 via
+   the Lighthouse `layout-shifts` audit on the deployed host, and it said the shifting element was
+   the hero `<img>` itself with the web-font shift event at 0.0000 - which pointed straight at the
+   grid, above. On a clean CI runner the value is not intermittent at all: /qld-owner-builder-course
+   returned 0.07476670159705483 on three consecutive runs, identical to sixteen decimal places. The
+   intermittency was a contended local machine being read as a property of the site, and "three
+   static explanations have been wrong, so it must be dynamic" was an inference the evidence did not
+   support - the fourth static explanation was the right one.
+
+   What holds up from it: headshots, font metrics and header/page-bar reflow were each measured and
+   each cleared, and none of them should be re-filed.
 
    The overrides are derived from the table above, not guessed:
      size-adjust     = webfont width / Arial width
