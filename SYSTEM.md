@@ -150,12 +150,16 @@ deployed host that passes the localhost gate green against its own 0.02 budget. 
 derived from `.lighthouserc.json` by **`lhci-deployed-config`** rather than copied, so the two gates
 cannot drift apart on their budgets — a second copy of twelve numbers is the same failure as
 `DESIGN.md` and `global.css` disagreeing for three weeks, and harder to see in a nightly nobody
-watches. Deterministic assertions (CLS, byte budget, blocking-resource count) are **errors**;
-timing assertions (performance score, LCP, TBT) are **warnings** until there is a runner baseline to
-set them from. Measured 13 Aug 2026, three runs of one unchanged page gave LCP 3967 / 3617 / 2447ms
-against an 1800ms budget: that spread is the measuring machine, not the site, and shipping it as an
-error would mean a nightly red from night one on numbers nobody can defend. The promotion trigger is
-in the script's header and is a real one: two weeks of runner p95, not a someday.
+watches. **Every assertion runs at `error`.** It briefly did not: the three timing assertions shipped
+at `warn` that morning, on the argument that a 3967 / 3617 / 2447ms LCP spread was the measuring
+machine rather than the site. That argument was wrong, and the data arrived the same day — most of
+the spread was a real defect, `.hero-grid` collapsing its text column to zero width below 1100px, so
+every one of those numbers was a measurement of a broken page. Promoted the same day on 12 post-fix
+page-runs: LCP 1151-1793ms, TBT 0-20ms production and 52-60ms styleguide, performance 0.99-1.00.
+TBT and performance are enforced at the budgets `.lighthouserc.json` already declares; LCP carries
+the one documented deployed override (1800 → 2200), because 7ms of margin is a coin flip rather
+than a budget. `error` is safe at these numbers because lhci aggregates **optimistically** over the
+three runs, so a single slow run cannot redden the nightly while a genuine regression still does.
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of

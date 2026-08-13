@@ -249,10 +249,17 @@ reader is served. Recorded as an option in the config comment rather than taken.
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] `nightly-cwv.yml` timing assertions are `warn` pending a runner baseline. After two weeks
+- ~~[skills] `nightly-cwv.yml` timing assertions are `warn` pending a runner baseline. After two weeks
   of runs (from ~27 Aug 2026), take p95 per URL from the runner, set budgets above it, and move those
   three out of `TIMING_ASSERTIONS` in `scripts/lhci-deployed-config.mjs`. Until then the nightly
-  cannot fail on a timing regression, which is a known and deliberate gap, not an oversight.
+  cannot fail on a timing regression, which is a known and deliberate gap, not an oversight.~~
+  **Promoted to `error` the same day, and the two-week wait was the wrong call.** The premise —
+  that the spread was environmental — was falsified within hours: most of it was the hero defect,
+  so the baseline I wanted to gather would have been a baseline of a broken page. Promoted on 12
+  post-fix page-runs instead. `warn` is gone entirely; the tier no longer exists. TBT and
+  performance enforce at the source budgets; LCP carries one documented override (1800 → 2200) sized
+  from the worst healthy median of 1793ms, which still catches the known defect class at 2447ms.
+  Safe as `error` because lhci aggregates optimistically over three runs, verified from real output.
 - [skills] `nightly-cwv.yml` names the preview host in `env.DEPLOYED_ORIGIN`. **At cutover this must
   change to `https://www.abeeducation.edu.au`** or the nightly silently keeps measuring a preview
   host nobody visits. It is one line and it is the only place the host appears; add it to the cutover

@@ -23,35 +23,36 @@
  *     there is no local server to start
  *   - collect.settings.budgetPath: made absolute, because lhci resolves it relative to cwd and the
  *     generated config is written to a temp path
- *   - assert: the three TIMING assertions drop from `error` to `warn`. See below. The numeric
- *     budgets are NOT changed, so the report still shows the delta; only the severity moves.
+ *   - assert: one documented numeric override (LCP). Severity is never touched.
  *
- * WHY THE TIMING ASSERTIONS WARN RATHER THAN FAIL, and why that is not a gate refusing to gate.
- * The split is between what is a property of the ARTEFACT and what is a property of the
- * ENVIRONMENT measuring it.
+ * SEVERITY HISTORY, because the reasoning matters more than the current state.
  *
- *   error, deterministic: cumulative-layout-shift, performance-budget, render-blocking-resources.
- *     Layout shift, byte weight (script <= 50KB) and blocking-resource count are the same for the
- *     same build whoever measures it. CLS is also the exact defect class this nightly exists for:
- *     a reproducible ~0.0752 on the deployed host that the localhost gate cannot see, and that
- *     passed the localhost gate green.
+ * Built 13 Aug 2026 with the three timing assertions at `warn`, on the argument that they were
+ * environment-bound and had no runner baseline: three runs of /qld-owner-builder-course had given
+ * LCP 3967 / 3617 / 2447ms against an 1800ms budget. That argument was **substantially wrong, and
+ * the data that showed it was wrong arrived the same day**. Most of that spread was not the
+ * measuring machine, it was a real defect: `.hero-grid` collapsed its text column to zero width
+ * below 1100px, and every one of those measurements was of a broken page.
  *
- *   warn, environment-bound: categories:performance, largest-contentful-paint,
- *     total-blocking-time. Measured against the deployed host on 13 Aug 2026, three runs of
- *     /qld-owner-builder-course gave LCP 3967 / 3617 / 2447ms against an 1800ms budget, and
- *     performance 0.78 / 0.82 / 0.97 against minScore 1. A 1.5x spread across three runs of one
- *     unchanged page is the measuring machine talking, not the site. There is no runner baseline
- *     for the deployed host yet, so any number set here would be invented, and this repo has
- *     already twice had to raise a budget that flapped on the runner (styleguide LCP 1800 -> 2200,
- *     TBT 50 -> 100), both times AFTER it had blocked merges without catching a defect.
+ * PROMOTED TO `error` 13 Aug 2026, on 12 post-fix page-runs from two nightly runs:
  *
- * Shipping these three as `error` would mean a nightly that is red from night one on numbers
- * nobody can defend, which trains readers to ignore it - the same failure as the permanent false
- * ✘ that `_comment_tbt` printed for weeks. Warn keeps the numbers visible and accumulating.
+ *     LCP   1151-1793ms   (localhost budget 1800 -> only 7ms of margin at the worst)
+ *     TBT   0-20ms production, 52-60ms styleguide   (budgets 50 / 100)
+ *     perf  0.99-1.00     (minScore 1)
  *
- * TO PROMOTE THEM TO `error`: collect two weeks of nightly runs, take the p95 per URL from the
- * runner (not from a dev machine), set the budget above it, and move the assertion out of
- * TIMING_ASSERTIONS below. That is a real trigger, not a someday.
+ * TBT and perf are promoted at the budgets .lighthouserc.json already declares: TBT has 60% headroom
+ * on production and 40% on the styleguide, and perf passed both nightly runs. LCP is not - 7ms is
+ * not a margin, it is a coin flip - so it carries the one override below.
+ *
+ * WHY `error` IS SAFE AT THESE NUMBERS: lhci aggregates OPTIMISTICALLY by default. With
+ * numberOfRuns 3 the assertion takes the most favourable of the three, so it fails only when all
+ * three breach. Verified from real output rather than assumed - `found: 2446.85` reported from
+ * `all values: 3966.78, 3617.23, 2446.85`. A single slow run cannot redden the nightly; a genuine
+ * regression, which moves all three, still does.
+ *
+ * The one to watch is `categories:performance` at minScore 1, which has the least room: one 0.99
+ * has been observed. If anything here flaps first it will be that, and the response is a measured
+ * budget in DEPLOYED_OVERRIDES, not a return to `warn`.
  *
  * Usage: node scripts/lhci-deployed-config.mjs <origin> [outPath]
  *   node scripts/lhci-deployed-config.mjs https://abe-edu-web.andrey-p-personal.workers.dev out.json
@@ -102,37 +103,54 @@ if (out.ci.collect.settings?.budgetPath) {
   out.ci.collect.settings.budgetPath = resolve(out.ci.collect.settings.budgetPath);
 }
 
-/* The environment-bound three. Everything NOT listed here keeps whatever severity
-   .lighthouserc.json gives it, so adding a new deterministic assertion there needs no change
-   here, while a new timing one has to be added deliberately. See the header for the measurement
-   and for what promoting one back to `error` requires. */
-const TIMING_ASSERTIONS = new Set([
-  'categories:performance',
-  'largest-contentful-paint',
-  'total-blocking-time',
+/* Deployed-host budget overrides. EVERY assertion runs at `error` here — the warn tier was removed
+   on 13 Aug 2026 once there was post-fix data to size budgets from. What survives is a single
+   numeric override, because one metric genuinely differs on a real network and the rest do not.
+   Each entry must carry its measurement. An override with no number behind it is a guess. */
+const DEPLOYED_OVERRIDES = new Map([
+  ['largest-contentful-paint', {
+    maxNumericValue: 2200,
+    why: 'worst healthy deployed median 1793ms across 12 page-runs, vs the 1800ms localhost budget: '
+       + '7ms of margin, which fails on any slow night. 2200 sits 23% above the worst healthy '
+       + 'observation and still catches the defect class we know about - the broken hero measured '
+       + '2447-3967ms, so this budget would have caught it. Same value the styleguide already uses.',
+  }],
 ]);
 
-let softened = 0, kept = 0;
+let overridden = 0, unchanged = 0;
 for (const entry of out.ci.assert.assertMatrix) {
   for (const [audit, rule] of Object.entries(entry.assertions)) {
-    if (!Array.isArray(rule)) continue;             // shorthand form, leave alone
-    if (TIMING_ASSERTIONS.has(audit)) { rule[0] = 'warn'; softened++; }
-    else kept++;
+    if (!Array.isArray(rule)) continue;                       // shorthand form, leave alone
+    const o = DEPLOYED_OVERRIDES.get(audit);
+    /* Only ever LOOSEN, and only where the source is stricter. If someone sets .lighthouserc.json
+       to something looser than the override, the source wins: this file must never silently make a
+       gate stricter than the one the author wrote, nor undo a deliberate relaxation. */
+    if (o && typeof rule[1]?.maxNumericValue === 'number' && rule[1].maxNumericValue < o.maxNumericValue) {
+      rule[1] = { ...rule[1], maxNumericValue: o.maxNumericValue };
+      overridden++;
+    } else unchanged++;
   }
 }
 
-/* The numeric budgets must survive untouched: only severity moves. Compare the two configs with
-   every level blanked out, so a stray edit to a maxNumericValue fails here rather than shipping a
-   nightly quietly holding the deployed host to different numbers than the PR gate. */
-const levelsBlanked = (a) => JSON.stringify(a, (k, v) =>
-  (Array.isArray(v) && (v[0] === 'error' || v[0] === 'warn' || v[0] === 'off')) ? ['_', v[1]] : v);
-if (levelsBlanked(out.ci.assert) !== levelsBlanked(src.ci.assert)) {
-  console.error('Generation changed an assertion budget, not just its severity. Refusing to write.');
+/* Severity is never touched any more: if the source says error, the deployed run says error. Assert
+   it, so a future edit that reaches for `warn` to quiet a failing nightly has to do it in
+   .lighthouserc.json where a reader will see it, not in here where nobody looks. */
+const levelsOf = (a) => JSON.stringify(a, (k, v) => (Array.isArray(v) && typeof v[0] === 'string' ? v[0] : v));
+if (levelsOf(out.ci.assert) !== levelsOf(src.ci.assert)) {
+  console.error('Generation changed an assertion severity. The deployed run enforces exactly what .lighthouserc.json declares.');
   process.exit(1);
 }
-if (softened === 0) {
-  console.error('No timing assertion was found to soften. TIMING_ASSERTIONS is out of step with .lighthouserc.json.');
-  process.exit(1);
+
+/* Every budget difference must be one of the documented overrides, and nothing else may drift. */
+for (const [i, entry] of out.ci.assert.assertMatrix.entries()) {
+  for (const [audit, rule] of Object.entries(entry.assertions)) {
+    const srcRule = src.ci.assert.assertMatrix[i].assertions[audit];
+    if (JSON.stringify(rule) === JSON.stringify(srcRule)) continue;
+    if (!DEPLOYED_OVERRIDES.has(audit)) {
+      console.error(`Budget for "${audit}" differs from .lighthouserc.json but is not a documented override. Refusing to write.`);
+      process.exit(1);
+    }
+  }
 }
 
 writeFileSync(outPath, JSON.stringify(out, null, 2));
@@ -141,6 +159,6 @@ console.log(`  origin:     ${base.origin}`);
 console.log(`  urls:       ${out.ci.collect.url.length}`);
 for (const u of out.ci.collect.url) console.log(`              ${u}`);
 console.log(`  runs/url:   ${out.ci.collect.numberOfRuns ?? 1}`);
-console.log(`  assertions: budgets identical to .lighthouserc.json; ${kept} enforced as error, ${softened} timing assertion(s) softened to warn`);
-console.log(`              error: everything deterministic (CLS, byte budget, blocking-resource count)`);
-console.log(`              warn:  ${[...TIMING_ASSERTIONS].join(', ')}`);
+console.log(`  assertions: ${overridden + unchanged} enforced, all at the severity .lighthouserc.json declares`);
+console.log(`              ${unchanged} identical to source, ${overridden} with a documented deployed override`);
+for (const [audit, o] of DEPLOYED_OVERRIDES) console.log(`              override ${audit} -> ${o.maxNumericValue}`);
