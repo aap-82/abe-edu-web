@@ -223,13 +223,14 @@ Tag every item: [skills] | [design] | [facts] | [build]
   change to `https://www.abeeducation.edu.au`** or the nightly silently keeps measuring a preview
   host nobody visits. It is one line and it is the only place the host appears; add it to the cutover
   runbook rather than trusting it to be remembered.
-- [design] `.ph.ph-img` shifts on the deployed host on every page that has a hero image, and the
+- ~~[design] `.ph.ph-img` shifts on the deployed host on every page that has a hero image, and the
   nightly's first run measured it at **0.5622 on `/cpd`** (28x the 0.02 budget), 0.0748 on
   `/qld-owner-builder-course` and 0.0581 on `/reviews`, deterministic across three runs each. The
   Lighthouse `layout-shifts` audit attributes it to the `<img class="ph ... ph-img">` element itself,
   with the web-font shift event at 0.0000. Highest-value open defect on the site: it is on three
   indexable pages, a reader sees it, and CLS is a ranking signal. `/cpd` first, since it is an order
-  of magnitude worse than the others and may be a different fault.
+  of magnitude worse than the others and may be a different fault.~~ fixed 13 Aug 2026: not an image bug. `.z-img`/`.howtrack` kept `grid-column:2` below 1100px, creating an implicit second column that starved the hero text column to **0px wide** on every hero page. See the addendum in `skill-reviews/design/2026-08-13-design-register-reconciled-to-global-css.md`.
+
 - [design] `src/styles/global.css`'s hero-CLS comment now contains two claims the deployed trace
   contradicts: that the shift is intermittent, and that the image is "not itself faulty ... being
   moved by something above it". On a clean runner it is deterministic to sixteen decimal places and

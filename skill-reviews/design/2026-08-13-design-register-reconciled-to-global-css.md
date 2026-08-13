@@ -156,6 +156,54 @@ ships doing nothing and reads identical in the diff. Served `dist/` via `dist-st
 `system-health` returns to 44 warnings, with 81 ok against the 76 this session opened on. Build green,
 `prose-lint` 16 files passed.
 
+## Addendum 2 — the hero CLS, which turned out not to be a CLS bug
+
+The nightly CWV run failed on three pages' CLS. Chasing `/cpd` (0.5622) found a layout defect that
+CLS was merely the symptom of.
+
+**`.hero .wrap` collapses to `grid-template-columns:1fr` below 1100px, but `.z-img` and `.howtrack`
+keep the `grid-column:2` they are given at `global.css:412-413`.** A `grid-column:2` against a
+one-column template does not place an item in a column that does not exist; it **creates an implicit
+second column**, auto-sized to the image. `1fr` for column 1 then means "whatever is left", and
+there was nothing left.
+
+Measured on the deployed `/cpd` at 390px, before:
+
+| | Before | After |
+|---|---|---|
+| `grid-template-columns` | `0px 286px` | `334px` |
+| hero text column width | **0px** | 334px |
+| `h1.h1` width | **0px** (248px tall) | 334px |
+| hero text column height | 2780px | ~1226px |
+
+**Every hero page below 1100px was rendering its headline and body copy in a zero-width column**,
+tablets included, for the three weeks since the ProcessTrack rework on 12 Aug moved these placements
+in. `left:76` in the Lighthouse trace is this exactly: 28px wrap padding + 0px text column + 48px
+gap.
+
+**Why the localhost gate never saw it.** The image is served instantly from a local static server,
+so the broken layout never *moves*, and CLS only measures movement. The layout was equally broken in
+both places; only the deployed host made it register as a metric. That is the case for the nightly
+stated better than I stated it when building the thing.
+
+### Verification
+
+Deterministic layout measurement rather than a metric, because the fault is pure CSS and does not
+need the network to reproduce:
+
+- **Five hero pages at 390px** (`/cpd`, `/cpd-tas`, `/qld-owner-builder-course`, `/reviews`,
+  `/white-card-wa`): single `334px` column, text and image both full width, on all five.
+- **Breakpoint ladder on `/cpd`** at 1280 / 1101 / 1100 / 900 / 390 / 320px. Desktop is unchanged at
+  `573.391px 498.594px` — the exact pair `global.css` already documents as correct in its
+  `hero-bundle` note — and no horizontal scroll at any width, including 320px.
+- **Mobile stacking order** on four page types including a bundle page: text, then image, then
+  `.howtrack`, all full width. `.howtrack` still sits in column 2 row 2 at desktop (x=706 on `/qld`).
+- Build green, 28 pages passed guardrails.
+
+**What is not yet verified:** the CLS number itself. It cannot be confirmed from a local build, for
+the same reason the gate missed the defect. Proof is a nightly run against the deployed host after
+this ships.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]

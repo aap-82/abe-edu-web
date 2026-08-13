@@ -1303,6 +1303,28 @@ footer .f-auth > p + p{margin-top:var(--s-2xs);}
 @media(min-width:901px){ .ctastrip{display:none;} }
 @media(max-width:1100px){
   .hero .wrap{grid-template-columns:1fr;gap:var(--s-xl);}
+  /* THE EXPLICIT PLACEMENTS HAVE TO COME BACK OFF WITH THE SECOND COLUMN, 13 Aug 2026.
+     The line above collapses the hero to one column, but `.z-img` and `.howtrack` kept the
+     `grid-column:2` they are given at :412-413, which does not place them in a column that no
+     longer exists — it CREATES an implicit second one, auto-sized to the image. `1fr` for column 1
+     then means "whatever is left", and there was nothing left.
+
+     Measured on the deployed /cpd at 390px before this fix:
+         grid-template-columns: 0px 286px
+         text column:  width 0,   height 2780
+         h1:           width 0,   height 248
+     Every hero page below 1100px was rendering its headline and body copy in a ZERO-WIDTH column
+     for the last three weeks, tablets included. `left:76` in the Lighthouse trace is this exactly:
+     28px wrap padding + 0px text column + 48px gap.
+
+     It surfaced as CLS (0.5622 on /cpd, 0.0748 on /qld-owner-builder-course, 0.0581 on /reviews)
+     because the implicit column resolves differently once the real image arrives, so the whole page
+     reflows. The localhost gate passed all three: the image is there instantly, so the broken
+     layout never MOVES, and CLS only sees movement. The layout was equally broken either way.
+     `grid-row` goes back to auto with it, or the text keeps its `1 / span 2` and leaves a hole. */
+  .hero .wrap > div:first-child{grid-row:auto;}
+  .hero .wrap > .z-img{grid-column:auto;grid-row:auto;}
+  .hero .wrap > .howtrack{grid-column:auto;grid-row:auto;}
   .glance-grid{grid-template-columns:repeat(2,1fr);}
   .topic-grid{grid-template-columns:repeat(2,1fr);}
   .hub-grid{grid-template-columns:repeat(2,1fr);}
