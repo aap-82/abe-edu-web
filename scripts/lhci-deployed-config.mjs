@@ -115,7 +115,27 @@ const DEPLOYED_OVERRIDES = new Map([
        + 'observation and still catches the defect class we know about - the broken hero measured '
        + '2447-3967ms, so this budget would have caught it. Same value the styleguide already uses.',
   }],
+  ['categories:performance', {
+    minScore: 0.95,
+    why: 'minScore 1 failed the first all-error run, on 0.99 at /qld-owner-builder-course and '
+       + '/styleguide - a rounding-level difference, not a defect. Best-of-three has been 0.99 or '
+       + '1.00 across every deployed page-run measured, so 1 leaves literally no room. Loosened to '
+       + '0.95 rather than 0.99 because the COMPOSITE is a backstop here, not the primary gate: LCP, '
+       + 'TBT and CLS each carry their own error budget sized on deployed measurement, so this one '
+       + 'exists to catch broad degradation the specific metrics miss. A genuine regression is far '
+       + 'larger than five points - the broken hero scored 0.78-0.86. The localhost PR gate keeps '
+       + 'minScore 1, so the "Lighthouse 100 on every template" goal stays enforced where the '
+       + 'environment is controlled enough to mean it.',
+  }],
 ]);
+
+/* Loosening means different directions for different assertion shapes, so it is spelled out rather
+   than assumed: a ceiling loosens upward, a floor loosens downward. */
+const LOOSER = {
+  maxNumericValue: (src, o) => o > src,
+  maxLength: (src, o) => o > src,
+  minScore: (src, o) => o < src,
+};
 
 let overridden = 0, unchanged = 0;
 for (const entry of out.ci.assert.assertMatrix) {
@@ -123,12 +143,16 @@ for (const entry of out.ci.assert.assertMatrix) {
     if (!Array.isArray(rule)) continue;                       // shorthand form, leave alone
     const o = DEPLOYED_OVERRIDES.get(audit);
     /* Only ever LOOSEN, and only where the source is stricter. If someone sets .lighthouserc.json
-       to something looser than the override, the source wins: this file must never silently make a
-       gate stricter than the one the author wrote, nor undo a deliberate relaxation. */
-    if (o && typeof rule[1]?.maxNumericValue === 'number' && rule[1].maxNumericValue < o.maxNumericValue) {
-      rule[1] = { ...rule[1], maxNumericValue: o.maxNumericValue };
-      overridden++;
-    } else unchanged++;
+       looser than the override, the source wins: this file must never silently make a gate stricter
+       than the one the author wrote, nor undo a deliberate relaxation. */
+    let applied = false;
+    if (o) {
+      for (const key of Object.keys(LOOSER)) {
+        if (!(key in o) || typeof rule[1]?.[key] !== 'number') continue;
+        if (LOOSER[key](rule[1][key], o[key])) { rule[1] = { ...rule[1], [key]: o[key] }; applied = true; }
+      }
+    }
+    applied ? overridden++ : unchanged++;
   }
 }
 
@@ -161,4 +185,7 @@ for (const u of out.ci.collect.url) console.log(`              ${u}`);
 console.log(`  runs/url:   ${out.ci.collect.numberOfRuns ?? 1}`);
 console.log(`  assertions: ${overridden + unchanged} enforced, all at the severity .lighthouserc.json declares`);
 console.log(`              ${unchanged} identical to source, ${overridden} with a documented deployed override`);
-for (const [audit, o] of DEPLOYED_OVERRIDES) console.log(`              override ${audit} -> ${o.maxNumericValue}`);
+for (const [audit, o] of DEPLOYED_OVERRIDES) {
+  const shown = Object.keys(LOOSER).filter((k) => k in o).map((k) => `${k} ${o[k]}`).join(', ');
+  console.log(`              override ${audit} -> ${shown}`);
+}
