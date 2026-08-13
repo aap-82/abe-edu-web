@@ -227,3 +227,38 @@ git commit times, so this closes only once committed.
 
 **Filed by a design session.** `pipeline/**` is build-owned; this was written on Andrey's direct
 instruction after the crossing was named. Recorded here rather than only in the session transcript.
+
+
+---
+
+## Re-verification note, 13 August 2026 — hero `howItWorks` split
+
+**What changed.** Commit `9946204` inserted `|` separators into this page's hero `howItWorks`
+frontmatter string, so `ProcessTrack` can render each step as a two-line card (action on the first
+line, detail on the second) instead of a one-line row in a vertical ledger.
+
+```
+before: Enrol once → Work through in any order → Assessment on each course → Certificate as you finish
+after:  Enrol|once → Work through|in any order → Assessment|on each course → Certificate as you finish
+```
+
+**Why no re-audit.** This is a mechanical separator insertion and nothing else, proven rather than
+asserted: the new string is byte-identical to the old one once each `|` is read back as the space it
+replaced. No word was added, removed or re-ordered. The splits were applied from an explicit table,
+and the steps that could not be split without inventing a second line — single words, and any step
+leading with a proper noun — were deliberately left whole.
+
+Nothing the three mandated audits read has changed. No section was added, removed or re-ordered; no
+answer capsule, claim, figure, price or source line was touched; the page's prose is untouched. The
+`howItWorks` prop is a hero label, not prose. So `abe-readability-audit`, `final-check` and
+`ai-detector` were **not re-run**, and that is stated here rather than silently skipped, per the
+standing rule that skipping is allowed and skipping silently is not.
+
+**Why this entry exists.** `check-pipeline` §4 fails a page whose source is committed later than its
+Stage 7 artefact, on the rule that a verification predating the content it certifies has certified
+nothing. That gate fired correctly on this page for the commit above. It compares git commit times,
+so this closes only once committed.
+
+**Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
+re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
+build-owned; the crossing is recorded here rather than only in the session transcript.
