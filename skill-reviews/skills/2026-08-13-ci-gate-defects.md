@@ -211,6 +211,40 @@ catching a briefed section dissolving into a neighbour, and it is the one that s
 running in CI. A set-scoped check reporting nothing is its least trustworthy output, and this one
 reports nothing without saying so.
 
+## Addendum 3 — the styleguide CLS budget, raised on measurement
+
+After the hero fix landed, the nightly went fully green, but `/styleguide` sat at 0.0191 against a
+0.02 budget: 4.5% headroom. Raised to **0.05 for that page only**. The five production URLs stay at
+0.02 and were not touched.
+
+**Measured before choosing a number**, five runs against the deployed host:
+`0.0000, 0.0191, 0.0191, 0.0191, 0.0191`.
+
+The spread is the finding. It is **binary, not noisy** — either the webfont swap lands inside the
+measurement window or it does not, and when it does the value is identical to four decimal places.
+So flapping is *not* the reason to raise it, and saying so matters: the two previous raises on this
+page (LCP 1800→2200, TBT 50→100) were both about flap, and reusing that argument here would have
+been wrong.
+
+The real reason is that the figure is a function of **page height**, and this page grows by design.
+The single shift event is `body.sg > main#main` at 47,649px tall, cause "Web font loaded" on all four
+faces: residual fallback-metric mismatch accumulating down a very long document. The five production
+URLs score 0.0000 to 0.0015 on that identical cause because they are ~3,000px. Every component
+specimen added to the gallery lengthens this page and nudges the number up, so ordinary component
+work would eventually cross 0.02 having broken nothing.
+
+0.05 keeps it a real check by the same test the LCP raise used: a genuine CLS defect here — an
+unsized image, a specimen with no reserved space — lands at 0.1 or more, not 0.025. It tolerates
+roughly 2.5x the current page height.
+
+Verified by `lhci assert` against the five collected runs: CLS no longer appears in the output, and
+under the nightly's own generated config the run exits **0**.
+
+**Not done, deliberately.** The real fix for the underlying shift is the font swap itself — preload,
+or `font-display:optional`. That is sitewide, it trades against the measured ~750ms LCP decision
+recorded in `BaseLayout.astro`, and it should not be made on behalf of one noindex page that no
+reader is served. Recorded as an option in the config comment rather than taken.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]
