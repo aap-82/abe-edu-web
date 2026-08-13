@@ -159,8 +159,19 @@ live and correct but cannot convert), and confirming "56 pages" before `/project
 - `[skills]` `--maroon` now has more documented exceptions than rule: three in ModuleRows, plus
   `#600000` figures, an `#a00000` marker, a maroon waynav state and maroon proof caps. Settling the
   "figures" job belongs in the design register, which rule 7 makes an exclusive session.
-- `[skills]` `.faq` and `.mrows` have diverged by instruction, so ModuleRows' "one accordion, not
-  two" comment is now false as written. Either the FAQ follows or the comment is corrected.
+- ~~`[skills]` `.faq` and `.mrows` have diverged by instruction, so ModuleRows' "one accordion, not
+  two" comment is now false as written. Either the FAQ follows or the comment is corrected.~~
+  **comment corrected 13 Aug 2026, and the framing of this item was slightly off.** The "one
+  accordion rather than two" line is a claim about MECHANISM — native `<details>`, no JS, shared
+  markup and marker, crawlable when collapsed — and all of that is still true. What was false sat
+  further down the same comment: "Open therefore takes NO tint" (`.mrow details[open] > summary` sets
+  `--paper-grey`) and a hover measurement still reading `#f7f4ec / 4.64:1` when hover is `#f2f3f4 /
+  4.59:1`. Both are now labelled superseded in place, pointing at the live MEASURED block at the foot
+  of the comment, and the mechanism line carries a note saying it is not a claim about colour,
+  because it has been read that way once already. **The FAQ was deliberately not changed**: Andrey
+  asked for grey on ModuleRows specifically, so converging the FAQ's hover across every page would
+  be a visible change to live pages on my inference rather than his instruction. Whether the two
+  should converge is recorded as a live design question, not a defect.
 - `[skills]` `SKILL.md` and `references/verification.md` drifted apart twice; this session hand-mirrored
   between them. One line in each naming the other as its mirror would close it.
 - `[build]` `/experts/*` reuse ProcessTrack for expertise areas, not a process. Its labels run to 45
@@ -262,11 +273,19 @@ check, then confirming it with a test built from the same assumption.
 - `[build]` **no page on the site sets `ogImage`**, so every social share of every page renders a blank
   card. `BaseLayout` already supports the prop and already upgrades `twitter:card`; only a 1200x630
   JPG/PNG and one frontmatter line per page are missing. Cheapest visible win outstanding.
-- `[design]` the hero CLS cause is **still not isolated**. Three static explanations have each been
+- ~~`[design]` the hero CLS cause is **still not isolated**. Three static explanations have each been
   measured and each been wrong (the audit's headshots, font metrics, my own header/page-bar theory).
   The shift is **intermittent** — absent in 1 of 3 runs, identical in the other 2 on one unchanged
   build — which makes it a load-order race, not a sizing bug. Capture a trace on a deployed host with
-  the shift present; do not propose a fourth hypothesis from inspection.
+  the shift present; do not propose a fourth hypothesis from inspection.~~ **isolated and fixed
+  13 Aug 2026.** The trace was captured as instructed and named `.hero .wrap`: below 1100px it
+  collapses to one column while `.z-img` and `.howtrack` keep `grid-column:2`, creating an implicit
+  second column and leaving `1fr` with nothing. The hero text column was **0px wide** on every hero
+  page below 1100px since 12 Aug. CLS on `/cpd` 0.5622 → 0.0012, verified against the deployed host.
+  The intermittency was a contended local machine, not the site: on a clean runner the value repeats
+  to sixteen decimal places. And the load-order-race conclusion did not follow from three static
+  explanations having failed — the fourth was correct. Full account:
+  `skill-reviews/design/2026-08-13-design-register-reconciled-to-global-css.md` Addendum 2.
 - `[build]` `Course.teaches` and a `FAQPage` node need content-layer data the layout cannot reach.
 - `[skills]` `provider` has `@id` but no `sameAs` — ABE Education's verified profile URLs are recorded
   nowhere in the repo, and inventing them would be a fabricated identity claim. Needs Andrey.

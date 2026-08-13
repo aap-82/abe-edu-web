@@ -24,32 +24,38 @@ colors:
   rule: "#e5e7eb"
   rule-strong: "#d4d6da"
 typography:
+  figure:
+    fontFamily: "Archivo, Archivo Fallback, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontSize: "clamp(48px, 7vw, 84px)"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "-0.03em"
   display:
-    fontFamily: "Archivo, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "Archivo, Archivo Fallback, -apple-system, BlinkMacSystemFont, sans-serif"
     fontSize: "clamp(34px, 4.6vw, 56px)"
     fontWeight: 700
     lineHeight: 1.04
     letterSpacing: "-0.03em"
   headline:
-    fontFamily: "Archivo, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "Archivo, Archivo Fallback, -apple-system, BlinkMacSystemFont, sans-serif"
     fontSize: "clamp(30px, 3.6vw, 42px)"
     fontWeight: 600
     lineHeight: 1.08
     letterSpacing: "-0.025em"
   title:
-    fontFamily: "Archivo, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "Archivo, Archivo Fallback, -apple-system, BlinkMacSystemFont, sans-serif"
     fontSize: "22px"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif"
+    fontFamily: "DM Sans, DM Sans Fallback, -apple-system, BlinkMacSystemFont, sans-serif"
     fontSize: "17px"
     fontWeight: 400
     lineHeight: 1.65
     letterSpacing: "normal"
   label:
-    fontFamily: "DM Mono, ui-monospace, monospace"
+    fontFamily: "DM Mono, DM Mono Fallback, ui-monospace, monospace"
     fontSize: "11px"
     fontWeight: 500
     lineHeight: 1.4
@@ -191,7 +197,8 @@ Ink is the alternative and is deliberately not the default: at `--ink` a line dr
 **Character:** A three-voice newsroom pairing. Archivo is the confident headline and figure face, set tight with negative tracking. DM Sans is the calm, legible reading voice. DM Mono, always uppercase and widely tracked, is the "small print" voice that signals captions, keys, and verified facts, the typographic tell of a trustworthy document.
 
 ### Hierarchy
-- **Display** (Archivo 700, `clamp(34px, 4.6vw, 56px)`, line-height 1.04, tracking -0.03em): the single hero H1 per page, set by `h1.h1` and rendered by `Hero.astro`. Note it is the one role that steps to weight 700; everything else in Archivo is 600.
+- **Figure** (Archivo 700, `clamp(48px, 7vw, 84px)`, line-height 1, tracking -0.03em): one arresting number standing alone, set by `.statblock-v` and rendered by `StatBlock`. The largest type in the system, above Display, and the only role that is not a heading. Always Ink, never maroon: a figure this size in maroon would spend the entire 10% accent budget in one element. **It currently has no production consumer** — `StatBlock` renders on `/styleguide` and nowhere else — so it is recorded here as an available shape rather than as something the site is using. Recorded because the register previously implied 56px was the ceiling, which a build session reading it would have believed.
+- **Display** (Archivo 700, `clamp(34px, 4.6vw, 56px)`, line-height 1.04, tracking -0.03em): the single hero H1 per page, set by `h1.h1` and rendered by `Hero.astro`. It is the largest type any reader currently meets, and the one heading role that steps to weight 700; everything else in Archivo is 600.
 - **Headline** (Archivo 600, `clamp(30px, 3.6vw, 42px)`, line-height 1.08, tracking -0.025em): section H2s, question-led.
 - **Title** (Archivo 600, 22px, tracking -0.01em): card and sub-section H3s; FAQ and price figures share this weight.
 - **Body** (DM Sans 400, 17px, line-height 1.65): reading copy. The lede steps up to 19px / line-height 1.55. Long-form answer copy is capped around 66 to 80ch.

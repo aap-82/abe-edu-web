@@ -245,6 +245,44 @@ rather than a broken row — and it only affects the 12 steps listed as unsplitt
 The check was right and the comment was wrong. It is now written without quoting either fragment,
 and says so in place.
 
+## Addendum 4 — the three remaining design items, closed
+
+**`figure` typography role added.** `.statblock-v` sets `clamp(48px, 7vw, 84px)` / 700 / lh 1, above
+Display, and the register had no entry for it — so `DESIGN.md` implied 56px was the ceiling. Now a
+sixth role, with the qualification that changes how it should be read: **`StatBlock` has no
+production consumer.** It renders on `/styleguide` and nowhere else, established from `dist/` markup
+(`grep -rl 'class="statblock'` → one file) rather than from the CSS, which is inlined into all 27
+pages and matches every one of them. Recorded as an available shape, not as something the site uses.
+
+**Font stacks completed, and a narrowing removed with them.** `DESIGN.md` listed
+`Archivo, -apple-system, …`; `global.css` ships `'Archivo','Archivo Fallback',…`. The register now
+carries the metric-matched fallbacks on all three faces. The interesting half is the check:
+`check-design-register` compared **the primary face only**, and it did so *because* of this gap — a
+full comparison would have failed on a known issue. Closing the gap let the narrowing go, so it now
+compares the full stack with quotes stripped. That matters concretely: a generator following a
+fallback-less stack emits type that reflows on load, which is the exact thing those faces were added
+on 12 Aug to prevent, and the primary-face check could never have caught it.
+
+**ModuleRows' comment corrected, and the filed framing was wrong.** The item said the "one accordion,
+not two" line was false. It is not — that line is about *mechanism* (native `<details>`, no JS,
+shared markup and marker, crawlable collapsed) and every part of it still holds. Two statements
+further down the same comment were false: "Open therefore takes NO tint", when
+`.mrow details[open] > summary` sets `--paper-grey`; and a measurement block still reading hover
+`#f7f4ec / 4.64:1` when hover is `#f2f3f4 / 4.59:1`. Both are labelled superseded in place rather
+than deleted, pointing at the live MEASURED block at the foot, and the mechanism line now says
+explicitly that it is not a claim about colour — because it has been misread that way once already,
+which is what produced this item.
+
+**The FAQ was deliberately not changed.** Andrey asked for grey on ModuleRows specifically. Making
+the FAQ follow would change hover on every page carrying one, on my inference about intent rather
+than an instruction. Whether they should converge is a live design question, recorded as such.
+
+**Verification.** `check-design-register` 0 failing / 0 warning / 5 ok, now covering **21 declared
+properties across 6 roles** (was 16 across 5). Four new drift cases falsified in a scratch tree:
+dropping the Archivo fallback, dropping the DM Mono fallback, a wrong `figure` size, and the
+`figure` selector renamed in CSS — all caught, none silent. Build green, 28 pages passed guardrails,
+`npm run check` 0 errors, `system-health` 0 failing.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]
@@ -264,10 +302,18 @@ Tag every item: [skills] | [design] | [facts] | [build]
   silently for three weeks while every gate stayed green.~~ built the same day as
   `scripts/check-design-register.mjs`, registered in SYSTEM.md §5 and wired into `system-health`;
   see `skill-reviews/skills/2026-08-13-check-design-register.md`
-- [design] `.statblock-v` (`global.css:837`) sets `clamp(48px, 7vw, 84px)` / 700, above the display
+- ~~[design] `.statblock-v` (`global.css:837`) sets `clamp(48px, 7vw, 84px)` / 700, above the display
   role, with no entry in `DESIGN.md`'s type hierarchy. Either give it a role or record it as a
-  deliberate one-off; right now the register's account of its own largest type is incomplete.
-- [design] `typography.*.fontFamily` in `DESIGN.md` omits the metric-matched fallback faces that
+  deliberate one-off; right now the register's account of its own largest type is incomplete.~~
+  given a role, 13 Aug 2026 — `figure`, with the qualification that matters: **it has no production
+  consumer.** `StatBlock` renders on `/styleguide` and nowhere else, checked against `dist/` markup
+  rather than the CSS, which is inlined everywhere and matches every page. So it is recorded as an
+  available shape, not as something the site uses. Recorded anyway because the register implied 56px
+  was the ceiling, and a build session reading it would have believed that.
+- ~~[design] `typography.*.fontFamily` in `DESIGN.md` omits the metric-matched fallback faces that
   `global.css` ships (`Archivo Fallback`, `DM Sans Fallback`, `DM Mono Fallback`). Harmless today,
   but a generator following the register would emit a stack that reflows on load, which is the exact
-  thing those faces were added on 12 Aug to stop.
+  thing those faces were added on 12 Aug to stop.~~ done 13 Aug 2026, and the check tightened with
+  it: `check-design-register` compared the **primary face only**, a narrowing that existed precisely
+  because of this gap. Now it compares the full stack, quotes stripped. Falsified both ways —
+  dropping either the Archivo or the DM Mono fallback from the register now fails.

@@ -72,6 +72,7 @@ const NOT_IN_REGISTER = new Map([
 /* Typography role -> the selector that actually renders it. Verified by following the consumer, not
    by name: `display` is h1.h1 because Hero.astro:45 emits <h1 class="h1">. */
 const TYPE_SELECTOR = new Map([
+  ['figure', '.statblock-v'],   // largest in the system, above display; StatBlock, styleguide-only today
   ['display', 'h1.h1'],
   ['headline', '.h2'],
   ['title', '.h3'],
@@ -201,12 +202,15 @@ if (typeRoles.length === 0) {
       if (!decls.has(cssProp)) { undeclared++; continue; }   // inherited or defaulted; absence is not disagreement
       let want = fmType[role][key], got = resolve(decls.get(cssProp));
       if (key === 'fontFamily') {
-        /* Primary face only. The CSS stacks carry metric-matched fallback faces ('Archivo Fallback'
-           and siblings) that the register's stacks omit; that divergence is separately filed and is
-           not what this check is for. Comparing the first family asserts the thing that matters,
-           which typeface renders, and says so rather than pretending to compare the whole stack. */
-        const first = (s) => String(s).split(',')[0].trim().replace(/^["']|["']$/g, '');
-        want = first(want); got = first(got);
+        /* FULL STACK, quotes stripped. This compared the primary face only until 13 Aug 2026,
+           because the CSS carried metric-matched fallback faces ('Archivo Fallback' and siblings)
+           that DESIGN.md's stacks omitted, and a full comparison would have failed on a known,
+           separately-filed gap. That gap is now closed - the register lists the fallbacks - so the
+           narrowing is removed with it. It matters: a generator following a stack without the
+           fallback faces would emit type that reflows on load, which is the exact thing those faces
+           were added on 12 Aug to stop, and the primary-face check could never have caught it. */
+        const stack = (s) => String(s).split(',').map((p) => p.trim().replace(/^["']|["']$/g, '')).join(',');
+        want = stack(want); got = stack(got);
       }
       compared++;
       if (norm(want) !== norm(got)) {
@@ -215,7 +219,7 @@ if (typeRoles.length === 0) {
     }
   }
   if (!fails.some((f) => f.startsWith('Typography'))) {
-    oks.push(`Typography: ${compared} declared propert(ies) across ${typeRoles.length - unmapped} role(s) match their rendering rule (${undeclared} not declared on the selector, so not compared; font stacks compared on the primary face only)`);
+    oks.push(`Typography: ${compared} declared propert(ies) across ${typeRoles.length - unmapped} role(s) match their rendering rule (${undeclared} not declared on the selector, so not compared; font stacks compared in full)`);
   }
 }
 

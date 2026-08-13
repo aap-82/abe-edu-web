@@ -30,6 +30,15 @@ import type { ModuleGroup } from '../types/course';
  * accordion rather than two, and collapsed content stays in the DOM and in `dist/` where a crawler
  * still reads it.
  *
+ * "ONE ACCORDION" IS A CLAIM ABOUT MECHANISM, NOT ABOUT COLOUR, and it is worth saying so because it
+ * has been read the other way once already: the 12 Aug handover filed this comment as "false as
+ * written" on the strength of the two components' hover and open states differing. They do differ,
+ * deliberately — this one uses --paper-grey for both, the FAQ uses --paper-alt for hover and nothing
+ * for open, because Andrey asked for light grey here and the warm ramp reads as cream. The shared
+ * thing is the disclosure mechanism, the markup, the marker and the crawlability, and all of that is
+ * still shared. If the two should also converge on colour, that is a live design question and not a
+ * defect in this file; the divergence is recorded in the hover block below.
+ *
  * THREE DATA SHAPES, because the five states author this differently and only QLD has all of it:
  *   contents + outcome  ->  two columns, Modules beside You will be able to      (QLD)
  *   body only           ->  the prose, one column, no eyebrows       (ACT, TAS, WA, NSW)
@@ -143,6 +152,18 @@ const hasColumns = (m: ModuleGroup) => Boolean(m.contents?.length || m.outcome?.
      4.40:1. The container above changes the premise. Rest is --paper now, so --paper-alt is a step
      DOWN off white rather than a fourth value squeezed between the ramp and the open state, and it
      is the same step the FAQ has been making since it shipped.
+
+     SUPERSEDED FROM HERE TO THE END OF THIS BLOCK, 12 Aug 2026. Corrected 13 Aug. What follows
+     described the state before Andrey asked for grey, and two of its statements are now false
+     against the CSS a few lines below. Kept and labelled rather than deleted, because the reasoning
+     about WHERE hover belongs is still the reasoning this component runs on; only the values moved.
+     The live numbers are in the MEASURED block at the foot of this comment, not in this one.
+
+       FALSE NOW  "Open therefore takes NO tint." `.mrow details[open] > summary` sets
+                  --paper-grey. The FAQ still sets no background on open, so this is precisely
+                  where the two accordions diverge, and it is by instruction.
+       STALE NOW  the hover measurement below reads #f7f4ec / 4.64:1. Hover is --paper-grey
+                  (#f2f3f4) and measures 4.59:1.
 
      Open therefore takes NO tint, which is the other half of parity: `.faq details[open]` sets no
      background either. Open is carried by the plus rotating to a cross and by the panel appearing —
