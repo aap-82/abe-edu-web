@@ -253,12 +253,15 @@ Tag every item: [skills] | [design] | [facts] | [build]
   go with the fix.~~ done 13 Aug 2026: `npm ci` + `npm run build` added to `health.yml`, the wrong
   comment replaced with the measurement, and `SYSTEM.md` §5 now records that `check-pipeline` needs
   a built `dist/`. Verified by the next CI health record matching local.
-- [skills] `check-pipeline.mjs` should say so when `dist/` is absent instead of returning quietly.
+- ~~[skills] `check-pipeline.mjs` should say so when `dist/` is absent instead of returning quietly.
   Every page hits `if (!plan || !existsSync(built)) continue;` and the script still prints a summary
   line, so an environment where it checked nothing is indistinguishable from one where everything
   passed. One WARN naming the count of pages skipped for want of a built page would have made the
   gap above visible the first time it happened rather than a month later. Same shape as the
-  set-scoped-tools lesson already in the mistakes log.
+  set-scoped-tools lesson already in the mistakes log.~~ done 13 Aug 2026: two distinct warnings,
+  one for "no `dist/` at all" (the loud case) and one naming the slugs that have no built page
+  (normal mid-build). Falsified in three scratch trees — silent in the complete case, fires in both
+  others — and the real repo's output is unchanged at 0 failing, 7 warning, 52 ok.
 - [skills] `check-claims` §7 requires every `scripts/*.mjs` to be named in SYSTEM.md §5 or exempted,
   and the exempt list is now 7 of 20. That is a third of the directory exempt from the rule, each for
   a good reason individually. Worth one look at whether "is it a check" is still the right axis, or

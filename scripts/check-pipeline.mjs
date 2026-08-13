@@ -53,6 +53,20 @@ const fails = [];
 const warns = [];
 const oks = [];
 
+/** Slugs whose conformance checks were skipped because there is no built page to compare against.
+ *  A Set, so a slug skipped by both loops counts once: the unit is pages, not loop iterations.
+ *
+ *  WHY THIS IS TRACKED AT ALL. Both loops below `continue` when `dist/{slug}/index.html` is absent,
+ *  and until 13 Aug 2026 they did it in silence: the script still printed a summary line, so an
+ *  environment where it compared NOTHING was indistinguishable from one where everything passed.
+ *  `health.yml` ran `system-health` without building for weeks and 25 assertions quietly did not
+ *  run — 18 OK and 7 WARN — and the only visible trace anywhere was that the CI health record never
+ *  matched a local one. Nobody was going to notice that, and nobody did for weeks.
+ *
+ *  A zero from a set-scoped check is its least trustworthy output. This makes the check say how
+ *  much of its own scope it actually covered. */
+const noBuild = new Set();
+
 if (!existsSync(PIPELINE)) {
   console.log('No pipeline/ directory. Nothing to check.');
   process.exit(0);
@@ -77,6 +91,7 @@ for (const slug of slugs) {
   // 2 · section conformance, only when both sides exist
   const plan = files.find((f) => f.startsWith('05-'));
   const built = join(DIST, slug, 'index.html');
+  if (!existsSync(built)) noBuild.add(slug);
   if (!plan || !existsSync(built)) continue;
 
   const planText = readFileSync(join(dir, plan), 'utf8');
@@ -149,6 +164,7 @@ for (const slug of slugs) {
   const files = readdirSync(dir);
   const contentFile = files.find((f) => f.startsWith('04-'));
   const built = join(DIST, slug, 'index.html');
+  if (!existsSync(built)) noBuild.add(slug);
   if (!contentFile || !existsSync(built)) continue;
 
   const md = readFileSync(join(dir, contentFile), 'utf8');
@@ -277,6 +293,27 @@ for (const slug of slugs) {
   }
 }
 
+
+/* Coverage, reported rather than assumed. Two distinct conditions, because they mean different
+   things and want different responses:
+     - no dist/ at all      the caller forgot to build, or is an environment that never does. Every
+                            conformance assertion in this script is absent. This is the health.yml
+                            case and it is the loud one.
+     - dist/ but no page    a page in the pipeline that has not shipped yet. Normal and expected
+                            mid-build; worth naming so the count is honest, not worth alarm. */
+if (!existsSync(DIST)) {
+  warns.push(
+    `No ${DIST}/ directory, so NONE of the section- or capsule-conformance checks ran — only artefact ` +
+    `presence and Stage-7 dispositions did, and this script's "0 failing" says nothing about ` +
+    `brief-to-page drift. Run \`npm run build\` first. (${slugs.length} pipeline slug(s) uncovered.)`,
+  );
+} else if (noBuild.size) {
+  warns.push(
+    `${noBuild.size} pipeline slug(s) have no built page in ${DIST}/, so their section and capsule ` +
+    `conformance was not checked: ${[...noBuild].sort().join(', ')}. Expected for a page still in ` +
+    `progress; a surprise for one that has shipped.`,
+  );
+}
 
 console.log('=== Pipeline conformance ===\n');
 const shown = [bySlug(fails, SLUG), bySlug(warns, SLUG), bySlug(oks, SLUG)];
