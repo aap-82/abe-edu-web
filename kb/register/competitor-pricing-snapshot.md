@@ -68,7 +68,7 @@ State-by-state pricing varies sharply because the **delivery mode is set by each
 |---|---|---|
 | **WA** | **$39 – $60** | Self-paced online allowed; commodity pricing. ⚠️ **This is the competitor band, and ABE's WA product may not belong in it** — see the delivery-mode note below §3. |
 | **TAS** | **$39 – $60** | Self-paced online allowed; commodity pricing. |
-| **QLD** | **$99 – $250** | Virtual classroom mandated → higher per-student cost. |
+| **QLD** | **$99 – $250** | Trainer-led delivery drives the higher per-student cost. **Corrected 14 Aug 2026:** this cell read "Virtual classroom mandated", which is a delivery-mode claim this file does not own and which is wrong as stated. Virtual classroom (CRTD) is **permitted** in QLD, from an RTO separately approved for it, not mandated — in-person is equally allowed, and WHSQ counts CRTD *as* face-to-face. The commercial point stands either way: self-paced is not available, so every QLD competitor is paying for a trainer. Delivery mode: `online-delivery-policy-by-state.md` §2C. |
 | **ACT** | **$99 – $150** | Online + live video session mandated; smaller competitive set. |
 
 ---

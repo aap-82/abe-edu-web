@@ -79,10 +79,57 @@ before any page or schema asserts national coverage for silica specifically.
 currency end date (18 Aug 2027) differ by about a year — not reconciled in this session, flagged so a
 future freshness check does not treat one as a typo for the other.
 
+## Re-read 14 August 2026 — the jurisdiction list confirmed, its legal effect still not
+
+Two things were checked at source. One is now settled; the other is not, and the difference between
+"unchecked" and "checked and the instrument does not say" is worth recording as its own state.
+
+**1. The 10830NAT jurisdiction list is confirmed: NSW, VIC, QLD, TAS, ACT. SA, WA and NT are not on
+it.** Re-read on AlertForce's Courses tab, 14 Aug 2026.
+
+**Read this before re-checking it, because the obvious method returns the wrong answer.**
+training.gov.au renders **every** jurisdiction into the Delivery notification cell and then gives
+width only to the ones that apply. The cell's `textContent` is
+`NSWVICQLDSAWATASNTACTINTERNATIONAL` — all of them — while the cell's `innerText` is
+`NSW VIC QLD TAS ACT`. Measured per pill: NSW 48x24, VIC 41x24, QLD 45x24, TAS 43x24, ACT 44x24, and
+**SA, WA, NT and INTERNATIONAL all 0x0**, with `visibility:visible` and `display:inline-flex` on every
+one, so a visibility check does not separate them either. A scrape, a `textContent` read, or an
+`offsetParent` test will all report that AlertForce is notified in every state. Use `innerText`, or
+measure the boxes.
+
+**2. The legal effect of "Delivery notification" is still not established, and the instrument the
+previous entry said it had not opened has now been opened.** The tooltip on that column, read
+14 Aug 2026, gives only the jurisdiction legend `NSW | VIC | QLD | SA | WA | TAS | NT | ACT`. The
+scope tooltip beside it says, in full:
+
+> "NOTE: This is a list of training products that the RTO has approval to deliver training and/or
+> assessment in. It is not an indication of what training products the RTO is actually delivering.
+> Individuals should contact the relevant RTO to confirm all delivery details of different training
+> products."
+
+That establishes scope means **approval to deliver**, not actual delivery — useful, and it is why
+this register never says AlertForce *does* deliver a course anywhere. It does **not** say whether
+delivering outside the notified jurisdictions is barred or merely un-notified, which is the question.
+`asqa.gov.au` was searched for "delivery notification" the same day: **6 results, none defining the
+field**; the nearest is a statement of regulatory expectations about notification of *material
+changes*, which is a different obligation.
+
+**So the position is unchanged but better bounded: WA, SA and NT stay UNVERIFIED for 10830NAT.** What
+has changed is where not to look. The next attempt should go to ASQA directly or to AlertForce, not
+to training.gov.au's help text or ASQA's public search, both of which have now been tried and
+recorded as silent.
+
+**No live page depends on this.** Every AlertForce reference in `src/content` is the ACT White Card,
+and ACT is on the notified list. No asbestos or silica page is built. This gates a future page, not a
+published claim.
+
 ## Sources
 
 | What it establishes | Source | Read at source |
 |---|---|---|
+| 10830NAT delivery notification is NSW, VIC, QLD, TAS, ACT — SA/WA/NT render at 0x0 and are not notified | `training.gov.au/organisation/details/91826`, Courses tab, measured per pill | 14 Aug 2026 |
+| Scope means "approval to deliver", not actual delivery; the column tooltip defines no legal effect | same page, column and scope tooltips | 14 Aug 2026 |
+| ASQA's public site does not define "delivery notification" — 6 search results, none on point | `asqa.gov.au/search?keys=delivery notification` | 14 Aug 2026 |
 | AlertForce (RTO 91826) is Current, ASQA-regulated, registration to 10 Apr 2030 | `training.gov.au/Organisation/Details/91826`, Summary tab | 3 Aug 2026 |
 | The four accredited courses on scope and their delivery notification | `training.gov.au/Organisation/Details/91826`, Courses tab | 3 Aug 2026 |
 | 11084NAT is Current, ASQA-recognised, currency 19 Aug 2022 – 18 Aug 2027, no restrictions | `training.gov.au/training/details/11084NAT` | 3 Aug 2026 |
