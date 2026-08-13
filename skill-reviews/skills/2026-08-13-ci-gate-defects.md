@@ -241,7 +241,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   now doing discovery rather than regression-watching, and there are 24 built pages. Worth deciding
   whether the deployed run should cover more than one URL per template, given a per-page fault has
   now been found that the template exemplar did not predict.
-- [skills] `health.yml` runs `system-health` without building, so `check-pipeline`'s 25
+- ~~[skills] `health.yml` runs `system-health` without building, so `check-pipeline`'s 25
   `dist/`-dependent assertions silently no-op in CI (18 OK, 7 WARN; measured by diffing the CI log
   against a local run, 0 lines CI-only). Two consequences from one cause: brief-to-page conformance
   is **unenforced in CI**, and CI records are permanently `0/37/63` against local `0/44/81`, which
@@ -250,7 +250,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   is `npm ci && npm run build` before `system-health` in `health.yml`, which closes the blind spot
   and makes the dedupe start working. Cost is roughly a minute per push, against `health.yml:58`'s
   claim that installing "would change nothing" — it changes 25 assertions, and that comment should
-  go with the fix.
+  go with the fix.~~ done 13 Aug 2026: `npm ci` + `npm run build` added to `health.yml`, the wrong
+  comment replaced with the measurement, and `SYSTEM.md` §5 now records that `check-pipeline` needs
+  a built `dist/`. Verified by the next CI health record matching local.
 - [skills] `check-pipeline.mjs` should say so when `dist/` is absent instead of returning quietly.
   Every page hits `if (!plan || !existsSync(built)) continue;` and the script still prints a summary
   line, so an environment where it checked nothing is indistinguishable from one where everything

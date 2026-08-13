@@ -54,9 +54,33 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
-      # No `npm ci`. system-health and the checks it aggregates import only node: builtins, so
-      # installing dependencies would add a minute to every run and change nothing.
+      # BUILD ADDED 13 Aug 2026, replacing a comment that said installing dependencies "would add a
+      # minute to every run and change nothing". It changed 25 assertions.
+      #
+      # `check-pipeline` reads `dist/{slug}/index.html`, `dist/` is gitignored, and this job used to
+      # run neither `npm ci` nor a build. So every page hit its `if (!plan || !existsSync(built))
+      # continue;` and 18 OK plus 7 WARN silently disappeared - measured by diffing this workflow's
+      # log against a local run with path separators normalised: 25 lines only-local, 0 only-CI, all
+      # of them check-pipeline section or capsule conformance.
+      #
+      # Two things were wrong because of it, and one change fixes both.
+      #   1. Brief-to-page conformance - the check whose whole job is catching a briefed section
+      #      dissolving into a neighbour - was UNENFORCED here, and said nothing about it.
+      #   2. CI records were permanently 0/37/63 against local 0/44/81. `health-log-dedupe` compares
+      #      only the last two records, so an alternating CI/local sequence never dedupes: 26 of the
+      #      last 59 consecutive pairs crossed that boundary, and every crossing is a guaranteed
+      #      commit. That is the "why does this thing commit on every push" answer.
+      #
+      # COST, stated plainly: this is a second build per push, because ci.yml now builds too. It is
+      # worth it while the two workflows are separate; if that cost ever bites, the fix is to move
+      # the health record into ci.yml (which already has a dist/) rather than to drop the build here
+      # and re-open the blind spot.
+      - run: npm ci
+
+      - run: npm run build
+
       - name: Run system health
         id: health
         run: |

@@ -210,6 +210,11 @@ deliberately never committed, the third is named only in historical records. The
   reintroduced drifts was confirmed to trip it.
 - **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at
   Stage 4 still exists as its own section on the page, rather than dissolving into a neighbour.
+  **It reads `dist/{slug}/index.html`, so it needs a build to have happened**, and it skips a page
+  silently when there is none. That is not a footnote: `health.yml` ran this without building for
+  weeks, 25 of its assertions quietly did not run, and the only visible trace was a CI health record
+  that never matched a local one. Fixed 13 Aug 2026 by building in that workflow. If you run
+  `system-health` anywhere new, build first or know which 25 assertions you are not getting.
 - **`check-shipped`** — work on this branch can still reach `main`. A merged PR does not pick up
   later pushes, so correct work can sit on a branch, green and invisible.
 - **`review-trends`** — the run history. Whether things are improving, which runs were self-graded,
