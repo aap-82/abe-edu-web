@@ -314,8 +314,15 @@ p strong{color:var(--ink);font-weight:600;}
 /* Jump links are chips now, not underlined text: each carries its own background in the hover
    and active states, which is what makes the current section unmistakable. Padding is
    symmetric and modest so the pill stays well under the 41px CTA and --waynav-h is unchanged.
-   .06em matches the header's uppercase tracking. */
-.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;white-space:nowrap;flex:none;padding:5px 11px;border-radius:7px;background:transparent;transition:color .15s,background .15s;}
+   .06em matches the header's uppercase tracking.
+   RADIUS 7px -> 6px, 13 Aug 2026. It was the only literal radius in the file outside the 3/5/6/8
+   scale, and undocumented: the comment above justifies the padding and the tracking, never the
+   corner. The deciding fact is not the scale, it is `.waynav .btn-mini` at :350, which sits in THIS
+   BAR beside these pills and has always been 6px, so the strip was rendering two adjacent controls
+   at two different corners for no stated reason. 1px, imperceptible on a chip measuring 30px
+   the bar internally consistent instead of adding a fifth scale step to serve one declaration.
+   Verified on the built page at 6px computed, not just in source. */
+.waynav a.j{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;white-space:nowrap;flex:none;padding:5px 11px;border-radius:6px;background:transparent;transition:color .15s,background .15s;}
 /* Hover: a light grey pill, a step up from the strip, text darkening to full ink. */
 .waynav a.j:hover{color:var(--ink);background:var(--way-hover);}
 /* Active ("you are here"): a deeper grey chip with full-ink bold text. Neutral, not an accent,

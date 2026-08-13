@@ -1,121 +1,187 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-09T00:00:00Z",
-  "title": "Design System: ABE Education — Course Pages",
+  "generatedAt": "2026-08-13T00:35:39Z",
+  "title": "Design System: ABE Education, Course Pages",
+  "sourceNote": "Extensions extracted from src/styles/global.css (the normative token source) and DESIGN.md (normative for the frontmatter primitives). Narrative is lifted from DESIGN.md without rewording. Refreshed 13 Aug 2026; DESIGN.md itself was not modified.",
   "extensions": {
     "colorMeta": {
-      "maroon":     { "role": "primary",   "displayName": "Regulator Maroon", "canonical": "#800000", "tonalRamp": ["#2b0000","#4a0000","#5a0000","#800000","#a83232","#c66b6b","#e0a8a8","#f5e2e2"] },
-      "verify-blue":{ "role": "secondary", "displayName": "Verify Blue",      "canonical": "#2f5d8c", "tonalRamp": ["#10233a","#1c3a58","#2f5d8c","#3f74a8","#5f92c2","#8fb4d6","#bcd3e8","#e6eff5"] },
-      "gold":       { "role": "tertiary",  "displayName": "Attestation Gold", "canonical": "#d4a843", "tonalRamp": ["#3a2c0e","#6b501a","#977225","#c1922f","#d4a843","#e0bd6e","#ecd6a2","#f7ecd0"] },
-      "ink":        { "role": "neutral",   "displayName": "Ink",             "canonical": "#1a1a1a", "tonalRamp": ["#0d0d0d","#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#f2f2f2"] },
-      "paper-warm": { "role": "neutral",   "displayName": "Warm Paper",      "canonical": "#f7f4ef", "tonalRamp": ["#2a2622","#4a443c","#6e675c","#9a9186","#c9c2b6","#e4dccf","#f7f4ef","#ffffff"] }
+      "maroon":          { "role": "primary",   "displayName": "Regulator Maroon",  "canonical": "#800000", "purpose": "The sole brand accent: eyebrow dash, hero tick glyphs, active nav underlines, link and button hover, section keys, the brand tile, and line-art illustration strokes. Capped at roughly 10% of any screen.", "tonalRamp": ["#240000","#540000","#840804","#ad382c","#d65e4f","#fd8170","#ffb0a1","#ffdbd0"] },
+      "maroon-dark":     { "role": "primary",   "displayName": "Maroon Dark",       "canonical": "#5a0000", "purpose": "Pressed and hover-on-dark states of the maroon only. Never a fill.", "tonalRamp": ["#1f0000","#4c0905","#79231b","#9f473c","#c76b5e","#ed8c7e","#ffb7ab","#ffe0d7"] },
+
+      "verify-deep":     { "role": "secondary", "displayName": "Verify Deep",       "canonical": "#1e3d5c", "purpose": "The attestation mark: the tick glyph and the word VERIFIED beside it, and nothing else. 10.2:1 on the lightest ground.", "tonalRamp": ["#020c19","#10283f","#284767","#49698b","#6b8db0","#8cafd3","#b6d1ee","#def1ff"] },
+      "verify-blue":     { "role": "secondary", "displayName": "Verify Blue",       "canonical": "#2f5d8c", "purpose": "The same trust colour one step lighter: the verification date, and citation links on hover. 6.24:1 on the warm ground. Sits 1.63:1 from verify-deep, so the mark reads heavier without a second colour family.", "tonalRamp": ["#000b1e","#022749","#184774","#3b6999","#5e8dbf","#7fafe3","#acd2fb","#d8f2ff"] },
+      "verify-soft":     { "role": "secondary", "displayName": "Verify Soft",       "canonical": "rgba(47,93,140,.3)", "purpose": "The resting underline on a citation link, before it darkens to verify-blue on hover. Defined in code as --verify-soft; not a DESIGN.md frontmatter token." },
+      "ok-green":        { "role": "secondary", "displayName": "Verified Green",    "canonical": "#2e7d5b", "purpose": "RETIRED 20 Jul 2026 and referenced nowhere. It was the tick glyph, which moved to verify-deep so the tick and the word VERIFIED read as one mark. Give it a job or delete it; do not reintroduce it decoratively.", "retired": true, "tonalRamp": ["#001105","#00311a","#005435","#267755","#4e9b77","#71be98","#a4ddbf","#d2f9e4"] },
+
+      "gold":            { "role": "tertiary",  "displayName": "Attestation Gold",  "canonical": "#d4a843", "purpose": "The on-dark accent, used only inside ink-grounded sections (trust band, dark capsule border, dark wayfinder link) where maroon would go muddy.", "tonalRamp": ["#170700","#3d1f00","#643c00","#875e00","#ac8208","#d0a43e","#ebc982","#ffecbc"] },
+
+      "ink":             { "role": "neutral",   "displayName": "Ink",               "canonical": "#1a1a1a", "purpose": "Primary text and the dark section / footer ground. Stands in for black; true black is never used.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+      "ink-2":           { "role": "neutral",   "displayName": "Ink 2",             "canonical": "#2a2a2a", "purpose": "Emphasis text on paper, and the answer capsule's body colour.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+      "ink-3":           { "role": "neutral",   "displayName": "Ink 3",             "canonical": "#4a4a4a", "purpose": "Standard body text on paper. Measures 8.43:1 on the page ground.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+      "slate":           { "role": "neutral",   "displayName": "Slate",             "canonical": "#6e6e6e", "purpose": "Captions, meta, keys and the VERIFIED label. The floor for anything a reader must read: 5.10 / 4.64 / 4.52 across the three grounds.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+      "slate-light":     { "role": "neutral",   "displayName": "Slate Light",       "canonical": "#9a9a9a", "purpose": "RESTRICTED, not general purpose. Measures 2.81 / 2.56 / 2.50 on the three grounds, below AA, so it may only carry text of an inactive component (which WCAG 1.4.3 exempts) or pure decoration such as the breadcrumb separator.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+
+      "ground":          { "role": "neutral",   "displayName": "Ground",            "canonical": "#fbf9f5", "purpose": "THE PAGE ITSELF and the full-width chrome that reads as its top and bottom edge. Split from --paper on 24 Jul 2026 and deliberately not re-merged: creaming one shared token would also have creamed every card and sunk it into the warm bands. Added to DESIGN.md's frontmatter 13 Aug 2026; before that it was in global.css only.", "tonalRamp": ["#0c0b0a","#272624","#464542","#676662","#8b8985","#acaaa7","#cfcdca","#efeeec"] },
+      "paper":           { "role": "neutral",   "displayName": "Paper",             "canonical": "#ffffff", "purpose": "The fill of an ELEVATED surface: cards, the megamenu, the mobile nav panel. Not the page.", "tonalRamp": ["#1a1a1a","#2a2a2a","#4a4a4a","#6e6e6e","#9a9a9a","#d4d6da","#e5e7eb","#ffffff"] },
+      "paper-alt":       { "role": "neutral",   "displayName": "Paper Alt",         "canonical": "#f7f4ec", "purpose": "Second step of the warm section ramp. Widened from a cool #fafafa because the ground-to-alt flip measured only 1.018, below the ~1.03 a large adjacent field needs to read as a band. Now 1.045.", "tonalRamp": ["#0c0b08","#282622","#47453e","#68665f","#8c8982","#adaba3","#d0cec8","#f0eeea"] },
+      "paper-warm":      { "role": "neutral",   "displayName": "Paper Warm",        "canonical": "#f5f1e8", "purpose": "Third step of the ramp, 1.026 from alt. It stops here because --slate label text holds exactly 4.52:1 on it against AA's 4.50 floor.", "tonalRamp": ["#0c0b08","#292621","#48453d","#69665e","#8c8981","#aeaaa2","#d0cdc7","#f0eeea"] },
+      "paper-inset":     { "role": "neutral",   "displayName": "Paper Inset",       "canonical": "#f0e9db", "purpose": "The answer capsule's ground, deliberately OFF the section ramp and deeper than every band, so the capsule reads as a recessed inset on any section rather than an elevated card. Holds 1.07 to 1.15 against the three grounds.", "tonalRamp": ["#0d0b07","#2a261d","#4a4439","#6b6559","#8f887c","#b1aa9d","#d2cdc3","#f2eee7"] },
+      "paper-chrome":    { "role": "neutral",   "displayName": "Paper Chrome",      "canonical": "#fbf9f5", "purpose": "Resolves to var(--ground) in code, so the header and breadcrumb bar read as one continuous chrome surface. DESIGN.md's frontmatter recorded #ffffff until 13 Aug 2026, a value that predated the ground/paper split; it now carries #fbf9f5.", "tonalRamp": ["#0c0b0a","#272624","#464542","#676662","#8b8985","#acaaa7","#cfcdca","#efeeec"] },
+      "paper-grey":      { "role": "neutral",   "displayName": "Paper Grey",        "canonical": "#f2f3f4", "purpose": "The one genuinely COOL neutral surface, promoted to a token 12 Aug 2026 from the wayfinder bar's existing background. It is the only cool grey in the file that clears AA for --slate (4.59:1); --rule fails at 4.12. Added to DESIGN.md's frontmatter 13 Aug 2026; before that it was in global.css only.", "tonalRamp": ["#0b0b0b","#262627","#444546","#656667","#88898a","#aaabac","#cdcece","#eeeeef"] },
+      "paper-grey-soft": { "role": "neutral",   "displayName": "Paper Grey Soft",   "canonical": "#f8f9fa", "purpose": "One step lighter than paper-grey, for a surface sitting under a paper-grey heading. Visibly lighter than its own heading and visibly not white beside an adjacent white column. Added to DESIGN.md's frontmatter 13 Aug 2026; before that it was in global.css only.", "tonalRamp": ["#0b0b0b","#262627","#444546","#656667","#88898a","#aaabac","#cdcece","#eeeeef"] },
+
+      "rule":            { "role": "neutral",   "displayName": "Rule",              "canonical": "#e5e7eb", "purpose": "The hairline divider and default card border. Structure is carried by these, never by shadow.", "tonalRamp": ["#0a0b0c","#252629","#434548","#646669","#87898d","#a9abaf","#ccced1","#edeef0"] },
+      "rule-strong":     { "role": "neutral",   "displayName": "Rule Strong",       "canonical": "#d4d6da", "purpose": "The heavier hairline: secondary button borders, the dashed top rule above a verified line, the sticky CTA strip's top edge.", "tonalRamp": ["#0a0b0c","#252629","#434548","#64666a","#87898d","#a9abaf","#ccced1","#edeef0"] }
     },
+    "colorMetaNote": "Twenty-one tokens, against the five the previous sidecar carried. Three corrections worth naming: paper-warm was recorded as #f7f4ef and is #f5f1e8; the second verify blue (verify-deep) was missing entirely, so the attestation mark had no token; and ground / paper-grey / paper-grey-soft existed in global.css but not in DESIGN.md's frontmatter, so the actual page background was absent from both files. All three were added to DESIGN.md on 13 Aug 2026, along with a paper-chrome correction and the 3px radius step, so frontmatter and sidecar now agree with global.css on every value.",
+
     "typographyMeta": {
-      "display":  { "displayName": "Display",  "purpose": "The single hero H1 per page. Archivo, tight negative tracking." },
-      "headline": { "displayName": "Headline", "purpose": "Question-led section H2s." },
-      "title":    { "displayName": "Title",    "purpose": "Card and sub-section H3s; FAQ and price figures." },
-      "body":     { "displayName": "Body",     "purpose": "Reading copy in DM Sans; lede steps up to 19px." },
-      "label":    { "displayName": "Label",    "purpose": "All micro-type: eyebrows, keys, captions, source lines. DM Mono uppercase, wide tracking." }
+      "display":  { "displayName": "Display",  "purpose": "The single hero H1 per page, set by h1.h1 and rendered by Hero.astro: Archivo 700, clamp(34px, 4.6vw, 56px), line-height 1.04, tracking -0.03em. The one role that steps to weight 700; everything else in Archivo is 600. DESIGN.md's frontmatter recorded clamp(40px, 6.2vw, 72px) at 600 until 13 Aug 2026. A larger display use exists and is NOT this role: .statblock-v sets one arresting standalone figure at clamp(48px, 7vw, 84px) / 700 / line-height 1, in ink rather than maroon because a figure that large in maroon would blow the 10% accent budget. It has no typography role of its own in either file." },
+      "headline": { "displayName": "Headline", "purpose": "Question-led section H2s. clamp(30px, 3.6vw, 42px), tracking -0.025em, line-height 1.08." },
+      "title":    { "displayName": "Title",    "purpose": "Card and sub-section H3s at 22px; FAQ summaries and price figures share this weight. A fourth step, .h4, sits at 18px." },
+      "body":     { "displayName": "Body",     "purpose": "Reading copy in DM Sans 17px / 1.65. The lede steps up to 19px / 1.55. Prose is capped by .measure at 480px, with a floor rule catching paragraphs written without the wrapper." },
+      "label":    { "displayName": "Label",    "purpose": "All micro-type: eyebrows, keys, captions, source lines, meta. DM Mono 500 uppercase, tracked 0.08em to 0.18em. Never used for reading copy." },
+      "fallbacks": { "displayName": "Metric-matched fallbacks", "purpose": "Archivo Fallback, DM Sans Fallback and DM Mono Fallback are local faces re-declared with size-adjust and ascent/descent overrides, because webfonts load off the critical path. They change nothing visually once the real faces arrive; they exist to cut reflow, measured 599px to 287px of page-height movement at 375px." }
     },
+
     "shadows": [],
-    "shadowsNote": "The system is flat by doctrine. No box-shadow vocabulary exists. Depth is built from 1px hairline rules, a tonal paper ground ramp, and a single 2px hover lift. The only blur is a functional backdrop-filter on the sticky header/CTA strip for legibility.",
+    "shadowsNote": "The system is flat by doctrine. No box-shadow vocabulary exists and a drop shadow on any surface is prohibited. Depth is built three ways: 1px hairline rules (--rule, --rule-strong), the warm tonal ground ramp (ground #fbf9f5 to paper-alt #f7f4ec to paper-warm #f5f1e8 to ink #1a1a1a), and a single 2px hover lift on interactive cards whose border darkens to ink. Two functional exceptions, neither decorative: .site-head uses background rgba(251,249,245,.92) with backdrop-filter saturate(140%) blur(8px), and .ctastrip uses rgba(251,249,245,.97) with the same filter, purely so text stays legible over content scrolling beneath. The wayfinder bar is the one element that takes a shadow, and only as a stuck-state cue (transition: box-shadow .3s ease-out).",
+
     "motion": [
-      { "name": "state-fast",   "value": "0.15s ease", "purpose": "Color/border state changes on links and nav." },
-      { "name": "state",        "value": "0.18s ease", "purpose": "Default button and card state transitions." },
-      { "name": "toggle",       "value": "0.2s ease",  "purpose": "FAQ plus-mark rotation on open." },
-      { "name": "reveal",       "value": "0.25s ease", "purpose": "Sticky CTA strip slide-up (transform)." },
-      { "name": "hover-lift",   "value": "translateY(-2px)", "purpose": "The only elevation cue: interactive cards raise 2px on hover, border darkening to ink." }
+      { "name": "state-fast",   "value": "0.15s", "purpose": "Colour and border-colour changes on links, nav items, citation links, the FAQ summary background, and the skip-link's slide into view." },
+      { "name": "state",        "value": "0.18s", "purpose": "The default: button background fills, and interactive card border-colour plus transform together." },
+      { "name": "toggle",       "value": "0.2s",  "purpose": "The FAQ plus-mark rotating 45 degrees to a cross when a row opens." },
+      { "name": "cta-reveal",   "value": "0.25s ease", "purpose": "The mobile sticky CTA strip sliding up from translateY(110%) into place." },
+      { "name": "bar-settle",   "value": "0.3s ease-out", "purpose": "The wayfinder bar's box-shadow and the mini-CTA's opacity as the bar becomes stuck." },
+      { "name": "mini-cta-in",  "value": "0.5s cubic-bezier(.16,1,.3,1)", "purpose": "The wayfinder mini-CTA's transform as it enters. The same decelerating curve the arrow re-entry uses." },
+      { "name": "hover-lift",   "value": "translateY(-2px)", "purpose": "The only elevation cue in the system: interactive cards raise 2px on hover with their border darkening to ink." },
+      { "name": "arr-fly",      "value": "0.9s infinite, cubic-bezier(.7,0,.84,0) out then cubic-bezier(.16,1,.3,1) back", "purpose": "The signature link motion: the arrow accelerates out to +26px, cuts to -26px at the 30% mark, and decelerates back to rest, clipped to an 18px window so it reads as flying through. The only motion of consequence on the site." }
     ],
+    "motionNote": "Reduced motion is respected in five places, including a global kill switch: @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;}}. The arr-fly animation is disabled on links, wayfinder and resource links; the wayfinder mini-CTA drops its transform and keeps a plain opacity fade; interactive cards drop the lift.",
+
     "breakpoints": [
       { "name": "lg", "value": "1100px" },
       { "name": "md", "value": "900px" },
-      { "name": "sm", "value": "720px" }
-    ]
+      { "name": "sm", "value": "720px" },
+      { "name": "xs", "value": "560px" }
+    ],
+    "breakpointsNote": "Those four carry the layout. global.css also holds one-off queries at 1080px, 640px and 600px for single components, plus a min-width pair at 901px and 1101px. Sticky chrome offsets are tokens rather than magic numbers: --head-h 66px and --waynav-h 65px, the latter dropping to 46px below 900px where the wayfinder CTA is hidden. Section scroll-margin is calc(--head-h + --waynav-h + 8px) so an anchored heading lands clear of both bars."
   },
   "components": [
     {
       "name": "Eyebrow",
       "kind": "custom",
       "refersTo": "eyebrow",
-      "description": "The signature section-opening label: mono uppercase with a leading maroon hairline dash. Opens nearly every section.",
-      "html": "<span class=\"ds-eyebrow\">At a glance</span>",
-      "css": ".ds-eyebrow { display:inline-flex; align-items:center; gap:12px; font-family:'DM Mono', ui-monospace, monospace; font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:#6e6e6e; } .ds-eyebrow::before { content:''; width:18px; height:1px; background:#800000; flex:none; }"
+      "description": "The signature section-opening label: mono uppercase, slate, preceded by an 18px maroon hairline dash. Opens nearly every section and is the clearest single tell of the register. Wraps rather than pushing the document wider, which a long three-part eyebrow once did.",
+      "html": "<span class=\"ds-eyebrow\">At a glance <span class=\"ds-eyebrow-i\">02</span></span>",
+      "css": ".ds-eyebrow { display:inline-flex; flex-wrap:wrap; max-width:100%; align-items:center; gap:12px; font-family:var(--font-mono,'DM Mono',ui-monospace,monospace); font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--slate,#6e6e6e); } .ds-eyebrow::before { content:''; width:18px; height:1px; background:var(--maroon,#800000); flex:none; } .ds-eyebrow-i { color:var(--maroon,#800000); font-weight:500; font-variant-numeric:tabular-nums; }"
     },
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Ink-grounded primary CTA that fills maroon on hover.",
-      "html": "<a class=\"ds-btn-primary\" href=\"#\">Get your certificate <span class=\"arr\">→</span></a>",
-      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:12px; background:#1a1a1a; color:#ffffff; font-family:'DM Sans', sans-serif; font-weight:600; font-size:16px; padding:14px 26px; border-radius:6px; text-decoration:none; transition:background .18s ease; } .ds-btn-primary:hover { background:#800000; } .ds-btn-primary:focus-visible { outline:2px solid #800000; outline-offset:3px; }"
+      "description": "Ink-grounded primary CTA that fills maroon on hover. The hero carries one of these with the price in the label.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Get your certificate, $179</a>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:12px; background:var(--ink,#1a1a1a); color:var(--paper,#ffffff); font-family:var(--font-body,'DM Sans',sans-serif); font-weight:600; font-size:16px; padding:14px 26px; border-radius:6px; text-decoration:none; transition:background .18s; } .ds-btn-primary:hover { background:var(--maroon,#800000); } .ds-btn-primary:focus-visible { outline:2px solid var(--maroon,#800000); outline-offset:3px; }"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Outline button; border darkens to ink on hover.",
+      "description": "Transparent with a rule-strong hairline; the border darkens to ink on hover. No fill change, so it never competes with the primary.",
       "html": "<a class=\"ds-btn-secondary\" href=\"#\">How it works</a>",
-      "css": ".ds-btn-secondary { display:inline-flex; align-items:center; gap:10px; background:transparent; color:#1a1a1a; font-family:'DM Sans', sans-serif; font-weight:600; font-size:16px; padding:13px 24px; border:1px solid #d4d6da; border-radius:6px; text-decoration:none; transition:border-color .18s ease; } .ds-btn-secondary:hover { border-color:#1a1a1a; } .ds-btn-secondary:focus-visible { outline:2px solid #800000; outline-offset:3px; }"
+      "css": ".ds-btn-secondary { display:inline-flex; align-items:center; gap:10px; background:transparent; color:var(--ink,#1a1a1a); font-family:var(--font-body,'DM Sans',sans-serif); font-weight:600; font-size:16px; padding:13px 24px; border:1px solid var(--rule-strong,#d4d6da); border-radius:6px; text-decoration:none; transition:border-color .18s; } .ds-btn-secondary:hover { border-color:var(--ink,#1a1a1a); } .ds-btn-secondary:focus-visible { outline:2px solid var(--maroon,#800000); outline-offset:3px; }"
+    },
+    {
+      "name": "Link Button",
+      "kind": "button",
+      "refersTo": "button-link",
+      "description": "The signature inline action. Ink text with a trailing arrow; on hover the text turns maroon and the arrow flies out to the right and re-enters from the left, clipped to an 18px window. Carries a 44px minimum height for touch. Disabled under prefers-reduced-motion.",
+      "html": "<a class=\"ds-btn-link\" href=\"#\">Read the QLD requirements <span class=\"ds-arr-clip\"><svg class=\"ds-arr\" viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 9h11M10 5l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></a>",
+      "css": ".ds-btn-link { display:inline-flex; align-items:center; min-height:44px; gap:8px; font-family:var(--font-body,'DM Sans',sans-serif); font-weight:600; font-size:16px; color:var(--ink,#1a1a1a); text-decoration:none; transition:color .15s; } .ds-btn-link:hover { color:var(--maroon,#800000); } .ds-btn-link:focus-visible { outline:2px solid var(--maroon,#800000); outline-offset:3px; } .ds-arr-clip { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; flex:none; overflow:hidden; } .ds-arr { width:18px; height:18px; flex:none; } .ds-btn-link:hover .ds-arr { animation:ds-arr-fly .9s infinite; } @keyframes ds-arr-fly { 0% { transform:translateX(0); animation-timing-function:cubic-bezier(.7,0,.84,0); } 30% { transform:translateX(26px); } 30.01% { transform:translateX(-26px); animation-timing-function:cubic-bezier(.16,1,.3,1); } 60% { transform:translateX(0); } 100% { transform:translateX(0); } } @media(prefers-reduced-motion:reduce) { .ds-btn-link:hover .ds-arr { animation:none; } }"
+    },
+    {
+      "name": "Answer Capsule",
+      "kind": "custom",
+      "refersTo": "capsule",
+      "description": "The 40 to 60 word direct answer that opens each section, on a warm inset ground deliberately deeper than every section band so it reads as recessed rather than elevated. Never carries a CTA. Note the 3px radius, tighter than the card scale.",
+      "html": "<p class=\"ds-capsule\">Yes. Queensland requires an approved owner builder course before the QBCC will issue a permit, and <b>this course is the approved one</b>. It takes about six hours online, and the certificate is issued the same day.</p>",
+      "css": ".ds-capsule { background:var(--paper-inset,#f0e9db); border:1px solid var(--rule,#e5e7eb); border-radius:3px; padding:16px 22px; margin:24px 0 32px; font-family:var(--font-body,'DM Sans',sans-serif); font-size:18px; line-height:1.55; color:var(--ink-2,#2a2a2a); max-width:600px; font-weight:500; } .ds-capsule b, .ds-capsule strong { color:var(--ink,#1a1a1a); font-weight:700; }"
     },
     {
       "name": "Glance Stat Card",
       "kind": "card",
       "refersTo": "card-glance",
-      "description": "Flat, hairline-bordered stat card: mono key, Archivo figure, body note. The mono-to-display-to-body pattern that repeats across the system.",
-      "html": "<div class=\"ds-card-glance\"><span class=\"g-k\">Price</span><span class=\"g-v\">$179</span><span class=\"g-n\">GST-free. The permit fee is separate.</span></div>",
-      "css": ".ds-card-glance { border:1px solid #e5e7eb; border-radius:6px; padding:32px; background:#ffffff; } .ds-card-glance .g-k { display:block; font-family:'DM Mono', ui-monospace, monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#6e6e6e; margin-bottom:12px; } .ds-card-glance .g-v { display:block; font-family:'Archivo', sans-serif; font-weight:600; font-size:28px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; color:#1a1a1a; margin-bottom:6px; } .ds-card-glance .g-n { font-family:'DM Sans', sans-serif; font-size:14px; color:#4a4a4a; }"
+      "description": "Flat, hairline-bordered stat card: a maroon mono key, an Archivo figure with tabular numerals, and a body note. The mono-to-display-to-body pattern that repeats across the system.",
+      "html": "<div class=\"ds-card-glance\"><span class=\"ds-g-k\">Price</span><span class=\"ds-g-v num\">$179</span><span class=\"ds-g-n\">GST-free. The permit fee is separate.</span></div>",
+      "css": ".ds-card-glance { border:1px solid var(--rule,#e5e7eb); border-radius:6px; padding:32px; background:var(--paper,#ffffff); } .ds-card-glance .ds-g-k { display:block; font-family:var(--font-mono,'DM Mono',ui-monospace,monospace); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon,#800000); margin-bottom:12px; } .ds-card-glance .ds-g-v { display:block; font-family:var(--font-display,'Archivo',sans-serif); font-weight:600; font-size:28px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; color:var(--ink,#1a1a1a); margin-bottom:6px; } .ds-card-glance .ds-g-n { font-family:var(--font-body,'DM Sans',sans-serif); font-size:14px; color:var(--ink-3,#4a4a4a); }"
     },
     {
       "name": "Verified Source Line",
       "kind": "custom",
       "refersTo": "verified",
-      "description": "The trust device: a dashed-top mono line with verify-blue ticks and dated citation links. Ends every government-fact block.",
-      "html": "<p class=\"ds-verified\"><span class=\"tick\">✓ Verified</span> QBCC fee $477.47, current 2026. <span class=\"src\"><a href=\"#\">Source: QBCC, 2 Jun 2026</a></span></p>",
-      "css": ".ds-verified { margin-top:32px; padding-top:16px; border-top:1px dashed #d4d6da; font-family:'DM Mono', ui-monospace, monospace; font-size:12px; line-height:1.6; letter-spacing:.02em; color:#6e6e6e; max-width:80ch; } .ds-verified .tick { color:#2f5d8c; font-weight:500; } .ds-verified .src a { color:#2f5d8c; text-decoration:none; border-bottom:1px solid rgba(47,93,140,.3); } .ds-verified .src a:hover { border-color:#2f5d8c; }"
+      "description": "The trust device, and the most literal expression of the north star. A two-column mono ledger under a dashed rule: the tick and the word VERIFIED in verify-deep as one mark, the date beneath it in the lighter verify-blue, and on the right what was checked plus the linked authorities. Every government fact block ends in one.",
+      "html": "<div class=\"ds-verified\"><span class=\"ds-v-date\"><span class=\"ds-v-label\"><svg class=\"ds-check\" viewBox=\"0 0 12 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M2 6.2l2.6 2.6L10 3.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Verified</span><span class=\"ds-v-day\">2 Jun 2026</span></span><span class=\"ds-v-body\">Permit fee and eligibility threshold checked against the current Act. <a href=\"#\">QBCC, Owner builder permits</a>, <a href=\"#\">QBCC Act 1991</a></span></div>",
+      "css": ".ds-verified { display:grid; grid-template-columns:auto 1fr; gap:4px 18px; align-items:start; margin-top:32px; padding-top:24px; border-top:1px dashed var(--rule-strong,#d4d6da); font-family:var(--font-mono,'DM Mono',ui-monospace,monospace); font-size:12px; line-height:1.55; letter-spacing:.02em; } .ds-verified .ds-v-date { display:flex; flex-direction:column; gap:2px; font-weight:500; white-space:nowrap; } .ds-verified .ds-v-label { display:inline-flex; align-items:center; gap:6px; color:var(--verify-deep,#1e3d5c); text-transform:uppercase; letter-spacing:.09em; } .ds-verified .ds-check { width:12px; height:12px; flex:none; color:var(--verify-deep,#1e3d5c); } .ds-verified .ds-v-day { color:var(--verify,#2f5d8c); font-weight:400; } .ds-verified .ds-v-body { color:var(--slate,#6e6e6e); max-width:74ch; } .ds-verified .ds-v-body a { color:var(--slate,#6e6e6e); text-decoration:none; border-bottom:1px solid var(--rule-strong,#d4d6da); transition:color .15s, border-color .15s; } .ds-verified .ds-v-body a:hover { color:var(--verify,#2f5d8c); border-color:var(--verify,#2f5d8c); }"
+    },
+    {
+      "name": "Caution Note",
+      "kind": "custom",
+      "refersTo": "note",
+      "description": "The section callout, one per section, typed by severity. The caution variant takes a 2px maroon top rule and a mono kicker; the neutral variant drops both. Sits on paper-alt so it separates from a paper section without a second border weight.",
+      "html": "<aside class=\"ds-note ds-note-maroon\"><span class=\"ds-note-k\">Before you enrol</span><p>A certificate is not a permit. You lodge the certificate with the QBCC and pay their fee separately.</p></aside>",
+      "css": ".ds-note { margin-top:24px; padding:24px 32px; background:var(--paper-alt,#f7f4ec); border:1px solid var(--rule,#e5e7eb); border-radius:6px; font-family:var(--font-body,'DM Sans',sans-serif); font-size:15px; color:var(--ink-3,#4a4a4a); max-width:544px; } .ds-note > p { margin:0; } .ds-note > p + p { margin-top:8px; } .ds-note b { color:var(--ink,#1a1a1a); } .ds-note-maroon { border-top:2px solid var(--maroon,#800000); border-radius:3px; } .ds-note-k { display:block; margin-bottom:6px; font-family:var(--font-mono,'DM Mono',ui-monospace,monospace); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--maroon,#800000); }"
     },
     {
       "name": "FAQ Item",
       "kind": "custom",
       "refersTo": "faq",
-      "description": "Bordered details/summary row; Archivo summary with a maroon plus-mark that rotates to a cross when open.",
-      "html": "<div class=\"ds-faq\"><details open><summary>Do I need a White Card too? <span class=\"pm\">+</span></summary><div class=\"ans\">If you will be on site, yes. It bundles with the course.</div></details></div>",
-      "css": ".ds-faq { border:1px solid #e5e7eb; border-radius:8px; background:#ffffff; overflow:hidden; } .ds-faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:16px; align-items:center; padding:20px 24px; font-family:'Archivo', sans-serif; font-weight:600; font-size:18px; color:#1a1a1a; transition:background .15s ease; } .ds-faq summary::-webkit-details-marker { display:none; } .ds-faq summary:hover { background:#fafafa; } .ds-faq .pm { flex:none; color:#800000; font-size:20px; line-height:1; transition:transform .2s ease; } .ds-faq details[open] summary .pm { transform:rotate(45deg); } .ds-faq .ans { padding:0 24px 22px; font-family:'DM Sans', sans-serif; color:#4a4a4a; font-size:16px; max-width:68ch; }"
+      "description": "A single bordered container of details rows split by hairlines. The summary is Archivo 600 at 18px; a maroon plus-mark rotates 45 degrees to a cross when open. Accordions are for FAQs and the module-group syllabus, and nothing else.",
+      "html": "<div class=\"ds-faq\"><details open><summary>Do I need a White Card as well? <span class=\"ds-pm\">+</span></summary><div class=\"ds-ans\">If you will be on site during the build, yes. It is a separate nationally recognised course and it can be taken alongside this one.</div></details><details><summary>Is the certificate accepted by the QBCC? <span class=\"ds-pm\">+</span></summary><div class=\"ds-ans\">Yes. The course is QBCC-approved and the certificate is what you lodge with your permit application.</div></details></div>",
+      "css": ".ds-faq { border:1px solid var(--rule,#e5e7eb); border-radius:8px; background:var(--paper,#ffffff); margin-top:32px; overflow:hidden; } .ds-faq details + details { border-top:1px solid var(--rule,#e5e7eb); } .ds-faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:16px; align-items:center; padding:20px 24px; font-family:var(--font-display,'Archivo',sans-serif); font-weight:600; font-size:18px; color:var(--ink,#1a1a1a); transition:background .15s; } .ds-faq summary::-webkit-details-marker { display:none; } .ds-faq summary:hover { background:var(--paper-alt,#f7f4ec); } .ds-faq summary:focus-visible { outline:2px solid var(--maroon,#800000); outline-offset:-2px; } .ds-faq .ds-pm { flex:none; color:var(--maroon,#800000); font-size:20px; line-height:1; transition:transform .2s; } .ds-faq details[open] summary .ds-pm { transform:rotate(45deg); } .ds-faq .ds-ans { padding:16px 24px 22px; font-family:var(--font-body,'DM Sans',sans-serif); color:var(--ink-3,#4a4a4a); font-size:16px; max-width:68ch; }"
     }
   ],
   "narrative": {
     "northStar": "The Regulator's Broadsheet",
-    "overview": "A quality Australian broadsheet rebuilt for the web: authoritative, editorial, and evidence-led. It carries its trust in the open, with monospace captions, dated source lines, and named expert bylines. Structurally it is flat and print-like; depth comes from hairline rules and tonal paper grounds, not shadow or gloss. One deep maroon does all the accent work and is spent sparingly, so it always means something; a separate steel blue is reserved only for marking a fact as sourced and verified. Type is a three-voice pairing: Archivo for headlines and figures, DM Sans for reading, DM Mono in wide-tracked uppercase for every label and caption. It rejects the SaaS-marketing look (soft shadows, gradient heroes, glassy cards) and the opposite cold-govtech trap alike.",
+    "overview": "This is a quality Australian broadsheet rebuilt for the web: authoritative, editorial, and evidence-led. Every claim reads like it was sub-edited and fact-checked, because it was. The system carries its trust in the open, with monospace captions, dated source lines, and named expert bylines, the way a serious newspaper carries a masthead and a corrections column. It never shouts. It earns belief through restraint, precision, and the visible paper trail behind each government fact.\n\nStructurally it is flat and print-like. Depth comes from hairline rules and tonal paper grounds, not from shadows or gloss. One deep maroon does all the accent work and is spent sparingly, so it always means something. A separate steel blue is reserved for one job only, marking a fact as sourced and verified. Type is a three-voice pairing: Archivo for headlines and figures, DM Sans for reading, and DM Mono in wide-tracked uppercase for every label, key, and caption, the small print that signals a document you can trust.\n\nIt explicitly rejects the SaaS-marketing look: no soft drop shadows, no gradient hero blocks, no glassy cards, no rounded pastel everything. It also rejects the opposite trap of cold govtech. The warm paper ground and generous air keep it human and readable, an authority you would actually want to read.\n\nThe system is enforced, not merely documented. Thirty components live in src/components, every one of them rendered live at /styleguide with the real tokens. The abe-guardrails build integration fails the build on an inline style or a structural class in a page body, because both mean the same thing: a component is missing. Read the styleguide before choosing a component. It is the vocabulary.",
     "keyCharacteristics": [
       "Flat by default: 1px hairline rules and tonal grounds carry structure, never shadow.",
-      "One maroon accent, spent at 10% or less, so it always signifies.",
-      "A dedicated verify-blue that appears only on sourced, dated facts.",
+      "One maroon accent, spent at 10% or less, so it always signifies. Line art may use it; fills never may.",
+      "Two verify blues, deep and mid, that appear only on sourced, dated facts.",
       "Monospace uppercase for all micro-type: eyebrows, keys, captions, source lines.",
       "Generous vertical rhythm (up to 112px section padding) and tabular figures on every number."
     ],
     "rules": [
-      { "name": "The One Maroon Rule", "body": "Maroon is the only brand accent and never covers more than roughly 10% of a screen. For marks, ticks, hovers, and active states, never large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.", "section": "colors" },
-      { "name": "The Verify-Blue Rule", "body": "#2f5d8c is reserved exclusively for sourced-and-dated facts and their citations. Forbidden as a decorative or interface colour. Blue on this site is a promise that a claim is backed.", "section": "colors" },
+      { "name": "The One Maroon Rule", "body": "Maroon is the only brand accent and never covers more than roughly 10% of a screen. It is for marks, ticks, hovers, active states, and the strokes of a line-art illustration, never for large fills or section backgrounds. Dark sections use Ink as the ground and Gold as the accent.", "section": "colors" },
+      { "name": "Maroon in illustration", "body": "A line-art illustration may draw its strokes in maroon, on three conditions. Strokes only: single-weight line on a warm ground, no fills, no shading, no gradients, no tinted areas. The 10% ceiling still applies, to the screen and not to the drawing, and it is measured rather than assumed. And one visual language per page: if a page uses maroon line art, every illustration on that page does. Decided on measurement, not preference: both illustrations on /white-card-wa occupy 41.8% of a 375px screen each, with darker-than-ground pixels at 5.2% and 4.8% within the image, giving an honest upper bound of about 4% of the screen for the hero. An illustration is admitted as its own role rather than smuggled in under an existing one, because reading the rule as 'anything under 10% is fine' would empty it.", "section": "colors" },
+      { "name": "The Signal-Colour Rule", "body": "Both verify blues are reserved exclusively for sourced-and-dated facts. They are forbidden as decorative or interface colours. Blue on this site is a promise that a claim is backed. It never carries meaning alone: it always sits beside the word VERIFIED and a date, so the signal survives greyscale and colour blindness. Both pass WCAG AA at the 12px this type is set in (Verify Deep 10.2:1, Verify Blue 6.24:1 on the warm ground).", "section": "colors" },
       { "name": "The Mono Label Rule", "body": "Every piece of micro-type, eyebrows, keys, captions, meta, verified lines, is DM Mono in uppercase with 0.08em to 0.18em tracking. Archivo and DM Sans are never used for labels; DM Mono is never used for reading copy.", "section": "typography" },
-      { "name": "The Tabular Figure Rule", "body": "Every price, statistic, and figure carries font-variant-numeric: tabular-nums so columns and repeated numbers align and never jitter.", "section": "typography" },
-      { "name": "The Hairline Rule", "body": "Structure is carried by 1px rules and tonal grounds, never by drop shadows. A box-shadow on any surface reads as a foreign object and is prohibited.", "section": "elevation" }
+      { "name": "The Tabular Figure Rule", "body": "Every price, statistic, and figure carries font-variant-numeric: tabular-nums (the .num class) so columns and repeated numbers align and never jitter.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "Structure is carried by 1px rules and tonal grounds, never by drop shadows. A box-shadow on any surface reads as a foreign object and is prohibited. If a block needs to separate from its neighbour, change the ground tone or add a hairline, do not lift it with shadow.", "section": "elevation" },
+      { "name": "Component discipline", "body": "Build-enforced. If a page body needs structural markup, a component is missing. Compose from what exists first; if the shape repeats, promote it to a component; if it is genuinely new, build it properly with a component, a styleguide specimen and tokens, no magic numbers. An inline style attribute or a structural class in an MDX body fails the build, and the error names the component that should own the markup. A one-off inline in one page becomes the next state page's copy-paste, which is how the trust-stat row ended up hand-written twelve times before it became TrustStats.", "section": "components" },
+      { "name": "The Link Target Rule", "body": "An external link that invites the reader to ACT opens in a new tab, with a mandatory screen-reader ', opens in a new tab' cue. An external link that is PROVENANCE stays in the same tab, with no target and no cue. Checking an RTO's registration is a verify-then-return errand; a citation is not an errand, it is there so the claim is checkable and crawlable. Adjacent look-alikes must agree: two links in the same baseline row never split their behaviour.", "section": "components" }
     ],
     "dos": [
-      "Do build depth from 1px hairline rules (#e5e7eb, #d4d6da) and the tonal ground ramp (#ffffff to #fafafa to #f7f4ef to #1a1a1a).",
+      "Do build depth from 1px hairline rules (--rule #e5e7eb, --rule-strong #d4d6da) and the tonal ground ramp (#ffffff to #f7f4ec to #f5f1e8 to #1a1a1a).",
       "Do set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.",
-      "Do keep Regulator Maroon (#800000) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile.",
-      "Do reserve Verify Blue (#2f5d8c) strictly for sourced, dated facts and their citations.",
-      "Do put tabular-nums on every price and statistic.",
-      "Do give sections room: up to 112px vertical padding, easing to 64px on mobile.",
-      "Do use Ink (#1a1a1a) for text and dark grounds; on ink sections, switch the accent to Attestation Gold (#d4a843)."
+      "Do keep Regulator Maroon (#800000) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile, and line-art illustration strokes. Never a large fill.",
+      "Do reserve Verify Deep (#1e3d5c) and Verify Blue (#2f5d8c) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.",
+      "Do put tabular-nums on every price and statistic (the .num class).",
+      "Do give sections room: up to 112px (--s-3xl) vertical padding, easing to 64px on mobile.",
+      "Do use Ink (#1a1a1a) for text and dark grounds; on ink sections, switch the accent to Attestation Gold (#d4a843).",
+      "Do read /styleguide before choosing a component. It renders the real thing, so it cannot drift.",
+      "Do top-align the columns of any split. The image top lines up with the eyebrow, always."
     ],
     "donts": [
       "Don't use box-shadows for elevation anywhere. The system is flat; a drop shadow reads as a 2014 app and is prohibited.",
-      "Don't use the maroon left-stripe answer capsule (border-left: 3px solid var(--maroon)). A colored side-stripe over 1px is a banned anti-pattern; rework as a full 1px border, a background tint alone, or a leading mono marker.",
+      "Don't hand-roll structural markup in a page body. An inline style attribute or a structural class means a component is missing, and the build will stop you. Compose, promote, or build it properly.",
+      "Don't use the maroon left-stripe answer capsule (border-left: 3px solid var(--maroon)). A coloured side-stripe over 1px is a banned anti-pattern; rework it as a full 1px border, a background tint alone, or a leading mono marker.",
       "Don't set eyebrows or labels in Archivo or DM Sans. Micro-type is DM Mono only; DM Mono is never used for reading copy.",
-      "Don't spend maroon on large surfaces or section backgrounds. Dark sections are Ink-grounded with Gold accents.",
+      "Don't spend maroon on large surfaces or section backgrounds, and don't let an illustration FILL a shape with it. Strokes are permitted, areas are not. Dark sections are Ink-grounded with Gold accents.",
       "Don't introduce pure #000 or #fff for text or borders; use the Ink and Rule tokens.",
       "Don't use em dashes, or the word 'comprehensive', in any copy (house style).",
-      "Don't nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card."
+      "Don't nest cards or stack borders. If a card needs internal grouping, use rules and spacing, not a second card.",
+      "Don't hide eligibility, cost or requirements inside an accordion. Accordions are for FAQs and the module-group syllabus (ModuleRows), and nothing else."
     ]
   }
 }

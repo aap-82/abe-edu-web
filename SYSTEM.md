@@ -137,7 +137,7 @@ matches the CSV it comes from.
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of
-its own, and runs five checks beyond `check-freshness`.
+its own, and runs six checks beyond `check-freshness`.
 
 Dangling-reference detection covers **two populations, counted separately**: the paths the skill
 points at, and the paths *this document and its peers* point at (`CLAUDE.md`, `ROADMAP.md`,
@@ -147,7 +147,7 @@ six dead pointers across the governance documents surviving clean runs — the d
 repo (`../anything`) fails on sight, resolvable or not, because §2's "One home" makes the repo the
 single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
 `business data/` and the superseded `data/GSC/` — the first two are correct paths that are
-deliberately never committed, the third is named only in historical records. The five checks:
+deliberately never committed, the third is named only in historical records. The six checks:
 - **`check-claims`** — four things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
   superseded figure failing, whether the skill's own worked examples demonstrate a phrase the skill
@@ -170,6 +170,22 @@ deliberately never committed, the third is named only in historical records. The
   `/white-card-tas`'s unsourced "Tasmanian residents only" framing, which
   this check still FAILs on at the time it was written — a real, already-filed `[build]` item, not
   a defect in the check.
+- **`check-design-register`** — `DESIGN.md`'s frontmatter against `src/styles/global.css`, in both
+  directions. `DESIGN.md` is canonical for tokens and **nothing in the repo reads it**: Astro does
+  not import it, `guardrails.ts` does not parse it, and `check-claims` verifies prose claims about
+  the build rather than token values. So the one document a generator or a fresh session trusts for
+  "what colour is the page" could disagree with the stylesheet indefinitely behind a green board,
+  and did. Built 13 Aug 2026 after six values were found wrong by hand, the worst being `--ground`:
+  absent from the register entirely while being the background of every page on the site, for three
+  weeks after the ground/paper split. Asserts colours, spacing, the typography roles' declared
+  properties against the rule that renders each one, radius-scale use, and that every
+  `{group.token}` reference in `components` resolves. **The reverse direction is the point** — a
+  token added to the stylesheet and never recorded is what the forward check cannot see, and is
+  exactly how `--ground` was missed. Colour, spacing and typography disagreements FAIL, because two
+  files stating different values for one fact is not a judgement call and the session type that owns
+  `DESIGN.md` owns `global.css` too; off-scale radii WARN, because a one-off radius may be
+  deliberate. Verified by a falsification harness rather than by passing: each of eleven
+  reintroduced drifts was confirmed to trip it.
 - **`check-pipeline`** — brief-to-page conformance. A section briefed at Stage 3 and written at
   Stage 4 still exists as its own section on the page, rather than dissolving into a neighbour.
 - **`check-shipped`** — work on this branch can still reach `main`. A merged PR does not pick up

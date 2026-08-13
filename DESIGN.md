@@ -13,19 +13,22 @@ colors:
   ink-3: "#4a4a4a"
   slate: "#6e6e6e"
   slate-light: "#9a9a9a"
+  ground: "#fbf9f5"
   paper: "#ffffff"
   paper-alt: "#f7f4ec"
   paper-warm: "#f5f1e8"
   paper-inset: "#f0e9db"
-  paper-chrome: "#ffffff"
+  paper-chrome: "#fbf9f5"
+  paper-grey: "#f2f3f4"
+  paper-grey-soft: "#f8f9fa"
   rule: "#e5e7eb"
   rule-strong: "#d4d6da"
 typography:
   display:
     fontFamily: "Archivo, -apple-system, BlinkMacSystemFont, sans-serif"
-    fontSize: "clamp(40px, 6.2vw, 72px)"
-    fontWeight: 600
-    lineHeight: 1.02
+    fontSize: "clamp(34px, 4.6vw, 56px)"
+    fontWeight: 700
+    lineHeight: 1.04
     letterSpacing: "-0.03em"
   headline:
     fontFamily: "Archivo, -apple-system, BlinkMacSystemFont, sans-serif"
@@ -52,6 +55,7 @@ typography:
     lineHeight: 1.4
     letterSpacing: "0.18em"
 rounded:
+  xs: "3px"
   sm: "5px"
   md: "6px"
   lg: "8px"
@@ -153,8 +157,12 @@ A warm, near-monochrome paper system with one authoritative maroon and a small s
 - **Ink** (`#1a1a1a`): primary text and the dark section / footer ground. Stands in for black; true black is never used.
 - **Ink 2 / Ink 3** (`#2a2a2a` / `#4a4a4a`): emphasis text and standard body text on paper.
 - **Slate / Slate Light** (`#6e6e6e` / `#9a9a9a`): captions, meta, muted keys, and the VERIFIED label itself.
-- **Paper / Paper Alt / Paper Warm** (`#ffffff` / `#f7f4ec` / `#f5f1e8`): the three-step ground ramp used to separate sections tonally instead of with borders or shadows.
-- **Paper Chrome** (`= paper`): the ground shared by the site header, breadcrumb bar and wayfinder nav, so the page chrome reads as one continuous surface.
+- **Ground** (`#fbf9f5`): the page itself, and the full-width chrome that reads as its top and bottom edge. Split from Paper on 24 Jul 2026 and deliberately not re-merged: creaming one shared token would also have creamed every card and sunk it into the `.bg-warm` bands.
+- **Paper** (`#ffffff`): the fill of an **elevated** surface, meaning cards, the megamenu and the mobile nav panel. Never the page.
+- **Paper Alt / Paper Warm** (`#f7f4ec` / `#f5f1e8`): the second and third steps of the one warm ramp, `ground` to `paper-alt` to `paper-warm`, used to separate sections tonally instead of with borders or shadows. Ground to alt separates by 1.045 and alt to warm by 1.026, wide enough to read on a phone in daylight without becoming a hard SaaS stripe. The ramp stops at Paper Warm because Slate label text holds exactly 4.52:1 on it, against AA's 4.50 floor.
+- **Paper Inset** (`#f0e9db`): deliberately **off** the section ramp and deeper than every band, so the answer capsule reads as a recessed inset on any section rather than as an elevated card.
+- **Paper Chrome** (`= ground`): the ground shared by the site header and breadcrumb bar, so the page chrome reads as one continuous surface. The wayfinder bar is deliberately **not** on this token; it keeps its own cool grey so it reads as a separate stratum from the header above it.
+- **Paper Grey / Paper Grey Soft** (`#f2f3f4` / `#f8f9fa`): the one cool neutral pair, promoted to tokens on 12 Aug 2026 from the wayfinder bar's own background rather than invented. They exist because the warm ramp cannot express "light grey", and Paper Grey is the only cool grey in the file that clears AA for Slate (4.59:1, where `--rule` fails at 4.12). Paper Grey Soft is one step lighter, for a surface sitting under a Paper Grey heading.
 - **Rule / Rule Strong** (`#e5e7eb` / `#d4d6da`): the hairline dividers and card borders that carry all structure.
 
 ### Named Rules
@@ -183,7 +191,7 @@ Ink is the alternative and is deliberately not the default: at `--ink` a line dr
 **Character:** A three-voice newsroom pairing. Archivo is the confident headline and figure face, set tight with negative tracking. DM Sans is the calm, legible reading voice. DM Mono, always uppercase and widely tracked, is the "small print" voice that signals captions, keys, and verified facts, the typographic tell of a trustworthy document.
 
 ### Hierarchy
-- **Display** (Archivo 600, `clamp(40px, 6.2vw, 72px)`, line-height 1.02, tracking -0.03em): the single hero H1 per page.
+- **Display** (Archivo 700, `clamp(34px, 4.6vw, 56px)`, line-height 1.04, tracking -0.03em): the single hero H1 per page, set by `h1.h1` and rendered by `Hero.astro`. Note it is the one role that steps to weight 700; everything else in Archivo is 600.
 - **Headline** (Archivo 600, `clamp(30px, 3.6vw, 42px)`, line-height 1.08, tracking -0.025em): section H2s, question-led.
 - **Title** (Archivo 600, 22px, tracking -0.01em): card and sub-section H3s; FAQ and price figures share this weight.
 - **Body** (DM Sans 400, 17px, line-height 1.65): reading copy. The lede steps up to 19px / line-height 1.55. Long-form answer copy is capped around 66 to 80ch.
@@ -196,14 +204,14 @@ Ink is the alternative and is deliberately not the default: at `--ink` a line dr
 
 ## 4. Elevation
 
-The system is flat. There is no shadow vocabulary at all. Depth is built three ways: 1px hairline rules (`--rule` / `--rule-strong`), a tonal ground ramp (`paper` to `paper-alt` to `paper-warm` to `ink`), and a single interaction lift. Interactive cards raise 2px on hover (`transform: translateY(-2px)`) with their border darkening to ink, which is the only elevation cue in the system. The one blur in the build is functional, not decorative: the sticky header and CTA strip use `backdrop-filter: saturate(140%) blur(8px)` purely so text stays legible over scrolling content beneath them.
+The system is flat. There is no shadow vocabulary at all. Depth is built three ways: 1px hairline rules (`--rule` / `--rule-strong`), a tonal ground ramp (`ground` to `paper-alt` to `paper-warm` to `ink`), and a single interaction lift. Interactive cards raise 2px on hover (`transform: translateY(-2px)`) with their border darkening to ink, which is the only elevation cue in the system. The one blur in the build is functional, not decorative: the sticky header and CTA strip use `backdrop-filter: saturate(140%) blur(8px)` purely so text stays legible over scrolling content beneath them.
 
 ### Named Rules
 **The Hairline Rule.** Structure is carried by 1px rules and tonal grounds, never by drop shadows. A box-shadow on any surface reads as a foreign object and is prohibited. If a block needs to separate from its neighbour, change the ground tone or add a hairline, do not lift it with shadow.
 
 ## 5. Components
 
-Thirty components, all rendered live at `/styleguide` with the real tokens. They are flat, bordered, and quietly rectangular (5 to 8px radii). Cards earn their borders; they are never stacked or nested.
+Thirty components, all rendered live at `/styleguide` with the real tokens. They are flat, bordered, and quietly rectangular (3 to 8px radii). Cards earn their borders; they are never stacked or nested.
 
 **Component discipline (build-enforced).** If a page body needs structural markup, **a component is missing**. Compose from what exists first; if the shape repeats, promote it to a component; if it is genuinely new, build it properly (component + styleguide specimen + tokens, no magic numbers). An inline `style=` or a structural class in an MDX body fails the build, and the error names the component that should own the markup. A one-off inline in one page becomes the next state page's copy-paste, which is how the trust-stat row ended up hand-written twelve times before it became `TrustStats`.
 
@@ -232,8 +240,8 @@ Every government fact block ends in one, and they feed the page-foot Sources lis
 `TrustBand` + `TrustStats`: the ink-grounded band carrying the proof numbers. Gold is the accent here; maroon is never used on ink.
 
 ### Cards and containers
-- **Corner Style:** 6px for content cards (glance, topic, note), 8px for structural containers (price card, bundle offer, FAQ, TOC).
-- **Background:** Paper; alternating sections sit on Paper Alt or Paper Warm.
+- **Corner Style:** three steps, tightening as the block gets flatter. 3px for inset and rule-topped blocks (the answer capsule, the `caution` note, the placeholder's dashed inset), 6px for content cards (glance, topic, the neutral note), 8px for structural containers (price card, bundle offer, FAQ, TOC).
+- **Background:** Paper, because a card is an elevated surface. The sections beneath them alternate across the ground ramp (Ground, Paper Alt, Paper Warm), which is what gives a Paper card its lift without a shadow.
 - **Shadow Strategy:** none. See Elevation, the Hairline Rule.
 - **Border:** 1px `--rule` on all four sides. Interactive cards (topic) darken the border to ink and lift 2px on hover.
 - **Internal Padding:** 32px (`--s-lg`) for stat and topic cards.
@@ -256,7 +264,7 @@ Sticky site header (blurred paper, click-open megamenus) with the maroon brand t
 ## 6. Do's and Don'ts
 
 ### Do:
-- **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#ffffff` to `#f7f4ec` to `#f5f1e8` to `#1a1a1a`).
+- **Do** build depth from 1px hairline rules (`--rule` `#e5e7eb`, `--rule-strong` `#d4d6da`) and the tonal ground ramp (`#fbf9f5` to `#f7f4ec` to `#f5f1e8` to `#1a1a1a`).
 - **Do** set every label, key, caption, and source line in DM Mono uppercase, tracked 0.08em to 0.18em.
 - **Do** keep Regulator Maroon (`#800000`) to 10% or less: eyebrow dash, ticks, hovers, active underlines, brand tile, and line-art illustration strokes. Never a large fill.
 - **Do** reserve Verify Deep (`#1e3d5c`) and Verify Blue (`#2f5d8c`) strictly for sourced, dated facts, and always pair them with the word VERIFIED and a date.

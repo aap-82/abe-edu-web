@@ -52,6 +52,7 @@ const rec = {
   ts: null, fail: null, warn: null, ok: null,
   register: null, skillRefs: null, docRefs: null, claims: null, figures: null,
   totals: null, bundles: null, reviews: null, mistakes: null, unrouted: null, positions: null,
+  designRegister: null,
 };
 const countOf = (out, label) => (out.match(new RegExp(`^\\s+${label}\\b`, 'gm')) ?? []).length;
 
@@ -261,6 +262,21 @@ if (existsSync('scripts/check-positions.mjs')) {
   const m = out.match(/(\d+) failing, (\d+) warning, (\d+) ok/);
   if (m) rec.positions = { fail: +m[1], warn: +m[2], ok: +m[3] };
 } else W('scripts/check-positions.mjs missing — delivery-mode and authority-model positions are unchecked');
+
+// 4d - design register conformance. DESIGN.md is canonical for tokens and nothing in the repo reads
+// it, so it drifted from global.css for three weeks behind a green board (see the script's own
+// header for the six values, and why the reverse direction is the one that matters).
+if (existsSync('scripts/check-design-register.mjs')) {
+  const out = run('check-design-register.mjs');
+  for (const l of out.split('\n')) {
+    const t = l.trim();
+    if (t.startsWith('FAIL')) F(t.replace(/^FAIL\s+/, ''));
+    else if (t.startsWith('WARN')) W(t.replace(/^WARN\s+/, ''));
+    else if (t.startsWith('OK')) OK(t.replace(/^OK\s+/, ''));
+  }
+  const m = out.match(/(\d+) failing, (\d+) warning, (\d+) ok/);
+  if (m) rec.designRegister = { fail: +m[1], warn: +m[2], ok: +m[3] };
+} else W('scripts/check-design-register.mjs missing — DESIGN.md tokens are unchecked against global.css');
 
 // 5 - repeat risks
 if (existsSync('kb/mistakes-log.md')) {
