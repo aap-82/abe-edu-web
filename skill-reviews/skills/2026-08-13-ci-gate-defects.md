@@ -178,6 +178,39 @@ load-order race. On a clean runner it is deterministic and attributed to the ima
 load-order-race hypothesis may still be right about the *mechanism*; the "intermittent" and "moved by
 something above it" framings are now contradicted by measurement.
 
+## Addendum 2 — `health.yml` audited: one root cause, two symptoms
+
+Asked whether the health commit is set up correctly, because it appeared to slow deployment and to
+create constant diff. Audited both claims by measurement.
+
+**It does not slow the deployment.** The commit carries the skip marker, and Workers Builds records
+those builds as `skipped` (`fea34aa4`, `f4009eac`, `e7402a2`, all outcome `skipped`). `health.yml`
+also runs in parallel with Workers Builds, not ahead of it. Nothing waits on it.
+
+**It does create constant diff, and here is the mechanism.**
+
+`check-pipeline.mjs` reads `dist/{slug}/index.html`. `dist/` is gitignored (`.gitignore:2`), and
+`health.yml` deliberately runs no `npm ci` and no build. So in CI every `dist`-dependent branch hits
+`if (!plan || !existsSync(built)) continue;` and **25 assertions silently vanish** — 18 OK and 7
+WARN, verified by diffing the CI log against a local run with path separators normalised: 25 lines
+only-local, **0 lines only-CI**, and every one of the 25 is `check-pipeline` section or capsule
+conformance.
+
+That makes CI records **systematically** different from local ones: `0/37/63` against `0/44/81`.
+`health-log-dedupe` compares only the last record with the one before it, so an alternating
+CI/local sequence can never dedupe. Measured over the last 60 records: **26 of 59 consecutive pairs
+cross the CI/local boundary**, and every crossing is a guaranteed non-duplicate and therefore a
+guaranteed commit. 13 CI records in that window, 13 commits.
+
+The comment at `health.yml:58` states that installing dependencies "would add a minute to every run
+and change nothing". **It changes 25 assertions.** That is the repo's most-sighted repeat risk,
+documentation describing the build drifting from the code, at its eleventh sighting.
+
+**The blind spot is the worse half.** Brief-to-page conformance is the check whose entire job is
+catching a briefed section dissolving into a neighbour, and it is the one that silently stops
+running in CI. A set-scoped check reporting nothing is its least trustworthy output, and this one
+reports nothing without saying so.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]
@@ -208,6 +241,22 @@ Tag every item: [skills] | [design] | [facts] | [build]
   now doing discovery rather than regression-watching, and there are 24 built pages. Worth deciding
   whether the deployed run should cover more than one URL per template, given a per-page fault has
   now been found that the template exemplar did not predict.
+- [skills] `health.yml` runs `system-health` without building, so `check-pipeline`'s 25
+  `dist/`-dependent assertions silently no-op in CI (18 OK, 7 WARN; measured by diffing the CI log
+  against a local run, 0 lines CI-only). Two consequences from one cause: brief-to-page conformance
+  is **unenforced in CI**, and CI records are permanently `0/37/63` against local `0/44/81`, which
+  defeats `health-log-dedupe` — it compares only the last two records, and 26 of the last 59
+  consecutive pairs cross the CI/local boundary, so nearly every push commits a health record. Fix
+  is `npm ci && npm run build` before `system-health` in `health.yml`, which closes the blind spot
+  and makes the dedupe start working. Cost is roughly a minute per push, against `health.yml:58`'s
+  claim that installing "would change nothing" — it changes 25 assertions, and that comment should
+  go with the fix.
+- [skills] `check-pipeline.mjs` should say so when `dist/` is absent instead of returning quietly.
+  Every page hits `if (!plan || !existsSync(built)) continue;` and the script still prints a summary
+  line, so an environment where it checked nothing is indistinguishable from one where everything
+  passed. One WARN naming the count of pages skipped for want of a built page would have made the
+  gap above visible the first time it happened rather than a month later. Same shape as the
+  set-scoped-tools lesson already in the mistakes log.
 - [skills] `check-claims` §7 requires every `scripts/*.mjs` to be named in SYSTEM.md §5 or exempted,
   and the exempt list is now 7 of 20. That is a third of the directory exempt from the rule, each for
   a good reason individually. Worth one look at whether "is it a check" is still the right axis, or
