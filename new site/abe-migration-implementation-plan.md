@@ -206,6 +206,15 @@ Most structurally complex; smallest after the matrix corrections (NSW RE CPD, as
 4. **[CC]** `public/_redirects` live: every legacy URL one hop; apex→www + http→https as zone rules. The marketing-host robots.txt does **not** disallow `/course/`, `/program/`, `/bundle/` (R1).
 5. **[AP]** Drop DNS TTL to 300 ahead of the switch. **Do not touch MX / SPF / DKIM.**
 6. **[AP]** Switch DNS; **[CC]** monitor errors + confirm 301s resolve in one hop. Remove the migration-only `noindex` from the production host and set `workers_dev: false` (R3).
+6b. **[CC]** Repoint the nightly CWV run at the real host: `env.DEPLOYED_ORIGIN` in
+   `.github/workflows/nightly-cwv.yml`, `https://abe-edu-web.andrey-p-personal.workers.dev` →
+   `https://www.abeeducation.edu.au`. **One line, and it is the only place the host is named.** Miss
+   it and the nightly keeps passing green forever against a preview host nobody visits, while the
+   real site is unmeasured — a gate that silently measures the wrong thing, which is the exact defect
+   class the 13 Aug session was built to close. Verify by running the workflow manually
+   (`gh workflow run nightly-cwv.yml`) and confirming the report URLs name the production host.
+   Added here 14 Aug 2026 because a reminder living only in a demand list is a reminder nobody reads
+   at cutover.
 7. **[CC/AP]** Submit sitemap in GSC. **No change-of-address** (canonical host unchanged — platform swap, not a domain move). Confirm the GSC property is a **domain property** so it covers www + learn.* (R6); optionally submit a temporary sitemap of the old URLs for a few weeks to speed redirect discovery, then remove it (R8). Confirm GA4 (via Zaraz/server-side) collects on the new pages.
 8. **[AP]** Keep the DNS rollback path available for the whole window.
 

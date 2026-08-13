@@ -131,14 +131,14 @@ and this review, per the facts session type.
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] `reports/handover-facts.md` carried **5 of 12 items already closed on 1–3 Aug**, because
+- ~~[skills] `reports/handover-facts.md` carried **5 of 12 items already closed on 1–3 Aug**, because
   the sessions that did the work updated `kb/register/**` and never struck the items in the reviews
   that filed them. `demand-split` can only read strikethroughs, so a completed item is invisible to
   it. This is the highest-leverage item on this list: the derived handover is what a session reads to
   choose its work, and it sent this one at a `/white-card-tas` risk that had been closed for eleven
   days. Options worth weighing: have `check-freshness` or `demand-split` cross-reference a register
   file's verified date against items naming it, or make closing the filing item part of the facts
-  session close the way it now is for design and skills.
+  session close the way it now is for design and skills.~~ addressed 14 Aug 2026, with the rule as the primary fix and the tool as a weak backstop. CLAUDE.md "Closing a demand item" now says a session **MUST** close what its work closes, where it said "may" — and the paragraph carries this failure as its evidence. `demand-split --stale` flags open items whose named file has moved since filing, but it is honest about being a prompt rather than a filter: **75 of 83 checkable items flagged** on this corpus, and it cannot see a prose-only item at all, which four of the five stale ones were.
 - [facts] Blue Dog Training (RTO 31193) **scope of registration and delivery-location conditions for
   CPCWHS1001** are still unread at source. Distinct from the CRTD approval, which §2C verified on
   2 Aug. This one gates `/white-card-qld`'s partner claim rather than its delivery-mode claim.

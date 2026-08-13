@@ -335,6 +335,22 @@ control at all — infrastructure *for* every session's work, not *part of* any 
 line or a wrong guardrail risks the repo's own correctness (a leaked document, a silently-widened rule),
 never the deployment itself.
 
+**`PRODUCT.md` and `.impeccable/**` are owned by skills** (assigned 14 Aug 2026, **fifth** application
+of the same precedent, and the fifth is the one that should stop the counting). `PRODUCT.md` is a
+standing product-truth document in the same sense as `SYSTEM.md` and `ROADMAP.md`, just written by a
+different tool; `.impeccable/**` is that tool's own config and design sidecar, which is per-session
+verification tooling in the same category as `.claude/launch.json`. Both pass the test this file
+already states: a wrong line in either risks the repo's own correctness, never the deployment.
+
+Hit on 13 Aug 2026 by an `/impeccable init` run that updated `PRODUCT.md`, refreshed
+`.impeccable/design.json`, and had no rule to point at for either — the same shape as the four before
+it. **The pattern is now well enough evidenced to invert the default:** an unassigned path is not a
+question to be litigated per session, it belongs to **skills** unless it is content (`build`), visual
+(`design`), a verified figure (`facts`), or on the deliberately-unassigned platform list above
+(`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`). Assign it in the
+session that hit it and move on; five sessions have now each spent thought on the same judgement call
+and reached the same answer.
+
 **`src/layouts/**` is owned by design.** Not a new precedent — this formalises what two design sessions
 already did in practice, on the same judgement call each time: 28 Jul 2026
 (`skill-reviews/design/2026-07-28-landmarks-and-carriers.md`, adding skip-link and `<main>` landmarks
@@ -487,12 +503,30 @@ An item stays on the handover list until it is **struck through in the review th
 It then leaves every future note, and the note's header counts it (`50 open · 1 closed`). Strikethrough
 rather than deletion, so the run's record of what it found stays readable.
 
-**Any session may close an item it has just fixed, in whichever review filed it.** Closing states a
+**Any session MUST close an item its work closes, in whichever review filed it.** Closing states a
 fact about the item's status; it does not rewrite that run's findings, which stay visible under the
 strike. Waiting for the filing session to come back would mean nothing is ever closed, because sessions
 do not come back. **Close them in the same session as the fix** — every item this repo fixed before
 30 Jul 2026 was still listed as outstanding, `Note.astro` in three places and the `Login` anchor in
 four, because there was no mechanism and no rule.
+
+**"May" became "must" on 14 Aug 2026, and the cost of the weaker word is on the record.** The 1-3 Aug
+facts sessions read the delivery rows for TAS, ACT and QLD at their regulators, updated
+`kb/register/**`, and did not strike the items in the 2 Aug review that asked for exactly that work.
+Eleven days later `reports/handover-facts.md` still carried **5 of its 12 items already done**,
+including "read the TAS delivery row at WorkSafe Tasmania, `/white-card-tas` is live and indexable" —
+which reads as an unverified compliance claim on a published page. A session was ranked onto that list
+ahead of a page-blocking bundle item and the unbuilt homepage, on the strength of a risk that no
+longer existed. **A stale handover does not merely waste a session, it misdirects prioritisation**,
+and it does it while looking exactly like good evidence.
+
+This applies to **every** session type, and specifically to `facts`: rules 9, 10 and 11 each require a
+review, but only design and skills had grown the habit of closing. Before you write your review, search
+`skill-reviews/` for items your work has just answered — the derived handover shows each item's source
+review, so finding them is a grep, not an archaeology project. `node scripts/demand-split.mjs --stale`
+lists open items whose named file has moved since filing, which helps when you are already hunting;
+it is a weak prompt rather than a filter (75 of 83 checkable items flagged on the corpus that
+motivated it) and it cannot see a prose-only item at all, which is what four of those five were.
 
 The mechanism used to work by accident: a struck line failed the item regex and was discarded
 silently, which is the right outcome by the wrong route — a typo in a tag was discarded just as

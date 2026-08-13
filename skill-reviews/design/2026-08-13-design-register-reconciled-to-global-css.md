@@ -287,13 +287,13 @@ dropping the Archivo fallback, dropping the DM Mono fallback, a wrong `figure` s
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] `CLAUDE.md` session-types table has no owner for `PRODUCT.md` or `.impeccable/**`. This is
+- ~~[skills] `CLAUDE.md` session-types table has no owner for `PRODUCT.md` or `.impeccable/**`. This is
   the **fifth** application of the same pattern the file already names twice ("a path goes unassigned
   when it is infrastructure *for* the work rather than *part of* the work"), after
   `content.config.ts`, `SYSTEM.md`/`handover/**`, `public/**`/`launch.json` and
   `guardrails.ts`/`.gitignore`. Recommendation: both to **skills**, on the `SYSTEM.md` precedent.
   `PRODUCT.md` is a standing product-truth document and `.impeccable/**` is per-session tooling
-  config; a wrong line in either risks the repo's own correctness, never the deployment.
+  config; a wrong line in either risks the repo's own correctness, never the deployment.~~ assigned 14 Aug 2026: **PRODUCT.md and .impeccable/** to skills**, and the recommendation in this item is what was adopted. The fifth application also changed the default rather than adding a sixth paragraph later: an unassigned path now belongs to skills unless it is content, visual, a verified figure, or on the deliberately-unassigned platform list. Five sessions had each spent thought on the same judgement call and reached the same answer.
 - ~~[design] `DESIGN.md` has no mechanical check that its token values still match `global.css`. This
   session found **six** disagreements by hand, one of which (`--ground`) had been wrong since 24 Jul
   2026 and describes the background of every page on the site. The scripted comparison written for

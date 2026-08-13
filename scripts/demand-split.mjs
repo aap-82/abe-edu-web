@@ -20,6 +20,7 @@
  */
 
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
+import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
@@ -45,6 +46,7 @@ const OWNER = {
 const args = new Set(process.argv.slice(2));
 const WRITE = args.has('--write');
 const STRICT = args.has('--strict');
+const STALE = args.has('--stale');
 
 /** Split simple `key: value` frontmatter from a markdown body. */
 function splitFrontmatter(raw) {
@@ -609,6 +611,88 @@ function bucketItem(bucket, item, runLabel, mistakes) {
   }
 }
 
+/* ---- stale-item detection -------------------------------------------------
+ *
+ * WHY. On 14 Aug 2026 a facts session was sent at "read the TAS delivery row at WorkSafe Tasmania,
+ * /white-card-tas is live and indexable" — a real-sounding compliance risk that had been closed
+ * eleven days earlier. Five of the twelve items in reports/handover-facts.md were in that state:
+ * the 1-3 Aug sessions did the work, updated kb/register/**, and never struck the items in the
+ * reviews that filed them. This tool can only see strikethroughs, so completed work stays visible
+ * as outstanding, and the derived handover is precisely what a session reads to choose what to do.
+ * It did not waste a session, it MISDIRECTED one: facts was ranked above a page-blocking item and
+ * the unbuilt homepage on the strength of an item that was already answered.
+ *
+ * WHAT THIS CATCHES, AND WHAT IT CANNOT. An item that names a file in backticks can be checked:
+ * if that file was committed AFTER the item was filed, the item may already be done. An item
+ * written as prose ("read the TAS delivery row at WorkSafe Tasmania") names no file and is
+ * invisible here. Of the five real cases, ONE named a file. So this is a backstop covering a
+ * minority of the failure, and it prints its own coverage rather than letting a clean run read as
+ * "nothing is stale" — the same reason check-pipeline now reports how many pages it skipped.
+ *
+ * AND IT IS DELIBERATELY A PROMPT, NOT A FILTER. Measured on this corpus the first time it ran:
+ * **75 of 86 checkable items flagged.** In a repo that changes daily, "the file this item names has
+ * moved since it was filed" is true of almost everything and therefore says almost nothing. Shipping
+ * that as 75 lines of default output would have been noise dressed as a signal, which is the
+ * `_comment_tbt` failure again — a permanent red that readers learn to skip. So the default is one
+ * summary line and `--stale` prints the list. Its honest value is as a hunting aid when you are
+ * already asking "is this still open?", not as a standing report.
+ *
+ * The primary fix is the rule, not this: CLAUDE.md now REQUIRES a session to close the items its
+ * work closes, where it previously only permitted it. */
+function gitCommitTime(file) {
+  try {
+    const out = execSync(`git log -1 --format=%ct -- "${file}"`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return out ? Number(out) * 1000 : null;
+  } catch { return null; }
+}
+
+let repoIndex = null;
+function repoFileFor(basename) {
+  if (!repoIndex) {
+    repoIndex = new Map();
+    try {
+      for (const p of execSync('git ls-files', { encoding: 'utf8', maxBuffer: 1 << 24 }).split('\n')) {
+        const b = p.split('/').pop();
+        if (!b) continue;
+        // First match wins; ambiguous basenames are skipped rather than guessed at.
+        if (repoIndex.has(b)) repoIndex.set(b, null); else repoIndex.set(b, p);
+      }
+    } catch { /* not a git checkout; detection is simply unavailable */ }
+  }
+  return repoIndex.get(basename) ?? null;
+}
+
+/** Backticked tokens that look like a file: a basename with a known extension, `:line` stripped. */
+const FILE_TOKEN = /`([^`\s]+\.(?:mjs|ts|astro|md|mdx|json|css|yml|yaml|js))(?::\d+)?`/g;
+function namedFiles(text) {
+  return [...new Set([...text.matchAll(FILE_TOKEN)].map((m) => m[1].split('/').pop()))];
+}
+
+function staleReport(buckets) {
+  const rows = [];
+  let named = 0, proseOnly = 0, unresolved = 0;
+  for (const destination of DESTINATIONS) {
+    for (const entry of new Set(buckets.get(destination).values())) {
+      const filed = entry.runs.map((r) => r.slice(0, 10)).sort()[0];
+      const filedMs = Date.parse(filed);
+      const files = namedFiles(entry.text);
+      if (!files.length) { proseOnly++; continue; }
+      let sawOne = false;
+      for (const base of files) {
+        const p = repoFileFor(base);
+        if (!p) { continue; }
+        sawOne = true;
+        const t = gitCommitTime(p);
+        if (t && Number.isFinite(filedMs) && t > filedMs + 86400000) {
+          rows.push({ destination, filed, file: p, text: entry.text.slice(0, 90) });
+        }
+      }
+      sawOne ? named++ : unresolved++;
+    }
+  }
+  return { rows, named, proseOnly, unresolved };
+}
+
 async function main() {
   const reviews = await loadReviews();
   const mistakes = await loadMistakes();
@@ -685,6 +769,22 @@ async function main() {
 
   const closedTotal = reviews.reduce((n, r) => n + r.closed.length, 0);
   if (closedTotal) console.log(`\ndemand-split: ${closedTotal} item(s) closed by strikethrough and excluded.`);
+
+  /* Possibly-already-done items. Never asserts closure — it asserts that the file an item names has
+     moved since the item was filed, which is a reason to check before starting, not a reason to
+     skip. The coverage line is not decoration: most items name no file and cannot be checked here
+     at all, and a clean run must not be read as "nothing is stale". */
+  const stale = staleReport(buckets);
+  const byDest = new Map(DESTINATIONS.map((d) => [d, 0]));
+  for (const r of stale.rows) byDest.set(r.destination, byDest.get(r.destination) + 1);
+  console.log(`\ndemand-split: stale prompt — ${stale.rows.length} of ${stale.named} file-naming item(s) name a file that has changed since filing (${DESTINATIONS.map((d) => `${d} ${byDest.get(d)}`).join(', ')}).`);
+  console.log(`  ${stale.proseOnly} item(s) name no file and CANNOT be checked this way; ${stale.unresolved} name a file that does not resolve.`);
+  console.log('  This is a PROMPT, not a filter: in an active repo most named files have moved, so a flag here is weak evidence on its own. Run --stale to list them.');
+  if (STALE) {
+    for (const r of stale.rows.sort((a, b) => a.destination.localeCompare(b.destination) || a.filed.localeCompare(b.filed))) {
+      console.log(`  [${r.destination}] filed ${r.filed}, ${r.file} changed since — ${r.text}`);
+    }
+  }
 
   if (STRICT && (unrouted.length || malformed.length)) return 1;
 

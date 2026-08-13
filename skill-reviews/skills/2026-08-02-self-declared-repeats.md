@@ -123,9 +123,15 @@ Tag every item: [skills] | [design] | [facts] | [build]
   edits to build while design keeps markup and CSS. This is now the oldest fired trigger in the repo.~~
   Fixed 4 Aug 2026 — the first option, exactly: see
   `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
-- [skills] `demand-split.mjs` has no staleness signal. Open items carry no age and nothing re-validates
+- ~~[skills] `demand-split.mjs` has no staleness signal. Open items carry no age and nothing re-validates
   them, so 14 items from 23 Jul rank equally with today's. Report age, and flag items whose named file
-  has changed since filing as candidates for re-checking or closing.
+  has changed since filing as candidates for re-checking or closing.~~ built 14 Aug 2026, and the
+  cost of it having stayed open for twelve days is measurable: a facts session that same morning was
+  sent at a `/white-card-tas` compliance risk that had been closed eleven days earlier, because five
+  of twelve items in the derived handover were already done and unstruck. The check does what this
+  item asked, and reports its own coverage: **86 items name a resolvable file and are checked, 132
+  name none and cannot be**, so a clean run is never read as "nothing is stale". It found this item
+  on its first run.
 - [skills] `skill-reviews/build/` does not exist, so a build session correcting an existing page has
   nowhere to file a finding: `kb/mistakes-log.md` is skills-owned and a flat review would falsely
   satisfy `system-health.mjs:177`'s page-coverage check. Verified 2 Aug: `demand-split.mjs:226` walks

@@ -260,10 +260,10 @@ Tag every item: [skills] | [design] | [facts] | [build]
   performance enforce at the source budgets; LCP carries one documented override (1800 → 2200) sized
   from the worst healthy median of 1793ms, which still catches the known defect class at 2447ms.
   Safe as `error` because lhci aggregates optimistically over three runs, verified from real output.
-- [skills] `nightly-cwv.yml` names the preview host in `env.DEPLOYED_ORIGIN`. **At cutover this must
+- ~~[skills] `nightly-cwv.yml` names the preview host in `env.DEPLOYED_ORIGIN`. **At cutover this must
   change to `https://www.abeeducation.edu.au`** or the nightly silently keeps measuring a preview
   host nobody visits. It is one line and it is the only place the host appears; add it to the cutover
-  runbook rather than trusting it to be remembered.
+  runbook rather than trusting it to be remembered.~~ done 14 Aug 2026 — written into the cutover runbook as step 6b of `new site/abe-migration-implementation-plan.md` §8.2, with the verification (run the workflow manually, confirm the report URLs name the production host). This item correctly said it should go in the runbook rather than be trusted to memory; a reminder living only in a demand list is a reminder nobody reads at cutover.
 - ~~[design] `.ph.ph-img` shifts on the deployed host on every page that has a hero image, and the
   nightly's first run measured it at **0.5622 on `/cpd`** (28x the 0.02 budget), 0.0748 on
   `/qld-owner-builder-course` and 0.0581 on `/reviews`, deterministic across three runs each. The
