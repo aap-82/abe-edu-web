@@ -66,9 +66,9 @@ Tag every item: [skills] | [design] | [facts]
   `reports/handover-design.md` cannot regenerate without it. Restore or retire it.~~ restored in `057a569`
   and extended since (#87, #90, #91); `reports/handover-design.md` regenerates, and `system-health`
   reports its unrouted count. Verified present 2026-08-01.
-- [skills] Another instance of the 6× "documentation drifted from the code and was trusted over it"
+- ~~[skills] Another instance of the 6× "documentation drifted from the code and was trusted over it"
   risk: DESIGN.md cited `#fafafa` (two token generations stale) and the styleguide swatch mirror was
-  stale too. Fixed in this session's commits; log the recurrence in `kb/mistakes-log.md`.
+  stale too. Fixed in this session's commits; log the recurrence in `kb/mistakes-log.md`.~~ closed 14 Aug 2026 — the recurrence was logged, by commit "log(mistakes): 7th occurrence of docs-drift — DESIGN.md #fafafa two gens stale". That sighting is now the 7th row of the mistakes-log history section and belongs to row 27 after the 14 Aug split.
 - [design] `SectionHeading` overlaps `Section.astro` (only new value: standalone use) and `StatBlock`
   overlaps `TrustStats`/`FactGrid`. Watch for redundancy before either is wired into a page; trim if a
   build never reaches for the standalone case.

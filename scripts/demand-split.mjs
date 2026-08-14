@@ -692,15 +692,26 @@ function subjectsSince(file, date) {
    lines, so real entries are several times longer than one line and carry many more distinctive
    words. Re-measured on the actual bucket entries, 54 items whose named file had moved scored:
        0 words: 17    1: 20    2: 9    3: 6    4: 2
-   There is no cliff, so 2 is a judgement about precision rather than a natural break. The top eight
-   were inspected by hand: SIX were genuine closures still sitting open (check-links' PLANNED entry
-   against "delete stale /white-card PLANNED entry in check-links.mjs"; the SiteHeader TAS residency
-   claim against "remove unsourced TAS residency claim, 11 locations"), and TWO were coincidence
-   (`CourseLayout.astro`'s hardcoded courseMode matching a commit that merely shipped a White Card
-   page). Roughly 75% precision, which is why the output says "check each and strike it if closed"
-   and never asserts closure.
-   Raising to 3 was tried and does not help: it drops to 8 candidates at the same ~75%, losing recall
-   for nothing. Re-measure both the distribution and the precision if the stopword list changes. */
+   There is no cliff, so 2 is a judgement about precision rather than a natural break.
+
+   PRECISION, measured on the FULL candidate set rather than a sample — and the sample lied. Grading
+   the top eight by hand suggested ~75%. All fifteen were then triaged against the code on 14 Aug
+   2026 and the real figure is **8 done, 7 still open: 53%**. The top-eight estimate was biased
+   because it was the top eight; that is the same "measured the wrong population" error as the
+   threshold experiment above, made twice in one afternoon on the same feature.
+
+   By score, from that full triage:
+       score 4:  0 of 1 correct
+       score 3:  4 of 5 correct  (80%)
+       score 2:  4 of 9 correct  (44%)
+
+   So a threshold of 3 would give 6 candidates at 67% and miss 4 genuine closures, against 15 at 53%
+   catching all 8. Kept at 2 for recall, because the output is a checklist a human triages in a few
+   minutes, not a filter that acts on its own — and a missed closure stays invisible for weeks while
+   a false positive costs one grep. An earlier version of this comment claimed "raising to 3 does not
+   help"; that was derived from the biased sample and is wrong. It helps precision and costs recall.
+   Re-measure BOTH the distribution and the precision if the stopword list changes, and measure them
+   on every candidate, not the interesting end. */
 const STALE_MIN_OVERLAP = 2;
 
 function staleReport(buckets) {

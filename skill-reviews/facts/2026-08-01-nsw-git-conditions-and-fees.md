@@ -162,9 +162,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   If it is by
   video, that is a conflict between the partner's delivery and the regulator's published conditions,
   and it is a commercial and compliance question, not a copy decision.
-- [facts] **Verify the QLD row of `online-delivery-policy-by-state.md` against WHSQ.** Same
+- ~~[facts] **Verify the QLD row of `online-delivery-policy-by-state.md` against WHSQ.** Same
   virtual-classroom claim that failed for NSW, same industry-guide provenance, and it is already on a
-  live page. Then work through TAS, ACT, WA and the out-of-scope rows.
+  live page. Then work through TAS, ACT, WA and the out-of-scope rows.~~ closed 14 Aug 2026 — done 2 Aug 2026 and recorded as `online-delivery-policy-by-state.md` §2C, read at WHSQ. The row was right and its stated reason was wrong: CRTD is permitted from a separately-approved RTO and WHSQ counts CRTD *as* face-to-face. Left open for twelve days because the verifying session never came back to strike it.
 - ~~[skills] **`kb/rules/authority-model.md` lines 141, 371 and 390 state the NSW virtual-classroom position as canonical.**~~ **CLOSED 2 Aug 2026 by PR #112**, which reconciled all three and added a prohibited-claims row banning regulator attribution of the mode. A later branch duplicated that work off a stale base and discarded its own version in favour of #112's on merge; only the §2A-1 exemption pointer was added on top. Original finding kept below.
   They stated that position as canonical. Reconcile against `online-delivery-policy-by-state.md` §2A.
   Line 371 is in the prohibited-claims table, so it currently teaches the wrong replacement wording.

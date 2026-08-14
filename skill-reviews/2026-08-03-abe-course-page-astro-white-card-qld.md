@@ -271,12 +271,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   going forward, so silent recurrence stops being possible even before the structural fix ships.~~
   Fixed 4 Aug 2026 — the first option, exactly: see
   `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
-- [facts] **`kb/register/legislation-references-qld.md` §2 is stale and contradicts the page it should
+- ~~[facts] **`kb/register/legislation-references-qld.md` §2 is stale and contradicts the page it should
   agree with.** It states White Card training "must be completed in person in QLD (online delivery is
   restricted to WA and TAS residents)," which the more recently and more deeply sourced
   `online-delivery-policy-by-state.md` §2C (WHSQ's November 2022 CRTD regime) supersedes.
   `/white-card-qld` correctly builds on §2C and not on this line, but the stale line is still live and
-  will mislead the next reader or run that opens it directly. Reconcile or retire it.
+  will mislead the next reader or run that opens it directly. Reconcile or retire it.~~ closed 14 Aug 2026 by the facts session that day: the "must be completed in person / online restricted to WA and TAS residents" sentence is removed and the file now points at `online-delivery-policy-by-state.md` §2C, which owns the claim. Both halves were wrong, not just one.
 - [skills] **FIFTH SIGHTING (at least) — a barred figure written into a comment, and the counter tracking
   this is itself stale.** `kb/mistakes-log.md` row 7 reads "3, last seen 2026-07-30," but
   `white-card-nsw`'s own 1 Aug review already found and declared a fourth sighting (`$28` in four of its

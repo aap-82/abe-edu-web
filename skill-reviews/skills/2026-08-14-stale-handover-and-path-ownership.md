@@ -74,9 +74,10 @@ standing report. The rule is the fix.
 **SUPERSEDED LATER THE SAME DAY — read section 6.** Everything above describes the first version and
 is kept because the reasoning that made it weak is worth seeing. Andrey asked for the item to be
 closed rather than parked, which forced the question "is there actually a sharper signal?", and there
-was: scoring the item against the commit subjects that touched its file takes 75 down to 15 at ~75%
-precision. The judgement "revisit only with a concrete idea" was right; the assumption that no
-concrete idea existed was not tested before I wrote it.
+was: scoring the item against the commit subjects that touched its file takes 75 down to 15, at a
+measured **53%** precision once all fifteen were triaged (section 8; the ~75% figure this paragraph
+first carried came from grading only the top eight). The judgement "revisit only with a concrete
+idea" was right; the assumption that no concrete idea existed was not tested before I wrote it.
 
 ## 3. Fifth path-ownership gap — and the default inverted
 
@@ -170,6 +171,53 @@ So the check now also verifies the **stated count** against `CHECK_EXEMPT.size`.
 whole set, or it certifies its own staleness*. Membership was constrained; the count was not.
 Falsified by reverting the word to "Six" — 1 failing — then restored.
 
+## 8. All 15 candidates triaged, and the precision estimate was wrong
+
+Every candidate the sharpened detector produced was checked against the code, not the score.
+**8 genuinely done, 7 still open.** All eight are now struck with the evidence that settled them;
+`demand-split` goes from 142 closed items to **152**, and the likely-done list from 15 to 7.
+
+| Closed | Settled by |
+|---|---|
+| `SiteHeader.astro:64` TAS nav card | no "Tasmanian resident" string left in `nav.ts` or the component |
+| `legislation-references-qld.md` §2 | fixed by the facts session earlier the same day |
+| `pipeline/white-card/07` Real-defects item 3 | the artefact has struck its own item: "~~65 words~~ Fixed same day" |
+| `white-card-tas.mdx` "Tasmanian residents only" | absent from all of `src/content/` and `src/data/` |
+| DESIGN.md `#fafafa` docs-drift recurrence | logged by "log(mistakes): 7th occurrence of docs-drift" |
+| `authority-model.md` old TAS residency | absent from the file |
+| "Verify the QLD row against WHSQ" | done 2 Aug as §2C; open for twelve days because nobody struck it |
+| `white-card-nsw.mdx:158` TAS residency | absent — checked with the item's own phrasing, not a near-miss |
+
+**The last one nearly went wrong.** I first grepped `"residents only"` and got a clean absence, but
+that item's wording is *"available only to Western Australian and Tasmanian residents"* — a different
+string. Re-grepping the item's own phrasing found one surviving hit, which turned out to be a **guard
+comment** at `white-card.mdx:32` telling authors to write "in Tasmania" and never "for Tasmanian
+residents". The rule, not a breach of it. Closing on the first grep would have been right by luck.
+
+**Precision was 53%, not the ~75% I published.** I had graded the top eight; grading all fifteen gives
+8 of 15. Broken down: score 4 → 0 of 1, score 3 → 4 of 5, score 2 → 4 of 9. That is the same
+"measured the wrong population" error as the threshold experiment, made twice in one afternoon on the
+same feature — once by sampling raw lines instead of joined entries, once by sampling the top of a
+ranked list. The code comment now carries the full-set figures and explicitly retracts the earlier
+claim that raising the threshold to 3 "does not help": it does help precision (67%) and costs recall
+(misses 4 of 8). Kept at 2, because a missed closure hides for weeks while a false positive costs one
+grep.
+
+**The 7 that remain are genuinely open**, triaged and listed here so the next reader can skip
+re-checking them: `CourseLayout.astro`'s hardcoded `courseMode` (still `'online'` at line 148),
+"Silica Awareness" naming in `CLAUDE.md` and `authority-model.md`, mistakes-log row 7 still reading 3
+when a 4th and 5th were declared, the ROADMAP/`HANDOVER-todo` refresh note, `demand-split`'s
+reported-speech guard (0 matches, never built), the min-content trap's `DESIGN.md` §7 entry, and
+`.faq summary`'s 18px having no type role.
+
+**One of those is worse than when it was filed.** `authority-model.md` names "Silica Awareness (ALL
+STATES)" and says ABE resells it "in every state". This morning's facts session established at source
+that there is **no course of that name** on AlertForce's scope — the nearest is 10830NAT "Course in
+Crystalline Silica Exposure Prevention" — and that its delivery notification covers NSW, VIC, QLD,
+TAS and ACT only. The rule document now contradicts the register on both the product name and its
+jurisdictions. No page is affected (no asbestos or silica page exists), but it is a live
+authority-model error and it should be fixed by a skills session against the register.
+
 ## Verification
 
 `system-health` 0 failing / **45** warning / 81 ok — one more than at pre-flight, and the increase is
@@ -201,3 +249,13 @@ Tag every item: [skills] | [design] | [facts] | [build]
 - [facts] Unchanged and still open: Blue Dog's scope of registration for CPCWHS1001, WorkSafe WA's
   "Terms and Conditions 2022" document, and the legal effect of training.gov.au's "Delivery
   notification" field. None blocks a published claim.
+
+- [skills] `kb/rules/authority-model.md` contradicts `kb/register/alertforce-scope.md` on the silica
+  product, and the register is the one that was read at source. The rule doc names "Silica Awareness
+  (ALL STATES)" and says ABE resells it "in every state"; the register records that no course of that
+  name exists on AlertForce's scope (the nearest is **10830NAT, Course in Crystalline Silica Exposure
+  Prevention**) and that its delivery notification covers **NSW, VIC, QLD, TAS and ACT only**. Same
+  for `CLAUDE.md`'s "Asbestos and silica" section. Filed before as a naming mismatch; it is now a
+  jurisdiction error too. No page is affected — no asbestos or silica page is built — so this gates a
+  future page rather than correcting a live claim. Fix the rule doc to point at the register rather
+  than restating it, the way the delivery-mode files were fixed on 14 Aug.

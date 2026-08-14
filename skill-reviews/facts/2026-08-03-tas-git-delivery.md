@@ -147,22 +147,22 @@ build touch.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [build] **`white-card-tas.mdx` states a "Tasmanian residents only" self-paced eligibility test that
+- ~~[build] **`white-card-tas.mdx` states a "Tasmanian residents only" self-paced eligibility test that
   is unsourced to WorkSafe Tasmania.** Seven locations (lines 25, 62, 90, 108, 128, 144–150, 154) and
   the FAQ at `faqs-white-card-tas.ts:27`. The regulator's own wording is "completed in Tasmania" (a
   location condition, not residency), and the WHS Regulations 2022 (Tas) impose no delivery-mode
   restriction at all — see `kb/register/online-delivery-policy-by-state.md` §2D. Do not simply
   substitute "located in Tasmania" for "resident" the way the WA page did (§2B) until Blue Dog's actual
-  RTO delivery-location scope is checked — the true gate may be narrower or broader than either wording.
+  RTO delivery-location scope is checked — the true gate may be narrower or broader than either wording.~~ closed 14 Aug 2026 — verified absent: no "residents only" string remains anywhere in `src/content/` or `src/data/`. Fixed by "fix(content): remove unsourced TAS residency claim, 11 locations".
 - [facts] **Check Blue Dog Training's RTO scope of registration / delivery-location conditions for
   CPCWHS1001 on training.gov.au.** This is very likely the real basis for whatever eligibility test
   `/white-card-tas` should state, since neither WorkSafe Tasmania nor the WHS Regulations impose one.
   Read before the build item above is actioned, not instead of it.
-- [skills] **`kb/rules/authority-model.md` states the old TAS residency position as settled, in two
+- ~~[skills] **`kb/rules/authority-model.md` states the old TAS residency position as settled, in two
   places** (~line 174: "Self-paced fully online remains restricted to WA and TAS residents; that part
   is unchanged and separately sourced" — it is not separately sourced on today's reading; and the
   prohibited-claims table ~line 415). Reconcile against `online-delivery-policy-by-state.md` §2D, on
-  the same pattern as the NSW reconciliation in PR #112.
+  the same pattern as the NSW reconciliation in PR #112.~~ closed 14 Aug 2026 — verified absent: no "Tasmanian resident" or "TAS resident" string remains in `kb/rules/authority-model.md`. Fixed by "chore(skills): correct authority-model.md's stale TAS residency wording".
 - [facts] **ACT remains the last unchecked delivery row.** Confirmed with the AlertForce partner
   (26 May 2026), never with WorkSafe ACT. Gates the unbuilt `/white-card-act` (W3-5).
 - [skills] **`legislation.tas.gov.au`'s `/view/whole/html/...` route is unreliable from this session's

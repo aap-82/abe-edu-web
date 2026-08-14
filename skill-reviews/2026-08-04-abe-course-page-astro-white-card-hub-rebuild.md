@@ -150,12 +150,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   before and **65 CPL** after. Root cause was the unit, not the number: `1ch` is the advance of "0"
   (12.42px) against an 8.41px average character, so `66ch` bought 92 characters. See
   `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md`.
-- [build] `pipeline/white-card/07-verification.md`'s Real-defects item 3 states the answer capsule is
+- ~~[build] `pipeline/white-card/07-verification.md`'s Real-defects item 3 states the answer capsule is
   at 65 words. It is not, currently: `src/content/hubs/white-card.mdx`'s committed `intro` field and
   `dist/white-card/index.html`'s rendered capsule both measure 57 words (counted directly), matching
   `04-content.md`'s own revision note that the trim happened "after Stage 7's fresh check." The finding
   is stale — strike it (or update it to record the fix) before `07-verification.md` is committed, so
-  the artefact doesn't misstate the page's current state.
+  the artefact doesn't misstate the page's current state.~~ closed 14 Aug 2026 — verified: 07-verification.md:276 now reads "~~Answer capsule at 65 words~~ Fixed same day, after this finding", with the trim to 57 words recorded. The stale prose this item reported has been struck in the artefact itself.
 - [build] `pipeline/white-card/07-verification.md`'s Real-defects item 4 characterises the
   `--slate-light` "About"/"Coming soon" 2.68:1 contrast finding as live and worth a fresh `[design]`
   item. It's already closed: `skill-reviews/design/2026-07-30-measure-contrast-and-tap-targets.md`

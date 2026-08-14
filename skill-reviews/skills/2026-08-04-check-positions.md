@@ -110,20 +110,20 @@ Shipped 4 Aug 2026, commit `1b6ff50`, merged to `main` at `9f15a90`, deployed vi
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [design] **`SiteHeader.astro:64`'s TAS nav card states "Online and self-paced for Tasmanian
+- ~~[design] **`SiteHeader.astro:64`'s TAS nav card states "Online and self-paced for Tasmanian
   residents" — the same unsourced residency claim `skill-reviews/facts/2026-08-03-tas-git-delivery.md`
   found in `white-card-tas.mdx` and its FAQ, in a location that review's count did not cover.**
   Unlike that review's items, this file is design-owned, not build-owned — flagging it here rather
   than folding it into the existing `[build]` item, since a build session may not touch
   `src/components/**`. Do not reword it to "located in Tasmania" the way the WA fix did until
   Blue Dog's actual RTO delivery-location scope is checked (per the facts review's own caution) —
-  the true gate may be narrower or broader than either wording.
-- [build] **`white-card-nsw.mdx:158` and `faqs-white-card-nsw.ts:32` both restate the TAS residency
+  the true gate may be narrower or broader than either wording.~~ closed 14 Aug 2026 — verified absent: no "Tasmanian resident" string remains in `src/data/nav.ts` or `SiteHeader.astro`. Fixed by "fix(content): remove unsourced TAS residency claim, 11 locations".
+- ~~[build] **`white-card-nsw.mdx:158` and `faqs-white-card-nsw.ts:32` both restate the TAS residency
   claim as a comparison point** ("available only to Western Australian and Tasmanian residents").
   Not named by the 3 Aug facts review (which read `white-card-tas.mdx`, not the NSW page), but the
   same defect by the register's own §3 instruction: "Do not state a residency test for TAS... including
   as a comparison point on another state's page." Fix alongside the `white-card-tas.mdx` item once
-  the correct TAS wording is settled — these three files should not say three different things.
+  the correct TAS wording is settled — these three files should not say three different things.~~ closed 14 Aug 2026 — verified with the item's own phrasing, not a near-miss grep: no "Western Australian and Tasmanian residents" or "Tasmanian residents" claim remains in src/content/ or src/data/. The single surviving hit is a GUARD COMMENT at white-card.mdx:32 instructing authors to write "in Tasmania" and never "for Tasmanian residents", which is the rule, not a breach of it.
 - [skills] **A QLD remoteness-exception regression guard for `check-positions` needs a
   negation-aware match, not a bare banned phrase** — see "What was deliberately not built" above.
   `/white-card-qld` already correctly refutes the superseded claim in prose, and a bare pattern
