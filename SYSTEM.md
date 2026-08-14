@@ -262,9 +262,11 @@ carries its count as a budget that can only go down, and the budget FAILs when i
 it falls without the number following — the same shape as `BANNED_CTA_BUDGET`. The reflow half has
 no budget because it was already clean.
 
-Six scripts in `scripts/` are not checks and are exempt from the list above: `generate-redirects`
+Seven scripts in `scripts/` are not checks: `generate-redirects`
 (the only writer of `public/_redirects`, at prebuild), `demand-split` (derives handover notes),
-`health-log-dedupe` (collapses identical health records), `sync-cpd-register` (manual by design,
+`health-log-dedupe` (collapses identical health records), `lhci-deployed-config` (rewrites
+`.lighthouserc.json` onto the deployed origin for the nightly, so the two Lighthouse gates cannot
+drift apart on their budgets), `sync-cpd-register` (manual by design,
 kept out of `prebuild` so the build stays hermetic), and the status-board pair — `page-status`
 (reads `dist/` and emits per-page build status as JSON) and `status-board` (renders that JSON into
 `reports/status-board.html`). The pair is split measure-from-present on purpose: the measurement is

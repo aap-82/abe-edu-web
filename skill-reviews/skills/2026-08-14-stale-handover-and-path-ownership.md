@@ -71,6 +71,13 @@ pages it skipped.
 Honest summary: it is a hunting aid for when you are already asking "is this still open?", not a
 standing report. The rule is the fix.
 
+**SUPERSEDED LATER THE SAME DAY — read section 6.** Everything above describes the first version and
+is kept because the reasoning that made it weak is worth seeing. Andrey asked for the item to be
+closed rather than parked, which forced the question "is there actually a sharper signal?", and there
+was: scoring the item against the commit subjects that touched its file takes 75 down to 15 at ~75%
+precision. The judgement "revisit only with a concrete idea" was right; the assumption that no
+concrete idea existed was not tested before I wrote it.
+
 ## 3. Fifth path-ownership gap — and the default inverted
 
 `PRODUCT.md` and `.impeccable/**` are assigned to **skills**. Both pass the test `CLAUDE.md` already
@@ -123,6 +130,46 @@ The 7th sighting is the one that justifies the whole exercise: `DESIGN.md` carry
 July, and on 13 Aug the same surface produced **six** wrong values including `--ground`. A row saying
 "documentation drifted" gave nobody a reason to check that surface. `check-design-register` does.
 
+## 6. The staleness prompt sharpened from useless to usable
+
+The earlier version flagged **75 of 83** and was a prompt in name only. It now scores each candidate
+against the subjects of the commits that touched its named file since filing, and reports only those
+sharing **2 or more distinctive words**. That is 75 → **15**, and on its first sharpened run it found
+a real one immediately: `check-links.mjs`'s stale `/white-card` `PLANNED` entry, filed **twice** on
+4 Aug, fixed 7 Aug in a session dedicated to it, and left open for a further seven days. Both are now
+struck, verified first — `/white-card` is genuinely gone from the map.
+
+**I measured the wrong population first, and that is the part worth recording.** A scratch experiment
+over raw single review lines gave a clean cliff (32 at 0 shared words, 32 at 1, 4 above) and I nearly
+shipped the threshold on it. The implementation scored 17, not 4, because `joinWrapped` merges an
+item's continuation lines — real entries are several times longer than the lines I sampled, so they
+carry many more words. Re-measured on the actual bucket entries: **0:17, 1:20, 2:9, 3:6, 4:2**. No
+cliff at all. The comment in the code now carries those numbers and not the experiment's, because a
+threshold justified by a measurement of something else is the exact failure this session's other half
+is about.
+
+**Precision is roughly 75%, stated rather than implied.** The top eight were inspected: six genuine
+closures, two coincidences (`CourseLayout.astro`'s hardcoded `courseMode` matching a commit that
+merely shipped a White Card page). Raising the bar to 3 was tried and does not help — 8 candidates at
+the same ~75%, losing recall for nothing. So the output says "check each and strike it if closed" and
+never asserts closure.
+
+## 7. `check-claims` §7 widened, and it caught a live drift on the first run
+
+`CHECK_EXEMPT` meant "exempt from being named", so 7 of 20 scripts were excused rather than described.
+It is now a **classification** — check or utility — and every script must appear in §5 either way.
+
+**The demand item's premise turned out to be wrong**, and the check found something better than what
+was filed. The utilities *were* documented: §5 has a paragraph giving each a one-line purpose. But it
+opened "**Six** scripts in `scripts/` are not checks" while seven existed — `lhci-deployed-config`,
+added the day before, described in the nightly paragraph and never added to the list. Naming was
+satisfied and the sentence was still false.
+
+So the check now also verifies the **stated count** against `CHECK_EXEMPT.size`. That is row 27's own
+8th-sighting lesson applied to the check that lesson produced: *a claim about a set must constrain the
+whole set, or it certifies its own staleness*. Membership was constrained; the count was not.
+Falsified by reverting the word to "Six" — 1 failing — then restored.
+
 ## Verification
 
 `system-health` 0 failing / **45** warning / 81 ok — one more than at pre-flight, and the increase is
@@ -136,16 +183,16 @@ summary line by default and 75 rows under `--stale`.
 
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] The staleness prompt flags **75 of 83** checkable items, which means it is barely
+- ~~[skills] The staleness prompt flags **75 of 83** checkable items, which means it is barely
   discriminating. A sharper signal probably exists — commits that touch the named file *and* mention
   the item's subject, or a diff against the register's own "verified" dates — but it was not obvious
   in one session and a wrong heuristic here is worse than a blunt one, because a filter that quietly
   drops a live item is the failure this whole thread is about. Revisit only with a concrete idea, not
-  on principle.
-- [skills] `check-claims` §7 exempts **7 of 20** scripts as "not a check". A third of the directory
+  on principle.~~ sharpened 14 Aug 2026 and the item is answered: scoring against the subjects of commits that touched the named file since filing takes 75 down to 15 at roughly 75% precision, and it found a real closure on its first run (check-links PLANNED, filed twice on 4 Aug, fixed 7 Aug, open ever since). The concrete idea this item asked for turned out to exist. Threshold measured on the tool own data after a first measurement of the wrong population; see section 6.
+- ~~[skills] `check-claims` §7 exempts **7 of 20** scripts as "not a check". A third of the directory
   excused rather than documented. Worth deciding whether utilities want their own short paragraph in
   SYSTEM.md §5 so they are described somewhere, rather than only named in a list of things the rule
-  does not apply to. Unchanged this session; noted twice now.
+  does not apply to. Unchanged this session; noted twice now.~~ widened 14 Aug 2026. CHECK_EXEMPT is now a classification rather than an exemption from documentation, so every script must be named in §5 either way. The premise was wrong in a useful direction: the utilities were already described, but §5 said Six when there were seven, so the check now verifies the stated count too. See section 7.
 - ~~[skills] The mistakes-log row "Documentation describing the build drifted from the code and was
   trusted over it" is at **11 sightings** and did not move this session despite two more instances
   (the `global.css` hero comment, the ModuleRows parity block). At 11 it no longer identifies a

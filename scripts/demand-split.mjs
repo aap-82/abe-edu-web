@@ -668,8 +668,43 @@ function namedFiles(text) {
   return [...new Set([...text.matchAll(FILE_TOKEN)].map((m) => m[1].split('/').pop()))];
 }
 
+/* Distinctive-word overlap between an item and a commit subject. The stopword list is deliberately
+   aggressive about THIS repo's vocabulary — "check", "session", "review", "page", "skills" appear
+   in nearly every item and every commit subject, so leaving them in would score everything alike. */
+const STALE_STOP = new Set(('the a an and or but if then than that this these those is are was were be been being of to in on at by for with from as it its into'
+  + ' not no any all each per via so such only just also more most other same own new now still yet already because since when where which who what how why'
+  + ' should would could must may can will does did done has have had do run runs ran read reads name names named file files item items open close closed'
+  + ' session sessions review reviews page pages check checks skills design facts build fix feat chore docs').split(' '));
+const sigWords = (s) => [...new Set(String(s).toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').split(/\s+/)
+  .filter((w) => w.length > 3 && !STALE_STOP.has(w)))];
+
+function subjectsSince(file, date) {
+  try {
+    return execSync(`git log --since=${date} --format=%s -- "${file}"`,
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).split('\n').filter(Boolean);
+  } catch { return []; }
+}
+
+/* THRESHOLD, measured on THIS tool's own data — and the first measurement was of the wrong thing,
+   which is worth recording because it is the mistake this repo keeps making.
+   A scratch experiment over raw single review lines gave a clean cliff: 32 items at 0 shared words,
+   32 at 1, then only 4 above. That population was wrong. `joinWrapped` merges an item's continuation
+   lines, so real entries are several times longer than one line and carry many more distinctive
+   words. Re-measured on the actual bucket entries, 54 items whose named file had moved scored:
+       0 words: 17    1: 20    2: 9    3: 6    4: 2
+   There is no cliff, so 2 is a judgement about precision rather than a natural break. The top eight
+   were inspected by hand: SIX were genuine closures still sitting open (check-links' PLANNED entry
+   against "delete stale /white-card PLANNED entry in check-links.mjs"; the SiteHeader TAS residency
+   claim against "remove unsourced TAS residency claim, 11 locations"), and TWO were coincidence
+   (`CourseLayout.astro`'s hardcoded courseMode matching a commit that merely shipped a White Card
+   page). Roughly 75% precision, which is why the output says "check each and strike it if closed"
+   and never asserts closure.
+   Raising to 3 was tried and does not help: it drops to 8 candidates at the same ~75%, losing recall
+   for nothing. Re-measure both the distribution and the precision if the stopword list changes. */
+const STALE_MIN_OVERLAP = 2;
+
 function staleReport(buckets) {
-  const rows = [];
+  const likely = [], weak = [];
   let named = 0, proseOnly = 0, unresolved = 0;
   for (const destination of DESTINATIONS) {
     for (const entry of new Set(buckets.get(destination).values())) {
@@ -677,20 +712,28 @@ function staleReport(buckets) {
       const filedMs = Date.parse(filed);
       const files = namedFiles(entry.text);
       if (!files.length) { proseOnly++; continue; }
-      let sawOne = false;
+      const itemWords = sigWords(entry.text);
+      let sawOne = false, changedFile = null, best = 0, bestSubject = '';
       for (const base of files) {
         const p = repoFileFor(base);
-        if (!p) { continue; }
+        if (!p) continue;
         sawOne = true;
         const t = gitCommitTime(p);
-        if (t && Number.isFinite(filedMs) && t > filedMs + 86400000) {
-          rows.push({ destination, filed, file: p, text: entry.text.slice(0, 90) });
+        if (!t || !Number.isFinite(filedMs) || t <= filedMs + 86400000) continue;
+        changedFile = changedFile || p;
+        for (const subj of subjectsSince(p, filed)) {
+          const sw = new Set(sigWords(subj));
+          const hits = itemWords.filter((w) => sw.has(w)).length;
+          if (hits > best) { best = hits; bestSubject = subj; }
         }
       }
       sawOne ? named++ : unresolved++;
+      if (!changedFile) continue;
+      const row = { destination, filed, file: changedFile, score: best, subject: bestSubject, text: entry.text.slice(0, 88) };
+      (best >= STALE_MIN_OVERLAP ? likely : weak).push(row);
     }
   }
-  return { rows, named, proseOnly, unresolved };
+  return { likely, weak, named, proseOnly, unresolved };
 }
 
 async function main() {
@@ -775,14 +818,17 @@ async function main() {
      skip. The coverage line is not decoration: most items name no file and cannot be checked here
      at all, and a clean run must not be read as "nothing is stale". */
   const stale = staleReport(buckets);
-  const byDest = new Map(DESTINATIONS.map((d) => [d, 0]));
-  for (const r of stale.rows) byDest.set(r.destination, byDest.get(r.destination) + 1);
-  console.log(`\ndemand-split: stale prompt — ${stale.rows.length} of ${stale.named} file-naming item(s) name a file that has changed since filing (${DESTINATIONS.map((d) => `${d} ${byDest.get(d)}`).join(', ')}).`);
-  console.log(`  ${stale.proseOnly} item(s) name no file and CANNOT be checked this way; ${stale.unresolved} name a file that does not resolve.`);
-  console.log('  This is a PROMPT, not a filter: in an active repo most named files have moved, so a flag here is weak evidence on its own. Run --stale to list them.');
+  if (stale.likely.length) {
+    console.log(`\ndemand-split: ${stale.likely.length} open item(s) LIKELY ALREADY DONE — the file they name changed after they were filed, and a commit that touched it shares their vocabulary. Check each and strike it if closed:`);
+    for (const r of stale.likely.sort((a, b) => b.score - a.score)) {
+      console.log(`  [${r.destination}] filed ${r.filed} — ${r.text}`);
+      console.log(`      ${r.score} shared word(s) with: ${r.subject.slice(0, 96)}`);
+    }
+  }
+  console.log(`\ndemand-split: stale coverage — ${stale.likely.length} likely done, ${stale.weak.length} where only the file moved (weak, run --stale to see), ${stale.proseOnly} item(s) name no file and cannot be checked this way, ${stale.unresolved} name a file that does not resolve.`);
   if (STALE) {
-    for (const r of stale.rows.sort((a, b) => a.destination.localeCompare(b.destination) || a.filed.localeCompare(b.filed))) {
-      console.log(`  [${r.destination}] filed ${r.filed}, ${r.file} changed since — ${r.text}`);
+    for (const r of stale.weak.sort((a, b) => b.score - a.score || a.filed.localeCompare(b.filed))) {
+      console.log(`  [${r.destination}] filed ${r.filed}, ${r.file} moved (overlap ${r.score}) — ${r.text}`);
     }
   }
 

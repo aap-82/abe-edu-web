@@ -663,17 +663,51 @@ if (!existsSync('SYSTEM.md')) {
       .map((m) => m[1].trim().replace(/\.mjs$/, ''))
       .filter((t) => /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/.test(t) && !NOT_A_SCRIPT_REF.has(t)));
 
-    const missing = scripts.filter((s) => !CHECK_EXEMPT.has(s) && !named.has(s));
+    /* WIDENED 14 Aug 2026: EVERY script must be named in §5, not only the checks.
+       CHECK_EXEMPT used to mean "exempt from being named", which left 7 of 20 scripts — a third of
+       the directory — excused rather than described, so a session reading the document instead of
+       `scripts/` could not learn that `page-status` or `demand-split` existed at all. That is §2's
+       "every recorded thing has a reader" failing in the other direction: not a pointer at nothing,
+       but a thing with no pointer.
+       CHECK_EXEMPT is now a CLASSIFICATION, check vs utility, and both classes must appear. It still
+       does the job it was built for: a utility is not counted as a check, so the "names all N checks"
+       figure keeps meaning what it meant. */
+    const missing = scripts.filter((s) => !named.has(s));
     const dangling = [...named].filter((t) => !scripts.includes(t));
+    const checks = scripts.filter((s) => !CHECK_EXEMPT.has(s));
 
     if (missing.length) {
-      fails.push(`SYSTEM.md §5 does not name ${missing.length} check(s) that run: ${missing.join(', ')}. §5 is the standing list of how the system knows it is working, so a check missing from it is invisible to every session that reads the document instead of scripts/. Name it there, or add it to CHECK_EXEMPT in scripts/check-claims.mjs with a reason if it is not a check.`);
+      const asUtility = missing.filter((s) => CHECK_EXEMPT.has(s));
+      const asCheck = missing.filter((s) => !CHECK_EXEMPT.has(s));
+      const parts = [];
+      if (asCheck.length) parts.push(`${asCheck.length} check(s): ${asCheck.join(', ')}`);
+      if (asUtility.length) parts.push(`${asUtility.length} utility script(s): ${asUtility.join(', ')}`);
+      fails.push(`SYSTEM.md §5 does not name ${missing.length} script(s) in scripts/ — ${parts.join('; ')}. §5 is the standing account of how the system knows it is working, and since 14 Aug 2026 it must name every script, checks and utilities alike: being exempt from counting as a check is not a licence to go undocumented. Add it to §5 — a check to the moment it runs at, a utility to the "not checks" paragraph — and classify it in CHECK_EXEMPT in scripts/check-claims.mjs.`);
     }
     if (dangling.length) {
       fails.push(`SYSTEM.md §5 names ${dangling.length} script(s) that do not exist: ${dangling.join(', ')}. A pointer at nothing is the failure mode this system is most prone to (SYSTEM.md §2). Fix the name, delete the line, or add the term to NOT_A_SCRIPT_REF if it is not a script reference.`);
     }
-    if (!missing.length && !dangling.length) {
-      oks.push(`SYSTEM.md §5: names all ${scripts.length - CHECK_EXEMPT.size} check(s) that run, ${CHECK_EXEMPT.size} utility script(s) exempt`);
+    /* The prose COUNT, not just the names. §5 opens its utilities paragraph with a spelled-out
+       number, and on 14 Aug 2026 it read "Six" while seven existed: `lhci-deployed-config` was added
+       the day before, described in the nightly paragraph, and never joined the list. Naming was
+       therefore satisfied and the sentence was still false.
+       This is row 27's own 8th-sighting lesson applied to the check that lesson produced: a claim
+       about a set must constrain the WHOLE set, or it certifies its own staleness. The forward and
+       reverse name checks constrain membership; nothing constrained the count. */
+    const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+      'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+    const stated = s5.match(/^\s*(\w+) scripts? in `scripts\/` (?:are|is) not checks?/mi);
+    if (!stated) {
+      fails.push('SYSTEM.md §5 no longer opens its utilities paragraph with "<N> scripts in `scripts/` are not checks". That sentence is the one place the utility COUNT is stated, and scripts/check-claims.mjs §7 reads it to confirm the count has not drifted. Restore the wording or update the matcher.');
+    } else {
+      const want = WORDS[CHECK_EXEMPT.size] ?? String(CHECK_EXEMPT.size);
+      if (stated[1].toLowerCase() !== want) {
+        fails.push(`SYSTEM.md §5 says "${stated[1]} scripts in scripts/ are not checks", but CHECK_EXEMPT classifies ${CHECK_EXEMPT.size}. Naming every script is not enough on its own: the sentence stating how many there are must be true too, or it certifies its own staleness. Write "${want}".`);
+      }
+    }
+
+    if (!missing.length && !dangling.length && !fails.some((f) => f.startsWith('SYSTEM.md §5 says'))) {
+      oks.push(`SYSTEM.md §5: names all ${scripts.length} script(s) in scripts/ — ${checks.length} check(s) and ${CHECK_EXEMPT.size} utility script(s), each classified, and the stated utility count matches`);
     }
   }
 }

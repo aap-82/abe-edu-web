@@ -129,9 +129,9 @@ Not shipped — working tree only, pending Andrey's review.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] **`scripts/check-links.mjs`'s `PLANNED` map still lists `/white-card` → "W3-6 - White
+- ~~[skills] **`scripts/check-links.mjs`'s `PLANNED` map still lists `/white-card` → "W3-6 - White
   Card hub", and the hub shipped today.** The check itself already names the fix: "Delete its
   line in `scripts/check-links.mjs`." Mechanical, one line, `scripts/**` is outside this session's
-  writable paths.
+  writable paths.~~ fixed 7 Aug 2026 in a dedicated session (skill-reviews/skills/2026-08-07-check-links-stale-planned-entry.md: check-links went 1 failing to 0). Struck 14 Aug 2026 by the new demand-split staleness detector, which found it on its first sharpened run: filed twice on 4 Aug, fixed three days later, and left open for a further seven because nobody went back to the filing reviews. Verified before striking - /white-card no longer appears in the PLANNED map.
 - [design] see `skill-reviews/2026-08-04-abe-readability-audit-white-card.md` — `HubLayout.astro`'s
   intro-capsule column width, filed there with the full measurement and the OB-hub comparison.

@@ -133,9 +133,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   opening a second item for it. First sighting of this specific gap; it predates this build (the
   default happened to be correct for `/owner-builder-courses`, the only other live hub) and will recur
   on any future ASQA-accredited hub until fixed.
-- [skills] `scripts/check-links.mjs:44` still lists `/white-card` in its `PLANNED` array
+- ~~[skills] `scripts/check-links.mjs:44` still lists `/white-card` in its `PLANNED` array
   ("W3-6 - White Card hub") now that the page exists and ships. One-line deletion. Confirmed the FAIL
-  still fires via `node scripts/check-links.mjs --slug white-card` as of this review. First sighting.
+  still fires via `node scripts/check-links.mjs --slug white-card` as of this review. First sighting.~~ fixed 7 Aug 2026 in a dedicated session (skill-reviews/skills/2026-08-07-check-links-stale-planned-entry.md: check-links went 1 failing to 0). Struck 14 Aug 2026 by the new demand-split staleness detector, which found it on its first sharpened run: filed twice on 4 Aug, fixed three days later, and left open for a further seven because nobody went back to the filing reviews. Verified before striking - /white-card no longer appears in the PLANNED map.
 - ~~[design] AT LEAST FIFTH SIGHTING — `.capsule` (the shared answer-capsule component `HubLayout.astro`
   and every course page use) renders at ~91 characters per line at 820px/18px, over the site's own 85
   CPL hard rule. Prior sightings, oldest first: `skill-reviews/design/2026-07-30-measure-contrast-and-
