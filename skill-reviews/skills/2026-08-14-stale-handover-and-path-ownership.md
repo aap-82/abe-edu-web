@@ -92,9 +92,42 @@ nobody visits while the real site goes unmeasured — a gate silently measuring 
 is the exact class the 13 Aug work existed to close. A reminder living only in a demand list is a
 reminder nobody reads at cutover.
 
+## 5. The mistakes-log row split by surface
+
+Row 1 had reached **11 sightings** and had become a category rather than a failure: "documentation
+drifted from the code" gives a reader nothing to check. Split into three rows by **surface**, because
+each has a different guard and three of the surfaces now have mechanical checks while two cannot.
+
+| Row | Surface | Sightings | Guard |
+|---|---|---|---|
+| **1** (kept) | a **description** of the work trusted instead of the work — commit message, verification tick, code comment | 4 | none possible; read the diff, read the code beside the comment |
+| **27** (new) | a **standing or governance document** describing the build | 9 | `check-claims` §6, §7 and CLAIMS; governance-doc references; `check-design-register` |
+| **28** (new) | a **derived report** describing a state that has moved | 1 | the must-close rule above, plus `--stale` |
+
+**Nothing renumbered, nothing deleted.** Row 1 is cited in nine places, several by ordinal
+("`#1`'s 4th sighting", "row 1, tenth sighting"), so it keeps its id and the full eleven-sighting
+narrative is preserved verbatim in a new "Row 1 history" section, with a table mapping every sighting
+to the row that now owns it. Table integrity checked: 28 rows, all five cells, no stray pipes in the
+preserved prose.
+
+**Why row 1 kept the unguardable surface** rather than the biggest one: it is the only surface where
+no check is possible even in principle, so it is the one that most needs a human to remember it. The
+guarded surfaces are better served by naming their checks, which row 27 does.
+
+Three sightings were added in the same pass, which is the argument for splitting rather than
+archiving — the counters move again. Two are today's code comments (`global.css`'s hero-CLS block
+describing a fixed defect as an open race, `ModuleRows.astro` asserting "Open takes NO tint" against
+its own CSS) and one is the derived-handover failure.
+
+The 7th sighting is the one that justifies the whole exercise: `DESIGN.md` carrying a stale hex in
+July, and on 13 Aug the same surface produced **six** wrong values including `--ground`. A row saying
+"documentation drifted" gave nobody a reason to check that surface. `check-design-register` does.
+
 ## Verification
 
-`system-health` 0 failing / 44 warning / 81 ok, unchanged. `check-claims` 0 failing, SYSTEM.md §5
+`system-health` 0 failing / **45** warning / 81 ok — one more than at pre-flight, and the increase is
+the split working: a single vague 11x row became a 4x and a 9x row that each name a surface.
+`check-claims` 0 failing, SYSTEM.md §5 `check-claims` 0 failing, SYSTEM.md §5
 still names all 13 checks with 7 utilities exempt. Governance-doc references 207/207 resolve.
 `demand-split` runs clean, routes 229 tagged items, 0 unrouted, and the new section prints one
 summary line by default and 75 rows under `--stale`.
@@ -113,11 +146,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   excused rather than documented. Worth deciding whether utilities want their own short paragraph in
   SYSTEM.md §5 so they are described somewhere, rather than only named in a list of things the rule
   does not apply to. Unchanged this session; noted twice now.
-- [skills] The mistakes-log row "Documentation describing the build drifted from the code and was
+- ~~[skills] The mistakes-log row "Documentation describing the build drifted from the code and was
   trusted over it" is at **11 sightings** and did not move this session despite two more instances
   (the `global.css` hero comment, the ModuleRows parity block). At 11 it no longer identifies a
   specific failure anyone can act on. Either split it by surface — prose, code comment, register
-  cross-reference, derived report — or retire it in favour of the per-surface checks that now exist.
+  cross-reference, derived report — or retire it in favour of the per-surface checks that now exist.~~ **split 14 Aug 2026, by surface, as this item proposed.** Row 1 keeps its id and the unguardable surface (a description of the work trusted instead of the work: commit message, verification tick, code comment) at 4 sightings. Row 27 takes standing/governance documents at 9, and names the five checks that now guard it. Row 28 takes derived reports at 1. Nothing renumbered, nothing deleted: row 1 is cited in nine places, several by ordinal, so the eleven-sighting narrative is preserved verbatim in a new "Row 1 history" section with a sighting-to-row map. `system-health` now reads 4x and 9x where it read 11x, which is one more warning and two actionable ones.
 - [facts] Unchanged and still open: Blue Dog's scope of registration for CPCWHS1001, WorkSafe WA's
   "Terms and Conditions 2022" document, and the legal effect of training.gov.au's "Delivery
   notification" field. None blocks a published claim.
