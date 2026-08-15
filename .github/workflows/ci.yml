@@ -69,10 +69,17 @@ jobs:
       #
       # --strict is what makes these gates rather than reports, and it escalates FAILs only: both
       # scripts exit 1 on `fails.length && STRICT` and ignore warnings entirely. That distinction is
-      # why this is safe to add today - check-claims currently prints 24 warnings, all of them
-      # "$169 is not in kb/register/" on ABE's own commercial prices, and none of them would redden
-      # this gate. Verified before wiring, in both directions: with a deliberate FAIL present the
-      # strict run exits 1 and the plain run still exits 0.
+      # why this is safe to add today - check-claims currently prints 24 warnings, every one of them
+      # the same shape ("this figure is not in kb/register/") on ABE's own commercial prices rather
+      # than on a government fact, and none of them would redden this gate. Verified before wiring,
+      # in both directions: with a deliberate FAIL present the strict run exits 1 and the plain run
+      # still exits 0.
+      #
+      # The figures themselves are deliberately not quoted here. kb/mistakes-log.md row 7 - a price
+      # written into a comment and later scanned as a live page figure, seen five times - bars
+      # exactly that, and its stated surface is everything in the repo a scanner reads. The first
+      # draft of this comment quoted one, which would have been the sixth sighting, in the same
+      # change that incremented the row to five.
       - name: Regulatory claims and positions
         run: |
           node scripts/check-claims.mjs --strict
