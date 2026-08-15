@@ -42,11 +42,11 @@ noindex: true
 # check-redirect-targets.mjs failing the build (exit 1) stopped it. All four conditions:
 #   1. A real LearnWorlds checkout id, replacing the TBC placeholder above.
 #   2. Stage 7 re-run against the page as it then stands.
-#   3. The `learn.` subdomain decision. A real id does not settle this: /payment is served by
-#      LearnWorlds on today's apex and this build replaces that apex at cutover, so the PATH may
-#      need to change even when the ID is right. The migration plan calls it the cutover's one
-#      external [AP] dependency, and check-links already warns on this page's path.
-#   4. The PENDING entry at scripts/check-redirect-targets.mjs:42, removed in the SAME change.
+#   3. ~~The `learn.` subdomain decision.~~ CLOSED 16 Aug 2026 — Andrey confirmed the LearnWorlds
+#      ticket is resolved and directed that the payment path is not to be treated as a blocker.
+#      The `/payment` path stays as written. `check-links` still warns on it; that warning is now
+#      expected rather than actionable.
+#   4. The PENDING entry at scripts/check-redirect-targets.mjs, removed in the SAME change.
 #      It fails the build if this flag goes without it. That file is skills-owned, so publishing
 #      this page is a two-file change a build session cannot make by itself.
 buyUrl: "/payment?product_id=TBC-tas-electrician-cpd-bundle-2026&type=learning_program"

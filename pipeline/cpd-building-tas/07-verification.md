@@ -298,3 +298,60 @@ would be worth less than one that asks. Closes only once committed.
 **Worth carrying:** editing a content file's COMMENTS costs a Stage 7 note, the same as editing its
 copy. That is the gate working as designed, not a false positive, and it caught all three CPD bundle
 pages at once.
+
+
+---
+
+## Stage 7 — PUBLISH verification, 16 August 2026 · `noindex` removed
+
+**This is the publish, not a maintenance note.** The page's index signal changed, which is the one
+change this artefact exists to gate. All three gates it stood on are now closed:
+
+| Gate | Status |
+|---|---|
+| buyUrl path | Cleared 24 Jul 2026 — product id current, only the path was wrong |
+| Stage 7 currency | Cleared — 25 Jul re-run plus a dated note per commit since |
+| `learn.` subdomain decision | **Confirmed resolved by Andrey, 16 Aug 2026.** The payment path is not to be treated as a blocker |
+
+The matching PENDING entry in `scripts/check-redirect-targets.mjs` was removed in the same change,
+as both files required. Removing either alone fails the build (verified in both directions today).
+
+### What changed in the rendered page — measured
+
+The page was built with `noindex: true` and again without it, and the two outputs compared with the
+robots meta normalised out:
+
+```
+before, robots meta stripped:  868d9e138c5e1070
+after,  robots meta stripped:  868d9e138c5e1070
+```
+
+Byte-identical. **The only rendered change is `<meta name="robots">`, `noindex,nofollow` ->
+`index,follow`.** No copy, figure, price, claim, source line or schema node moved. Confirmed
+directly on the built output:
+
+- `<meta name="robots" content="index,follow">`
+- `<link rel="canonical" href="https://www.abeeducation.edu.au/cpd-building-tas">` — no-slash www form
+- present in `dist/sitemap-0.xml` (sitemap 20 -> 21 entries; indexable canonical count 20 -> 21)
+- buy path intact and real, not a placeholder: `/payment?product_id=tas-builder-cpd-bundle-01092025`
+
+### Orphan and index-signal checks
+
+`noindex` had been exempting this page from the orphan check and keeping it out of the sitemap. Both
+exemptions end here. `/cpd-tas` is indexable and CTAs into this page (`cpd-tas.astro:92`), so it is
+not an orphan, and `check-meta` reports no page both noindexed and advertised.
+
+### Claims re-read rather than carried
+
+One assertion on this page was written by commit `1c26fab`, which invented two false regulatory
+claims on sibling pages while describing itself as a mechanical split. Re-read at source before
+publishing: "You confirm your CPD to CBOS yourself" is backed twice in
+`kb/register/cbos-tas-reference.md` — `:171` puts recording responsibility on the licence holder,
+`:35` has the licence holder confirming CPD at renewal. No invented claim on this page.
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). Their input is the page's prose and the prose is byte-identical to the version they
+last read. Stated rather than silently skipped.
+
+**Scope note.** The site is still behind the host-level `X-Robots-Tag: noindex` on `workers.dev`
+until cutover, so this readies the page for cutover rather than exposing it to search today.
