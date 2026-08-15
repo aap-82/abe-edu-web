@@ -312,3 +312,39 @@ silently skipped.
 
 **Why this entry exists.** `check-pipeline` §4 compares git commit times and fired correctly on this
 page for the commit above. It cannot know a diff was comment-only. Closes only once committed.
+
+
+---
+
+## Re-verification note, 16 August 2026 — subdomain confirmation recorded (commit f66a359)
+
+**What changed: one frontmatter COMMENT condition, struck.** Condition 4 of the noindex list read
+"The `learn.` subdomain decision. A real id does not settle this...". Andrey confirmed that ticket
+resolved on 16 Aug 2026 and directed that the payment path is not to be treated as a blocker, so the
+condition is struck and marked CLOSED, with a note that `check-links`' warning on this page's
+`/payment` path is now expected rather than actionable.
+
+**The flag and every remaining gate are untouched**, and this page has two:
+1. The `buyUrl` is still a `TBC-` placeholder that does not resolve — no 2026 plumber bundle
+   checkout id has been supplied. A **different fact** from the one confirmed, and deliberately not
+   folded into it.
+2. The selected twelve are still unrecorded, so `liveMembers()` renders the whole thirteen-course
+   pool. Unchanged and still a publish blocker.
+
+**Why no re-audit — measured.** Built from the pre-change and post-change frontmatter, rendered HTML
+compared:
+
+| Page | before | after |
+|---|---|---|
+| `/cpd-plumbing-tas` | `9d4ec09fef3667cd` | `9d4ec09fef3667cd` |
+
+Byte-identical, and identical to the value recorded in this file's 16 Aug comment-correction note, so
+the page has not moved across either of today's two comment changes — including the 13-member table,
+which is unchanged and still overstates the sold bundle by one course.
+`abe-readability-audit`, `final-check` and `ai-detector` were **not re-run**, stated rather than
+silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 fired on this page for commit `f66a359`, which shipped
+the comment change without a matching note. **Third occurrence in one day of the same omission**, and
+the first to reach `main`. See the sibling note in `pipeline/cpd-electrical-tas/07-verification.md`
+and `kb/mistakes-log.md` row 19.
