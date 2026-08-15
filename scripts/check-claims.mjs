@@ -713,6 +713,128 @@ if (!existsSync('SYSTEM.md')) {
 }
 
 
+/* ---- 9. Regulatory claims in rules docs vs kb/register/ ----------------- */
+/* WHY THIS EXISTS. §1 verifies claims about the CODE against the code. Nothing verified a claim
+   about a REGULATOR against kb/register/, which CLAUDE.md names as "the single owner of every
+   verified regulatory figure" — so the most consequential class of claim in the repo was the one
+   class with no reader.
+
+   What that cost, measured. A facts session read AlertForce's scope at training.gov.au on 3 Aug
+   2026 and recorded two findings in kb/register/alertforce-scope.md: there is no course called
+   "Silica Awareness" (the product is 10830NAT, "Course in Crystalline Silica Exposure
+   Prevention"), and it is not nationally deliverable. It filed a demand item naming the two files
+   that carried the wrong claim. The claim was actually in SIX files, and it sat there for twelve
+   days — through a dedicated currency audit of CLAUDE.md on 15 Aug that scored the file 81/100,
+   because that audit checked paths, line numbers and config values and never checked the prose.
+   One of the six was .claude/skills/.../seo/page-type-engine.md, whose availability matrix showed
+   silica available in all five states: the exact input a build session reads at Stage 1.
+
+   The register held the truth the whole time. Nothing compared anything to it.
+
+   TWO DIRECTIONS, same reasoning as §7:
+     9a  a retired NAME asserted anywhere        catches the register being right and the docs stale
+     9b  an accredited CODE with no register row  catches a code written from memory
+
+   9b is the NSW Owner Builder shape as a gate: there, the RTO was real and the partnership was
+   assumed, and nobody checked whether the units were on that RTO's scope. A code with no register
+   entry is a code nobody has read at source.
+
+   ALLOWED, in both directions, where the line is ABOUT the thing being wrong — a retirement is
+   knowable only because some file records it, and a blind sweep would destroy the evidence (§5's
+   lesson). Note the negation list is wider than §5's: this scan crosses kb/register/ itself, where
+   retirements are worded as "there is no course titled X" and "CBOS refused approval for ABE's X",
+   neither of which contains the word "superseded". Both are legitimate and both must pass.
+
+   Literals are assembled at runtime so this file does not trip its own scan (mistakes log #7:
+   never write the token a machine scans for). */
+const RETIRED_NAMES = [
+  {
+    name: 'Silica' + ' Awareness',
+    correct: '10830NAT, "Course in Crystalline Silica Exposure Prevention"',
+    owner: 'kb/register/alertforce-scope.md',
+    note: 'no course of this name is on AlertForce (RTO 91826) scope, read at source 3 Aug 2026. Note WA/SA/NT availability is UNVERIFIED — state nothing either way.',
+  },
+];
+/* Wider than §5's EXPLAINS_RETIRED by design — see the comment above. "refus" covers ABE's own
+   CBOS-refused submission, which is correctly named and must not be swept; "remov" covers QBCC
+   approval condition 2 ("all references to 10274NAT must be removed"), quoted verbatim in the
+   reference paperwork and enforced as a banned code in guardrails.ts. */
+const EXPLAINS_WRONG = /supersed|retired|earlier|\bold\b|former|replaced|remov|deprecat|refus|no course|not a course|does not exist|is not a|not ["“']|never\b|wrong|stale|instead of|rather than/i;
+/* MEASURED, not assumed: a line-level test produced 6 hits and ALL SIX were false — the negation
+   ("there is no course called") sat on the previous line, because this repo's prose wraps at ~100
+   chars and §5's subject happens to appear in short data-ish lines where mine does not. A check
+   whose every finding is wrong is worse than no check: it trains the reader to skip it. So the
+   negation is tested against the matched line PLUS its neighbours, which is the smallest window
+   that contains a wrapped sentence.
+
+   Whitespace is COLLAPSED before matching, not merely joined. Found the same way: a hit survived
+   the window because the negating phrase was itself split by the wrap — "there is no" ended one
+   line and "course called" began the next, so "no course" existed in the prose and in no single
+   line of the file. Joining with a newline reproduces the break the window exists to undo. */
+const windowAt = (lines, i) =>
+  `${lines[i - 1] ?? ''} ${lines[i]} ${lines[i + 1] ?? ''}`.replace(/\s+/g, ' ');
+const REG_SCAN_DIRS = ['kb', 'src', 'new site', '.claude/skills'];
+const REG_SCAN_EXT = ['.md', '.mdx', '.ts', '.astro'];
+/* Historical record, not live claims: a review, a log or a handover describes what was found and
+   when, and rewriting one would destroy the evidence that makes the finding auditable. */
+const REG_SCAN_SKIP = /^(?:skill-reviews|reports|pipeline)[\\/]|mistakes-log\.md$|^handover[\\/]|^ROADMAP\.md$/;
+
+const regFiles = [];
+for (const f of ['CLAUDE.md']) if (existsSync(f)) regFiles.push(f);
+for (const dir of REG_SCAN_DIRS)
+  for (const ext of REG_SCAN_EXT)
+    for (const f of walk(dir, ext)) if (!REG_SCAN_SKIP.test(f)) regFiles.push(f);
+
+// 9a - a retired name asserted as current.
+/* The OWNER file is exempt wholesale, not line by line. kb/register/alertforce-scope.md exists to
+   establish that the name is wrong: it quotes the old claim in its opening rationale, and again
+   when reconciling ABE's stated product set against the scope table. Both are the evidence, and
+   widening the negation regex until they pass would blunt it everywhere else — the regex would
+   have to swallow "UNVERIFIED", "not part of" and "**not** a clean confirmation" before it let
+   those two lines through, and each of those is a phrase a genuinely wrong claim could also carry.
+   Granting the one file that owns the retirement is narrower and says what is actually meant. */
+const nameHitsReg = [];
+for (const f of regFiles) {
+  const text = readFileSync(f, 'utf8');
+  for (const r of RETIRED_NAMES) {
+    if (f.replace(/\\/g, '/') === r.owner) continue;
+    if (!text.includes(r.name)) continue;
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+      if (line.includes(r.name) && !EXPLAINS_WRONG.test(windowAt(lines, i))) nameHitsReg.push({ at: `${f}:${i + 1}`, r });
+    });
+  }
+}
+if (nameHitsReg.length) {
+  const byName = new Map();
+  for (const h of nameHitsReg) byName.set(h.r, [...(byName.get(h.r) ?? []), h.at]);
+  for (const [r, ats] of byName) {
+    fails.push(`Retired product name "${r.name}" asserted as current in ${ats.length} place(s): ${ats.slice(0, 6).join(', ')}${ats.length > 6 ? ' ...' : ''}. The correct product is ${r.correct} — ${r.note} Owner: ${r.owner}. Only a line that says the name is wrong may use it.`);
+  }
+} else {
+  oks.push(`Retired product names: ${RETIRED_NAMES.length} tracked, none asserted as current across ${regFiles.length} rules/content file(s)`);
+}
+
+// 9b - an accredited course code with no entry in kb/register/.
+const NAT_CODE = /\b\d{4,5}NAT\b/g;
+const registerText = walk('kb/register', '.md').map((f) => readFileSync(f, 'utf8')).join('\n');
+const codeHits = [];
+for (const f of regFiles) {
+  if (f.startsWith('kb\\register') || f.startsWith('kb/register')) continue; // the owner cannot contradict itself
+  const lines = readFileSync(f, 'utf8').split('\n');
+  lines.forEach((line, i) => {
+    if (EXPLAINS_WRONG.test(windowAt(lines, i))) return;
+    for (const m of line.match(NAT_CODE) ?? [])
+      if (!registerText.includes(m)) codeHits.push(`${m} at ${f}:${i + 1}`);
+  });
+}
+if (codeHits.length) {
+  fails.push(`${codeHits.length} accredited course code(s) stated with no entry anywhere in kb/register/: ${codeHits.slice(0, 6).join(', ')}${codeHits.length > 6 ? ' ...' : ''}. kb/register/ is the single owner of every verified regulatory figure (CLAUDE.md), so a code absent from it is a code nobody has read at source — the NSW Owner Builder failure exactly. Verify it on the RTO's scope in a browser and record it, or mark the line UNVERIFIED.`);
+} else {
+  oks.push('Accredited course codes: every NAT-coded course named in rules, content or the skill has an entry in kb/register/');
+}
+
+
 let slugShown = 0;
 for (const [l, xs] of [['FAIL', fails], ['WARN', warns], ['OK', oks]]) {
   const keep = bySlug(xs, SLUG);
