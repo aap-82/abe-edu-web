@@ -1265,7 +1265,17 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
 .footnote b,.footnote strong{color:var(--ink-3);font-weight:600;}
 .faq{border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin-top:var(--s-lg);overflow:hidden;}
 .faq details+details{border-top:1px solid var(--rule);}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 24px;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);transition:background .15s;}
+/* Title role (DESIGN.md §3): Archivo 600, 22px, tracking -0.01em. Was 18px with the body's inherited
+   1.65 line-height, which made §3 false where it says the Title role covers "card and sub-section
+   H3s; FAQ and price figures share this weight" — the register described this element as a Title
+   while the element was not one. That contradiction, not the number, is what made it a defect.
+   Same move `.mr-title` made, for the same reason, and the sibling accordion's ratio argument applies
+   unchanged here: against the 16px `.ans` body, 18px was a 1.125 step, under the 1.25 the scale asks
+   for; 22px is 1.375. Line-height is set to 1.25 rather than left to inherit 1.65, because a display
+   face at 22px on reading-copy leading is a paragraph, not a heading.
+   NOT the only off-register display size: `.h4` is also Archivo 600 18px (live in TopicGrid), and the
+   build sets the display face at eight sizes §3 does not name. Filed, not fixed here. */
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 24px;font-family:var(--font-display);font-weight:600;font-size:22px;line-height:1.25;letter-spacing:-.01em;color:var(--ink);transition:background .15s;}
 .faq summary::-webkit-details-marker{display:none;}
 .faq summary:hover{background:var(--paper-alt);}
 .faq summary .pm{flex:none;color:var(--maroon);font-size:20px;transition:transform .2s;line-height:1;}

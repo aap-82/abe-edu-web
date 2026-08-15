@@ -222,8 +222,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   vertical ledger absorbs them, but the component is named, numbered and `aria-label`led as a
   sequence, and a list of expertise is not one. Worth deciding whether those two pages should use a
   different component.
-- [design] `.faq summary` is the only remaining holder of the undocumented Archivo 600 18px —
-  unchanged and still open, carried from 11 Aug.
+- ~~[design] `.faq summary` is the only remaining holder of the undocumented Archivo 600 18px —
+  unchanged and still open, carried from 11 Aug.~~ **Closed for real on 15 Aug 2026** — raised to the
+  22px Title role, measured before and after, in `skill-reviews/design/2026-08-15-faq-title-role.md`.
+  Note the sequence on this one line: struck while open, un-struck by the audit, struck again once the
+  work existed. The middle step is the one worth keeping visible.
   **Un-struck 15 Aug 2026 by the full-repo audit.** This item was written with strikethrough on a
   line whose own words say "unchanged and still open", which is a contradiction the tooling cannot
   see: `demand-split` reads a struck line as closed and drops it, so an item that says it is open
