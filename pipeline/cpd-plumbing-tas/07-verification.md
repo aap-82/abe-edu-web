@@ -348,3 +348,55 @@ silently skipped.
 the comment change without a matching note. **Third occurrence in one day of the same omission**, and
 the first to reach `main`. See the sibling note in `pipeline/cpd-electrical-tas/07-verification.md`
 and `kb/mistakes-log.md` row 19.
+
+
+---
+
+## Re-verification note, 16 August 2026 — the selected twelve recorded, member table now 12
+
+**What changed, and it is a DATA change, not a copy change.** The publish blocker recorded on 12
+Aug — the member table rendering all thirteen live pool courses against copy correctly saying twelve
+— is closed. Andrey named **TAS CPD Solar Energy** as the course outside the sold bundle on 16 Aug
+2026. Its `Bundle` tag was updated in the source doc (Superhuman Docs `TAS CPD Courses`,
+`superhuman://docs/wXRzQ7oMrm`, row `i-dfk3wVBSIG`), keeping Builder and Electrician because it is
+sold in both, and `npm run sync:cpd` regenerated `kb/register/cpd/tas-courses.json`.
+
+`kb/register/**` is not hand-editable: the file is a generated projection and `check-claims`
+verifies its checksum, so a hand-edit would silently fork the register. The change had to be made at
+source and synced, and was.
+
+### Measured
+
+| | before | after |
+|---|---|---|
+| `bcard` members rendered on `/cpd-plumbing-tas` | 13 | **12** |
+| `system-health` CPD plumbing | 12 pts within a live pool of 13 (of 14 tagged) | **12 pts within a live pool of 12 (of 13 tagged)** |
+| `/cpd-building-tas` members | 12 | 12 (unchanged) |
+| `/cpd-electrical-tas` members | 11 | 11 (unchanged) |
+
+The two sibling bundles were checked explicitly because Solar Energy is tagged to all three; only
+the plumber tag was removed.
+
+### The copy did not change, and is now literally true
+
+Every "thirteen" on the page still holds. Solar Energy remains **CBOS-approved for plumbers** —
+untagging a bundle does not un-approve a course — so thirteen live courses still carry the Plumbing
+*category*. Verified by counting the register's live Plumbing-category rows: **13**. So "Twelve of
+them make up this bundle, selected from the thirteen approved for Tasmanian plumbers" now describes
+exactly what the page renders, where before it described what the page claimed while the table said
+otherwise. No prose was touched, so `abe-readability-audit`, `final-check` and `ai-detector` were
+**not re-run** — stated rather than silently skipped.
+
+### Worth carrying: the predicted fix was the wrong one
+
+Both this artefact and the page comment predicted a register/schema change — a `bundleMembers` list
+or a per-course `inBundle` flag. That would have built a second mechanism to express something the
+model already had: `Category` (CBOS approval) and `Bundle` (what is sold together) are already
+separate columns at source. The defect was one row tagged to a bundle it is not sold in, and the fix
+was one cell. **A missing-mechanism diagnosis should be checked against the source schema before it
+is built**, because a data error and a model gap look identical from inside the projection.
+
+### Still noindex
+
+One blocker remains and it is unchanged: `buyUrl` is a `TBC-` placeholder with no 2026 plumber
+bundle checkout id supplied. The page cannot be published until that lands.
