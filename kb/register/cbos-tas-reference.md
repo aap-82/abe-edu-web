@@ -177,7 +177,22 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 ### B1. Permit trigger + threshold
 
 - An Owner Builder Permit is issued only for **residential** building work (Class 1a detached dwelling or conjoined unit; plus Class 10 structures and, in defined cases, Class 8 farm sheds per s.29A(1) of the Act). **No permit for commercial buildings.**
-- **Permit threshold: `[VERIFY AT BUILD]`.** Sources conflict — a third-party guide cites A$5,000 while other material references the A$20,000 residential-contract line under the Residential Building Work Contracts and Dispute Resolution Act 2016. These are two different thresholds (permit trigger vs contract-regulation trigger) and must be separated and confirmed against the current CBOS owner-builder pages before publish. Do not state a single dollar figure without live verification.
+- **Permit threshold: ✅ RESOLVED 15 Aug 2026 — there is none. Do not state a dollar figure.** The
+  question this line asked for a year has an answer, and the answer is that the premise was wrong.
+  Verified against two CBOS pages read in full in-session: the *Building Act 2016* "takes a risk-based
+  approach to building approval", and the risk table lists **"Owner builder work" under High risk
+  (Permit work)** — it goes through the full council building-approval process whatever it is worth.
+  Neither page carries any dollar figure at all.
+  **The earlier caution was right about the shape and should be preserved as the lesson:** A$5,000 and
+  A$20,000 *are* two different things, and neither is the permit trigger. The A$20,000 is the
+  residential-contract line under the *Residential Building Work Contracts and Dispute Resolution Act
+  2016* (see `legislation-references-tas.md`), a contract-regulation trigger that has nothing to do
+  with whether a permit is needed. The A$5,000 traces only to third-party guides and is not supported
+  by any CBOS page read here. **What removes the permit requirement is the size and kind of structure,
+  never its value** — see the exemption list in the next bullet.
+  Sources: `/licensed-occupations/owner-builder-permit/restrictions` (last updated 04 Nov 2022) and
+  `/building-standards/permit-authorities/categories-of-work` (last updated 15 Nov 2022). Both 403 to
+  WebFetch and curl; read in a real browser.
 - Some low-risk work needs no permit (e.g. shed/garage/carport up to 18m², or 36m² if prefabricated; porch/veranda up to 9m²; deck up to 1m). A building permit from council may still be required for notifiable/permit work even where an owner builder permit is not.
 
 ### B2. Course requirement (the ABE hook)
@@ -222,4 +237,4 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 
 ---
 
-**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **Open items to confirm at build:** owner-builder permit dollar threshold (B1), liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
+**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **B1 re-verified live 2026-08-15** against the CBOS owner-builder restrictions page and the categories-of-work page, both read in full: the permit trigger is risk-category based and **there is no dollar threshold** — see B1. **Open items to confirm at build:** ~~owner-builder permit dollar threshold (B1)~~ resolved 15 Aug 2026, liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
