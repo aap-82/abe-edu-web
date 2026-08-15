@@ -222,8 +222,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
   vertical ledger absorbs them, but the component is named, numbered and `aria-label`led as a
   sequence, and a list of expertise is not one. Worth deciding whether those two pages should use a
   different component.
-- ~~[design] `.faq summary` is the only remaining holder of the undocumented Archivo 600 18px~~ —
+- [design] `.faq summary` is the only remaining holder of the undocumented Archivo 600 18px —
   unchanged and still open, carried from 11 Aug.
+  **Un-struck 15 Aug 2026 by the full-repo audit.** This item was written with strikethrough on a
+  line whose own words say "unchanged and still open", which is a contradiction the tooling cannot
+  see: `demand-split` reads a struck line as closed and drops it, so an item that says it is open
+  was being counted as done and had left every handover note. Verified before reverting the mark —
+  `src/styles/global.css:1268` still sets `.faq summary` to `font-family: var(--font-display);
+  font-weight: 600; font-size: 18px`, and DESIGN.md §3 still has no 18px step. Closing it is a
+  register change and therefore an exclusive session (CLAUDE.md rule 7), which is presumably why it
+  keeps being carried rather than done. **Strikethrough is the close signal; never use it for
+  emphasis or to mark a line as "carried".**
 
 ## Grader note
 

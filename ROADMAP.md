@@ -53,6 +53,44 @@ just at the end" about inspection stages (unsupported — the register has no QL
 record). The verification that certified that work checked only that facts were not *lost*; it could
 not see a fact *added*. No gate in this repo can read a sentence and ask whether it is true.
 
+### 15 August 2026 — full-repo audit, and the fixes it authorised
+
+A read-only audit across dependencies, orphan pages, rule contradictions, structure and the Claude
+Code setup, followed by a session that fixed everything it found. **The build was green throughout
+and stayed green; nothing here was a phase change.**
+
+- **One live defect.** `/cpd-electrical-tas` and `/cpd-plumbing-tas` rendered `noindex,nofollow` and
+  were listed in `sitemap-0.xml`. The sitemap exclusion was a hand-maintained array in
+  `astro.config.mjs` whose own comment said "keep the two in step"; the pages were built on 12 Aug
+  with the frontmatter flag and nobody edited the array. It is now **derived from frontmatter**, and
+  `scripts/check-meta.mjs` re-checks the built output the other way round so the derivation cannot
+  be quietly wrong. Verified by reverting the config and reproducing the defect.
+- **`check-meta.mjs` is new**, and carries two more assertions nothing had: canonical form (the
+  no-slash www form the whole cutover redirect map depends on) and a **ratchet on title and
+  description length** against `meta-framework.md`'s targets. 15 pages are over target, so a flat
+  FAIL would have handed build sessions a red build they may not fix; measured lengths are the
+  budget instead. Second ratchet in the system, after `BANNED_CTA_BUDGET`.
+- **The two checks no automation invoked are wired up.** `check-links` to postbuild (it always exits
+  0, so it reports without ever blocking) and `check-reflow` to CI with its own chromium install.
+  Both passed on the day they were found, which is the point: that was evidence about someone's
+  memory rather than about the site.
+- **Regulatory claims now gate a merge.** `check-claims --strict` and `check-positions --strict` run
+  in CI. Both escalate FAILs only, verified in both directions before wiring, so today's warnings on
+  ABE's own commercial prices cannot redden the gate.
+- **Records.** Three of four handovers with no closure line were stamped after establishing what
+  each had actually reached (the fourth is a standing runbook and is exempt by its own first
+  paragraph). Six pages that predate the Stage-9 mechanism are recorded as `REVIEW_EXEMPT` with
+  reasons, ending six permanent warnings asking for reviews nobody may honestly write. Mistakes-log
+  row 7 went from 3 to 5, folding in two declared sightings nobody had applied — that counter is the
+  input to rule 3 below, so an un-applied increment is a trigger that never fires. One item had been
+  struck through on a line reading "unchanged and still open" and was silently counted as closed;
+  it is un-struck.
+- **Housekeeping.** 55 merged local branches deleted after proving each one's content is in `main`
+  (ancestry is useless here — the repo squash-merges), `.claude/settings.local.json` cut from 453
+  standing grants to 83 with all 30 mutating one-offs removed, and Astro taken from 7.2.0 to 7.2.2.
+
+Full detail: `skill-reviews/skills/2026-08-15-full-repo-audit.md`.
+
 ### 10-11 August 2026
 
 - **A per-page status board, and the sitemap tracker replaced as the source of truth for progress.**

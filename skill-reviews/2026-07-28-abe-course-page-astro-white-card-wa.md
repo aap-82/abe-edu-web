@@ -312,10 +312,14 @@ Tag every item: [skills] | [design] | [facts]
   "confirm at ship (Stage 7)"; `07` has no such section, and the Perth cluster (690 impressions,
   position 29.4) reached the page only as a counter-example and an FPO string. Either Stage 7 gains a
   required coverage table or `check-pipeline` reads §6 and checks the page for each covered-by target.
-- [skills] **`check-claims.mjs:229` has no model for a zero-fee jurisdiction.** WA's fee is the word
+- ~~[skills] **`check-claims.mjs:229` has no model for a zero-fee jurisdiction.** WA's fee is the word
   "None" in the register, so `$0.00` matches nothing and `govRows.length === 0`. The WA total is
   machine-unreconciled and will be on every WA and QLD White Card page. Teach the checker that a
-  register entry of "None" licenses a `$0.00` row.
+  register entry of "None" licenses a `$0.00` row.~~ built — `check-claims.mjs` now carries
+  `noGovFeeStates` and treats a zero-amount row as the government row in those jurisdictions
+  (`zeroIsGov`, around line 347). Verified 15 Aug 2026: all 13 course-page totals reconcile, and the
+  only remaining Total warning names `white-card-nsw`, a different defect. Struck by the full-repo
+  audit, not by the session that fixed it.
 - [skills] **`/payment` is indexed and does not exist in the built asset set.** GSC shows 102
   impressions at position 63.42 for the WA checkout URL — a bare form exposed to searchers, splitting
   crawl signals. Separately, all four CTAs on this page resolve to a path with no asset and no

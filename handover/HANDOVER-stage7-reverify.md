@@ -1,5 +1,25 @@
 # HANDOVER — Stage 7 re-verification: `cpd-building-tas` + `white-card-tas`
 
+## Status: CLOSED — both tasks done, verified 15 August 2026
+
+Closed by the full-repo audit of 15 Aug 2026, which found this file among four in `handover/`
+carrying no closure record at all — a state CLAUDE.md itself calls indistinguishable from an open
+one. It was not open. Both FAILs quoted below have been clear for some time.
+
+**Measured, not assumed.** `node scripts/check-pipeline.mjs` reports, today:
+
+```
+OK  cpd-building-tas: verification is current (07 is no older than the page source)
+OK  white-card-tas:   verification is current (07 is no older than the page source)
+```
+
+That is the exact assertion whose failure created this note, now passing for both pages. The two
+`07-verification.md` files were last rewritten in `a3bd93d` ("docs(pipeline): record the howItWorks
+split against 9 Stage-7 verifications"), which post-dates the page edits listed in Tasks 1 and 2 and
+covers both slugs. Nothing below needs doing; it is kept for the record of what was re-checked.
+
+---
+
 **Session type: `build`.** Drafted 25 July 2026 by a halted `skills` session whose
 pre-flight (`node scripts/system-health.mjs`) returned 2 FAIL. This note exists so
 those two FAILs get cleared by the session type that owns them, freeing the skills

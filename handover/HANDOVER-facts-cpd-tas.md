@@ -1,5 +1,39 @@
 # HANDOVER — facts: verify the TAS Electrical + Plumbing bundle compositions
 
+## Status: OPEN, and half of it is superseded rather than done — read this first (15 August 2026)
+
+Stamped by the full-repo audit of 15 Aug 2026. **Do not read the two WARNs in the Pre-flight section
+below as outstanding work: neither exists any more, and neither was satisfied.** The check that
+emitted them was reporting against the wrong model of the product and was corrected. `system-health`
+today says:
+
+```
+OK  CPD electrical: publishes 11 pts within a live pool of 11 (of 12 tagged) — claim <= pool
+OK  CPD plumbing:   publishes 12 pts within a live pool of 13 (of 14 tagged) — claim <= pool
+```
+
+**What changed.** CBOS approves courses individually; ABE bundles any selection of them at any size.
+Twelve points is what a licence renewal needs, not a constraint on what a bundle may contain, so a
+pool of eleven is not a "shortfall" and a pool of thirteen is not a "surplus" to be pruned. The old
+check encoded a bundle as a fixed twelve-point object and reported arithmetic against that; the
+current one asks the only question that matters, whether the points **claimed on the page** exceed
+the **live pool** available. So "prune it in the source doc so the sold set is unambiguous" is
+withdrawn as an instruction. Nobody should go and prune anything.
+
+**What is still live, and it is the reason this file stays OPEN.** The underlying ambiguity the old
+WARN was gesturing at is real and unfixed: `kb/register/cpd/tas-courses.json` records which courses
+are *eligible* for a category, never which ones are *sold* in the bundle. `liveMembers()` therefore
+renders **13 rows on `/cpd-plumbing-tas` for a 12-course bundle**, and a reader can count the table.
+Closing it needs a `bundleMembers` list or a per-course `inBundle` flag in the source doc, then a
+re-sync. That is `[facts]` work, it is the first ranked item in
+`handover/HANDOVER-2026-08-12-session-close.md`, and it is one of the two blockers keeping that page
+`noindex`.
+
+The register-shape material below (how the sync and checksum work, what each per-course field means,
+CBOS as the authority over the Coda doc) is unchanged and still the right briefing for that job.
+
+---
+
 **Session type: `facts`.** Drafted 25 July 2026 by a build-scoped session that could not do this work
 (only a `facts` session may write `kb/register/**`, and a figure must be verified against source *in that
 session*). This note records **no register figure** — it routes two source-verification jobs and hands the

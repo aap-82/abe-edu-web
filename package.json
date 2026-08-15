@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "prebuild": "node scripts/generate-redirects.mjs && node scripts/check-assets.mjs && node scripts/check-freshness.mjs",
     "build": "astro build",
-    "postbuild": "node scripts/check-redirect-targets.mjs",
+    "postbuild": "node scripts/check-redirect-targets.mjs && node scripts/check-links.mjs && node scripts/check-meta.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "lint:prose": "node scripts/prose-lint.mjs",
@@ -18,7 +18,7 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/mdx": "^7.0.2",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^7.0.6",
+    "astro": "^7.2.2",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
