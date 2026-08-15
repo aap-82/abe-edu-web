@@ -98,7 +98,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   current position and the live page is silent rather than adverse — but the register's best WA-delivery
   source is presently a page reference to an unlinked document plus a decade-old PDF under a superseded
   department name and regulation citation.
-- [skills] **All five ABE White Card delivery-mode rows (NSW, WA, QLD, TAS, ACT) are now regulator- or
+- ~~[skills] **All five ABE White Card delivery-mode rows (NSW, WA, QLD, TAS, ACT) are now regulator- or
   legislation-sourced.** This closes the last item on the "do first" list that required a fresh
   regulator read for an existing product. Worth noting in the next ROADMAP/ `HANDOVER-todo` refresh —
-  items 2, 3 and 4 of `handover/HANDOVER-todo-2026-08-02.md` are all now done.
+  items 2, 3 and 4 of `handover/HANDOVER-todo-2026-08-02.md` are all now done.~~ done — that handover
+  now reads `## Status: IN PROGRESS — 11 of 14 addressed, all fully closed, 3 still open (12, 13, 14)`,
+  so items 2, 3 and 4 are recorded as closed there. Struck 15 Aug 2026 by the full-repo audit.

@@ -1,5 +1,37 @@
 # Image prompts — every open placeholder slot, 2 August 2026
 
+## Status: OPEN — 23 slots on 15 pages, re-measured 15 August 2026
+
+Stamped by the full-repo audit of 15 Aug 2026, which found this file carrying no status line at all.
+It is genuinely open, and the count has **gone up rather than down** since the brief was written:
+18 slots on 11 pages then, 23 on 15 now. Not a regression — four pages have been built since
+(`/white-card-qld`, `/white-card-act`, both TAS CPD bundles), each arriving with its own FPO slots,
+which is the expected shape while the image backlog trails the build.
+
+Re-measured from `dist/`, the same way this brief was: `styleguide` excluded, its 8 specimen
+placeholders being correct by design.
+
+| Page | Slots | |
+|---|---|---|
+| `/owner-builder-nsw-course` | 3 | noindex |
+| `/owner-builder-nsw-course-w` | 3 | noindex |
+| `/owner-builder-insurance` | 2 | |
+| `/white-card-act` | 2 | |
+| `/white-card-nsw` | 2 | |
+| `/white-card-qld` | 2 | |
+| `/accreditation`, `/cpd-tas`, `/experts`, `/owner-builder-courses`, `/project-advisory`, `/tas-owner-builder-course`, `/white-card` | 1 each | |
+| `/cpd-electrical-tas`, `/cpd-plumbing-tas` | 1 each | noindex |
+
+**17 of the 23 sit on indexable pages**; the other 6 are on the two NSW variants and the two blocked
+CPD bundles, and none of those four can ship until its own separate blocker clears, so they are the
+last ones worth generating rather than the first.
+
+The register decision below (photographic, not line art) and the conventions settled since — exact
+on-screen script rather than "illegible", legible fake certificates, compositing the logo rather
+than generating it — still stand and are what a generation session should follow.
+
+---
+
 Measured from `dist/`, not from the tracker. **18 FPO placeholder slots sit on 11 `index,follow`
 pages.** This file is the brief for all of them: 14 to generate, 4 that must never be generated, and
 4 of those 18 that cannot be closed from content alone.

@@ -179,11 +179,44 @@ if (existsSync('skill-reviews'))
     const s = readFileSync(join('skill-reviews', f), 'utf8').match(/^subject:\s*(.+)$/m);
     if (s) reviewed.add(s[1].trim());
   }
+// Pages that CANNOT have a Stage-9 review, each with the reason, because "ungraded" was reported
+// for six pages that no session could ever close. Five of them were built before the review
+// mechanism existed: `skill-reviews/_TEMPLATE.md` landed 21 Jul 2026 in `0f99235` and the earliest
+// review is dated 23 Jul, while these pages were created between 10 and 21 Jul. Grading them now
+// would mean writing a review of a run nobody performed, from artefacts that were never produced -
+// a fabricated record in the one place the system keeps its evidence about itself. The warning was
+// therefore not work; it was six permanent lines telling every future session to do something it
+// must not do, in the pre-flight everyone reads first.
+//
+// Self-cleaning, the same idiom as PLANNED and PENDING elsewhere: if an exempt slug ever DOES get a
+// review, that is a FAIL asking for its line to be deleted. Exemption is a statement about the
+// past, and a page that has been graded no longer needs one.
+const REVIEW_EXEMPT = new Map([
+  ['qld-owner-builder-course', 'built 10 Jul 2026 (dd5d4c7), before the Stage-9 mechanism existed'],
+  ['tas-owner-builder-course', 'built 14 Jul 2026 (5163337), before the Stage-9 mechanism existed'],
+  ['act-owner-builder-course', 'built 15 Jul 2026 (771a0b6), before the Stage-9 mechanism existed'],
+  ['owner-builder-courses', 'hub built 19 Jul 2026 (a61e96c), before the Stage-9 mechanism existed'],
+  ['owner-builder-nsw-course', 'on hold and noindex — no partnership, units not on RTO 45708 scope; never ran the pipeline as a shippable page'],
+  ['owner-builder-nsw-course-w', 'noindex variant of the above, built as a design/content demo'],
+]);
+
 if (slugs.size) {
   const missing = [...slugs].filter((s) => !reviewed.has(s));
-  (missing.length ? W : OK)(`Review coverage: ${slugs.size - missing.length}/${slugs.size} pages graded`);
-  rec.reviews = { graded: slugs.size - missing.length, pages: slugs.size };
-  for (const s of missing) W(`No Stage-9 review for "${s}" — that run was never seen by the learning loop`);
+  const unexplained = missing.filter((s) => !REVIEW_EXEMPT.has(s));
+  const graded = slugs.size - missing.length;
+  // `graded` and `pages` keep the meanings they have carried through the whole health-log series;
+  // `exempt` is added alongside rather than folded into either, so the existing series stays
+  // comparable across the change. Same discipline as the docRefs/skillRefs split.
+  (unexplained.length ? W : OK)(
+    `Review coverage: ${graded}/${slugs.size} pages graded` +
+    (missing.length ? ` (${missing.length - unexplained.length} exempt with a recorded reason, ${unexplained.length} unexplained)` : '')
+  );
+  rec.reviews = { graded, pages: slugs.size, exempt: missing.length - unexplained.length };
+  for (const s of unexplained) W(`No Stage-9 review for "${s}" — that run was never seen by the learning loop`);
+  for (const s of REVIEW_EXEMPT.keys()) {
+    if (reviewed.has(s)) F(`"${s}" now has a Stage-9 review but is still listed in REVIEW_EXEMPT (scripts/system-health.mjs). Delete its line.`);
+    else if (!slugs.has(s)) F(`REVIEW_EXEMPT names "${s}" in scripts/system-health.mjs, which is not a built page. Delete its line.`);
+  }
 } else W('No content collections found — run this from the repo root');
 
 // 4 - trends

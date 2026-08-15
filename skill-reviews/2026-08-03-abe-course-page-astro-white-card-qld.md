@@ -277,13 +277,17 @@ Tag every item: [skills] | [design] | [facts] | [build]
   `online-delivery-policy-by-state.md` §2C (WHSQ's November 2022 CRTD regime) supersedes.
   `/white-card-qld` correctly builds on §2C and not on this line, but the stale line is still live and
   will mislead the next reader or run that opens it directly. Reconcile or retire it.~~ closed 14 Aug 2026 by the facts session that day: the "must be completed in person / online restricted to WA and TAS residents" sentence is removed and the file now points at `online-delivery-policy-by-state.md` §2C, which owns the claim. Both halves were wrong, not just one.
-- [skills] **FIFTH SIGHTING (at least) — a barred figure written into a comment, and the counter tracking
+- ~~[skills] **FIFTH SIGHTING (at least) — a barred figure written into a comment, and the counter tracking
   this is itself stale.** `kb/mistakes-log.md` row 7 reads "3, last seen 2026-07-30," but
   `white-card-nsw`'s own 1 Aug review already found and declared a fourth sighting (`$28` in four of its
   artefacts) and recommended incrementing the log — a recommendation nobody applied. This run adds a
   fifth: `$99` in `white-card-qld.mdx`'s frontmatter comment and in `faqs-white-card-qld.ts`'s header
   comment, both caught only by `check-claims.mjs`, which `07-verification.md` never ran. Increment the
-  log to (at least) 5, last seen 2026-08-03, and fold in the un-applied NSW increment while at it.
+  log to (at least) 5, last seen 2026-08-03, and fold in the un-applied NSW increment while at it.~~
+  applied 15 Aug 2026 by the full-repo audit: `kb/mistakes-log.md` row 7 now reads **5, last seen
+  2026-08-03**, with both un-applied sightings folded in and a note on why an un-applied increment
+  matters — ROADMAP rule 3 computes from this counter, so it is a trigger that never fires rather
+  than a bookkeeping slip. Twelve days elapsed between the ask and the edit.
 - [build] **`buyUrl` unconfirmed for `/white-card-qld`.** Every CTA targets the in-page `#enrol` anchor,
   following the `/white-card-tas` precedent, per `01-source-map.md` §C-3. Needs a resolving payment
   endpoint before production deploy.

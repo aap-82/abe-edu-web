@@ -283,12 +283,22 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
   The site-wide export cannot satisfy the R4 query-coverage gate: Queries and Pages are separate
   dimensions and are not crossed, so there is no per-URL query list in it. **Ask Andrey for a per-page
   export at Stage 2**, not partway through.
-- **Four scripts run automatically around every build**, so a failure in one is a build failure even
+- **Six scripts run automatically around every build**, so a failure in one is a build failure even
   though you never invoked it: `prebuild` runs `generate-redirects.mjs`, `check-assets.mjs` and
-  `check-freshness.mjs`; `postbuild` runs `check-redirect-targets.mjs`.
+  `check-freshness.mjs`; `postbuild` runs `check-redirect-targets.mjs`, `check-links.mjs` and
+  `check-meta.mjs`. The last two were added 15 Aug 2026 — `check-links` had been by-hand-only by an
+  explicit 28 Jul decision that named postbuild as where it belonged, and `check-meta` is new, after
+  two CPD bundle pages shipped `noindex` while listed in the sitemap.
+  `check-links` **always exits 0** and can never redden a build; `check-meta` **can and will**, on a
+  contradictory index signal, a canonical outside the no-slash www form, or a title/description
+  length that rises against its recorded budget.
   `check-freshness.mjs` **warns without blocking on register staleness**, but it is not warn-only in
   general: a CPD course marked live, past its CBOS expiry and still sold **fails the build without
   `--strict`** (`check-freshness.mjs:186`, and see ROADMAP "Expiry is a build-blocker").
+  **In CI, additionally**: `check-claims.mjs --strict` and `check-positions.mjs --strict` (added
+  15 Aug 2026 — until then nothing that reads a regulatory claim could block a merge, because both
+  ran only inside the deliberately non-blocking `system-health`), and `check-reflow.mjs` with its own
+  browser install.
   Run by hand: `system-health.mjs` before planning work, `review-trends.mjs` after filing a Stage-9
   review, `check-claims.mjs` when docs or figures change. `SYSTEM.md` §5 names every script that
   exists, and `check-claims.mjs` §7 fails the build if it stops doing so.
@@ -547,10 +557,17 @@ same event to a tool whose output decides what gets built.
   carry context a demand list cannot: what was attempted, what was ruled out, and why. **Close one
   explicitly when its work lands** — a `## Status:` header with the date and the commit SHAs, as
   `handover/HANDOVER-images-astro-assets.md` does. A handover with no closure record is
-  indistinguishable from an open one, and **four currently are** (checked 15 Aug 2026):
-  `HANDOVER-facts-cpd-tas.md`, `HANDOVER-image-prompts-2026-08-02.md`, `HANDOVER-stage7-reverify.md`
-  and `HANDOVER-status-board.md`. The one to read first is whichever carries `## Status: OPEN` —
-  `HANDOVER-2026-08-12-session-close.md` as at this date.
+  indistinguishable from an open one. **Four were in that state on 15 Aug 2026 and three have since
+  been stamped**, by the audit that found them, after establishing what each had actually reached:
+  `HANDOVER-stage7-reverify.md` CLOSED (both its FAILs verified clear), `HANDOVER-facts-cpd-tas.md`
+  OPEN with half of it superseded rather than done, `HANDOVER-image-prompts-2026-08-02.md` OPEN at a
+  re-measured 23 slots. **The fourth, `HANDOVER-status-board.md`, is exempt and says so in its own
+  first paragraph** — it is a standing runbook for a recurring task, not a session note, so it has
+  nothing to close. That distinction was missed twice, here and in the audit that read this line, by
+  counting absent status headers instead of opening the files: an artefact lacking X cannot tell you
+  whether X was forgotten or deliberately withheld. Every file in `handover/` now either carries a
+  `## Status:` line or states why it does not. The one to read first is whichever carries
+  `## Status: OPEN` — `HANDOVER-2026-08-12-session-close.md` as at this date.
 
 ## Human gates
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys to production
