@@ -45,7 +45,27 @@ noindex: true
 # guessed. `business data/LearnWorlds/2026-07-23_ExportProductRevenues.csv` has no 2026 plumber
 # bundle at all - only "Special Plumbers CPD Courses" (2 payments) and the single course "TAS CPD
 # Plumbing Essentials" - and it carries titles with no ids. A placeholder that 404s beats selling
-# the wrong product. REMOVE noindex ONLY when a real id lands and Stage 7 is re-run against it.
+# the wrong product.
+#
+# REMOVING noindex TAKES MORE THAN A REAL ID. This line used to read "REMOVE noindex ONLY when a
+# real id lands and Stage 7 is re-run against it" — two necessary conditions stated as if they
+# were sufficient, while this file's own DIFFERENCE 2 block above names a blocker neither of them
+# touches. Corrected 16 Aug 2026, after the identical wording on cpd-building-tas.mdx led a build
+# session to remove that page's flag on a cleared Stage 7; only check-redirect-targets.mjs failing
+# the build (exit 1) stopped it. All five conditions:
+#   1. A real LearnWorlds checkout id, replacing the TBC placeholder above.
+#   2. The selected twelve recorded, so the member table stops rendering the whole thirteen-course
+#      pool. Measured 16 Aug on dist/: 13 `bcard` members against copy saying "Twelve
+#      CBOS-approved" six times. See DIFFERENCE 2 above — this is the blocker a real id does not
+#      touch, and it is register/schema work, not this page's.
+#   3. Stage 7 re-run against the page as it then stands.
+#   4. The `learn.` subdomain decision. A real id does not settle this: /payment is served by
+#      LearnWorlds on today's apex and this build replaces that apex at cutover, so the PATH may
+#      need to change even when the ID is right. The migration plan calls it the cutover's one
+#      external [AP] dependency, and check-links already warns on this page's path.
+#   5. The PENDING entry at scripts/check-redirect-targets.mjs:41, removed in the SAME change.
+#      It fails the build if this flag goes without it. That file is skills-owned, so publishing
+#      this page is a two-file change a build session cannot make by itself.
 buyUrl: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program"
 title: "TAS Plumber CPD Bundle - 12 CBOS-Approved Points, $499"
 description: "Twelve CBOS-approved CPD courses for Tasmanian plumbers, $499. A plumber's full twelve-point year, online and self-paced, about six hours."
