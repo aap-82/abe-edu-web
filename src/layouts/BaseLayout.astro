@@ -111,8 +111,15 @@ const { title, description, canonical, schema, sticky, authority, ogImage, crumb
       const secs = links.map((l) => document.getElementById(l.getAttribute('data-sec') || '')).filter(Boolean) as HTMLElement[];
       const obs = new IntersectionObserver((es) => es.forEach((e) => {
         if (e.isIntersecting) {
-          links.forEach((l) => l.classList.remove('active'));
-          map.get(e.target.id)?.classList.add('active');
+          links.forEach((l) => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
+          // `aria-current` as well as the class: the highlight was colour and weight only, so which
+          // section you are in was information a sighted user got and a screen-reader user did not.
+          // `location` rather than `page` - these jump within the current page, they do not name it
+          // (PageBar's breadcrumb is the `page` one). Set here, beside the class, so the two states
+          // cannot drift; the visual and the announced current section are one assignment.
+          const cur = map.get(e.target.id);
+          cur?.classList.add('active');
+          cur?.setAttribute('aria-current', 'location');
         }
       }), { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
       secs.forEach((s) => obs.observe(s));
