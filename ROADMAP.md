@@ -34,12 +34,26 @@ on 15 Aug fixed its ten findings the same day (PR #121: head-signal reconciliati
 every check wired to run automatically, claims gating merges in CI) — details in
 `skill-reviews/skills/2026-08-15-full-repo-audit.md`.
 
-**Neither new CPD bundle can be published, for two separate reasons.** Both lack a LearnWorlds
-checkout id, so their `buyUrl`s are placeholders that 404. `/cpd-plumbing-tas` has a second,
-independent blocker: `kb/register/cpd/tas-courses.json` records which courses are *eligible* for a
-category, never which twelve are *sold*, so `liveMembers()` renders 13 rows for a 12-course bundle
-while the copy correctly says twelve. Closing it needs a `bundleMembers` list or a per-course
-`inBundle` flag — `[facts]`, first ranked item in `handover/HANDOVER-2026-08-12-session-close.md`.
+**Neither new CPD bundle can be published, and as of 16 Aug 2026 ONE reason remains for each.** Both
+lack a LearnWorlds checkout id, so their `buyUrl`s are placeholders that 404. That is now the whole
+of it.
+
+`/cpd-plumbing-tas`'s second, independent blocker is **CLOSED (16 Aug 2026)**. It read: the register
+records which courses are *eligible* for a category, never which twelve are *sold*, so
+`liveMembers()` rendered 13 rows for a 12-course bundle while the copy correctly said twelve.
+**The fix this file predicted — a `bundleMembers` list or a per-course `inBundle` flag — was not
+what closed it, and building it would have been a mechanism the model already had.** `Category`
+(CBOS approval) and `Bundle` (what is sold together) are already separate columns in the source doc;
+one row was simply tagged to a bundle it is not sold in. Andrey named it on 16 Aug — **TAS CPD Solar
+Energy** — its Bundle tag was corrected at source, and `npm run sync:cpd` regenerated the register.
+Measured after: 12 `bcard` members rendered, `system-health` reads "CPD plumbing: publishes 12 pts
+within a live pool of 12 (of 13 tagged)", and the sibling bundles are unchanged at 12 and 11. The
+page copy did not change and is now literally true: Solar Energy is still CBOS-approved for
+plumbers, so thirteen live courses still carry the Plumbing category.
+**Generalisable:** a missing-mechanism diagnosis should be checked against the source schema before
+it is built, because a data error and a model gap look identical from inside a generated projection.
+Full record: `pipeline/cpd-plumbing-tas/07-verification.md` and
+`skill-reviews/facts/2026-08-16-plumbing-bundle-selection.md`.
 
 **A standing caution from the 12 Aug session, kept because no gate can catch the class:** a
 typographic edit introduced two regulatory claims not in the register (both since reverted). The

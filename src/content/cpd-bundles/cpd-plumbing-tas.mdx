@@ -11,7 +11,7 @@
 # Thirty-six is the three-year total and NOT an annual figure; A3b flags it as the figure most
 # likely to be mis-stated, so this page says "across a three-year licence" every time.
 #
-# DIFFERENCE 2 - A TWELVE-COURSE BUNDLE DRAWN FROM A THIRTEEN-COURSE POOL. ⛔ PUBLISH BLOCKER.
+# DIFFERENCE 2 - A TWELVE-COURSE BUNDLE DRAWN FROM A THIRTEEN-COURSE POOL. ✅ RESOLVED 16 Aug 2026.
 # Corrected by Andrey on 12 Aug 2026, against this file's first draft, which had it backwards.
 #
 # THE MODEL: CBOS approves courses individually. THIRTEEN are approved for plumbers, and all
@@ -21,19 +21,33 @@
 # assertion (`rrp === points x singleCoursePrice`) is CORRECT and was wrongly called a bug in this
 # file's first draft.
 #
-# ⛔ WHY THIS PAGE CANNOT BE PUBLISHED AS IT STANDS. The register records which courses are
-# ELIGIBLE for a category (`bundles: ["plumbing"]`, thirteen of them) but NOT which twelve were
-# selected for the sold bundle. `liveMembers()` therefore renders all THIRTEEN rows, so the member
-# table currently overstates the bundle by one course while the copy correctly says twelve.
-# A reader can count the table. That is a summary-vs-detail contradiction of exactly the kind
-# references/verification.md section 3 check 1 makes a hard blocker.
-#   => The selected twelve must be recorded before `noindex` comes off. That is a register/schema
-#      change (a `bundleMembers` list, or a per-course `inBundle` flag) and belongs to a skills or
-#      facts session, not this one. Filed in 07.
-#   => Until then the copy names the pool explicitly rather than pretending the table is the
-#      bundle, and the page stays noindex - which it already was, for the purchase path.
+# ✅ HOW IT WAS RESOLVED, 16 Aug 2026 — and the predicted fix was the wrong one.
+#
+# The defect: the source doc's `Bundle` tag was carrying BOTH meanings at once. Thirteen live
+# courses were tagged to "TAS Plumber CPD - 12 Points (2026)", so `liveMembers()` rendered
+# THIRTEEN rows while the copy correctly said twelve — a summary-vs-detail contradiction a reader
+# could catch by counting, and the kind references/verification.md section 3 check 1 hard-blocks.
+#
+# This comment predicted the fix would be a register/schema change (a `bundleMembers` list or a
+# per-course `inBundle` flag). IT WAS NOT, and the prediction would have built a second mechanism
+# to express something the model already had. `Category` (CBOS approval) and `Bundle` (what is
+# sold together) are ALREADY separate columns in the source doc. Nothing needed a new field; one
+# row was tagged to a bundle it is not sold in.
+#
+# Andrey named the course on 16 Aug 2026: **TAS CPD Solar Energy** is out of the plumber bundle.
+# Its `Bundle` tag was updated in the source doc (Builder and Electrician kept — it IS sold in
+# both, and both bundles are unchanged at 12 and 11), then `npm run sync:cpd` regenerated
+# kb/register/cpd/tas-courses.json. Measured after: the page renders 12 `bcard` members, and
+# `system-health` reads "CPD plumbing: publishes 12 pts within a live pool of 12 (of 13 tagged)".
+#
+# THE COPY DID NOT CHANGE, and is now literally true rather than aspirational. Solar Energy is
+# still CBOS-approved for plumbers — untagging a bundle does not un-approve a course — so
+# THIRTEEN live courses still carry the Plumbing category. "Twelve of them make up this bundle,
+# selected from the thirteen approved for Tasmanian plumbers" now describes exactly what the page
+# shows. Verified by counting the register's live Plumbing-category rows: 13.
+#
 #   => `handover/HANDOVER-cpd-bundles.md`'s "prune the surplus course so the sold set is exactly
-#      12" now reads as CORRECT in intent and is the same fix as recording the selection.
+#      12" was CORRECT in intent, and this is that fix.
 #
 # DIFFERENCE 3 - NO PURCHASE PATH YET. See buyUrl below.
 #
@@ -54,10 +68,10 @@ noindex: true
 # session to remove that page's flag on a cleared Stage 7; only check-redirect-targets.mjs failing
 # the build (exit 1) stopped it. All five conditions:
 #   1. A real LearnWorlds checkout id, replacing the TBC placeholder above.
-#   2. The selected twelve recorded, so the member table stops rendering the whole thirteen-course
-#      pool. Measured 16 Aug on dist/: 13 `bcard` members against copy saying "Twelve
-#      CBOS-approved" six times. See DIFFERENCE 2 above — this is the blocker a real id does not
-#      touch, and it is register/schema work, not this page's.
+#   2. ✅ CLOSED 16 Aug 2026. The selected twelve are recorded. Andrey named TAS CPD Solar Energy
+#      as the course outside the bundle; its Bundle tag was updated in the source doc and the
+#      register re-synced. dist/ now renders 12 `bcard` members, was 13. See DIFFERENCE 2 above,
+#      including why the register/schema change this line predicted was NOT what fixed it.
 #   3. Stage 7 re-run against the page as it then stands.
 #   4. ~~The `learn.` subdomain decision.~~ CLOSED 16 Aug 2026 — Andrey confirmed the LearnWorlds
 #      ticket is resolved and directed that the payment path is not to be treated as a blocker.
