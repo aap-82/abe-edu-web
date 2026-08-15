@@ -464,3 +464,52 @@ so this closes only once committed.
 **Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
 re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
 build-owned; the crossing is recorded here rather than only in the session transcript.
+
+
+---
+
+## Re-verification note, 16 August 2026 — `courseMode` corrected to `onsite` (commit 347de69)
+
+**What changed: one JSON-LD value, and one frontmatter comment explaining it.** `CourseLayout`
+hardcoded `hasCourseInstance.courseMode: 'online'` for all 14 course pages. This page is delivered
+**face-to-face in a classroom** by AlertForce — its H1, subhead, `courseDescription` and hero artefact
+all say so — so the structured data contradicted the page it described. A `courseMode` field was
+added to the courses schema, the layout now falls back to `'online'`, and this page sets `"onsite"`.
+
+### Measured, not asserted
+
+The page was built with the new field and again with it removed, and the two `dist/` outputs diffed:
+
+```
+29c29
+< ... "hasCourseInstance":{"@type":"CourseInstance","courseMode":"onsite"} ...
+> ... "hasCourseInstance":{"@type":"CourseInstance","courseMode":"online"} ...
+```
+
+**One line differs, and within it one token.** No prose, no section, no capsule, no figure, no price,
+no source line, no other schema node. The `@graph` is otherwise byte-identical: same Course, same
+credential with `recognizedBy` AlertForce, same BreadcrumbList, same single Person — the ASQA
+authority model is untouched, which matters because this is an `asqa-accredited` page where a second
+Person or an ABE developer would be a breach.
+
+`abe-readability-audit`, `final-check` and `ai-detector` were **not re-run**: their input is the
+page's prose and no prose changed. Stated rather than silently skipped.
+
+### Why this entry exists, and why it is the fourth of its kind today
+
+`check-pipeline` §4 compares git commit times and fires when a page's source is committed later than
+its Stage 7 artefact. It fired correctly here.
+
+**This is the fourth time in one day that a content file was edited without its `07` note in the same
+commit, and the second to reach `main`.** The three before it were the CPD bundle comment changes.
+`kb/mistakes-log.md` row 19's guard already states the rule — *a content-fixing commit and its
+`07-verification.md` update belong in the SAME commit, not "content now, verification once the health
+check complains"* — and one of this morning's own notes says in as many words that editing a content
+file costs a Stage 7 note. Knowing the rule and applying it are demonstrably different things.
+
+**The transferable observation is that no gate catches this before merge.** CI runs `check-claims`
+and `check-positions`; `check-pipeline` runs inside `system-health`, which fires at pre-flight and on
+push to `main` — i.e. *after* the merge that introduced the gap. Every instance today was caught by a
+human running the pre-flight, or by the push. Filed as a `[skills]` item: running `system-health` (or
+`check-pipeline` alone) on pull requests would move all four catches to before the merge, which is
+the difference between a gate and a report.
