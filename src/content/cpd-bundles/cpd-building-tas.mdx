@@ -24,12 +24,33 @@
 # is still the standing external blocker. If checkout moves to learn.abeeducation.edu.au this
 # path must change with it. Not guessed here.
 #
-# NOINDEX STAYS FOR NOW — a second gate, not the same one. The page has been edited twice since its
-# Stage 7 (651cdbd removed a false CBOS claim and the whole section built on it; 1c4bc4a was the
-# house-style pass), so `check-pipeline` §4 reports its verification as stale. Publishing a page
-# whose verification certifies content that no longer exists is exactly what that gate exists to
-# stop. Re-run Stage 7, commit the new 07, THEN remove this line. noindex also drops the page from
-# the sitemap (astro.config.mjs NOINDEX) and exempts it from the orphan check.
+# NOINDEX STAYS — but NOT for the reason this comment used to give. Corrected 16 Aug 2026 by a
+# build session that tried to publish the page on this comment's own instruction and was stopped
+# by a check.
+#
+# STAGE 7 IS CLEARED. This comment previously read "re-run Stage 7, commit the new 07, THEN remove
+# this line", citing 651cdbd (removed a false CBOS claim) and 1c4bc4a (house-style pass) as having
+# outrun the verification. The 25 Jul re-run supersedes the 23 Jul one and covers both, and each of
+# the four commits since carries its own dated re-verification note in 07-verification.md.
+# `check-pipeline` §4 reports 07 no older than the page source.
+#
+# Those four were re-read individually rather than taken on their notes, because one of them
+# (1c26fab) invented two false regulatory claims on sibling pages while describing itself as a
+# mechanical split. On this page it rewrote three step bodies. The only one carrying a new
+# assertion is "You confirm your CPD to CBOS yourself", and it is register-backed twice over:
+# cbos-tas-reference.md:171 puts recording responsibility on the licence holder, and :35 has the
+# licence holder confirming CPD at renewal. No invented claim on this page.
+#
+# WHAT ACTUALLY HOLDS THE FLAG is the standing external blocker the buyUrl inherits, described in
+# the buyUrl note above: /payment is served by LearnWorlds on today's apex, this build replaces
+# that apex at cutover, and whether the path survives depends on the `learn.` subdomain decision.
+# The migration plan calls that "the cutover's only external dependency" and it is an [AP] item.
+# An indexable page whose buy button 404s is worse than a noindexed one that converts nobody.
+#
+# DO NOT REMOVE THIS LINE ALONE. `scripts/check-redirect-targets.mjs:53-58` carries a matching
+# PENDING entry and fails the build if this flag goes without it - verified 16 Aug, build exit 1.
+# That file is skills-owned, so publishing this page is a two-file change a build session cannot
+# make by itself: it needs the decision first, then a session that may write both.
 noindex: true
 title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
 description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Meets a builder's twelve-point year in full, online and self-paced, about ten hours."
