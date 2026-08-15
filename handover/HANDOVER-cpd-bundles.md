@@ -2,6 +2,26 @@
 
 ## Status: PARTLY DONE — both TAS bundles built 12 Aug 2026, neither publishable
 
+**Update 16 Aug 2026 — two of the three blockers below are gone, and the one left is not the one
+anyone expected.**
+
+- ✅ **Plumbing's selected-twelve is recorded** (PR #131). *TAS CPD Solar Energy* untagged from the
+  plumber bundle at source; the page renders 12 members, was 13. See the correction further down —
+  the `bundleMembers` mechanism this note called for was never needed.
+- ⚠️ **The checkout-id blocker is WAIVED, not fixed.** Andrey, 16 Aug: *"remove this blocker and use
+  placeholder"*. Both `buyUrl`s remain `TBC-` placeholders that do not resolve. Recorded on both
+  pages as a deliberate commercial trade-off.
+- ⛔ **What actually keeps both pages `noindex` now is an unfilled FPO image well each.** Found by
+  attempting the publish: `guardrails.ts` hard-blocks an FPO placeholder on an indexable page at
+  `budget 0`, and its own message says do not raise the budget — unfilled, the well publishes its
+  art direction as body copy. **One image each is the whole remaining gap.** Production prompts,
+  with the real course lists as on-screen script, are in
+  `handover/HANDOVER-image-prompts-2026-08-02.md` (PR #133).
+- Also surfaced by that attempt, and easy to miss because `noindex` exempts both pages from the
+  orphan check: **nothing links to `/cpd-electrical-tas` from anywhere**, and `/cpd-tas`'s plumbing
+  card still points at the legacy `/program/` URL. Both must be wired in the same change that
+  publishes, or the pages ship as orphans.
+
 | Bundle | Outcome |
 |---|---|
 | TAS Building | Was already live |
@@ -22,12 +42,29 @@ pruning would delete a course the buyer receives. Andrey corrected that on 12 Au
 courses individually, thirteen are approved for plumbers, and the bundle is twelve of them, selected
 manually once before publication.** So the instruction is correct in intent.
 
-It still was not executed, because the fix is not a prune. The register records which courses are
+~~It still was not executed, because the fix is not a prune. The register records which courses are
 *eligible* for a category, never which twelve are *sold*, so there is nowhere to record the selection
 even after removing one. `liveMembers()` renders all thirteen and the copy correctly says twelve.
 **That gap is now the plumbing page's publish blocker** and needs a `bundleMembers` list or a
 per-course `inBundle` flag — `[facts]` / `[skills]`, ranked first in
-`handover/HANDOVER-2026-08-12-session-close.md`.
+`handover/HANDOVER-2026-08-12-session-close.md`.~~
+
+**EXECUTED 16 Aug 2026, PR #131 — and the paragraph above was wrong about why it could not be.**
+The instruction was correct in intent AND executable as written: it *was* a prune, of exactly one
+tag. The claim that "there is nowhere to record the selection" was mistaken — `Category` (CBOS
+approval) and `Bundle` (what is sold together) are **already separate columns** in the source doc,
+so removing a Bundle tag records the selection precisely without touching the course's approval.
+
+Andrey named **TAS CPD Solar Energy** on 16 Aug. Its plumber Bundle tag was removed at source
+(Builder and Electrician kept — it is sold in both, and both bundles are unchanged at 12 and 11),
+then `npm run sync:cpd` regenerated the register. `/cpd-plumbing-tas` renders **12** members, was 13.
+Solar Energy keeps its Plumbing *category*, so thirteen courses remain CBOS-approved for plumbers
+and the page's "twelve of the thirteen approved" copy is now literally true.
+
+**Worth carrying:** this note reasoned its way from a correct instruction to a wrong conclusion by
+inspecting the generated projection instead of the source schema. `kb/register/cpd/tas-courses.json`
+genuinely cannot express the distinction, and "so the model lacks it" followed naturally and was
+false. Recorded in `ROADMAP.md` and `skill-reviews/facts/2026-08-16-plumbing-bundle-selection.md`.
 
 **The facts-then-build routing in this note held.** No figure was taken from a source read outside a
 facts session: every regulatory figure on both pages comes from `kb/register/cbos-tas-reference.md`
@@ -80,9 +117,14 @@ Points are regulatory (CBOS-approved, per course); the $449/$499 prices are **AB
    warns on, and it is a **mandatory disclosure** on the page (see Task 2). Note the code comment
    already on record: the Electrical bundle once *"advertised 12"* — 11 is the corrected figure, do not
    restore 12.
-2. **TAS Plumbing — 12 points, but 13 live courses tagged.** `system-health` warns: *"13 live courses
+2. ~~**TAS Plumbing — 12 points, but 13 live courses tagged.** `system-health` warns: *"13 live courses
    against a 12-point cap, so 1 is surplus and the sold set is ambiguous."* **Prune the surplus course
-   in the source doc** so the sold set is exactly 12 and unambiguous, before the page derives from it.
+   in the source doc** so the sold set is exactly 12 and unambiguous, before the page derives from it.~~
+   **DONE 16 Aug 2026, PR #131** — *TAS CPD Solar Energy* untagged from the plumber bundle at source.
+   Note the WARN quoted here no longer exists in that form: the check was rebuilt on 15 Aug after the
+   "surplus / prune" framing was found to encode the wrong product model (ABE bundles any selection at
+   any size). It now asks only whether the points CLAIMED on the page exceed the live pool, and reads
+   *"CPD plumbing: publishes 12 pts within a live pool of 12 (of 13 tagged)"*.
 3. Mark anything you could not confirm at source **UNVERIFIED** — do not carry a figure across from
    this note. This note is not a source.
 

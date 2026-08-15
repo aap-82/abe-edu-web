@@ -1,6 +1,16 @@
 # HANDOVER — session close, 12 August 2026
 
-## Status: OPEN — start here
+## Status: OPEN, but no longer "start here" — much of it closed 13-16 August 2026
+
+**Read `ROADMAP.md`'s Current state first.** This note was the entry point for a week; it is now a
+record with live items in it rather than the front door. Its ranked item 1 (the plumbing selected
+twelve) closed on 16 Aug, PR #131, and is struck below along with the blocker section that repeated
+it. Items 2, 2b and the hero-CLS item closed earlier and are already struck.
+
+**Still live from this note:** the `--maroon` exception pile (an exclusive design session under
+rule 7), the FPO images, `/experts/*` reusing ProcessTrack for a non-sequence, and the two NSW
+owner builder URLs' cutover fate. **The `ogImage` item is live and measured:** 0 of 25 built pages
+emit one.
 
 Everything below is on `main` (`bc83afb`) and deployed to the preview host
 (`26d22d41`). Working tree clean, `system-health` **0 failing**.
@@ -46,13 +56,25 @@ write it.
 
 Ranked. Nothing here is blocked on anything else in it, so the order is a recommendation.
 
-**1. Record the selected twelve plumbing courses.** `[facts]`, and it is the only item that unblocks a
-finished page. `/cpd-plumbing-tas` is built, verified and correct, and renders **13 member rows for a
-12-course bundle** because the register records which courses are *eligible* for a category
-(`bundles: ["plumbing"]`) and not which twelve are *sold*. Needs a `bundleMembers` list or a
-per-course `inBundle` flag — `kb/register/cpd/tas-courses.json` and possibly
-`src/content.config.ts`. A reader can count the table, so `noindex` cannot come off until this lands,
-independently of the checkout id.
+**1. ~~Record the selected twelve plumbing courses.~~ DONE 16 Aug 2026, PR #131.** ~~`[facts]`, and it
+is the only item that unblocks a finished page. `/cpd-plumbing-tas` is built, verified and correct,
+and renders **13 member rows for a 12-course bundle** because the register records which courses are
+*eligible* for a category (`bundles: ["plumbing"]`) and not which twelve are *sold*. Needs a
+`bundleMembers` list or a per-course `inBundle` flag — `kb/register/cpd/tas-courses.json` and
+possibly `src/content.config.ts`.~~ Andrey named **TAS CPD Solar Energy** as the course outside the
+sold bundle; its `Bundle` tag was corrected at source and `npm run sync:cpd` regenerated the
+register. The page renders **12** members, was 13.
+
+**The mechanism this item asked for was never built, and should not be.** `Category` (CBOS approval)
+and `Bundle` (what is sold together) are already separate columns in the source doc. One row was
+tagged to a bundle it is not sold in, and the fix was one cell. The lesson is in `ROADMAP.md`: a
+missing-mechanism diagnosis should be checked against the source schema before it is built, because
+a data error and a model gap are indistinguishable from inside a generated projection.
+
+**`/cpd-plumbing-tas` is still `noindex`, for two other reasons**, neither of them this one: the
+`buyUrl` is a `TBC-` placeholder (a blocker Andrey WAIVED on 16 Aug, not one that was fixed), and
+the page carries an unfilled FPO image well, which hard-blocks the build on an indexable page.
+Prompts for that image are in `handover/HANDOVER-image-prompts-2026-08-02.md`.
 
 **2. ~~Settle whether the preview host is indexable.~~ RESOLVED the same day — see "Blockers" below.**
 The audit was wrong: it read the `<meta name="robots">` tag and `robots.txt` and never checked the
@@ -124,10 +146,15 @@ in `ModuleRows.astro` is corrected, because it is false as written.
 **1. Both new CPD bundles cannot be published.**
 - No LearnWorlds checkout id for either. The export carries only legacy electrician products at three
   different point counts and no 2026 plumber bundle at all. Both `buyUrl`s are placeholders that 404.
-- **Plumbing has a second, independent blocker:** the register records which courses are *eligible*
+- ~~**Plumbing has a second, independent blocker:** the register records which courses are *eligible*
   for a category, not which twelve were *selected* for the sold bundle, so the page renders 13 rows
   for a 12-course bundle. Needs a `bundleMembers` list or per-course `inBundle` flag —
-  `kb/register/**` and/or `src/content.config.ts`. `noindex` cannot come off until it lands.
+  `kb/register/**` and/or `src/content.config.ts`. `noindex` cannot come off until it lands.~~
+  **CLOSED 16 Aug 2026, PR #131** — and the prescribed fix was the wrong one. No `bundleMembers`
+  list or `inBundle` flag was built: `Category` (CBOS approval) and `Bundle` (what is sold together)
+  are already separate columns in the source doc, and one row was tagged to a bundle it is not sold
+  in. Andrey named *TAS CPD Solar Energy*; the tag was corrected at source and the register
+  re-synced. 12 members render, was 13.
 
 **2. ~~The SEO audit's three blockers~~ — RESOLVED 12 Aug 2026, later the same day. The audit was
 wrong and this note was right.** The disagreement over "an indexable preview host" is closed: `curl -I`
@@ -155,7 +182,7 @@ live and correct but cannot convert), and confirming "56 pages" before `/project
 
 ## Open work, tagged
 
-- `[facts]` Record the selected twelve plumbing courses (blocker 1 above).
+- ~~`[facts]` Record the selected twelve plumbing courses (blocker 1 above).~~ **DONE 16 Aug 2026, PR #131.** Andrey named *TAS CPD Solar Energy*; its Bundle tag was corrected at source and the register re-synced. The page renders 12 members, was 13. The `bundleMembers`/`inBundle` mechanism this item asked for was NOT needed — `Category` and `Bundle` are already separate columns in the source doc.
 - `[skills]` `--maroon` now has more documented exceptions than rule: three in ModuleRows, plus
   `#600000` figures, an `#a00000` marker, a maroon waynav state and maroon proof caps. Settling the
   "figures" job belongs in the design register, which rule 7 makes an exclusive session.
