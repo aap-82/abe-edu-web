@@ -117,9 +117,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   28 Jul 2026"), and this session had to hand-mirror two checks and a count between them. Second
   occurrence, so ROADMAP rule 3's trigger is met. The cheap version is not a script but a single line
   in each file naming the other as its mirror, so the next editor knows before rather than after.
-- [design] Unchanged and still open from 11 Aug: `.faq summary` is the only remaining holder of the
+- ~~[design] Unchanged and still open from 11 Aug: `.faq summary` is the only remaining holder of the
   undocumented Archivo 600 18px (`global.css:1000`). Either/or with `.mr-title` now at 22px; adding an
-  18px step to DESIGN.md §3 is a register change and therefore an exclusive session (rule 7).
+  18px step to DESIGN.md §3 is a register change and therefore an exclusive session (rule 7).~~
+  **Done 15 Aug 2026** in the exclusive session this item asked for: raised to the existing 22px Title
+  role rather than adding a step, since §3 already named the FAQ as part of that role and was simply
+  being disobeyed. `skill-reviews/design/2026-08-15-faq-title-role.md`.
 
 ## Grader note
 

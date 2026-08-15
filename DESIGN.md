@@ -263,7 +263,22 @@ Every government fact block ends in one, and they feed the page-foot Sources lis
 The FPO image block: a warm paper gradient with a dashed inset border, a mono label and an Archivo description. Aspect is locked by `.r54` (5:4) or `.r45` (4:5). Omit the image `src` and this stays in place; drop a real image in and it swaps to an `<img>`.
 
 ### FAQ
-A single 8px bordered container of `<details>` rows split by 1px rules. The summary is Archivo 600 18px; a maroon plus-mark rotates 45 degrees to a cross when open. Accordions are for FAQs and the module-group syllabus (`ModuleRows`, see §7): decision-critical content, meaning eligibility, cost, requirements and the authority model, is never hidden inside one.
+A single 8px bordered container of `<details>` rows split by 1px rules. The summary is the **Title** role from §3 (Archivo 600, 22px, tracking -0.01em, line-height 1.25); a maroon plus-mark rotates 45 degrees to a cross when open.
+
+It was Archivo 600 **18px** with the body's inherited 1.65 line-height until 15 Aug 2026. What made
+that a defect was not the number but a contradiction inside this document: §3 has always named the
+Title role as covering "card and sub-section H3s; FAQ and price figures share this weight", so the
+register described this element as a Title while the element was not one. Neither the design-register
+check nor a reader of §3 alone would catch that, because both halves are here and each is internally
+consistent. `.mr-title` in `ModuleRows` had already made exactly this move for exactly this reason;
+the FAQ was the leftover, and it was filed three times before it was fixed.
+
+**It was not, however, the only off-register display size, and the demand item that said so was
+wrong.** Measured across `global.css` on 15 Aug 2026, the display face is set at 16, 17 (two weights),
+18, 19, 22, 24, 28 and 36px plus two clamps, against the six roles §3 names — `.h4` is Archivo 600
+18px with a live consumer in `TopicGrid`, and the wordmark is Archivo 600 18px by its own right as a
+mark rather than a type role. Whether §3 grows steps or those components move onto existing ones is a
+separate register decision, filed rather than taken here. Accordions are for FAQs and the module-group syllabus (`ModuleRows`, see §7): decision-critical content, meaning eligibility, cost, requirements and the authority model, is never hidden inside one.
 
 ### Navigation
 Sticky site header (blurred paper, click-open megamenus) with the maroon brand tile; `PageBar` for breadcrumbs and the dated reviewer line; `WayfinderNav`, a sub-nav of mono uppercase jump-links whose active item carries a maroon underline; `SectionWayfinder`, the end-of-section forward-scent link (a mono NEXT kicker above the next section's title and the fly arrow); and, on mobile, a fixed bottom CTA strip that slides up into view.
