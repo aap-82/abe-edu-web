@@ -365,3 +365,59 @@ a content file's comments were edited and its Stage 7 note was not written in th
 first two were caught before merge; this one reached `main`. The gate is working; the habit is not.
 See `kb/mistakes-log.md` row 19, whose guard already says a content fix and its `07` update belong in
 the SAME commit.
+
+---
+
+## Publish blockers MEASURED, not read — 16 August 2026
+
+`handover/HANDOVER-2026-08-16-session-close.md` claimed one hero image was the only thing left
+holding this page's `noindex`. That claim was **tested rather than trusted**, because the last two
+sessions on these pages were both misled by prose that described a build which had moved.
+
+**The experiment.** On branch `publish-cpd-electrical-plumbing-tas`, `noindex` was removed from this
+file and from `cpd-plumbing-tas.mdx`, and both slugs' `PENDING` entries were removed from
+`scripts/check-redirect-targets.mjs`, in the working tree only. Then `npm run build`.
+
+**Result — exactly two hard-blockers, one per page, both the FPO well:**
+
+```
+[abe-guardrails] cpd-electrical-tas/index.html: 1 FPO image placeholder(s) on an indexable
+page, budget 0. ... Do not raise the budget.
+[abe-guardrails] cpd-plumbing-tas/index.html: 1 FPO image placeholder(s) on an indexable
+page, budget 0. ... Do not raise the budget.
+ABE guardrails: 2 publish hard-blocker(s). Build stopped.
+```
+
+Nothing else fired. The guardrail hook runs at `astro:build:done` and stops the build there, so the
+postbuild checks were then run by hand against the `dist/` it had already written:
+`check-redirect-targets.mjs` exit 0 ("15 distinct, 9 resolving, 6 pending"), `check-meta.mjs`
+0 failing. So **removing the two `PENDING` entries is correct and required** once the flags go — the
+two are coupled in both directions, exactly as this file's frontmatter comment states.
+
+**One correction to the handover's instruction.** It says to "lower both `FPO_BUDGET` lines". There
+are no lines to lower: neither slug has an entry in `FPO_BUDGET` in `src/integrations/guardrails.ts`,
+the default is 0, and the check's own message says *do not raise the budget*. Supplying the image is
+the whole fix; no guardrail edit is wanted or needed.
+
+**The experiment was reverted in full.** `noindex` and both `PENDING` entries stand. Nothing in this
+measurement was committed, because publishing behind a `TBC-` checkout id and an FPO well is not
+something a build session decides.
+
+### Remaining sequence, one commit
+
+1. `src/assets/images/cpd-electrical-tas-hero.avif` (5:4 landscape, ~1250x1000) and
+   `src/assets/images/cpd-plumbing-tas-hero.avif`. Prompts: `handover/HANDOVER-image-prompts-2026-08-02.md`
+   § "PROMOTED 16 Aug 2026".
+2. `hero.artefactImg` + `hero.artefactAlt` on each page, alt >= 80 chars, **written from the rendered
+   image** rather than from the prompt.
+3. Remove `noindex: true` from both files.
+4. Remove both `PENDING` entries from `scripts/check-redirect-targets.mjs` (skills-owned: disclose
+   the crossing in the commit message).
+5. `src/pages/cpd-tas.astro` — repoint the Plumbing card CTA off
+   `/program/tas-plumber-cpd-bundle-01092025`; add `price: '$449'`, `rrp: '$1,089'`,
+   `perPoint: '$41'` and a CTA to the Electrical card; move ItemList positions 2 and 3 onto the
+   pages. Each of those three sites carries a comment naming this step.
+6. Re-run Stage 7 on both and commit the notes **in the same commit** (`kb/mistakes-log.md` row 19).
+
+The `TBC-` checkout ids stay, waived by Andrey on 16 Aug 2026 as a publish blocker. They remain
+wrong: both pages will publish with a Buy button that 404s.

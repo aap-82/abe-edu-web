@@ -400,3 +400,28 @@ is built**, because a data error and a model gap look identical from inside the 
 
 One blocker remains and it is unchanged: `buyUrl` is a `TBC-` placeholder with no 2026 plumber
 bundle checkout id supplied. The page cannot be published until that lands.
+
+---
+
+## Publish blockers MEASURED, not read — 16 August 2026
+
+Measured jointly with `/cpd-electrical-tas`. **The full reading, the build output and the six-step
+remaining sequence are recorded once, in `pipeline/cpd-electrical-tas/07-verification.md`** under
+this same heading, rather than copied here where the two would drift.
+
+Summary for this page: with `noindex` removed from both bundle files and both slugs' `PENDING`
+entries removed from `scripts/check-redirect-targets.mjs`, `npm run build` produced **exactly two
+publish hard-blockers, one per page, both the FPO image well** — for this page:
+
+```
+[abe-guardrails] cpd-plumbing-tas/index.html: 1 FPO image placeholder(s) on an indexable
+page, budget 0. ... Do not raise the budget.
+```
+
+Nothing else fired against this page. In particular the twelve-of-thirteen member rendering, closed
+16 Aug 2026 by untagging TAS CPD Solar Energy at source, produced no finding — the summary-vs-detail
+contradiction is gone rather than merely masked by `noindex`.
+
+The experiment was reverted in full; `noindex` and both `PENDING` entries stand. Nothing was
+committed. The `TBC-` checkout id stays, waived by Andrey on 16 Aug 2026 as a publish blocker, and
+remains wrong: this page will publish with a Buy button that 404s.
