@@ -189,8 +189,16 @@ for (const [p, pass] of PLANNED) {
 for (const [p, pass] of PLANNED) {
   if (!plannedHits.has(p) && !routes.has(p)) warns.push(`PLANNED entry never linked from anywhere: ${p} (${pass}) — stale entry, or the link was removed.`);
 }
+// These were a live question until 16 Aug 2026: a same-origin /payment or /course link dies at
+// cutover if LearnWorlds does not answer on the apex. Andrey confirmed the `learn.` subdomain
+// ticket resolved that day and directed that the checkout paths stay AS-IS, which is safe because
+// public/_redirects already 301s the whole LearnWorlds surface to learn.abeeducation.edu.au. The
+// warning is kept because enumerating the checkout-dependent pages is worth having at cutover; it
+// is no longer a warning that something is wrong. One narrow item is still open and is NOT closed
+// by that confirmation: public/_redirects:178 flags "LW re-applies product query params; verify in
+// spike", so whether ?product_id= survives the 301 is unverified.
 for (const [p, pages] of learnworlds) {
-  warns.push(`LearnWorlds path linked same-origin: ${p} — from ${[...pages].join(', ')}. Dead at cutover unless the learn. subdomain decision keeps it on the apex.`);
+  warns.push(`LearnWorlds path linked same-origin: ${p} — from ${[...pages].join(', ')}. Carried at cutover by public/_redirects (/payment*, /course/*, /program/*, /bundle/* all 301 to learn.abeeducation.edu.au). Listed to keep the set visible, not as a defect.`);
 }
 
 // One line per distinct problem. The same footer link repeated across 19 pages is one defect with
