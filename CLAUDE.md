@@ -262,7 +262,10 @@ A *named function* inside `${...}` is fine; it is the literal-inside-a-literal t
   title/description. *(studio)* Its length ratchet is off — over-target lengths WARN until cutover. `check-freshness` warns without blocking on register staleness but
   **fails the build, without `--strict`, on an expired live CPD course** (see ROADMAP "Expiry is a
   build-blocker"). **In CI additionally**: `check-claims.mjs --strict`, `check-positions.mjs
-  --strict`, and `check-reflow.mjs` with its own browser install. Run by hand: `system-health.mjs`
+  --strict`, `check-reflow.mjs` with its own browser install, and — since 16 Aug 2026 —
+  **`system-health.mjs --strict`**, which makes the pre-flight a merge gate and brings
+  `check-pipeline` §4 (a page newer than its Stage 7 artefact) forward from post-merge to
+  pre-merge. Run by hand: `system-health.mjs`
   before planning work, `review-trends.mjs` after filing a review, `check-claims.mjs` when docs or
   figures change. `SYSTEM.md` §5 names every script; `check-claims.mjs` §7 fails the build if it
   stops doing so.

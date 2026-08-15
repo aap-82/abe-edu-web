@@ -148,8 +148,20 @@ exists at once.
 
 **In CI, on every pull request and on every push to `main`** — `astro check` for types in `.astro`
 frontmatter and inline scripts, Lighthouse CI against the performance budget, **`prose-lint`** for
-an em dash or "comprehensive" in `src/content` prose, and a diff gate proving the generated
-`public/_redirects` matches the CSV it comes from.
+an em dash or "comprehensive" in `src/content` prose, a diff gate proving the generated
+`public/_redirects` matches the CSV it comes from, and — since 16 Aug 2026 — **`system-health
+--strict`**, which makes the whole pre-flight a merge gate.
+
+That last one closes the gap this section used to describe as acceptable. `check-pipeline` §4 (a page
+committed later than the Stage 7 artefact certifying it) lived only inside `system-health`, which ran
+at pre-flight and in `health.yml` after a push — so it could only ever report a defect that was
+already on `main`. On 16 Aug **four content files were committed without their `07` note and two
+reached `main`**, each caught by a human running the pre-flight or by the post-merge push. `--strict`
+escalates FAILs only and ignores warnings, matching `check-claims` and `check-positions`; without it
+the script always exits 0, which is right for a session reading a scorecard and wrong for a gate.
+**The job's `fetch-depth: 0` is load-bearing for it**: §4 reads `git log -1 --format=%ct` per file,
+and on the default depth-1 clone that returns nothing for most files, so the check would pass by
+knowing nothing.
 
 The push trigger was added 13 Aug 2026 and the workflow had been `pull_request`-only, which meant
 **all four of those were absent from every commit that reached `main` directly** — the normal path
