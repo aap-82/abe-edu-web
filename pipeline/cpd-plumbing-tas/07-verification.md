@@ -274,3 +274,41 @@ so this closes only once committed.
 **Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
 re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
 build-owned; the crossing is recorded here rather than only in the session transcript.
+
+
+---
+
+## Re-verification note, 16 August 2026 — noindex comment corrected (commit 95360d5)
+
+**What changed: one frontmatter COMMENT sentence, replaced by a longer block.** The blocker note
+above `buyUrl` ended "REMOVE noindex ONLY when a real id lands and Stage 7 is re-run against it" —
+two necessary conditions written as if they were sufficient, while this page's own DIFFERENCE 2
+block names a blocker neither of them touches. It now lists five, adding the selected-twelve
+blocker, the `learn.` subdomain decision, and the PENDING entry at
+`scripts/check-redirect-targets.mjs:41`.
+
+Corrected because the identical wording on `cpd-building-tas.mdx` led a build session to remove that
+page's flag on a cleared Stage 7 the same day; only the check stopped it.
+
+**The flag itself is untouched**, and so is every blocker it stands on.
+
+**The selected-twelve blocker was re-measured rather than restated**, since the new comment now
+quotes a number: `dist/cpd-plumbing-tas/index.html` renders **13 `bcard` members** against copy
+saying "Twelve CBOS-approved" six times. The copy remains careful and correct — "Twelve of them make
+up this bundle, selected from the thirteen approved for Tasmanian plumbers" — so this is not a
+contradiction in the prose. What the table cannot do is say WHICH twelve. Unchanged from the 12 Aug
+finding; still a publish blocker; still register/schema work.
+
+**Why no re-audit — measured, not asserted.** The page was built from this file's pre-change and
+post-change versions and the rendered HTML compared:
+
+| Page | `dist/` SHA-256 (first 16) before | after |
+|---|---|---|
+| `/cpd-plumbing-tas` | `9d4ec09fef3667cd` | `9d4ec09fef3667cd` |
+
+Byte-identical. No section, answer capsule, claim, figure, price or source line was touched. So
+`abe-readability-audit`, `final-check` and `ai-detector` were **not re-run**, stated here rather than
+silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 compares git commit times and fired correctly on this
+page for the commit above. It cannot know a diff was comment-only. Closes only once committed.

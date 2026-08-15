@@ -297,3 +297,36 @@ so this closes only once committed.
 **Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
 re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
 build-owned; the crossing is recorded here rather than only in the session transcript.
+
+
+---
+
+## Re-verification note, 16 August 2026 — noindex comment corrected (commit 95360d5)
+
+**What changed: one frontmatter COMMENT line, replaced by a longer one.** The blocker note above
+`buyUrl` ended "REMOVE noindex ONLY when a real id lands here and Stage 7 has been re-run against
+it" — two necessary conditions written as if they were sufficient. It now lists four, adding the
+`learn.` subdomain decision (a real checkout id does not settle whether the `/payment` PATH survives
+cutover) and the matching PENDING entry at `scripts/check-redirect-targets.mjs:42`, which fails the
+build if the flag is removed without it.
+
+Corrected because the identical wording on `cpd-building-tas.mdx` led a build session to remove that
+page's flag on a cleared Stage 7 the same day; only the check stopped it.
+
+**The flag itself is untouched.** `noindex: true` is unchanged, as is the placeholder `buyUrl` and
+every reason it is a placeholder.
+
+**Why no re-audit — measured, not asserted.** The page was built from this file's pre-change and
+post-change versions and the rendered HTML compared:
+
+| Page | `dist/` SHA-256 (first 16) before | after |
+|---|---|---|
+| `/cpd-electrical-tas` | `fa91f1c0bde848df` | `fa91f1c0bde848df` |
+
+Byte-identical. No section, answer capsule, claim, figure, price or source line was touched; no prose
+changed. The eleven-point figure and its shortfall wording (DIFFERENCE 2) are untouched. So
+`abe-readability-audit`, `final-check` and `ai-detector` were **not re-run**, stated here rather than
+silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 compares git commit times and fired correctly on this
+page for the commit above. It cannot know a diff was comment-only. Closes only once committed.
