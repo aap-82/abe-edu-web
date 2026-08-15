@@ -645,6 +645,7 @@ const CHECK_EXEMPT = new Map([
   ['page-status',        'derived view — per-page build status for the status board; gates nothing, always exits 0'],
   ['status-board',       'derived view — renders page-status JSON into reports/status-board.html'],
   ['lhci-deployed-config', 'CI wiring — rewrites .lighthouserc.json onto the deployed origin for the nightly CWV run; asserts nothing itself'],
+  ['generate-og-cards',  'generator — renders public/og/*.png in headless Chromium; needs a browser and a built dist/, so it is run by hand like sync-cpd-register'],
 ]);
 /* A backticked token in §5 that is lowercase and hyphenated is read as a script reference. Every
    such token in §5 today is one. Add a term here only if §5 ever needs to backtick a hyphenated
