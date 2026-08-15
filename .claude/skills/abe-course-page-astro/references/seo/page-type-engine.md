@@ -122,8 +122,8 @@
 | **CPD Plumbing** | — | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Electrical** | — | — | — | ✅ | — | ABE Education (direct) |
 | **CPD Real Estate** | — | — | ✅ | — | — | ABE Education (direct) |
-| **Asbestos Awareness** | ✅ | ✅ | ✅ | ✅ | ✅ | AlertForce (RTO 91826) — resold nationally |
-| **Silica Awareness** | ✅ | ✅ | ✅ | ✅ | ✅ | AlertForce (RTO 91826) — resold nationally |
+| **Asbestos Awareness (11084NAT)** | ✅ | ✅ | ✅ | ✅ | ✅ | AlertForce (RTO 91826) — delivery notification NATIONAL |
+| **Crystalline Silica Exposure Prevention (10830NAT)** | ✅ | ✅ | ❓ | ✅ | ✅ | AlertForce (RTO 91826) — **not national.** Delivery notification: NSW/VIC/QLD/TAS/ACT. **WA UNVERIFIED — state nothing either way.** Never "Silica Awareness": no course of that name exists on scope. See `kb/register/alertforce-scope.md` |
 
 **Rules:**
 - ❌ means ABE does not currently offer this course in this state — do not create a landing page

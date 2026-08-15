@@ -1,9 +1,15 @@
 # ABE Education marketing site — project rules (read first)
 
-Astro 7 static marketing site for abeeducation.edu.au. Four owner-builder course pages live on
-Cloudflare Workers (QLD/WA/TAS/ACT); Wave 0 (platform close-out — templates, chrome, CI, redirects) is
-merged and live as of 18 Jul 2026. Waves 1-6 (real content build-out + cutover) are next.
-Read the current handover in `handover/` for state + backlog. Read **`new site/abe-website-migration-plan-v2.md`**
+Astro 7 static marketing site for abeeducation.edu.au, on Cloudflare Workers. Wave 0 (platform
+close-out — templates, chrome, CI, redirects) merged and live 18 Jul 2026. **Waves 1-3 are built**;
+Wave 3's exit gate is only *half* met (7 Aug 2026 — ASQA / `PartnerDisclosure` hardening still open),
+and Wave 4 (CPD) is in progress. Built today: six owner-builder courses (QLD/WA/TAS/ACT plus two NSW
+pre-launch), five White Card spokes (NSW/QLD/WA/TAS/ACT), two hubs, three TAS CPD bundles, two expert
+profiles, three partner pages, and `/owner-builder-insurance`, `/project-advisory`, `/reviews`,
+`/accreditation` and the CPD pages. **This paragraph is a summary and goes stale — `ROADMAP.md`
+"Current state" is the authority on phase, and `node scripts/system-health.mjs` beats both.**
+Read `handover/HANDOVER-2026-08-12-session-close.md` first: it is the one marked "OPEN — start here"
+among the 13 files in `handover/`. Read **`new site/abe-website-migration-plan-v2.md`**
 (the live strategic plan), its
 `new site/abe-migration-plan-v2-risk-audit.md` (11 findings amended into the plan, incl. the no-slash
 canonical call below), `new site/abe-new-site-sitemap.md` (the full ~44-page IA for Waves 1-5), and
@@ -45,9 +51,13 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   fill of an ELEVATED surface** (cards, megamenu, mobile nav). They were one token until 24 Jul 2026,
   which is why the site ran on pure white against this line: creaming the shared token would also
   have creamed every card and sunk it into the `.bg-warm` bands. Do not re-merge them.
-- **Content model target: MDX + Astro Content Collections** (Zod-typed frontmatter, one `CourseLayout`
-  renders all states). QLD/WA are still per-page `.astro` + `data/*.ts` and are being migrated — see
-  HANDOVER backlog. New course pages should be MDX once the collection is wired.
+- **Content model: MDX + Astro Content Collections — done, not a target.** Zod-typed frontmatter, and
+  `src/pages/[slug]/index.astro` renders every entry in the `courses` collection through one
+  `CourseLayout`. QLD and WA migrated in `dd5d4c7`; their per-page `.astro` files are gone. Collections
+  in use: `courses`, `hubs`, `cpd-bundles`, `experts`, `partners`, typed by `src/content.config.ts`.
+  **Every new course page is MDX in a collection** — the old "once the collection is wired" condition
+  is met. Some MDX files still import module/FAQ arrays from `src/data/*.ts` (build-owned); that is the
+  data-module pattern, not an unmigrated page.
 - Node 22+, npm only.
 
 ## Build / deploy
@@ -93,10 +103,19 @@ Australian English. Never the word "comprehensive". No em dashes in body copy.
   Plumbing (12 pts, $499) — the two TAS bundles are being built; see `handover/HANDOVER-cpd-bundles.md`.
 - **Asbestos and silica (amended 23 Jul 2026 — the earlier "no asbestos/silica" line was wrong).**
   ABE has **two different products** here and conflating them is an authority-model error:
-  1. **AlertForce (RTO 91826) Asbestos Awareness and Silica Awareness**, resold by ABE **in every
-     state** and **nationally recognised with a course code**. Full ASQA disclosure applies. The
-     codes are **UNVERIFIED** — confirm on AlertForce's scope at
-     `training.gov.au/Organisation/Details/91826` **in a browser** before any page states one.
+  1. **Two AlertForce (RTO 91826) accredited courses**, resold by ABE, nationally recognised, full ASQA
+     disclosure. **Codes verified at source 3 Aug 2026** (`kb/register/alertforce-scope.md`), and the
+     reading did **not** confirm the "every state" this line used to claim:
+     - **11084NAT, Course in Asbestos Awareness** — delivery notification **NATIONAL**. Confirmed as
+       claimed.
+     - **10830NAT, Course in Crystalline Silica Exposure Prevention** — **there is no course called
+       "Silica Awareness" on AlertForce's scope**; use this title and code. Its delivery notification
+       lists **NSW, VIC, QLD, TAS, ACT only**. **WA, SA and NT are UNVERIFIED, not confirmed either
+       way** — whether an absent delivery notification is a hard bar or an administrative gap was not
+       settled. Do not state *or* deny availability in those three states until it is.
+     The jurisdictional limit sits on **AlertForce's own scope entry**, not on the course's national
+     accreditation: an RTO's entitlement to deliver a nationally accredited course is gated per RTO,
+     per state, by its own scope. Same distinction that blocked NSW Owner Builder.
   2. **A CBOS-approved asbestos CPD course for TAS** ("Workplace Asbestos Basics", 1 point, a bundle
      component). A Tasmanian licence-renewal credit, **not** an awareness card, and never
      "nationally recognised".
@@ -174,14 +193,23 @@ ever resurfaces, do not adopt its `.t-*` classes, Public Sans / Source Serif fon
 cool-only palette, or `audit_*.py` scripts; none of them exist in this build.
 
 ## Images
-- Served from the Cloudflare R2 public bucket, referenced by URL:
-  base `https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/` (brand/logo/portraits) and
-  `https://pub-80a8c961e6274e19825de038e308436f.r2.dev/` (QLD course images, bucket `qld-ob`).
+- **Page imagery is local and served same-origin**, from `src/assets/images/` via `astro:assets`
+  (23 files as of 15 Aug 2026). `src/lib/images.ts` is the resolver: `resolveImage()` matches a
+  frontmatter image value to a file **by basename**, so placing an image is just dropping the file
+  into `src/assets/images/` — no frontmatter, schema or component change. `responsiveImg()` (via
+  `getImage()`) adds the width-based `srcset` + `sizes` and intrinsic `width`/`height`, still
+  rendered as a raw `<img>` so scoped styles keep applying. Migrated 27 Jul 2026 (`006da23`,
+  `57c38d4`, `645b4e7`); `handover/HANDOVER-images-astro-assets.md` records why the resolver is used
+  instead of the content-collection `image()` helper (which hard-fails on existing public paths).
+- **One image is still remote**: the logotype SVG in `SiteHeader.astro`, on
+  `https://pub-e001e9a575874f24a0bcd7082a45cdbc.r2.dev/`. The `qld-ob` bucket
+  (`pub-80a8c961e6274e19825de038e308436f.r2.dev`) is no longer referenced by the site, and
+  `public/images/` no longer exists. `r2.dev` is dev-grade (rate-limited), so the standing "move to a
+  custom domain (e.g. images.abeeducation.edu.au) before heavy production traffic" task still holds —
+  but it is now that single SVG, not a bucket migration.
 - `Placeholder` / `ZSplit` / `Hero` / `Credentials` accept a real image `src`; omit it to keep the FPO
   placeholder. Content alt text >= 80 chars, en-AU. Expert headshots are **real photos** (grayscale by
   default, colour on hover) — never AI-generated.
-- `r2.dev` is dev-grade (rate-limited). Move to a custom domain (e.g. images.abeeducation.edu.au) before
-  heavy production traffic — it's a drop-in URL swap.
 
 ## Component gotcha — `SiteHeader.astro`
 The nav is built as an HTML string and emitted via `set:html`, with its CSS in an `is:global` block
@@ -255,11 +283,15 @@ literal-inside-a-literal that breaks. `SiteHeader.astro` follows this rule throu
   The site-wide export cannot satisfy the R4 query-coverage gate: Queries and Pages are separate
   dimensions and are not crossed, so there is no per-URL query list in it. **Ask Andrey for a per-page
   export at Stage 2**, not partway through.
-- `scripts/check-freshness.mjs` runs on every build via `prebuild`. It **warns without blocking on
-  register staleness**, but it is not warn-only in general: a CPD course marked live, past its CBOS
-  expiry and still sold **fails the build without `--strict`** (`check-freshness.mjs:186`, and see
-  ROADMAP "Expiry is a build-blocker"). `system-health.mjs` before planning work, `review-trends.mjs`
-  after filing a Stage-9 review, `check-claims.mjs` when docs or figures change.
+- **Four scripts run automatically around every build**, so a failure in one is a build failure even
+  though you never invoked it: `prebuild` runs `generate-redirects.mjs`, `check-assets.mjs` and
+  `check-freshness.mjs`; `postbuild` runs `check-redirect-targets.mjs`.
+  `check-freshness.mjs` **warns without blocking on register staleness**, but it is not warn-only in
+  general: a CPD course marked live, past its CBOS expiry and still sold **fails the build without
+  `--strict`** (`check-freshness.mjs:186`, and see ROADMAP "Expiry is a build-blocker").
+  Run by hand: `system-health.mjs` before planning work, `review-trends.mjs` after filing a Stage-9
+  review, `check-claims.mjs` when docs or figures change. `SYSTEM.md` §5 names every script that
+  exists, and `check-claims.mjs` §7 fails the build if it stops doing so.
 - Before adding any new record, log or file, read the recording policy in ROADMAP.md. Name the
   decision the record informs; if you cannot, do not add it.
 
@@ -286,70 +318,42 @@ and every subagent.
 | **design** | Component, CSS and styleguide changes | `src/components/**`, `src/styles/**`, styleguide specimens, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
 | **facts** | Verify and record regulatory figures | `kb/register/**`, `skill-reviews/facts/**` (its own review only) | everything else |
 
-`src/content.config.ts` (the content schema) is owned by **skills** — it is cross-cutting model
-infrastructure, not one page's build, so a build session treats it as fixed. (Assigned 25 Jul 2026, when
-a demand item asked to make a schema field optional; the original session-types table left it
-unassigned.) Paths reconciled to the live layout: the mistakes log is `kb/mistakes-log.md`, and design
+### Path ownership beyond the table
+
+**The default: an unassigned path belongs to `skills`** — unless it is content (`build`), visual
+(`design`), a verified figure (`facts`), or platform/deploy (below). This is not a question to
+litigate per session. Assign it in the session that hit it, add a row here, and move on.
+
+**The test.** A path is assignable when getting it wrong breaks one page's or the repo's own
+correctness; it is a human decision when getting it wrong breaks the deployment itself. The shape
+that goes unassigned is *infrastructure for* the work rather than *part of* the work — it belongs to
+everyone's work and nobody's remit, so every session may take it or none dares to, and the second is
+the worse failure.
+
+**Deliberately unassigned, still:** `worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`,
+`package.json`. Platform and deploy configuration, not any session type's work. Changing one is its
+own decision with a human in it — say so out loud rather than folding it into a session.
+
+**Assigned so far**, each in the session that hit it:
+
+| Path | Owner | Assigned | Because |
+|---|---|---|---|
+| `src/content.config.ts` | skills | 25 Jul 2026 | Cross-cutting content schema, not one page's build |
+| `SYSTEM.md`, `handover/**` | skills | 29 Jul 2026 | Standing rules doc; the note layer demand lists route work *out of* |
+| `public/**`, `.claude/launch.json` | skills | 1 Aug 2026 | Sitewide delivery artefacts no page owns; per-session verification tooling |
+| `src/integrations/guardrails.ts`, `.gitignore` | skills | 4 Aug 2026 | Decide what every build enforces, and what enters version control at all |
+| `PRODUCT.md`, `.impeccable/**` | skills | 14 Aug 2026 | Standing product-truth doc; its tool's own config sidecar |
+
+Five sessions each spent thought on this same judgement call and reached the same answer, which is why
+the default above is now *stated* rather than re-derived a sixth time. The reasoning for each row is in
+the review that filed it — `git log -S` the path if you need it.
+
+Two reconciliations carried from those sessions: the mistakes log is `kb/mistakes-log.md`, and design
 owns all of `src/styles/**` (tokens live in `global.css`, there is no `tokens*` file).
 
-**`SYSTEM.md` and `handover/**` are owned by skills too** (assigned 29 Jul 2026, by the system audit,
-for the same reason and by the same precedent as `content.config.ts` above — the table left them
-unassigned, and an unassigned path is one every session may take or none dares to, which is the worse
-of the two failure modes). `SYSTEM.md` is a standing rules document like `CLAUDE.md` and `ROADMAP.md`;
-`handover/**` is the hand-written note layer that a demand list routes work *out of*. **Still
-unassigned and deliberately so:** `worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**` and
-`package.json` are platform and deploy configuration, not any session type's work. Changing one is its
-own decision with a human in it — say so out loud rather than folding it into a session. (This audit
-edited one comment in `worker/entry.js`, a stale pointer at a file that had moved; that was a judgement
-call at the boundary, and it is recorded here rather than left to be discovered.)
-
-**`public/**` and `.claude/launch.json` are owned by skills** (assigned 1 Aug 2026, third application
-of the same precedent). Two sessions hit these on the same day and both had to cross a boundary to
-finish: a skills session edited `public/robots.txt` to record *why* it carries no `Disallow`, and a
-design session added a `dist-static-auto` entry to `.claude/launch.json` because the pinned-port entry
-made it impossible for a second session to verify anything at all. Both flagged it; neither had a rule
-to point at. `public/robots.txt`, `public/_redirects` and `public/images/` are sitewide delivery
-artefacts that no single page owns, and `launch.json` is per-session verification tooling that every
-type needs — which is precisely the shape that ends up unassigned, because it belongs to everyone's
-work and nobody's remit. **This is now the third path-ownership gap found the same way** (after
-`content.config.ts` and `SYSTEM.md`/`handover/**`), so the pattern is worth naming rather than
-patching a fourth time: a path goes unassigned when it is *infrastructure for* the work rather than
-*part of* the work. When you meet one, assign it in the same session that hit it.
-
-Note the distinction against the deliberately-unassigned list above: `public/**` is build **output
-configuration** that ships with every page and changes with the content, while `wrangler.jsonc` and
-`astro.config.mjs` decide how and where the whole site is served. The test is whether getting it wrong
-breaks one page's correctness (assignable) or the deployment itself (human decision).
-
-**`src/integrations/guardrails.ts` and `.gitignore` are owned by skills** (assigned 4 Aug 2026, fourth
-application of the same precedent). Both were edited by sessions with no rule to point at:
-`guardrails.ts` on 1 Aug 2026, adding the banned-CTA ratchet, on the strength of the demand item being
-tagged `[skills]` and the file being a check — the same category as `scripts/**` and
-`content.config.ts`, just never named (`skill-reviews/skills/2026-08-01-banned-cta-guardrail-and-robots-
-withdrawal.md`); `.gitignore` on 2 Aug 2026, when a skills session verified it protects `new site/
-reference/` against `*.pdf`/`*.docx`/`*.doc` but not the spreadsheet formats a regulator source is just
-as likely to arrive in. Neither file is content, a component, or platform/deploy configuration:
-`guardrails.ts` decides what every page's build enforces, and `.gitignore` decides what enters version
-control at all — infrastructure *for* every session's work, not *part of* any one page's, same shape as
-`public/**` and `.claude/launch.json` before it. Passes the same test as those two: a wrong `.gitignore`
-line or a wrong guardrail risks the repo's own correctness (a leaked document, a silently-widened rule),
-never the deployment itself.
-
-**`PRODUCT.md` and `.impeccable/**` are owned by skills** (assigned 14 Aug 2026, **fifth** application
-of the same precedent, and the fifth is the one that should stop the counting). `PRODUCT.md` is a
-standing product-truth document in the same sense as `SYSTEM.md` and `ROADMAP.md`, just written by a
-different tool; `.impeccable/**` is that tool's own config and design sidecar, which is per-session
-verification tooling in the same category as `.claude/launch.json`. Both pass the test this file
-already states: a wrong line in either risks the repo's own correctness, never the deployment.
-
-Hit on 13 Aug 2026 by an `/impeccable init` run that updated `PRODUCT.md`, refreshed
-`.impeccable/design.json`, and had no rule to point at for either — the same shape as the four before
-it. **The pattern is now well enough evidenced to invert the default:** an unassigned path is not a
-question to be litigated per session, it belongs to **skills** unless it is content (`build`), visual
-(`design`), a verified figure (`facts`), or on the deliberately-unassigned platform list above
-(`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`). Assign it in the
-session that hit it and move on; five sessions have now each spent thought on the same judgement call
-and reached the same answer.
+**Disclosed crossing, 29 Jul 2026.** The system audit edited one comment in `worker/entry.js` — a stale
+pointer at a file that had moved — which is on the deliberately-unassigned list above. Recorded here
+rather than left to be discovered.
 
 **`src/layouts/**` is owned by design.** Not a new precedent — this formalises what two design sessions
 already did in practice, on the same judgement call each time: 28 Jul 2026
@@ -543,16 +547,22 @@ same event to a tool whose output decides what gets built.
   carry context a demand list cannot: what was attempted, what was ruled out, and why. **Close one
   explicitly when its work lands** — a `## Status:` header with the date and the commit SHAs, as
   `handover/HANDOVER-images-astro-assets.md` does. A handover with no closure record is
-  indistinguishable from an open one, and three currently are.
+  indistinguishable from an open one, and **four currently are** (checked 15 Aug 2026):
+  `HANDOVER-facts-cpd-tas.md`, `HANDOVER-image-prompts-2026-08-02.md`, `HANDOVER-stage7-reverify.md`
+  and `HANDOVER-status-board.md`. The one to read first is whichever carries `## Status: OPEN` —
+  `HANDOVER-2026-08-12-session-close.md` as at this date.
 
 ## Human gates
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys to production
   without an explicit go in that session.
 - Stage checkpoints stand: show the stage output and get a go-ahead before starting the next.
 - The improvement pass proposes diffs only. It must never edit `src/integrations/guardrails.ts`, this
-  file's Human gates section, or any Claude Code hook. **No hooks exist today** — `.claude/` holds
-  `commands/`, `skills/` and `settings*.json` only, and hooks are still an ungated Phase-3 candidate in
-  ROADMAP. The clause is written to bind the day one is added, not to describe something present.
+  file's Human gates section, or any Claude Code hook. **No hooks exist today** — verified 15 Aug 2026:
+  neither `.claude/settings.json` nor `.claude/settings.local.json` has a `hooks` key, and `.claude/`
+  holds `commands/`, `skills/`, `launch.json` and `settings*.json`. Hooks are still an ungated Phase-3
+  candidate in ROADMAP. The clause is written to bind the day one is added, not to describe something
+  present. (`package.json`'s `prepare: husky` is a *git* hook chain, not a Claude Code hook, and is
+  platform config no session type owns.)
 - Legal pages (`terms`, `privacy`, `refund`, `contact`) are placed, never drafted or reworded.
 
 ## Git workflow (once the repo exists)

@@ -13,8 +13,8 @@ This section applies when the content is for an **accredited course** delivered 
 | White Card (CPCWHS1001) | QLD, WA, TAS | Blue Dog Training Pty Ltd (RTO 31193) |
 | White Card (CPCWHS1001) | NSW | Upskill Institute Pty Ltd (RTO 45708) |
 | White Card (CPCWHS1001) | ACT | AlertForce Pty Ltd (RTO 91826) |
-| Asbestos Awareness | **All states** | AlertForce Pty Ltd (RTO 91826) |
-| Silica Awareness | **All states** | AlertForce Pty Ltd (RTO 91826) |
+| Asbestos Awareness (11084NAT) | **All states** | AlertForce Pty Ltd (RTO 91826) |
+| Crystalline Silica Exposure Prevention (10830NAT) | NSW, VIC, QLD, TAS, ACT — **WA/SA/NT UNVERIFIED, state nothing** | AlertForce Pty Ltd (RTO 91826) |
 | ~~Owner Builder (nationally recognised)~~ | ~~NSW~~ | ⛔ **ON HOLD — no RTO partner in force.** Intended: Upskill Institute Pty Ltd (RTO 45708). Unsigned, and the five units are not on its scope. Do not use. |
 
 **Rule:** Always substitute the correct RTO name and number for the state. Never use Blue Dog wording on an ACT page or AlertForce wording on a QLD/WA/TAS page.
@@ -47,7 +47,7 @@ AlertForce example: `Training delivered by AlertForce (RTO 91826) · Enrolled th
 #### Sitewide compliance footer (used on all pages including non-course pages)
 
 **Sitewide Footer Disclosure** *(sitewide — appears on all pages including non-course pages; separate from the 7 per-course-page locations)*
-> ABE Education Pty Ltd (ABN 64 125 455 272) is not a Registered Training Organisation (RTO). Nationally recognised qualifications — including White Card (CPCWHS1001), Asbestos Awareness, and Silica Awareness training, and the NSW Owner Builder course — are delivered in partnership with Blue Dog Training Pty Ltd (RTO 31193) for QLD, WA and TAS, AlertForce Pty Ltd (RTO 91826) for ACT, and Upskill Institute Pty Ltd (RTO 45708) for the NSW White Card and NSW Owner Builder. All are registered training organisations regulated by the Australian Skills Quality Authority (ASQA). The QLD, WA, TAS and ACT Owner Builder courses and all CPD courses are delivered directly by ABE Education under state government approvals.
+> ABE Education Pty Ltd (ABN 64 125 455 272) is not a Registered Training Organisation (RTO). Nationally recognised qualifications — including White Card (CPCWHS1001), Asbestos Awareness (11084NAT), and Crystalline Silica Exposure Prevention (10830NAT) training, and the NSW Owner Builder course — are delivered in partnership with Blue Dog Training Pty Ltd (RTO 31193) for QLD, WA and TAS, AlertForce Pty Ltd (RTO 91826) for ACT, and Upskill Institute Pty Ltd (RTO 45708) for the NSW White Card and NSW Owner Builder. All are registered training organisations regulated by the Australian Skills Quality Authority (ASQA). The QLD, WA, TAS and ACT Owner Builder courses and all CPD courses are delivered directly by ABE Education under state government approvals.
 
 **5. FAQ (3 Mandatory Questions)**
 The FAQ section must include these three questions (wording may be adapted to match the page tone):

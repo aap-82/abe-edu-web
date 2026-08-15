@@ -75,7 +75,9 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 
 **Badge text:** "Delivered in partnership with AlertForce (RTO 91826)"
 **Badge type:** Accreditation / Partnership disclosure
-**Status:** ✅ Verified — ACT White Card, Asbestos Awareness, Silica Awareness
+**Status:** ✅ Verified — ACT White Card, Asbestos Awareness (11084NAT), Crystalline Silica Exposure
+Prevention (10830NAT). Codes read at source 3 Aug 2026; **silica is not national and there is no
+course called "Silica Awareness"** — see `kb/register/alertforce-scope.md` before naming either.
 
 **Verification source:** training.gov.au RTO search — AlertForce, RTO 91826
 **Verification URL:** https://training.gov.au/Organisation/Details/91826
@@ -86,7 +88,7 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 |------|-----------|----------|
 | White Card ACT (`/white-card-act`) | 🔴 Yes — ASQA compliance | Hero subheading, accreditation section, below CTA, footer |
 | Asbestos Awareness ACT (when page created) | 🔴 Yes — ASQA compliance | Same 4 positions |
-| Silica Awareness ACT (when page created) | 🔴 Yes — ASQA compliance | Same 4 positions |
+| Crystalline Silica 10830NAT, ACT (when page created) | 🔴 Yes — ASQA compliance | Same 4 positions |
 | White Card Hub (`/white-card`) | 🟡 Should | ACT section reference (alongside Blue Dog for other states) |
 | Accreditation page (`/accreditation`) | 🔴 Yes | Section 1: RTO Partnerships |
 | Footer (site-wide) | 🔴 Yes | Accreditation column (already present) |
@@ -95,7 +97,7 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 - ❌ White Card QLD, WA, TAS pages (these use Blue Dog Training, not AlertForce)
 - ❌ Owner Builder or CPD pages (not delivered through AlertForce)
 
-**Correct wording (ACT courses — White Card, Asbestos Awareness, Silica Awareness):**
+**Correct wording (ACT courses — White Card, Asbestos Awareness, Crystalline Silica Exposure Prevention):**
 - Full: "This course is delivered in partnership with AlertForce (RTO 91826), a nationally registered training organisation. Your Statement of Attainment will be issued by AlertForce."
 - Short (hero/badge strip): "Delivered with AlertForce (RTO 91826)"
 - Schema: `provider` → `EducationalOrganization` with `identifier: "RTO 91826"`
@@ -128,7 +130,7 @@ Each badge entry includes: what the badge says, where it can appear, the verific
 
 **Cannot appear on:**
 - ❌ White Card QLD, WA, TAS pages (Blue Dog Training) or White Card ACT (AlertForce)
-- ❌ ACT Asbestos Awareness / Silica Awareness pages (AlertForce)
+- ❌ ACT Asbestos Awareness / Crystalline Silica pages (AlertForce)
 - ❌ QLD, WA, TAS, ACT Owner Builder pages (delivered directly by ABE under state approval — not RTO-partnered)
 - ❌ CPD pages (delivered directly by ABE)
 

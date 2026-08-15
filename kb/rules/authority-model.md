@@ -21,7 +21,7 @@ This model is **stronger for E-E-A-T** than a single-RTO model because it provid
 ```
 What type of course is this page about?
 │
-├── ASQA-accredited course? (White Card, Asbestos Awareness, Silica Awareness, NSW Owner Builder)
+├── ASQA-accredited course? (White Card, Asbestos Awareness, Crystalline Silica, NSW Owner Builder)
 │   ├── YES → Provider = Blue Dog Training (RTO 31193), AlertForce (RTO 91826), or Upskill Institute (RTO 45708)
 │   │         recognizedBy = ASQA
 │   │         credentialCategory = "Statement of Attainment"
@@ -34,8 +34,9 @@ What type of course is this page about?
 │       ├── White Card TAS → Blue Dog Training (RTO 31193)
 │       ├── White Card ACT → AlertForce (RTO 91826)
 │       ├── White Card NSW → Upskill Institute (RTO 45708)
-│       ├── Asbestos Awareness (ALL STATES) → AlertForce (RTO 91826)
-│       ├── Silica Awareness (ALL STATES) → AlertForce (RTO 91826)
+│       ├── Asbestos Awareness 11084NAT (ALL STATES) → AlertForce (RTO 91826)
+│       ├── Crystalline Silica 10830NAT (NSW/VIC/QLD/TAS/ACT; WA/SA/NT UNVERIFIED)
+│       │                                             → AlertForce (RTO 91826)
 │       └── NSW Owner Builder → ⛔ ON HOLD — partnership not in force. Do not build.
 │                                  See "NSW Owner Builder" below before writing anything.
 │
@@ -130,9 +131,10 @@ What type of course is this page about?
 **QLD, WA, TAS — Blue Dog Training (RTO 31193):**
 > "This course is delivered in partnership with Blue Dog Training (RTO 31193), a nationally registered training organisation. Your Statement of Attainment and White Card will be issued by Blue Dog Training."
 
-**AlertForce (RTO 91826) — ACT White Card, and Asbestos / Silica Awareness in ALL states:**
-(The White Card partnership is ACT-only. Asbestos and Silica Awareness are resold nationally —
-corrected 23 July 2026, see §"Asbestos and Silica" below.)
+**AlertForce (RTO 91826) — ACT White Card, plus asbestos (11084NAT) and crystalline silica (10830NAT):**
+(The White Card partnership is ACT-only. Asbestos is national; silica's delivery notification covers
+NSW/VIC/QLD/TAS/ACT only, with WA/SA/NT UNVERIFIED — see §"Asbestos and silica" below before stating
+availability anywhere.)
 > "This course is delivered in partnership with AlertForce (RTO 91826), a nationally registered training organisation. Your Statement of Attainment will be issued by AlertForce."
 
 **NSW — Upskill Institute (RTO 45708):**
@@ -204,24 +206,40 @@ the WHS Regulation 2017 while the General Conditions cite 2025):
 }
 ```
 
-### Asbestos and Silica Awareness — national resell, in force (23 Jul 2026)
+### Asbestos and silica — national resell, amended by the scope reading of 3 Aug 2026
 
-**ABE resells AlertForce's (RTO 91826) Asbestos Awareness and Silica Awareness courses in every
-state**, confirmed by Andrey 23 July 2026. This corrects an ACT-only scoping that was recorded in
-five places across the kb and skill, which came from the ACT White Card partnership and was never
-true of the awareness courses. The White Card partnership with AlertForce **is** ACT-only; do not
-re-merge the two.
+**ABE resells two AlertForce (RTO 91826) accredited courses**, confirmed as a commercial arrangement
+by Andrey 23 July 2026. That corrected an ACT-only scoping recorded in five places across the kb and
+skill, which came from the ACT White Card partnership and was never true of these courses. The White
+Card partnership with AlertForce **is** ACT-only; do not re-merge the two.
 
-They are **nationally recognised and carry a course code**, so the ASQA disclosure framework
-applies in full: name AlertForce and RTO 91826, "nationally recognised" is accurate, Statement of
-Attainment is issued by AlertForce, and ABE is the publisher and enrolment partner, never the RTO.
+**⚠ Two things this section used to say are now known to be wrong.** Codes were read at source on
+3 August 2026 (`kb/register/alertforce-scope.md`, `training.gov.au/Organisation/Details/91826` in a
+browser). They are **no longer UNVERIFIED**, and the reading did not confirm "every state":
 
-**⚠ The course codes are UNVERIFIED and must not be written from memory.** Andrey confirmed codes
-exist; nobody has yet recorded which. Before any page states one, open
-`training.gov.au/Organisation/Details/91826` **in a browser** (WebFetch cannot — the register is a
-client-rendered SPA) and confirm the exact code sits on AlertForce's current scope. That is the
-step that was skipped for NSW Owner Builder, where the RTO was real, the partnership was assumed,
-and none of the five required units was actually on scope.
+| Code | Title | Delivery notification |
+|---|---|---|
+| **11084NAT** | Course in Asbestos Awareness | **NATIONAL** — confirmed as claimed |
+| **10830NAT** | Course in Crystalline Silica Exposure Prevention | **NSW, VIC, QLD, TAS, ACT only** |
+
+1. **"Silica Awareness" is not a course.** No course of that name sits on AlertForce's scope. The
+   product is **10830NAT, "Course in Crystalline Silica Exposure Prevention"**. Use that title and
+   code; never the old label.
+2. **"In every state" is not established for silica.** WA, SA and NT are absent from 10830NAT's
+   delivery notification. Whether that is a hard delivery bar or a notification-only gap was **not**
+   settled — treat those three states as **UNVERIFIED, not confirmed either way**, and neither state
+   nor deny availability there until it is. Asbestos (11084NAT) is genuinely national.
+
+**Hold two claims apart here.** Andrey's 23 Jul confirmation is about ABE's *commercial* resell
+arrangement and stands. The delivery notification is about AlertForce's *regulatory* entitlement to
+deliver, per RTO and per state. A commercial intent to sell nationally does not create a scope entry,
+and the limit sits on **AlertForce's own scope entry**, not on the courses' national accreditation
+(10830NAT's own record shows no restrictions). This is the NSW Owner Builder distinction exactly: the
+RTO was real, the partnership assumed, and none of the five required units was on *that RTO's* scope.
+
+Both are **nationally recognised and carry a course code**, so the ASQA disclosure framework applies
+in full: name AlertForce and RTO 91826, "nationally recognised" is accurate, Statement of Attainment
+is issued by AlertForce, and ABE is the publisher and enrolment partner, never the RTO.
 
 **Do not confuse these with the TAS CBOS asbestos CPD course.** ABE has both, and they are
 different products under different authority models: the CBOS one is a Tasmanian CPD point, these

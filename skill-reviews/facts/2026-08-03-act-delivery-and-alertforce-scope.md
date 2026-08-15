@@ -106,12 +106,17 @@ recorded here only so the next session does not re-check it.
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [skills] **CLAUDE.md's "Asbestos and silica" section and `kb/rules/authority-model.md` both name
+- ~~[skills] **CLAUDE.md's "Asbestos and silica" section and `kb/rules/authority-model.md` both name
   "Silica Awareness" as a course AlertForce resells nationally.** Neither is accurate on today's
   reading: the actual course is **10830NAT, "Course in Crystalline Silica Exposure Prevention"**, and
   its delivery notification on AlertForce's scope covers **NSW, VIC, QLD, TAS, ACT only** — not WA, SA
   or NT. See `kb/register/alertforce-scope.md`. Reconcile the naming and the "every state" claim before
-  any page or schema is built for this product.
+  any page or schema is built for this product.~~ **Closed 15 Aug 2026** by
+  `skill-reviews/skills/2026-08-15-claude-md-currency-audit.md`. Reconciled in five files, not the two
+  filed: `CLAUDE.md`, `kb/rules/authority-model.md` (four sites), `kb/rules/asqa-disclosure-framework.md`
+  (including the published disclosure paragraph), and the skill's `page-type-engine.md` +
+  `badge-inventory.md`. One site was **not** reconciled and is re-filed as `[facts]` in that review:
+  `kb/register/cbos-tas-reference.md:145-147`, which is register-owned and a skills session may not edit.
 - [facts] **Confirm with AlertForce or ASQA whether "Delivery notification" absent for a state is a hard
   delivery bar or an administrative gap.** Needed before deciding whether the silica course can ever be
   sold to WA/SA/NT candidates, or whether AlertForce would need to add those states first.

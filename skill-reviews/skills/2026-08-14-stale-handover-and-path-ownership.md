@@ -149,11 +149,13 @@ cliff at all. The comment in the code now carries those numbers and not the expe
 threshold justified by a measurement of something else is the exact failure this session's other half
 is about.
 
-**Precision is roughly 75%, stated rather than implied.** The top eight were inspected: six genuine
-closures, two coincidences (`CourseLayout.astro`'s hardcoded `courseMode` matching a commit that
-merely shipped a White Card page). Raising the bar to 3 was tried and does not help — 8 candidates at
-the same ~75%, losing recall for nothing. So the output says "check each and strike it if closed" and
-never asserts closure.
+**Precision: I first wrote ~75% here, and it is 53%. See section 8, which supersedes this paragraph.**
+The 75% came from inspecting the top eight of a ranked list; grading all fifteen gives 8 of 15. The
+two coincidences I did find were real (`CourseLayout.astro`'s hardcoded `courseMode` matching a commit
+that merely shipped a White Card page), there were simply five more further down. I also wrote that
+raising the bar to 3 "does not help", which the full triage refutes: it lifts precision to 67% and
+costs four genuine closures. Kept at 2 for recall. The output says "check each and strike it if
+closed" and never asserts closure, which is the part that held up.
 
 ## 7. `check-claims` §7 widened, and it caught a live drift on the first run
 
@@ -236,7 +238,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   the item's subject, or a diff against the register's own "verified" dates — but it was not obvious
   in one session and a wrong heuristic here is worse than a blunt one, because a filter that quietly
   drops a live item is the failure this whole thread is about. Revisit only with a concrete idea, not
-  on principle.~~ sharpened 14 Aug 2026 and the item is answered: scoring against the subjects of commits that touched the named file since filing takes 75 down to 15 at roughly 75% precision, and it found a real closure on its first run (check-links PLANNED, filed twice on 4 Aug, fixed 7 Aug, open ever since). The concrete idea this item asked for turned out to exist. Threshold measured on the tool own data after a first measurement of the wrong population; see section 6.
+  on principle.~~ sharpened 14 Aug 2026 and the item is answered: scoring against the subjects of commits that touched the named file since filing takes 75 down to 15 at a measured 53% precision (all fifteen triaged, section 8), and it found a real closure on its first run (check-links PLANNED, filed twice on 4 Aug, fixed 7 Aug, open ever since). The concrete idea this item asked for turned out to exist. Threshold measured on the tool own data after a first measurement of the wrong population; see section 6.
 - ~~[skills] `check-claims` §7 exempts **7 of 20** scripts as "not a check". A third of the directory
   excused rather than documented. Worth deciding whether utilities want their own short paragraph in
   SYSTEM.md §5 so they are described somewhere, rather than only named in a list of things the rule
