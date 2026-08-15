@@ -386,6 +386,26 @@ console.log(findings.fail.length
   ? '  Fix the failures before building a page. Every one is either a wrong fact or a broken pointer.\n'
   : '  No failures. Warnings are work to schedule, not blockers.\n');
 
+/* --strict, added 16 Aug 2026, so this can be a CI gate rather than a report.
+ *
+ * WITHOUT IT THIS SCRIPT ALWAYS EXITS 0, which is correct for the pre-flight: a session reads the
+ * scorecard and decides, and a non-zero exit there would just make `node scripts/system-health.mjs`
+ * awkward to run. It is NOT correct for CI. Wiring an always-zero script into a workflow produces a
+ * gate that silently cannot fail - the same defect as this workflow's missing push trigger (13 Aug)
+ * and the `_comment_tbt` key lhci read as an audit name, both of which looked green while asserting
+ * nothing.
+ *
+ * ESCALATES FAILs ONLY, matching check-claims and check-positions. Warnings stay warnings: there are
+ * ~40 of them today, every one real work rather than a defect, and a gate that reddens on them would
+ * be turned off within a week.
+ *
+ * WHAT IT CATCHES THAT NOTHING ELSE IN CI DOES: check-pipeline section 4, a page committed later than
+ * its Stage 7 artefact. That fired four times on 16 Aug alone and twice reached main, every time
+ * caught by a human running the pre-flight or by the post-merge push - i.e. after the merge that
+ * introduced it. This moves those catches before the merge.
+ */
+const STRICT = process.argv.includes('--strict');
+
 // History. Written last so a failure here cannot cost the reader the scorecard above.
 rec.ts = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 rec.fail = findings.fail.length;
@@ -403,3 +423,8 @@ try {
   // and letting it colour the scorecard would be the tail wagging the dog.
   console.log(`  NOTE  Could not append to ${LOG} (${e.code ?? e.message}). The check above is unaffected.\n`);
 }
+
+// Last statement in the file, deliberately: the scorecard and the history log both complete first,
+// so a strict run still leaves the same record and the same readable output as a plain one. The only
+// difference is the exit code.
+if (findings.fail.length && STRICT) process.exit(1);

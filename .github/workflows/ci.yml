@@ -29,7 +29,18 @@ jobs:
     steps:
       # v5 on both. The v4 tags run on Node 20, which is being removed from runners, and this
       # workflow was emitting a deprecation warning on every PR.
+      #
+      # fetch-depth: 0 ADDED 16 Aug 2026, and it is load-bearing rather than tidiness. The default
+      # is a SHALLOW clone (depth 1), and `check-pipeline` section 4 - the check the system-health
+      # step below exists to bring forward - decides whether a page is newer than its Stage 7
+      # artefact with `git log -1 --format=%ct -- <file>` per file. On a depth-1 clone that returns
+      # empty for every file the tip commit did not touch, so the comparison degrades to "no data,
+      # nothing to report" and the check passes by knowing nothing. That is the precise failure
+      # this workflow has now hit twice by other routes (the missing push trigger, the lhci
+      # `_comment_tbt` key): a gate that is green because it is not looking.
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -84,6 +95,31 @@ jobs:
         run: |
           node scripts/check-claims.mjs --strict
           node scripts/check-positions.mjs --strict
+
+      # ADDED 16 Aug 2026. Until now nothing that reads the PIPELINE could block a merge, and the
+      # gap had a measured cost: on 16 Aug alone, FOUR content files were committed without the
+      # Stage 7 note that certifies them, and TWO of those reached `main`. Every one was caught by a
+      # human running the pre-flight, or by `health.yml` after the push - i.e. after the merge that
+      # introduced it. `check-pipeline` section 4 is the check in question, and it lives inside
+      # `system-health`, which ran nowhere near a pull request.
+      #
+      # Runs AFTER the build on purpose: `check-og-cards` reads `dist/`, and several of the other
+      # sub-checks read the built output rather than the source.
+      #
+      # --strict is what makes this a gate rather than a report. Without it `system-health` ALWAYS
+      # exits 0 - correct for the pre-flight, where a session reads the scorecard and decides, and
+      # wrong here, because wiring an always-zero script into a workflow produces a gate that
+      # silently cannot fail. It escalates FAILs only and ignores warnings, matching check-claims
+      # and check-positions above; there are ~40 warnings today, all real work rather than defects,
+      # and a gate that reddened on them would be switched off within a week.
+      #
+      # Verified in BOTH directions before wiring, on the same principle the strict block above
+      # records: with a deliberate dangling reference present, `--strict` exits 1 while the plain
+      # run still exits 0; with the tree clean, both exit 0.
+      #
+      # Note this makes the job's `fetch-depth: 0` above a hard requirement, not an optimisation.
+      - name: System health
+        run: node scripts/system-health.mjs --strict
 
       # IMPORTANT: the npm package literally named "lhci" is an unrelated, unofficial
       # package (it just prints a greeting) - a trap discovered while wiring this job up.
