@@ -49,13 +49,15 @@ const PENDING = new Map([
   // is empty, make the gate absolute" cutover state permanently unreachable. The two legacy URLs
   // that pointed at it (/special-tas-electrician-cpd-bundle, /special-tas-plumber-cpd-bundle) now
   // 301 to /cpd-electrical-tas and /cpd-plumbing-tas, both already pending above.
-  // Built and deployed. Two of its three gates have since cleared: the buyUrl path was corrected
-  // 24 Jul 2026 (the product id was always current, only the path was wrong) and Stage 7 has been
-  // re-verified (`check-pipeline` reports 07 no older than the page source). What remains is the
-  // standing external blocker the buyUrl inherits - /payment is served by LearnWorlds on today's
-  // apex, and this build replaces that apex at cutover. Remove BOTH this line and the noindex flag
-  // together, and only once that decision lands.
-  ['/cpd-building-tas', 'BUILT; noindex pending the learn. subdomain decision (buyUrl + Stage 7 both cleared)'],
+  // /cpd-building-tas REMOVED from this list 16 Aug 2026, and its three gates are worth recording
+  // because the entry outlived two of them. (1) The buyUrl path was corrected 24 Jul 2026 - the
+  // product id was always current, only the path was wrong. (2) Stage 7 was re-verified; the page
+  // comment went on naming it as the live gate for weeks after it cleared, and a build session
+  // acted on that stale instruction on 16 Aug (kb/mistakes-log.md row 1, 5th sighting). (3) The
+  // standing external blocker the buyUrl inherits - whether /payment survives on the apex at
+  // cutover - was CONFIRMED RESOLVED by Andrey on 16 Aug 2026: the LearnWorlds `learn.` subdomain
+  // ticket is settled and the payment path is not a blocker. All three closed, so the entry and
+  // the page's noindex flag were removed together, in the same change, as this comment required.
   // Added 1 Aug 2026, and it records an open decision rather than a build step.
   //
   // The page was ALWAYS a noindex-worthy dead end for equity; it just did not say so. Until this

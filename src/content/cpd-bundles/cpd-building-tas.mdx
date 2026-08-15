@@ -18,40 +18,39 @@
 #
 # Stored as a PATH, not the absolute URL Andrey supplied. `guardrails.ts` hard-blocks any <a>
 # pointing at https://www.abeeducation.edu.au — a preview build must never send a buyer to the
-# live domain — and same-origin, the path is equivalent. OPEN QUESTION IT INHERITS: /payment is
-# served by LearnWorlds on the apex today, and this build replaces the apex at cutover, so
-# whether /payment survives there depends on the LearnWorlds `learn.` subdomain decision that
-# is still the standing external blocker. If checkout moves to learn.abeeducation.edu.au this
-# path must change with it. Not guessed here.
+# live domain — and same-origin, the path is equivalent. THE QUESTION IT INHERITED IS CLOSED:
+# /payment is served by LearnWorlds on the apex today and this build replaces the apex at cutover,
+# so whether the path survived depended on the LearnWorlds `learn.` subdomain decision. Andrey
+# CONFIRMED that ticket resolved on 16 Aug 2026 and directed that the payment path is not to be
+# treated as a blocker. Keep the path as-is.
 #
-# NOINDEX STAYS — but NOT for the reason this comment used to give. Corrected 16 Aug 2026 by a
-# build session that tried to publish the page on this comment's own instruction and was stopped
-# by a check.
+# PUBLISHED 16 Aug 2026 — `noindex` removed, and the three gates it stood on are recorded here
+# rather than deleted with it, because two of them outlived their own resolution and the third
+# was mis-stated for weeks.
 #
-# STAGE 7 IS CLEARED. This comment previously read "re-run Stage 7, commit the new 07, THEN remove
-# this line", citing 651cdbd (removed a false CBOS claim) and 1c4bc4a (house-style pass) as having
-# outrun the verification. The 25 Jul re-run supersedes the 23 Jul one and covers both, and each of
-# the four commits since carries its own dated re-verification note in 07-verification.md.
-# `check-pipeline` §4 reports 07 no older than the page source.
+#   1. buyUrl path — cleared 24 Jul 2026 (see the note above).
+#   2. Stage 7 — cleared. The 25 Jul re-run supersedes the 23 Jul one, and each commit since
+#      carries a dated re-verification note in 07-verification.md. This comment nevertheless went
+#      on reading "re-run Stage 7 ... THEN remove this line", naming a cleared gate as the live
+#      one, and on 16 Aug a build session acted on that instruction and removed the flag. Only
+#      `check-redirect-targets.mjs` failing the build stopped it. Recorded as kb/mistakes-log.md
+#      row 1, 5th sighting — the first there in the imperative mood.
+#   3. The `learn.` subdomain decision — confirmed resolved by Andrey, 16 Aug 2026, as above.
 #
-# Those four were re-read individually rather than taken on their notes, because one of them
-# (1c26fab) invented two false regulatory claims on sibling pages while describing itself as a
-# mechanical split. On this page it rewrote three step bodies. The only one carrying a new
-# assertion is "You confirm your CPD to CBOS yourself", and it is register-backed twice over:
-# cbos-tas-reference.md:171 puts recording responsibility on the licence holder, and :35 has the
-# licence holder confirming CPD at renewal. No invented claim on this page.
+# The matching PENDING entry in `scripts/check-redirect-targets.mjs` was removed in the SAME
+# change, as both that file and this one required. Removing either alone fails the build.
 #
-# WHAT ACTUALLY HOLDS THE FLAG is the standing external blocker the buyUrl inherits, described in
-# the buyUrl note above: /payment is served by LearnWorlds on today's apex, this build replaces
-# that apex at cutover, and whether the path survives depends on the `learn.` subdomain decision.
-# The migration plan calls that "the cutover's only external dependency" and it is an [AP] item.
-# An indexable page whose buy button 404s is worse than a noindexed one that converts nobody.
+# One claim was re-read at source rather than taken on its note before publishing, because commit
+# 1c26fab invented two false regulatory claims on sibling pages while describing itself as a
+# mechanical split. On this page it rewrote three step bodies; the only new assertion is "You
+# confirm your CPD to CBOS yourself", register-backed twice over — cbos-tas-reference.md:171 puts
+# recording responsibility on the licence holder, and :35 has the licence holder confirming CPD at
+# renewal. No invented claim on this page.
 #
-# DO NOT REMOVE THIS LINE ALONE. `scripts/check-redirect-targets.mjs:53-58` carries a matching
-# PENDING entry and fails the build if this flag goes without it - verified 16 Aug, build exit 1.
-# That file is skills-owned, so publishing this page is a two-file change a build session cannot
-# make by itself: it needs the decision first, then a session that may write both.
-noindex: true
+# Removing the flag also puts the page in the sitemap (derived from frontmatter since 15 Aug) and
+# ends its exemption from the orphan check. /cpd-tas is indexable and CTAs into this page
+# (cpd-tas.astro:92), so it is not an orphan. NOTE the site is still behind the host-level
+# X-Robots-Tag on workers.dev until cutover, so this readies the page rather than exposing it.
 title: "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499"
 description: "Twelve CBOS-approved CPD courses for Tasmanian builders, $499. Meets a builder's twelve-point year in full, online and self-paced, about ten hours."
 canonical: "https://www.abeeducation.edu.au/cpd-building-tas"
