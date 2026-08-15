@@ -35,7 +35,20 @@ noindex: true
 # products at three different point counts, none of them the current eleven-point 2026 bundle, and
 # the export carries titles only with no ids. Pointing a buyer at any of them would sell the wrong
 # product at the wrong point count. A placeholder that 404s is the safer failure.
-# REMOVE noindex ONLY when a real id lands here and Stage 7 has been re-run against it.
+# REMOVING noindex TAKES MORE THAN A REAL ID. This line used to read "REMOVE noindex ONLY when a
+# real id lands here and Stage 7 has been re-run against it", which names two necessary conditions
+# as if they were sufficient. Corrected 16 Aug 2026, after the identical wording on
+# cpd-building-tas.mdx led a build session to remove that page's flag on a cleared Stage 7; only
+# check-redirect-targets.mjs failing the build (exit 1) stopped it. All four conditions:
+#   1. A real LearnWorlds checkout id, replacing the TBC placeholder above.
+#   2. Stage 7 re-run against the page as it then stands.
+#   3. The `learn.` subdomain decision. A real id does not settle this: /payment is served by
+#      LearnWorlds on today's apex and this build replaces that apex at cutover, so the PATH may
+#      need to change even when the ID is right. The migration plan calls it the cutover's one
+#      external [AP] dependency, and check-links already warns on this page's path.
+#   4. The PENDING entry at scripts/check-redirect-targets.mjs:42, removed in the SAME change.
+#      It fails the build if this flag goes without it. That file is skills-owned, so publishing
+#      this page is a two-file change a build session cannot make by itself.
 buyUrl: "/payment?product_id=TBC-tas-electrician-cpd-bundle-2026&type=learning_program"
 title: "TAS Electrician CPD Bundle - 11 CBOS-Approved Points, $449"
 description: "Eleven CBOS-approved CPD courses for Tasmanian electricians, $449. Eleven of your twelve annual points, online and self-paced, about six hours."

@@ -262,3 +262,39 @@ so this closes only once committed.
 **Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
 re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
 build-owned; the crossing is recorded here rather than only in the session transcript.
+
+
+---
+
+## Re-verification note, 16 August 2026 — noindex comment corrected (commit a62bf78)
+
+**What changed: one frontmatter COMMENT, and nothing else.** The block above `noindex: true` read
+"NOINDEX STAYS FOR NOW ... Re-run Stage 7, commit the new 07, THEN remove this line", naming Stage 7
+as the only gate on the flag. Stage 7 is in fact cleared; what holds the flag is the unresolved
+LearnWorlds `learn.` subdomain decision, recorded in `scripts/check-redirect-targets.mjs:53-58`. The
+comment now says so, and says the flag cannot be removed without that file's PENDING entry going in
+the same change.
+
+**The flag itself is untouched.** `noindex: true` is unchanged, so the page's index signal, its
+absence from the sitemap and its exemption from the orphan check are all exactly as before.
+
+**Why no re-audit — measured, not asserted.** The page was built from this file's pre-change and
+post-change versions and the rendered HTML compared:
+
+| Page | `dist/` SHA-256 (first 16) before | after |
+|---|---|---|
+| `/cpd-building-tas` | `fd4a4027b24023dc` | `fd4a4027b24023dc` |
+
+Byte-identical. A comment inside YAML frontmatter renders nothing, and this is the proof rather than
+the claim. No section, answer capsule, claim, figure, price or source line was added, removed or
+re-ordered; no prose changed. So `abe-readability-audit`, `final-check` and `ai-detector` were **not
+re-run**, and that is stated here rather than silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 compares git commit times and fails a page whose
+source is committed later than its Stage 7 artefact. It fired correctly on this page for the commit
+above — correctly, because the check cannot know a diff was comment-only, and a gate that guessed
+would be worth less than one that asks. Closes only once committed.
+
+**Worth carrying:** editing a content file's COMMENTS costs a Stage 7 note, the same as editing its
+copy. That is the gate working as designed, not a false positive, and it caught all three CPD bundle
+pages at once.
