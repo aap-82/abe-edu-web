@@ -252,7 +252,7 @@ Tag every item: [skills] | [design] | [facts] | [build]
   "Terms and Conditions 2022" document, and the legal effect of training.gov.au's "Delivery
   notification" field. None blocks a published claim.
 
-- [skills] `kb/rules/authority-model.md` contradicts `kb/register/alertforce-scope.md` on the silica
+- ~~[skills] `kb/rules/authority-model.md` contradicts `kb/register/alertforce-scope.md` on the silica
   product, and the register is the one that was read at source. The rule doc names "Silica Awareness
   (ALL STATES)" and says ABE resells it "in every state"; the register records that no course of that
   name exists on AlertForce's scope (the nearest is **10830NAT, Course in Crystalline Silica Exposure
@@ -260,4 +260,9 @@ Tag every item: [skills] | [design] | [facts] | [build]
   for `CLAUDE.md`'s "Asbestos and silica" section. Filed before as a naming mismatch; it is now a
   jurisdiction error too. No page is affected — no asbestos or silica page is built — so this gates a
   future page rather than correcting a live claim. Fix the rule doc to point at the register rather
-  than restating it, the way the delivery-mode files were fixed on 14 Aug.
+  than restating it, the way the delivery-mode files were fixed on 14 Aug.~~ fixed 15 Aug 2026 by
+  `fd01e97` ("reconcile the AlertForce silica naming and scope in five files"), which went further
+  than this item asked: `kb/rules/authority-model.md` now opens with **"Silica Awareness" is not a
+  course** rather than merely dropping the ALL STATES claim, and the reconciliation reached
+  `asqa-disclosure-framework.md` and two skill references as well. Verified before striking: no
+  "Silica Awareness (ALL STATES)" string remains.
