@@ -210,6 +210,16 @@ h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);font-weight:600;}
 a{color:var(--ink);}
 ::selection{background:var(--maroon);color:#fff;}
 :focus-visible{outline:2px solid var(--maroon);outline-offset:3px;}
+/* FOCUS RING ON DARK GROUNDS, 15 Aug 2026. The maroon ring is 10.4:1 on the warm ramp and fails
+   outright on ink: measured 1.59:1 against --ink (#1a1a1a), where WCAG 1.4.11 requires 3:1 for a
+   non-text indicator. That is every link in the footer - 20 of them - plus anything focusable in a
+   .bg-dark band, i.e. the keyboard user's only "where am I" signal disappearing on the darkest
+   surface on the site.
+   Gold is not a new decision, it is the one DESIGN.md already made: "on ink sections, switch the
+   accent to Attestation Gold". Measured 7.86:1 on ink, so it clears 3:1 with room. Only the COLOUR
+   changes - width, style and offset stay identical, so the indicator a user has learned on the rest
+   of the page is the same shape here. */
+footer :focus-visible, .bg-dark :focus-visible{outline-color:var(--gold);}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
 .num{font-variant-numeric:tabular-nums;}
 .sec{padding:var(--s-3xl) 0;scroll-margin-top:calc(var(--head-h) + var(--waynav-h) + 8px);}
@@ -625,7 +635,32 @@ p strong{color:var(--ink);font-weight:600;}
    every price on one baseline across the row instead of floating wherever its own blurb ends. */
 .hub-card{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:6px;padding:var(--s-lg);background:var(--paper);text-decoration:none;color:inherit;transition:border-color .18s,transform .18s;}
 a.hub-card:hover{border-color:var(--ink);transform:translateY(-2px);}
-.hub-card.is-soon{opacity:.55;}
+/* A coming-soon card recedes by SURFACE, not by `opacity:.55`, which is what this rule was until
+   15 Aug 2026. Group opacity composites the whole card - border, heading, body, label - over the
+   section ground, and getComputedStyle does not show it, so every contrast figure anyone had ever
+   quoted for this card was the authored one. Measured on /cpd (ground --paper-alt), authored vs
+   what a reader actually sees:
+     .hc-state --maroon      10.95 -> 3.70      .hc-title --ink        17.40 -> 4.00
+     .hc-desc  --ink-3        8.86 -> 2.80      .hc-soon  --slate-light 2.81 -> 1.69
+   So the card's own TITLE and DESCRIPTION were failing AA, not just the muted label - and those use
+   --ink and --ink-3, tokens under no restriction at all. The 1.4.3 inactive-component exemption
+   does not rescue that: it covers the disabled control's own label, and a card naming a product,
+   its points and its price is content the reader is meant to read.
+   Note what this rule is NOT. It is not the --slate-light swap an audit will keep proposing for
+   `.hc-soon`: --slate-light there is deliberate and documented at the token block above, which
+   names hub-card "Soon" states as its one permitted use. Swapping it to --slate under the old
+   opacity would have measured 2.4:1 - still failing - and left .hc-desc's 2.8:1 exactly where it
+   was. The token was never the defect.
+   --paper-grey is the file's one neutral surface (see its token comment): cool against the warm
+   ramp, so the card reads as visibly not-live beside its white siblings, and the only grey that
+   clears AA for --slate. Nothing here is a new token or a register change. `.hc-state` drops from
+   --maroon to --slate as well, because maroon is the action accent and an unavailable card is the
+   one card carrying no action. Same shape as BundleCard's `.is-soon{background:var(--paper-alt)}`,
+   which had this right already. The unavailable read never rested on the dimming anyway: a soon
+   card is a <div> not an <a> (HubCard.astro:13), so it has no hover lift and no pointer, it shows
+   "Coming soon" where the arrow disc would be, and it now sits on its own surface. */
+.hub-card.is-soon{background:var(--paper-grey);}
+.hub-card.is-soon .hc-state{color:var(--slate);}
 .hub-card .hc-state{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:12px;}
 .hub-card .hc-title{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;}
 .hub-card .hc-desc{margin:0;font-size:14px;line-height:1.55;color:var(--ink-3);}
@@ -690,6 +725,33 @@ a.hub-card:hover .hc-go{background:var(--maroon);}
 a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
 @media(prefers-reduced-motion:reduce){ a.hub-card:hover .hc-go .arr{animation:none;} }
 .hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md);margin-top:var(--s-lg);}
+/* A FOUR-card hub tiles 2x2, never 3+1. Three pages use this grid and they have different card
+   counts - /cpd 3, /owner-builder-courses 4, /white-card 5 - so a flat column count is right for
+   two of them and wrong for the third: at >=1101px the four-card hub left a 754px void beside a
+   lone fourth card, reading as a missing state rather than a deliberate end of the set.
+   Keyed on the card count via `:has()` rather than a page-level modifier class, because the count
+   is a fact about the grid's own contents that CSS can see, and a class would have to be threaded
+   through every hub template and kept in sync by hand the next time a state is added. `:nth-child(4)
+   :last-child` is exactly "the fourth child is also the last", i.e. exactly four - verified 15 Aug
+   2026 that all three grids contain nothing but `.hub-card` children, so child index IS card index.
+   Structural, not content-sniffing: the caution at `.hc-fact` below about `:has(b)` matching a bold
+   word anywhere does not apply.
+   Deliberately bounded to `min-width:1101px`. Below that the max-width:1100 block already sets two
+   columns and the max-width:720 block collapses to one, and this selector (0,2,0) out-specifies both
+   of those (0,1,0) - unbounded, it would win the mobile collapse and pin the four-card hub at 2-up on
+   a phone. The bound makes the ranges mutually exclusive so source order cannot matter either.
+   Measured at 1144px (the `.wrap` cap, so this covers every viewport >=1200):
+     3-up  365x336 cards, 2 rows, grid 652px, one orphan
+     2x2   560x292 cards, 2 rows, grid 587px, no orphan, blurb ~74 CPL
+     4x1   268x432 cards, 1 row,  grid 432px, no orphan, blurb ~30 CPL
+   4-across is shortest and orphan-free, and was rejected anyway: at 30 CPL the two-sentence blurb
+   ragged badly, and at the 1101px floor the cards are 240x472 - a 1:2 column, the least card-like
+   proportion of the three. 2x2 removes the orphan with the blurb still inside the 45-75 band, gives
+   the shortest cards of the three, and matches what the same page already does just below 1101px,
+   so nothing reflows across that breakpoint. */
+@media(min-width:1101px){
+  .hub-grid:has(> :nth-child(4):last-child){grid-template-columns:repeat(2,1fr);}
+}
 .cancan{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md);margin-top:var(--s-lg);}
 .can-col{border:1px solid var(--rule);border-radius:6px;background:var(--paper);overflow:hidden;}
 /* Header shares the card's own --paper fill. It was --paper-alt, which is exactly the .bg-alt
@@ -1094,6 +1156,31 @@ main > .note{margin-left:max(28px, calc((100% - var(--max)) / 2 + 28px));margin-
    being "1px". Confirmed by measuring the gap between the wrap's top and the table's top (1px)
    before removing it, rather than assumed from the numbers alone. */
 .cmp-wrap{position:relative;margin:var(--s-lg) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+/* STICKY ROW-LABEL COLUMN, added 15 Aug 2026. Measured on /owner-builder-courses at 390px:
+   `.cmp-wrap` is 334px against a 560px table, so 226px (40%) is hidden and ACT and NSW are both
+   entirely off-screen at rest. Swiping right to reach them used to scroll the row labels away with
+   everything else, leaving "$493.59" and "5 yrs" as bare figures with nothing naming them - the
+   classic responsive-table failure, on the comparison instrument this page exists to provide.
+   Both cells already carry opaque backgrounds (--paper-alt on the body labels, --rule-strong on
+   the corner), which sticky requires: a transparent sticky cell shows the scrolled content through
+   itself. z-index keeps them above the data cells they overlap during the scroll; the corner sits
+   one higher again because it overlaps BOTH the sticky column and the sticky-free header row.
+   No effect above the overflow point, and none at all on a table that fits - four of this
+   component's five consumers were checked live for exactly that. */
+.cmp tbody th{position:sticky;left:0;z-index:2;}
+.cmp thead th.cmp-corner{position:sticky;left:0;z-index:3;}
+/* `border-collapse:collapse` hands every border to the table rather than the cell, and a sticky
+   cell is lifted out of that shared border box, so its right-hand rule disappears the moment it
+   overlaps a scrolled cell. This redraws just that one edge on the sticky column. It is a border
+   substitute, not elevation, so it does not engage the Hairline Rule's shadow ban - the value is a
+   hard 1px with zero blur, deliberately, so it cannot read as a lift. */
+.cmp tbody th, .cmp thead th.cmp-corner{box-shadow:1px 0 0 0 var(--rule);}
+/* The scroll affordance. Mono uppercase micro-type, per the Mono Label Rule, rather than the
+   conventional gradient edge-fade: gradients are on this project's anti-reference list and a soft
+   edge would be the only one in a flat hairline system. Hidden by default and revealed only when
+   the script has measured a real overflow, so a table that fits never claims to have more. */
+.cmp-scroll-cue{display:none;margin:calc(var(--s-2xs) * -1) 0 var(--s-md);text-align:right;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);}
+.cmp-wrap[data-scrollable]:not([data-at-end]) + .cmp-scroll-cue{display:block;}
 /* Fixed layout, corner column pinned, the five state columns split the remainder equally.
    Auto layout was sizing each state column to its own widest cell (measured: WA 155px, TAS
    161px, NSW/QLD/ACT 187px, a ~20% spread with no reason behind it beyond which word happened to
@@ -1318,10 +1405,32 @@ footer .f-meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;
 footer .f-sources{padding-bottom:var(--s-xl);margin-bottom:var(--s-xl);border-bottom:1px solid rgba(255,255,255,.14);}
 footer .srclist{list-style:none;padding:0;margin:var(--s-sm) 0 0;display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;max-width:820px;}
 footer .srclist li{font-size:13px;}
-footer .srclist a{color:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.2);}
+/* TAP TARGETS, 15 Aug 2026. Footer links rendered 18px tall — the bare line box of 13px text — so
+   18 of them sat under the 24x24 floor, the densest cluster of undersized targets on the site.
+   Vertical padding on an INLINE element is the fix that costs nothing: padding grows the hit area
+   without growing the line box, so nothing below moves and the footer does not get taller. 3px each
+   side takes 18 to 24.
+   The underline has to move with it. `border-bottom` sits outside the padding, so padding alone
+   would drop the rule 3px below the text and detach it. Swapping to `text-decoration` with an
+   explicit offset keeps the line where it has always been while the hit area grows around it.
+   NOT chasing 44x44: that is WCAG 2.5.5 AAA, and reaching it here would add roughly 460px to a
+   footer already 20% of the page on a phone. 24x24 is the AA bar (2.5.8) and it is the one met. */
+/* 4px, not 3px. The arithmetic said 18 + 3 + 3 = 24, and the measured result was 23: the line box
+   for 13px DM Sans at this line-height is 17px, not 18. Measured, not assumed - which is the only
+   reason this is not still one pixel under the floor it was written to clear. */
+footer .srclist a, footer .f-col a{display:inline;padding-block:4px;}
+footer .srclist a{color:rgba(255,255,255,.72);border-bottom:0;text-decoration:underline;text-decoration-color:rgba(255,255,255,.2);text-decoration-thickness:1px;text-underline-offset:3px;}
 footer .srclist a:hover{color:#fff;}
 footer .srclist .vd{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.62);}
-footer .f-auth{margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:13px;line-height:1.6;color:rgba(255,255,255,.62);max-width:66ch;}
+/* MEASURE CAP CONVERTED FROM ch TO px, 15 Aug 2026 — the last of the three blocks the 10 Aug pass
+   flagged and did not finish ("NOTE: .capsule and footer .f-auth still use ch", twice in this file).
+   `66ch` resolved to 587px here and rendered **97.3 characters per line**, against this repo's own
+   documented 85-CPL rule, making it the only block on /owner-builder-courses over the limit. The
+   reason is the one that motivated every other conversion: `ch` is the width of "0", and DM Sans's
+   "0" is far wider than its average lowercase glyph, so a ch cap always buys more characters than
+   it promises. 480px at 13px measures ~79.6 CPL, inside the rule with margin, and reuses the same
+   value `.measure` already uses rather than inventing a fourth cap. */
+footer .f-auth{margin-top:var(--s-lg);padding-top:var(--s-md);border-top:1px solid rgba(255,255,255,.14);font-size:13px;line-height:1.6;color:rgba(255,255,255,.62);max-width:480px;}
 footer .f-auth b{color:rgba(255,255,255,.7);}
 /* .f-auth renders a <div> and receives multi-paragraph HTML, so the wrapper owns the spacing and
    the inner paragraphs own none. Same pattern as `.note > p` and `.footnote > p`. */
