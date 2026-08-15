@@ -1,6 +1,43 @@
 # HANDOVER — facts: verify the TAS Electrical + Plumbing bundle compositions
 
-## Status: OPEN, and half of it is superseded rather than done — read this first (15 August 2026)
+## Status: CLOSED 16 August 2026 — and one named course in the body below is WRONG. Read this first
+
+**Closed by PR #131.** The live item this file stayed OPEN for — the register recording which courses
+are *eligible* rather than which are *sold*, so `/cpd-plumbing-tas` rendered 13 rows for a 12-course
+bundle — is fixed. Andrey named **TAS CPD Solar Energy** as the course outside the sold bundle on
+16 Aug 2026; its `Bundle` tag was corrected at source and `npm run sync:cpd` regenerated the
+register. Measured after: the page renders **12** members, was 13. `system-health` now reads:
+
+```
+OK  CPD building:   publishes 12 pts within a live pool of 12 (of 14 tagged) — claim <= pool
+OK  CPD electrical: publishes 11 pts within a live pool of 11 (of 12 tagged) — claim <= pool
+OK  CPD plumbing:   publishes 12 pts within a live pool of 12 (of 13 tagged) — claim <= pool
+```
+
+**⚠️ THE COURSE NAMED THROUGHOUT THE BODY BELOW IS NOT THE ONE THAT WAS REMOVED.** This file names
+*AS/NZS 3000:2018 Wiring Rules* as the surplus, the prime candidate, and the course pruned at source
+on 25 Jul 2026 (§ Task B lead, the expiry table note, "Done at source", the skills-session
+coordination list, and the model-correction section). **Read at source on 16 Aug 2026, that prune is
+not in effect: Wiring Rules carries the plumbing bundle tag, and still does.** Why it was restored is
+not established — the table keeps no history that was readable — and is not guessed at here. The
+25 Jul prune never reached the register either: the `BUNDLE_MAP` rename blocked that sync, as § "the
+rename-blocked sync never ran" records.
+
+Andrey chose **Solar Energy** on 16 Aug with all thirteen live courses in front of him, Wiring Rules
+included and explicitly flagged as the structurally odd one. That decision supersedes the 25 Jul
+provisional call, which he had himself left as "leave as-is — he'll decide pool composition
+separately". Each affected passage below is annotated in place rather than rewritten, so the record
+of what was actually done on 25 Jul survives.
+
+**One instruction in the body is now actively wrong and is corrected at its own line:** "Do not
+re-add the plumbing tag to Wiring Rules" (§ coordination, item 1). Wiring Rules is *in* the sold
+bundle as of 16 Aug 2026.
+
+Full record: `skill-reviews/facts/2026-08-16-plumbing-bundle-selection.md`.
+
+---
+
+## Superseded status line — OPEN, and half of it is superseded rather than done (15 August 2026)
 
 Stamped by the full-repo audit of 15 Aug 2026. **Do not read the two WARNs in the Pre-flight section
 below as outstanding work: neither exists any more, and neither was satisfied.** The check that
@@ -20,14 +57,24 @@ current one asks the only question that matters, whether the points **claimed on
 the **live pool** available. So "prune it in the source doc so the sold set is unambiguous" is
 withdrawn as an instruction. Nobody should go and prune anything.
 
-**What is still live, and it is the reason this file stays OPEN.** The underlying ambiguity the old
-WARN was gesturing at is real and unfixed: `kb/register/cpd/tas-courses.json` records which courses
-are *eligible* for a category, never which ones are *sold* in the bundle. `liveMembers()` therefore
-renders **13 rows on `/cpd-plumbing-tas` for a 12-course bundle**, and a reader can count the table.
-Closing it needs a `bundleMembers` list or a per-course `inBundle` flag in the source doc, then a
-re-sync. That is `[facts]` work, it is the first ranked item in
-`handover/HANDOVER-2026-08-12-session-close.md`, and it is one of the two blockers keeping that page
-`noindex`.
+**What was still live, and was the reason this file stayed OPEN — CLOSED 16 Aug 2026.** ~~The
+underlying ambiguity the old WARN was gesturing at is real and unfixed: `kb/register/cpd/tas-courses.json`
+records which courses are *eligible* for a category, never which ones are *sold* in the bundle.
+`liveMembers()` therefore renders **13 rows on `/cpd-plumbing-tas` for a 12-course bundle**, and a
+reader can count the table. Closing it needs a `bundleMembers` list or a per-course `inBundle` flag
+in the source doc, then a re-sync.~~
+
+**The diagnosis was right and the prescribed fix was wrong.** No `bundleMembers` list or `inBundle`
+flag was needed or built. `Category` (CBOS approval) and `Bundle` (what is sold together) are
+**already separate columns** in the source doc; one row was tagged to a bundle it is not sold in, and
+the fix was one cell. Building the predicted mechanism would have added a second way to express
+something the model already had. The transferable lesson, now in `ROADMAP.md`: *a missing-mechanism
+diagnosis should be checked against the source schema before it is built, because a data error and a
+model gap are indistinguishable from inside a generated projection.*
+
+**One blocker still keeps `/cpd-plumbing-tas` `noindex`, and it is unrelated to any of the above:**
+`buyUrl` is a `TBC-` placeholder with no 2026 plumber checkout id supplied. Same for
+`/cpd-electrical-tas`. Both need Andrey.
 
 The register-shape material below (how the sync and checksum work, what each per-course field means,
 CBOS as the authority over the Coda doc) is unchanged and still the right briefing for that job.
@@ -108,9 +155,16 @@ Andrey's confirmed line-up and the live composition. **That disagreement is the 
    ones (**WELS / Understanding Water Efficiency Labelling** and **Plumbing Essentials**). Strong lead to
    check at source: the shared set carries **AS/NZS 3000:2018 Wiring Rules — the electrical wiring
    standard — inside the plumbing bundle**, while the plumbing-appropriate standard (AS/NZS 3500 Plumbing
-   & Drainage) is currently `refused` and excluded. The wiring-rules course is the prime surplus candidate.
+   & Drainage) is currently `refused` and excluded. ~~The wiring-rules course is the prime surplus candidate.~~
    Confirm from source which course is not in the sold plumbing bundle, and remove it in the **source
    doc**, not the JSON.
+   > **⚠️ The candidate was wrong, 16 Aug 2026.** The reasoning above is sound and still readable —
+   > an electrical standard in a plumbing bundle *is* the odd one structurally — but it is reasoning
+   > about a commercial fact, and Andrey answered it differently: **TAS CPD Solar Energy** is the
+   > course outside the bundle; Wiring Rules stays in. He was shown all thirteen with Wiring Rules
+   > flagged as the structurally odd one and chose otherwise. Worth keeping as an example: which
+   > courses ABE sells together is not derivable from what the courses are about, and the instruction
+   > this passage got right is the one that matters — *confirm from source*, or in this case, ask.
 3. Re-run `scripts/sync-cpd-register.mjs` to regenerate the register + checksum, and confirm
    `bundlePoints('plumbing')` now equals the sold figure (12 per Andrey) with no cap being applied.
 
@@ -156,11 +210,16 @@ Andrey's confirmed line-up and the live composition. **That disagreement is the 
 - WHS Compliance and Legislation — 2027-07-22 · submission
 
 **Plumbing — 13 live, 13 pts** = **all 11 electrical members above** (note this includes AS/NZS 3000
-Wiring Rules, an electrical standard — flagged as the surplus candidate in Task B), **plus**:
+Wiring Rules, an electrical standard — ~~flagged as the surplus candidate in Task B~~ **not the
+surplus; see below**), **plus**:
 - Understanding Water Efficiency Labelling (WELS) — 2027-09-24 · submission
 - Plumbing Essentials — 2027-09-09 · submission
 
-One of these 13 is the surplus to remove so the sold set is exactly 12 (per Andrey).
+~~One of these 13 is the surplus to remove so the sold set is exactly 12 (per Andrey).~~
+**ANSWERED 16 Aug 2026: the course outside the sold bundle is TAS CPD Solar Energy.** Removed from
+the plumber bundle at source, register re-synced, page now renders 12 members. Solar Energy keeps its
+Builder and Electrician tags — it is sold in both — and keeps its Plumbing *category*, so thirteen
+courses remain CBOS-approved for plumbers even though twelve are bundled.
 
 Non-live, correctly excluded: *Smart Home Integration* (expired, electrical), *Wet Area Waterproofing*
 (expired, plumbing), *AS/NZS 3500 Plumbing & Drainage* (refused, electrical-tagged).
@@ -180,6 +239,12 @@ Non-live, correctly excluded: *Smart Home Integration* (expired, electrical), *W
   Electrician tags, Category, points and Live status are untouched. Andrey confirmed the surplus and that
   the sold plumbing set = 12. After `npm run sync:cpd`, plumbing live = 12 = cap → the plumbing WARN
   clears to OK. Building (12) and electrical (11) are unaffected.
+  > **⚠️ SUPERSEDED 16 Aug 2026 — accurate as a record of what was done that day, wrong about which
+  > course is out.** This edit was made and is not disputed, but it never reached the register (the
+  > `BUNDLE_MAP` rename blocked the sync — see below), and read at source on 16 Aug 2026 the tag was
+  > present again. Whether it was manually restored, or the edit did not persist, is not established
+  > and is not guessed at here. **The course outside the sold bundle is TAS CPD Solar Energy**, named
+  > by Andrey on 16 Aug 2026 with all thirteen live courses in front of him; Wiring Rules stays in.
 - **Electrical confirmed 11, not restorable to 12.** Both non-live electrical-tagged courses are
   correctly excluded at source: *Smart Home Integration* (Expired 04/04/2026) and *AS/NZS 3500 Plumbing
   & Drainage* (Refused). No approved 12th electrical course exists. Andrey's call: 11 is correct. The
@@ -214,9 +279,18 @@ external gov source, which is inherent to how CBOS operates, not a gap this sess
   now dies `Unmapped bundle "TAS Plumber CPD 12 Points (2026)"` (confirmed from this facts session). That
   is expected and correct — a facts session must not edit `BUNDLE_MAP`, so it cannot and must not complete
   the sync. **Coordination for the skills session:**
-  1. The facts-session **plumbing prune is already applied in the Coda source** (Wiring Rules row
+  1. ~~The facts-session **plumbing prune is already applied in the Coda source** (Wiring Rules row
      `i-yfT1kEKZxE` no longer tagged to the plumbing bundle). Your `sync:cpd` will carry it through
-     automatically — **expect plumbing = 12 live, not 13.** Do not re-add the plumbing tag to Wiring Rules.
+     automatically — **expect plumbing = 12 live, not 13.** Do not re-add the plumbing tag to Wiring
+     Rules.~~
+     **⚠️ SUPERSEDED 16 Aug 2026, and this was the one line here that could do damage.** It is an
+     INSTRUCTION, not a description, and it is now backwards: **Wiring Rules IS in the sold plumbing
+     bundle** and must keep its tag. The course removed on 16 Aug is **TAS CPD Solar Energy** (row
+     `i-dfk3wVBSIG`). The sync this item was coordinating never ran — the `BUNDLE_MAP` rename blocked
+     it — so nothing downstream ever carried the 25 Jul prune, and when the doc was read on 16 Aug
+     the tag was present again. A comment in the imperative that outlives its facts is
+     `kb/mistakes-log.md` row 1's 5th sighting, filed the same week; this line is that shape and is
+     struck rather than left to be followed.
   2. Update `BUNDLE_MAP` to the new plumbing name (and the electrician name if you rename that too), then
      run `CODA_API_TOKEN=… npm run sync:cpd`, review the diff, and commit. The regenerated register should
      show plumbing 12 / electrical 11 / building 12 and `check-claims` should pass.
@@ -249,10 +323,14 @@ Consequences:
   it just doesn't alone cover the annual 12, which the build page should disclose. Neither `live > cap` nor
   `live < cap` is a hard error; both are product-sizing signals. The right check is: a bundle page's
   claimed points must be `<= pool size` (enough approved courses to back the claim), not `pool == cap`.
-- **The Coda prune of Wiring Rules is LEFT IN PLACE for now** (Andrey's call: "leave as-is" — he'll decide
+- ~~**The Coda prune of Wiring Rules is LEFT IN PLACE for now** (Andrey's call: "leave as-is" — he'll decide
   pool composition separately). So the Coda plumbing pool currently shows 12, not the full 13. That is
   incidental, not the fix; do not treat it as the resolution. The on-disk register JSON is still 13
-  (the rename-blocked sync never ran).
+  (the rename-blocked sync never ran).~~
+  **SUPERSEDED 16 Aug 2026.** Andrey did decide pool composition separately, exactly as this line
+  anticipated, and decided it the other way: **Solar Energy out, Wiring Rules in.** As read at source
+  on 16 Aug the Wiring Rules prune was no longer in place. The closing sentence here was right and is
+  worth keeping in view — the prune *was* incidental and *was not* the resolution.
 
 **Hand back to build** (`HANDOVER-cpd-bundles.md` Task 2) once Andrey has synced + committed and
 `system-health.mjs` shows plumbing green. The electrical bundle page must state 11 points and disclose
