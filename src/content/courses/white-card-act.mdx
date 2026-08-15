@@ -33,6 +33,12 @@ courseName: "White Card ACT (CPCWHS1001)"
 courseDescription: "Nationally recognised construction induction training for the ACT, delivered and assessed by RTO partner AlertForce (RTO 91826) and published by ABE Education. Complete it face-to-face in a classroom, then apply for your General Construction Induction Card through Access Canberra."
 price: "$137"
 priceNumber: "137"
+# The only course page on the site that is NOT online. AlertForce delivers this face-to-face in a
+# classroom, which this page says in its H1, its subhead, its description and its hero artefact —
+# while the JSON-LD said `courseMode: 'online'` on every page including this one, hardcoded in
+# CourseLayout. Set explicitly here rather than inferred from the prose, and the layout falls back
+# to 'online' for every other page. schema.org value, not free text.
+courseMode: "onsite"
 credentialName: "Statement of Attainment — CPCWHS1001 Prepare to work safely in the construction industry"
 credentialCategory: "Statement of Attainment"
 breadcrumb:

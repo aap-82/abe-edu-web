@@ -136,6 +136,21 @@ const courses = defineCollection({
     // omitted it; a self-paced course with no measured average simply carries none, and the
     // layout omits timeRequired from the schema rather than asserting a number nobody checked.
     courseWorkload: z.string().optional(),
+    // JSON-LD CourseInstance.courseMode. Added 16 Aug 2026, because the layout hardcoded 'online'
+    // for EVERY course and one of them is not: /white-card-act is delivered face-to-face in a
+    // classroom by AlertForce, so the structured data contradicted the page's own copy. Filed
+    // 4 Aug, verified still open 15 Aug in the full-repo audit.
+    //
+    // OPTIONAL WITH AN 'online' FALLBACK IN THE LAYOUT, not a default here, so this field means
+    // "this page has been considered" rather than "somebody typed the common case". Values are
+    // schema.org's: online | onsite | blended.
+    //
+    // NOT set on the Zoom-delivered White Card pages, deliberately. WHSQ counts live-video CRTD
+    // AS face-to-face for QLD, and NSW White Card is delivered by Zoom (Andrey, 1 Aug 2026) while
+    // SafeWork NSW's own documents prohibit it — see kb/rules/ and the NSW memory. Those are
+    // regulator-classification questions, not delivery-format ones, and 'online' remains the
+    // honest description of what a buyer receives. Do not "correct" them without reading both.
+    courseMode: z.enum(['online', 'onsite', 'blended']).optional(),
     credentialName: z.string(),
     credentialCategory: z.string().default('Certificate of Completion'),
     regulator: z.object({ name: z.string(), url: z.string().url() }).optional(),
