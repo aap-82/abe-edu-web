@@ -311,6 +311,23 @@ if (existsSync('scripts/check-design-register.mjs')) {
   if (m) rec.designRegister = { fail: +m[1], warn: +m[2], ok: +m[3] };
 } else W('scripts/check-design-register.mjs missing — DESIGN.md tokens are unchecked against global.css');
 
+// 4c - social share cards. Runs HERE rather than at postbuild, and not because it is less important:
+// postbuild lives in package.json, which is deliberately unassigned platform config. The pre-flight
+// is the better home anyway, because this check produces a WORK LIST rather than a verdict. It
+// cannot fail a build by design — BaseLayout emits og:image only when the card file exists, so a
+// missing card degrades to a text-only share rather than a 404 image — and a warning nobody is
+// blocked by needs to appear where somebody is already reading.
+if (existsSync('scripts/check-og-cards.mjs')) {
+  const out = run('check-og-cards.mjs');
+  for (const l of out.split('\n')) {
+    const t = l.trim();
+    if (t.startsWith('WARN')) W(t.replace(/^WARN\s+/, ''));
+    else if (t.startsWith('OK')) OK(t.replace(/^OK\s+/, ''));
+  }
+  const m = out.match(/(\d+) failing, (\d+) warning/);
+  if (m) rec.ogCards = { fail: +m[1], warn: +m[2] };
+} else W('scripts/check-og-cards.mjs missing — social share card coverage is unchecked');
+
 // 5 - repeat risks
 if (existsSync('kb/mistakes-log.md')) {
   const rows = readFileSync('kb/mistakes-log.md', 'utf8').split('\n').filter((l) => /^\|\s*\d+\s*\|/.test(l));

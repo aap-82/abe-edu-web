@@ -179,7 +179,7 @@ three runs, so a single slow run cannot redden the nightly while a genuine regre
 
 **At pre-flight, and on every push to `main`** — **`system-health`**, the whole system in one
 command. Run it before planning work. It adds dangling-reference detection and review coverage of
-its own, and runs six checks beyond `check-freshness`.
+its own, and runs seven checks beyond `check-freshness`.
 
 Dangling-reference detection covers **two populations, counted separately**: the paths the skill
 points at, and the paths *this document and its peers* point at (`CLAUDE.md`, `ROADMAP.md`,
@@ -189,7 +189,17 @@ six dead pointers across the governance documents surviving clean runs — the d
 repo (`../anything`) fails on sight, resolvable or not, because §2's "One home" makes the repo the
 single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
 `business data/` and the superseded `data/GSC/` — the first two are correct paths that are
-deliberately never committed, the third is named only in historical records. The six checks:
+deliberately never committed, the third is named only in historical records. The seven checks:
+- **`check-og-cards`** — every indexable page having a 1200x630 social share card in `public/og/`,
+  and the inverse: a card whose page has been removed or noindexed, which is dead weight in the
+  deploy and the half nobody goes looking for. **It warns and never fails, and that is structural
+  rather than lenient.** `BaseLayout` emits `og:image` only when the card file exists, so a missing
+  card degrades to the text-only share every page shipped before 16 Aug 2026 rather than to a 404
+  image — and a 404 card is strictly worse than none, because it renders blank AND logs a crawler
+  miss. Nothing is broken by the gap, so nothing needs blocking; the gap needs to be VISIBLE, since
+  a generated asset's failure mode is a page added long after anyone remembers the generator exists.
+  It sits here rather than at postbuild because postbuild lives in `package.json`, which is
+  deliberately unassigned platform config. Cards come from `generate-og-cards`, not from the build.
 - **`check-claims`** — five things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
   superseded figure failing, whether the skill's own worked examples demonstrate a phrase the skill
@@ -300,12 +310,15 @@ carries its count as a budget that can only go down, and the budget FAILs when i
 it falls without the number following — the same shape as `BANNED_CTA_BUDGET`. The reflow half has
 no budget because it was already clean.
 
-Seven scripts in `scripts/` are not checks: `generate-redirects`
+Eight scripts in `scripts/` are not checks: `generate-redirects`
 (the only writer of `public/_redirects`, at prebuild), `demand-split` (derives handover notes),
 `health-log-dedupe` (collapses identical health records), `lhci-deployed-config` (rewrites
 `.lighthouserc.json` onto the deployed origin for the nightly, so the two Lighthouse gates cannot
 drift apart on their budgets), `sync-cpd-register` (manual by design,
-kept out of `prebuild` so the build stays hermetic), and the status-board pair — `page-status`
+kept out of `prebuild` so the build stays hermetic), `generate-og-cards` (renders the per-page
+social share cards into `public/og/` in headless Chromium — manual for the same reason as
+`sync-cpd-register` and one more: it writes into `public/`, a build INPUT, so running it inside the
+build would have the build mutate its own source), and the status-board pair — `page-status`
 (reads `dist/` and emits per-page build status as JSON) and `status-board` (renders that JSON into
 `reports/status-board.html`). The pair is split measure-from-present on purpose: the measurement is
 the half worth trusting and re-running, and keeping it free of markup lets its output feed anything
