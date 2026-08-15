@@ -3,8 +3,19 @@ import sitemap from '@astrojs/sitemap';
 
 // Pages that render with noindex (see the courses collection's `noindex` flag) must not be
 // advertised in the sitemap either - a sitemap entry for a noindexed URL is a contradictory
-// signal. The sitemap filter only sees a URL, so a noindexed slug is named here as well as
-// flagged in its frontmatter. Keep the two in step.
+// signal. The sitemap filter only sees a URL, so the noindexed slugs have to be known here.
+//
+// DERIVED FROM FRONTMATTER SINCE 15 Aug 2026, and this replaces a hand-maintained array. That
+// array said "keep the two in step" and they were not in step: `/cpd-electrical-tas` and
+// `/cpd-plumbing-tas` were built on 12 Aug with `noindex: true` in their frontmatter, nobody
+// edited the array, and both shipped into sitemap-0.xml carrying `noindex,nofollow` - the exact
+// contradiction the array existed to prevent, three days after the last entry was added to it by
+// hand for the same reason. The failure is structural rather than careless: the flag and the
+// exclusion lived in two files, and only one of them is in front of you while building a page.
+// `cpd-building-tas.mdx` even told the next author that noindex "also drops the page from the
+// sitemap", which was true only because that slug happened to have been listed here.
+//
+// The earlier hand-added entries are kept as history, because each records a real defect:
 // `/owner-builder-nsw-course` was ADDED 1 Aug 2026. Only its `-w` variant was listed, while
 // CLAUDE.md and ROADMAP both state that BOTH NSW owner builder pages are "pre-cutover and
 // noindexed". They were not: the main slug rendered `index,follow` and is linked twice from every
@@ -13,9 +24,39 @@ import sitemap from '@astrojs/sitemap';
 // at which point an on-hold page carrying a nationally-recognised claim ABE Education cannot
 // support (partnership unsigned, units not on RTO 45708's scope) becomes indexable and internally
 // linked sitewide. Found by the white-card-nsw Stage-9 grader. Documentation drifting from code is
-// this repo's most-recorded repeat risk. Remove this entry only when the page is rebuilt as the
-// pre-launch info page and its authority claims are corrected.
-const NOINDEX = ['/owner-builder-nsw-course', '/owner-builder-nsw-course-w', '/cpd-building-tas'];
+// this repo's most-recorded repeat risk.
+//
+// HOW THE DERIVATION WORKS, and where it can still be wrong. A content file's id is its basename
+// and every collection route builds its URL from that id (`[slug]/index.astro` maps `entry.id`
+// straight to `params.slug`; the CPD bundle stubs are one file per id with a matching name), so
+// `/` + basename is the URL for every entry that carries the flag today. A route that broke that
+// convention would be missed here - which is why the derivation is NOT the only guard.
+// `check-links.mjs` re-checks the finished output the other way round: it reads every <loc> in
+// dist/sitemap-0.xml, opens that page's HTML, and FAILs if the page says noindex. That check reads
+// the artefact rather than the intent, so it holds whatever this code gets wrong.
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const CONTENT_ROOT = 'src/content';
+
+function noindexSlugs(dir = CONTENT_ROOT, found = []) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) {
+      noindexSlugs(p, found);
+      continue;
+    }
+    if (!/\.mdx?$/.test(e.name)) continue;
+    // Frontmatter only: a `noindex: true` further down the file is prose about the flag, not the
+    // flag itself, and several of these pages discuss it at length in their header comments.
+    const src = readFileSync(p, 'utf8');
+    const fm = src.startsWith('---') ? src.slice(3, src.indexOf('\n---', 3)) : '';
+    if (/^noindex:\s*true\s*$/m.test(fm)) found.push('/' + e.name.replace(/\.mdx?$/, ''));
+  }
+  return found;
+}
+
+const NOINDEX = noindexSlugs();
 import mdx from '@astrojs/mdx';
 import guardrails from './src/integrations/guardrails';
 

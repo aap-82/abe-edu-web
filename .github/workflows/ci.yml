@@ -46,9 +46,12 @@ jobs:
       - name: Type check
         run: npm run check
 
-      # `npm run build` now carries two redirect hooks: `prebuild` regenerates
-      # public/_redirects from redirects.csv, and `postbuild` asserts every internal
-      # redirect target resolves to a real page in dist/.
+      # `npm run build` carries the redirect hooks and, since 15 Aug 2026, three postbuild checks
+      # over the finished dist/: `check-redirect-targets` (every internal redirect target resolves),
+      # `check-links` (every same-origin link resolves; reports, never fails) and `check-meta` (no
+      # page both noindex and in the sitemap, canonical form, and the title/description ratchet).
+      # `check-meta` DOES fail the build, and the defect it was written for was live: two CPD bundle
+      # pages shipped `noindex,nofollow` while listed in sitemap-0.xml.
       - run: npm run build
 
       # public/_redirects is generated, so a hand-edit or a stale commit would silently
@@ -56,6 +59,24 @@ jobs:
       # rewritten it from the CSV; if that changed anything, the committed copy was wrong.
       - name: Redirect artifact is in sync with redirects.csv
         run: git diff --exit-code -- public/_redirects
+
+      # ADDED 15 Aug 2026. Until now, NOTHING that reads a regulatory claim could block a merge.
+      # check-claims (page figures reconciled against kb/register/, the retired White Card unit
+      # code, the no-bare-"ABE" rule, SYSTEM.md §5's script list) and check-positions (no page
+      # contradicting the online-delivery policy, no nav entry claiming RTO status) ran only inside
+      # system-health, which runs post-merge in health.yml and is deliberately non-blocking. So a
+      # figure contradicting the register was recorded AFTER it was on main and auto-deployed.
+      #
+      # --strict is what makes these gates rather than reports, and it escalates FAILs only: both
+      # scripts exit 1 on `fails.length && STRICT` and ignore warnings entirely. That distinction is
+      # why this is safe to add today - check-claims currently prints 24 warnings, all of them
+      # "$169 is not in kb/register/" on ABE's own commercial prices, and none of them would redden
+      # this gate. Verified before wiring, in both directions: with a deliberate FAIL present the
+      # strict run exits 1 and the plain run still exits 0.
+      - name: Regulatory claims and positions
+        run: |
+          node scripts/check-claims.mjs --strict
+          node scripts/check-positions.mjs --strict
 
       # IMPORTANT: the npm package literally named "lhci" is an unrelated, unofficial
       # package (it just prints a greeting) - a trap discovered while wiring this job up.
@@ -69,3 +90,20 @@ jobs:
       # and data (see scripts/prose-lint.mjs's ALLOWLIST).
       - name: Prose lint
         run: node scripts/prose-lint.mjs
+
+      # ADDED 15 Aug 2026, closing a demand item filed on 10 Aug whose whole content was that this
+      # check "runs only when someone remembers".
+      #
+      # It needs a browser, and that is the reason it is here rather than in postbuild alongside the
+      # other three: a chromium download and a per-page render would be paid on every local build,
+      # and check-reflow SKIPS (exit 0, printing the install command) when the browser is missing -
+      # so wiring it to postbuild would have produced a check that silently does nothing on most
+      # machines while appearing in the build log. CI is the one place the browser is guaranteed,
+      # which turns the skip contract from a hole into what it was designed for.
+      #
+      # `playwright` is already a devDependency, so `npm ci` installs the driver; only the browser
+      # binary has to be fetched, and only chromium is used.
+      - name: Rendered layout (reflow + CPL)
+        run: |
+          npx playwright install --with-deps chromium
+          node scripts/check-reflow.mjs

@@ -126,9 +126,21 @@ four live pages before it was mechanised, and a flat FAIL from a skills session 
 every build session a red build it was not permitted to fix. A ratchet converts standing debt into
 something that can only shrink; `INLINE_STYLE_BUDGET` does the same for inline styles.
 
-**At postbuild** — **`check-redirect-targets`**, asserting every internal redirect target resolves
-to a real page in `dist/`. A rule can redirect in one hop and still land the reader on a 404; those
-are two different assertions over two different columns of the same CSV.
+**At postbuild** — three checks over the finished `dist/`, which is the only moment the whole site
+exists at once.
+
+- **`check-redirect-targets`**, asserting every internal redirect target resolves to a real page in
+  `dist/`. A rule can redirect in one hop and still land the reader on a 404; those are two
+  different assertions over two different columns of the same CSV.
+- **`check-links`**, every same-origin link resolving to something that exists, with unbuilt targets
+  named individually in `PLANNED`. Moved here from "by hand only" on 15 Aug 2026 — see the note
+  below §5 for what that standing used to be and why it changed.
+- **`check-meta`**, the document head against itself: no page both `noindex` and advertised in
+  `sitemap-0.xml`, every indexable canonical in the no-slash www form, and a **ratchet** on title
+  and description length against `meta-framework.md`'s targets. It is the second ratchet in the
+  system, for the same reason as the first: fifteen pages were over target when it was written, the
+  copy is build-owned, and a flat FAIL would have handed every build session a red build it was not
+  permitted to fix.
 
 **In CI, on every pull request and on every push to `main`** — `astro check` for types in `.astro`
 frontmatter and inline scripts, Lighthouse CI against the performance budget, **`prose-lint`** for
@@ -234,15 +246,22 @@ deliberately never committed, the third is named only in historical records. The
 The health workflow reports and never blocks: it has no `pull_request` trigger and cannot gate a
 merge even in principle.
 
-**By hand only** — **`check-links`**, every same-origin link in `dist/` resolving to something that
-exists. Run it after `npm run build`; the skill's Stage 7 pre-deploy audit instructs it, and names
-it among the checks whose WARNs must be quoted rather than counted. No *automation* invokes it,
-which was decided rather than overlooked on 28 July 2026: wiring it into `system-health` as a FAIL
-would halt build sessions over a chrome defect, and `system-health` is the pre-flight, so it runs
-when `dist/` may be absent or stale. Postbuild is where it would belong. Revisit if a dead link
-ships again.
+**`check-links` was "by hand only" until 15 August 2026**, and the reasoning is kept because the
+conclusion changed rather than the argument. It was decided rather than overlooked on 28 July:
+wiring it into `system-health` as a FAIL would halt build sessions over a chrome defect, and
+`system-health` is the pre-flight, so it runs when `dist/` may be absent or stale. That paragraph
+ended "Postbuild is where it would belong. Revisit if a dead link ships again."
 
-**By hand only, and for a different reason** — **`check-reflow`**, the only check that RENDERS a page
+**It now runs at postbuild**, where `dist/` is current by construction and none of the pre-flight
+objections apply. The revisit trigger was not a dead link shipping; it was a full-repo audit finding
+that this and `check-reflow` were the only two checks in `scripts/` that **no automation invoked at
+all** — not `package.json`, not `ci.yml`, not `system-health`. Both passed on the day they were
+found, which is the point: a check that only runs when someone remembers is evidence about that
+person's memory, not about the site. Its exit code is unchanged and still always 0, so it reports
+into every build without ever being the reason one is red — the property that made it unwireable as
+a FAIL is exactly what makes it safe to wire as a report.
+
+**`check-reflow`** — the only check that RENDERS a page
 rather than reading it as text. `npm run check:reflow`, after `npm run build`. It serves `dist/` on
 an ephemeral port, drives headless chromium at 375px and 1280px, and measures two things nothing
 else in this repo can see: whether the document scrolls sideways, and how many characters per line
@@ -262,6 +281,14 @@ be absent or stale. It also takes seconds per page rather than milliseconds. **I
 fails when playwright or its browser is missing**, exiting 0 with the install command — the contract
 `check-shipped` uses for a missing `gh`, because a check that fails over a missing tool teaches
 people to ignore it.
+
+**Wired into CI on 15 August 2026**, as its own job with an explicit `npx playwright install
+chromium` step, which is the thing local runs get for free and a runner does not. It is not in
+`postbuild` with the other three: a browser download and a per-page render would be paid on every
+local build, and the skip-on-missing-browser contract above means a local `npm run build` would
+silently skip it anyway and teach the opposite of what it says. CI is the one place the browser is
+guaranteed. This closes a demand item filed 10 Aug 2026 whose whole content was that this check runs
+only when someone remembers.
 
 Its CPL half is a **ratchet**, not a flat FAIL: 35 breaches across eleven live pages existed the day
 it was written, in page content and `src/styles/**`, which a skills session may not fix. Each page
@@ -284,8 +311,12 @@ four-layer policy exists to prevent. Refresh procedure: `handover/HANDOVER-statu
 
 A check exists to be read. When one produces more noise than signal — as the figure check did at 93
 warnings — that is a defect in the check, because a check nobody reads confers false confidence. A
-check that only a person remembers to run fails the same way more quietly, which is why
-`check-links`' standing is written down here rather than left to be discovered.
+check that only a person remembers to run fails the same way more quietly, which is why every
+script's standing is written down here rather than left to be discovered — and why, on 15 August
+2026, the two that no automation invoked were wired up rather than re-justified. `check-meta` was
+written to the same rule the day it was added: its 22 budgeted-debt warnings collapse to one line
+unless it is run with `--verbose`, because it reports on every build and 22 near-identical lines
+about work it cannot authorise anyone to do would bury the failures underneath them.
 
 ## 6. How the system evaluates and improves itself
 
