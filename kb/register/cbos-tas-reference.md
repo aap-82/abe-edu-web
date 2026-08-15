@@ -142,11 +142,17 @@ demand is real and it is for a different product.
 **Silica is separate and is refused.** CBOS refused approval for ABE's Silica Awareness Course
 (status `refused` in the register). It carries no points and must not appear as approved.
 
-**The AlertForce awareness courses are a separate, legitimate product.** ABE resells AlertForce's
-(RTO 91826) nationally recognised Asbestos Awareness and Silica Awareness courses in every state
-— see `kb/rules/authority-model.md` § "Asbestos and Silica Awareness". That resolves what the
-LearnWorlds products "Online Asbestos Awareness Course" and "TAS Online Asbestos Awareness Course"
-most likely are, and their naming is accurate for that product.
+**The AlertForce courses are a separate, legitimate product.** ABE resells two accredited AlertForce
+(RTO 91826) courses, which is what the LearnWorlds products "Online Asbestos Awareness Course" and
+"TAS Online Asbestos Awareness Course" most likely are — their naming is accurate for that product.
+**`kb/register/alertforce-scope.md` is the sole owner of their codes, titles and per-state
+availability; do not restate any of it here.** That file was read at source on 3 August 2026 and its
+findings are not what this paragraph used to assert: silica is not national, and there is no course
+called "Silica Awareness". See also `kb/rules/authority-model.md` § "Asbestos and silica".
+
+*(This paragraph carried its own copy of the scope claim until 15 Aug 2026, and the copy went stale
+while its source stayed correct — which is exactly what the no-second-copies rule exists to prevent.
+Replaced with a pointer rather than a corrected duplicate.)*
 
 **What still must not happen is conflating the two.** A TAS licence holder can buy either: a CBOS
 CPD point, or a nationally recognised awareness credential. They are different products with
