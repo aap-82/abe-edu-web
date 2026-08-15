@@ -174,12 +174,19 @@ repo (`../anything`) fails on sight, resolvable or not, because §2's "One home"
 single source. Three prefixes are exempt with their reason recorded in the script: `reports/`,
 `business data/` and the superseded `data/GSC/` — the first two are correct paths that are
 deliberately never committed, the third is named only in historical records. The six checks:
-- **`check-claims`** — four things nothing else sees: whether what the docs *say* about the build
+- **`check-claims`** — five things nothing else sees: whether what the docs *say* about the build
   still matches the source, whether every dollar figure on a page exists in the register with a
   superseded figure failing, whether the skill's own worked examples demonstrate a phrase the skill
-  bans, and whether this section still names every check that exists. The worked-example guard
+  bans, whether a *regulatory* claim in the rules docs contradicts `kb/register/`, and whether this
+  section still names every check that exists. The worked-example guard
   reads the *source of the copy* rather than the copy: `guardrails.ts` reads `dist/`, and a
   reference doc is never built, so a skill that taught what it forbade was invisible to every gate.
+  The regulatory guard (§9) is the newest and closes the widest gap: `kb/register/` is the single
+  owner of every verified regulatory figure, and until 15 Aug 2026 nothing compared a rules
+  document back to it. A retired product name asserted as current fails, and so does an accredited
+  course code with no register entry — a code nobody has read at source, which is the NSW Owner
+  Builder failure exactly. Both allow a line that is *about* the thing being wrong, because the
+  records establishing a retirement are what make it knowable.
 - **`check-positions`** — a page's claim about *delivery mode* or *authority model* must not
   contradict `kb/register/`, the same reconciliation `check-claims` performs for dollar figures.
   Scans `src/content`, `src/data`, `src/components` and `src/pages` for hand-curated banned

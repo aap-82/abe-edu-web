@@ -103,19 +103,65 @@ confirmation is about ABE's *commercial* resell arrangement and stands; the deli
 about AlertForce's *regulatory* entitlement, per RTO per state. A commercial intent to sell nationally
 does not create a scope entry. Neither is attributed to the other.
 
-## Disclosed crossing / boundary
+## Disclosed crossing
 
-**None taken.** `kb/register/cbos-tas-reference.md:145-147` still carries the superseded "in every
-state" claim **and** now carries a dangling cross-reference, because I renamed the `authority-model.md`
-section it points at (`§ "Asbestos and Silica Awareness"` → `§ "Asbestos and silica"`). The file is
-register-owned; a skills session must not touch it. I did not.
+**One, taken deliberately on Andrey's instruction.** This session is `skills`, whose table forbids
+`kb/register/**` outright. `kb/register/cbos-tas-reference.md` was edited anyway, after the crossing
+was named, the alternative (leave it for a facts session) was offered and declined, and a third option
+(re-verify at source first) was offered and declined. Same shape as the `SiteHeader.astro` nav split of
+4 Aug 2026 and the QLD build session's disclosed component edit before it. Recorded here rather than
+only in the commit and the chat.
 
-Naming the cost honestly: **I improved five files and left one inconsistent with them, and I created
-the dangling pointer myself.** The alternative was leaving all six wrong. Re-filed below.
+**What made the crossing narrow enough to accept.** The fix deletes rather than corrects. Lines
+145-147 were a *second copy* of scope data `kb/register/alertforce-scope.md` owns, which CLAUDE.md
+forbids outright ("Never keep a second copy of a figure that `kb/register/` owns"). Replacing the
+duplicate with a pointer removes both the stale claim and the dangling cross-reference **without any
+figure entering the register**, so session-types rule 4 — no figure without a source read in that
+session — is not engaged. A crossing that *corrected* the duplicate would have engaged it, and I would
+have had to decline.
 
-Note also line 142 of that same file — "CBOS refused approval for ABE's Silica Awareness Course" — is
-**correct and must not be changed**. That is ABE's own CBOS submission name, a different thing from
-AlertForce's product. A future session sweeping for the string will hit both; only one is wrong.
+I also created the dangling pointer myself, by renaming the `authority-model.md` section that
+paragraph cited. Fixing what I broke is a weak argument for crossing a boundary; the no-second-copies
+rule is the real one.
+
+Note line 142 of that same file — "CBOS refused approval for ABE's Silica Awareness Course" — is
+**correct and was not changed**. That is ABE's own CBOS submission name, a different thing from
+AlertForce's product. §9 below is built to allow it.
+
+## §9, and proving it fails
+
+`check-claims.mjs` §9 now reconciles regulatory claims against `kb/register/`, in both directions:
+
+- **9a** — a retired product name asserted as current, anywhere in `CLAUDE.md`, `kb/`, `src/`,
+  `new site/` or `.claude/skills/`.
+- **9b** — an accredited `NNNNNAT` course code with no entry in `kb/register/`. A code absent from the
+  register is a code nobody has read at source: the NSW Owner Builder failure as a gate.
+
+**A green check proves nothing on a repo you just fixed**, so it was run against the broken tree:
+
+| Test | Setup | Result |
+|---|---|---|
+| 9a catches the real defect | restored `authority-model.md` from `c596365` (pre-fix) | **FAIL, 6 sites** — 24, 38, 133, 134, 207, + |
+| 9b catches an unread code | appended `99999NAT` to a rules doc | **FAIL, 1 site** |
+| 9b allows a banned code | same code, line marked "superseded" | **OK** — no false positive |
+| Clean tree | restored | **OK**, 183 files scanned, 0 failing |
+
+**Three false-positive causes were found and fixed by measurement, not foresight.** The first
+line-level implementation produced 6 hits and **all 6 were wrong** — the negating phrase sat on the
+previous line, because this repo's prose wraps at ~100 chars while §5's subject happens to appear in
+short data-ish lines. Widening to a 3-line window left 3. One of those survived because the negating
+phrase was *itself* split by the wrap ("there is no" / "course called"), so joining the window with a
+newline reproduced the break the window existed to undo — whitespace is now collapsed before matching.
+The last two are inside the register file that *establishes* the retirement, now exempt wholesale,
+because the alternative was widening the regex to swallow "UNVERIFIED", "not part of" and "**not** a
+clean confirmation", each of which a genuinely wrong claim could also carry.
+
+A check whose every finding is wrong is worse than no check: it teaches the reader to skip it. That
+was the state of this one for its first three runs.
+
+**It cannot redden a build.** `check-claims` is not in `prebuild` and exits non-zero only under
+`--strict`, so a FAIL is reported to whoever runs it and blocks nothing — which is the right severity
+for a check whose fixes may land in a session type that cannot make them.
 
 ## Checks
 
@@ -140,19 +186,25 @@ was done. Had I gone first, the silica item would have shaped the audit's scope 
 ## Demand list
 Tag every item: [skills] | [design] | [facts] | [build]
 
-- [facts] `kb/register/cbos-tas-reference.md:145-147` states ABE resells AlertForce's "Asbestos
+- ~~[facts] `kb/register/cbos-tas-reference.md:145-147` states ABE resells AlertForce's "Asbestos
   Awareness and Silica Awareness courses **in every state**" and cross-references
   `kb/rules/authority-model.md` § "Asbestos and Silica Awareness". Both are now wrong: the claim is
   superseded by that file's own sibling `kb/register/alertforce-scope.md` (3 Aug 2026), and the section
   was renamed to § "Asbestos and silica" by this session, so the pointer dangles. Register-owned; this
-  skills session could not fix it. **Leave line 142 alone** — "ABE's Silica Awareness Course" there is
-  ABE's own CBOS-refused submission, correctly named, and a blind string sweep will damage it.
-- [skills] `check-claims.mjs` has no **regulatory**-claim pass. §1 verifies 14 code claims against
+  skills session could not fix it.~~ **Closed same session, 15 Aug 2026, by a disclosed crossing** —
+  see "Disclosed crossing" above. Fixed by *deleting* the duplicated scope claim and leaving a pointer
+  at `kb/register/alertforce-scope.md`, per CLAUDE.md's no-second-copies rule, rather than correcting
+  the duplicate. Adds no figure, so the facts source-read rule is not engaged. **Line 142 left alone**
+  — "ABE's Silica Awareness Course" there is ABE's own CBOS-refused submission, correctly named, and a
+  blind string sweep will damage it.
+- ~~[skills] `check-claims.mjs` has no **regulatory**-claim pass. §1 verifies 14 code claims against
   source; nothing verifies a regulatory claim in `CLAUDE.md` or `kb/rules/**` against `kb/register/**`.
   This session's silica defect survived twelve days in five files, through a dedicated CLAUDE.md audit
   that reported the file 81/100, because every automated and manual check was looking at pointers. A
   §9 that fails when a rules doc names a course code, RTO scope or state list contradicting the
-  register would have caught it on the 3 Aug commit.
+  register would have caught it on the 3 Aug commit.~~ **Closed same session** — `check-claims.mjs` §9
+  shipped, both directions, and `SYSTEM.md`'s "four things" updated to five. Proven against the
+  pre-fix tree rather than asserted: see "§9, and proving it fails" below.
 - [skills] The path-ownership section was compressed this session on Andrey's explicit go-ahead. If the
   five per-session derivations are wanted as evidence under ROADMAP rule 3, they are in git history at
   `CLAUDE.md` before this commit — but nothing now points at them. Either accept the table as the
