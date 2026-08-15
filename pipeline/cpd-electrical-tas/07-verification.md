@@ -330,3 +330,38 @@ silently skipped.
 
 **Why this entry exists.** `check-pipeline` §4 compares git commit times and fired correctly on this
 page for the commit above. It cannot know a diff was comment-only. Closes only once committed.
+
+
+---
+
+## Re-verification note, 16 August 2026 — subdomain confirmation recorded (commit f66a359)
+
+**What changed: one frontmatter COMMENT condition, struck.** Condition 3 of the noindex list read
+"The `learn.` subdomain decision. A real id does not settle this...". Andrey confirmed that ticket
+resolved on 16 Aug 2026 and directed that the payment path is not to be treated as a blocker, so the
+condition is struck and marked CLOSED, with a note that `check-links`' warning on this page's
+`/payment` path is now expected rather than actionable.
+
+**The flag and every remaining gate are untouched.** `noindex: true` stands, and so does the reason:
+the `buyUrl` is still a `TBC-` placeholder that does not resolve, because the 2026 electrician
+bundle's checkout id has not been supplied. That is a **different fact** from the one confirmed, and
+the confirmation was deliberately not extended to it.
+
+**Why no re-audit — measured.** Built from the pre-change and post-change frontmatter, rendered HTML
+compared:
+
+| Page | before | after |
+|---|---|---|
+| `/cpd-electrical-tas` | `fa91f1c0bde848df` | `fa91f1c0bde848df` |
+
+Byte-identical, and identical to the value recorded in this file's 16 Aug comment-correction note —
+so the page has not moved across either of today's two comment changes. The eleven-point figure and
+its shortfall wording are untouched. `abe-readability-audit`, `final-check` and `ai-detector` were
+**not re-run**, stated rather than silently skipped.
+
+**Why this entry exists.** `check-pipeline` §4 fired on this page for commit `f66a359`, which shipped
+the comment change without a matching note. **Third occurrence in one day of the same omission** —
+a content file's comments were edited and its Stage 7 note was not written in the same commit. The
+first two were caught before merge; this one reached `main`. The gate is working; the habit is not.
+See `kb/mistakes-log.md` row 19, whose guard already says a content fix and its `07` update belong in
+the SAME commit.
