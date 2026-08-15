@@ -50,7 +50,18 @@ const {
 const columnsHaveAction = columns.some((c) => c.href || c.soon);
 const rowsHaveAction = rows.some((r) => r.href || r.soon);
 ---
-<div class="cmp-wrap">
+{/* SCROLLABLE REGION, not a plain div. `.cmp` carries `min-width:560px`, so on any phone this
+    container scrolls - 226px of it hidden at 390px on /owner-builder-courses, measured 15 Aug 2026.
+    A scrollable box with no `tabindex` cannot be reached or scrolled by a keyboard user at all
+    (WCAG 2.1.1), which is why `tabindex="0"` is here rather than being decoration: it makes the
+    region focusable so arrow keys work. `role="region"` + a name give it a landmark a screen
+    reader can find and announce; without the name, `region` would be worse than nothing. */}
+<div
+  class="cmp-wrap"
+  role="region"
+  tabindex="0"
+  aria-label={caption ? `Comparison table. ${caption}` : `Comparison table by ${cornerLabel.toLowerCase()}`}
+>
   <table class:list={['cmp', rowsHaveAction && 'cmp--mono-head']}>
     {caption && <caption class="cmp-cap">{caption}</caption>}
     {rowsHaveAction && (
@@ -130,3 +141,37 @@ const rowsHaveAction = rows.some((r) => r.href || r.soon);
     )}
   </table>
 </div>
+{/* A real element, not `::after` content: this component already refuses CSS-generated text for
+    the corner cell so it stays accessible, and the same reasoning applies here. Sibling of the
+    scroller rather than a child, because a pseudo-element inside an overflow container positions
+    against the scrolled content box and would sit off-screen at the far right. Hidden until the
+    script proves the table actually overflows, and hidden again once it is scrolled to the end. */}
+<p class="cmp-scroll-cue" aria-hidden="true">Scroll for more &rarr;</p>
+
+{/* Scroll affordance. Deliberately NOT a gradient edge-fade, which is the usual pattern: gradients
+    are on this project's anti-reference list (SaaS gloss), and a fade would be the only soft edge
+    in a flat, hairline system. A DM Mono uppercase cue is what the Mono Label Rule already uses for
+    every other piece of micro-type, so the affordance arrives in the system's own voice.
+
+    It is script-driven because the honest version has to be. `min-width:560px` means "does this
+    scroll" depends on the container, not the viewport, and this component has five consumers with
+    different column counts - a media query would show the cue on tables that fit and hide it on
+    tables that do not. Measuring is the only way to be right for all five.
+
+    Degrades correctly: with no JS the attributes are never set, the cue stays `display:none`, and
+    the table is exactly what it is today. Nothing depends on the script for correctness. */}
+<script>
+  const sync = (wrap: HTMLElement) => {
+    const scrollable = wrap.scrollWidth > wrap.clientWidth + 1;
+    wrap.toggleAttribute('data-scrollable', scrollable);
+    // 2px tolerance: sub-pixel layout means scrollLeft rarely lands exactly on the maximum.
+    const atEnd = wrap.scrollLeft >= wrap.scrollWidth - wrap.clientWidth - 2;
+    wrap.toggleAttribute('data-at-end', atEnd);
+  };
+  for (const wrap of document.querySelectorAll<HTMLElement>('.cmp-wrap')) {
+    sync(wrap);
+    wrap.addEventListener('scroll', () => sync(wrap), { passive: true });
+    // Fires on font swap and orientation change, both of which move scrollWidth.
+    new ResizeObserver(() => sync(wrap)).observe(wrap);
+  }
+</script>

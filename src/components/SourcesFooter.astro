@@ -49,11 +49,23 @@ const legalLinks: FLink[] = [
   { label: 'Cookies', href: '/cookies' },
   { label: 'Cancellation & refund policy', href: '/cancellation-and-refund-policy' },
 ];
+/* ANCHOR `id="sources"` on the sources block, added 15 Aug 2026. Page copy already points readers
+   here — /owner-builder-courses' comparison caption says "the verification dates in the Sources
+   block below" — and until now there was nothing to point AT, so following that instruction meant
+   scrolling roughly 4,000px on a phone and hand-matching five links against four columns. The id
+   costs nothing, is stable on every page carrying this footer, and lets authored copy or a jump
+   link target the block directly.
+   It does NOT fix the underlying problem, and should not be mistaken for having done so: the
+   figures in the comparison table still carry no provenance where they are actually read. That
+   needs a per-fact VerifiedSources block, which is authored content and cannot be synthesised —
+   this hub's five sources carry five different dates (24 Jun, 7 Jul, 14 Jul, 15 Jul 2026) plus one
+   that is not a verification date at all ("Board-approved 10 Sep 2024"), so there is no single
+   honest date a layout could derive for them. */
 ---
 <footer>
   <div class="wrap">
     {sources.length > 0 && (
-      <div class="f-sources">
+      <div class="f-sources" id="sources">
         <span class="f-col-h">Sources</span>
         <ul class="srclist">
           {sources.map((s) => (
