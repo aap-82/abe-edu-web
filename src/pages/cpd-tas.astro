@@ -53,9 +53,6 @@ const pointsFacts: Fact[] = [
 // owns the shape now, and the saving is derived from price vs rrp rather than authored, so
 // a price edit cannot leave a stale figure behind it.
 //
-// Per-point figures are plain arithmetic on ABE Education's own prices ($499 / 12) against $99 for a
-// single course, so they introduce no fact needing verification.
-//
 // NAMING (23 Jul 2026). Bundles are named for the register's Category axis — Building,
 // Electrical, Plumbing — not for a single trade, because one category serves several licence
 // types with different annual point requirements. `licences` names them explicitly, taken from
@@ -67,15 +64,22 @@ const pointsFacts: Fact[] = [
 // membership count overstates every one of them. Live as at 23 Jul 2026: Building 12,
 // Plumbing 13 (capped at 12), Electrical 11.
 //
-// ⚠ PLUMBING IS AHEAD OF THE PRODUCT — resolve before cutover. The register holds 13 live
-// plumbing courses, so under the composition rule (min(live, 12)) the bundle is a 12-point
-// bundle at $499, and that is what this page now states. The LearnWorlds program it links to
-// still sells 11 courses for $449. Update the program, and drop one of the 13 in the register
-// so the sold set is unambiguous, before this page goes public. Choose the dropped course to
-// keep the bundle within the CBOS 4-point WHS cap.
+// ~~⚠ PLUMBING IS AHEAD OF THE PRODUCT~~ Both halves of that warning were stale when read on
+// 16 Aug 2026, which is why it is corrected here rather than deleted: it is the sixth sighting of
+// kb/mistakes-log.md row 1, and like the fifth it stood in the IMPERATIVE ("drop one of the 13 in
+// the register ... before this page goes public") for a fix that had already landed.
+//   - "drop one of the 13" — DONE 16 Aug 2026. Andrey named TAS CPD Solar Energy; its Bundle tag
+//     was updated at source and `npm run sync:cpd` re-synced the register. The sold set is 12 of 13.
+//   - "The Electrical bundle has no confirmed price" — WRONG since 12 Aug 2026, when Andrey
+//     confirmed $99 per course. cpd-electrical-tas.mdx has carried `price: "$449"` / `rrp: "$1,089"`
+//     since, asserted against the live member count by `CpdBundleLayout.astro` at build.
+// The electrical card below still omits price deliberately, but for a DIFFERENT reason than this
+// warning gave, and the distinction is the point: not "we don't know the price" but "the product
+// cannot be bought yet". Both are per-card comments now, beside the code they govern, rather than
+// a standing block at the top that outlives what it describes.
 //
-// The Electrical bundle has no confirmed price. Omitting `price` renders the soon state; add
-// price, rrp and cta together when it lands.
+// Per-point figures are plain arithmetic on ABE Education's own prices ($499 / 12) against $99 for
+// a single course, so they introduce no fact needing verification.
 const bundles: Bundle[] = [
   {
     trade: 'Building',
@@ -98,6 +102,10 @@ const bundles: Bundle[] = [
     licences: 'Plumbers and nominated managers.',
     points: '12', delivery: 'Online', perPoint: '$42',
     price: '$499', rrp: '$1,188',
+    // STILL the legacy LearnWorlds URL, deliberately. /cpd-plumbing-tas exists but is noindex and
+    // its buyUrl is a TBC placeholder that 404s, so repointing here today would trade a working
+    // checkout for a broken one. Repoint to /cpd-plumbing-tas in the SAME change that publishes
+    // that page — see the publish sequence in handover/HANDOVER-cpd-bundles.md.
     cta: { href: '/program/tas-plumber-cpd-bundle-01092025', label: 'View the Plumbing bundle' },
   },
   {
@@ -106,6 +114,11 @@ const bundles: Bundle[] = [
     blurb: 'Eleven CBOS-approved courses covering most of an electrician’s year.',
     licences: 'Electricians, restricted electrical licence holders and nominated managers.',
     points: '11', delivery: 'Online',
+    // No price/rrp/cta, so the card renders its soon state — which is ACCURATE today rather than a
+    // gap: /cpd-electrical-tas is noindex and its checkout id is a TBC placeholder, so the bundle
+    // genuinely cannot be bought. Add price: '$449', rrp: '$1,089', perPoint: '$41' and the CTA to
+    // /cpd-electrical-tas together, in the change that publishes the page. Until then this card is
+    // the reason nothing on the site links to that page, and that is the correct state.
     foot: 'Add 1 further point from another approved activity to reach 12.',
   },
 ];
@@ -154,12 +167,24 @@ const disclaimersHtml = '<b>ABE Education is not a Registered Training Organisat
 
 // JSON-LD — hub page type: ItemList of the trade bundles as Course, plus BreadcrumbList.
 // No single Course.offers and no RTO claim.
+//
+// EACH `url` MIRRORS ITS CARD'S CTA, and the three are deliberately not uniform.
+//
+// Found 16 Aug 2026: all three ItemList entries carried legacy /program/* URLs, including
+// Building, whose visible CTA has pointed at /cpd-building-tas since that page published on
+// 16 Aug. So on an indexable page the machine-readable list contradicted the visible link, and
+// named a URL that is robots-blocked at cutover — the same equity leak the up/down rule exists to
+// stop, in the half of the page a reader cannot see. Position 1 corrected here.
+//
+// Positions 2 and 3 still name /program/* ON PURPOSE, because their pages are noindex: pointing
+// an ItemList at a noindexed URL is worse than pointing it at a live LearnWorlds one. Move each
+// to its page in the SAME change that publishes that page and repoints its card.
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'ItemList', name: 'ABE Education Tasmania CPD Bundles',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/program/tas-builder-cpd-bundle-01092025',
+        { '@type': 'ListItem', position: 1, url: 'https://www.abeeducation.edu.au/cpd-building-tas',
           item: { '@type': 'Course', name: 'TAS Building CPD, 12 CBOS-approved points',
             description: 'Twelve CBOS-approved CPD courses for Tasmanian building practitioners, delivered online. Meets the 12-point annual requirement for a builder.',
             provider: { '@type': 'Organization', name: 'ABE Education', url: 'https://www.abeeducation.edu.au' }, inLanguage: 'en-AU' } },
