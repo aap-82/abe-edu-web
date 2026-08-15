@@ -4,7 +4,7 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 15 August 2026, when this file was also cut from 67KB to its current size under its
+Last updated: 16 August 2026. Cut from 67KB to its current size on 15 August under its
 own recording policy ("Layer 1 is the only layer where bloat is real. Keep it small. Prune
 actively"). Everything removed was dated history duplicating git — `git log` and `skill-reviews/`
 hold it all; nothing removed was a rule.
@@ -23,20 +23,75 @@ hold it all; nothing removed was a rule.
 - **What is built, per page, is never answered from this file** — run `node scripts/page-status.mjs`.
   Counts written here as prose are snapshots and rot; the script measures `dist/`.
 
-## Current state (15 August 2026)
+## Current state (16 August 2026)
+
+### 16 August 2026 — a records-and-gates day, and one page published
+
+Thirteen PRs (#126-#138), `main` green throughout, 0 FAIL at close. Nothing here was a phase change;
+the phase table below still governs.
+
+- **`/cpd-building-tas` is PUBLISHED** — the first Wave 4 bundle to go indexable. It had three gates;
+  two had been closed for weeks while its own frontmatter comment went on naming a cleared one as
+  live, and a build session acted on that instruction and removed the flag. Only
+  `check-redirect-targets` failing the build stopped it (`kb/mistakes-log.md` row 1, 5th sighting —
+  the first there in the imperative mood).
+- **The LearnWorlds `learn.` subdomain ticket is CONFIRMED RESOLVED** (Andrey, 16 Aug), with the
+  checkout paths staying as-is — safe because `public/_redirects` already 301s the whole LearnWorlds
+  surface to the subdomain. **It was the cutover's one external dependency and it is closed.** R6's
+  two ABE-side halves (learn.* indexation, GSC property type) survive it and are still open.
+- **The plumbing selected-twelve is recorded** (PR #131). `/cpd-plumbing-tas` renders 12 members, was
+  13. **The fix everything predicted — a `bundleMembers` list or an `inBundle` flag — was not what
+  closed it:** `Category` and `Bundle` are already separate columns at source and one row was tagged
+  to a bundle it is not sold in. *A missing-mechanism diagnosis should be checked against the source
+  schema before it is built, because a data error and a model gap are indistinguishable from inside
+  a generated projection.*
+- **Social share cards, 0 of 25 pages → 19 of 19 indexable pages** (PR #136). Rendered per page in
+  headless Chromium so they carry the real Archivo rather than a rasteriser's substitute.
+  `BaseLayout` emits `og:image` only when the card exists, so a new page degrades to a text card
+  rather than a 404.
+- **`courseMode` is no longer `'online'` on every course** (PR #134). `/white-card-act` is delivered
+  in a classroom and now says `onsite`. The Zoom-delivered QLD and NSW pages deliberately still say
+  `online`: those are contested regulator classifications, not delivery formats.
+- **`system-health --strict` now gates pull requests** (PR #138) — the day's most consequential
+  change. See "What the gate closed" below.
+
+**What the gate closed, and why it is worth reading.** `check-pipeline` §4 (a page committed later
+than its Stage 7 artefact) ran only inside `system-health`, at pre-flight and post-push, so it could
+only ever describe a defect already on `main`. On 16 Aug **four commits changed a content file
+without its `07` note and two reached `main`** — every one caught by a human or by the post-merge
+push. `kb/mistakes-log.md` row 19 is now at 6. Two details make it a gate rather than a green tick:
+`system-health` always exits 0 without `--strict`, and the job needs `fetch-depth: 0` because §4
+reads `git log -1 --format=%ct` per file and CI clones shallow. **A check that runs after the merge
+is a report.**
 
 **The short version.** Phases 1 and 2, CPD Stage A and the authority-model set are closed; Waves 1
 and 3 are complete (all five White Card spokes and the `/white-card` hub); Wave 2 is 8 of 10; Wave 4
-has opened with `/cpd-electrical-tas` and `/cpd-plumbing-tas` built 12 Aug, **both `noindex` and
-neither publishable** (blockers below). Of the Phase 3 candidates, the headless width check is built
+has opened, with `/cpd-building-tas` **published 16 Aug** and `/cpd-electrical-tas` and
+`/cpd-plumbing-tas` built 12 Aug and still `noindex` — **each now blocked on one thing only: an
+unfilled FPO image well** (blockers below). Of the Phase 3 candidates, the headless width check is built
 (`check-reflow.mjs`); the session-type path check remains the oldest unbuilt one. A full-repo audit
 on 15 Aug fixed its ten findings the same day (PR #121: head-signal reconciliation + `check-meta`,
 every check wired to run automatically, claims gating merges in CI) — details in
 `skill-reviews/skills/2026-08-15-full-repo-audit.md`.
 
-**Neither new CPD bundle can be published, and as of 16 Aug 2026 ONE reason remains for each.** Both
-lack a LearnWorlds checkout id, so their `buyUrl`s are placeholders that 404. That is now the whole
-of it.
+**Neither new CPD bundle can be published, and as of close of 16 Aug 2026 ONE reason remains for
+each: an unfilled FPO image well.** Not the checkout id — Andrey **waived** that blocker on 16 Aug
+("remove this blocker and use placeholder"), so both `buyUrl`s stay `TBC-` placeholders that do not
+resolve, recorded on both pages as a deliberate commercial trade-off rather than a fixed gate.
+
+**The real blocker was found by attempting the publish**, which is the part worth keeping: lifting
+`noindex` hard-blocked the build on `guardrails.ts` check 7a2 — an FPO placeholder on an indexable
+page, `budget 0`, with *"do not raise the budget"* in the check's own message. Unfilled, the well
+publishes its art direction as body copy ("Image placeholder", the description, "5:4 landscape").
+`/cpd-building-tas` passes only because its image was placed on 25 Jul. Production prompts for both,
+with the real course lists as on-screen script, are in
+`handover/HANDOVER-image-prompts-2026-08-02.md`.
+
+**Two more defects surfaced by that same attempt, both masked by `noindex`** (which exempts a page
+from the orphan check): **nothing links to `/cpd-electrical-tas` from anywhere on the site** — its
+`/cpd-tas` card renders no CTA because `BundleCard` shows the "soon" state without a price — and the
+plumbing card still points at the legacy `/program/tas-plumber-cpd-bundle-01092025` rather than the
+page. Both must be wired in the same change that publishes, or the pages ship as orphans.
 
 `/cpd-plumbing-tas`'s second, independent blocker is **CLOSED (16 Aug 2026)**. It read: the register
 records which courses are *eligible* for a category, never which twelve are *sold*, so
