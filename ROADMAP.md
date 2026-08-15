@@ -4,7 +4,10 @@ For Claude Code. Read this before starting any phase work. It is the orientation
 what is already true, what is being worked on now, and — importantly — what must **not** be built
 yet and why.
 
-Last updated: 10 August 2026.
+Last updated: 15 August 2026, when this file was also cut from 67KB to its current size under its
+own recording policy ("Layer 1 is the only layer where bloat is real. Keep it small. Prune
+actively"). Everything removed was dated history duplicating git — `git log` and `skill-reviews/`
+hold it all; nothing removed was a rule.
 
 ---
 
@@ -17,722 +20,78 @@ Last updated: 10 August 2026.
   evidence asks for it is the specific failure this sequencing exists to prevent.
 - **At the end of a phase**, update the Current state section and mark the phase done. A roadmap that
   describes an earlier version of the repo is worse than none.
+- **What is built, per page, is never answered from this file** — run `node scripts/page-status.mjs`.
+  Counts written here as prose are snapshots and rot; the script measures `dist/`.
 
----
+## Current state (15 August 2026)
 
-## Current state (12 August 2026)
-
-**The short version.** Phase 1, CPD Stage A and Phase 2 are done, and the authority-model set is
-closed. **Wave 3 is complete: all five White Card spokes (WA, TAS, NSW, QLD, ACT) and the
-`/white-card` hub are built.** Wave 2 is now **8 of 10** — `/owner-builder-insurance` (9 Aug) and
-`/project-advisory` (10 Aug) both shipped, and the `/owner-builder-courses` hub now links to both
-(12 Aug). **Wave 4 has opened:** `/cpd-electrical-tas` and `/cpd-plumbing-tas` were built on 12 Aug,
-**both `noindex` and neither publishable** — see the blocker note below. **One Phase 3 candidate is
-BUILT — the headless width check, as `scripts/check-reflow.mjs`** — and the session-type path check
-remains the oldest unbuilt one, with its evidence still accumulating.
-
-**Measured against `dist/` on 12 Aug: 24 of 42 planned pages built, 28 pages in `dist/`, 20
-indexable and 8 noindexed.** Waves 1 and 3 are complete, Wave 2 is 8/10, Wave 4 has 2 of its bundles
-built-but-blocked, and everything else outstanding is Waves 4-6. That count comes from
-`node scripts/page-status.mjs`, which is the answer to "what is built" — see the entry below.
+**The short version.** Phases 1 and 2, CPD Stage A and the authority-model set are closed; Waves 1
+and 3 are complete (all five White Card spokes and the `/white-card` hub); Wave 2 is 8 of 10; Wave 4
+has opened with `/cpd-electrical-tas` and `/cpd-plumbing-tas` built 12 Aug, **both `noindex` and
+neither publishable** (blockers below). Of the Phase 3 candidates, the headless width check is built
+(`check-reflow.mjs`); the session-type path check remains the oldest unbuilt one. A full-repo audit
+on 15 Aug fixed its ten findings the same day (PR #121: head-signal reconciliation + `check-meta`,
+every check wired to run automatically, claims gating merges in CI) — details in
+`skill-reviews/skills/2026-08-15-full-repo-audit.md`.
 
 **Neither new CPD bundle can be published, for two separate reasons.** Both lack a LearnWorlds
 checkout id, so their `buyUrl`s are placeholders that 404. `/cpd-plumbing-tas` has a second,
 independent blocker: `kb/register/cpd/tas-courses.json` records which courses are *eligible* for a
 category, never which twelve are *sold*, so `liveMembers()` renders 13 rows for a 12-course bundle
-while the copy correctly says twelve. A reader can count the table. Closing it needs a
-`bundleMembers` list or a per-course `inBundle` flag — `[facts]`, and it is the first ranked item in
-`handover/HANDOVER-2026-08-12-session-close.md`.
-
-**One thing the 12 Aug session got wrong, recorded here because it is a content-integrity failure
-rather than a process one.** Splitting single-sentence step bodies for a typographic treatment
-introduced **two regulatory claims that were not in the register**, both since reverted: a WA
-"below that threshold, no approval is required" (false — a requirement above a threshold is not an
-exemption below it, and the register documents a second WA trigger that refutes it) and a QLD "not
-just at the end" about inspection stages (unsupported — the register has no QLD inspection-stage
-record). The verification that certified that work checked only that facts were not *lost*; it could
-not see a fact *added*. No gate in this repo can read a sentence and ask whether it is true.
-
-### 15 August 2026 — full-repo audit, and the fixes it authorised
-
-A read-only audit across dependencies, orphan pages, rule contradictions, structure and the Claude
-Code setup, followed by a session that fixed everything it found. **The build was green throughout
-and stayed green; nothing here was a phase change.**
-
-- **One live defect.** `/cpd-electrical-tas` and `/cpd-plumbing-tas` rendered `noindex,nofollow` and
-  were listed in `sitemap-0.xml`. The sitemap exclusion was a hand-maintained array in
-  `astro.config.mjs` whose own comment said "keep the two in step"; the pages were built on 12 Aug
-  with the frontmatter flag and nobody edited the array. It is now **derived from frontmatter**, and
-  `scripts/check-meta.mjs` re-checks the built output the other way round so the derivation cannot
-  be quietly wrong. Verified by reverting the config and reproducing the defect.
-- **`check-meta.mjs` is new**, and carries two more assertions nothing had: canonical form (the
-  no-slash www form the whole cutover redirect map depends on) and a **ratchet on title and
-  description length** against `meta-framework.md`'s targets. 15 pages are over target, so a flat
-  FAIL would have handed build sessions a red build they may not fix; measured lengths are the
-  budget instead. Second ratchet in the system, after `BANNED_CTA_BUDGET`.
-- **The two checks no automation invoked are wired up.** `check-links` to postbuild (it always exits
-  0, so it reports without ever blocking) and `check-reflow` to CI with its own chromium install.
-  Both passed on the day they were found, which is the point: that was evidence about someone's
-  memory rather than about the site.
-- **Regulatory claims now gate a merge.** `check-claims --strict` and `check-positions --strict` run
-  in CI. Both escalate FAILs only, verified in both directions before wiring, so today's warnings on
-  ABE's own commercial prices cannot redden the gate.
-- **Records.** Three of four handovers with no closure line were stamped after establishing what
-  each had actually reached (the fourth is a standing runbook and is exempt by its own first
-  paragraph). Six pages that predate the Stage-9 mechanism are recorded as `REVIEW_EXEMPT` with
-  reasons, ending six permanent warnings asking for reviews nobody may honestly write. Mistakes-log
-  row 7 went from 3 to 5, folding in two declared sightings nobody had applied — that counter is the
-  input to rule 3 below, so an un-applied increment is a trigger that never fires. One item had been
-  struck through on a line reading "unchanged and still open" and was silently counted as closed;
-  it is un-struck.
-- **Housekeeping.** 55 merged local branches deleted after proving each one's content is in `main`
-  (ancestry is useless here — the repo squash-merges), `.claude/settings.local.json` cut from 453
-  standing grants to 83 with all 30 mutating one-offs removed, and Astro taken from 7.2.0 to 7.2.2.
-
-Full detail: `skill-reviews/skills/2026-08-15-full-repo-audit.md`.
-
-### 10-11 August 2026
-
-- **A per-page status board, and the sitemap tracker replaced as the source of truth for progress.**
-  `new site/abe-new-site-sitemap.md` tracked one bit per page (built or not) and that bit had been
-  wrong twice, both times from being updated by memory. `scripts/page-status.mjs` now measures five
-  dimensions per page from `dist/` and the generated sitemap — research (pipeline artefacts),
-  content, images, SEO, and inbound in-body links — and `scripts/status-board.mjs` renders it to a
-  shareable HTML board. Both are registered utilities, not checks (`CHECK_EXEMPT`, SYSTEM.md §5,
-  exempt count 4 → 6). **The sitemap document was re-ticked against `dist/` in the same pass** and
-  gained two status states it lacked: ◑ built-but-noindexed and ⛔ blocked. Refresh procedure and
-  the artifact URL: `handover/HANDOVER-status-board.md`.
-- **`/project-advisory` (W2-7) built**, $89, `Product` schema, no `Course` node. Two findings worth
-  carrying: **none of the ten archetypes fits it** — it sells ABE Education's own product outright,
-  where archetype 9 is a referral and 1-4 are credentials — which makes it the second unarchetyped
-  Recipe C page in a fortnight and moves that `[skills]` item to trigger-met. And **its Stage 2
-  concluded the page must not chase search at all**: every keyword is ≤10/mo at $0 CPC with ten
-  explicit "free" variants, so it is a conversion page for warm internal traffic and is judged on
-  that, not on impressions.
-- **A class of defect no check in this repo can see: the no-op self-link.** `/project-advisory`'s
-  CTAs pointed at `#enrol`, and `Hero.astro:55` hardcodes `id="enrol"` on its own anchor — so every
-  CTA resolved to the hero button. `guardrails.ts` check 6 and `check-links.mjs` both ask only
-  whether the anchor id *exists*, and it did, because Hero was creating it. Fixed here;
-  **`/white-card-tas` and `/qld-owner-builder-course` still carry the identical no-op** and are
-  filed `[build]`. Found the same way as the insurance CTA that pointed at a course checkout: while
-  looking for something else.
-- **`check-reflow` was measuring redirect stubs as their targets.** Astro emits a static redirect as
-  a real HTML file with a meta refresh, which a real browser follows — so `/` was measured as
-  `/qld-owner-builder-course` and filed under `/`. The evidence had been sitting in the first budget
-  table the script produced (`'/': 1` and `'/qld-owner-builder-course': 1`, the same page twice).
-  Now skipped and reported. A second no-op in the same file was corrected: a slug filter whose
-  three clauses reduced to one.
-- **`/owner-builder-insurance` cross-linked from four state pages**, and a live label/destination
-  mismatch fixed on the way — the insurance CTA on WA, QLD and TAS said "Get an owner builder
-  insurance quote" and pointed at that page's own **course checkout**. `check-links` could not see
-  it, because `#enrol` resolves.
-
-### 5-10 August 2026, newest first
-
-- **10 Aug — `scripts/check-reflow.mjs`, the first check in the repo that RENDERS a page**, closing
-  the ROADMAP Phase 3 "headless width check" candidate that had been authorised at two occurrences
-  since 28 July and held only on the `package.json` dependency question (`playwright`, now a
-  devDependency, authorised by Andrey). Serves `dist/` on an ephemeral port and drives headless
-  chromium at 375px and 1280px. **Reflow was clean sitewide on its first run** — the 90px
-  `PartnerDisclosure` scroll is genuinely fixed. It also measures characters per line, which is why
-  it immediately found 35 CPL breaches nothing else could see. Skips rather than fails without the
-  browser. Not in `system-health` (needs a browser and a current `dist/`); named in SYSTEM.md §5.
-  See `skill-reviews/skills/2026-08-10-check-reflow.md`.
-- **10 Aug — the measure defect closed on its sixth filing, then all 35 CPL breaches cleared.**
-  `.capsule` had been filed six times across five sessions and never fixed, because `max-width:66ch`
-  looks like 66 characters and is not: `1ch` is the advance of "0" (12.42px in DM Sans 18px) against
-  an 8.41px average character, so 66ch bought **92**. Converted to measured px caps (`.capsule`
-  92→66 CPL, `.unit-eb` 84.5→65.5, `.trust-lede` ~81→64), then the remaining 35 breaches turned out
-  to be three causes — `.step p` with no width at all (13, to 162 CPL), prose with no `.measure`
-  wrapper (14, to 152), and four inline `ch` overrides (7). Sitewide now **0 prose elements over the
-  85 rule across 44 page/viewport combinations**, and `CPL_BUDGET` is empty. The styleguide also
-  stopped demoing white cards on a white ground (`.sg-demo` → `--ground`). Two reviews:
-  `skill-reviews/design/2026-08-10-measure-in-px-and-styleguide-ground.md` and
-  `...-cpl-breaches-cleared.md`.
-- **9 Aug — `/owner-builder-insurance` (W2-6, first of three insurance pages)**, built end to end as
-  a hand-built Recipe C `.astro` page. Its central finding is worth reading before the other two:
-  **no state ABE serves requires an owner builder to insure their own labour under a warranty
-  scheme** — QLD and ACT exclude them by statute, TAS has no scheme (but mandates $5m liability
-  cover as a permit condition), WA and NSW attach an obligation only on resale within 7 / 7.5 years.
-  Stage 7 was graded by an independent subagent, which found **two government claims added after
-  Stage 4 with no ledger row**; both were cut rather than reworded. **Merge-blocked on one thing:**
-  all six CTAs resolve to `#arrange`, one from inside `<section id="arrange">`, because no quote
-  destination for InsuranceTek exists anywhere in the repo. Andrey's call.
-- **8 Aug — `review-trends.mjs` was reporting a false WORSENING trend.** Its earliest-third vs
-  recent-third comparison could run on a single data point per side; `turns_to_passed_audit` showed
-  "0.0 → 2.0 WORSENING" from n=1 vs n=1, against a six-point series (`0, 4, 0, 6, 6, 2`) that had
-  actually improved. Now reports sample counts and refuses a direction below n=2 per window. The
-  20 banned "Enrol now" CTAs on the four legacy owner-builder pages were rewritten the same day and
-  `BANNED_CTA_BUDGET` emptied; a false "Pay by card or Afterpay" claim was removed from
-  `/white-card-tas` and `/white-card-qld`, neither of which has a checkout.
-- **7 Aug — the White Card Stage 7 drift and the TAS residency contradiction both closed**, across
-  four commits and three session types. `/white-card-tas`'s "Tasmanian residents only" framing was
-  unsourced to any regulator and is now corrected in all 11 locations; `check-positions`'s
-  `tas-online-residency` rule reports OK sitewide.
-- **6 Aug — `/white-card-act` (W3-5) shipped and the `/white-card` hub was redesigned**, un-soon'ing
-  ACT as the fifth live spoke.
-
-**Review coverage is 7/13 and that is not a regression** (diagnosed 8 Aug). The six pages without a
-Stage-9 review — `act-owner-builder-course`, both NSW owner-builder variants,
-`qld-owner-builder-course`, `tas-owner-builder-course` and the `owner-builder-courses` hub — all
-predate the formal pipeline. `wa-owner-builder-course` is the one exception, retrofitted 23 Jul as
-evidence run 3. Whether to retrofit the rest is an open `[build]` judgement call, not a defect.
-
-- **Added 4 Aug 2026: `/white-card-act` (W3-5)**, the fifth and final White Card spoke — zero legacy
-  equity, a genuinely new page. Full formal pipeline, `pipeline/white-card-act/01` through `07`,
-  Stage 7 and Stage 9 both graded by independent fresh subagents. RTO partner AlertForce (RTO
-  91826); the page's central fact — delivery is **face-to-face in a classroom**, AlertForce's own
-  arrangement, never a WorkSafe ACT requirement — is stated correctly across all 8 ASQA disclosure
-  locations, re-verified independently. $137 price, no `buyUrl` yet (`#enrol` anchor, same
-  `/white-card-tas` precedent). Stage 2 found ~100/mo of "white card online canberra/act" demand
-  this course cannot honestly serve; the page answers that directly rather than let a reader
-  discover the mismatch after paying. One page-content bug (a duplicated `SectionWayfinder` link)
-  caught by Stage 7 and fixed same session. Graded **Amber** — see
-  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-act.md`. **One real defect, not
-  fixable from a build session:** `CourseLayout.astro`'s `hasCourseInstance.courseMode` is
-  hardcoded `"online"` in every course page's JSON-LD — wrong for this page, the first of five
-  White Card spokes where that's actually false. The Stage 9 grader also found Stage 7's own
-  verification mischaracterised two already-settled design findings and missed a real one (FPO
-  placeholders printing visible spec text on this indexable page, a fourth sighting of a known,
-  unbuilt guard) — both filed `[skills]` against `verification.md` and the missing build guard.
-
-- **Added 4 Aug 2026: the `/white-card` hub (W3-6), then rebuilt from scratch the same day** through
-  the full formal `abe-course-page-astro` pipeline (Andrey's instruction, after an ad-hoc first pass
-  had already shipped) — `pipeline/white-card/01` through `07`, Stage 7 and Stage 9 both graded by
-  independent fresh subagents. 23/23 guardrails. Stage 2's connector/SERP research reframed the
-  intro around delivery mode (the genuine hub-level differentiator no competitor states) and added a
-  7th FAQ answering a process-intent gap the research found unanswered. **One real, previously-
-  undetected defect, not fixable from a build session:** `HubLayout.astro` cannot tell
-  `SourcesFooter` this hub's spokes are ASQA-accredited (the `hubs` schema has no `asqa` field), so
-  the built page's sitewide compliance line wrongly states the state-approved-direct disclosure —
-  filed `[skills]`+`[design]`. Also carried forward: `HubLayout.astro`'s `.capsule` at ~91 CPL, now
-  at least a fifth recorded sighting (`[design]`), and `check-links.mjs`'s stale `/white-card`
-  `PLANNED` entry (`[skills]`). Graded **Amber**. See
-  `skill-reviews/2026-08-04-abe-course-page-astro-white-card-hub-rebuild.md` — the two earlier
-  reviews of the ad-hoc build are marked superseded, not deleted.
-
-- **Pages built and indexable:** QLD, WA, TAS, ACT owner builder, the `/owner-builder-courses` hub
-  (59.9k impressions, the biggest single equity-protect page), **`/white-card-wa`** (39.9k
-  impressions, the biggest White Card asset), `/white-card-nsw`, `/white-card-tas`, plus
-  `/accreditation`, `/experts`, `/reviews`, `/cpd`, `/cpd-tas`.
-- **Added 3 Aug 2026: `/white-card-qld`** (W3-3, commit `b36d8b4`) — built, indexable, delivered as a
-  live Connected Real Time Delivery (CRTD) session, not self-paced, correcting a live competitor
-  misconception (a superseded "100km rural exception" claim) with WHSQ's own Conditions of Agreement.
-  Graded **Amber** by an independent Stage 9 subagent: authority model and regulatory facts are
-  correct throughout, but the run had to edit design-owned `SiteHeader.astro` to satisfy the
-  orphan-page guardrail (see the Phase 3 trigger table — third sighting, first undisclosed until the
-  grader found it) and skipped `check-claims.mjs` at Stage 7 (fixed with an addendum once caught). No
-  `buyUrl` confirmed; every CTA is the in-page `#enrol` anchor. Mid-build, an initially-confirmed $99
-  price was superseded by the real Blue Dog timetable ($109 weekday / $169 Saturday) — every
-  occurrence was corrected, confirmed clean in the built page.
-- **All five ABE White Card delivery-mode rows are now regulator-sourced**, closed in one 3 Aug facts
-  session: TAS and ACT (WHS Regulations silent on delivery mode entirely — no restriction, but also no
-  affirmative permission, unlike WA which has a real, if dated, WorkSafe WA notice permitting online
-  delivery) and WA's own delivery-mode column (previously only its eligibility test was source-read).
-  `/white-card-tas`'s "Tasmanian residents only" wording is now known to be unsourced to either the
-  regulator or the Regulations — flagged `[build]`, not yet fixed. The same session found AlertForce's
-  "Silica Awareness" resell (named in CLAUDE.md) doesn't exist under that name and isn't national —
-  flagged `[skills]`.
-- **Added 1 Aug 2026: `/white-card-nsw`** (W3-2, PR #103) — built, indexable, **no purchase path**,
-  the `/white-card-tas` pattern. There is no NSW White Card product in LearnWorlds at all, so every
-  CTA is the in-page `#enrol` anchor. Both image slots are FPO.
-  Two things this run changed outside its own page, both worth reading before the next one:
-  **`/owner-builder-nsw-course` was noindexed** — it rendered `index,follow` while this file and
-  CLAUDE.md both said it was noindexed, and only the `-w` variant ever was. That closed a cutover
-  risk and opened a redirect one: `/nsw-owner-builder-course` now 301s into a noindexed page, so it
-  sits in `check-redirect-targets`' PENDING list. Those two URLs carry **38,257 impressions** and
-  their cutover fate is an open commercial decision, filed as a `[build]` demand item.
-  The NSW **delivery-mode** position is now settled as a recorded exemption (2 Aug 2026,
-  `online-delivery-policy-by-state.md` §2A-1) — do not reopen it.
-- **Published with two standing warnings:** **`/white-card-tas`** — indexable since 28 Jul on
-  Andrey's call. Both are **warnings, not blockers**: the page ships, and neither holds up cutover.
-  1. **No purchase path.** TAS payment is not configured, so every CTA is the in-page `#enrol`
-     anchor. Deliberate: the legacy URL holds real equity (7,092 impressions, position 11.81) and
-     the page answers the query, so it earns its place ahead of the checkout. It is nonetheless the
-     only live page that cannot be bought from — wire the buyUrl as soon as payment exists.
-  2. **The page states $59; a live checkout charges A$39.** Downgraded from the blocker list on
-     Andrey's call, 28 Jul. Evidence kept because it stays actionable:
-     `/payment?product_id=white-card-tas&type=course` renders a working order at **A$39**, and
-     LearnWorlds corroborates exactly (A$117 across 3 payments). WA was checked as a control first,
-     since an average hides discounts — A$5,155 over 60 payments averages A$85.92 against a $99
-     list — so the TAS figure was confirmed to be the **list price at checkout**, not an average.
-     The cost section derives from it: $59 + $13.72 = $72.72 today, $52.72 at the real price. Either
-     the $39 product is legacy and should be retired, or the page is wrong. Andrey's call, whenever
-     he wants it.
-- **Built but held back:** `/cpd-building-tas`, noindexed pending Andrey-only inputs.
-  `/owner-builder-nsw-course` and its `-w` variant are built, noindexed, and ⛔ must not ship in
-  their current form.
-- **Not started:** W2-6 insurance, W2-7 Project Advisory, **`/white-card-act` (W3-5) and the
-  `/white-card` hub (W3-6)** — both unblocked as of 3 Aug, neither built — eight of ten CPD tickets,
-  and all of Waves 5 and 6.
-
-**Everything that needs Andrey, in the order it bites:**
-1. **W4-9 plus the Electrician 12-point bundle price** — blocks `/cpd-tas` shipping, which blocks
-   five signed-off redirect rules.
-2. **`/white-card-wa` cutover gates** — two generated images (prompts and exact filenames in
-   `pipeline/white-card-wa/06-image-prompts.md`; both slots currently render FPO placeholders that
-   print their own art direction as body text), and confirmation that **`/payment` is served at the
-   deploy origin** — it is live on the legacy origin but absent from the Worker's asset set, so all
-   four CTAs are dead on staging. Neither blocks staging; both block the real domain.
-**`/white-card-tas` is no longer on this list.** Its two open items are **warnings, not blockers**,
-and live with the page in the state list above. Three things previously tracked here as White Card
-TAS blockers are simply done: the two photos landed in `src/assets/images/` on 27 Jul, and all three
-RTO contacts carry a verified email and phone in `src/content/partners/`, checked at source 28 Jul.
-
-**The `/white-card` hub is not fully gated on its spokes, and that was found 2 Aug 2026.** The
-`hubs` schema types `spokes[].course` as a `reference('courses')`, which does fail Zod if a hub names
-a page that doesn't exist — but `spokes` itself is `z.array(...)` with **no minimum length**, and
-`comparison.columns[]` already carries a `soon: z.boolean()` flag `ComparisonTable.astro` renders as a
-non-linked "Coming soon" cell. The hub was designed for partial coverage; it does not need all five
-spokes built first, only the ones it names as built. As of 3 Aug it is blocked on nothing — build it
-with ACT (W3-5) as the one remaining "Coming soon" column, in either order.
-
-**No standing FAILs (3 Aug).** `system-health` reports 0 FAIL (beyond the expected, momentary
-"07 not committed" a page carries between its Stage 9 review being written and its commit landing).
-The session-types pre-flight rule governs this: a red pre-flight ends the session rather than being
-repaired mid-run.
-
-**Superseded the next day. 2 standing FAILs as of 4 Aug 2026, both tracked, neither a surprise.**
-(1) The `manual_fix_passes` trend, worsening since the `/white-card-qld` Stage-9 review — already
-routed as todo items 9 and 10 below (both now closed, see next paragraph). (2) A new, deliberate one:
-`check-positions` (below) surfaces `/white-card-tas`'s unsourced "Tasmanian residents only" claim,
-which was already a filed `[build]` item and simply had no mechanical check pointed at it until
-today. `system-health` red at pre-flight still ends a session per rule 1 — the difference here is
-that the red is informative rather than a defect in the check.
-
-**A skills session closed three todo items 4 Aug 2026, none of them a page.** Commit `1b6ff50`
-(merged `9f15a90`):
-- **Item 5 — `check-positions.mjs` built.** Reconciles a page's claim about delivery mode or
-  authority model against `kb/register/`, the same job `check-claims` does for dollar figures.
-  Two mechanisms: a hand-curated `POSITIONS` table (delivery-mode banned phrasings, each citing the
-  register assertion it contradicts) and a re-application of `guardrails.ts`'s
-  `FORBIDDEN_BY_AUTHORITY` list to the nav data — the one place that check structurally cannot
-  reach, since it excises the whole `<header>` from every page it audits. Wired into
-  `system-health.mjs` as a fifth check, named in `SYSTEM.md` §5. DoD met on the first run: it FAILs
-  on 12 locations across 5 files, 4 of which no prior session had named — including the header's own
-  TAS nav card (at the time, `SiteHeader.astro`'s own; see 4 Aug below for where it lives now). See
-  `skill-reviews/skills/2026-08-04-check-positions.md`.
-- **Item 9 — Stage-0 provenance gate.** Added to Recipe A step 1
-  (`new site/abe-migration-implementation-plan.md`) and mirrored into the skill's own Stage 1
-  (`content-pipeline.md`): before Stage 3, every ledger row must be regulator-sourced against the
-  register's own primary/secondary split; an industry-guide or `UNVERIFIED` row goes to a facts
-  session first. Second occurrence of the risk (NSW built a full page on a row that reversed at
-  Stage 9; QLD's equivalent row was read first).
-- **Item 10 — four path-ownership assignments** in the session-types table (`CLAUDE.md`):
-  `src/integrations/guardrails.ts` and `.gitignore` → skills, `src/layouts/**` → design, and the five
-  top-level `new site/*.md` planning docs → skills (found while making the item 9 edit). The
-  `.gitignore` gap itself is fixed — `new site/reference/**/*.xlsx`/`.xls`/`.csv`, recursive and
-  scoped so `redirects.csv` stays tracked. See
-  `skill-reviews/skills/2026-08-04-provenance-gate-and-path-ownership.md` for the two real defects
-  the session caught in its own first pass at that fix (dropped `*.pdf`/`*.docx` rules, then a
-  too-shallow `*.xlsx` pattern) before it shipped.
-
-**A second skills session the same day, 4 Aug 2026, closed the repo's oldest fired trigger plus six
-already-fixed demand items nobody had gone back to strike.** Commit `73b01d4` (merged `63a78a1`):
-- **`demand-split.mjs`'s header-units mismatch, fixed.** `openCount` was deduplicated by near-miss
-  key, `closedCount` was a raw sum of struck lines — third-plus sighting (filed 30 Jul, 1 Aug,
-  2 Aug). A new `bucketItem()` helper applies the same dedup to both. Measured: `design` 39→38
-  closed, `facts` 13→12, each exactly one genuine duplicate-closure pair. See
-  `skill-reviews/skills/2026-08-04-demand-split-header-units.md`.
-- **Six already-shipped fixes, closed in their source reviews for the first time**: the
-  `guardrails.ts`/`src/layouts/**` ownership gaps (fixed by item 10 above, never struck),
-  `check-positions`'s SiteHeader scope (built by item 5, never struck), and the Stage-0 gate /
-  `.gitignore` items (built by item 9/10, never struck). Found by re-reading
-  `reports/handover-skills.md` against current code rather than assuming the backlog was current.
-- **`SiteHeader.astro`'s nav data split into `src/data/nav.ts` — the oldest fired trigger in the
-  repo, filed four times since 28 Jul** ("a build session must edit design-owned `SiteHeader.astro`
-  to ship any page"). `navGroups`, `utility` and `studentPortal` (plus their five type interfaces)
-  moved into a new build-owned data file; the component keeps only render logic. Verified
-  byte-identical `dist/index.html` before and after via `git stash`. `check-positions.mjs`'s
-  SiteHeader mechanism repointed at the new file in the same change, or it would have silently
-  stopped finding anything. **A disclosed session-type crossing**: this session was declared
-  `skills`, whose table forbids `src/components/**` outright; done on Andrey's explicit instruction
-  after the crossing was named and the alternative (leave it unbuilt) was offered. Graded **Amber**
-  for the crossing, not the fix. See `skill-reviews/skills/2026-08-04-siteheader-nav-split.md`.
-  `src/data/**` assigned to build in the same pass — a gap named twice before, made load-bearing by
-  this split needing a file in it.
-
-Skills backlog across both sessions: **111 → 99 open** (`reports/handover-skills.md`).
-
-### Where this stood on 22 July (kept — the phase-1 close-out)
-
-- **Phase 1 is complete and merged to `main`.** The pipeline lives in the repo: `kb/` owns the
-  regulatory register and authority rules, the skill is in `.claude/skills/abe-course-page-astro/`,
-  four check scripts are in `scripts/`, and `skill-reviews/` has its template.
-- **All FY26-27 government fees are verified** (22 July 2026). One caveat: WA rests on confirmation
-  rather than a published 2026-27 source label — LGIRS has not republished its schedule. See the WA
-  row in `kb/register/state-fees-register.md`.
-- **The superseded claude.ai skills are uninstalled** (`abe-seo-content-engine`,
-  `abe-research-to-webpage`, `seo-content-2026`). The repo is the only home.
-- **Health**: 0 FAIL, skill references resolve, code claims verified, 17 pages build with guardrails
-  green.
-- **No page had yet been built through the pipeline** *(true on 22 Jul; superseded — three runs have
-  since exercised the archetypes, the section briefs, the craft method and the independent grader).*
-
-### Outstanding right now (before phase 2)
-
-**Nothing blocks phase 2. The gate is clear.** Handovers now live in `handover/`.
-
-**One standing product blocker, parallel to the phases — ⛔ NSW Owner Builder is on hold.**
-Confirmed by Andrey 22 July 2026: the Upskill Institute partnership intended for that course is
-still in negotiation and temporarily on hold, so ABE has no delivering RTO for it. Separately,
-none of the five units NSW requires is on RTO 45708's scope, so closing the deal is necessary
-but not sufficient. `src/content/courses/owner-builder-nsw-course.mdx` and its `-w` variant
-still carry the full nationally-recognised claim; both are pre-cutover and noindexed, and
-**neither may ship at cutover in its current form.** The reference set was walked back on 22 July
-so a pipeline run cannot read the partnership as settled. **NSW White Card is unaffected and
-remains live** — that partnership is in force and CPCWHS1001 *is* on 45708's scope, so the White
-Card wave is not gated by this. Canonical status: `kb/rules/authority-model.md` → "NSW Owner
-Builder".
-
-The post-merge fixes landed in PR #29 (merged 22 July): `check-claims` went from ~93 warnings to 8,
-derived totals reconcile and FAIL on
-mismatch, and the register hygiene is done. The small-fixes pass then took `check-claims` to **0
-warnings** by giving every remaining figure an owner — bundle offers reconcile, and the WA $50,000
-Class 10a threshold is verified rather than published unsourced.
-
-That gate existed because stage 7 of a run calls `check-claims`, and an acceptance test whose own
-audit is unreliable proves nothing. The audit is now trustworthy, so phase 2 can start.
-See `handover/HANDOVER-phase-2.md`; its preliminary (append-only health history) is done and the
-baseline line is in `data/health-log.jsonl`.
-
----
-
-## Phase 1 — the library ✅ done
-
-Moved the pipeline into the repo and made facts single-owner.
-
-Delivered: `kb/register/` and `kb/rules/`, `kb/content-source-map.md` as the index,
-`kb/mistakes-log.md`, `CLAUDE.md` constants, the GSC export folder (then `data/gsc/`, now
-`business data/GSC/`), the reworked skill with 12 archetypes and
-the craft method, `skill-reviews/_TEMPLATE.md`, and the first four scripts — `check-freshness`,
-`check-claims`, `review-trends`, `system-health`. (File and script counts were written in here as
-literals and both had gone stale by 29 Jul; counts belong in `system-health`'s output, which computes
-them, not in a phase record nothing reads against disk.)
-
----
-
-## CPD Stage A — done 23 July 2026 (prerequisite for phase 2)
-
-CPD did not fit the one-course-one-state shape the site was built around, so the data model had to
-land before the evidence run could be honest. Delivered:
-
-- `kb/register/cpd/tas-courses.json` — generated projection of ABE's operational CPD register
-  (Superhuman Docs), refreshed by `npm run sync:cpd`. Owns per-course points, approval and expiry
-  dates, bundle membership and status.
-- `scripts/lib/cpd-derive.mjs` — the counting rules, in **one** place, imported by both the check
-  scripts and the bundle pages so a page cannot disagree with the check policing it.
-- **Expiry is a build-blocker.** `check-freshness` fails, without `--strict`, on a course marked
-  live, past its CBOS expiry, and still sold. **The WHS cap warns and never blocks** — it is CBOS's
-  judgement about content, not a date that has passed.
-- `cpdBundles` collection + `CpdBundleLayout` + `/cpd-building-tas` as a **noindex stub**, so Phase
-  2 builds the real page rather than editing one someone already shaped.
-- Bundles renamed to the register's category axis: Building, Electrical, Plumbing.
-
-**Three findings the register surfaced, all corrected on `/cpd-tas`:** Electrical was advertising 12
-points with one course expired since April (now 11, with a shortfall note); Plumbing was selling 11
-for $449 against 13 live approved courses (now 12 at $499); and expired courses stay tagged to their
-bundles in the source doc, so any unfiltered count overstates every bundle.
-
-**Open, non-blocking:** the WHS classification is not imported, so the 4-point cap is unchecked —
-by title the Building bundle may hold ~6 WHS courses, which would make it 10 countable points, not
-12. One surplus plumbing course needs pruning in the source doc, and the LearnWorlds Plumbing
-program still sells 11 for $449 and must be updated before `/cpd-tas` goes public.
-
----
-
-## Phase 2 — the evidence run ✅ done 23 July 2026, verdict Amber
-
-`/cpd-building-tas` was built end to end through `abe-course-page-astro`. Artefacts in
-`pipeline/cpd-building-tas/`. Review:
-`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`, graded by a fresh subagent that
-saw only the artefacts and the built HTML.
-
-**The run produced 01, 02, 03, 04 and 07 only.** 05 and 06 were written afterwards, and their absence
-was not cosmetic: with no brief-to-section map, a section briefed at Stage 3 and written at Stage 4
-was lost on the way to the page and sat undetected through the build, the guardrails, `check-claims`
-and the independent grading. No image prompts were produced either. Both gaps are now closed, and
-`check-pipeline.mjs` exists so the next run cannot repeat them.
-
-**Verdict Amber. `correct_and_safe` amber, `passed_gates_first_time` red.** The page does not ship
-yet: `buyUrl` is unverified, and the coverage claim needs either the WHS classification imported or
-the headline capped at what is verifiable.
-
-**What the run proved about the pipeline, which is the point:**
-- **Self-certification does not work.** Stage 7 ticked five rows the built HTML fails, two of them
-  defects introduced by fixes recorded on that same page as complete. The independent grader found
-  them in twenty minutes from the artefacts alone.
-- **The checks already fired and nobody read them.** `check-claims`, `check-freshness` and
-  `system-health` all raised warnings naming this exact slug. None reached the verification table.
-  The gap was unread signal, not missing signal.
-- **A page can be invisible to its own guardrails.** No declared authority model meant the JSON-LD
-  and authority-language checks never ran, and the build was green because the page had not said
-  what it was.
-- **Derivation worked exactly where it was wired**, and the typed "twelve" in title, meta, H1,
-  sticky and intro is unprotected by it.
-
-**The demand list is in the review** and is the input to phase 3. Five entries, each with evidence.
-
----
-
-## Phase 2 — the evidence run (original brief, kept for reference)
-
-**Build one CPD course page end to end through the skill.** Recommended: `/cpd-building-tas` — CBOS
-Tasmania is the best-understood regulator, its fees are verified, and an existing hand-built
-`/cpd-tas.astro` gives a comparison baseline.
-
-**Gate:** the post-merge fixes above must be done first.
-
-**What it exercises for the first time:**
-- Archetype 3 (CPD compliance) — written, never used
-- The `cpd:` object in `content.config.ts` — wired, currently unused; today's `/cpd.astro` and
-  `/cpd-tas.astro` are hand-built on `BaseLayout`
-- Patch 01's `placement` field (after-hero / after-body)
-- The seven-field section brief discipline
-- The independent Stage-9 grader
-
-**Run it as specified, not as improved.** If a stage feels wrong, complete it and record that in the
-demand list. Silently improving the process destroys the evidence the run exists to produce.
-
-**Acceptance:**
-- The page builds, guardrails pass, stage 7 audit passes
-- Every stage left its artefact in `pipeline/cpd-building-tas/`
-- A Stage-9 review exists in `skill-reviews/`, graded by a **fresh subagent** reading only the
-  artefacts and built output — not the agent that did the run
-- `node scripts/system-health.mjs` reports review coverage including this page
-
-**The real output is the demand list.** Stage 9 records what was painful: files too large to hold,
-context flooded by verbose output, steps that wanted isolation, checks that failed silently. That
-list is the specification for phase 3. Without it, phase 3 has no basis.
-
----
-
-## Queued — NSW Owner Builder pre-launch page (decided 22 Jul 2026, builds after phase 2)
-
-Rather than 301 `/owner-builder-nsw-course` away while the course is on hold, keep the URL live
-as a **pre-launch information page**. It holds far more of the NSW equity (pos 9.7, page one)
-than a redirect to the hub would, and it has a real product to convert to today.
-
-**Sequencing: after phase 2.** Andrey's call, 22 July. The CPD TAS evidence run goes first, so
-this gets built with a proven process. Nothing is at risk meanwhile — both NSW pages are
-pre-cutover and noindexed. **But see the cutover race below.**
-
-**Decisions already made** (do not re-litigate; ask only if something has changed):
-
-- **Base:** merge the best of both existing NSW pages — v1's structure plus the `-w` variant's
-  deeper research (insurance, resale disclosure, licensed work, the two separate warranty
-  clocks). Result lands on the equity slug `/owner-builder-nsw-course`.
-- **Primary CTA is the NSW White Card, not the email box.** A White Card is mandatory on every
-  NSW owner-builder permit application, and ABE sells it today through a partnership that *is*
-  in force. This is what makes the page convert rather than just park.
-- **Secondary CTA: an outbound link to a third-party form (Fillout or similar)** for "notify me
-  when the course is live". A **link, not an embed** — that keeps every third-party script off
-  the page, so the GA4 + Google Ads CWV policy and the CSP are untouched and no Worker endpoint
-  is needed. Costs a click; worth it. Flag to Andrey whether the privacy page needs to name the
-  form processor (legal pages are placed, never drafted).
-- **Schema changes shape, it does not just lose a field.** No `Course`, no
-  `EducationalOccupationalCredential`, no `offers` — asserting a purchasable product that does
-  not exist is the same class of error as the RTO claim. Use `WebPage`/`Article` + `FAQPage` +
-  `BreadcrumbList` + `Person`.
-- **"Coming soon" must not appear in the title tag.** It signals unavailability in the SERP and
-  kills CTR on transactional queries. Title stays informational and authoritative; the launch
-  notice sits in the body, below the answer capsule.
-- **No RTO named, anywhere, in any form.** The whole point of the page is that there is not one.
-- **Expect gradual ranking decay** and set a review date. An info page satisfies transactional
-  intent less well than a course page, so position will drift over months. It holds much more
-  than a redirect, not everything.
-
-**⛔ Cutover race — the one thing that can go wrong.** `redirects.csv` marks
-`/owner-builder-nsw-course` as `rebuild`, and `/nsw-owner-builder-course` 301s *into* it. If
-cutover happens before this page is built, both NSW URLs funnel into a page carrying the false
-RTO claim. The row is annotated BLOCKED, but **if cutover is scheduled before phase 2 finishes,
-this page jumps the queue** — or the URL needs an interim destination.
-
-**Archetype: extract it on the second one, not this one.** A pre-launch archetype generalises
-well (SA/VIC have no products; other courses will go on hold), but building it now is phase 3
-work arriving ahead of the demand list. Build the page, then let a second pre-launch page prove
-what the archetype needs. Trigger to watch in the phase 3 table: "a non-course page is needed
-next".
-
----
-
-## Evidence runs 2 and 3 — the authority-model set is closed ✅ 23 July 2026
-
-Phase 2 exercised one authority model. Two more runs were added deliberately, chosen for **variance
-over volume**: one page per remaining model, each verifying the fact that distinguishes it. The set
-is now closed and there is no third thing to learn from a fourth run of the same shape.
-
-| Run | Page | Model | What only this model could prove |
-|---|---|---|---|
-| 1 | `/cpd-building-tas` | state-approved-direct | regulator in `recognizedBy` |
-| 2 | `/white-card-tas` | asqa-accredited | **RTO** in `recognizedBy`, and the RTO is the developer |
-| 3 | `/wa-owner-builder-course` | knowledge-requirement | **no** `recognizedBy` at all |
-
-Artefacts in `pipeline/{slug}/`, reviews in `skill-reviews/`. Both new runs graded **Amber**; run 3
-scored **red on `passed_gates_first_time`**.
-
-> **`/white-card-wa` (28 Jul) is not a fourth evidence run.** It is Wave 3 production work on an
-> authority model run 2 already closed, and it is graded like any other page —
-> `skill-reviews/2026-07-28-abe-course-page-astro-white-card-wa.md`, Amber, independent grader,
-> **red on `passed_gates_first_time`**. Read it for the demand list, not for evidence about the
-> archetype set. It did confirm one thing about the process: the independent Stage-7 auditor found
-> four ship blockers the author had not, which is now 4/4 for independent grading over
-> self-certification.
-
-**Run 2 found an authority-model breach the guardrails could not see.** The page credited an ABE
-person as developer of an RTO-developed accredited course — a real E-E-A-T and ASQA error — and every
-check passed, because the guardrails tested "ABE is not an RTO" *language* and never asked **who
-developed the course**. The shared expert record's own header comment already warned against it. Now
-enforced: an asqa page carries exactly one Person (the reviewer), credits the RTO via `Course.creator`
-+ `recognizedBy`, and a Person titled "developer" FAILS the build. Adding the guard immediately caught
-the same breach on both NSW pages. Mistakes-log #16.
-
-**Run 3's finding is about ordering, not content.** Stage 7 ran 45 minutes *after* two commits had
-already deployed a live indexed page, so the gate gated nothing — and the defect it exists to catch
-(a review date updated in the MDX but not in `src/data/faqs-wa.ts`, so the published page contradicted
-itself) was live for ~54 minutes. `check-pipeline.mjs` §4 now compares commit times and FAILs a slug
-whose page source is newer than its `07`. On its first run it caught a real historical case.
-Mistakes-log #19.
-
-**Run 3 also produced the session's most useful lesson, twice over.** Two audit findings asserted a
-fact was *absent* from a regex structurally incapable of finding it — the second one proposed removing
-correct, sourced content from a live page and wrote the falsehood into `kb/register/`. Caught by
-Andrey, not by any check. The meta-lesson is the one that matters: writing "greps prove presence,
-never absence" into an artefact did **not** prevent the repeat ninety minutes later. A lesson recorded
-as prose is not a method change. Mistakes-log #18.
-
-### What three runs decided about Phase 3
-
-Three independent runs is enough signal to settle the candidate list rather than keep it open:
-
-- **Keep artefacts-as-files and the independent grader.** Confirmed 3/3. The grader found in twenty
-  minutes what self-certification missed every time.
-- **Do not build `fact-verifier` or `keyword-analyst`.** Refuted 3/3 — neither flooded context in any
-  run. Their triggers have now had three chances to fire and have not.
-- **Do not split the skill.** Never triggered in three runs.
-
-That leaves the three candidates whose triggers *did* fire, none of which is built yet (checked
-24 Jul, not assumed): the `page-auditor` subagent, the per-slug warning filter, and the
-fail-on-undeclared-authority guardrail. Stage 7 is run as a fresh subagent by convention, which is
-the practice but not the mechanism.
-
-**What did land instead, earned by the runs rather than planned:** the asqa Person/developer rule,
-`check-pipeline.mjs` §4 gate-ordering, a superseded-unit-code check (`CPCCWHS1001` was live on two
-indexed pages), and a company-name check ("ABE Education", never bare "ABE" — 133 occurrences were
-live). Each exists because a run produced the failure it prevents, which is the sequencing this
-roadmap was built to enforce.
-
----
-
-## Phase 3 — structure on demand 🔓 unblocked 23 July 2026, six triggers fired, one built
-
-Phase 2's demand list now exists, so the gate is open for **the candidates it names and no others**.
-Six triggers have fired. The first three have evidence in
-`skill-reviews/2026-07-23-abe-course-page-astro-cpd-building-tas.md`; the fourth was earned on
-28 July and has already recurred; the fifth was earned on 1 August across three boundary crossings in
-two sessions on the same day. **The sixth — the headless width check — is BUILT as of 10 Aug 2026**,
-the first candidate on this table to be closed.
-
-**A new structural finding sits underneath the session-type candidate, and it is at two sightings.**
-A ratcheted budget always lives in a **skills-owned** file (`guardrails.ts`'s `BANNED_CTA_BUDGET` and
-`INLINE_STYLE_BUDGET`, `check-reflow.mjs`'s `CPL_BUDGET`) while the debt it counts always lives in
-**design- or build-owned** files. The ratchet FAILs the build when a count falls without its budget
-following, so **paying down debt cannot be completed inside one session type** — the build stays red
-until someone crosses. Disclosed 9 Aug 2026 (banned CTAs: content is build-owned) and again 10 Aug
-(inline styles and CPL: CSS and pages are design-owned). This is not the same defect as the
-session-type path check below — that one catches undisclosed crossings; this one *forces* them.
-Three options worth weighing before building either: move budgets to a data file any session may
-write; have the ratchet auto-lower and report rather than FAIL on a paid-down count; or name the
-exemption in the session-types table so it stops being a per-session judgement call.
-
-| Candidate | Trigger | Evidence |
+while the copy correctly says twelve. Closing it needs a `bundleMembers` list or a per-course
+`inBundle` flag — `[facts]`, first ranked item in `handover/HANDOVER-2026-08-12-session-close.md`.
+
+**A standing caution from the 12 Aug session, kept because no gate can catch the class:** a
+typographic edit introduced two regulatory claims not in the register (both since reverted). The
+verification that certified it checked only that facts were not *lost*; it could not see a fact
+*added*. No gate in this repo can read a sentence and ask whether it is true.
+
+## Milestones — the ledger, not the story
+
+The full narrative for every row lives in `skill-reviews/` and git (`git log -S` the thing you care
+about). One line each here, newest first:
+
+- **15 Aug 2026** — full-repo audit; all ten findings fixed and merged (#121); governance corpus cut.
+- **12 Aug 2026** — Wave 4 opens: both TAS CPD bundle pages built, noindex, blocked as above.
+- **10-11 Aug 2026** — `check-reflow.mjs` built (Phase 3 candidate closed); `page-status.mjs` +
+  status board replace the sitemap tracker as the source of truth for progress.
+- **9-10 Aug 2026** — `/owner-builder-insurance` and `/project-advisory` shipped (Wave 2 → 8/10).
+- **8 Aug 2026** — Wave 3 complete: five White Card spokes + hub, hub redesigned.
+- **4 Aug 2026** — `check-positions.mjs` built; `SiteHeader` nav data split to `src/data/nav.ts`.
+- **29 Jul-3 Aug 2026** — full system audit (governance-ref check, recursive demand routing, Stage-7
+  scope check); White Card QLD/ACT/NSW built; facts sessions source all five delivery-mode rows.
+- **23-28 Jul 2026** — Phase 2 evidence runs (verdict Amber, authority-model set closed);
+  White Card WA/TAS built; images to `astro:assets`; CPD Stage A.
+- **18 Jul 2026** — Wave 0 platform close-out merged and live.
+
+## Phase 3 — structure on demand 🔓 open; build only what the demand list authorises
+
+Candidates triggered and authorised (rule 3: second occurrence), still unbuilt:
+
+| Candidate | Trigger evidence | Notes for the builder |
 |---|---|---|
-| **`page-auditor` subagent** | "the audit wanted its own context, or graded inconsistently" | Stage 7 ticked five rows the built HTML fails. Runs as a fresh subagent given only `dist/{slug}/index.html`, and reports a **measured value per row**, never a tick. |
-| **Per-slug warning filter** | not on the original candidate list; earned by the run | Three scripts raised warnings naming the slug; none was read. A `--slug` filter turns existing signal into used signal, with no new checks. |
-| **Guardrail: fail on undeclared authority** | "a rule was violated that a hook would have caught" | A page in a course or bundle collection with no `authority` silently skips the checks that model triggers. |
-| **Session-type path check** ⭐ **4 crossings, 3 sessions, two days — authorised, still unbuilt** | not on the original list; earned 1 Aug 2026, recurred 3 Aug | **Nothing compares a commit's touched paths against the declaring session's may-write list.** A design session committed `scripts/check-redirect-targets.mjs` via cherry-pick (`3d9cc44`) and never flagged it; the same session edited `.claude/launch.json`; a skills session edited `public/robots.txt`. Only the last two were flagged, and the `scripts/` one surfaced solely because Andrey asked, hours later, whether it was a design session. The cherry-pick is the instructive case: **an edit arriving via cherry-pick, merge, revert or rebase is still an edit by the session that runs it**, and that is the case the human eye skips, because the paths scroll past in tool output rather than being typed. **A fourth crossing, 3 Aug 2026: a `build` session edited design-owned `SiteHeader.astro`** to satisfy the orphan-page guardrail while shipping `/white-card-qld` — the identical crossing `white-card-wa` (28 Jul) and `white-card-nsw` (1 Aug) both made, each disclosed at the time. This one was not disclosed in any of the run's own pipeline artefacts and was found only when an independent Stage 9 grader ran `git status` — see `skill-reviews/2026-08-03-abe-course-page-astro-white-card-qld.md`. Mechanically trivial — given a session type and a commit range, diff touched paths against the table in `CLAUDE.md`. **Build it as advisory, not a flat FAIL:** several paths are deliberately unassigned (`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`), so an unassigned path must report differently from a wrong-owner path or the check goes red on work no session may fix — the ratchet lesson. Filed by `skill-reviews/design/2026-08-01-modulerows-faq-parity.md`, and now a fourth time by the QLD review above. |
-| **Headless width check over `dist/`** ✅ **BUILT 10 Aug 2026 — `scripts/check-reflow.mjs`** | not on the original list; earned 28 Jul, recorded twice the same day | **Nothing in the repo can see a horizontal scrollbar.** A 90px sideways scroll at 320px survived a green build, 20/20 guardrails, `check-claims` 0 failing and an independent Stage 7 audit, on every page rendering `PartnerDisclosure`. It had **three** independent causes (a `1fr` grid track that could not shrink, an `inline-flex` eyebrow that could not wrap, and a header row 14px too wide), so a one-off fix would not have held. Filed by both `2026-07-28-abe-readability-audit-white-card-wa.md` and `skill-reviews/design/2026-07-28-reflow-spacing-and-tap-targets.md`. **Built 10 Aug 2026** once the `playwright` dependency was authorised (the one thing holding it, since `package.json` is deliberately unassigned). Serves `dist/` on an ephemeral port and drives headless chromium at 375px and 1280px. **Reflow is clean sitewide on its first run** — the `PartnerDisclosure` defect is genuinely fixed. It also measures characters per line, which closed a second gap: `.capsule` had been filed six times without being fixed because nothing could measure a rendered line. Skips rather than fails without the browser; CPL half is ratcheted (35 breaches across 11 pages on day one), reflow half is unbudgeted. See `skill-reviews/skills/2026-08-10-check-reflow.md`. |
+| **Session-type path check** ⭐ oldest | 4 crossings, 3 sessions, 2 days (1-3 Aug); filed 4 times | Diff a commit's touched paths against the session-type table. **Advisory, not a flat FAIL**: deliberately-unassigned paths (`worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`, `package.json`) must report differently from wrong-owner paths. The instructive case is an edit arriving via cherry-pick — still an edit by the session that runs it. |
+| **`page-auditor` subagent** | Stage 7 ticked five rows the built HTML fails | Fresh subagent, given only `dist/{slug}/index.html`, reports a measured value per row, never a tick. |
+| **Guardrail: fail on undeclared authority** | a page with no `authority` silently skips the checks that model triggers | Absence is currently the quiet state, which is the dangerous one (mistakes-log #10). |
 
-Not yet triggered, and still gated: splitting the skill, `fact-verifier`, `keyword-analyst`,
-`token-lint`, event-driven Stage 1 verification.
+**A structural finding under the session-type candidate, at two sightings (9 and 10 Aug):** a
+ratcheted budget always lives in a **skills-owned** file while the debt it counts lives in design- or
+build-owned files, so paying down debt cannot complete inside one session type — the ratchet FAILs
+until someone crosses. Weigh before building: budgets in a data file any session may write; ratchet
+auto-lowers and reports; or a named exemption in the session-types table.
 
-**Still unbuilt, deliberately** — re-checked against disk on 10 Aug 2026, not assumed: the
-**`page-auditor` subagent**, the **fail-on-undeclared-authority guardrail** and the **session-type
-path check** (all three triggered, all three still candidates). ~~the headless width check~~ **was
-the fourth on this list and is now BUILT** (10 Aug 2026, `scripts/check-reflow.mjs`) — the dependency
-question that had held it since 28 July was put to Andrey and answered.
+**One caveat on `check-reflow`, recorded the day it shipped: it has a ceiling and no floor.** A CSS
+change collapsed 307 paragraphs to 480px and it reported clean, because a narrower line never
+breaches an upper bound. A companion floor assertion is filed `[skills]`. Do not read "check-reflow
+is green" as "the measure is correct".
 
-**One caveat on the new check, recorded the day it shipped:** it has a **ceiling and no floor**. On
-10 Aug a CSS change silently collapsed 307 component paragraphs to 480px — including resetting
-`.capsule` from the 600px measured for it hours earlier — and `check-reflow` reported clean, because
-a narrower line never breaches an upper bound. Build, typecheck, `system-health` and `check-claims`
-passed it too. It was caught only by an ad-hoc before/after width diff over all 1,142 paragraphs on
-22 pages, which was then thrown away. A companion assertion (a committed per-component width
-baseline, or a minimum-CPL check on elements carrying their own `max-width`) is filed as a
-`[skills]` item. **Do not read "check-reflow is green" as "the measure is correct".**
-
-### Ready to build now, authorised by a second occurrence (ROADMAP rule 3) — ✅ both built 29 Jul 2026
-
-- ✅ **`becomeSteps` is optional in `content.config.ts`.** An owner-builder-shaped required field with
-  no archetype-2 meaning; every White Card page stubbed it `[]`. Filed by the `white-card-tas` run and
-  again by `white-card-wa`. Built by the system audit (`content.config.ts` is skills-owned, so the
-  build session that filed it could not). The two `[]` stubs are still in the two MDX files — that half
-  is build-owned and is routed as a `[build]` item.
-- ✅ **The `--slug` filter** — on `check-claims`, `check-pipeline` and `check-links`, sharing
-  `scripts/lib/slug-filter.mjs`. Deliberately **not** on `check-freshness`: its unit is a register file,
-  shared across pages, so a filter there could hide a lapsed fee from the page depending on it. A
-  filtered run prints the repo-wide totals underneath, labelled, so it can never be mistaken for a
-  whole one. Stage 7 now opens by running all three (`references/verification.md`).
-
-### Ready to build now, authorised by a second occurrence (ROADMAP rule 3) — ✅ built 4 Aug 2026
-
-- ✅ **`check-positions.mjs`.** `check-claims` reconciles figures (dollar amounts) against
-  `kb/register/`; nothing reconciled positions (delivery mode, authority model, "nationally
-  recognised" status) until now. Named directly in `handover/HANDOVER-todo-2026-08-02.md` item 5,
-  citing three defects that each survived a green build, 21/21 guardrails and `check-claims` 0
-  failing: `/white-card-nsw`'s now-corrected delivery-mode misattribution, the NSW Owner Builder nav
-  card's authority claim, and `/white-card-tas`'s unsourced "Tasmanian residents only" framing — the
-  last of which the check still FAILs on, by design (see Current state above). Full detail:
-  `skill-reviews/skills/2026-08-04-check-positions.md`.
-
-### Also built 29 Jul 2026, by the full system audit
-
-Not on the candidate list; earned the same way the asqa Person rule and the superseded-unit check were.
-
-- **Governance-doc dangling-reference check** (`system-health`). The check that enforces "every path
-  resolves" read `.claude/skills/**` only, so the rule documents were the only files exempt from the
-  rule they state. Six dead pointers were surviving clean runs. Counted separately from `skillRefs` so
-  the existing health-log series keeps its meaning. See mistakes-log row 1, tenth sighting.
-- **Demand routing made recursive, and `build` added as the fourth destination.** Ten design reviews
-  and ~35 demand items were invisible to `demand-split` and to the unrouted counter, so the
-  second-occurrence rule was being computed from a partial set — several items sat at two and three
-  occurrences without surfacing. New mistakes-log **row 24** for the class.
-- **Stage-7 verification scope** (`check-pipeline` §5). The three mandated sub-skill audits must be
-  named in `07-verification.md`, run or not. Four occurrences on the demand list, guard prose-only
-  until now (mistakes-log #14). It FAILs `white-card-wa` on real data — a true positive and an open
-  `[build]` item, the same standing as the `cpd-building-tas` gate-ordering FAIL when §4 shipped.
-- **Three `CLAIMS` entries** in `check-claims` (8 → 11), giving the corrected doc claims a reader.
-
-### Also earned on 28 July, first occurrence only — record, do not build yet
-
-- **`check-pipeline` conformance is capsules and section ids only.** A `BundleOffer`, an `h3`
-  subhead, an inline link or a CTA microcopy string can differ between `04-content.md` and the page
-  with every gate green. This is the phase-2 defect class inverted: phase 2 *lost* briefed content on
-  the way to the page; `white-card-wa` *gained* content the artefact never recorded, and it was
-  Andrey who noticed, not a check.
-- **"Enrol now" is banned by name in `verification.md` §1f and `SKILL.md`, and shipped anyway** on
-  four CTAs, and is still live on five other built pages. A rule enforced only by a Stage-7 audit is
-  a rule pages ship without.
-
-**Everything below remains a candidate list, not a plan.** These are candidates
-identified in design, not commitments. Each has a trigger.
+Candidates **not yet triggered** — record occurrences, do not build:
 
 | Candidate | Build only if the demand list shows |
 |---|---|
 | Splitting the skill into smaller skills | A file was too large to hold in context, or a description misfired |
 | `fact-verifier` subagent | Fact verification flooded the main context or wanted isolation |
 | `keyword-analyst` subagent | Keyword and SERP work flooded the main context |
-| `page-auditor` subagent | The audit wanted its own context, or graded inconsistently |
 | Hooks (legal-page edit block, register date validation) | A rule was violated that a hook would have caught |
 | `token-lint` | The run created a component, or hardcoded a colour or spacing value |
 | Archetype-aware guardrails + collections for archetypes 7-10 | A non-course page is needed next |
@@ -741,6 +100,10 @@ identified in design, not commitments. Each has a trigger.
 **The usability split has its own trigger.** Layout knowledge lives in three places
 (`component-selection.md`, `abe-readability-audit`, the design register). If a run had to read all
 three to answer one layout question, record it. On the **second** occurrence, merge them.
+
+**First-occurrence records, not yet actionable:** `check-pipeline` conformance is capsules and
+section ids only, so a component block, subhead or CTA string can differ from `04-content.md` with
+every gate green (one sighting, `white-card-wa`).
 
 ---
 
@@ -763,6 +126,12 @@ three to answer one layout question, record it. On the **second** occurrence, me
 - **Never default a regulatory fact.** Verify it at the official source, or mark it UNVERIFIED and
   leave it visible. A plausible figure is worse than a visible gap.
 - **`kb/register/` is the single owner of every government figure.** A second copy anywhere is a bug.
+  For CPD, `kb/register/cpd/tas-courses.json` is a generated projection (refresh:
+  `npm run sync:cpd`); the counting rules live once, in `scripts/lib/cpd-derive.mjs`, imported by
+  both the checks and the pages so a page cannot disagree with the check policing it.
+- **Expiry is a build-blocker.** `check-freshness` fails, without `--strict`, on a course marked
+  live, past its CBOS expiry, and still sold. The WHS cap warns and never blocks — it is CBOS's
+  judgement about content, not a date that has passed.
 - **Never weaken a guardrail or a check to make something pass.** Fix the content or the data.
 - **Production deploys are human-triggered, always.** No agent, hook or workflow deploys production.
 - **Data with no reader quietly stops being true.** Every new field or assertion gets a reader — or a
@@ -771,7 +140,9 @@ three to answer one layout question, record it. On the **second** occurrence, me
   via the interactive tool, open ones in prose. Subagents cannot ask — they stop and report upward.
 - **ABE is not an RTO.** Australian English. No em dashes in body copy. Never "comprehensive".
 - **One session, one type.** Declared at the start, fixed for the session; each type has its own
-  may-write scope and pre-flight. See `CLAUDE.md` → Session types.
+  may-write scope and pre-flight. See `CLAUDE.md` → Session types — and its Operating mode section:
+  in STUDIO mode (pre-cutover, decided 16 Aug 2026) the type is declared rather than policed, and
+  only two walls are enforced: the register is facts-only, and deploys are human-triggered.
 
 ---
 
@@ -858,37 +229,7 @@ So the order is: build the foundation, build one real page, then build only the 
 proves is missing. Phases 3 and 4 shrink to whatever phase 2 demands. If phase 2 shows the skill
 works as one file with no subagents, that is a successful result, not a failure to build things.
 
----
-
-## Preventing the phase-2 defect class
-
-Every defect the phase-2 run produced **survived a green build**: a briefed section vanished, a
-prop contract broke silently, a page skipped half its guardrails by not declaring what it was, and
-an audit ticked five rows the built HTML fails. The gates checked structure; nothing checked
-intent against output.
-
-Three changes address that, in order of leverage.
-
-1. **`check-pipeline.mjs` — built 23 July, wired into `system-health`.** Asserts every stage
-   artefact exists, and that the section ids in `05-components.md` and the built page match in both
-   directions. Verified against the real defect: removing `#how-long` from `dist/` produces
-   `FAIL — section(s) planned in 05 but absent from dist`. This is the lesson made mechanical, and
-   it is the only one that cannot be forgotten.
-2. **Stage 7 runs as a fresh subagent reading only `dist/`, reporting measured values.** Specced in
-   `SKILL.md`. A tick is a claim about output made from memory of intent; the author of the copy
-   cannot see the copy.
-3. **Warnings surfaced per slug.** `check-claims`, `check-freshness` and `system-health` all raised
-   page-relevant warnings on the phase-2 page that never reached its audit. Zero failing is not
-   zero findings.
-
-**Still open, and worth doing:** make an undeclared authority model a build failure rather than a
-silent skip (mistakes-log #10). Absence is currently the quiet state, which is the dangerous one.
-
-**Two more members of the same class, found 28 July.** Both survived every gate:
-- **Nothing renders the page**, so no check can see a horizontal scrollbar, a 9px badge or a 26px tap
-  target. Now a Phase 3 candidate with two occurrences.
-- **`check-pipeline` compares capsules and section ids, and nothing else**, so a component block
-  added to a page after Stage 4 never has to appear in the artefact that supposedly records it.
-
-**The principle underneath all of it:** a green check proves consistency, never correctness. Where a
-check can only be satisfied by a human assertion, it is not a check.
+**The principle under every gate:** a green check proves consistency, never correctness. Every
+defect Phase 2 produced survived a green build; the fixes that hold are the ones that read the
+built output (`check-pipeline`, the fresh-subagent Stage 7, `check-reflow`, `check-meta`), not the
+intent. Where a check can only be satisfied by a human assertion, it is not a check.
