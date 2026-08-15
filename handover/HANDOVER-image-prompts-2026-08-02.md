@@ -849,6 +849,121 @@ Keep the subject distant and turned away, or this becomes the "couple in hard ha
 
 ---
 
+## /cpd-electrical-tas and /cpd-plumbing-tas — 1 slot each · PROMOTED 16 Aug 2026
+
+**These two were parked as "the last ones worth generating" because neither page could ship.** That
+changed on 16 Aug 2026: Andrey waived the outstanding checkout-id blocker ("remove this blocker and
+use placeholder"), so **the FPO well is now the only thing keeping either page `noindex`.** The
+build hard-blocks on it — verified, 2 publish blockers, `budget 0`, and the check's own message says
+*do not raise the budget*. These two slots are now the highest-value pair in this file: one image
+each unblocks a finished, verified, revenue-carrying page.
+
+**Both follow the sibling that passed review**, `/cpd-building-tas` — same treatment, same framing,
+same ratio. Attach `public/images/cpd-building-tas-hero.avif` as the reference image.
+
+**Shared constraints, carried from that sibling's rendered image:**
+- **5:4 LANDSCAPE**, ~1250×1000, AVIF. Not the 4:5 portrait the course pages use. The bundle default
+  `r54` is correct, so do **not** set `artefactRatio`.
+- Show ABE Education's own CPD record sheet and a tablet course-completion screen.
+- **No government crest, no ASQA mark, no CBOS logo.** These are CBOS-approved courses with an ABE
+  Certificate of Completion; a crest or an ASQA mark is an authority-model breach. The sibling passed
+  review precisely because it carries neither.
+- Colour, not grayscale. Flat overhead light, cool daylight.
+- **No recognisable face**, per section B's rule. Hands are fine; a face is a person who can be
+  mistaken for a real student.
+- Exact on-screen script below, not "illegible filler" — the settled convention, and the reason the
+  ACT slots took three passes when it was left loose.
+
+**The script is real.** Every course title below is the live bundle membership read from
+`kb/register/cpd/tas-courses.json`, so the sheet in the image is the sheet the page sells. Do not
+paraphrase, reorder or shorten the titles; a CPD record that does not match the member table is the
+summary-vs-detail contradiction the page was just fixed for.
+
+### Slot · /cpd-electrical-tas hero artefact
+- **File:** `src/assets/images/cpd-electrical-tas-hero.avif`
+- **Prop:** `hero.artefactImg: "/images/cpd-electrical-tas-hero.avif"`
+- **Spec:** 5:4 landscape · ~1250×1000 · AVIF
+
+**Alt** (write from the RENDERED image, not from this prompt — the sibling's alt was corrected that
+way. Starting point, ≥ 80 chars:)
+> Electrician CPD in Tasmania: a completed eleven-point CPD record sheet beside a tablet showing the ABE Education course-completion screen on an electrician's workbench.
+
+**Prompt**
+> HARD REQUIREMENT, checked before anything else: the final image is a **WIDE LANDSCAPE photograph,
+> 5:4 ratio, wider than it is tall, approximately 1250 x 1000 px**. Do not generate portrait or square.
+>
+> A flat overhead photograph of an electrician's workbench in cool daylight. Centre of frame: a single
+> printed A4 sheet headed **"CPD RECORD 2026"** and beneath it **"ABE Education"**, listing eleven
+> completed courses each followed by "1 point", in this exact order and wording:
+>
+> WHS Compliance and Legislation · Safe Work Method Statement (SWMS) · Cyber Risks and Workplace
+> Safety · Fire Risk Awareness For All Trades · AS/NZS 3000:2018 Wiring Rules · Effective
+> Communication and Documentation · The Role of Drones In Building, Plumbing & Electrical Work ·
+> Effective Email Management and Digital Communication · Workplace Asbestos Basics · Solar Energy ·
+> Site and Personal Safety for Climate-Exposed Trades
+>
+> Footer line on the sheet: **"Total: 11 points"**. All text must be sharp and readable.
+>
+> Beside the sheet, a tablet showing a simple course-completion screen reading **"Course complete"**
+> and **"Certificate ready"**, ABE Education wordmark only. Around them, restrained electrician's
+> objects: a multimeter, a coil of cable, a screwdriver set. No face, no person's name, **no
+> government crest, no ASQA logo, no CBOS logo**. Muted, professional, documentary — not a stock
+> lifestyle shot.
+
+### Slot · /cpd-plumbing-tas hero artefact
+- **File:** `src/assets/images/cpd-plumbing-tas-hero.avif`
+- **Prop:** `hero.artefactImg: "/images/cpd-plumbing-tas-hero.avif"`
+- **Spec:** 5:4 landscape · ~1250×1000 · AVIF
+
+**Alt** (from the rendered image; starting point, ≥ 80 chars:)
+> Plumber CPD in Tasmania: a completed twelve-point CPD record sheet beside a tablet showing the ABE Education course-completion screen on a plumber's workbench.
+
+**Prompt**
+> HARD REQUIREMENT, checked before anything else: the final image is a **WIDE LANDSCAPE photograph,
+> 5:4 ratio, wider than it is tall, approximately 1250 x 1000 px**. Do not generate portrait or square.
+>
+> A flat overhead photograph of a plumber's workbench in cool daylight. Centre of frame: a single
+> printed A4 sheet headed **"CPD RECORD 2026"** and beneath it **"ABE Education"**, listing twelve
+> completed courses each followed by "1 point", in this exact order and wording:
+>
+> Plumbing Essentials · Understanding Water Efficiency Labelling WELS · WHS Compliance and
+> Legislation · Safe Work Method Statement (SWMS) · Cyber Risks and Workplace Safety · Fire Risk
+> Awareness For All Trades · AS/NZS 3000:2018 Wiring Rules · Effective Communication and
+> Documentation · The Role of Drones In Building, Plumbing & Electrical Work · Effective Email
+> Management and Digital Communication · Workplace Asbestos Basics · Site and Personal Safety for
+> Climate-Exposed Trades
+>
+> Footer line on the sheet: **"Total: 12 points"**. All text must be sharp and readable.
+>
+> Beside the sheet, a tablet showing a simple course-completion screen reading **"Course complete"**
+> and **"Certificate ready"**, ABE Education wordmark only. Around them, restrained plumber's objects:
+> a pipe wrench, copper fittings, a roll of thread tape. No face, no person's name, **no government
+> crest, no ASQA logo, no CBOS logo**. Muted, professional, documentary — not a stock lifestyle shot.
+
+### Closing these two slots — the full change, not just the image
+
+Both pages need more than the prop, because `noindex` was hiding two other things. Do it as one
+change or the build fails partway:
+
+1. Save each file to `src/assets/images/` under the exact filename above, and `git add` it.
+   `check-assets` fails a build where the pointer exists and the file is untracked.
+2. Set `hero.artefactImg` and `hero.artefactAlt` on each page. Leave `artefactDesc`/`artefactSpec` in
+   place as the FPO fallback, exactly as the building bundle does.
+3. **Lower both `FPO_BUDGET` lines** in `src/integrations/guardrails.ts` — the build fails if a count
+   drops without the budget following.
+4. Remove `noindex: true` from both pages **and** their two `PENDING` entries in
+   `scripts/check-redirect-targets.mjs`, in the same change. Each page's frontmatter says so.
+5. **Wire both into `/cpd-tas`, or they publish as orphans.** Verified 16 Aug: nothing on the site
+   links to `/cpd-electrical-tas` at all, and the plumbing card still points at the legacy
+   `/program/tas-plumber-cpd-bundle-01092025`. The electrical card renders no CTA because
+   `BundleCard` shows the "soon" state when `price` is absent, so it needs `price: '$449'`,
+   `rrp: '$1,089'` and the CTA together — the file's own comment says exactly this.
+6. Re-run Stage 7 for both and commit the `07` note **in the same commit** as the content change.
+7. The `buyUrl` on both remains a `TBC-` placeholder that does not resolve. That is a waived blocker,
+   not a fixed one, and it is recorded on both pages.
+
+---
+
 # B · Never generate these 4
 
 | Page | Slot | What it needs |
