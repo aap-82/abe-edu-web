@@ -19,6 +19,45 @@ it before relitigating it.
 
 Australian English. Never the word "comprehensive". No em dashes in body copy.
 
+## Operating mode: STUDIO (until cutover)
+
+Decided by Andrey, 16 Aug 2026: the site is pre-launch (host-level noindex on workers.dev), the
+priority is design, content, conversion and UI/UX iteration, and the full governance weight was
+built for a live regulated site with parallel operators. Until cutover the system runs lighter.
+**The automated checks all stay on** — they cost seconds and are what makes fast iteration safe.
+What relaxes is ceremony.
+
+**Two walls stand in every mode, full strength:**
+1. **Only a facts session writes `kb/register/**`**, and no figure enters it without a source read
+   in that session. Facts sessions still close with a review (rule 11) — the reading record IS the
+   verification.
+2. **Production deploys are human-triggered, always.** Pushing to `main` deploys.
+
+**Relaxed until cutover (each rule below carries a *(studio)* tag where it applies):**
+- **Unverified regulatory facts are allowed on noindexed pages.** `[confirm: ...]` markers WARN
+  there instead of failing the build (`guardrails.ts` check 7). Verification is a **publish gate**:
+  it runs when `noindex` comes off a page, not while drafting. Indexable pages keep the hard rule
+  unchanged.
+- **Session types are declared, not policed.** Say what kind of work a session is doing; the
+  may-write table below is the guide. Only wall 1 is enforced. Crossings into platform files still
+  get named in the PR.
+- **Reviews are optional for design and skills sessions**; recommended (not required) for build
+  sessions on pages carrying regulatory claims. Facts reviews stay mandatory (wall 1).
+- **Exclusive sessions for register/token changes become "flag it in the PR".**
+- **Pre-flight `system-health` is recommended before planning work, not required per session** —
+  CI runs the checks on every push and PR.
+- **Demand-list closing is best-effort**; the list is advisory. `TODO`s and PR descriptions are
+  legitimate homes for follow-ups.
+- **The meta-length ratchet is off** (`check-meta.mjs` `STUDIO = true`): over-target titles and
+  descriptions WARN so headline iteration for conversion costs nothing. Index-signal, canonical
+  and missing-meta checks remain hard FAILs — those are correctness, not heuristics.
+
+**At cutover, re-tighten — this is a checklist, not a rebuild:** flip `STUDIO` in `check-meta.mjs`
+and re-measure its BUDGET; `[confirm:]` and every publish gate go hard everywhere as pages become
+indexable; reviews and demand-list discipline return per the rules below; remove this section's
+relaxations by deleting the *(studio)* tags. The cutover runbook in
+`new site/abe-migration-implementation-plan.md` is where the sequence lives.
+
 ## House style (confirmed 15 Jul 2026, GSC-backed)
 - **"owner builder" — open, no hyphen — in all prose** (searchers use the open form ~215:5 in GSC).
   Keep the hyphen only when quoting a regulator's exact page/document name in a Source citation, and
@@ -85,7 +124,8 @@ product statuses: `kb/rules/authority-model.md`. This file carries only the shor
   publish hard-blocker.
 - **Never default a regulatory fact.** Verify it, or mark it explicitly UNVERIFIED. A plausible
   figure is worse than a visible gap.
-- `[confirm: ...]` marks a regulatory fact awaiting verification and nothing else. Internal facts
+- `[confirm: ...]` marks a regulatory fact awaiting verification and nothing else. *(studio)* On a
+  noindexed page the marker WARNs; it hard-blocks the moment the page is indexable. Internal facts
   (price, pass mark, points, modules) are asked and answered before content is written.
 - **Product scope** (confirmed 16 Jul 2026, amended 23 and 25 Jul — full history in git): White
   Card in all five states; SA and VIC have no products; NSW Real Estate CPD is retired (legacy
@@ -218,8 +258,8 @@ A *named function* inside `${...}` is fine; it is the literal-inside-a-literal t
 - **Six scripts run automatically around every build**: `prebuild` runs `generate-redirects.mjs`,
   `check-assets.mjs`, `check-freshness.mjs`; `postbuild` runs `check-redirect-targets.mjs`,
   `check-links.mjs`, `check-meta.mjs`. `check-links` always exits 0 and can never redden a build;
-  `check-meta` can and will (contradictory index signal, off-form canonical, or a meta length
-  rising against its budget). `check-freshness` warns without blocking on register staleness but
+  `check-meta` can and will on a contradictory index signal, an off-form canonical or a missing
+  title/description. *(studio)* Its length ratchet is off — over-target lengths WARN until cutover. `check-freshness` warns without blocking on register staleness but
   **fails the build, without `--strict`, on an expired live CPD course** (see ROADMAP "Expiry is a
   build-blocker"). **In CI additionally**: `check-claims.mjs --strict`, `check-positions.mjs
   --strict`, and `check-reflow.mjs` with its own browser install. Run by hand: `system-health.mjs`
@@ -241,7 +281,8 @@ A *named function* inside `${...}` is fine; it is the literal-inside-a-literal t
 ## Session types
 One session does one kind of work. The type is declared at the start and does not change
 mid-session. If the work changes type, end the session and open the right one. This section loads
-into every session and every subagent.
+into every session and every subagent. *(studio)* The type is declared, not policed — the table is
+the guide, and only the two walls in Operating mode are enforced.
 
 | Type | Purpose | May write | Must not touch |
 |---|---|---|---|
@@ -268,9 +309,11 @@ instruction is disclosed in that session's review and its commit message** — p
 Subagents inherit the session type of the session that launched them and cannot widen it.
 
 ### Rules
+*(studio)* Rules 1, 6, 7, 9 and 10 are relaxed per Operating mode above; 2-5, 8 and 11 stand.
+
 1. **Pre-flight.** Run `node scripts/system-health.mjs` at the start of every session. On FAIL — or
    on a WARN you would want to fix — close the session and open the type that owns the fix. Never
-   repair and continue.
+   repair and continue. *(studio: recommended before planning work; CI enforces on every push.)*
 2. **Friction is recorded, not fixed.** Inside a run, friction goes on the Stage 9 demand list.
    Outside a run, `kb/mistakes-log.md` (increment "times seen", never duplicate). A build session
    that quietly fixes the process destroys the evidence the run exists to produce.
@@ -283,19 +326,22 @@ Subagents inherit the session type of the session that launched them and cannot 
 5. **Build sessions stop at Stage 8.** Production deploy is human-triggered, always.
 6. **Stage 9 is graded by a fresh subagent** given only the pipeline artefacts, built HTML, audit
    output and the review template. Self-grading only with `graded_by: self` and a stated reason.
+   *(studio: optional; recommended for pages carrying regulatory claims.)*
 7. **Token and design-register changes are exclusive.** A session that edits tokens or the design
    register does nothing else. The locked system (radius 0, flat surfaces, 1px borders, Heritage
    Maroon for actions only) opens when it cannot express what is needed — not when a page would
-   look better.
+   look better. *(studio: "exclusive session" becomes "flag the register change in the PR"; the
+   opens-when-it-cannot-express test is unchanged.)*
 8. **A readability audit measures; it does not authorise.** Findings become demand-list items
    routed to `design`. `.claude/skills/abe-course-page-astro/references/usability-map.md` decides.
 9. **Design sessions close with a review** — `skill-reviews/design/YYYY-MM-DD-<topic>.md` before
    merge: what shipped with **measured** before/after values (never ticks), each design-register
    change flagged, demand list tagged. The subdirectory keeps it out of the build-run trend and
-   page-coverage scans; demand routing descends into it deliberately.
+   page-coverage scans; demand routing descends into it deliberately. *(studio: optional — a PR
+   description with measured values suffices.)*
 10. **Skills sessions close with a review too** — `skill-reviews/skills/YYYY-MM-DD-<topic>.md`,
    same terms. A skills session changes the rules every other session runs under, the most
-   consequential kind of change in the repo.
+   consequential kind of change in the repo. *(studio: optional on the same terms as rule 9.)*
 11. **Facts sessions close with a review as well** — `skill-reviews/facts/YYYY-MM-DD-<topic>.md`,
    same terms, plus two facts-specific duties: **(a) record the reading, not just the figure** —
    the instrument opened, the clause cited, the date, and what was searched for and not found; a
@@ -334,6 +380,10 @@ An item stays on the handover list until it is **struck through in the review th
 Strikethrough rather than deletion, so the run's record stays readable — and strikethrough is the
 close signal, **never** emphasis or "carried" (one item was struck while its own text said "still
 open" and silently left every handover note).
+
+*(studio)* Closing is best-effort and the list is advisory; `TODO`s and PR descriptions are
+legitimate homes for follow-ups. The mechanics below describe full discipline, which returns at
+cutover.
 
 **Any session MUST close an item its work closes, in the same session as the fix, in whichever
 review filed it.** Sessions do not come back; waiting for the filing session means nothing is ever

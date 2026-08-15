@@ -89,6 +89,37 @@ human gates, git workflow, never-do. The cross-doc anchor CLAUDE.md relies on �
 a build-blocker" — was carried into ROADMAP's Standing rules before the history section holding it
 was cut.
 
+## Addendum, 16 Aug 2026 — STUDIO mode (folded into the same PR at Andrey's direction)
+
+The diet removed the *description* weight; this removes the *ceremony* weight, on Andrey's explicit
+call after choosing between offered postures: "the checks can be done after the build and before
+the cutoff, and when the website is live it can be stricter." The distinction acted on: **automated
+checks cost seconds and stay on in full; ceremony cost sessions and is suspended until cutover.**
+The exhibit for the ceremony cost: a 4px FAQ font-size change took three demand filings, an
+exclusive session, a measured review and closures in three files.
+
+**Two walls keep full strength in every mode:** only a facts session writes `kb/register/**` (with
+its mandatory review — the reading record is the verification), and deploys are human-triggered.
+
+**Changed, each verified:**
+- `guardrails.ts` check 7: `[confirm:]` now WARNs on a noindexed page and FAILs on an indexable
+  one (was: FAIL everywhere). Falsified before trusting: a probe marker appended to one page of
+  each class produced exactly one WARN (`owner-builder-nsw-course`) and one ERROR
+  (`qld-owner-builder-course`), then reverted. Verification is now a publish gate, not a drafting
+  gate — Andrey's selected posture.
+- `check-meta.mjs`: `STUDIO = true` — the length ratchet and BUDGET evaluation are off; over-target
+  lengths WARN as advisory. Index-signal, canonical and missing-meta FAILs unchanged (correctness,
+  not heuristics). The flag's comment carries the cutover procedure: flip, re-measure BUDGET.
+- `CLAUDE.md`: new "Operating mode: STUDIO" section is the single switch point; rules 1, 6, 7, 9,
+  10 and demand-closing carry *(studio)* tags naming their relaxed form. Rules 2-5, 8 and 11
+  stand untouched.
+- `ROADMAP.md` standing-rules bullet and `SYSTEM.md`'s check-meta paragraph updated in the same
+  change, so no document describes the pre-studio behaviour.
+
+**What deliberately did not relax:** the authority model and every `guardrails.ts` correctness
+check (the site is public even though noindexed), figure verification at write time for the
+register itself, CI claims/positions gates, and the human deploy gate.
+
 ## Demand list
 
 Tag every item: [skills] | [design] | [facts] | [build]

@@ -56,6 +56,19 @@ const ORIGIN = 'https://www.abeeducation.edu.au';
 const TARGET = { title: 60, desc: 160 };
 
 /**
+ * STUDIO MODE (decided 16 Aug 2026, pre-cutover): the length RATCHET is off and over-target
+ * lengths report as WARNs only. The site is noindexed at the host level and titles are being
+ * iterated for conversion, so a budget-file edit per headline test is friction spent on a display
+ * heuristic. The index-signal and canonical checks below are NOT heuristics and stay hard FAILs
+ * in both modes.
+ *
+ * AT CUTOVER: flip to false, re-measure BUDGET against dist/ (the generator command is in the
+ * BUDGET comment), and the ratchet resumes with fresh numbers. Do not trust the numbers below
+ * after a period in studio mode - they date from 15 Aug 2026.
+ */
+const STUDIO = true;
+
+/**
  * Measured 15 Aug 2026 on `main` @ 9ec17e9. Every line is debt, not an allowance: each one is a
  * page whose head is longer than meta-framework.md's target and whose copy is build-owned. Lower
  * a number when the copy improves; delete the line when it reaches target.
@@ -189,6 +202,12 @@ for (const [route, p] of pages) {
       fails.push(`${route} has no ${label}.`);
       continue;
     }
+    // Studio mode: report, never ratchet. A missing title/description still FAILs above - that is
+    // an absence, not a length.
+    if (STUDIO) {
+      if (m > t) warns.push(`${route} ${label} is ${m}, over the ${t} target (studio mode: advisory until cutover).`);
+      continue;
+    }
     if (m <= t) {
       if (b !== undefined && b > t) {
         fails.push(`${route} ${label} is now ${m}, at or under the ${t} target, but BUDGET still records ${b}. Delete that field from its line in scripts/check-meta.mjs — a budget the page has already beaten is a ceiling to grow back into.`);
@@ -209,13 +228,16 @@ for (const [route, p] of pages) {
     }
   }
 }
-for (const route of BUDGET.keys()) {
-  if (!seen.has(route)) {
-    fails.push(`BUDGET names ${route} in scripts/check-meta.mjs, which is not an indexable built page. Delete the line, or find out why the page stopped being indexable.`);
+if (!STUDIO) {
+  for (const route of BUDGET.keys()) {
+    if (!seen.has(route)) {
+      fails.push(`BUDGET names ${route} in scripts/check-meta.mjs, which is not an indexable built page. Delete the line, or find out why the page stopped being indexable.`);
+    }
   }
 }
 const budgeted = BUDGET.size;
-if (budgeted) oks.push(`Length ratchet: ${measuredPages - budgeted} indexable page(s) at target, ${budgeted} carrying measured debt, 0 regressions`);
+if (STUDIO) oks.push(`Length: studio mode - over-target lengths are advisory; ratchet and BUDGET resume at cutover`);
+else if (budgeted) oks.push(`Length ratchet: ${measuredPages - budgeted} indexable page(s) at target, ${budgeted} carrying measured debt, 0 regressions`);
 
 // -- report -----------------------------------------------------------------------------------
 // This runs on every build, and the budgeted-debt warnings are 22 near-identical lines about work
@@ -227,7 +249,7 @@ const VERBOSE = process.argv.includes('--verbose');
 const uniqWarns = [...new Set(warns)].sort();
 console.log('\n=== Head signals (sitemap, canonical, meta length) ===\n');
 if (VERBOSE) for (const w of uniqWarns) console.log(`  WARN  ${w}`);
-else if (uniqWarns.length) console.log(`  WARN  ${BUDGET.size} page(s) carry budgeted title/description debt (${uniqWarns.length} field(s) over target, none worsening). Run \`node scripts/check-meta.mjs --verbose\` to list them.`);
+else if (uniqWarns.length) console.log(`  WARN  ${uniqWarns.length} title/description field(s) over target${STUDIO ? ' (studio mode: advisory until cutover)' : `, budgeted, none worsening`}. Run \`node scripts/check-meta.mjs --verbose\` to list them.`);
 for (const f of [...new Set(fails)].sort()) console.log(`  FAIL  ${f}`);
 for (const o of oks) console.log(`  OK    ${o}`);
 console.log(`\n  ${fails.length} failing, ${warns.length} warning, ${oks.length} ok\n`);

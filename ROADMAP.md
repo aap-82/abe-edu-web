@@ -140,7 +140,9 @@ every gate green (one sighting, `white-card-wa`).
   via the interactive tool, open ones in prose. Subagents cannot ask — they stop and report upward.
 - **ABE is not an RTO.** Australian English. No em dashes in body copy. Never "comprehensive".
 - **One session, one type.** Declared at the start, fixed for the session; each type has its own
-  may-write scope and pre-flight. See `CLAUDE.md` → Session types.
+  may-write scope and pre-flight. See `CLAUDE.md` → Session types — and its Operating mode section:
+  in STUDIO mode (pre-cutover, decided 16 Aug 2026) the type is declared rather than policed, and
+  only two walls are enforced: the register is facts-only, and deploys are human-triggered.
 
 ---
 

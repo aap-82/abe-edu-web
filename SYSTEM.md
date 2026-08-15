@@ -140,7 +140,11 @@ exists at once.
   and description length against `meta-framework.md`'s targets. It is the second ratchet in the
   system, for the same reason as the first: fifteen pages were over target when it was written, the
   copy is build-owned, and a flat FAIL would have handed every build session a red build it was not
-  permitted to fix.
+  permitted to fix. **In STUDIO mode (pre-cutover, `STUDIO = true` in the script) the length
+  ratchet is off and over-target lengths WARN** — titles are being iterated for conversion, and a
+  budget edit per headline test is friction spent on a display heuristic. The index-signal and
+  canonical FAILs are correctness, not heuristics, and hold in both modes. At cutover: flip the
+  flag and re-measure BUDGET.
 
 **In CI, on every pull request and on every push to `main`** — `astro check` for types in `.astro`
 frontmatter and inline scripts, Lighthouse CI against the performance budget, **`prose-lint`** for

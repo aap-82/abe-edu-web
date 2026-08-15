@@ -605,8 +605,17 @@ export default function guardrails(): AstroIntegration {
             if (!ids.has(a)) logger.warn(`${name}: site chrome links to #${a}, which does not exist on this page.`);
           }
 
-          // 7 - unresolved facts must never ship
-          if (/\[confirm:/i.test(html)) fails.push(`${name}: unresolved [confirm: ...] marker in the output.`);
+          // 7 - unresolved facts must never ship ON AN INDEXABLE PAGE. On a noindex page the
+          //     marker is the drafting convention doing its job (studio mode, decided 16 Aug
+          //     2026): verification is a publish gate - it runs when noindex comes OFF - not a
+          //     drafting gate. Same indexable/noindex split as 7a2 below and the pending-
+          //     component check above; the WARN keeps the marker visible so the publish gate
+          //     is a search away, not a surprise.
+          const isNoindex = /<meta[^>]+name="robots"[^>]*content="[^"]*noindex/i.test(html);
+          if (/\[confirm:/i.test(html)) {
+            if (isNoindex) logger.warn(`${name}: [confirm: ...] marker on a noindex page - fine while drafting, a hard-blocker the moment noindex comes off.`);
+            else fails.push(`${name}: unresolved [confirm: ...] marker on an indexable page.`);
+          }
 
           // 7a - banned generic CTA, ratcheted. See BANNED_CTA_BUDGET above for why this
           //      is a budget and not a flat FAIL. Body only: chrome carries no enrol CTA.
@@ -627,7 +636,7 @@ export default function guardrails(): AstroIntegration {
           // 7a2 - FPO image placeholders on an INDEXABLE page, ratcheted. See FPO_BUDGET above.
           //       Exempts noindex pages: unfinished-on-purpose is a state the repo uses to stage
           //       work, and failing it would punish the staging rather than the shipping.
-          const isNoindex = /<meta[^>]+name="robots"[^>]*content="[^"]*noindex/i.test(html);
+          //       (isNoindex is computed at check 7, which now shares the same split.)
           if (!isNoindex) {
             const fpo = (body.match(/class="ph-in"/g) || []).length;
             const fpoBudget = FPO_BUDGET[name] ?? 0;
