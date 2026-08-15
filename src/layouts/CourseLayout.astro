@@ -18,7 +18,7 @@ const { course } = Astro.props;
 const {
   title, description, canonical, ogImage,
   nav, cta, sticky, hero, ctaBand, footerSources, disclaimersHtml,
-  courseName, courseDescription, priceNumber, courseWorkload,
+  courseName, courseDescription, priceNumber, courseWorkload, courseMode,
   credentialName, credentialCategory, regulator, breadcrumb, reviewedBy, experts,
   authorityModel, partnerRto, cpd,
 } = course;
@@ -145,7 +145,13 @@ const schema = {
       inLanguage: 'en-AU',
       ...(heroImg ? { image: { '@type': 'ImageObject', contentUrl: heroImg, caption: hero.artefactAlt, inLanguage: 'en-AU' } } : {}),
       offers: { '@type': 'Offer', price: priceNumber, priceCurrency: 'AUD', category: 'Tuition', availability: 'https://schema.org/InStock', url: canonical },
-      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', ...(courseWorkload ? { courseWorkload } : {}) },
+      // courseMode was hardcoded 'online' for every course until 16 Aug 2026, including
+      // /white-card-act, which AlertForce delivers face-to-face in a classroom — structured data
+      // contradicting the page's own H1. The fallback stays 'online' because that is true of every
+      // other course page, and the frontmatter field is optional so setting it is a decision rather
+      // than a default somebody inherited. See content.config.ts for why the Zoom-delivered QLD and
+      // NSW pages deliberately do NOT set it.
+      hasCourseInstance: { '@type': 'CourseInstance', courseMode: courseMode ?? 'online', ...(courseWorkload ? { courseWorkload } : {}) },
     },
     {
       '@type': 'EducationalOccupationalCredential', '@id': canonical + '#credential',
