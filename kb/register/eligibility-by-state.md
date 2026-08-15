@@ -15,8 +15,8 @@ Regulator names and remits are in `regulator-roles-by-state.md`. ABE develops an
 | **NSW** | $10,000 (incl. labour + materials), where the work needs development consent/CDC | Yes — **if work is valued over $20,000**. Between $10k–$20k a permit is needed but the course is not. | One permit per 5 years (exceptions: same land, or special circumstances via Form 7) |
 | **QLD** | $11,000 (total value, incl. GST; labour + materials) | Yes — QBCC-approved course, before applying | One permit per 6 years (exemptions in exceptional circumstances; barred if a permit was cancelled in the last 3 years) |
 | **WA** | $20,000 (called **Owner Builder Approval**) | Yes — approved owner-builder course (WA uses a knowledge-requirement model; certificate supports the **Form 75** application) | Not formally restricted; repeat applications attract additional scrutiny |
-| **TAS** | ≈ $5,000 (⚠️ sources vary — some cite higher; **verify with CBOS**) | Yes — a **Tasmanian-approved** course, completed within the last 12 months. **Not required for Class 10a/10b** buildings (sheds, garages, fences). | Two permits per 10-year period (strictest in Australia) |
-| **ACT** | $12,000 | Yes — approved owner-builder course | Verify current limit with Access Canberra |
+| **TAS** | **No dollar trigger — do not state one.** ✅ Verified 15 Aug 2026. The *Building Act 2016* is risk-category based: owner builder work is **Permit work** (high risk) whatever it is worth. Exemptions are by size/type, not value — shed/garage/carport to 18m² (36m² prefabricated), porch/veranda to 9m², deck under 1m, like-for-like maintenance and repairs. | Yes — a **Tasmanian-approved** course, completed within the last 12 months. **Not required for Class 10a/10b** buildings (sheds, garages, fences). | Two permits per 10-year period (strictest in Australia) |
+| **ACT** | **No dollar trigger — do not state one.** ✅ Verified 15 Aug 2026. The licence is required for work needing **building approval** on a **Class 1, Class 2 or Class 10a** building. ⚠️ The **$12,000** previously in this cell is not a permit trigger — see §ACT below and `legislation-references-act.md`. | Yes — approved owner-builder course, **completed within the last 5 years** (or hold an active ACT Class A/B/C builder licence) ✅ Verified 15 Aug 2026 | Verify current limit with Access Canberra |
 
 ---
 
@@ -57,9 +57,42 @@ There is still **no prescribed course and no approved-provider scheme**; no page
 
 📌 **Also note the department renamed.** The form and page are now issued by the **Department of Local Government, Industry Regulation and Safety (LGIRS)**, not DEMIRS/DMIRS. The page states that Form 75 versions "in the name of Department of Energy, Mines, Industry Regulation and Safety" were "**not** ... accepted after 1 June 2026". Any ABE page or artefact naming the old department, or linking an old form copy, is stale. Council-hosted copies of Form 75 found by search are 2017/2018 vintage and must not be cited.
 
-**TAS** — Lowest threshold and strictest frequency limit (two permits per decade). The approved Tasmanian course must be current (completed within 12 months) and is **not** required for Class 10a/10b structures. Applications are lodged at a Service Tasmania shop; CBOS administers the permit. (Permit fees by building class belong in the fees register, not here.)
+**TAS** — **There is no dollar permit trigger, and "lowest threshold in Australia" was wrong.** ✅ Verified
+15 Aug 2026 against two CBOS pages read in full (below). The *Building Act 2016* "takes a risk-based
+approach to building approval": work is Low risk (no permit), Medium risk / notifiable, or High risk /
+Permit work, and **"Owner builder work" is listed under High risk (Permit work)** — so it goes through
+a full council building-approval process regardless of what it is worth. What removes the need for a
+permit is the size and kind of structure, not its value: "a shed, garage or carport up to 18m2, or up
+to 36m2 if prefabricated", "a porch or veranda up to 9m2, or a deck up to 1m high", a temporary
+swimming pool up to 9m2 on conditions, and "maintenance or repairs on a dwelling using similar
+materials as those replaced". Class 7b farm sheds need no permit (a building surveyor is required over
+200m²). A permit is only ever issued for a residential building — "detached dwelling or a conjoined
+unit" — never commercial. Two Class 1a projects per ten years. The approved Tasmanian course must be
+current (completed within 12 months) and is **not** required for Class 10a/10b structures.
+Applications are lodged at a Service Tasmania shop; CBOS administers the permit. (Permit fees by
+building class belong in the fees register, not here.)
+📌 Also confirmed on the same page, corroborating the residency finding already held elsewhere in this
+register: "Applicants can live outside Tasmania" and "Owner builders don't have to live in their
+residence."
 
-**ACT** — Owner-builder licences are issued by the Construction Occupations Registrar through Access Canberra; home warranty insurance applies above $12,000, with resale disclosure within 6 years.
+**ACT** — Owner-builder licences are issued by the Construction Occupations Registrar through Access
+Canberra. **The trigger is not a dollar figure.** ✅ Verified 15 Aug 2026: the licence covers "work on a
+specific building approval where the work relates to a Class 1, Class 2 or Class 10a building", and an
+owner builder "takes on the same responsibilities as a licensed builder to supervise building work".
+The course requirement is explicit — "completed an owner–builder course (within the last 5 years), or
+hold an active Class A, B or C builder licence in the ACT" — which is the source for the five-year
+currency the ACT course page states. Owner builders may not do specialist work such as demolition or
+swimming pool construction.
+⚠️ **$12,000 — UNVERIFIED as to what it governs, and it is not the owner-builder trigger.**
+Not read at source this session. Two candidate attributions are in circulation and they are different
+rules with different consequences: home warranty / residential building insurance, or the value at
+which a *builder's* licence is required for alterations or additions to an existing residence. Resolve
+it at source before any page states what it is. It is recorded here, not blessed — the marker above is
+what keeps `check-claims` warning while a page carries it.
+Note the shape of how this went wrong: this file's own table listed the figure in the
+"permit required above" column while the paragraph beneath attributed it to insurance. **The
+contradiction was inside a single file**, and the verified trigger is the building-approval/class test
+above, not either reading of it. Resale disclosure within 6 years is carried over and also unverified.
 
 ---
 
@@ -84,9 +117,20 @@ checked".
 - NSW: service.nsw.gov.au (apply for an owner-builder permit); fairtrading.nsw.gov.au (owner-builder permits)
 - QLD: qbcc.qld.gov.au (about owner building / apply / rules for previous owner builders)
 - WA: wa.gov.au (Owner Builder Approval, Form 75) — confirm current regulator name
-- TAS: cbos.tas.gov.au (owner-builder permit) — **confirm the current threshold**
-- ACT: accesscanberra / planning.act.gov.au (construction licences)
+- TAS: https://cbos.tas.gov.au/topics/licensing-and-registration/licensed-occupations/owner-builder-permit/restrictions — ✅ **verified 15 Aug 2026**, page last updated 04 Nov 2022. Read in full for the permit trigger, the size-based exemptions and the residency lines. Threshold question **resolved: there is no dollar trigger.**
+- TAS (corroboration): https://www.cbos.tas.gov.au/topics/technical-regulation/building-standards/permit-authorities/categories-of-work — ✅ **verified 15 Aug 2026**, page last updated 15 Nov 2022. "The Building Act 2016 takes a risk-based approach to building approval"; the risk table lists **owner builder work under High risk (Permit work)** and carries **no dollar figure anywhere on the page**.
+- ACT: https://www.planning.act.gov.au/professionals/regulation-and-responsibilities/construction-licences — ✅ **verified 15 Aug 2026** for the owner-builder class test and the five-year course currency. **No dollar threshold for the owner-builder licence.**
+- ⚠️ `cbos.tas.gov.au` and `accesscanberra.act.gov.au` both return **403 to WebFetch and to curl**, and the Access Canberra builders page redirects to a Digital Canberra login. The CBOS reads above were done in a real browser; `planning.act.gov.au` fetches normally. A future session that reports these pages as unreachable has hit the user-agent block, not a dead link — open them in the browser.
 - QLD (QLeave levy threshold, §3a): https://www.qbcc.qld.gov.au/resources/qleave-levy — verified 22 Jul 2026
 - WA (Class 10a $50,000 threshold, §3a): https://www.wa.gov.au/organisation/building-and-energy/building-or-renovating-your-home — verified 22 Jul 2026, page last updated 20 Jul 2026. Note the owner-builder approval page itself (`/organisation/service-delivery/owner-builder-approval`) does **not** carry this figure — it states only the $20,000 general trigger, which is why an earlier check recorded the $50,000 as unverified.
 
-Always confirm the current dollar threshold, course requirement and frequency rule against the regulator before publishing them on a course page. Where this file flags a figure as uncertain (TAS threshold, residency-intention period), do not state a precise number in body copy until verified.
+Always confirm the current dollar threshold, course requirement and frequency rule against the regulator before publishing them on a course page. Where this file flags a figure as uncertain (the ACT $12,000's true subject, residency-intention period), do not state a precise number in body copy until verified.
+
+⚠️ **Do not assume every state has a dollar trigger.** Two of the four states ABE Education sells into
+do not: TAS gates on risk category and structure size, ACT on building approval and building class.
+Both were carried in this file as dollar figures for months — TAS as "≈ $5,000 (sources vary)", ACT as
+a flat "$12,000" that its own prose paragraph attributed to insurance. The failure mode is the same
+each time and it is worth naming: a table column headed "permit required for residential work above"
+**presumes** the answer is a number, so whatever number was nearby got filled in. Page copy that asks
+"do I need this course?" must answer in the shape the state actually uses, not force all four into a
+dollar comparison. See `skill-reviews/facts/2026-08-15-tas-act-owner-builder-triggers.md`.
