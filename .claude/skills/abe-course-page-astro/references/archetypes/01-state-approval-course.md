@@ -1,5 +1,15 @@
 # Archetype 1 — State-approval course
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A course the state regulator approves directly, or accepts as satisfying a knowledge requirement,
 before the reader may do something they are otherwise not permitted to do. QLD/QBCC, TAS/CBOS and
 ACT/Access Canberra owner builder sit here; WA/Form 75 sits here as the knowledge-requirement variant.

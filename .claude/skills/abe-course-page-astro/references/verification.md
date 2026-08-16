@@ -1,5 +1,11 @@
 # Stage 7 — Pre-deploy verification
 
+## Contents
+- 1. Pre-production audit (`references/seo/audit-workflow.md`)  — applies to the built page
+- 2. abe-readability-audit  (evidence-based targets)
+- 3. final-check (+ ai-detector)  — on the copy
+- Hard-blockers (do not deploy if any are true)
+
 Run these on the **built HTML** (`dist/{slug}/index.html`) after Stage 6 and before the Stage 8 deploy.
 Fix FAILs by correcting the content or data, never by watering down the components. These mirror the
 project "Proof" step: a page does not ship until it passes.

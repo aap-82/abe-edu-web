@@ -1,5 +1,15 @@
 # Archetype 9 — Single insurance type
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A page explaining one type of cover — what it is, whether it is compulsory, who needs it and how it is
 obtained. ABE refers rather than sells, so the page's credibility depends on being useful rather than
 promotional.

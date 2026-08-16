@@ -1,5 +1,11 @@
 # Audit Workflow
 
+## Contents
+- When to invoke audit mode
+- Audit workflow
+- Safeguards
+- Quick-audit shortcut
+
 User-triggered mode for verifying every recommendation in the ABE SEO Content Engine against current Google and schema.org guidance, producing a drift report, and applying approved updates.
 
 This is distinct from per-run checks (which verify a single output as it is produced). Audit mode brings the **skill itself** up to date so future per-run checks have a fresh baseline.

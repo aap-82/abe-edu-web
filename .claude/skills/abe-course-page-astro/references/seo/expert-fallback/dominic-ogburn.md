@@ -1,5 +1,17 @@
 # Dominic Ogburn — Expert Fallback Snapshot
 
+## Contents
+- Database properties
+- Course-development scope (critical — two models)
+- Courses Developed — URL Map
+- Bio variations
+- Expert Card Copy (for course pages)
+- Canonical approved phrasings (use verbatim)
+- Verified credentials (16) — summary
+- Credential usage by course type
+- Person schema JSON-LD template (v1.9 — ProfilePage wrapper + worksFor)
+- What NOT to Claim ⚠️
+
 **⚠️ FALLBACK ONLY** — snapshot of the Notion Experts entry, synced **26 May 2026**. Notion is the source of truth; use this only if the live query fails. If you build from this file, state in the output that expert data came from the fallback snapshot, not live Notion.
 
 Source page: https://www.notion.so/34266bffe8808113b9c5cc588b59d1cc · Notion doc version 1.13 (27 May 2026)

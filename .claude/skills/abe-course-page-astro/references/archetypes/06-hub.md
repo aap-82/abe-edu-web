@@ -1,5 +1,16 @@
 # Archetype 6 — Hub
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 3a · The CPD hub hierarchy
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A page whose job is to route a reader to the right child page. It earns its place by making a choice
 easy, not by explaining a topic.
 

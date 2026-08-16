@@ -1,5 +1,16 @@
 # Archetype 4 — CPD bundle
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+- Worked example of the rule above, and its opposite
+
 A packaged set of CPD courses sold to discharge a whole cycle's obligation. The reader is doing
 arithmetic, not evaluating courses.
 

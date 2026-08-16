@@ -1,5 +1,15 @@
 # Archetype 2 — Nationally recognised course
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A unit of competency delivered through an RTO partner, producing a Statement of Attainment. White
 Card and NSW owner builder sit here. The defining feature is that ABE is not the issuing body, and
 the page must say so accurately without undermining the credential.

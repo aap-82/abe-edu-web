@@ -1,5 +1,12 @@
 # Content pipeline — stages 1–4 (research → extended content)
 
+## Contents
+- Stage 1 — Government resource map + fact ledger
+- Stage 2 — Competitor keyword / content-gap analysis
+- Stage 3 — Archetype selection, then section briefs
+- Stage 4 — Extended content
+- Where the inputs live
+
 Produce these four artefacts in order before the component handover. Stages 3 and 4 carry their worked
 examples inside each archetype file (`references/archetypes/`, sections 7 and 8). Australian English; never "comprehensive"; no em dashes in body copy. Every
 government fact carries an official source + a verified date; ABE-controlled facts (price, pass mark,
