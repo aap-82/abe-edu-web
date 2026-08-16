@@ -14,6 +14,18 @@ description: >-
 
 # ABE Course Page — research to content to components to build to deploy
 
+## Contents
+- Checking the system, not just the page
+- Ask, don't assume
+- The 9 stages
+- Guardrails (always — the ship-blockers)
+- What the skill carries
+- Where things live (repo-first)
+
+Reference files are one level deep from here: open the one you need directly rather than following
+a chain. `references/session-preflight.md` at session start, `references/repo-map.md` to find
+anything in the repo, `references/stage-9-review.md` at the end of a run.
+
 The full pipeline for an ABE course landing page, from government research to a live Astro site on
 Cloudflare. It carries a proven Astro template (the QLD Owner Builder page + its component library)
 and worked examples of every research/content artefact, so a new page follows a known-good path
@@ -53,46 +65,12 @@ true and unactionable; "no brief-to-section mapping exists, and `#how-long` is i
 not on the page" is a fix.
 
 ## Checking the system, not just the page
-`guardrails.ts` checks one page at build. These check the system:
-- **`node scripts/system-health.mjs`** — run before planning work. Register freshness, dangling
-  references, Stage-9 review coverage, trend direction, repeat risks, claim drift, figure
-  contradictions. FAIL blocks page-building; WARN is work to schedule.
-- **`node scripts/check-claims.mjs`** — what the docs *assert* about the build, checked against
-  `content.config.ts` and `guardrails.ts`, plus every dollar figure on a page matched against
-  `kb/register/`. A superseded figure is a FAIL.
-- **`node scripts/check-freshness.mjs`** — register staleness. Wired into `prebuild`.
-- **`node scripts/check-assets.mjs`** — every image a page names is **tracked in git**, not merely
-  present on disk. Wired into `prebuild`, and it FAILS the build. Exists because a hero was
-  repointed at an asset that was never committed: the pointer shipped, the file did not, and every
-  other gate passed because they all read `dist/` or the working tree, where the file was there.
-  `src/lib/images.ts` returns an unmatched basename unchanged rather than erroring, so the page
-  emitted a live `<img>` at a 404 on an indexable page. Checks both reference forms, the
-  `/images/x.avif` path and the bare `x.avif` basename, because `resolveImage()` keys on basename
-  and does not care which you used.
-- **`node scripts/check-links.mjs`** — run after `npm run build`. Every same-origin link in `dist/`
-  resolves to a built route, an asset, or an explicitly named planned page. `guardrails.ts` checks
-  in-page anchors (6) and orphans (8) but never checked that a link points AT something, which is
-  how the footer came to link all 19 pages at ten URLs that do not exist. Unbuilt targets are
-  allowed only by being listed in `PLANNED` with the wave that builds them, and the list
-  self-cleans: a target that now exists but is still listed is a FAIL.
-  **Breadcrumbs are held stricter than `PLANNED`.** A footer link to a wave-5 page is sequencing; a
-  breadcrumb link to one is a visible 404 plus a `BreadcrumbList` item Google resolves and rejects as
-  an invalid rich result. Both the visible `nav.crumbs` and the JSON-LD items must point at built
-  routes, and `PLANNED` does not excuse them. Added 28 Jul 2026 after a crumb pointing at the unbuilt
-  `/white-card` shipped on a course page and this script passed it.
-- **`node scripts/check-shipped.mjs`** — can this branch's work still reach `main`? Runs inside
-  `system-health`, so the pre-flight answers it before you start. **A merged PR does not pick up
-  later pushes**, so anything committed to that branch afterwards is stranded: green, correct, and
-  invisible to production. It happened twice on 29 Jul 2026, once shipping a pointer without its
-  asset (a live 404) and once shipping nothing at all. No other check can see it, because they all
-  read the branch, where the work is present and passing. Uses `git cherry`, not `rev-list`, so a
-  commit already cherry-picked upstream does not cry wolf. Skips rather than guesses when `gh` or
-  the network is unavailable.
-- **`node scripts/review-trends.mjs`** — after filing a Stage-9 review.
 
-**When you change a claim about the build, add it to `CLAIMS` in `check-claims.mjs`.** Documentation
-drifting from code is this system's most-recorded repeat risk; a claim nothing checks is a claim that
-quietly stops being true.
+**At session start, read `references/session-preflight.md` and run the pre-flight it describes.**
+It covers what each check owns, and what a FAIL means versus a WARN. The rule that matters most is
+there in full: on a FAIL, close the session and open the type that owns the fix — never repair and
+continue, because a build session that quietly fixes the process destroys the evidence the run
+exists to produce.
 
 ## Ask, don't assume
 
@@ -138,6 +116,27 @@ unknown **stops and reports it** to the main session, which asks. A subagent tha
 produced an artefact nobody can trust, and the grader has no way to tell.
 
 ## The 9 stages
+
+**Copy this into your first response of the run and tick items as they land.** The stages are ordered
+but independently useful, so a run that enters at Stage 4 ticks 1-3 as "not in scope this run" rather
+than leaving them blank. A blank box and a skipped stage look identical three days later.
+
+```
+Run: {slug}          Archetype: ______________  Authority model: ______________
+- [ ] 1 · Government resource map + fact ledger   (artefact: 01-source-map.md)
+- [ ] 2 · Competitor keyword / content-gap        (artefact: 02-gap.md)
+- [ ] 3 · Archetype selected + section briefs     (artefact: 03-briefs.md)
+- [ ] 4 · Extended content written                (artefact: 04-content.md)
+- [ ] 5 · Section plan & component selection      (artefact: 05-components.md)
+- [ ] 6 · Astro build green                       (npm run build)
+- [ ] 7 · Pre-deploy verification, fresh subagent (artefact: 07-verification.md)
+- [ ] 8 · Deploy — HUMAN-TRIGGERED, never assumed
+- [ ] 9 · Per-run skill review filed              (skill-reviews/)
+```
+
+**Stage 7's artefact and the content it certifies belong in the SAME commit.** `check-pipeline` §4
+compares git commit times and fails a page whose source is newer than its `07`, and it cannot know a
+diff was comment-only. Six sightings in `kb/mistakes-log.md` row 19, four of them on one day.
 
 ### 1 · Government resource map + fact ledger
 Collect and describe every authoritative `.gov.au` page behind the course (regulator, permit/approval,
@@ -502,54 +501,11 @@ true` gives the preview URL. `npx wrangler deploy`, or a git-connected build wit
 `references/deploy-cloudflare.md`.
 
 ### 9 · File the per-run skill review
-Before the run is done, one review file is written for it. This is how the pipeline measures whether
-it is improving; it is not optional and not gated on the person asking.
 
-**A fresh grader writes it, not you.** Spawn a subagent whose only inputs are the run's artefacts —
-`pipeline/{slug}/` (source map, fact ledger, gap analysis, briefs, content), the built HTML in
-`dist/{slug}/`, and the audit output. It must not receive your reasoning or your account of the run.
-The agent that did the work knows what it meant to do, which is precisely the knowledge that inflates
-a self-assessment. The grader scores what was produced. If subagents are unavailable in the current
-surface, say so in the handoff and mark the review self-graded, so the bias is on the record rather
-than hidden.
-
-**Where.** `skill-reviews/YYYY-MM-DD-<skill>-<page-or-course>.md` in the repo, copied from
-`skill-reviews/_TEMPLATE.md`. One file per gradeable run — re-grading updates it, never duplicates it.
-**Keep the template's frontmatter block intact.** `scripts/review-trends.mjs` parses it, and a review
-with hand-edited keys drops silently out of the trend report — the metrics stop being answerable
-rather than becoming visibly wrong.
-
-**Fill from the artefacts.** Every field comes from output this run actually produced. Do not
-re-derive, estimate, or infer a score nobody measured.
-- **Verdict** — Green / Amber / Red.
-- **Five scores, in priority order** (a higher one beats a lower one):
-  1. **Correct & safe** (non-negotiable) — every regulatory, fee and legislative fact verified
-     against its official source with a current date; authority model right (ABE is **not** an RTO);
-     no `kb/mistakes-log.md` entry recurred.
-  2. **Passed its gates first time** — SEO/schema, readability, final-check, design register,
-     Australian English, no "comprehensive".
-  3. **Inside the effort budget** — turns to passed-audit and manual fix passes vs the budget.
-  4. **Low rework / high autonomy** — didn't re-ask for anything already on disk; few unblocks.
-  5. **Taught us something** — surfaced a reusable fact or a weakness in this skill.
-- **Three trend metrics** — assistant turns to passed-audit; manual fix passes after the skill said
-  "done"; gate-fails caught after handoff. Recording them is not the same as knowing whether the
-  system is improving: **run `node scripts/review-trends.mjs` after filing the review** and read the
-  direction. It also reports any run that was self-graded, any red on correct-and-safe, and any
-  4- or 12-week outcome review that has come due.
-- **What worked / what didn't.**
-- **Output — every Amber or Red needs at least one:** a fix applied, a skill-change spec, or a
-  `kb/mistakes-log.md` add/increment (increment "times seen"; never duplicate an entry).
-- **The demand list** — what was painful: files too large to hold, context flooded by verbose output,
-  steps that wanted isolation, checks that failed silently. This is the input to any future decision
-  about splitting skills or adding subagents, so it is evidence, not opinion.
-
-**Outcome target (deploy-bound builds).** Fill the outcome-target block so the post-live reviews have
-a baseline: primary and secondary keywords, target ranking/traffic, deploy date, live URL, and the
-**4-week** and **12-week** review dates (deploy + 28 and + 84 days). Blank the deploy date if it did
-not ship, and say so.
-
-**Verdict rule — correct-and-safe is a veto.** A **Red on "Correct & safe" fails the whole run**,
-whatever scores 2 to 5 say. A fast, clean page carrying one wrong regulatory fact still fails.
+**Read `references/stage-9-review.md` and follow it.** What the review must contain, who may grade it
+(a fresh subagent, not the run's author), the 4-week and 12-week review dates, and the demand-list
+format and routing all live there. **A run is not finished until its review is filed** — the review
+is how the next run inherits what this one learned, and a run that skips it teaches nobody anything.
 
 ## Guardrails (always — the ship-blockers)
 Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
@@ -594,41 +550,6 @@ Full detail in `kb/rules/authority-and-seo-rules.md`. In short:
 
 ## Where things live (repo-first)
 This skill is **self-contained plus the repo's `kb/` library**. Nothing is drawn from another skill.
-
-- **`kb/register/`** — verified regulatory facts on a cadence (fees, eligibility, legislation by
-  state, penalties, delivery policy, regulator roles, TAS/CBOS). Stage 1 reads the index first,
-  `kb/content-source-map.md`, and loads only the file a fact needs. Newly verified facts are written
-  back here. **Single owner: this directory. Never keep a second copy of a figure.**
-- **`kb/rules/`** — `authority-and-seo-rules.md` (the ship-blockers), `authority-model.md`,
-  `asqa-disclosure-framework.md`. `guardrails.ts` enforces these at build time; the text lives here.
-- **`kb/mistakes-log.md`** — repeat risks with "times seen". Read at pre-flight, written at Stage 9.
-- **`references/seo/`** — the SEO method. Each file is now pointed to from the stage that needs it
-  (Stage 2 keyword-research.md and seo-strategy.md; Stage 4 helpful-content-standard.md,
-  meta-framework.md, trust-bar-guidelines.md, badge-inventory.md, course-page-structure.md,
-  seo-content-reference.md, content-formatting-guidelines.md; Stage 6 schema-implementation-guide.md,
-  schema-org-opportunities.md, page-type-engine.md, crawl-index-controls.md; Stage 7
-  audit-workflow.md, and three that no stage anchors by full path, so they are unreachable from here
-  without guessing the directory — `references/seo/quality-gates.md`,
-  `references/seo/alt-text-guidelines.md` and `references/seo/freshness-check.md`) — do not add a new
-  file here without also anchoring it at the stage that will actually open it, or it is unreachable
-  from the pipeline even though it is "in the skill". **Anchor it by full path, not bare filename**:
-  a bare name reads as prose and cannot be opened without guessing the directory, which is how those
-  two ended up two hops from this file. `changelog.md` is the exception: a dated log of
-  corrections already applied elsewhere, read by a human auditing the skill's own history, not by a
-  page-building run.
-- **`evaluations/`** — five scenarios that test whether this skill prevents the failures it was
-  written to prevent, each derived from a defect that actually shipped or nearly shipped (the
-  mistakes-log row or dated review is named in every file). **Never read during a page-building
-  run**, same standing as `changelog.md` below: they are for a `skills` session auditing the skill.
-  Read `evaluations/README.md` first for how to score one and why a partial pass counts as a fail.
-- **`references/seo/expert-fallback/`** — a static snapshot of the Notion Experts database, used only
-  if a live Notion query for expert data fails or is unreachable; read its own `README.md` for the
-  fallback procedure before using it. **Known gap:** the README's own step references ("Step 4, Step
-  6M, Step 7", a "Graceful degradation" section) describe a pre-Stage-numbering version of this skill
-  and no longer match — flag to a `skills` session, do not guess the mapping mid-run.
-- **`references/archetypes/`** — Stage 3's page shapes. **`references/content-craft.md`** — Stage 4.
-- **The site itself** — `src/`, `content.config.ts`, `guardrails.ts`. Read the code for the current
-  shape rather than any description of it, this file included.
-
-Still separate skills, unchanged: `abe-readability-audit`, `final-check`, `ai-detector` (Stage 7),
-and the CBOS suite (a different regulator workflow with its own lifecycle).
+The full map — what `kb/`, `pipeline/`, `src/` and `scripts/` each own, and the single-owner rule
+for figures — is `references/repo-map.md`. **`kb/register/` is the single owner of every verified
+regulatory figure; never keep a second copy of one.**

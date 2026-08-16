@@ -1,5 +1,12 @@
 # Archetype selector — choose the page shape before you outline
 
+## Contents
+- Select by what the reader arrived to do
+- Disambiguating the near-misses
+- Archetype is not the authority model
+- What every archetype shares
+- What each archetype file defines
+
 The page's shape is a decision, not a default. Ten archetypes are defined; each has its own reader,
 its own decision order, its own required sections, its own schema graph and its own build rules.
 **Select the archetype at the start of Stage 3, name it in the run, and read only that archetype's

@@ -1,5 +1,15 @@
 # Content craft — turning a section brief into prose
 
+## Contents
+- The three failures this prevents
+- Move 1 — Translate the fact, do not restate it
+- Move 2 — Spend the distinctive material
+- Move 3 — Write the capsule as an answer, not an introduction
+- Move 4 — Name the objection out loud
+- Voice
+- Move 5 — The cold reread
+- Worked example — brief to draft
+
 Stage 4's job is narrow and specific: take one section brief and write the section. Not "write the
 page". The brief already decided what the section claims, who is reading it, what objection it
 defuses and what research finding should shape it. If you find yourself inventing any of that while
