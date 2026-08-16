@@ -425,3 +425,37 @@ contradiction is gone rather than merely masked by `noindex`.
 The experiment was reverted in full; `noindex` and both `PENDING` entries stand. Nothing was
 committed. The `TBC-` checkout id stays, waived by Andrey on 16 Aug 2026 as a publish blocker, and
 remains wrong: this page will publish with a Buy button that 404s.
+
+---
+
+## Re-verification — 17 August 2026: CBOS-approved member name
+
+Triggered by `check-pipeline` §4: this page source was committed after its last Stage 7 artefact, so
+the gate correctly refused it. Re-run here rather than timestamp-touched.
+
+**What changed, and why it is not a copy change.** One `memberInfo` key, renamed to follow the
+register. `kb/register/cpd/tas-courses.json` held `cbosName: null` for the Cyber Risks course, and
+`CpdBundleLayout.astro` renders `cbosName ?? name`, so the member list published ABE's internal
+LearnWorlds/admin title. The approved name was verified against the CBOS approval email of
+15 Aug 2025 and recorded at source (facts session, `skill-reviews/facts/2026-08-17-cbosname-null.md`).
+`memberInfo` is keyed by display name, so the key had to move with it or the member would have lost
+its blurb and measured time.
+
+**Rendered effect, measured on `dist/`:**
+
+- member row 5 of 12: `TAS CPD: Cyber Risks and Workplace Safety (1 pt)` -> `Cyber Risks and Workplace Safety`
+- occurrences of the internal title on this page: **0**, measured on the built HTML. The fallback has
+  two render sites, both `m.cbosName ?? m.name` (`CpdBundleLayout.astro:108` for the card, `:166` for
+  the JSON-LD), so both are cleared; the pre-change count is read off those two call sites, not from a
+  retained build of the old page.
+- card renders in full: `Cyber Risks and Workplace Safety | Protecting client data and site systems from common threats. | 1 CPD point | 47 min average` — blurb and measured time both preserved
+- JSON-LD `ItemList`: 1 `Course` node named `Cyber Risks and Workplace Safety`
+- points, price, buy path, canonical, robots and every other member row: unchanged
+
+This page remains `noindex` for its own unrelated blocker (no 2026 plumber checkout id — the `buyUrl`
+is still a `TBC-` placeholder). Nothing here changes that.
+
+**Not re-run: the three mandated skill-audits** (`abe-readability-audit`, `final-check`,
+`ai-detector`). Their input is the page's prose, and no prose was written or edited — a single member
+name changed from an internal identifier to the regulator's approved title. Stated rather than
+silently skipped.
