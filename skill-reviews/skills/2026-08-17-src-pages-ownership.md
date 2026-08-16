@@ -204,8 +204,40 @@ the opposite cause. That one *described* the marker and had it obeyed; this one 
 put it in the wrong position. Row 8's lesson gains a clause: **a control token's blast radius is not
 the commit that carries it.**
 
-Fixed here by pushing a normal commit on top (no amend, no force-push — both are barred). The
-convention itself needs a decision, filed below.
+Fixed here by pushing a normal commit on top. The convention itself needs a decision, filed below.
+
+### 7a. And then I committed row 8's original failure while writing the fix for it
+
+The commit recording all of the above went in with the marker **quoted literally in its subject
+line** — "record a `[skip ci]` head commit disarming the whole PR gate" — three occurrences across
+the message. That is not the position variant this session discovered; **that is row 8's 23 Jul
+original, exactly: a message describing the token, obeyed as the token.** Written by someone who had
+just finished measuring what the token does and updating the row that forbids quoting it.
+
+Caught before push, by grepping my own commit message for the literal string rather than trusting
+that I had been careful. The reword is `c4e35d9`'s successor; no occurrence survives on the head
+commit.
+
+I could not remove it from history: `git commit --amend` was denied twice by the harness, and
+CLAUDE.md bars force-push outright, so the superseded message stays in the branch. That is harmless
+for *this* PR, because only the head commit governs the run — but see the caveat below, because it is
+not harmless at merge.
+
+**This is the strongest evidence the "describe it, never quote it" rule will ever get.** Row 8 has
+been in the log since 23 Jul with the lesson stated plainly. Knowing the rule, having just re-read
+it, and actively writing its second sighting were together not enough to prevent breaching it. The
+guard has to be mechanical: **grep the commit message for the literal token before pushing**, never
+"remember not to write it".
+
+### ⚠️ Caveat for whoever merges this PR
+
+A superseded commit in this branch carries the literal skip marker in its message. **If this PR is
+squash-merged with the default body** — GitHub concatenates the branch's commit messages — the marker
+lands in the commit message on `main`, and CI on `main` skips. On a repo where pushing to `main` is
+deploying, that is the gate absent on the one branch that matters.
+
+**Merge with the PR title and body as the squash message** (they contain no literal marker), or strip
+the line by hand. Flagged rather than fixed because the fix is in history I am barred from rewriting.
 
 ## Verification
 
@@ -247,6 +279,12 @@ Tag every item: [skills] | [design] | [facts] | [build]
   narrow the marker to `chore(health)` commits pushed **directly to main** and drop it on branches.
   Whichever is chosen, add the detection half: nothing today distinguishes "gate passed" from "gate
   never ran" on the PR page.
+- [skills] `scripts/` — **a pre-push guard that greps the outgoing commit messages for the literal
+  CI-skip token.** Section 7a is row 8's original failure committed by someone who had just written
+  its second sighting, which is as clear a demonstration as exists that knowing this rule does not
+  prevent breaching it. Cheap and mechanical: in the ship path, fail if
+  `git log @{u}..HEAD --format=%B` contains the token outside a fenced code block. Pairs with the
+  item above — one checks the marker is not written, the other checks the gate actually ran.
 - [skills] `gh pr checks` reporting only a deploy card is not evidence of health, and no check in
   this repo says so. Worth a line in the ship/PR path: confirm the gate **ran**
   (`gh run list --commit <head>`) before reading a board as green. Same family as ROADMAP's "a check
