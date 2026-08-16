@@ -115,6 +115,182 @@ handle carefully, because it is the phased total, not an annual one.
 - On a page: claim CBOS approval only for courses ABE has actual approval for, and mark the specific point value `[confirm: LW]` until verified against ABE's records. Never assert a point value from memory.
 - **CBOS publishes NO public per-course approved-course register.** Verified 25 Jul 2026 by reading the CBOS site in a browser: the "CPD Determination List" page is legislative instruments (the Determinations themselves), and CBOS runs a *submit-for-approval* model that lists approved **providers** only (Pointsbuild, TasTAFE, industry academies) — never a searchable list of individual approved courses. A specific ABE course's approval is evidenced only by CBOS's approval correspondence to ABE, recorded in the operational Coda doc "TAS CPD Courses" (`superhuman://docs/wXRzQ7oMrm`). **Do not expect to verify an individual ABE course's approval / points / date against a public CBOS page — there is none.** In that doc the two attachment columns are "Course Submission" and "Course Material" (course content), not CBOS approval letters, so the only in-doc approval evidence is the Approval Date field, which is populated for a minority of live courses; the rest are submission-basis (`expiryBasis: submission`) and cannot be upgraded to a real approval date from any source available.
 
+  **RE-CONFIRMED 17 Aug 2026, with the two remaining leads closed.** The 25 Jul finding was re-tested
+  rather than carried, because it is the premise every TAS CPD verification rests on. Both instruments
+  that could plausibly have carried per-course approved names were opened and neither does:
+  - **CPD training providers page** (`/cpd/additional-training-resources`, last updated 20 Jul 2026):
+    ABE Education **is** listed, as a `<details>` accordion whose entire body is a prose blurb ending
+    "Visit the ABE Education website to find out more". **Zero course names, for ABE or anyone.**
+  - **CPD events calendar** (`/cpd/events-calendar/upcoming-events`): a diary of dated sessions and a
+    handful of always-open online courses, by other providers. Searched the rendered text for
+    `Cyber`, `ABE`, `WELS`, `Drone`, `Email Management`, `Asbestos Basics`, `Water Efficiency` —
+    **0 hits for every one**. ABE's self-paced catalogue does not appear on it at all.
+
+  CBOS returns **403 to WebFetch and curl**; both pages need a real browser (same as B1's sources).
+
+  **⚠️ ONE CLAUSE ABOVE IS NOW SUPERSEDED — approval correspondence IS readable, for four courses.**
+  The sentence "the only in-doc approval evidence is the Approval Date field … the rest are
+  submission-basis and cannot be upgraded to a real approval date from any source available" was true
+  of the *Coda doc* and is **not** true of ABE's records generally. On 17 Aug 2026 Andrey supplied
+  four CBOS approval emails (`gov approvals/CBOS/`, gitignored by the `*.pdf` rule — do not commit
+  them; they are marked confidential and carry a named officer's direct contact details). See **A4d**.
+  The public-register finding is unaffected: CBOS still publishes nothing per-course. What changed is
+  that ABE holds the correspondence, so **"submission-basis" is a gap in what has been collected, not
+  a fact about what exists** — ask for the letter before recording a date as unverifiable.
+
+- **The `CBOS Name` column is the approved title, and it is NOT derivable from ABE's own naming.**
+  `kb/register/cpd/tas-courses.json` carries both `name` (ABE's internal LearnWorlds/admin title) and
+  `cbosName` (the title in CBOS's approval). The bundle pages render `cbosName`. The transformation
+  between them is **editorial, not mechanical**, and three independent internal sources were measured
+  against the register on 17 Aug 2026 and each disagrees with `cbosName` on at least one course:
+
+  | Instrument | Disagrees on |
+  |---|---|
+  | Strip the `TAS CPD:` prefix / `(1 pt)` suffix off `name` | `TAS WELS Essentials: Your Path to Water Efficiency Mastery` → **`Understanding Water Efficiency Labelling WELS`** |
+  | `Courses Main Database`.`Course Title` (`superhuman://docs/RKb5xYIogI`) | `The Role of Drones` vs **`The Role of Drones In Building, Plumbing & Electrical Work`**; `AS NZS 3000 2018 Wiring Rules` vs **`AS/NZS 3000:2018 Wiring Rules`** |
+  | `Bundles` table / Bundle Fact Sheet listings | `Compliance and Innovations in Wet Area Waterproofing` vs **`Compliance, Solutions and Driving Innovation For Wet Area Waterproofing`** |
+
+  So **a blank `cbosName` may only be filled from CBOS's approval correspondence, never inferred from
+  ABE's own titles** — however many internal records agree with each other. They agree because they
+  share a marketing origin, not because they witness the approval.
+
+- **The `Course Submission` attachment is a good instrument, but verify it row by row.** Of the five
+  rows carrying one, four also have a populated `cbosName`; the submission PDF's title line equals
+  `cbosName` **exactly** in three. The fourth does not, and the reason is a **mis-filed attachment**,
+  not a naming rule: the PDF on *A Practical Guide to Smart Home Integration & Energy Efficiency*
+  (row `i-Tbx26Fq8Ia`) is the **Wet Area Waterproofing** submission — it is even named
+  `Compliance and Innovations in Wet Area Waterproofing.pdf`, and its body has 460 occurrences of
+  "waterproof" and 0 of "smart home", while every other row's file is named for its own course.
+  Check the attachment's filename against its row before reading a name off it — here that alone
+  was enough. (Also note the "Suggested CPD Points" line in these PDFs is ABE's *request*: both the Cyber
+  Risks and Workplace Asbestos submissions ask for 2, and both are registered at 1.)
+
+### A4b. Cyber Risks and Workplace Safety — approved name recorded 17 Aug 2026
+
+The one live TAS CPD course whose `cbosName` was blank. Its bundle cards therefore fell back to the
+internal admin title and **published `TAS CPD: Cyber Risks and Workplace Safety (1 pt)` — prefix and
+point-count included — to readers of `/cpd-building-tas`, which has been indexable since 16 Aug 2026**,
+and to the two noindexed bundle pages.
+
+**Approved name: `Cyber Risks and Workplace Safety`.** Confirmed by Andrey on 17 Aug 2026, then
+**independently verified the same day against the CBOS approval email itself** (A4d), which is
+titled *CPD Application - Cyber Risks and Workplace Safety* and approves that course for 1 CPD point
+on 15 Aug 2025; the application form inside it carries "Training or event title:
+Cyber Risks and Workplace Safety". Written to the `CBOS Name` cell of row `i-ZTsJgt-xJj` in the source
+doc and landed in the register via `npm run sync:cpd`, so the checksum still matches — no hand-edit.
+
+**What was searched and did not answer it**, recorded because a later session will otherwise repeat it:
+the CBOS provider page and events calendar (A4, both nil); the row's own `Approval Date` (blank — this
+course is submission-basis, submitted 15 Jul 2025); the row's submission PDF (titled *Cyber Risks and
+Workplace Safety*, but that is the name ABE **submitted**, not the name CBOS **approved**); and three
+internal ABE naming sources that agree with each other and are individually unreliable (A4's table).
+The convergence was suggestive and was **not** treated as sufficient — a blank cell is filled from the
+approval or not at all.
+
+> **The blank was an omission, not a signal.** Worth stating because the opposite reading is available
+> and wrong: this row has no Approval Date, so a blank `CBOS Name` looks like it could mean "never
+> approved". It does not. Nine other live courses also have a blank Approval Date and all nine carry a
+> `cbosName`, so the two fields do not track each other.
+
+### A4d. The four CBOS approval letters (read 17 Aug 2026)
+
+Andrey supplied four approval emails from CBOS on 17 Aug 2026. Each is a reply from the **Occupational
+Licensing / CPD Education and Training Officer, Consumer, Building and Occupational Services,
+Department of Justice** to ABE's online CPD application, and each states the approval in one sentence:
+*"this training has been approved for 1 CPD point."*
+
+| Course (CBOS name) | Approval date | Points | Note in the letter |
+|---|---|---|---|
+| Cyber Risks and Workplace Safety | **15 Aug 2025** | 1 | Carries the bundling condition, A4e |
+| WHS Compliance and Legislation | **10 Sep 2025** | 1 | — |
+| Plumbing Essentials | **12 Sep 2025** | 1 | **"for plumbers and gas-fitters"** — a scope limit |
+| Fire Risk Awareness For All Trades | **20 Nov 2025** | 1 | Restates the bundling condition |
+
+All four are now in the register as `expiryBasis: "approval"`, with expiry = approval + 2 years, which
+is the source doc's own formula and matches CBOS's two-year approval life. Written to the source doc,
+landed via `npm run sync:cpd`. **This closes `HANDOVER-facts-cpd-tas.md` Task A step 3**, which had
+been recorded as "not actionable — there is nothing to read". There was something to read; nobody had
+asked for it.
+
+**`Plumbing Essentials` is approved for plumbers and gas-fitters only** — the register's
+`categories: ["plumbing", "gas-fitting"]` matches the letter exactly, and it is bundled only into
+plumbing. Correct as it stands; do not widen it. It is the one course in the set whose approval is
+scoped by licence class, so any future page copy about it must not imply builders or electricians can
+claim it.
+
+**Two things the letters do NOT establish**, worth stating because the temptation is to over-read a
+primary document:
+- **They are not a certificate or an approval number.** They are emails, and there is no reference
+  number in any of them. The evidence of approval is the correspondence itself.
+- **They say nothing about the other nine live courses.** Six live courses remain submission-basis
+  (`check-freshness` reports `SOFT-DATE 6`). Their approval dates are still unrecorded, not disproven.
+
+### A4e. CBOS's standing condition on ABE's bundles — ACTION NEEDED, not a settled fact
+
+**CBOS has twice told ABE, in writing, that a CPD bundle may not be all business/WHS content.** This
+is the most consequential thing in the letters and it is a live obligation, not background.
+
+Verbatim from the **Cyber Risks approval, 15 Aug 2025**:
+
+> ABE Education must ensure if the approved courses are bundled, the bundles contain a reasonable
+> amount of CPD which is directly relevant to a practitioners licence requirements - ie: the
+> prescribed work they are licensed to carry out. The CPD bundle cannot be all business/WHS related.
+> The Administrator may withdraw approval of training courses if it is deemed that the course/s no
+> longer meet/s the CPD framework or learning outcome requirements or is not delivered as expected.
+
+Restated, more briefly, in the **Fire Risk Awareness approval, 20 Nov 2025**:
+
+> Please ensure your CPD bundles includes some CPD content which is directly relevant to the
+> prescribed work the practitioners are licensed for.
+
+Said twice, three months apart, unprompted. Treat it as a standing condition of ABE's approvals.
+
+**How the three sold bundles look against it** — composition is fact, the assessment is CBOS's to
+make, so this is laid out rather than concluded:
+
+| Bundle | Live | Courses plausibly *prescribed-work* technical for that licence |
+|---|---|---|
+| Plumbing | 12 | **2** — Plumbing Essentials, Understanding Water Efficiency Labelling WELS |
+| Electrical | 11 | **2** — AS/NZS 3000:2018 Wiring Rules, Solar Energy |
+| Building | 12 | **arguably 0** — its trade-technical members (WELS, Wiring Rules, Solar Energy) are plumbing and electrical content |
+
+The remainder in every bundle is WHS, safety or business skills: WHS Compliance, SWMS, Cyber Risks,
+Fire Risk, Workplace Asbestos, Site and Personal Safety, Effective Communication, Effective Email
+Management, The Role of Drones.
+
+**The builder bundle is the exposed one**, and it got worse by attrition rather than by decision: its
+one clearly builder-technical course, *Compliance, Solutions and Driving Innovation For Wet Area
+Waterproofing*, **expired** and dropped out. Nobody removed it deliberately; a bundle drifted across a
+regulator's condition because a course lapsed.
+
+**This is Andrey's call, not a fact to record and close.** The options are commercial: add approved
+trade-technical courses to each bundle, or raise it with CBOS. Do not soften the condition in page
+copy, and do not treat the current composition as endorsed merely because the courses are individually
+approved — the condition is explicitly about the *bundle*, which is exactly the unit ABE sells.
+
+### A4c. Register dates are one day early — FIXED 17 Aug 2026
+
+**Every date in `kb/register/cpd/tas-courses.json` was one calendar day earlier than the source doc**:
+16 of 17 rows drifted (the 17th has no dates), in the same direction, by the same amount. Measured
+17 Aug 2026 by diffing all 17 rows against the Coda REST API.
+
+**Cause was the projection, not the data.** Coda returns AEST midnight (`2025-07-15T00:00:00.000+10:00`);
+`isoDate()` in `scripts/sync-cpd-register.mjs` did `new Date(s).toISOString().slice(0, 10)`, which
+converts to UTC first and lands on the previous day. Reproduced exactly: that input yields `2025-07-14`,
+which is what the register held. `generated.syncedAt` had the same bug for the same reason.
+
+**Fixed 17 Aug 2026** — `isoDate()` now takes the calendar date as written, and `syncedAt` uses the
+local date. Re-synced and audited: **39 date fields across 17 rows, 0 mismatches against source.**
+
+It was first recorded here as debt to route rather than fix, on the grounds that it fails safe (an
+expiry one day early retires a course early) and that `scripts/**` is skills-owned. **That was
+overtaken within the same session**: the four CBOS approval dates in A4d were read off the letters and
+the projection then recorded all four one day wrong. A cosmetic-looking off-by-one stopped being
+cosmetic the moment a regulatory figure passed through it — a register whose whole purpose is to own
+verified figures cannot ship dates that disagree with the instrument they were read from.
+
+**The source doc was correct throughout. Never "fix" a projection bug by editing the source.**
+
 ### A6. Asbestos — a CBOS CPD course, NOT an asbestos awareness card
 
 ABE holds a **CBOS-approved asbestos CPD course for Tasmania** — "Workplace Asbestos Basics" in
@@ -237,4 +413,4 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 
 ---
 
-**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **B1 re-verified live 2026-08-15** against the CBOS owner-builder restrictions page and the categories-of-work page, both read in full: the permit trigger is risk-category based and **there is no dollar threshold** — see B1. **Open items to confirm at build:** ~~owner-builder permit dollar threshold (B1)~~ resolved 15 Aug 2026, liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
+**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **B1 re-verified live 2026-08-15** against the CBOS owner-builder restrictions page and the categories-of-work page, both read in full: the permit trigger is risk-category based and **there is no dollar threshold** — see B1. **A4 re-confirmed live 2026-08-17** against the CBOS CPD training-providers page and the CPD events calendar, both read in a browser: there is still no per-course approved-course register, and ABE's provider entry carries no course names — see A4. **A4b–A4e added 2026-08-17**: Cyber Risks approved name recorded and verified against the approval email; four CBOS approval letters read and their dates recorded (A4d); register-wide one-day date drift found and fixed (A4c); **CBOS's standing bundling condition recorded and open for Andrey (A4e)**. **Open items to confirm at build:** ~~owner-builder permit dollar threshold (B1)~~ resolved 15 Aug 2026, liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
