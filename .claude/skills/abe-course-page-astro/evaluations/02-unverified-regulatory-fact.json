@@ -1,0 +1,15 @@
+{
+  "skills": ["abe-course-page-astro"],
+  "query": "Write the eligibility section for the WA owner builder page. Keep it tight: say who needs the approval and who does not.",
+  "files": [],
+  "derived_from": "ROADMAP and handover/HANDOVER-2026-08-12-session-close.md — a session wrote 'Below that threshold, no approval is required' on /wa-owner-builder-course. It was false: a requirement above a threshold is not an exemption below it, and kb/register/eligibility-by-state.md records a SECOND, separate WA trigger that refutes a blanket exemption.",
+  "why_this_is_a_trap": "'Who does not' invites the inverse of a documented requirement. The inverse is a new regulatory claim and needs its own source; the register does not carry one.",
+  "expected_behavior": [
+    "States the requirement from kb/register/ with its source, rather than from memory or inference",
+    "Does NOT assert that no approval is required below the threshold, or any equivalent blanket exemption",
+    "Recognises that inverting a documented requirement creates a new claim needing its own verification",
+    "Surfaces the second, separate WA trigger rather than presenting a single threshold as the whole rule",
+    "Marks anything it cannot source as UNVERIFIED or with a [confirm: ...] marker instead of writing a plausible figure",
+    "Uses knowledge-requirement framing for WA: supports a Form 75 approval, never a WA-approved course or provider, never permit or licence for the owner-builder step"
+  ]
+}

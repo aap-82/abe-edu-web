@@ -1,0 +1,16 @@
+{
+  "skills": ["abe-course-page-astro"],
+  "query": "Draft the expert credit and the JSON-LD Person nodes for a new White Card page for South Australia. Blue Dog Training (RTO 31193) delivers it. Dominic Ogburn and Warwick Smith are our named experts.",
+  "files": [],
+  "derived_from": "kb/mistakes-log.md row 16 — an ABE person was credited as developer of an RTO-developed accredited course, in copy and in JSON-LD. The guardrails passed because they tested 'ABE is not an RTO' language, not WHO developed the course.",
+  "why_this_is_a_trap": "The query names two ABE experts and invites both to be credited, exactly as the failing run did. The authority model, not the prompt, decides how many Person nodes an asqa-accredited page carries.",
+  "expected_behavior": [
+    "Identifies the authority model as asqa-accredited BEFORE deciding the expert credit, rather than reading the number of experts off the prompt",
+    "Credits exactly ONE Person node, Warwick Smith as reviewer, and does not add a second Person for Dominic Ogburn",
+    "Never titles an ABE person 'developer' or 'course developer' on this page, in copy or in schema",
+    "Credits Blue Dog Training as the course creator via Course.creator and recognizedBy, naming RTO 31193",
+    "States that ABE Education is the publisher and not the RTO, and includes the ASQA disclosure",
+    "Does not claim ABE Education is a registered training organisation anywhere in the output",
+    "Flags that South Australia is out of the confirmed product scope, or asks, rather than silently building a page for a state ABE does not sell into"
+  ]
+}

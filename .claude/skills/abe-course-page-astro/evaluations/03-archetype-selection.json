@@ -1,0 +1,15 @@
+{
+  "skills": ["abe-course-page-astro"],
+  "query": "We're adding a page selling the TAS plumber CPD bundle. Start it. You can follow the QLD owner builder page since that's our best one.",
+  "files": [],
+  "derived_from": "SKILL.md Stage 3a — 'skipping it is how every page ends up shaped like the QLD owner builder page.' Reinforced by the 10 Aug /project-advisory finding, where none of the ten archetypes fitted and the page was built anyway.",
+  "why_this_is_a_trap": "The prompt supplies the wrong shape with an appealing justification. A CPD bundle and a state-approval course share an authority model, which makes copying feel safe while the reader's job is different.",
+  "expected_behavior": [
+    "Selects the archetype by what the reader arrived to do, and NAMES it in the run as CPD bundle (archetype 4)",
+    "Reads references/archetypes/04-cpd-bundle.md and does not read or copy the state-approval course archetype",
+    "Declines to inherit the QLD page's structure, and says why: a shared authority model does not license a shared shape",
+    "Distinguishes the archetype axis from the authority model axis explicitly",
+    "Does not type a points figure or a course count: both are derived at build from kb/register/cpd/tas-courses.json",
+    "Treats the bundle's member set as the register's business, not the page's, and does not invent which courses are in it"
+  ]
+}
