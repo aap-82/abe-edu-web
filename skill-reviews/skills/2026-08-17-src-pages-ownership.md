@@ -173,6 +173,40 @@ build row before striking, not against the commit message that claimed it.
 
 `demand-split` closed items 13 likely-done, down one, with the strike carrying its date and SHA.
 
+## 7. I disarmed my own merge gate, and the board looked fine
+
+Added after the PR was opened. **PR #144's CI never ran — not once, on any commit.**
+
+I ended the branch with `chore(health): record system health [skip ci]`, which is this repo's standing
+convention for health-log traffic and is correct on `main` (ci.yml's own comment explains why bot
+health commits carry it). As the **PR head commit** it suppressed the entire `pull_request` run:
+type check, build, redirect-sync, Lighthouse, prose lint, and the `--strict` merge gates that
+16 Aug made a merge requirement.
+
+Measured before asserting, because "CI has not run yet" and "CI will never run" look the same for the
+first few minutes:
+
+| PR | Head commit carries `[skip ci]` | CI runs |
+|---|---|---|
+| #141, #142, #143 | no | **1 each** |
+| **#144** | **yes** | **0**, including on `58babf1`, the substantive commit carrying no marker |
+
+The second column is the one that settles it: the marker on the head commit governs the whole PR, so
+a clean commit in the middle of the branch gets no run either.
+
+**What makes this worth a numbered section rather than a footnote is how it presented.** `gh pr checks`
+returned exactly one line — the Cloudflare bot's "Deployment skipped" card — and the PR reported
+`mergeable=MERGEABLE state=CLEAN`. Nothing anywhere said "no gate ran". An absent gate and a passing
+gate are indistinguishable on the PR page, and I had already read that board once and moved on.
+
+Logged as `kb/mistakes-log.md` **row 8, 2nd sighting** — same consequence as the 23 Jul original by
+the opposite cause. That one *described* the marker and had it obeyed; this one used it correctly and
+put it in the wrong position. Row 8's lesson gains a clause: **a control token's blast radius is not
+the commit that carries it.**
+
+Fixed here by pushing a normal commit on top (no amend, no force-push — both are barred). The
+convention itself needs a decision, filed below.
+
 ## Verification
 
 | Check | Result |
@@ -204,6 +238,19 @@ Tag every item: [skills] | [design] | [facts] | [build]
   message matches `/filed (it )?as a? ?\[(skills|design|facts|build)\]/i`, assert that the same
   commit touches a file containing a matching `- [tag]` line. One sighting, so this records the
   problem; do not build it before a second (ROADMAP rule 3).
+- [skills] `.github/workflows/ci.yml` + the `chore(health)` convention — **SECOND SIGHTING of a
+  `[skip ci]` marker disabling a whole PR's gate** (row 8; the first was 23 Jul). A health-log commit
+  is the natural last commit of any session, carries `[skip ci]` by standing convention, and as a PR
+  head silently disarms every merge gate. Trigger met, so a fix is authorised — but it is a
+  convention change touching every session, so it wants a decision rather than a unilateral edit.
+  Two candidates: fold the health-log append into the substantive commit (simplest, no tooling), or
+  narrow the marker to `chore(health)` commits pushed **directly to main** and drop it on branches.
+  Whichever is chosen, add the detection half: nothing today distinguishes "gate passed" from "gate
+  never ran" on the PR page.
+- [skills] `gh pr checks` reporting only a deploy card is not evidence of health, and no check in
+  this repo says so. Worth a line in the ship/PR path: confirm the gate **ran**
+  (`gh run list --commit <head>`) before reading a board as green. Same family as ROADMAP's "a check
+  that runs after the merge is a report" — this is the degenerate case, a check that runs never.
 - [build] `src/pages/[slug]/index.astro` is the weakest of the three build assignments (section 2):
   15 lines, one commit ever, but it renders every course page. FIRST FILING, and no action is asked
   for. Recorded only so that a future session which finds build was the wrong owner for it can move
