@@ -106,14 +106,31 @@ function one(v) {
   return names(v)[0] ?? null;
 }
 
-/** Coda dates come through as ISO or dd/mm/yyyy depending on format. Normalise to ISO date. */
+/** Coda dates come through as ISO or dd/mm/yyyy depending on format. Normalise to ISO date.
+ *
+ *  TAKE THE CALENDAR DATE AS WRITTEN. Coda returns the doc's timezone, not UTC
+ *  (`2025-08-15T00:00:00.000+10:00`), so `new Date(s).toISOString()` converts AEST midnight back to
+ *  14:00 the PREVIOUS day and the register records 2025-08-14. That is not hypothetical: it shifted
+ *  every date in the register by one day, all 16 rows that carry one, until 17 Aug 2026 — including
+ *  four CBOS approval dates read off the approval letters themselves. An approval date is a
+ *  regulatory figure and the register is its owner; it must equal the source, not approximate it.
+ *  Full account in `kb/register/cbos-tas-reference.md` A4c. */
 function isoDate(v) {
   const s = one(v);
   if (!s) return null;
   const dmy = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
   if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
+  const iso = /^(\d{4}-\d{2}-\d{2})/.exec(s);
+  if (iso) return iso[1];
   const d = new Date(s);
   return Number.isNaN(+d) ? null : d.toISOString().slice(0, 10);
+}
+
+/** Today's LOCAL calendar date. `new Date().toISOString()` is the UTC date, which stamps yesterday
+ *  whenever the sync runs before 10am AEST — the same off-by-one as isoDate above. */
+function todayLocal() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 function slug(s) {
@@ -200,7 +217,7 @@ const reg = {
     source: `superhuman://docs/${DOC_ID}`,
     sourceName: SOURCE_NAME,
     table: TABLE_ID,
-    syncedAt: new Date().toISOString().slice(0, 10),
+    syncedAt: todayLocal(),
     rowCount: courses.length,
     checksum: 'sha256:PENDING',
   },

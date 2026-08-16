@@ -23,9 +23,9 @@
     "source": "superhuman://docs/wXRzQ7oMrm",
     "sourceName": "TAS CPD Courses",
     "table": "grid-_kWHYm22cU",
-    "syncedAt": "2026-08-15",
+    "syncedAt": "2026-08-17",
     "rowCount": 17,
-    "checksum": "sha256:704128757e4bed222d4f714432ee55787a307aaa7909a4a7ea1ba1095aef3034"
+    "checksum": "sha256:b39336c342846ec5d5aa74e57f92304c1a921af401ba072c23fd7336a5a63061"
   },
   "bundleMap": {
     "TAS Plumber CPD - 12 Points (2026)": "plumbing",
@@ -67,10 +67,10 @@
       "bundles": [
         "plumbing"
       ],
-      "submittedAt": "2025-09-08",
-      "approvedAt": null,
-      "expiresAt": "2027-09-08",
-      "expiryBasis": "submission",
+      "submittedAt": "2025-09-09",
+      "approvedAt": "2025-09-12",
+      "expiresAt": "2027-09-12",
+      "expiryBasis": "approval",
       "studyArea": null
     },
     {
@@ -89,9 +89,9 @@
         "building",
         "plumbing"
       ],
-      "submittedAt": "2025-09-23",
+      "submittedAt": "2025-09-24",
       "approvedAt": null,
-      "expiresAt": "2027-09-23",
+      "expiresAt": "2027-09-24",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -105,9 +105,9 @@
       "points": 1,
       "categories": [],
       "bundles": [],
-      "submittedAt": "2024-12-04",
+      "submittedAt": "2024-12-05",
       "approvedAt": null,
-      "expiresAt": "2026-12-04",
+      "expiresAt": "2026-12-05",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -127,9 +127,9 @@
         "building",
         "plumbing"
       ],
-      "submittedAt": "2024-02-22",
+      "submittedAt": "2024-02-23",
       "approvedAt": null,
-      "expiresAt": "2026-02-21",
+      "expiresAt": "2026-02-22",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -147,8 +147,8 @@
         "building"
       ],
       "submittedAt": null,
-      "approvedAt": "2024-04-03",
-      "expiresAt": "2026-04-03",
+      "approvedAt": "2024-04-04",
+      "expiresAt": "2026-04-04",
       "expiryBasis": "approval",
       "studyArea": null
     },
@@ -171,10 +171,10 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-07-21",
-      "approvedAt": null,
-      "expiresAt": "2027-07-21",
-      "expiryBasis": "submission",
+      "submittedAt": "2025-07-22",
+      "approvedAt": "2025-09-10",
+      "expiresAt": "2027-09-10",
+      "expiryBasis": "approval",
       "studyArea": null
     },
     {
@@ -196,16 +196,16 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-03-10",
+      "submittedAt": "2025-03-11",
       "approvedAt": null,
-      "expiresAt": "2027-03-10",
+      "expiresAt": "2027-03-11",
       "expiryBasis": "submission",
       "studyArea": null
     },
     {
       "id": "i-ZTsJgt-xJj",
       "name": "TAS CPD: Cyber Risks and Workplace Safety (1 pt)",
-      "cbosName": null,
+      "cbosName": "Cyber Risks and Workplace Safety",
       "state": "TAS",
       "regulator": "CBOS",
       "status": "live",
@@ -221,10 +221,10 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-07-14",
-      "approvedAt": null,
-      "expiresAt": "2027-07-14",
-      "expiryBasis": "submission",
+      "submittedAt": "2025-07-15",
+      "approvedAt": "2025-08-15",
+      "expiresAt": "2027-08-15",
+      "expiryBasis": "approval",
       "studyArea": null
     },
     {
@@ -246,10 +246,10 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-11-09",
-      "approvedAt": null,
-      "expiresAt": "2027-11-09",
-      "expiryBasis": "submission",
+      "submittedAt": "2025-11-10",
+      "approvedAt": "2025-11-20",
+      "expiresAt": "2027-11-20",
+      "expiryBasis": "approval",
       "studyArea": null
     },
     {
@@ -270,9 +270,9 @@
         "electrical",
         "plumbing"
       ],
-      "submittedAt": "2024-12-04",
+      "submittedAt": "2024-12-05",
       "approvedAt": null,
-      "expiresAt": "2026-12-04",
+      "expiresAt": "2026-12-05",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -295,9 +295,9 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-06-04",
-      "approvedAt": "2025-07-17",
-      "expiresAt": "2027-07-17",
+      "submittedAt": "2025-06-05",
+      "approvedAt": "2025-07-18",
+      "expiresAt": "2027-07-18",
       "expiryBasis": "approval",
       "studyArea": null
     },
@@ -320,9 +320,9 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-02-14",
-      "approvedAt": "2025-02-18",
-      "expiresAt": "2027-02-18",
+      "submittedAt": "2025-02-15",
+      "approvedAt": "2025-02-19",
+      "expiresAt": "2027-02-19",
       "expiryBasis": "approval",
       "studyArea": null
     },
@@ -345,9 +345,9 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-03-10",
-      "approvedAt": "2025-03-19",
-      "expiresAt": "2027-03-19",
+      "submittedAt": "2025-03-11",
+      "approvedAt": "2025-03-20",
+      "expiresAt": "2027-03-20",
       "expiryBasis": "approval",
       "studyArea": null
     },
@@ -370,9 +370,9 @@
         "building",
         "electrical"
       ],
-      "submittedAt": "2025-07-27",
+      "submittedAt": "2025-07-28",
       "approvedAt": null,
-      "expiresAt": "2027-07-27",
+      "expiresAt": "2027-07-28",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -393,9 +393,9 @@
         "building",
         "electrical"
       ],
-      "submittedAt": "2024-12-04",
+      "submittedAt": "2024-12-05",
       "approvedAt": null,
-      "expiresAt": "2026-12-04",
+      "expiresAt": "2026-12-05",
       "expiryBasis": "submission",
       "studyArea": null
     },
@@ -418,9 +418,9 @@
         "plumbing",
         "electrical"
       ],
-      "submittedAt": "2025-06-04",
+      "submittedAt": "2025-06-05",
       "approvedAt": null,
-      "expiresAt": "2027-06-04",
+      "expiresAt": "2027-06-05",
       "expiryBasis": "submission",
       "studyArea": null
     }
