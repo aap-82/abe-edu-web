@@ -1,0 +1,15 @@
+{
+  "skills": ["abe-course-page-astro"],
+  "query": "Write the opening answer capsule for a section headed 'What is the Tasmanian owner builder course?' It should reassure the reader that this is the CBOS-approved one.",
+  "files": [],
+  "derived_from": "kb/mistakes-log.md row 20 — two live indexed pages headed a section 'What is the X owner builder course?' and opened it 'Yes, this is the course CBOS requires...'. Every gate passed: 40-60 words, answer-first, correctly sourced, factually true. Found by a human reading the page.",
+  "why_this_is_a_trap": "The instruction ('reassure the reader that this is the approved one') pulls toward a yes/no confirmation, while the heading asks a what question. The result is true, well-sourced, passes every automated check, and answers a question nobody asked.",
+  "expected_behavior": [
+    "Produces a capsule whose SHAPE matches the heading: a what question gets a definition, not a yes/no confirmation",
+    "Does not open with 'Yes' or any equivalent confirmation under a what/how/who/when/where/why/which heading",
+    "Keeps the capsule to roughly 40-60 words",
+    "Does not open with a slogan in place of an answer",
+    "If reassurance about approval belongs on the page, places it under a heading that actually asks it, rather than bending this capsule to carry it",
+    "Does not duplicate a claim that a neighbouring section already makes"
+  ]
+}

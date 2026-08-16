@@ -3,15 +3,13 @@ name: abe-course-page-astro
 description: >-
   End-to-end builder for any ABE Education page: select the archetype, research the government
   sources, run a competitor keyword and content-gap analysis, write section briefs and copy, hand
-  off as components, then build a static Astro site and deploy to Cloudflare Workers. Ten
-  archetypes: state-approval course, nationally recognised course, CPD, CPD bundle, expert profile,
-  hub, info guide, blog post, insurance type, about. Use whenever the user wants to create, research,
-  outline, write, componentise, build, or deploy an ABE page (owner builder, White Card, CPD, expert,
-  hub, guide, any Australian state), e.g. "start the NSW owner builder page", "build the CPD Tasmania
-  hub", "write the expert profile", "keyword gap for the WA course", or "spin up another state page
-  from the QLD one", even when the user names one stage or does not say Astro/Cloudflare. Covers
-  archetype selection, gov-source map, competitor gap, section briefs, content craft, component
-  handover, authority/SEO/E-E-A-T guardrails, and the deploy.
+  off as components, then build a static Astro site and deploy to Cloudflare Workers. Use whenever
+  the user wants to create, research, outline, write, componentise, build or deploy an ABE page of
+  any kind: state-approval course, nationally recognised course, CPD, CPD bundle, expert profile,
+  hub, info guide, blog post, insurance type or about, covering owner builder, White Card and any
+  Australian state. Triggers include "start the NSW owner builder page", "keyword gap for the WA
+  course" and "spin up another state page from the QLD one". Applies when the user names only one
+  stage, and when they do not say Astro or Cloudflare.
 ---
 
 # ABE Course Page — research to content to components to build to deploy
@@ -211,11 +209,26 @@ Two moves. The first decides everything after it, and skipping it is how every p
 like the QLD owner builder page.
 
 **3a — select the archetype.** Read `references/archetypes/_selector.md` and choose by what the reader
-arrived to do, not by what the last page was. Then read that archetype's file and none of the others.
-Ten archetypes: state-approval course, nationally recognised course, CPD, CPD bundle, expert profile,
-hub, info guide, blog post, insurance type, about. **Name the archetype in the run**, because
-everything downstream branches off it: required sections, decision order, forbidden carry-overs,
-schema graph, component defaults.
+arrived to do, not by what the last page was. Then read that archetype's file **and none of the
+others** — the paths are listed here so you can open the one you chose directly, without a second
+hop through the selector:
+
+| # | Archetype | File |
+|---|---|---|
+| 1 | State-approval course | `references/archetypes/01-state-approval-course.md` |
+| 2 | Nationally recognised course | `references/archetypes/02-nationally-recognised-course.md` |
+| 3 | CPD / recurring compliance | `references/archetypes/03-cpd-compliance.md` |
+| 4 | CPD bundle | `references/archetypes/04-cpd-bundle.md` |
+| 5 | Expert-authority profile | `references/archetypes/05-expert-profile.md` |
+| 6 | Hub | `references/archetypes/06-hub.md` |
+| 7 | Info guide | `references/archetypes/07-info-guide.md` |
+| 8 | Blog post | `references/archetypes/08-blog-post.md` |
+| 9 | Insurance type | `references/archetypes/09-insurance-type.md` |
+| 10 | About | `references/archetypes/10-about.md` |
+
+`_selector.md` is for **choosing** (it carries the reader-job comparison and the tie-breaks); this
+table is for **locating**. **Name the archetype in the run**, because everything downstream branches
+off it: required sections, decision order, forbidden carry-overs, schema graph, component defaults.
 
 **Archetype is not the authority model.** Independent axes. A CPD course is state-approved-direct,
 the same model as a QLD owner builder page, so the same prohibitions apply — and its shape is nearly
@@ -594,11 +607,20 @@ This skill is **self-contained plus the repo's `kb/` library**. Nothing is drawn
   meta-framework.md, trust-bar-guidelines.md, badge-inventory.md, course-page-structure.md,
   seo-content-reference.md, content-formatting-guidelines.md; Stage 6 schema-implementation-guide.md,
   schema-org-opportunities.md, page-type-engine.md, crawl-index-controls.md; Stage 7
-  audit-workflow.md, alt-text-guidelines.md, quality-gates.md, freshness-check.md) — do not add a new
+  audit-workflow.md, and three that no stage anchors by full path, so they are unreachable from here
+  without guessing the directory — `references/seo/quality-gates.md`,
+  `references/seo/alt-text-guidelines.md` and `references/seo/freshness-check.md`) — do not add a new
   file here without also anchoring it at the stage that will actually open it, or it is unreachable
-  from the pipeline even though it is "in the skill". `changelog.md` is the exception: a dated log of
+  from the pipeline even though it is "in the skill". **Anchor it by full path, not bare filename**:
+  a bare name reads as prose and cannot be opened without guessing the directory, which is how those
+  two ended up two hops from this file. `changelog.md` is the exception: a dated log of
   corrections already applied elsewhere, read by a human auditing the skill's own history, not by a
   page-building run.
+- **`evaluations/`** — five scenarios that test whether this skill prevents the failures it was
+  written to prevent, each derived from a defect that actually shipped or nearly shipped (the
+  mistakes-log row or dated review is named in every file). **Never read during a page-building
+  run**, same standing as `changelog.md` below: they are for a `skills` session auditing the skill.
+  Read `evaluations/README.md` first for how to score one and why a partial pass counts as a fail.
 - **`references/seo/expert-fallback/`** — a static snapshot of the Notion Experts database, used only
   if a live Notion query for expert data fails or is unreachable; read its own `README.md` for the
   fallback procedure before using it. **Known gap:** the README's own step references ("Step 4, Step

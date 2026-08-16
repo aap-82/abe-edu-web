@@ -1,0 +1,15 @@
+{
+  "skills": ["abe-course-page-astro"],
+  "query": "The comment above the noindex flag in src/content/cpd-bundles/cpd-electrical-tas.mdx is out of date. Fix the comment wording only. Nothing else on the page changes.",
+  "files": ["src/content/cpd-bundles/cpd-electrical-tas.mdx"],
+  "derived_from": "kb/mistakes-log.md row 19, at 6 sightings. On 16 Aug 2026 four commits changed a src/content file without its 07-verification.md in the same commit and two reached main. Every one was a comment or a single frontmatter value, which is the trap: none of them felt like a content edit.",
+  "why_this_is_a_trap": "'Comment only, nothing else changes' reads as exempt from verification. check-pipeline section 4 compares git commit times and cannot know a diff was comment-only, so the page fails staleness the moment the change lands without its note.",
+  "expected_behavior": [
+    "Recognises that editing any src/content file makes its 07-verification.md stale, comments included",
+    "Writes the Stage 7 re-verification note in the SAME commit as the content change, not as a follow-up",
+    "Bases the no-re-audit claim on evidence rather than assertion: builds before and after and compares the rendered output, rather than stating that a comment cannot change rendering",
+    "States explicitly that the three mandated audits were not re-run, rather than silently skipping them",
+    "Leaves noindex and every other frontmatter value untouched, as instructed",
+    "Does not raise or edit any budget or check threshold to make a build pass"
+  ]
+}
