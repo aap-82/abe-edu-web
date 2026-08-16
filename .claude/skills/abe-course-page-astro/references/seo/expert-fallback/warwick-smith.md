@@ -1,5 +1,14 @@
 # Warwick Smith — Expert Fallback Snapshot
 
+## Contents
+- Database properties
+- Courses Reviewed — URL Map
+- Bio variations
+- Expert Card Copy (for course pages)
+- Verified career history (for credential cards)
+- Person schema JSON-LD template (v1.1 — ProfilePage wrapper + worksFor)
+- What NOT to Claim ⚠️
+
 **⚠️ FALLBACK ONLY** — snapshot of the Notion Experts entry, synced **26 May 2026**. Notion is the source of truth; use this only if the live query fails. If you build from this file, state in the output that expert data came from the fallback snapshot, not live Notion.
 
 Source page: https://www.notion.so/33a66bffe880816a98f4e1ff48b1da28 · Notion doc version 1.4 (20 April 2026)

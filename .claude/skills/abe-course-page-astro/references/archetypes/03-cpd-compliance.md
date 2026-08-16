@@ -1,5 +1,15 @@
 # Archetype 3 — CPD / recurring compliance
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A single CPD course sold to a licensed practitioner who must accrue points or hours within a cycle.
 For a packaged set sold to discharge a whole cycle, use `04-cpd-bundle.md` instead.
 

@@ -1,5 +1,11 @@
 # Astro component props — the prop contracts
 
+## Contents
+- Quick reference — required props per component
+- Shared types (`src/types/course.ts`)
+- Component props
+- Page-level data (passed into the page/layout)
+
 Prop contracts for the components in `src/components/`, which are the authority: this file describes
 them and never defines them, so on any disagreement read the component. (It was distilled from a
 designer handover document that is no longer in the repo. That provenance line was removed on 29 Jul

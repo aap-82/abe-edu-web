@@ -1,5 +1,19 @@
 # Crawl & Index Controls — head validity, robots rules, canonicals, link qualification
 
+## Contents
+- 1. `<head>` validity — the silent schema killer
+- 2. Canonicals
+- 3. robots.txt vs `noindex` vs `X-Robots-Tag`
+- 4. Snippet controls now gate AI Overviews — read before using any of them
+- 5. Link qualification — and the `.gov.au` rule
+- 6. Anchor text — additions to the rules in `page-type-engine.md`
+- 7. Mobile-first indexing — what's indexed is the mobile page
+- 7a. "Read more" deep links — the accordion trade-off
+- 7b. Interstitials and dialogs
+- 7c. Page experience — calibration
+- 8. Smaller items worth knowing
+- Sources
+
 **When to read:** before touching anything in `<head>`, before adding a robots or snippet rule, when triaging a page that won't index or a canonical Google won't honour, and during Step 6 Category I (technical). Pairs with `schema-implementation-guide.md` (what goes in the head) and `page-type-engine.md` §2 (URL rules) and its internal-link map.
 
 **Verified:** 20 July 2026 against Google Search Central (valid page metadata, robots meta / X-Robots-Tag, noindex, robots.txt intro, canonicalisation + troubleshooting, link best practices, qualify outbound links, mobile-first indexing, image sitemaps).

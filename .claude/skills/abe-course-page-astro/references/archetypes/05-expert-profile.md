@@ -1,5 +1,15 @@
 # Archetype 5 — Expert-authority profile
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 A named person who develops or reviews ABE content. The page exists to make E-E-A-T verifiable rather
 than asserted, and to give every course page a real destination behind its reviewer line.
 

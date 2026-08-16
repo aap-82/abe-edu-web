@@ -1,5 +1,15 @@
 # Archetype 10 — About us / organisation authority
 
+## Contents
+- 1 · Reader and arrival state
+- 2 · Decision order
+- 3 · Required sections
+- 4 · Forbidden carry-overs
+- 5 · Schema and frontmatter
+- 6 · Component defaults
+- 7 · Worked section brief
+- 8 · Worked copy
+
 The page carrying ABE's organisation-level authority claim. Unusually load-bearing: ABE is not an RTO,
 accredited delivery runs through partners, and this is where a sceptical reader resolves what ABE
 actually is. It also feeds the `Organization` node every other page's schema graph references.

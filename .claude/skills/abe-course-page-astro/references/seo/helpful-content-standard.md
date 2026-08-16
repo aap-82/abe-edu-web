@@ -1,5 +1,17 @@
 # Helpful Content Standard — people-first requirements for ABE pages
 
+## Contents
+- 1. Where the helpful content system stands
+- 2. The requirements, as self-assessment questions
+- 3. ABE ruling — YMYL and the trust bar
+- 4. House style — the "comprehensive" reconciliation
+- 5. Showing experience, not asserting it
+- 6. Anti-patterns — what fails the bar
+- 7. Page experience is part of this
+- 8. On SEO itself
+- 9. The page checklist
+- Sources
+
 **When to read:** Step 4 (while drafting any page) and Step 6 (Category P). Read alongside `seo-strategy.md`, which remains the strategy backbone — this file is the *self-assessment* layer beneath it.
 
 **Verified:** 20 July 2026 — checked line-by-line against the full text of Google's "Creating helpful, reliable, people-first content". **Re-verify:** with the freshness audit cadence (🟡 volatility — the doctrine is stable, the phrasing shifts).

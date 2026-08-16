@@ -1,4 +1,9 @@
 # Meta Title & Description Framework
+
+## Contents
+- 1. Meta Title Rules
+- 2. Meta Description Rules
+- 3. H1 Rules (Summary)
 **Evidence-based rules for meta titles and descriptions — education provider specific**
 **Source:** Meta_Titles_and_Descriptions_for_Education_Providers__The_2026_SEO_Playbook
 
