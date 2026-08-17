@@ -797,7 +797,18 @@ a.hub-card:hover .hc-go .arr{animation:arr-fly .9s infinite;}
    scannable without reading it. Same values as Credentials' .cl-k, and the same split rule
    (src/lib/lead-clause.ts). Lines with no clause break carry no emphasis. */
 .can-col .cc-k{color:var(--ink);font-weight:600;}
-.note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-alt);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
+/* Fills with --paper-inset, NOT --paper-alt. Same defect --paper-inset was created to fix on
+   .capsule, and .note was simply never migrated off the section ramp: --paper-alt is ALSO the
+   fill of the .bg-alt band, so a note inside one separated by 1.000 - identical values, an
+   opaque box with nothing to be opaque against. Measured 16 Aug 2026 across dist/: 35 of 116
+   notes on 13 pages sat inside a .bg-alt section and were invisible, /cpd-tas worst at 6 of 7.
+   Reported as "the background is transparent", which it never was.
+   At #f0e9db it holds 1.07 (--paper-warm), 1.10 (--paper-alt) and 1.15 (--ground) against the
+   three bands, and stays a warm cream rather than a white card (--paper) - a note is read, not
+   opened, so it must read as a recessed inset and never as an elevated surface. Text contrast
+   rises with the deeper ground: --ink-3 7.34, --ink 14.41, --maroon note-k 9.06, all well over
+   4.5. See the --paper-inset token comment for the original derivation. */
+.note{margin-top:var(--s-md);padding:var(--s-md) var(--s-lg);background:var(--paper-inset);border:1px solid var(--rule);border-radius:6px;font-size:15px;color:var(--ink-3);max-width:calc(480px + 2*var(--s-lg));}
 .note b{color:var(--ink);}
 /* Note renders a <div> (see Note.astro), so an MDX slot may wrap its content in a <p>. Both the
    one-line and multi-line forms have to render identically: strip the inner paragraph's margins
