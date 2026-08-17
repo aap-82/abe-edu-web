@@ -459,3 +459,65 @@ is still a `TBC-` placeholder). Nothing here changes that.
 `ai-detector`). Their input is the page's prose, and no prose was written or edited — a single member
 name changed from an internal identifier to the regulator's approved title. Stated rather than
 silently skipped.
+
+
+---
+
+## Stage 2 retarget verified — 18 August 2026
+
+Copy change only: the H1, title, description and FAQ heading were retargeted from "Plumber CPD
+Tasmania" onto "CPD points". Evidence, the per-page GSC export and the full reasoning are in
+`02-gap.md`. **This note is in the same commit as the content change** (`kb/mistakes-log.md` row 19,
+six sightings, four of them on one day).
+
+### Why the change
+
+`plumber cpd tasmania` carries **zero GSC impressions in sixteen months** and zero modelled volume.
+The phrasing the page already ranks for, from the per-page export:
+
+| Query | Impressions | Position |
+|---|---|---|
+| plumbing cpd points online | 1 | **1** |
+| cpd points plumbing | 5 | **2.4** |
+| cpd plumbing | 15 | **8** |
+
+The H1 named the term with no demand; the terms with demand appeared nowhere in it.
+
+### Measured after, read from `dist/cpd-plumbing-tas/index.html`
+
+| Element | Before | After |
+|---|---|---|
+| H1 | Plumber CPD **Tasmania**: a full twelve-point year in one purchase | Plumber CPD **points in** Tasmania: a full twelve-point year in one purchase |
+| title | TAS Plumber CPD Bundle - 12 CBOS-Approved Points, $499 | Plumber CPD **Points** Tasmania: 12 CBOS-Approved Courses, $499 (59 chars) |
+| description | Twelve CBOS-approved CPD courses for Tasmanian plumbers... | Twelve CBOS-approved courses, **one CPD point each**, for Tasmanian plumbers... (150 chars) |
+| FAQ H2 | Common questions about Tasmanian plumber CPD | Common questions about Tasmanian plumber CPD **points** |
+
+Unchanged and re-measured to confirm no collateral movement:
+
+| Check | Value |
+|---|---|
+| `<h1>` count | 1 |
+| `Course.offers.price` vs on-page | `"price":"499"` = `$499` ✓ |
+| Rendered `bcard` members | 12 |
+| `npm run build` | guardrails 0 failing, links 0 failing, meta 0 failing |
+
+### What was NOT changed, and why
+
+**No body copy.** The Stage 2 recommendation to shed become-a-plumber and plumber-business intent
+was checked against the MDX and found **already satisfied**: a scan for `plumbing course`,
+`certification`, `qualif`, `become a plumber`, `business training` and `apprentic` returned no
+matches. Those 433 wrong-intent impressions belong to the LEGACY page, not this one. Nothing was
+"fixed" that was not broken.
+
+**The stale `h1Html` comment was corrected in passing.** It constrained the H1 against a
+course-count headline because "the member table currently renders the thirteen-course pool" — a
+condition resolved on 16 Aug 2026 when Solar Energy was untagged and the table went to twelve.
+Another sighting of `kb/mistakes-log.md` row 1: a comment describing a build that had moved. The
+outcome phrasing was kept anyway on its merits, not because the old constraint still binds.
+
+### Still open
+
+`noindex` stands. The hero image and the `TBC-` checkout id are unchanged by this pass, and the
+six-step publish sequence in `pipeline/cpd-electrical-tas/07-verification.md` is unaffected.
+Recommendations 4, 5 and 6 in `02-gap.md` (hub link direction, the two partial competitor rows,
+and reading `bem.pointsbuild.com.au` with a renderer) are open.
