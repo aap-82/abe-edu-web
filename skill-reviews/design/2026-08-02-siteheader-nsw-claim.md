@@ -129,10 +129,18 @@ Tag every item: [skills] | [design] | [facts] | [build]
   still assert nationally recognised / RTO 45708 / Statement of Attainment for NSW Owner Builder.
   Both pages are noindex so this is not live harm, but they are a cutover blocker and the copy fix
   needs Andrey's commercial call first (name a real delivering RTO, or pull the claim).
-- [skills] `src/data/**` is unassigned in the session-types table. It is page data, edited by build
+- ~~[skills] `src/data/**` is unassigned in the session-types table. It is page data, edited by build
   sessions in practice, but the table does not say so — this session had to leave `nsw-w.ts` alone on
   the same reasoning that kept it out of `src/content/**`. Fourth instance of the unassigned-path
-  pattern CLAUDE.md already names, after `content.config.ts`, `SYSTEM.md`/`handover/**` and `public/**`.
+  pattern CLAUDE.md already names, after `content.config.ts`, `SYSTEM.md`/`handover/**` and `public/**`.~~
+  **assigned to `build` on 4 Aug 2026** by `73b01d4` ("split SiteHeader nav data into
+  `src/data/nav.ts`"), which put `src/data/**` on the build row exactly as this item asked — two days
+  after it was filed, and struck here on 17 Aug, thirteen days late. Verified before striking:
+  CLAUDE.md's build row reads `pipeline/{slug}/`, `src/content/**`, `src/data/**`, ... Found by the
+  17 Aug `src/pages/**` ownership session, which `demand-split` was still reporting as the **4x**
+  head of the unassigned-path pattern — the counter that decides what gets built was ranking a
+  question already answered. Precisely the failure `skill-reviews/skills/2026-08-14-stale-handover-and-path-ownership.md`
+  made the must-close rule for.
 - [skills] A build session correcting an existing page has nowhere legitimate to file a finding: the
   mistakes log is `kb/**` (skills-owned) and a flat `skill-reviews/*.md` would falsely satisfy
   `system-health`'s page-coverage check by claiming a graded run. Hit on the hub fix earlier the same

@@ -289,9 +289,9 @@ the guide, and only the two walls in Operating mode are enforced.
 
 | Type | Purpose | May write | Must not touch |
 |---|---|---|---|
-| **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `src/data/**`, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/layouts/**`, `src/styles/**`, `src/content.config.ts` |
+| **build** | Run the pipeline for one page, Stages 1–8, then Stage 9 | `pipeline/{slug}/`, `src/content/**`, `src/data/**`, `src/pages/**` **except** the two design-owned pages named in the design row, `skill-reviews/` (Stage 9 only) | `.claude/skills/**`, `kb/**`, `scripts/**`, `src/components/**`, `src/layouts/**`, `src/styles/**`, `src/content.config.ts`, `src/pages/styleguide.astro`, `src/pages/404.astro` |
 | **skills** | Act on the demand list — skills, scripts, rules, memory | `.claude/skills/**`, `scripts/**`, `kb/rules/**`, `CLAUDE.md`, `SYSTEM.md`, `ROADMAP.md`, `kb/mistakes-log.md`, `handover/**`, `src/content.config.ts`, `public/**`, `.claude/launch.json`, `src/integrations/guardrails.ts`, `.gitignore`, `PRODUCT.md`, `.impeccable/**`, the five top-level `new site/*.md` plans | `kb/register/**`, `src/styles/**`, `src/components/**`, any live run's artefacts |
-| **design** | Component, CSS, layout and styleguide changes | `src/components/**`, `src/layouts/**`, `src/styles/**`, styleguide specimens, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**` |
+| **design** | Component, CSS, layout and styleguide changes | `src/components/**`, `src/layouts/**`, `src/styles/**`, `src/pages/styleguide.astro` (and any `preview.astro`) plus its specimens, `src/pages/404.astro`, `skill-reviews/design/**` (its own review only) | `kb/register/**`, `.claude/skills/**`, `pipeline/**`, the rest of `src/pages/**` other than a disclosed markup-only pass (see below) |
 | **facts** | Verify and record regulatory figures | `kb/register/**`, `skill-reviews/facts/**` (its own review only) | everything else |
 
 ### Path ownership beyond the table
@@ -301,6 +301,42 @@ the guide, and only the two walls in Operating mode are enforced.
 the session that hit it, add it to the table, move on. The table rows above already fold in every
 assignment made to date; the reasoning for each is in the review that filed it (`git log -S` the
 path).
+
+**`src/pages/**` is split three ways** (assigned 17 Aug 2026, after commit `9281498` had to reason it
+out from the default mid-run). The directory is not one kind of file, so one row would have been
+wrong whichever type it named:
+
+- **Hand-built content pages and route stubs → `build`.** `cpd-tas.astro`, `cpd.astro`,
+  `accreditation.astro`, `reviews.astro`, `project-advisory.astro`, `owner-builder-insurance.astro`,
+  `experts/**`, the per-hub and per-bundle stubs, and `[slug]/index.astro`. These are pages — prose,
+  JSON-LD, and the wiring that renders a collection entry through a layout. **The stubs are
+  build-owned deliberately**: the guardrails bijection assert (A2) fails a hub or bundle that has no
+  stub, so any other owner would put a second session in front of every page publish.
+- **`styleguide.astro`, and any `preview.astro` → `design`.** Not content pages: the specimen sheet
+  for the component library, noindex and filtered out of the sitemap. 27 of `styleguide.astro`'s 37
+  commits carry a design, CSS, font or component scope.
+- **`404.astro` → `design`.** Chrome, not content. It duplicates `BaseLayout`'s shell by hand, and
+  its own comment says to keep the skip link and the `<main>` landmark in step with
+  `BaseLayout.astro` — which is design-owned. Both its commits are design or platform work.
+
+**These two are not a judgement call — the build already groups them, in three places, as the pages
+that are not customer copy.** `astro.config.mjs:108` filters `/styleguide` and `/preview` from the
+sitemap; `check-meta.mjs:166` exempts `/404` and `/styleguide` from the canonical rule as pages that
+cannot rank; `check-claims.mjs:545` exempts `styleguide.astro` from the reader-facing "ABE Education"
+rule as "an internal, noindex component library, not customer copy". `guardrails.ts:347` likewise
+filters `(styleguide|preview).astro` out of its published-page check. The one class of page in this
+directory that no reader ever sees is the class that is not build's.
+
+**The hand-built pages are a shared surface, and that is expected rather than an exception.** Such a
+page carries its content and its markup in one file, so a site-wide design sweep lands in several of
+them at once — five such commits between 27 Jul and 14 Aug 2026, one of which (`f095b3b`, the CPL
+sweep) touched two hand-built pages in a single pass. `build` owns them; **a design session's
+markup-only pass is a crossing, disclosed in that session's review beside its measured values — it
+does not need a build session.** What a design session must never change there is a claim, a figure,
+a price or a JSON-LD value. Five of those files carry a standing ⚠️ comment for exactly this reason,
+and three of them (`accreditation`, `owner-builder-insurance`, `project-advisory`) record the same
+hazard: the page has no `data-authority`, so the forbidden-claim scan in `guardrails.ts` never runs
+on it and nothing mechanical will catch a wrong claim.
 
 **Deliberately unassigned, still:** `worker/`, `wrangler.jsonc`, `astro.config.mjs`, `.github/**`,
 `package.json`. Platform and deploy configuration — changing one is its own decision with a human
