@@ -521,3 +521,46 @@ outcome phrasing was kept anyway on its merits, not because the old constraint s
 six-step publish sequence in `pipeline/cpd-electrical-tas/07-verification.md` is unaffected.
 Recommendations 4, 5 and 6 in `02-gap.md` (hub link direction, the two partial competitor rows,
 and reading `bem.pointsbuild.com.au` with a renderer) are open.
+
+
+### Correction, same day — the first retarget weakened the selling frame
+
+Andrey flagged it before the PR opened: **this page is a selling page for the bundle, and the copy
+has to support that.** Correct, and the first pass had optimised for the query at the product's
+expense. Checked against `references/archetypes/04-cpd-bundle.md` rather than re-tweaked by feel.
+
+The archetype's reader "has already decided to buy something" and is "doing arithmetic, not
+evaluating courses", with decision order **totals first** — points, categories, hours, price, one
+glance. Against that, the first pass had two regressions in the meta title:
+
+| | Regression |
+|---|---|
+| `12 CBOS-Approved Points` → `12 CBOS-Approved Courses` | swapped the POINTS TOTAL (decision 1) for the course list (decision 3) |
+| `TAS Plumber CPD **Bundle**` → no product word | the SERP snippet stopped saying what is being sold |
+
+Corrected, and the archetype's required **value comparison** surfaced into the snippet where the
+click decision is actually made:
+
+| Element | First pass | Corrected |
+|---|---|---|
+| title | Plumber CPD Points Tasmania: 12 CBOS-Approved Courses, $499 | Plumber CPD Points Tasmania: **12-Point Bundle**, $499 (50 chars) |
+| description | …$499 for a full twelve-point year, online and self-paced, about six hours. | …full twelve-point year for $499, **not $1,188 bought separately**. Online, about six hours. (159 chars) |
+
+**The description's arithmetic was verified against the section it summarises**, not just written:
+`$499` / `$1,188` appears in the meta description AND in the `#cost` section of `dist/`, measured
+by matching both. That is Stage 7 check 5, the check that caught `/owner-builder-insurance` shipping
+a hero tick its own state table refuted.
+
+**The H1 was left as retargeted.** "a full twelve-point year in one purchase" is the strongest
+selling element on the page: the archetype names the reader's fear as "buying a bundle that still
+leaves them short", and the coverage claim answers it directly. It is also verifiable — twelve live
+members, asserted at build.
+
+**No body copy changed, again.** The cost section already does the honest arithmetic the archetype
+requires ("$499 for the twelve courses, paid once, against $1,188 to buy the same twelve
+individually") and even directs a reader needing one or two points to buy singly instead. That is
+the required value-comparison section, already done well. The gap was that none of it reached the
+snippet.
+
+Re-measured after the correction: `<h1>` count 1, 12 `bcard` members, `Course.offers.price` "499",
+build 0 failing across guardrails, links and meta.
