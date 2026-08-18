@@ -105,12 +105,15 @@ Tag every item: [skills] | [design] | [facts] | [build]
   CTA sub (:152), price comparison (:166, :174), FAQ (:188) and section H2/capsule (:218, :219).
   **Needs a decision before copy** — see the next item.
 - [facts] **The builder bundle needs a twelfth builder-approved course, and there is no spare.** All 17
-  rows were checked: every live building-approved course is already in the bundle. Routes are (a) the
+  rows were checked: every live building-approved course is already in the bundle. Routes are ~~(a) the
   `Silica Awareness Course` letter of 12 Dec 2024, reported approved for Builders, Electricians/REL,
   Plumbers and Gas Fitters — the only option that would also have fixed plumbing, and a `refused` →
-  approved reversal that **must not** be made from a summary; (b) re-approve *Wet Area Waterproofing*,
-  expired 22 Feb 2026, which is also the only genuinely builder-technical course and would answer A4e;
-  (c) restate the bundle as eleven points at `rrp` $1,089.
+  approved reversal that **must not** be made from a summary~~ **(a) is CLOSED, 18 Aug 2026: Andrey
+  confirms the course is not approved and needs SafeWork Tasmania approval before CBOS. The register's
+  `refused` was right; both summaries reporting it approved are wrong, the only such failure in the
+  reconciliation. See A4i**; (b) re-approve *Wet Area Waterproofing*, expired 22 Feb 2026, which is
+  also the only genuinely builder-technical course and would answer A4e; (c) restate the bundle as
+  eleven points at `rrp` $1,089. **Only (b) and (c) remain.**
 - [skills] `check-claims.mjs` — the CPD bundle check compares claimed points against **bundle
   membership**, never against **approved category**, so a member not approved for the bundle's licence
   class passes silently. That is how an indexed page came to promise a builder twelve claimable points.

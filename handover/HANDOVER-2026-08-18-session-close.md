@@ -35,15 +35,18 @@ Changing it is a decision about what the bundle **is**, which is commercial, not
 **Three routes, and there is no spare course.** All 17 register rows were checked: every live
 building-approved course is already in the bundle.
 
-1. **The `Silica Awareness Course` letter, 12 Dec 2024** — reported approved for Builders,
-   Electricians/REL, Plumbers and Gas Fitters, which is exactly the set Wiring Rules excludes. It sits
-   in the register as `refused`. **This is the best outcome and the cheapest**: drop it in, twelve
-   genuinely claimable points, no price or copy change. **A `refused` -> approved flip must come from
-   the letter, never a summary** — see "the mistake to avoid" below.
+1. ~~**The `Silica Awareness Course` letter, 12 Dec 2024** — reported approved for exactly the set
+   Wiring Rules excludes. The cheapest fix.~~ **⛔ CLOSED 18 Aug 2026 — THIS ROUTE DOES NOT EXIST.**
+   Andrey: the course **is not approved**, and CBOS is not the next gate — **it needs SafeWork Tasmania
+   approval first**. The register's `refused` was right all along. Two mailbox summaries said approved
+   and both are wrong; it is the only claim in the entire reconciliation that failed. **Do not go
+   looking for that letter — it cannot exist yet.** See `A4i`.
 2. **Re-approve *Compliance, Solutions and Driving Innovation For Wet Area Waterproofing*** (expired
    22 Feb 2026). It is also the only genuinely builder-technical course in the catalogue, so this
    would answer A4e's composition guidance at the same time.
 3. **Restate the bundle as eleven points**, `rrp` $1,089, and rewrite the dozen strings.
+
+**With route 1 closed, only 2 and 3 remain** — one needs a regulator, the other needs a decision.
 
 > **Do not "fix" it by leaving Wiring Rules in place to keep the number at twelve.** The count would
 > hold and the claim would still be false.
@@ -96,14 +99,18 @@ Recorded in full in `A4g` with every place that still carried the old position.
 
 ## Immediate next actions
 
-- **[facts]** Get the **Silica Awareness** letter (12 Dec 2024) from `info@abeeducation.edu.au`. It
-  unblocks the builder bundle. Search by sender or by the phrase, **not by course name** — of the five
-  letters obtained so far, two had no course name in the subject at all. One arrived subject-tagged
-  `**SUSPECTED SPAM**`, so check junk. Drop PDFs into `gov approvals/CBOS/` (gitignored by `*.pdf`;
-  they are confidential and carry a named officer's direct contact details — do not commit them).
-- **[facts]** Get the **Solar Energy** letter. It now carries the plumber bundle's twelfth point on
-  unverified scope, and its estimated expiry is **5 Dec 2026** — `check-freshness` fails the build on
-  an expired course still in a bundle.
+- ~~**[facts]** Get the **Silica Awareness** letter (12 Dec 2024). It unblocks the builder bundle.~~
+  **⛔ WITHDRAWN 18 Aug 2026 — there is no such letter and there cannot be one yet.** The course is not
+  approved and needs **SafeWork Tasmania approval before CBOS**. See `A4i`. Getting the builder bundle
+  to twelve is now a commercial or regulatory project, not a search of the mailbox.
+- **[facts]** Get the **Solar Energy** letter — **now the only outstanding letter worth chasing.** It
+  carries the plumber bundle's twelfth point on unverified scope, and its estimated expiry is
+  **5 Dec 2026**; `check-freshness` fails the build on an expired course still in a bundle. Search
+  `info@abeeducation.edu.au` **by sender or by the approval phrase, not by course name** — of the five
+  letters obtained so far, two had no course name in the subject at all, and one arrived
+  subject-tagged `**SUSPECTED SPAM**`, so check junk. Drop PDFs into `gov approvals/CBOS/` (gitignored
+  by `*.pdf`; they are confidential and carry a named officer's direct contact details — do not commit
+  them).
 - **[build]** `cpd-plumbing-tas.mdx` — four pool-count claims now overstate by one (the live plumbing
   pool is **twelve**, not thirteen): `subhead` (:145), FAQ (:189, :190), individual-courses paragraph
   (:255). Page is `noindex`, so wrong-on-page rather than public. **Its header comments at :14-51 and
