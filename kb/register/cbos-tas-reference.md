@@ -225,10 +225,16 @@ primary document:
 - **They say nothing about the other nine live courses.** Six live courses remain submission-basis
   (`check-freshness` reports `SOFT-DATE 6`). Their approval dates are still unrecorded, not disproven.
 
-### A4e. CBOS's standing condition on ABE's bundles — ACTION NEEDED, not a settled fact
+### A4e. CBOS's guidance on ABE's bundle composition — RECOMMENDATION, not a publish gate
 
-**CBOS has twice told ABE, in writing, that a CPD bundle may not be all business/WHS content.** This
-is the most consequential thing in the letters and it is a live obligation, not background.
+> **Andrey's call, 17 August 2026: treat this as a recommendation, not a blocker.** It does not gate
+> publishing a bundle page, does not gate a bundle's composition, and no check enforces it. Recorded
+> below because it is genuine regulator correspondence and the record should exist; **do not re-raise
+> it as a blocker in a later session.**
+
+**CBOS has twice told ABE, in writing, that a CPD bundle should not be all business/WHS content.**
+The wording below is quoted exactly and is not softened — the decision above is about ABE's
+disposition toward it, not about what the letters say.
 
 Verbatim from the **Cyber Risks approval, 15 Aug 2025**:
 
@@ -243,7 +249,7 @@ Restated, more briefly, in the **Fire Risk Awareness approval, 20 Nov 2025**:
 > Please ensure your CPD bundles includes some CPD content which is directly relevant to the
 > prescribed work the practitioners are licensed for.
 
-Said twice, three months apart, unprompted. Treat it as a standing condition of ABE's approvals.
+Said twice, three months apart, unprompted.
 
 **How the three sold bundles look against it** — composition is fact, the assessment is CBOS's to
 make, so this is laid out rather than concluded:
@@ -258,15 +264,19 @@ The remainder in every bundle is WHS, safety or business skills: WHS Compliance,
 Fire Risk, Workplace Asbestos, Site and Personal Safety, Effective Communication, Effective Email
 Management, The Role of Drones.
 
-**The builder bundle is the exposed one**, and it got worse by attrition rather than by decision: its
+**The builder bundle is the thinnest**, and it got that way by attrition rather than by decision: its
 one clearly builder-technical course, *Compliance, Solutions and Driving Innovation For Wet Area
-Waterproofing*, **expired** and dropped out. Nobody removed it deliberately; a bundle drifted across a
-regulator's condition because a course lapsed.
+Waterproofing*, **expired** and dropped out.
 
-**This is Andrey's call, not a fact to record and close.** The options are commercial: add approved
-trade-technical courses to each bundle, or raise it with CBOS. Do not soften the condition in page
-copy, and do not treat the current composition as endorsed merely because the courses are individually
-approved — the condition is explicitly about the *bundle*, which is exactly the unit ABE sells.
+**What this means in practice, per the decision above:** bundle pages publish on their own merits and
+this section does not hold any of them up. If bundle composition is revisited for commercial reasons,
+the table above is the starting point; adding approved trade-technical courses is the lever. Nothing
+here is a task anyone is assigned.
+
+**The one thing that does not change:** every course in the bundles is individually CBOS-approved,
+and that is what the pages claim. No page claims CBOS endorses a bundle's *composition*, and none
+should start — not because of this guidance, but because it would be a claim about something CBOS has
+not said either way.
 
 ### A4c. Register dates are one day early — FIXED 17 Aug 2026
 
@@ -413,4 +423,4 @@ Responsibility for recording CPD sits with the **licence holder** (employees kee
 
 ---
 
-**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **B1 re-verified live 2026-08-15** against the CBOS owner-builder restrictions page and the categories-of-work page, both read in full: the permit trigger is risk-category based and **there is no dollar threshold** — see B1. **A4 re-confirmed live 2026-08-17** against the CBOS CPD training-providers page and the CPD events calendar, both read in a browser: there is still no per-course approved-course register, and ABE's provider entry carries no course names — see A4. **A4b–A4e added 2026-08-17**: Cyber Risks approved name recorded and verified against the approval email; four CBOS approval letters read and their dates recorded (A4d); register-wide one-day date drift found and fixed (A4c); **CBOS's standing bundling condition recorded and open for Andrey (A4e)**. **Open items to confirm at build:** ~~owner-builder permit dollar threshold (B1)~~ resolved 15 Aug 2026, liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
+**Verified:** 2026-07-12 (CBOS pages + Service Tasmania + Determinations). **A1 and A2 re-confirmed live 2026-07-23** against the CBOS "Achieving your CPD requirements" page: the licence points table matches exactly (Builder 12, Permit Authority 12, Architect 20, Building Designer 20, Building Services Designer 20, Building Surveyor 30, Engineer 30), and the multi-licence cap note is present. **A3 was FALSE and is corrected — see A3.** There is no WHS points cap; settled 2026-07-23 against the Occupational Licensing (Continuing Professional Development) Determination 2018 read in full. **Re-verify:** fees at each 1 July; points tables and thresholds on the standard skill audit cadence or when a Determination is amended. **B1 re-verified live 2026-08-15** against the CBOS owner-builder restrictions page and the categories-of-work page, both read in full: the permit trigger is risk-category based and **there is no dollar threshold** — see B1. **A4 re-confirmed live 2026-08-17** against the CBOS CPD training-providers page and the CPD events calendar, both read in a browser: there is still no per-course approved-course register, and ABE's provider entry carries no course names — see A4. **A4b–A4e added 2026-08-17**: Cyber Risks approved name recorded and verified against the approval email; four CBOS approval letters read and their dates recorded (A4d); register-wide one-day date drift found and fixed (A4c); CBOS's bundle-composition guidance recorded, and **classed as a recommendation rather than a blocker by Andrey on 17 Aug 2026 (A4e)**. **Open items to confirm at build:** ~~owner-builder permit dollar threshold (B1)~~ resolved 15 Aug 2026, liability insurance figure (B4), plumber/gas-fitter per-module points (A1).
