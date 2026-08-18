@@ -265,7 +265,10 @@ estimates.
   licence holders **only**. Not resolved.~~ **SETTLED 18 Aug 2026 against the approval email: the limit
   is real.** Approval date recorded. See A4g — a published claim on the indexed builder page is wrong
   as a result.
-- **Silica Awareness Course** — reported **approved** 12 Dec 2024 against the register's `refused`.
+- ~~**Silica Awareness Course** — reported **approved** 12 Dec 2024 against the register's `refused`.~~
+  **CLOSED 18 Aug 2026: it is NOT approved. The register's `refused` was right all along** — see A4i.
+  Two mailbox summaries reported it approved on 12 Dec 2024; **both are wrong**, and this is the one
+  place in the whole reconciliation where they are.
 - **Solar Energy** — live in two bundles and **absent from all three summaries**, in either direction.
 
 ### A4g. AS/NZS 3000:2018 Wiring Rules — VERIFIED electricians-only, and a published claim is wrong
@@ -361,11 +364,14 @@ members, and `CpdBundleLayout.astro` throws when `rrp !== points x singleCourseP
 fails until the page copy, title, description and `rrp` move together. Those are build-owned, and the
 "12 points / $499" positioning is commercial. It needs Andrey and a build session, not this one.
 
-**A swap may avoid the drop entirely.** The `Silica Awareness Course` row is `refused` in the register
-while a mailbox search reports it approved on 12 Dec 2024 for Builders, Electricians/REL, Plumbers and
-Gas Fitters — precisely the licences this course excludes. If that letter reads as reported, swapping it
-in restores twelve genuinely claimable points with no copy change. **Get the letter first: reversing a
-`refused` on a summary is exactly what the paragraph above was wrong for doing.**
+**⛔ The swap that looked available is NOT available.** This section previously proposed moving the
+`Silica Awareness Course` row into the builder bundle, on two mailbox summaries reporting it approved
+on 12 Dec 2024 for exactly the licences Wiring Rules excludes. **Andrey, 18 Aug 2026: it is not
+approved, and CBOS approval is not the next step — it needs SafeWork Tasmania approval first.** See
+A4i. The register's `refused` was correct throughout.
+
+**So the only routes left are (2) re-approve *Wet Area Waterproofing* and (3) restate the bundle as
+eleven points.** Every other live building-approved course is already in the bundle.
 
 > ⚠️ **That course is a CBOS CPD course and is NOT the AlertForce accredited product. Do not conflate
 > them.** The retired name that must never be asserted as current belongs to the ASQA side: no course of
@@ -374,6 +380,42 @@ in restores twelve genuinely claimable points with no copy change. **Get the let
 > may describe it. What this section discusses is ABE's own Tasmanian CPD submission, a licence-renewal
 > credit worth 1 point, never "nationally recognised". This is the asbestos hazard of A6 in a second
 > costume, and the shared topic word is what makes them easy to merge by mistake.
+
+### A4i. The silica CPD course is NOT approved, and CBOS is not the next gate
+
+**Andrey, 18 August 2026: it is not approved, and it needs SafeWork Tasmania approval first.**
+
+The register row `Silica Awareness Course` is `refused`, with no points, no categories and no bundles.
+**That was correct throughout and needs no change.** Recording this so the position is not re-opened,
+because two mailbox summaries say otherwise.
+
+**Two summaries reported it approved for 1 CPD point on 12 Dec 2024** for Builders,
+Electricians/Restricted Electrical Licence holders, Plumbers and Gas Fitters — one of them naming the
+full licence scope. **Both are wrong.** Across the whole 17-row reconciliation of 17-18 Aug 2026 this
+is the **only** claim in those summaries that failed against the position of the person holding the
+records, which is a useful measure of how far to trust them: reliable on dates, not authoritative on
+status.
+
+**The regulatory shape, and it is the part worth carrying forward.** Approval here is **two-gated**:
+SafeWork Tasmania first, CBOS second. A CBOS CPD submission is not the first step for this course and
+chasing a CBOS letter for it is chasing a document that cannot exist yet. That ordering is not true of
+the other courses in this register, every one of which went straight to CBOS.
+
+> **Scope of what was confirmed.** Andrey stated the position and the prerequisite. **Not established
+> here:** whether the SafeWork TAS requirement is specific to crystalline silica, extends to other
+> hazard-specific training, or follows from the silica regulations. Do not generalise it beyond this
+> course without asking.
+
+**This removes the cheapest fix for the builder bundle.** A4g proposed swapping this course in to
+restore a twelfth claimable point. That route is closed; only re-approving *Wet Area Waterproofing* or
+restating the bundle as eleven remain.
+
+> ⚠️ **Still not the AlertForce product.** Everything above concerns ABE's own Tasmanian CPD
+> submission. The accredited course is 10830NAT, "Course in Crystalline Silica Exposure Prevention",
+> owned by `kb/register/alertforce-scope.md`, and no course of the retired name is on AlertForce
+> (RTO 91826) scope. A CBOS CPD point and an RTO credential are different products with different
+> regulators — and this course now has a third regulator in front of it, which makes conflating them
+> worse rather than merely wrong.
 
 ### A4h. Safe Work Method Statement (SWMS) — approved on Andrey's authority, approval email NOT held
 
