@@ -6,8 +6,9 @@
 **Outcome:** closed, and it grew. The approved name is recorded and independently verified against
 CBOS's own approval email; the three bundle pages stop publishing ABE's internal admin title; four
 CBOS approval dates are recorded, closing a handover task filed as unactionable; a register-wide
-date defect is fixed. **One finding is open and needs Andrey: CBOS has twice put ABE's bundles on
-notice in writing (§ "The bundling condition").**
+date defect is fixed. CBOS's twice-stated guidance on bundle composition is recorded in A4e
+and, on Andrey's call the same day, **classed as a recommendation rather than a blocker**
+(§ "The bundling condition").
 
 > **Mid-session change of evidence.** The first half of this session concluded the approved name was
 > unverifiable from any CBOS record and recorded it on Andrey's confirmation. He then supplied four
@@ -183,7 +184,7 @@ expiry formulas unchanged. `"15/08/2025"`, matching the column's `DAY_MONTH_YEAR
 Caught only because the write was read back. A success-shaped response from a write that did nothing
 is the exact failure mode that a self-certifying session ships. Read back every source-doc write.
 
-## The bundling condition — OPEN, needs Andrey
+## The bundling condition — recorded; Andrey classed it a recommendation, not a blocker
 
 The most consequential thing in the letters is not a date. **CBOS has twice, in writing, put ABE's
 bundles on notice.** Cyber Risks approval, 15 Aug 2025:
@@ -208,9 +209,12 @@ Three months apart, unprompted, in approvals ABE did not ask for advice on. Comp
 course, *Wet Area Waterproofing*, expired and dropped out. No one chose that.
 
 Recorded in A4e as fact plus composition, and explicitly **not** concluded — "a reasonable amount" is
-CBOS's judgement, and the fix (add approved trade-technical courses, or raise it with CBOS) is
-commercial. Flagged rather than filed, because a demand-list item is the wrong home for a condition
-whose stated sanction is withdrawal of approval.
+CBOS's judgement, and the response is commercial.
+
+**Andrey's call, 17 Aug 2026: treat it as a recommendation, not a blocker.** A4e now leads with that,
+and nothing in the repo gates on it. The letters stay quoted verbatim: what the decision changes is
+ABE's disposition toward the guidance, not the record of what CBOS wrote — those are separable, and
+keeping them separable is the reason the quote was not trimmed to match the decision.
 
 ## Second finding — every register date was one day early (FIXED)
 
@@ -291,12 +295,11 @@ Tag every item: [skills] | [design] | [facts] | [build]
   day (`new Date(s).toISOString()` converts to UTC first). **16 of 17 register rows are one day
   early**, and `generated.syncedAt` too.~~ fixed in this session once the same bug corrupted four
   CBOS approval dates; 39 date fields across 17 rows verified against source, 0 mismatches. A4c.
-- [facts] **CBOS's bundling condition (A4e) is open and belongs to Andrey, not to a session.** Two
-  approval letters require ABE's bundles to carry CPD "directly relevant to the prescribed work",
-  state that a bundle "cannot be all business/WHS related", and name withdrawal of approval as the
-  sanction. Builder bundle currently has arguably zero builder-technical members after *Wet Area
-  Waterproofing* expired. Needs a commercial decision or a conversation with CBOS — do not soften it
-  in page copy meanwhile.
+- ~~[facts] **CBOS's bundling condition (A4e) is open and belongs to Andrey, not to a session.**~~
+  **Decided by Andrey, 17 Aug 2026: it is a recommendation, not a blocker.** It gates no page and no
+  bundle composition, and no check enforces it. A4e rewritten to say so, with the letters still
+  quoted verbatim — the decision changed ABE's disposition toward the guidance, not the record of
+  what CBOS wrote. Do not re-open it as a blocker.
 - [facts] Six live courses remain submission-basis (`check-freshness` `SOFT-DATE 6`). Their approval
   letters most likely exist in ABE's mailbox, as these four did. **Ask before recording another date
   as unobtainable** — that inference is what A4 got wrong on 25 Jul 2026.
