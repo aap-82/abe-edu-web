@@ -1,6 +1,13 @@
 # HANDOVER — session close, 16 August 2026
 
-## Status: OPEN — start here
+## Status: OPEN, but no longer "start here" — superseded 18 August 2026
+
+**Start at `handover/HANDOVER-2026-08-18-session-close.md`.** This file stays OPEN for its own
+unfinished items and nothing in it is contradicted by the newer note. One item below was closed on
+18 Aug: the Wiring Rules / Solar Energy confusion it flags in its opening table is now settled with a
+CBOS letter — Wiring Rules is approved for **electricians and restricted electrical licence holders
+only**, so it is out of the plumber bundle for a regulatory reason rather than a commercial one, and
+Solar Energy is in. See `kb/register/cbos-tas-reference.md` A4g.
 
 Everything below is on `main` (`005b8a4`) and deployed. Working tree clean, `system-health` **0
 failing**, `npm run build` green, no open PRs, no stale local branches.

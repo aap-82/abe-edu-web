@@ -23,7 +23,40 @@ hold it all; nothing removed was a rule.
 - **What is built, per page, is never answered from this file** — run `node scripts/page-status.mjs`.
   Counts written here as prose are snapshots and rot; the script measures `dist/`.
 
-## Current state (16 August 2026)
+## Current state (18 August 2026)
+
+### 17-18 August 2026 — the TAS CPD register reconciled against CBOS letters, and one live claim found wrong
+
+Three PRs (#143, #147, #148), `main` green throughout, 0 FAIL at close. No phase change; the phase
+table below still governs. Start-here note: `handover/HANDOVER-2026-08-18-session-close.md`.
+
+- **⚠️ `/cpd-building-tas` is indexed and promises a builder twelve claimable CPD points while
+  delivering eleven.** `AS/NZS 3000:2018 Wiring Rules` is approved **for electricians and restricted
+  electrical licence holders only** (CBOS email 12 Dec 2024, read in session, quoted in
+  `kb/register/cbos-tas-reference.md` A4g) and is still a builder-bundle member. **Open, and it needs a
+  commercial decision** — the twelve is asserted in ~12 strings and `CpdBundleLayout` throws unless
+  `rrp === points x singleCoursePrice`, so it is not a copy edit. Every live building-approved course
+  is already in the bundle; there is no spare. Routes: the Silica letter, re-approving Wet Area
+  Waterproofing, or restating as eleven.
+- **The plumber bundle is now genuinely twelve claimable** — Wiring Rules out, Solar Energy in
+  (Andrey, 18 Aug). Electrical was always correct at 11/11.
+- **Seven approval dates now rest on letters rather than estimates.** `check-freshness` `SOFT-DATE`
+  fell from 10 live courses to 5. **This closed `HANDOVER-facts-cpd-tas.md` Task A step 3, filed
+  25 Jul as "not actionable — there is nothing to read".** It was actionable; nobody had asked ABE for
+  the correspondence. *"No source exists" usually means "nobody asked" — the regulator publishing
+  nothing says nothing about what the counterparty holds.*
+- **Every register date was one day early, all 16 rows that carry one**, because `isoDate()`
+  round-tripped Coda's AEST midnight through `toISOString()`. Fixed; 39 date fields across 17 rows now
+  match source exactly. Filed as debt first, then fixed the same session once the same bug recorded
+  four CBOS approval dates one day off the regulator's own email — *a cosmetic off-by-one stops being
+  cosmetic the moment a verified regulatory figure passes through it.*
+- **A check gap, still open and routed:** `check-claims` counts bundle **membership**, never approved
+  **category**, so a course sold to a licence class it was not approved for passes silently. That is
+  why the builder defect took a letter to find rather than a build.
+- **An internal field cannot witness a regulator's decision.** The source doc's `Category Description`
+  was calibrated against the one row whose scope was known from a letter, matched exactly, and was
+  then wrong on the row that mattered. It is populated from ABE's *application*, so it records what was
+  requested, never what was granted. *One hit in two testable rows is not a validated instrument.*
 
 ### 16 August 2026 — a records-and-gates day, and one page published
 
