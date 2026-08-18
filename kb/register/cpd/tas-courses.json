@@ -25,7 +25,7 @@
     "table": "grid-_kWHYm22cU",
     "syncedAt": "2026-08-18",
     "rowCount": 17,
-    "checksum": "sha256:ce9899030777e3dbc20f1b9d621646421d03c985c17ef733f6799f3e036553a4"
+    "checksum": "sha256:715378740c1803bb40a945f7eb94a38a5777126d0fdc9004f57e08e5e1c9145d"
   },
   "bundleMap": {
     "TAS Plumber CPD - 12 Points (2026)": "plumbing",
@@ -261,14 +261,11 @@
       "status": "live",
       "points": 1,
       "categories": [
-        "building",
-        "electrical",
-        "plumbing"
+        "electrical"
       ],
       "bundles": [
         "building",
-        "electrical",
-        "plumbing"
+        "electrical"
       ],
       "submittedAt": "2024-12-05",
       "approvedAt": "2024-12-12",
@@ -391,7 +388,8 @@
       ],
       "bundles": [
         "building",
-        "electrical"
+        "electrical",
+        "plumbing"
       ],
       "submittedAt": "2024-12-05",
       "approvedAt": null,

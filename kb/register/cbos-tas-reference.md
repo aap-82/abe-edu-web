@@ -323,6 +323,37 @@ cannot.
 - Andrey's statement of 18 Aug 2026 giving this course three categories, which quoted that field.
 - This file's own A4f as first written, which listed the scope as merely "reported".
 
+#### Acted on, 18 August 2026
+
+Three source-doc changes, all made at source and landed via `npm run sync:cpd`:
+
+1. **`Approval Date` = 12 Dec 2024** on row `i-yfT1kEKZxE`. Row moves to `expiryBasis: approval`;
+   expiry 05 Dec 2026 -> **12 Dec 2026**.
+2. **`Category` corrected to Electrical only** (was Building, Electrical, Plumbing), matching the
+   approval. Live category pools move: **building 12 -> 11**, **plumbing 13 -> 12**, electrical
+   unchanged at 11.
+3. **Plumber bundle swap, Andrey's call:** Wiring Rules out, *Solar Energy* in. Plumbing holds at 12
+   members and is now **12 claimable by a plumber**. `rrp` arithmetic is untouched (12 x $99 = $1,188),
+   so no price or copy change was forced. Solar already had a `memberInfo` blurb, so no member lost its
+   description.
+
+**Solar Energy's own scope is UNVERIFIED and this is the caveat on that swap.** It has no approval
+date, and it is the one live course absent from every mailbox search — no approval, no rejection. Its
+plumbing category comes from the same application-derived field that was wrong here. Flagged before
+the swap and accepted; recorded so it is not later mistaken for a verified position.
+
+**The builder bundle was deliberately NOT changed.** Wiring Rules keeps its `Bundle` tag for builders,
+so `/cpd-building-tas` still lists 12 and still yields **11 claimable**. Its copy asserts twelve in
+roughly a dozen places — title, description, intro, H1, subhead, proof row, price comparison, FAQ and
+section headings — so this is not a string swap but a decision about what the bundle is. Options in
+"What this blocks" below.
+
+> **A check gap found here, routed to skills.** `check-claims` reports "CPD building: publishes 12 pts
+> within a live pool of 12" and passes, because the pool it counts is **bundle membership**, not
+> **approved category**. It cannot see that one member is not approved for the licence the bundle is
+> sold to. A per-licence check would compare each member's `categories` against the bundle's licence
+> class; today nothing mechanical catches this class of error.
+
 #### What this blocks, and who owns it
 
 **Removing the course from the builder and plumber bundles is not a facts change.** It drops both to 11
