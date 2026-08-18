@@ -261,23 +261,30 @@ estimates.
 > repo depends on it.
 
 **Still open after this search** — see A4g:
-- **AS/NZS 3000:2018 Wiring Rules** — reported approved for electricians and restricted electrical
-  licence holders **only**. Not resolved.
+- ~~**AS/NZS 3000:2018 Wiring Rules** — reported approved for electricians and restricted electrical
+  licence holders **only**. Not resolved.~~ **SETTLED 18 Aug 2026 against the approval email: the limit
+  is real.** Approval date recorded. See A4g — a published claim on the indexed builder page is wrong
+  as a result.
 - **Silica Awareness Course** — reported **approved** 12 Dec 2024 against the register's `refused`.
 - **Solar Energy** — live in two bundles and **absent from all three summaries**, in either direction.
 
-### A4g. AS/NZS 3000:2018 Wiring Rules — a scope limit that breaks a published points claim
+### A4g. AS/NZS 3000:2018 Wiring Rules — VERIFIED electricians-only, and a published claim is wrong
 
-**Reported scope: electricians and restricted electrical licence holders only** (approved 12 Dec 2024).
-Two of the three summaries state it, one of them as an express limitation; the third omits scope
-entirely for this row while recording it for *Plumbing Essentials*.
+**Settled 18 August 2026 against the CBOS approval email**, read in full this session
+(`gov approvals/CBOS/`, forwarded 12 Dec 2024, from the CBOS Occupational Licensing / CPD Education
+and Training Officer to `info@abeeducation.edu.au`). Verbatim:
 
-That silence was briefly read here as evidence of no restriction. **It is not**, and the reasoning is
-worth keeping because it is a recurring error: a summary that omits X cannot distinguish "X does not
-apply" from "X was not written down here". Only the letter settles it.
+> Thanks for your application. Please be advised that this training has been approved for 1 CPD point
+> **for electricians and restricted electrical licence holders only**.
 
-**If the limit holds, a published claim is wrong.** The course is bundled into building, electrical and
-plumbing:
+**Approval date 12 Dec 2024** is now recorded at source and in the register (`expiryBasis: approval`,
+expiry **12 Dec 2026**, seven days later than the submission-basis estimate it replaces).
+
+**The register still describes this course as three-category, and that is now known to be wrong.**
+`categories` and `bundles` both read `building, electrical, plumbing`. Only `electrical` is approved.
+The correction is NOT a facts-only edit and is deliberately not made here — see "What this blocks".
+
+**What it costs, measured:**
 
 | Bundle | Page claims | Claimable by that licence | Indexed |
 |---|---|---|---|
@@ -285,29 +292,57 @@ plumbing:
 | Plumbing | 12 pts | **11** | no |
 | Electrical | 11 pts | 11 | no |
 
-`/cpd-building-tas` is titled "12 CBOS-Approved Points" and its description says it "Meets a builder's
-twelve-point year in full". On the reported scope it does not — a builder finishes one point short,
-and finds out at renewal.
+`/cpd-building-tas` is titled "TAS Building CPD Bundle - 12 CBOS-Approved Points, $499" and its
+description says it "Meets a builder's twelve-point year in full". **On the approval as written it does
+not.** A builder completes the bundle, claims eleven, and discovers the shortfall at licence renewal.
+That is a false regulatory claim on the one indexed CPD page.
 
-**A possible fix needs no new approval, but first, a name trap.** The register row `Silica Awareness
-Course` is refused, and a mailbox search reports it approved on 12 Dec 2024 for Builders,
-Electricians/REL, Plumbers and Gas Fitters — exactly the licences Wiring Rules excludes. If that
-holds, swapping it in for Wiring Rules in the builder and plumber bundles restores twelve genuinely
-claimable points.
+#### The instrument that got this wrong, and why it was believed
 
-> ⚠️ **This is a CBOS CPD course and is NOT the AlertForce accredited product. Do not conflate them.**
-> The retired name that must never be asserted as current belongs to the ASQA side: no course of that
-> name is on AlertForce (RTO 91826) scope, and the accredited product is 10830NAT, "Course in
-> Crystalline Silica Exposure Prevention" — owner `kb/register/alertforce-scope.md`, which is the only
-> file that may describe it. What A4g discusses is ABE's own Tasmanian CPD submission, a
-> licence-renewal credit worth 1 point, never "nationally recognised". This is the asbestos hazard of
-> A6 in a second costume: a CBOS CPD point and an RTO awareness credential are different products with
-> different regulators, and the shared topic word is what makes them easy to merge by mistake.
+The source doc's per-row **`Category Description`** field lists Building, Electrical and Plumbing for
+this course, naming licence classes under each. It is hand-curated per row, not boilerplate — this row
+drops Engineer from Building and Nominated Manager from Plumbing, and omits Gas-fitting entirely.
 
-**Neither change may be made from these summaries.** The Silica move is a `refused` -> approved
-reversal, which A6 currently forbids in terms, and the Wiring Rules move rests on a scope clause that
-must be read verbatim. **Two letters close both: AS NZS 3000 2018 Wiring Rules Online and Silica
-Awareness Online, both 12 Dec 2024.**
+It was calibrated before being trusted, against the one row whose CBOS scope was already known from a
+letter: **Plumbing Essentials**, approved "for plumbers and gas-fitters", whose `Category Description`
+names exactly Gas-fitting and Plumbing and nothing else. It matched. On that basis the field was
+assessed here as tracking CBOS scope, and the two mailbox summaries reporting "electricians only" were
+judged the weaker evidence.
+
+**That assessment was wrong, and the letter is what corrected it.** The field is right on Plumbing
+Essentials and wrong on Wiring Rules — one hit in two testable rows. **A single successful calibration
+is not a validated instrument**, and an internal field cannot witness a regulator's decision however
+well curated it looks. This is the same lesson A4 already records for the naming columns, arriving by a
+new route: the field that agrees with you on the case you can check may still be wrong on the case you
+cannot.
+
+**What this contradicts, named per rule 11(b):**
+- The `Category Description` on source row `i-yfT1kEKZxE`, which still lists three categories. ABE's
+  operational field, not corrected here.
+- The `Category` and `Bundle` tags on that row, and therefore `categories`/`bundles` in the register.
+- Andrey's statement of 18 Aug 2026 giving this course three categories, which quoted that field.
+- This file's own A4f as first written, which listed the scope as merely "reported".
+
+#### What this blocks, and who owns it
+
+**Removing the course from the builder and plumber bundles is not a facts change.** It drops both to 11
+members, and `CpdBundleLayout.astro` throws when `rrp !== points x singleCoursePrice` — so the build
+fails until the page copy, title, description and `rrp` move together. Those are build-owned, and the
+"12 points / $499" positioning is commercial. It needs Andrey and a build session, not this one.
+
+**A swap may avoid the drop entirely.** The `Silica Awareness Course` row is `refused` in the register
+while a mailbox search reports it approved on 12 Dec 2024 for Builders, Electricians/REL, Plumbers and
+Gas Fitters — precisely the licences this course excludes. If that letter reads as reported, swapping it
+in restores twelve genuinely claimable points with no copy change. **Get the letter first: reversing a
+`refused` on a summary is exactly what the paragraph above was wrong for doing.**
+
+> ⚠️ **That course is a CBOS CPD course and is NOT the AlertForce accredited product. Do not conflate
+> them.** The retired name that must never be asserted as current belongs to the ASQA side: no course of
+> that name is on AlertForce (RTO 91826) scope, and the accredited product is 10830NAT, "Course in
+> Crystalline Silica Exposure Prevention" — owner `kb/register/alertforce-scope.md`, the only file that
+> may describe it. What this section discusses is ABE's own Tasmanian CPD submission, a licence-renewal
+> credit worth 1 point, never "nationally recognised". This is the asbestos hazard of A6 in a second
+> costume, and the shared topic word is what makes them easy to merge by mistake.
 
 ### A4e. CBOS's guidance on ABE's bundle composition — RECOMMENDATION, not a publish gate
 
