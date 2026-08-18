@@ -225,6 +225,90 @@ primary document:
 - **They say nothing about the other nine live courses.** Six live courses remain submission-basis
   (`check-freshness` reports `SOFT-DATE 6`). Their approval dates are still unrecorded, not disproven.
 
+### A4f. Mailbox-wide approval search, 18 Aug 2026 — reconciliation and what it did NOT settle
+
+A search of `info@abeeducation.edu.au` for CBOS decisions produced three overlapping summaries
+(a consolidated register, a nine-row approval table, and a set of search hits with Outlook links).
+**All three are secondary — typed summaries, not correspondence.** None of their citations can be
+opened from here: the register's are internal search handles, the third set's are authenticated
+Outlook session URLs. Under wall 1 nothing below enters the register from them alone.
+
+Their reliability where it can be tested is high but not total. Every approval date matches the four
+letters read on 17 Aug 2026 and the three dates the register already held — **eight of nine agree**.
+The ninth does not: *A Practical Guide to Smart Home Integration and Energy Efficiency* is
+`approvedAt 2024-04-04` in the register and **9 Apr 2024** in all three summaries. That row is expired
+either way, so it is recorded as a known discrepancy rather than chased.
+
+**Resolved by Andrey, 18 Aug 2026 — these two are approved; do not re-raise them.** The consolidated
+register reported *Workplace Asbestos Basics* as **rejected on 27 Aug 2025** and *Understanding Water
+Efficiency Labelling WELS* as **no decision found**. Both are wrong as final answers:
+
+- **Workplace Asbestos Basics is approved.** Confirmed by Andrey 18 Aug 2026, and consistent with his
+  earlier confirmation of 23 Jul 2026 recorded in A6. The 27 Aug 2025 rejection is best read as
+  superseded by a later approval of a revised course — **the same reject-revise-approve cycle the
+  same document records for WHS Compliance and Legislation** (rejected 15 Aug 2025, revised, approved
+  10 Sep 2025). A rejection in a mailbox search is a point in a sequence, not a verdict.
+- **WELS is approved.** Confirmed by Andrey 18 Aug 2026. "No decision found" was a statement about the
+  search, not about what exists — the same over-reach A4 records for 25 Jul 2026.
+
+Both keep `status: live` and both stay **submission-basis**: the confirmation establishes that they
+are approved, not *when*, and no date may be inferred from one. Their `expiresAt` figures remain
+estimates.
+
+> **One follow-up, stated once and not a blocker.** The asbestos rejection cited incorrect Tasmanian
+> legislative references and commercial links to named third parties. If approval followed a revision,
+> the course sold on LearnWorlds should be the revised version. Worth confirming once; nothing in the
+> repo depends on it.
+
+**Still open after this search** — see A4g:
+- **AS/NZS 3000:2018 Wiring Rules** — reported approved for electricians and restricted electrical
+  licence holders **only**. Not resolved.
+- **Silica Awareness Course** — reported **approved** 12 Dec 2024 against the register's `refused`.
+- **Solar Energy** — live in two bundles and **absent from all three summaries**, in either direction.
+
+### A4g. AS/NZS 3000:2018 Wiring Rules — a scope limit that breaks a published points claim
+
+**Reported scope: electricians and restricted electrical licence holders only** (approved 12 Dec 2024).
+Two of the three summaries state it, one of them as an express limitation; the third omits scope
+entirely for this row while recording it for *Plumbing Essentials*.
+
+That silence was briefly read here as evidence of no restriction. **It is not**, and the reasoning is
+worth keeping because it is a recurring error: a summary that omits X cannot distinguish "X does not
+apply" from "X was not written down here". Only the letter settles it.
+
+**If the limit holds, a published claim is wrong.** The course is bundled into building, electrical and
+plumbing:
+
+| Bundle | Page claims | Claimable by that licence | Indexed |
+|---|---|---|---|
+| Building | 12 pts | **11** | **yes** |
+| Plumbing | 12 pts | **11** | no |
+| Electrical | 11 pts | 11 | no |
+
+`/cpd-building-tas` is titled "12 CBOS-Approved Points" and its description says it "Meets a builder's
+twelve-point year in full". On the reported scope it does not — a builder finishes one point short,
+and finds out at renewal.
+
+**A possible fix needs no new approval, but first, a name trap.** The register row `Silica Awareness
+Course` is refused, and a mailbox search reports it approved on 12 Dec 2024 for Builders,
+Electricians/REL, Plumbers and Gas Fitters — exactly the licences Wiring Rules excludes. If that
+holds, swapping it in for Wiring Rules in the builder and plumber bundles restores twelve genuinely
+claimable points.
+
+> ⚠️ **This is a CBOS CPD course and is NOT the AlertForce accredited product. Do not conflate them.**
+> The retired name that must never be asserted as current belongs to the ASQA side: no course of that
+> name is on AlertForce (RTO 91826) scope, and the accredited product is 10830NAT, "Course in
+> Crystalline Silica Exposure Prevention" — owner `kb/register/alertforce-scope.md`, which is the only
+> file that may describe it. What A4g discusses is ABE's own Tasmanian CPD submission, a
+> licence-renewal credit worth 1 point, never "nationally recognised". This is the asbestos hazard of
+> A6 in a second costume: a CBOS CPD point and an RTO awareness credential are different products with
+> different regulators, and the shared topic word is what makes them easy to merge by mistake.
+
+**Neither change may be made from these summaries.** The Silica move is a `refused` -> approved
+reversal, which A6 currently forbids in terms, and the Wiring Rules move rests on a scope clause that
+must be read verbatim. **Two letters close both: AS NZS 3000 2018 Wiring Rules Online and Silica
+Awareness Online, both 12 Dec 2024.**
+
 ### A4e. CBOS's guidance on ABE's bundle composition — RECOMMENDATION, not a publish gate
 
 > **Andrey's call, 17 August 2026: treat this as a recommendation, not a blocker.** It does not gate
@@ -305,7 +389,9 @@ verified figures cannot ship dates that disagree with the instrument they were r
 
 ABE holds a **CBOS-approved asbestos CPD course for Tasmania** — "Workplace Asbestos Basics" in
 CBOS's records, `TAS CPD Workplace Asbestos Basics` in the register, 1 point, live, in all three
-TAS bundles. Confirmed by Andrey 23 July 2026. It is a legitimate CPD component and may be
+TAS bundles. Confirmed by Andrey 23 July 2026, and **re-confirmed 18 Aug 2026** against a mailbox
+search that reported this course rejected on 27 Aug 2025 — see A4f. **That rejection is superseded,
+not current; do not act on it if it resurfaces.** It is a legitimate CPD component and may be
 described as CBOS-approved for 1 CPD point.
 
 **It is not a nationally recognised asbestos awareness course, and must never be written as one.**
