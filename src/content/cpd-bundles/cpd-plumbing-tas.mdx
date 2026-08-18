@@ -81,8 +81,8 @@ noindex: true
 #      It fails the build if this flag goes without it. That file is skills-owned, so publishing
 #      this page is a two-file change a build session cannot make by itself.
 buyUrl: "/payment?product_id=TBC-tas-plumber-cpd-bundle-2026&type=learning_program"
-title: "TAS Plumber CPD Bundle - 12 CBOS-Approved Points, $499"
-description: "Twelve CBOS-approved CPD courses for Tasmanian plumbers, $499. A plumber's full twelve-point year, online and self-paced, about six hours."
+title: "Plumber CPD Points Tasmania: 12-Point Bundle, $499"
+description: "Twelve CBOS-approved courses, one CPD point each: a Tasmanian plumber's full twelve-point year for $499, not $1,188 bought separately. Online, about six hours."
 canonical: "https://www.abeeducation.edu.au/cpd-plumbing-tas"
 category: "plumbing"
 state: "TAS"
@@ -131,10 +131,16 @@ nav:
   - { label: "FAQ", href: "#faq", sectionId: "faq" }
 hero:
   eyebrow: "Tasmania · CBOS-approved"
-  # "a full twelve-point year" states the OUTCOME, which is true of the bundle either way and stays
-  # true when the selected twelve are recorded. The member table currently renders the thirteen-course
-  # pool, so a course-count headline would be contradicted by it until that is fixed. See DIFFERENCE 2.
-  h1Html: 'Plumber CPD Tasmania: <b>a full twelve-point year</b> in one purchase'
+  # RETARGETED 18 Aug 2026, Stage 2. "Plumber CPD Tasmania" carried ZERO GSC impressions in sixteen
+  # months and zero modelled volume; the phrasing this page already ranks 1st, 2.4th and 8th for is
+  # "CPD points" (plumbing cpd points online / cpd points plumbing / cpd plumbing). Evidence and the
+  # per-page export are in pipeline/cpd-plumbing-tas/02-gap.md. One word, on the term that wins.
+  #
+  # "a full twelve-point year" states the OUTCOME and is kept. The old note here said a course-count
+  # headline "would be contradicted by" a member table rendering thirteen - that was resolved on
+  # 16 Aug 2026 when Solar Energy was untagged and the table went to twelve, so the constraint no
+  # longer binds. Left as the outcome anyway: the point total is what the reader is buying.
+  h1Html: 'Plumber CPD points in Tasmania: <b>a full twelve-point year</b> in one purchase'
   updated: "12 August 2026"
   subhead: "Each course is approved by CBOS in its own right. Twelve of them make up this bundle, selected from the thirteen approved for Tasmanian plumbers, which is a plumber's full annual requirement in one purchase."
   cta:
@@ -274,6 +280,6 @@ export const cbosSource = [{ label: 'CBOS — Achieving your CPD requirements', 
   <ExpertCredentials experts={frontmatter.experts} />
 </Section>
 
-<Section id="faq" eyebrow="Questions" h2="Common questions about Tasmanian plumber CPD">
+<Section id="faq" eyebrow="Questions" h2="Common questions about Tasmanian plumber CPD points">
   <Faq items={frontmatter.faqs} />
 </Section>
