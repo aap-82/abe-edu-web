@@ -344,6 +344,38 @@ in restores twelve genuinely claimable points with no copy change. **Get the let
 > credit worth 1 point, never "nationally recognised". This is the asbestos hazard of A6 in a second
 > costume, and the shared topic word is what makes them easy to merge by mistake.
 
+### A4h. Safe Work Method Statement (SWMS) — approved on Andrey's authority, approval email NOT held
+
+**Status: approved, all four categories** — plumbing, building, gas-fitting, electrical. Confirmed by
+Andrey on 18 August 2026.
+
+**No approval email exists in ABE's records for this course, and none was read.** This entry rests on
+Andrey's confirmation alone and is recorded that way deliberately, because the alternative was to leave
+it looking verified when it is not. It is the weakest evidential basis of any live course in the
+register, and the reason is on the record:
+
+- A mailbox search reported SWMS as **"revision and resubmission requested; approval not verified"**
+  (CBOS response 9 Apr 2025, describing the course as generic with no Tasmania-specific legislative
+  references) — see A4f. **Andrey's confirmation supersedes that as the current position.**
+- Whether a revised version was submitted and approved is **not established**. If the approval email
+  surfaces, record the date and upgrade the row to `expiryBasis: approval`.
+
+**No approval date may be inferred from this.** The row stays **submission-basis** (submitted
+11 Mar 2025, estimated expiry 11 Mar 2027). A confirmation establishes *that* a course is approved, not
+*when* — the same rule applied to Workplace Asbestos Basics and WELS in A4f.
+
+**Nothing in the register changed to record this.** SWMS already carried all four categories, `live`
+status, 1 point, and membership of all three bundles before the confirmation. This section exists so
+that a later session finding the "revision requested" report does not re-open a settled question, and
+so that nobody mistakes the row's clean appearance for documentary evidence.
+
+> ⚠️ **This does NOT close the twelve-point gap on the builder and plumber bundles.** SWMS was already
+> a member of both and already counted in the twelve. The shortfall in A4g is caused by
+> *AS/NZS 3000:2018 Wiring Rules* being approved for electricians and restricted electrical licence
+> holders only, and it is unaffected by anything in this section: building and plumbing still list
+> twelve and still yield **eleven** claimable points. Confirming SWMS adds no point because SWMS was
+> never the missing one.
+
 ### A4e. CBOS's guidance on ABE's bundle composition — RECOMMENDATION, not a publish gate
 
 > **Andrey's call, 17 August 2026: treat this as a recommendation, not a blocker.** It does not gate
