@@ -23,9 +23,9 @@
     "source": "superhuman://docs/wXRzQ7oMrm",
     "sourceName": "TAS CPD Courses",
     "table": "grid-_kWHYm22cU",
-    "syncedAt": "2026-08-17",
+    "syncedAt": "2026-08-18",
     "rowCount": 17,
-    "checksum": "sha256:b39336c342846ec5d5aa74e57f92304c1a921af401ba072c23fd7336a5a63061"
+    "checksum": "sha256:715378740c1803bb40a945f7eb94a38a5777126d0fdc9004f57e08e5e1c9145d"
   },
   "bundleMap": {
     "TAS Plumber CPD - 12 Points (2026)": "plumbing",
@@ -261,19 +261,16 @@
       "status": "live",
       "points": 1,
       "categories": [
-        "building",
-        "electrical",
-        "plumbing"
+        "electrical"
       ],
       "bundles": [
         "building",
-        "electrical",
-        "plumbing"
+        "electrical"
       ],
       "submittedAt": "2024-12-05",
-      "approvedAt": null,
-      "expiresAt": "2026-12-05",
-      "expiryBasis": "submission",
+      "approvedAt": "2024-12-12",
+      "expiresAt": "2026-12-12",
+      "expiryBasis": "approval",
       "studyArea": null
     },
     {
@@ -391,7 +388,8 @@
       ],
       "bundles": [
         "building",
-        "electrical"
+        "electrical",
+        "plumbing"
       ],
       "submittedAt": "2024-12-05",
       "approvedAt": null,
