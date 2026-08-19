@@ -139,3 +139,72 @@ auto-rendered `PartnerDisclosure` block (see archetype file §"The RTO trust sec
 - **Facts:** drawn from every fact ledger row above; no new facts introduced.
 - **Carrier:** Faq, reading from a new `src/data/faqs-white-card-qld.ts` (same pattern as every sibling
   White Card page — each state's FAQ data lives in its own file).
+
+---
+
+# REVISION — 19 August 2026 · partner-dependent briefs only
+
+Section set, order and archetype are unchanged — the reader's job did not change, the deliverer did.
+**`#need-one` and `#covered` are fully partner-independent and stand exactly as briefed above.**
+The six briefs below are amended.
+
+## `#real` — "Is this a real White Card?"
+
+- **Claim.** Unchanged: this is the nationally recognised card, not a lookalike.
+- **Changed facts.** The RTO is **Upskill Institute (RTO 45708)**, not Blue Dog. Its CPCWHS1001 scope
+  is **verified current to 8 July 2030, "deliver and assess"** — state that, it is real evidence.
+- **New objection to defuse.** The old brief answered "is an online card real?". It must now also
+  answer *"who is Upskill Institute?"* — an unfamiliar name where Blue Dog had QLD recognition. The
+  page has no brand equity to lean on, so it leans on the verifiable: the RTO number, the scope entry,
+  the unit code, and the fact the card comes from the RTO under WHSQ approval.
+- **Fails if** it asserts ABE Education is the RTO, or leans on Upskill's reputation instead of its
+  registration.
+
+## `#online` — "Can you do your White Card online in Queensland?"
+
+- **Claim.** Unchanged, and this is the page's most load-bearing section: in Queensland a live online
+  session **is** face-to-face on the regulator's own definition.
+- **Changed fact.** The CRTD approval attributed here is **Upskill's**, never ABE Education's, and
+  never Blue Dog's. It is `[confirm:]`-marked pending the WHSQ document.
+- **Fails if** it reads as self-paced (cond. 42 bans it outright), or attributes the approval to ABE.
+
+## `#session` — "How does the live session work?"
+
+- **Changed facts.** **Weekdays only** — no Saturday sessions. Do not imply weekend availability.
+- **Unchanged and still mandatory:** minimum four and a half hours; maximum fifteen students to one
+  trainer; PPE to hand for the assessment; physically located in Queensland.
+- **Fails if** it states a day-level timetable the run cannot honour, or drops the PPE requirement,
+  which is the single most common reason a learner is turned away at assessment.
+
+## `#cost` — "What does it cost?"
+
+- **Changed fact.** **$99 flat, every weekday session, no weekend premium.** This replaces the
+  two-tier $109/$169 entirely.
+- **Distinctive material.** The flat price is now a genuine differentiator and the answer to
+  `how much is a white card qld` (PD 49, one of the two lowest-difficulty terms left). Lead with the
+  single figure. The old page had to hedge across two rates; this one does not.
+- **Also answer, honestly:** there is **no separate government card fee** in Queensland — the RTO
+  issues the card with the course. That defuses `white card qld online free` without claiming free.
+- **Fails if** it implies a weekend rate exists, or leaves a reader wondering whether a government fee
+  lands later.
+
+## `#your-card` — "What do you get, and how long does it last?"
+
+- **Changed fact.** The card is issued by **Upskill Institute** as the WHSQ-approved RTO. Replacement
+  goes back to the issuing RTO — worth stating, since `replace white card qld` carries 480/mo of
+  demand this page will attract but must not try to service.
+- **Fails if** it suggests ABE Education issues or replaces the card.
+
+## `#content-review` — "Who developed and checked this course?"
+
+- **Changed fact.** Developer credit is **Upskill Institute** via `Course.creator`.
+- **Hard constraint, unchanged:** this is an asqa-accredited page, so **exactly one Person node** —
+  Warwick Smith as reviewer. **No ABE person may be credited as developer**, and a second Person node
+  fails the build. Reviewer date updates to the date this content is finalised.
+
+## FAQ
+
+- Retire any Saturday/weekend question and any two-tier price question.
+- Add: *"Who is Upskill Institute?"* — the brand-recognition objection, answered with registration
+  facts rather than reassurance.
+- Keep every regulatory FAQ (location test, PPE, session length, self-paced) unchanged.

@@ -147,3 +147,68 @@ Both internal unknowns (price, session-booking shape) were asked and answered be
 markers are required for regulatory facts; all of them trace to S1/S2, already dated and sourced.
 
 **Gate status: closed. Stage 2 may begin.**
+
+---
+
+# REVISION — 19 August 2026 · RTO partner changes to Upskill Institute (RTO 45708)
+
+**Everything above describes the Blue Dog build and is kept as the record of it.** This block states
+what changes. Where the two disagree, this block wins for the partner; the QLD **regulatory** rows
+above are partner-independent and stand unchanged (location test, 4.5-hour floor, 15:1 ratio, the
+self-paced ban, PPE at assessment, both unit codes accepted, RTO issues the card, no government fee).
+
+## What changed and on whose authority
+
+| Fact | New value | Class | Provenance |
+|---|---|---|---|
+| RTO partner | **Upskill Institute (RTO 45708)**, replacing Blue Dog Training (31193) | internal (commercial) | Andrey, 19 Aug 2026 |
+| Upskill WHSQ GCIT agreement | **Asserted held** — ⚠️ **UNVERIFIED, see below** | **regulatory** | Andrey, 19 Aug 2026; document promised, not yet supplied |
+| Upskill WHSQ CRTD approval | **Asserted held** — ⚠️ **UNVERIFIED, see below** | **regulatory** | Andrey, 19 Aug 2026; document promised, not yet supplied |
+| Upskill ASQA scope, CPCWHS1001 | **Current, "Deliver and assess", 08 Apr 2022 → 08 Jul 2030** | regulatory | **VERIFIED** training.gov.au API, read 19 Aug 2026 |
+| Upskill RTO status | **Current** (registered 09 Jul 2021) | regulatory | **VERIFIED** training.gov.au API, read 19 Aug 2026 |
+| Course price | **$99.00 flat**, every session, no weekend premium | internal | Andrey, 19 Aug 2026 |
+| Session days | **Weekdays only** — no Saturday/weekend sessions | internal | Andrey, 19 Aug 2026 |
+| buyUrl | **Still none.** CTAs keep targeting `#cost` | internal | Andrey, 19 Aug 2026 |
+| Course developer | **Upskill Institute**, credited via `Course.creator` | asqa-disclosure-framework.md |
+
+## ⚠️ The one open regulatory blocker
+
+**WHSQ's published list of approved GCIT providers does not contain RTO 45708.** Read at source
+19 Aug 2026: the XLSX WHSQ links from its own worker-facing "General construction induction" page as
+"View a list of training providers" lists **226** approved RTOs, and Upskill Institute is not among
+them. The only similar name is **"Upskills QLD" (RTO 40840)** — a different company, holding no CRTD
+approval. Do not confuse the two.
+
+WHSQ's RTO page states the entitlement is a three-step, per-RTO process, and ASQA scope is only step
+one: *"RTOs must enter into an agreement with WHSQ before delivering the training in Queensland."*
+So Upskill's current CPCWHS1001 scope — which **is** verified — does not by itself permit QLD delivery.
+
+**Method was validated on two independent controls** before relying on it (the visible "Approved for
+CRTD" column is a broken formula and reads blank for every row; status lives in hidden date columns):
+Blue Dog's CRTD serial decodes to 7 Jun 2020, matching the register exactly; and 15 approval dates
+minus 2 terminations gives 13, matching the register's "13 of 226" exactly.
+
+**Honest limit of that finding.** The file's internal save date is 10 Jul 2025, about 13 months before
+this reading. If Upskill entered an agreement after that date, WHSQ's published list would not yet show
+it. **Absence from the list is the best available public evidence, not proof of refusal.** It cannot be
+resolved from public sources — only Upskill Institute directly, or `GCIT@oir.qld.gov.au`.
+
+**Searched for and not found:** any fresher WHSQ provider list (the worker page links this same file as
+current); any per-state delivery-notification endpoint on the training.gov.au API (four candidate paths
+all 404), so Upskill's QLD delivery notification was not read — the finding does not depend on it.
+
+## How this constrains the content, until the document is read
+
+1. **Two approvals stack, and they are separate.** A GCIT agreement alone licenses a **classroom**
+   page only. Live online (CRTD) needs a *second* approval — documentation review, then a simulated
+   session with a WHSQ Inspector. Andrey states Upskill holds both; the page is written on that basis
+   and every such claim carries a `[confirm:]` marker until the document is read.
+2. **Never attribute the approval to ABE Education.** It is the RTO's, exactly as it was Blue Dog's.
+3. **The self-paced ban is unchanged and absolute** (cond. 42). Nothing on this page may read as
+   self-paced, at-your-own-pace, or pre-recorded — that constraint belongs to the *delivery mode*,
+   not to the partner, so it survives the swap untouched.
+4. **`[confirm:]` WARNs rather than fails** while the page is noindexed (studio mode). It becomes a
+   hard publish blocker the moment the page is indexable. **This page must not be made indexable, and
+   must not be deployed, until the WHSQ document is read and recorded by a facts session.**
+5. **A facts session, not this build session, records the approval in `kb/register/`** (wall 1). The
+   full reading record is ready to hand over; this build session did not write to `kb/register/`.

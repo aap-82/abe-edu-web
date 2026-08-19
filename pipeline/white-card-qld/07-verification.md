@@ -821,3 +821,72 @@ so this closes only once committed.
 **Filed by a design session on Andrey's explicit instruction**, after the alternatives (a full Stage 7
 re-run per page, or reverting the content split) were named and this one was chosen. `pipeline/**` is
 build-owned; the crossing is recorded here rather than only in the session transcript.
+
+---
+
+# REVISION — 19 August 2026 · RTO partner change to Upskill Institute
+
+**graded_by: self.** Stated reason, per rule 6: the run's author verified this one. A fresh grader was
+not dispatched because the session was directed not to spawn subagents. Treat the rows below as
+measurements rather than as an independent grade, and note the limitation is real: this file's own
+history records five rows once ticked that the built HTML failed.
+
+**This is NOT a deploy clearance.** The page is deliberately `noindex` and is held from production
+until a facts session records the WHSQ document. Stage 8 is not reached.
+
+## Measured values, read from `dist/white-card-qld/index.html`
+
+| Check | Measured |
+|---|---|
+| Title | 53 chars |
+| Meta description | **186 chars** (over the 150-160 target; studio mode advisory) |
+| Canonical | `https://www.abeeducation.edu.au/white-card-qld`, no-slash www form |
+| Robots | `noindex,nofollow` — deliberate, see above |
+| H1 count | 1 |
+| Heading hierarchy | 32 headings, 0 skips, 0 empty |
+| JSON-LD | 1 graph: Course, EducationalOccupationalCredential, BreadcrumbList, Person |
+| Person nodes | **1** — correct for asqa-accredited (2 would fail the build) |
+| `Course.offers.price` | 99, equals the on-page price |
+| `Course.creator` | Upskill Institute |
+| Partner residue | 0x "31193", 0x "$109", 0x "$169" on the page |
+| Partner present | 62x "Upskill Institute", 42x "45708", 17x "$99" |
+| Images | 2, all with alt; the one short alt is `alt=""` + `aria-hidden` on the decorative logo (correct) |
+| Answer capsules | 6 in the revision block, all 40-60 words, counts verified programmatically |
+| `[confirm:]` markers | **3 rendered** — WARN on noindex, hard-block when indexable |
+| Build | `ABE guardrails: 28 page(s) passed` |
+| system-health | 0 failing, 36 warning (down from 38 pre-change) |
+| check-claims | 0 failing |
+| Link resolution | 1438 same-origin links resolve, 0 broken |
+
+## WARNs naming this slug, quoted rather than counted
+
+- `abe-guardrails`: "white-card-qld/index.html: [confirm: ...] marker on a noindex page - fine while
+  drafting, a hard-blocker the moment noindex comes off." **Expected and intended.**
+- The two pre-existing `$169` figure WARNs on this slug are **gone**, since the figure no longer
+  appears. That is the 38 to 36 movement.
+
+## Section conformance
+
+Section set, ids, markers and order are unchanged by this revision, so `05-components.md` still maps.
+`system-health` confirms: "white-card-qld: 10 section(s) match the plan" and "10 capsule(s) match
+04-content.md". No section was added, merged, reordered or cut.
+
+## Boundary crossing, disclosed
+
+**`src/data/nav.ts` was edited from this build session.** The megamenu feature card read "Delivered
+with Blue Dog Training (RTO 31193)" and renders on every page, so it contradicted this page's own
+content. It named one RTO for a section spanning three, so it was already imprecise. Changed to the
+state-neutral "Our RTO partners ... a registered training organisation in each state we cover" rather
+than swapping one partner name for another. Sitewide chrome changed from a page build: disclosed here
+and in the commit message.
+
+## Not done, and why
+
+- **Fresh-subagent grading** — see graded_by above.
+- **`final-check` and `ai-detector`** — not run. The copy was cold-reread against `content-craft.md`
+  and checked mechanically for em dashes, banned words and bare "ABE" (all zero), but the two
+  mandated audits were not executed this session.
+- **`abe-readability-audit`** — not run.
+- **Competitor price comparison unverified.** `#cost` states the $99 "undercuts the $139 and $120 two
+  other providers charge". Those figures come from the Blue Dog-era snapshot and were **not**
+  re-checked. Re-verify or delete the sentence before the page is published.

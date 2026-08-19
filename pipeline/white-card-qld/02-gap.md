@@ -111,3 +111,59 @@ Two organic competitors read in full (WebFetch), 3 Aug 2026, both ranking for CR
   it is the regulator's floor; Blue Dog's actual scheduled sessions may run longer (both competitors
   read here run 5-6.5 hrs), and no ABE-specific session length was confirmed this session.
 - Must not repeat any rural/remoteness/100km framing, correct or muddled — it does not apply.
+
+---
+
+# REVISION — 19 August 2026 · the branded lever is gone
+
+Measured with the Neil Patel connector (`match_keywords`, national), 19 Aug 2026. The head terms are
+partner-independent and unchanged. **The branded term is not, and it was this page's best asset.**
+
+| Term | Volume | Difficulty | Status |
+|---|---|---|---|
+| `blue dog training white card qld` | 2,400 | **20** | **forfeited** with the partner swap |
+| `blue dog training white card qld online` | (long tail) | — | forfeited |
+| `white card qld blue dog` | (long tail) | — | forfeited |
+| `upskill institute white card` | **30** | **75** | the replacement |
+| `upskill white card` | 20 | 61 | |
+| `upskill white card online` | **0** | 1 | |
+| `upskill institute` | 1,300 | 18 | brand-generic, **not** QLD White Card intent — do not target it here |
+
+**Volume falls roughly 80x while difficulty rises from 20 to 75.** The original analysis called the
+Blue Dog term "the strongest single SEO lever on the page" and put the partner disclosure
+`after-hero` substantially because of it. **That reasoning no longer holds.** Naming Upskill early
+remains an ASQA *disclosure* requirement, so the placement stays — but it is now compliance, not SEO,
+and the page must not be built as though a branded term will carry it.
+
+## Where the demand goes instead
+
+With no branded shortcut, the page competes on head terms and intent gaps:
+
+| Term | Volume | Difficulty | Note |
+|---|---|---|---|
+| `white card qld` | 5,400 | 73 | the head term; H1 target, unchanged |
+| `online white card qld` | 2,400 | 73 | |
+| `how to get a white card qld` | 480 | 69 | process intent — a Stepper answers this directly |
+| `replace white card qld` | 480 | 63 | **not this page's job** — replacement goes through the issuing RTO |
+| `white card qld construction` | 480 | 67 | |
+| `white card qld online free` | 320 | 56 | price-anxiety intent, see below |
+| `what is a white card qld` | 210 | **45** | lowest-difficulty real term left; definitional |
+| `how much is a white card qld` | 70 | **49** | second-lowest; the $99 answer wins it outright |
+| `white card qld cheap` | 90 | 76 | |
+
+**Two intent gaps worth building for.** `what is a white card qld` (210, PD 45) and
+`how much is a white card qld` (70, PD 49) are now the **lowest-difficulty terms on the board** — and
+both are answer-shaped, which suits the capsule format the archetype already mandates. A flat $99 with
+no weekend premium answers the second one more cleanly than the old two-tier $109/$169 ever could.
+That is a genuine, if small, upside of the change.
+
+**`white card qld online free` (320) is a trap, not a gap.** The intent is real but unservable — the
+course is not free. Answer it honestly inside the cost section (what the fee covers, that there is no
+separate government card fee) rather than chasing the term. Do not write a "free" claim.
+
+## One term deliberately abandoned
+
+`white card qld saturday` appears in the suggestion set and was servable under Blue Dog's Saturday
+timetable. **Upskill runs weekdays only** (Andrey, 19 Aug 2026), so this page must not target it or
+imply weekend availability. Recorded here so a later session does not "recover" the term by writing a
+schedule claim the course cannot honour.
