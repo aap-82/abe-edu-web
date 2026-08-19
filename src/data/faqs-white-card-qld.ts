@@ -8,8 +8,9 @@ import type { FAQItem } from '../types/course';
 // Conditions of Agreement rather than WorkSafe WA's candidate-evidence page.
 //
 // SCHEDULE CONFIRMED MID-BUILD, 3 Aug 2026 (supersedes an earlier note here that said it was
-// deliberately absent): Andrey supplied Blue Dog's actual timetable — Mon-Fri 8am (Mon/Tue also
-// 10am) at $109, Sat 8am at $169 — after an initial $99 sibling-price default had already been
+// deliberately absent). PARTNER CHANGED 19 Aug 2026 to Upskill Institute (RTO 45708): $99 flat,
+// weekdays only. This supersedes Blue Dog's Mon-Sat $109/$169 timetable entirely. The page is
+// noindex until a facts session verifies Upskill's WHSQ approval — see the MDX frontmatter comment
 // asked and answered. See pipeline/white-card-qld/01-source-map.md §D and the dated comment at the
 // top of white-card-qld.mdx for the correction trail.
 //
@@ -19,15 +20,15 @@ export const faqs: FAQItem[] = [
   {
     open: true,
     q: 'Who delivers this training?',
-    a: 'Blue Dog Training Pty Ltd, RTO 31193, a registered training organisation regulated by the Australian Skills Quality Authority (ASQA). Blue Dog Training delivers the session, conducts the assessment and issues your Statement of Attainment. ABE Education recruits and markets the training on its behalf, takes your enrolment and supports you through the course. ABE Education is not a registered training organisation and does not deliver training, conduct assessment or issue qualifications.',
+    a: 'Upskill Institute, RTO 45708, a registered training organisation regulated by the Australian Skills Quality Authority (ASQA). Upskill Institute delivers the session, conducts the assessment and issues your Statement of Attainment. ABE Education recruits and markets the training on its behalf, takes your enrolment and supports you through the course. ABE Education is not a registered training organisation and does not deliver training, conduct assessment or issue qualifications.',
   },
   {
     q: 'Who do I contact about training or assessment issues?',
-    a: 'Contact ABE Education about enrolment, payment, access and general support. Contact Blue Dog Training about the session itself, the assessment, your Statement of Attainment and your card. If you are not sure which it is, ask ABE Education and we will point you to the right place.',
+    a: 'Contact ABE Education about enrolment, payment, access and general support. Contact Upskill Institute about the session itself, the assessment, your Statement of Attainment and your card. If you are not sure which it is, ask ABE Education and we will point you to the right place.',
   },
   {
-    q: 'How do I verify that Blue Dog Training is a real RTO, and that it can run this online?',
-    a: 'Search RTO code 31193 on training.gov.au, the national register, to confirm the organisation and that CPCWHS1001 sits on its scope for Queensland. Being registered to deliver the unit is not the same as being approved for Connected Real Time Delivery specifically: that is a separate Workplace Health and Safety Queensland approval, held by only 13 of 226 approved providers. Blue Dog Training has held it since 7 June 2020.',
+    q: 'How do I verify that Upskill Institute is a real RTO, and that it can run this online?',
+    a: 'Search RTO code 45708 on training.gov.au, the national register, to confirm the organisation and that CPCWHS1001 sits on its scope as current. Being registered to deliver the unit is not the same as being approved for Connected Real Time Delivery specifically: that is a separate Workplace Health and Safety Queensland approval, held by only 13 of 226 approved providers. Upskill Institute holds it [confirm: WHSQ connected real time delivery approval, requested 19 Aug 2026].',
   },
   {
     q: 'Is Queensland White Card training online actually allowed, or only in rural areas?',
@@ -39,7 +40,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'When do sessions run, and how long do they take?',
-    a: 'Monday to Saturday, 8am, with an additional 10am start on Monday and Tuesday. Every session runs for at least four and a half hours, which is Workplace Health and Safety Queensland’s minimum for Connected Real Time Delivery. A weekday session is $109; Saturday is $169.',
+    a: 'Sessions run on weekdays. Every session runs for at least four and a half hours, which is Workplace Health and Safety Queensland’s minimum for Connected Real Time Delivery. Every session costs the same $99, with no weekend premium.',
   },
   {
     q: 'What do I need ready for the session?',
@@ -47,7 +48,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'What is a Unique Student Identifier, and do I need one?',
-    a: 'A USI is a national reference number every student needs for any nationally recognised training in Australia, including this course. You can create one free at usi.gov.au before your session; Blue Dog Training cannot issue your Statement of Attainment without it.',
+    a: 'A USI is a national reference number every student needs for any nationally recognised training in Australia, including this course. You can create one free at usi.gov.au before your session; Upskill Institute cannot issue your Statement of Attainment without it.',
   },
   {
     q: 'Is there a minimum age for this course?',

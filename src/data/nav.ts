@@ -45,7 +45,7 @@ export const navGroups: Group[] = [
       { code: 'TAS', name: 'White Card TAS', href: '/white-card-tas', desc: 'Online and self-paced, completed in Tasmania' },
       { code: 'ACT', name: 'White Card ACT', href: '/white-card-act', desc: 'Face-to-face in a classroom, with AlertForce' },
     ],
-    feature: { kicker: 'Delivered with', title: 'Blue Dog Training', body: 'Nationally recognised training, delivered with our RTO partner Blue Dog Training (RTO 31193).' },
+    feature: { kicker: 'Delivered with', title: 'Our RTO partners', body: 'Nationally recognised training, delivered with a registered training organisation in each state we cover.' },
   },
   {
     label: 'Owner Builder',

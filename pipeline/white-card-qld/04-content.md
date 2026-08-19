@@ -348,3 +348,251 @@ Note (label "Training and assessment"), BulletList:
 7. **Sources** — every section carries a `VerifiedSources` line; two dates are honestly reused from
    prior reads (28 Jul 2026 for the unit content, 22 Jul 2026 for the fee register) rather than
    re-stamped with today's date for a fact not re-verified today.
+
+---
+
+# REVISION — 19 August 2026 · Upskill Institute replaces Blue Dog Training
+
+Copy below **replaces** the correspondingly-named sections above. `#need-one` and `#covered` are
+partner-independent and are not reproduced: they stand unchanged.
+
+Every `[confirm:]` marker below is a **regulatory** fact awaiting the WHSQ document. Under studio mode
+these WARN on a noindexed page. **They become hard publish blockers the moment the page is indexable,
+so this page must not be made indexable or deployed until a facts session records the approval.**
+
+---
+
+## H1
+
+# White Card QLD Online
+
+*(Primary keyword `white card qld`, 5,400/mo, verbatim. Unchanged by the partner swap.)*
+
+---
+
+## H2 · Is this a real White Card? {#real}
+
+**Answer capsule (49 words).**
+
+Yes. This is the nationally recognised construction induction card, issued under unit CPCWHS1001 and
+accepted on every Queensland site. Upskill Institute delivers and assesses it as a registered training
+organisation, RTO 45708, and issues your card once you pass. ABE Education publishes the course; it is
+not the RTO.
+
+**Body.**
+
+Queensland calls it a general construction induction training card. Most people call it a white card.
+It is the same thing, and it is the card a site supervisor will ask to see before letting you start.
+
+The name to check is Upskill Institute, RTO 45708. That registration is public and you can read it
+yourself on training.gov.au, the national register: the unit CPCWHS1001, "Prepare to work safely in
+the construction industry", sits on Upskill Institute's scope as current, with delivery and assessment
+rights, through to 8 July 2030. A training provider either holds that entry or it does not, and one
+that does not cannot issue you a card whatever its website says.
+
+Workplace Health and Safety Queensland approves the training providers permitted to issue the card in
+Queensland, and Upskill Institute holds that approval [confirm: WHSQ agreement document, requested
+19 Aug 2026]. ABE Education publishes this course and handles your enrolment. The training, the
+assessment and the card itself are Upskill Institute's.
+
+*Verified with sources: training.gov.au scope record for RTO 45708, read 19 August 2026.*
+
+---
+
+## H2 · Can you do your White Card online in Queensland? {#online}
+
+**Answer capsule (52 words).**
+
+Yes, if it is a live session with a trainer. Queensland's regulator defines connected real time
+delivery as a form of face-to-face training, so a scheduled video session counts. What does not count
+is a self-paced online course. Queensland banned those for white cards, and a card from one is not
+valid.
+
+**Body.**
+
+This is the question most people get wrong, because the answer changed and a lot of pages did not.
+
+Workplace Health and Safety Queensland sets out the rules in its conditions of agreement for
+providers. Connected real time delivery, its term for live video training on a platform like Zoom or
+Teams, is defined there as a form of face-to-face training and assessment. It requires a real trainer,
+in real time, with your identity checked live and your assessment observed directly. On that
+definition, sitting in a scheduled online session with a trainer is face-to-face training.
+
+A self-paced course is a different thing and it is not permitted. Queensland's conditions prohibit
+self-paced learning and pre-recorded teaching content for this card outright. If a provider offers you
+a white card you can click through on your own, at any hour, with no trainer present, that course
+cannot produce a valid Queensland card.
+
+Two further points matter. The permission is granted provider by provider, not to the industry: a
+provider must be separately approved for connected real time delivery on top of its general approval.
+Upskill Institute holds that approval [confirm: WHSQ connected real time delivery approval, requested
+19 Aug 2026]. And you must be physically located in Queensland during the session. That is a location
+test, not a residency test, so where you live does not decide it and there is no distance or remoteness
+requirement.
+
+*Verified with sources: WHSQ Conditions of agreement for registered training organisations to issue
+general construction induction training cards, Version 6.1, effective 25 July 2023, conditions 37 and
+42 and the definitions clause. Read at source 2 August 2026.*
+
+---
+
+## H2 · How does the live session work? {#session}
+
+**Answer capsule (50 words).**
+
+Your session runs on a weekday and takes at least four and a half hours, not counting breaks. A
+trainer leads it live, with a maximum of fifteen students. You will need your safety gear to hand,
+because the assessment requires it. You must be in Queensland while you attend.
+
+**Body.**
+
+You book a session, you turn up to it online, and you leave it with your card. There is no reading to
+work through beforehand and nothing to finish afterwards.
+
+Sessions run on weekdays. The four and a half hour minimum is set by the regulator, not by the
+provider, and it excludes administration and rest breaks, so set aside most of a working day rather
+than half of one. Class size is capped at fifteen students to one trainer, which is also a regulator
+rule and is the reason sessions have to be booked rather than joined on the day.
+
+Have your safety gear with you before you start. Queensland requires eye protection, hearing
+protection, a hard hat and a high visibility vest, shirt or jacket to be present and available during
+the assessment, along with a copy of the Work Health and Safety Act 2011 (Qld). This catches people
+out. You are sitting at home, so it does not occur to you that you need a hard hat, and the assessment
+cannot proceed without one.
+
+You also need to be physically in Queensland while the session runs. Living in Queensland is not the
+test, and being far from a training centre is not a requirement.
+
+*Verified with sources: WHSQ Conditions of agreement, Version 6.1, conditions 37, 38, 39, 40 and 42.
+Read at source 2 August 2026.*
+
+---
+
+## H2 · What does it cost? {#cost}
+
+**Answer capsule (45 words).**
+
+$99, one price, every session. There is no weekend rate and no separate government fee for your card
+in Queensland: Upskill Institute issues it when you pass. The fee covers the live session, the
+assessment and the card itself. You pay once, before your session.
+
+**Body.**
+
+The price is $99 and it does not move. Every weekday session costs the same, so the cheapest session
+is whichever one suits your week.
+
+That figure is the whole cost. In Queensland the approved provider issues your card directly, which
+means there is no government counter to visit afterwards and no card fee to pay on top. Some states do
+work that way, and people arriving from them reasonably expect a second bill here. There is not one.
+
+You will find "free white card" offers in Queensland search results. Treat them carefully. A course
+that produces a valid Queensland card needs a live trainer, a minimum of four and a half hours, and an
+approved provider behind it, and that costs money to run. Where a free offer is genuine it is usually
+an employer or a jobactive provider paying the fee for you rather than the course being free.
+
+*Verified with sources: kb/register/state-fees-register.md, QLD White Card row. In Queensland the RTO
+issues the card under regulator approval and no government card fee applies. Verified 22 July 2026.*
+
+---
+
+## H2 · What do you get, and how long does it last? {#your-card}
+
+**Answer capsule (49 words).**
+
+Upskill Institute issues your Queensland card when you pass, and it has no expiry date. One rule to
+know: if you spend two years or more out of construction work, the card lapses and you retrain. Older
+blue cards remain valid. Replacements come from the provider that issued yours.
+
+**Body.**
+
+You finish the session with two things: a Statement of Attainment for CPCWHS1001, which is nationally
+recognised, and your Queensland general construction induction training card.
+
+The card carries no expiry date, but it is not unconditional. If you go two consecutive years or more
+without doing construction work, it stops being valid and you have to complete the training again.
+That catches people returning to the industry after a stretch in other work, and it is worth checking
+before you turn up to a site expecting an old card to hold.
+
+If your card is blue rather than white, it is still valid. Queensland changed the colour years ago and
+did not invalidate what it had already issued. You do not need to replace a blue card for a white one.
+
+Keep both documents. If you lose the card, you go back to the provider that issued it, which for this
+course is Upskill Institute, not ABE Education and not Workplace Health and Safety Queensland. That is
+also true if you did your original training elsewhere: replacements come from whoever issued the card,
+and if that provider has closed you will need another Queensland provider to help you.
+
+*Verified with sources: kb/register/state-fees-register.md, QLD White Card row, verified 22 July 2026.
+Card validity, the two-year lapse rule and the status of blue cards read at source 22 July 2026.*
+
+---
+
+## H2 · Who developed and checked this course? {#content-review}
+
+**Answer capsule (47 words).**
+
+Upskill Institute developed this course and owns it, as the registered training organisation that
+delivers and assesses it. ABE Education publishes it and reviews the page you are reading. Warwick
+Smith checked this page against the regulator's current conditions and the national register on
+19 August 2026.
+
+**Body.**
+
+Two organisations stand behind this page and they do different jobs.
+
+Upskill Institute, RTO 45708, is the registered training organisation. It wrote the course, it
+delivers and assesses it, and it issues the card. The course is its intellectual property and its
+regulatory responsibility, and no one at ABE Education is credited with developing it.
+
+ABE Education publishes this page and handles your enrolment. What ABE Education is answerable for is
+whether what you have just read is accurate: whether the delivery rules are stated as Queensland
+actually writes them, whether the price is the price, and whether the sources cited say what the page
+claims they say.
+
+**Schema constraint, not reader copy:** this is an asqa-accredited page, so it carries **exactly one
+Person node**, Warwick Smith as reviewer. Upskill Institute is credited as an Organization through
+`Course.creator`. A second Person node, or any Person titled "developer", fails the build.
+
+---
+
+## FAQ {#faq}
+
+**Retired from the Blue Dog version:** the Saturday-session question and the two-tier pricing
+question. Neither is true of this course, and leaving either would be a schedule claim the run cannot
+honour.
+
+**Q. Who is Upskill Institute?**
+It is the registered training organisation that delivers this course, RTO 45708, registered since
+2021. You can check it yourself on training.gov.au, the national register: the unit CPCWHS1001 sits
+on its scope as current with delivery and assessment rights through to 8 July 2030. It is also
+approved by Workplace Health and Safety Queensland to issue Queensland cards [confirm: WHSQ agreement
+document, requested 19 Aug 2026].
+
+**Q. Is an online white card valid in Queensland?**
+Yes, when it is a live session with a trainer. Queensland treats connected real time delivery as
+face-to-face training. A self-paced course is not valid here, whatever it is advertised as.
+
+**Q. Do I have to live in Queensland?**
+No. You have to be physically in Queensland while the session runs. Where you live does not decide it.
+
+**Q. How long does the session take?**
+At least four and a half hours, excluding breaks. That minimum is set by the regulator.
+
+**Q. What do I need to have with me?**
+Eye protection, hearing protection, a hard hat, a high visibility vest, shirt or jacket, and a copy of
+the Work Health and Safety Act 2011 (Qld). They must be available during the assessment.
+
+**Q. Does my card expire?**
+It carries no expiry date. If you go two consecutive years or more without construction work, it
+lapses and you retrain.
+
+**Q. Is there a government fee on top?**
+No. In Queensland the approved provider issues the card, so the $99 is the full cost.
+
+---
+
+## Closing disclosure block
+
+This course is delivered and assessed by Upskill Institute (RTO 45708), a registered training
+organisation. Your Statement of Attainment for CPCWHS1001 and your Queensland general construction
+induction training card are issued by Upskill Institute. ABE Education is not a registered training
+organisation and does not deliver, assess or issue nationally recognised training.
